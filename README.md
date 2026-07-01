@@ -1,0 +1,103 @@
+# cursor-skills
+
+Personal Cursor Agent Skills — one git repo, available everywhere.
+
+## The problem
+
+| Location | Local IDE | Cloud agents | Cursor App |
+|----------|-----------|--------------|------------|
+| `~/.cursor/skills/` | Yes | No | No |
+| `.cursor/skills/` in a repo | Yes (that repo) | Yes | Yes (if repo linked) |
+| GitHub remote install | Yes | Yes | Yes |
+
+Skills edited only in `~/.cursor/skills/` stay on one machine. This repo fixes that.
+
+## Quick start
+
+```powershell
+# 1. Sync to local IDE (run after clone or pull)
+.\scripts\sync-local.ps1 -Prune
+
+# 2. Validate before commit
+.\scripts\validate-skills.ps1
+```
+
+## Architecture
+
+```
+cursor-skills/                 ← git source of truth
+└── .cursor/skills/
+    ├── grill-me/
+    ├── grill-me-and-develop/
+    ├── maths-grill-and-develop/
+    └── manage-skills/         ← meta-skill for this workflow
+
+~/.cursor/skills/              ← local mirror (sync script)
+<project>/.cursor/skills/      ← per-repo copy or submodule (cloud)
+GitHub remote rule             ← Cursor App / other machines
+```
+
+## Making skills global
+
+### 1. Local IDE (all projects on this machine)
+
+```powershell
+.\scripts\sync-local.ps1 -Prune
+```
+
+Use `-Link` instead of copy if you have Windows Developer Mode enabled and want live edits.
+
+### 2. Cloud agents
+
+Cloud agents clone the project repo — they never see `~/.cursor/skills/`.
+
+**Per project:** install skills into the project and commit:
+
+```powershell
+.\scripts\install-to-project.ps1 -ProjectPath C:\path\to\your-repo -All
+```
+
+**Shared across projects:** push this repo to GitHub and add it as a remote rule (see below), or use a git submodule.
+
+### 3. Cursor App and other machines
+
+1. Push this repo to GitHub (public or private).
+2. In Cursor: **Customize → Rules → Add Rule → Remote Rule (Github)**.
+3. Enter your repo URL.
+
+Skills load without manual sync on that device.
+
+### 4. New skill workflow
+
+1. Add `.cursor/skills/<name>/SKILL.md`.
+2. `.\scripts\validate-skills.ps1`
+3. `.\scripts\sync-local.ps1 -Prune`
+4. `git add` / `git commit` / `git push`
+
+Use `/manage-skills` in Agent chat for the full checklist.
+
+## Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `sync-local.ps1` / `sync-local.sh` | Copy or link skills to `~/.cursor/skills/` |
+| `install-to-project.ps1` | Copy skills or add submodule to a project |
+| `validate-skills.ps1` | Check frontmatter and naming |
+
+## Current skills
+
+- **grill-me** — Adaptive requirements grilling + managed sub-agent development
+- **grill-me-and-develop** — Sequential Q&A grilling, Jira-linked branch, PR workflow
+- **maths-grill-and-develop** — Applied math grilling with `DOCUMENTATION.md` contract
+- **manage-skills** — This repo's maintenance workflow
+
+## Next step: push to GitHub
+
+```powershell
+git remote add origin https://github.com/YOUR_USER/cursor-skills.git
+git add .
+git commit -m "Initialize global skills repository"
+git push -u origin main
+```
+
+Then add the repo as a **Remote Rule (Github)** in Cursor Customize.
