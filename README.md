@@ -83,6 +83,7 @@ Use `/manage-skills` in Agent chat for the full checklist.
 | `sync-local.ps1` / `sync-local.sh` | Copy or link skills to `~/.cursor/skills/` |
 | `install-to-project.ps1` | Copy skills or add submodule to a project |
 | `validate-skills.ps1` | Check frontmatter and naming |
+| `setup-github.ps1` | First-time push to GitHub |
 
 ## Current skills
 
@@ -91,13 +92,20 @@ Use `/manage-skills` in Agent chat for the full checklist.
 - **maths-grill-and-develop** — Applied math grilling with `DOCUMENTATION.md` contract
 - **manage-skills** — This repo's maintenance workflow
 
-## Next step: push to GitHub
+## Remote install (Cursor App + other machines)
+
+Repo: [github.com/marcuskrogh/cursor-skills](https://github.com/marcuskrogh/cursor-skills)
+
+1. Open **Customize** in the Cursor sidebar.
+2. Go to **Rules** → **Add Rule** → **Remote Rule (Github)**.
+3. Enter: `https://github.com/marcuskrogh/cursor-skills`
+
+Skills load on that device without running the sync script.
+
+## First-time GitHub push
+
+If you need to push a fresh clone:
 
 ```powershell
-git remote add origin https://github.com/YOUR_USER/cursor-skills.git
-git add .
-git commit -m "Initialize global skills repository"
-git push -u origin main
+.\scripts\setup-github.ps1
 ```
-
-Then add the repo as a **Remote Rule (Github)** in Cursor Customize.
