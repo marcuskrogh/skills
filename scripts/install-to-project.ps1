@@ -16,9 +16,13 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$RepoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
+$RepoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 $SourceDir = Join-Path $RepoRoot ".cursor\skills"
-$ProjectPath = Resolve-Path $ProjectPath
+
+if (-not (Test-Path -LiteralPath $ProjectPath)) {
+    Write-Error "Project path not found: $ProjectPath"
+}
+$ProjectPath = (Resolve-Path -LiteralPath $ProjectPath).Path
 $TargetDir = Join-Path $ProjectPath ".cursor\skills"
 
 if (-not (Test-Path $SourceDir)) {

@@ -12,13 +12,18 @@ Personal Cursor Agent Skills — one git repo, available everywhere.
 
 Skills edited only in `~/.cursor/skills/` stay on one machine. This repo fixes that.
 
-## Quick start
+## Quick start (this machine)
 
 ```powershell
-# 1. Sync to local IDE (run after clone or pull)
-.\scripts\sync-local.ps1 -Prune
+.\scripts\setup-cursor.ps1
+```
 
-# 2. Validate before commit
+This validates skills, syncs to `~/.cursor/skills/`, and installs git hooks so `git pull` keeps your local IDE in sync.
+
+## Quick start (manual)
+
+```powershell
+.\scripts\sync-local.ps1 -Prune
 .\scripts\validate-skills.ps1
 ```
 
@@ -80,24 +85,33 @@ Use `/manage-skills` in Agent chat for the full checklist.
 
 | Script | Purpose |
 |--------|---------|
+| `setup-cursor.ps1` | **Start here** — validate, sync local, install git hooks |
 | `sync-local.ps1` / `sync-local.sh` | Copy or link skills to `~/.cursor/skills/` |
 | `install-to-project.ps1` | Copy skills or add submodule to a project |
 | `validate-skills.ps1` | Check frontmatter and naming |
+| `setup-github.ps1` | First-time push to GitHub |
 
 ## Current skills
 
 - **grill-me** — Adaptive requirements grilling + managed sub-agent development
 - **grill-me-and-develop** — Sequential Q&A grilling, Jira-linked branch, PR workflow
-- **maths-grill-and-develop** — Applied math grilling with `DOCUMENTATION.md` contract
+- **maths-grill-and-develop** — One LaTeX question at a time, no lectures/code; `DOCUMENTATION.md` contract
 - **manage-skills** — This repo's maintenance workflow
 
-## Next step: push to GitHub
+## Remote install (Cursor App + other machines)
+
+Repo: [github.com/marcuskrogh/cursor-skills](https://github.com/marcuskrogh/cursor-skills)
+
+1. Open **Customize** in the Cursor sidebar.
+2. Go to **Rules** → **Add Rule** → **Remote Rule (Github)**.
+3. Enter: `https://github.com/marcuskrogh/cursor-skills`
+
+Skills load on that device without running the sync script.
+
+## First-time GitHub push
+
+If you need to push a fresh clone:
 
 ```powershell
-git remote add origin https://github.com/YOUR_USER/cursor-skills.git
-git add .
-git commit -m "Initialize global skills repository"
-git push -u origin main
+.\scripts\setup-github.ps1
 ```
-
-Then add the repo as a **Remote Rule (Github)** in Cursor Customize.

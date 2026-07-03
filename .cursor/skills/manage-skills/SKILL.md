@@ -1,98 +1,58 @@
 ---
 name: manage-skills
 description: >-
-  Maintains the global cursor-skills repository and sync workflow. Use when
-  creating a new skill, updating skills for cloud/repo availability, syncing
-  skills locally, installing skills into a project, or asking how to make
-  skills available globally across local IDE, cloud agents, and Cursor App.
+  Maintains the global cursor-skills repository and Cursor sync workflow. Use when
+  creating a new skill, syncing skills locally, installing skills into a project
+  for cloud agents, or asking how to make skills available globally in Cursor.
 disable-model-invocation: true
 ---
 
-# Manage Global Skills
+# Manage Global Skills (Cursor)
 
-This repository is the **single source of truth** for personal Cursor skills. Skills live in `.cursor/skills/` so the repo is valid for GitHub remote install, cloud agents, and local sync.
+This repository is the **single source of truth** for your Cursor skills.
 
-## Where skills are discovered
+## Three ways Cursor finds your skills
 
-| Environment | Path | How to enable |
-|-------------|------|---------------|
-| Local IDE (all projects) | `~/.cursor/skills/` | Run `scripts/sync-local.ps1` |
-| Cloud agents | Repo `.cursor/skills/` | Commit skills or use submodule |
-| Cursor App / other machines | GitHub remote install | Customize → Rules → Remote Rule (Github) |
-| Single project only | `<project>/.cursor/skills/` | `scripts/install-to-project.ps1` |
+| Where you work | How skills load | Setup |
+|----------------|-----------------|-------|
+| **This machine, any project** | `~/.cursor/skills/` | `.\scripts\setup-cursor.ps1` |
+| **Cursor App / other machines** | GitHub remote rule | Customize → Remote Rule (Github) |
+| **Cloud agents on a repo** | `.cursor/skills/` at VM startup | `setup-cloud-agent.ps1` |
 
-**Cloud agents cannot read `~/.cursor/skills/`.** Repo-committed skills are required for cloud.
+## First-time setup (this machine)
+
+```powershell
+cd C:\Users\marcu\Projects\cursor-skills
+.\scripts\setup-cursor.ps1
+```
+
+Then in Cursor: **Customize → Skills** — confirm `grill-me`, `manage-skills`, etc. appear.
+
+## First-time setup (Cursor App / other machines)
+
+1. **Customize → Rules → Add Rule → Remote Rule (Github)**
+2. URL: `https://github.com/marcuskrogh/cursor-skills`
+
+No sync script needed on that device.
 
 ## Creating a new skill
 
-1. Create `.cursor/skills/<skill-name>/SKILL.md` with valid frontmatter (`name` must match folder name).
-2. Run `.\scripts\validate-skills.ps1`.
-3. Run `.\scripts\sync-local.ps1 -Prune` to update local IDE.
-4. Commit and push to GitHub.
-5. If using GitHub remote install, skills update automatically on next Cursor sync.
+1. Add `.cursor/skills/<name>/SKILL.md` (`name` must match folder name).
+2. `.\scripts\validate-skills.ps1`
+3. `git add . && git commit -m "Add <name> skill" && git push`
+4. `.\scripts\sync-local.ps1 -Prune` (or rely on git hook after pull)
 
-Follow `/create-skill` conventions. Keep `SKILL.md` under 500 lines; use `references/` for detail.
+## Cloud agents on a specific project
 
-## Syncing locally
-
-```powershell
-# Copy skills to ~/.cursor/skills/ (recommended on Windows)
-.\scripts\sync-local.ps1 -Prune
-
-# Live junction links (requires Developer Mode or admin)
-.\scripts\sync-local.ps1 -Link -Prune
-```
-
-On macOS/Linux:
-
-```bash
-./scripts/sync-local.sh --prune
-```
-
-Run sync after every `git pull` that changes skills.
-
-## Installing into a project (cloud + team)
-
-**Option A — copy selected skills** (simplest):
+Fetch skills at cloud VM startup (no skill files in project git):
 
 ```powershell
-.\scripts\install-to-project.ps1 -ProjectPath C:\path\to\repo -All
-.\scripts\install-to-project.ps1 -ProjectPath C:\path\to\repo -Skill grill-me,grill-me-and-develop
+.\scripts\setup-cloud-agent.ps1 -ProjectPath C:\path\to\repo
 ```
 
-Then commit `.cursor/skills/` in that project.
+Merge `bash .cursor/sync-cursor-skills.sh` into an existing `.cursor/environment.json` `install` if the project already has cloud setup.
 
-**Option B — git submodule** (stays linked to this repo):
+## Rules
 
-```powershell
-.\scripts\install-to-project.ps1 -ProjectPath C:\path\to\repo -Submodule
-```
-
-Collaborators clone with `git clone --recurse-submodules`.
-
-## GitHub remote install (Cursor App + all machines)
-
-After pushing this repo to GitHub:
-
-1. Open **Customize** in the Cursor sidebar.
-2. Go to **Rules** → **Add Rule** → **Remote Rule (Github)**.
-3. Enter the repository URL.
-
-Skills from the linked repo are available without running sync scripts on that machine.
-
-## Workflow checklist
-
-When adding or editing a skill:
-
-- [ ] Skill in `.cursor/skills/<name>/SKILL.md`
-- [ ] `name` field matches folder name
-- [ ] Description includes WHAT and WHEN (third person)
-- [ ] `validate-skills.ps1` passes
-- [ ] `sync-local.ps1 -Prune` run locally
-- [ ] Committed and pushed to GitHub
-- [ ] Cloud-using projects have `.cursor/skills/` committed or submodule
-
-## Do not
-
-- Write skills to `~/.cursor/skills-cursor/` (Cursor-managed built-ins only).
-- Edit only `~/.cursor/skills/` without updating this repo (changes will be lost on next sync).
+- **Edit skills in this repo only** — not directly in `~/.cursor/skills/`.
+- **Never write to `~/.cursor/skills-cursor/`** — Cursor built-ins only.

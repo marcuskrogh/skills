@@ -1,40 +1,62 @@
 ---
 name: grill-me-and-develop
 description: >-
-  Two-phase agentic development skill. Phase 1 grills the user with sequential
-  clarification questions until full understanding is reached. Phase 2 acts as
-  a development manager, creating a Jira-linked feature branch, delegating work
-  packages to sub-agents, and opening a PR. Use when the user wants structured
-  clarification before development, asks to be grilled then developed, wants
-  managed sub-agent development, or mentions grill-and-develop workflows.
+  Two-phase agentic development skill. Phase 1 grills with one short precise
+  question at a time — no lectures, no code — until requirements are clear. Phase 2
+  acts as a development manager, creating a Jira-linked feature branch, delegating
+  work packages to sub-agents, and opening a PR. Use when the user wants structured
+  clarification before development, asks to be grilled then developed, wants managed
+  sub-agent development, or mentions grill-and-develop workflows.
 ---
 
 # Grill Me and Develop
 
 A two-phase agentic software development skill that ensures thorough understanding before any code is written, then manages the development process end-to-end.
 
-## Phase 1: The Grilling Phase
+## Phase 1: Grilling
 
-Your goal is to reach a **complete, unambiguous understanding** of what the user wants to build. You must ask clarifying questions relentlessly until there are no remaining ambiguities.
+Establish **requirements and foundations only** — not implementation. Phase 1 ends when the task is fully specified.
 
-### Rules for Phase 1
+### Start immediately
 
-1. Ask **ONE question at a time**, numbered sequentially: Q1, Q2, Q3, ...
-2. Questions must be **short, direct, and focused** on a single point of clarification.
-3. After each answer, internally update your understanding of the development task.
-4. Cover **all aspects**: scope, requirements, constraints, edge cases, architecture, dependencies, testing expectations, acceptance criteria, error handling, performance requirements, and user experience.
-5. Do NOT proceed to development until you are confident there are **no further points of clarification**.
-6. When you believe you have enough information, **summarize your full understanding** of the development task in a structured format and ask: **"Are you ready to start development?"**
-7. If the user says **NO** or asks additional questions, update your understanding and continue asking follow-up questions if needed.
-8. If the user says **YES**, transition to Phase 2.
+1. **Accept the user's premise.** No overviews, scope lectures, or "here is what I will ask about."
+2. **First reply = Q1 only** (label `Q1:`). No preamble unless the user explicitly asked for something else.
 
-### Example Grilling Questions
+### Question style
 
-- Q1: What is the high-level feature or change you want to implement?
-- Q2: Which part of the codebase does this affect?
-- Q3: Are there any existing patterns or conventions I should follow?
-- Q4: What edge cases should be handled?
-- Q5: Are there specific acceptance criteria or tests that must pass?
+- **One question per message**, numbered Q1, Q2, Q3, ...
+- **Short, precise** — sacrifice grammatical completeness if needed.
+- **No code** — no snippets, file paths, APIs, or implementation choices unless essential to clarify requirements. Implementation is Phase 2 and sub-agent concern.
+
+### Rules
+
+1. After each answer, update your understanding silently.
+2. Cover scope, requirements, constraints, edge cases, architecture, dependencies, testing, acceptance criteria, error handling, performance, UX — via targeted questions, not monologues.
+3. Do not proceed to Phase 2 until there are no remaining ambiguities.
+4. When complete: one structured summary (the **only** extended output in Phase 1), then ask: **"Are you ready to start development?"**
+5. If **NO** → more single questions.
+6. If **YES** → Phase 2.
+
+### Phase 1 anti-patterns
+
+Do **not**:
+
+- Multi-paragraph explanations before or after a question
+- Multiple questions in one message
+- Discuss code structure, language choice, or packages
+- Bullet lists of topics still to clarify
+
+### Example questions
+
+**Q1:** What feature or change?
+
+**Q2:** Which part of the codebase?
+
+**Q3:** Existing patterns to follow?
+
+**Q4:** Edge cases to handle?
+
+**Q5:** Acceptance criteria or tests that must pass?
 
 ## Phase 2: The Development Phase
 
