@@ -35,6 +35,7 @@ cursor-skills/                 ← git source of truth
     ├── grill-me/
     ├── grill-me-and-develop/
     ├── maths-grill-and-develop/
+    ├── arxiv-research/
     └── manage-skills/         ← meta-skill for this workflow
 
 ~/.cursor/skills/              ← local mirror (sync script)
@@ -96,6 +97,7 @@ Use `/manage-skills` in Agent chat for the full checklist.
 - **grill-me** — Adaptive requirements grilling + managed sub-agent development
 - **grill-me-and-develop** — Sequential Q&A grilling, Jira-linked branch, PR workflow
 - **maths-grill-and-develop** — One LaTeX question at a time, no lectures/code; `DOCUMENTATION.md` contract
+- **arxiv-research** — Topic investigation via the official arXiv Atom API; structured research brief
 - **manage-skills** — This repo's maintenance workflow
 
 ## Remote install (Cursor App + other machines)
