@@ -1,6 +1,6 @@
 # Default Notation Reference
 
-Agent-only reference for phrasing Phase 1 questions. **Do not present this file or its contents to the user during grilling.**
+Agent-only reference for phrasing alignment questions. **Do not present this file or its contents to the user during alignment.**
 
 When writing questions to the user: one `$$ ... $$` block with `aligned`; align primary relations with `&=`; align distribution and iterator side clauses; for models/OCP/estimators use **top-down hierarchy** (abstract shell first, then symbols, then expand $f$, $\sigma$, $l$, etc. with sub-definitions before use).
 

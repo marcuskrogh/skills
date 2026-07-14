@@ -1,31 +1,42 @@
 ---
 name: code-review
 description: >-
-  Two-axis GitHub PR review — Standards (repo coding standards) and Spec
-  (issue/PRD fidelity). Resolves or creates a draft/open PR, runs both axes as
-  parallel sub-agents, and posts findings as PR review comments (inline + summary)
-  via gh. Use when the user wants a code review, PR review, or asks to review a
-  branch or work-in-progress changes.
+  Two-axis GitHub PR review (Standards + Spec) tied to a Jira ticket in In Review.
+  Posts findings on the PR and as Jira comments. Use when reviewing a PR or branch
+  associated with a Jira ticket ready for review.
 ---
 
-Two-axis review posted **on the GitHub pull request** — not in chat, not as repo files.
+Two-axis review posted **on the GitHub pull request** and summarized on the **Jira ticket** — not as repo files or long chat transcripts.
 
 - **Standards** — does the code conform to this repo's documented coding standards?
-- **Spec** — does the code faithfully implement the originating issue / PRD / spec?
+- **Spec** — does the code faithfully implement the Jira ticket and linked specification?
 
-Both axes run as **parallel sub-agents**, then this skill publishes their findings on the PR like an integrated reviewer: inline comments on changed lines where possible, plus a single review summary on the PR conversation.
+Both axes run as **parallel sub-agents**, then this skill publishes on the PR and updates Jira.
 
-Requires the `gh` CLI, authenticated for the repo (`gh auth status`). If `gh` is missing or unauthenticated, stop and tell the user.
+Requires `gh` CLI (authenticated) and Jira API credentials per [../jira/reference.md](../jira/reference.md). If either is missing, stop and tell the user.
 
 ## Process
+
+### 0. Resolve the Jira ticket
+
+A code review is always tied to one Jira issue in **In Review** (or the project's equivalent).
+
+1. User provides ticket key or URL (e.g. `/code-review SW-200`, or link in message).
+2. If missing, ask: "Which Jira ticket is in review?"
+3. Fetch the ticket per [../jira/reference.md](../jira/reference.md).
+4. Confirm status is **In Review** (or equivalent). If not, stop and tell the user to transition the ticket first.
+5. Capture: key, URL, summary, description, sub-tasks, links, attachments (`PLAN.md`, `MODEL.md` hints).
+
+The Jira ticket is the **primary spec source** for the Spec axis (before GitHub issues or repo files).
 
 ### 1. Resolve the pull request
 
 Every review happens on a **draft or open** GitHub PR. Resolve it in this order:
 
-1. **PR the user named** — number, URL, or branch (e.g. `review PR 42`, `review https://github.com/org/repo/pull/42`).
-2. **PR for the current branch** — `gh pr view --json number,url,state,isDraft,baseRefName,headRefOid,title,body`.
-3. **Create a draft PR** — if the branch has commits pushed but no PR yet:
+1. **PR linked from Jira** — ticket description, comments, or remote links field.
+2. **PR the user named** — number, URL, or branch.
+3. **PR for the current branch** — `gh pr view --json number,url,state,isDraft,baseRefName,headRefOid,title,body`.
+4. **Create a draft PR** — if the branch has commits pushed but no PR yet:
    ```bash
    gh pr create --draft --title "<branch or user title>" --body "WIP — automated review in progress"
    ```
@@ -45,13 +56,15 @@ Capture for sub-agents:
 
 Look for the originating spec, in this order:
 
-1. **PR description** (`gh pr view <number> --json body`) and linked issues (`Closes #45`, `Fixes org/repo#123`) — fetch issues with `gh issue view`.
-2. Issue references in commit messages on the PR branch.
-3. A path the user passed as an argument.
-4. A PRD/spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.
-5. If nothing is found, ask the user where the spec is. If they say there isn't one, skip the Spec sub-agent.
+1. **Jira ticket** from step 0 (description, sub-tasks, attachments).
+2. **PR description** and linked GitHub issues (`gh issue view`).
+3. Issue references in commit messages on the PR branch.
+4. Spec files under `docs/`, `specs/`, or repo root (`PLAN.md`, `MODEL.md`, `DOCUMENTATION.md`).
+5. Path the user passed as an argument.
 
-If `docs/agents/issue-tracker.md` exists, use its workflow for non-GitHub trackers; otherwise default to `gh issue view`.
+If nothing is found beyond the Jira summary, use the ticket body as spec. If the ticket is empty, ask the user once for the spec source.
+
+If `docs/agents/jira.md` exists in the repo, prefer it for Jira workflow details.
 
 ### 3. Identify the standards sources
 
@@ -100,8 +113,8 @@ body: <comment markdown, prefixed with **Standards** or **Spec**>
 **Spec sub-agent prompt** — include:
 
 - PR number, diff, and commit list from step 1.
-- Spec path or fetched contents from step 2.
-- Brief: "Return findings as structured blocks (format above). Cover: (a) missing/partial requirements; (b) scope creep; (c) wrong implementations. Quote the spec line in each `body`. `kind: inline` when tied to a specific changed line; otherwise `kind: general`. Max 12 findings, under 400 words total."
+- Jira ticket contents from step 0 and spec files from step 2.
+- Brief: "Return findings as structured blocks (format above). The Jira ticket is the authoritative spec. Cover: (a) missing/partial requirements; (b) scope creep; (c) wrong implementations. Quote the ticket or spec line in each `body`. `kind: inline` when tied to a specific changed line; otherwise `kind: general`. Max 12 findings, under 400 words total."
 
 If the spec is missing, skip the Spec sub-agent.
 
@@ -160,10 +173,27 @@ If the API rejects an inline comment (stale line, unchanged line), post that fin
 gh pr comment <number> --body "**Standards** (could not anchor inline): ..."
 ```
 
-#### 5c. Tell the user
+#### 5c. Post on Jira
+
+After the GitHub review is submitted, comment on the Jira ticket per [../jira/reference.md](../jira/reference.md):
+
+```markdown
+## Code review posted
+PR: <url>
+Review event: COMMENT | REQUEST_CHANGES | APPROVE
+Standards: <N> finding(s) — worst: …
+Spec: <M> finding(s) — worst: …
+
+[Link to PR review or copy general findings summary]
+```
+
+If **REQUEST_CHANGES**, note that the ticket stays **In Review** until addressed. If the user wants **Done**, that is out of scope unless they ask.
+
+#### 5d. Tell the user
 
 Reply in chat with **only**:
 
+- Jira ticket URL
 - PR URL
 - One line: review posted — `<N>` Standards / `<M>` Spec findings; event `<COMMENT|REQUEST_CHANGES|APPROVE>`
 

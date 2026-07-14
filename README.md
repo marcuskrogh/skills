@@ -32,17 +32,59 @@ This validates skills, syncs to `~/.cursor/skills/`, and installs git hooks so `
 ```
 cursor-skills/                 ← git source of truth
 └── .cursor/skills/
-    ├── grill-me/
-    ├── grill-me-and-develop/
-    ├── maths-grill-and-develop/
+    ├── base/                  ← design specs (never user-invoked)
+    │   ├── alignment/
+    │   └── implementation/
+    ├── explore/               ├─ alignment-derived
+    ├── design/                │
+    ├── model/                 │
+    ├── implement/             └─ implementation-derived
     ├── arxiv-research/
     ├── code-review/
-    └── manage-skills/         ← meta-skill for this workflow
+    └── manage-skills/
 
 ~/.cursor/skills/              ← local mirror (sync script)
 <project>/.cursor/skills/      ← per-repo copy or submodule (cloud)
 GitHub remote rule             ← Cursor App / other machines
 ```
+
+## Skill model
+
+### Base skills (design specifications)
+
+Under `.cursor/skills/base/`. Define *how* an interaction works. `disable-model-invocation: true` — users almost never invoke these directly; derived skills compose them.
+
+| Base | Purpose |
+|------|---------|
+| **alignment** | Fundamental agreement via relentless one-question adaptive clarification |
+| **implementation** | Management-agent delegation against an agreed specification |
+
+### Derived skills (user-invoked)
+
+Each skill stands alone. On invoke, read the relevant base skill, fill the extension contract, produce an artifact or deliver. Skills do not chain or reference other skills — combined workflows will be defined separately later.
+
+| Skill | Base | Output | Jira |
+|-------|------|--------|------|
+| **explore** | alignment | `ROADMAP.md` | Story + Tasks |
+| **design** | alignment | `PLAN.md` | Task + Sub-tasks |
+| **model** | alignment (+ LaTeX format) | `MODEL.md` | Task + attachment |
+| **implement** | implementation | PR or feature branch | In Progress → In Review |
+| **code-review** | — | PR review | Requires In Review ticket |
+
+Jira API reference: [`.cursor/skills/jira/reference.md`](.cursor/skills/jira/reference.md). Requires `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, and usually `JIRA_PROJECT_KEY`.
+
+### Workflows (future)
+
+Multi-skill sequences (e.g. explore then design) are **not** encoded in skills. A separate workflow format will be added later for combining skills when needed.
+
+### Legacy skill mapping
+
+| Removed | Standalone replacement |
+|---------|------------------------|
+| `grill-me` | `design` and/or `implement` (separate invocations) |
+| `grill-me-and-develop` | `design` and/or `implement` |
+| `maths-grill-and-develop` | `model` and/or `implement` |
+| `align` (base) | `alignment` (base) |
 
 ## Making skills global
 
@@ -76,7 +118,7 @@ Skills load without manual sync on that device.
 
 ### 4. New skill workflow
 
-1. Add `.cursor/skills/<name>/SKILL.md`.
+1. Add `.cursor/skills/<name>/SKILL.md` (base designs under `.cursor/skills/base/<name>/`).
 2. `.\scripts\validate-skills.ps1`
 3. `.\scripts\sync-local.ps1 -Prune`
 4. `git add` / `git commit` / `git push`
@@ -96,11 +138,20 @@ Use `/manage-skills` in Agent chat for the full checklist.
 
 ## Current skills
 
-- **grill-me** — Adaptive requirements grilling + managed sub-agent development
-- **grill-me-and-develop** — Sequential Q&A grilling, Jira-linked branch, PR workflow
-- **maths-grill-and-develop** — One LaTeX question at a time, no lectures/code; `DOCUMENTATION.md` contract
-- **arxiv-research** — Topic investigation via the official arXiv Atom API; structured research brief
-- **code-review** — Two-axis GitHub PR review (Standards + Spec); posts inline + summary comments via `gh`
+### Base (design specs)
+
+- **alignment** — One-question adaptive alignment until fundamental agreement
+- **implementation** — Management-agent work-package delegation against a spec
+
+### Derived (user-invoked)
+
+- **explore** — High-level roadmap + Jira Story/Tasks
+- **design** — Component design → `PLAN.md` + Jira Task/Sub-tasks
+- **model** — Mathematical spec → `MODEL.md` + Jira Task
+- **implement** — Managed implementation tracked in Jira
+- **code-review** — PR review tied to In Review Jira ticket
+- **arxiv-research** — Topic investigation via arXiv Atom API
+- **code-review** — Two-axis GitHub PR review (Standards + Spec)
 - **manage-skills** — This repo's maintenance workflow
 
 ## Remote install (Cursor App + other machines)

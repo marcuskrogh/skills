@@ -38,7 +38,7 @@ Get-ChildItem (Join-Path $env:USERPROFILE ".cursor\skills") -Directory | ForEach
 }
 Write-Host ""
 Write-Host "Verify in Cursor:" -ForegroundColor Yellow
-Write-Host "  Customize -> Skills (should list grill-me, manage-skills, etc.)"
+Write-Host "  Customize -> Skills (should list explore, design, model, implement, manage-skills, etc.)"
 Write-Host ""
 Write-Host "For Cursor App and other machines, add the GitHub remote rule:" -ForegroundColor Yellow
 Write-Host "  Customize -> Rules -> Add Rule -> Remote Rule (Github)"
