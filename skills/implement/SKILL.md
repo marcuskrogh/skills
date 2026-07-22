@@ -16,7 +16,7 @@ Applies [implementation](../implementation/SKILL.md) to the **current repository
 
 | Extension | This skill |
 |-----------|------------|
-| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / linked specs |
+| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` or `BUG.md` / linked specs |
 | **Branch naming** | From WORKSPACE (default `<key-lowercase>-<short-description>`) |
 | **Delivery** | PR (default from WORKSPACE) or branch-only |
 | **Verification** | Tests, lint, plan checklist, sub-task completion |
@@ -40,7 +40,7 @@ Applies [implementation](../implementation/SKILL.md) to the **current repository
 1. Fix-forward: open PR review comments
 2. Sub-task descriptions
 3. Task description
-4. `PLAN.md` / linked specs
+4. `PLAN.md` or `BUG.md` / linked specs
 5. User paste
 
 ## Status (tracker — mandatory)
@@ -84,7 +84,7 @@ Upsert ISSUES mirror on **every** transition/handoff. Do **not** mark the parent
 
 - Summary
 - Tracker: `<url or key>`
-- Spec references (`PLAN.md`, …)
+- Spec references (`PLAN.md` or `BUG.md`, …)
 - Test plan
 - Completed sub-tasks / review threads
 

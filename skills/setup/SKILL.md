@@ -56,7 +56,14 @@ Produces `docs/agents/WORKSPACE.md` (path overridable) that all pipeline skills 
 
 ```markdown
 ## Next
-`/explore` — Start the main pipeline
+`/explore` — Start a feature
+```
+
+or
+
+```markdown
+## Next
+`/bug` — Report and fix a defect
 ```
 
 or, if they only wanted config: no further skill.

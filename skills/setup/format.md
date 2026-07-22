@@ -63,6 +63,7 @@ Agreed agent workspace setup for this repository.
 | Continuity mirror | docs/agents/ISSUES.md |
 | Roadmap | ROADMAP.md |
 | Plan | PLAN.md |
+| Bug | BUG.md |
 | Model | MODEL.md |
 | Research | RESEARCH.md |
 
@@ -83,7 +84,7 @@ record the convention here.
 
 | Field | Value |
 |-------|-------|
-| Skills | explore → (research/model) → design → implement → review → ship (+ summarise) |
+| Skills | explore → (research/model) → design → implement → review → ship; **or** bug → implement → review → ship (+ summarise) |
 | One-issue continuity | true |
 | Tracker backend | resolved via provider above (`skills/tracker` when installed) |
 

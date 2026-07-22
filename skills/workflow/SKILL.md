@@ -1,9 +1,10 @@
 ---
 name: workflow
 description: >-
-  Shared main-pipeline contract for setup → explore → (research/model) → design →
-  implement → review → ship, plus summarise. Includes markdown continuity and
-  pluggable trackers. Not for user invocation — composed by those skills.
+  Shared pipeline contract for feature work (setup → explore → design → …) and
+  bug fixes (setup → bug → implement → review → ship), plus research/model side
+  paths and summarise. Markdown continuity and pluggable trackers. Not for user
+  invocation — composed by those skills.
 disable-model-invocation: true
 ---
 

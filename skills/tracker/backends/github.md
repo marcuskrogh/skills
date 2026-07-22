@@ -15,7 +15,7 @@ GitHub has a single issue type. Encode logical type with **labels**:
 |---------|---------------------------|
 | Story | `story` |
 | Task | `task` |
-| Sub-task | `subtask` |
+| Bug | `bug` |
 
 Parent/child: put `Parent: #n` in the body; optionally use sub-issues if the
 repo supports them (`gh` sub-issue commands when available).

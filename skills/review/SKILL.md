@@ -27,7 +27,7 @@ A review is always tied to one tracker issue in **In Review** (or the provider e
 2. If missing, ask: "Which issue is in review?"
 3. `fetch` via the tracker backend.
 4. Confirm status is **In Review** (or equivalent). If not, stop and tell the user to transition first.
-5. Capture: key, URL, summary, description, sub-tasks, links, artifact paths (`PLAN.md`, `MODEL.md`).
+5. Capture: key, URL, summary, description, sub-tasks, links, artifact paths (`PLAN.md`, `BUG.md`, `MODEL.md`).
 
 The tracker issue is the **primary spec source** for the Spec axis.
 
@@ -61,7 +61,7 @@ Look for the originating spec, in this order:
 1. **Tracker issue** from step 0 (description, sub-tasks, artifacts).
 2. **PR description** and linked GitHub issues (`gh issue view`) when relevant.
 3. Issue references in commit messages on the PR branch.
-4. Spec files from WORKSPACE paths or repo (`PLAN.md`, `MODEL.md`, `DOCUMENTATION.md`).
+4. Spec files from WORKSPACE paths or repo (`PLAN.md`, `BUG.md`, `MODEL.md`, `DOCUMENTATION.md`).
 5. Path the user passed as an argument.
 
 If nothing is found beyond the issue summary, use the issue body as spec. If empty, ask once for the spec source.

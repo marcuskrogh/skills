@@ -56,6 +56,7 @@ If the environment is **Cursor Cloud**, also pass `-WireCursorCloud` to add `.cu
 skills/                         ← source of truth (Agent Skills layout)
 ├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md
 ├── explore/                    ← project/feature alignment → ROADMAP.md
+├── bug/                        ← defect alignment → BUG.md (skips explore/design)
 ├── research/                   ← literature brief → RESEARCH.md
 ├── model/                      ← mathematical alignment → MODEL.md
 ├── design/                     ← topic alignment → PLAN.md (enriches pipeline Task)
@@ -67,7 +68,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── implementation/             ← base (composed, not user-invoked)
 ├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
 ├── jira/                       ← Jira REST details (tracker backend)
-├── workflow/                   ← main pipeline contract (composed)
+├── workflow/                   ← pipeline contract (composed)
 └── manage-skills/              ← meta: maintain this repo
 
 .claude-plugin/                 ← optional Claude Code marketplace manifests
@@ -75,19 +76,29 @@ scripts/                        ← validate / sync / project bootstrap (incl. a
 templates/project-sync/         ← startup sync script template
 ```
 
-## Main pipeline
+## Pipelines
+
+**Feature**
 
 ```text
-setup (once) → explore → (research / model) → design → implement → review → ship
-                 ↑______________ summarise (anytime) ______________↑
+setup → explore → (research / model) → design → implement → review → ship
 ```
 
-Run `/setup` first in each consuming repo. It writes `docs/agents/WORKSPACE.md` (tracker choice, paths, delivery). One **Task** owns a phase from design through ship. Continuity (keys, status, **Next**, artifact links) is always mirrored to markdown when enabled. See `skills/workflow/reference.md`.
+**Bug fix** (`/bug` replaces explore + design)
+
+```text
+setup → bug → implement → review → ship
+```
+
+`/summarise` works anytime on either track.
+
+Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, artifact links) is mirrored to markdown when enabled. See `skills/workflow/reference.md`.
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths) |
 | **explore** | user | High-level alignment → `ROADMAP.md` + Story/Tasks |
+| **bug** | user | Defect alignment → `BUG.md` + Task (then implement) |
 | **research** | user | Literature brief → `RESEARCH.md` (updates Task continuity) |
 | **model** | user | Math alignment → `MODEL.md` (updates Task continuity) |
 | **design** | user | Topic alignment → `PLAN.md` + Sub-tasks on the pipeline Task |
@@ -105,7 +116,7 @@ Run `/setup` first in each consuming repo. It writes `docs/agents/WORKSPACE.md` 
 | **implementation** | composed | Base manager/sub-agent loop |
 | **tracker** | composed | Issue tracker contract + backends |
 | **jira** | composed | Jira REST details for the jira backend |
-| **workflow** | composed | Main pipeline continuity + handoffs |
+| **workflow** | composed | Pipeline continuity + handoffs |
 
 ## Workflow for skill changes
 

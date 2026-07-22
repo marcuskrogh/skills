@@ -4,12 +4,12 @@
     "name": "Marcus Krogh",
     "url": "https://github.com/marcuskrogh"
   },
-  "description": "Agent skills for workspace setup, alignment, research, design, modelling, implementation, review, ship, and summarise.",
+  "description": "Agent skills for workspace setup, features, bugs, research, design, implementation, review, ship, and summarise.",
   "plugins": [
     {
       "name": "marcus-skills",
       "source": "./",
-      "description": "Setup + explore/(research|model)/design/implement/review/ship pipeline with pluggable trackers and summarise.",
+      "description": "Feature and bug pipelines with pluggable trackers, research/model side paths, and summarise.",
       "category": "engineering",
       "keywords": [
         "engineering",
