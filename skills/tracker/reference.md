@@ -65,12 +65,26 @@ When `WORKSPACE.md` has **Mirror to markdown: true**:
 
 ## Loading workspace
 
-At the start of explore / design / implement / review / ship:
+At the start of explore / research / model / design / implement / review / ship / summarise:
 
 1. Locate `docs/agents/WORKSPACE.md` (or ask once if missing → `/setup`).
 2. Read **Provider** and provider settings.
 3. Load this contract + the provider backend.
 4. Prefer artifact paths from WORKSPACE over hardcoded roots.
+
+## Close semantics
+
+`transition(key, Done)` must fully close the issue in the provider:
+
+| Provider | Done means |
+|----------|------------|
+| markdown | Status field = `Done` (+ INDEX) |
+| jira | Workflow transition to Done |
+| github | `gh issue close` (completed) + drop in-progress/in-review labels |
+| linear | State = Done |
+
+Ship is responsible for Done on Sub-tasks, Task, and Story-when-complete — see
+[../workflow/reference.md](../workflow/reference.md#ship-closeout).
 
 ## Credentials
 

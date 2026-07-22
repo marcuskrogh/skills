@@ -76,11 +76,21 @@ Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Prod
 ## Tracker (after approval)
 
 1. Resolve provider ops via [../tracker/reference.md](../tracker/reference.md).
-2. Create a **Story** (Goals + Scope).
-3. For each phase, create a **Task** linked to the Story — pipeline owner for design → ship.
-4. Comment on the Story with child keys + **Next**.
-5. Update `ROADMAP.md`; upsert markdown mirror if enabled.
-6. Report Story/Task keys, URLs (if remote), and **Next**. Session ends.
+2. Create a **Story** (Goals + Scope) — status **To Do**.
+3. For each phase, create a **Task** linked to the Story — status **To Do** (pipeline owner for design → ship).
+4. `comment` on the Story with child keys + **Next**; upsert ISSUES mirror (Story + all Tasks).
+5. Update `ROADMAP.md`; report keys/URLs and **Next**. Session ends.
+
+### Tracker duties
+
+| Action | Required |
+|--------|----------|
+| Create Story + Tasks | yes |
+| Link Tasks → Story | yes |
+| Status | **To Do** for all new issues |
+| Comment + **Next** on Story | yes |
+| ISSUES mirror upsert | yes when enabled |
+| Close anything | no |
 
 ### Handoff
 

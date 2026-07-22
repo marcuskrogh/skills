@@ -65,7 +65,7 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 | **design** | Take an explore **Task**. Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel design ticket when an explore Task is the subject. |
 | **implement** | Work the **same Task** (and its Sub-tasks). Branch + PR; move to **In Review**. |
 | **review** | Review the PR for that Task while it is **In Review**. |
-| **ship** | Merge (or confirm merge), transition Task to **Done**, close the loop on the Story. |
+| **ship** | Merge PR; close all open **Sub-tasks** → **Done**; Task → **Done**; Story → **Done** only when every child Task is Done; sync ISSUES + ROADMAP. |
 
 ### Standalone entry
 
@@ -138,16 +138,46 @@ alignment artifact, and the ISSUES mirror when enabled.
 ```text
 To Do / Backlog  →  In Progress  →  In Review  →  Done
      explore/design      implement        implement     ship
-                                         review
+     research/model                       review
 ```
 
-| Skill | Status duty |
-|-------|-------------|
-| explore / design | Leave new/enriched Tasks in **To Do** (or project default). |
-| implement | **In Progress** at start; **In Review** when PR is ready. |
-| implement (fix-forward) | May return briefly to **In Progress**, then **In Review** again. |
-| review | Requires **In Review**; does not transition to Done. |
-| ship | **Done** on the Task after successful closeout. |
+## Tracker sync matrix (mandatory)
+
+Every pipeline skill **must** update the configured tracker (and markdown mirror when
+enabled). Chat-only status is not enough.
+
+| Skill | Create / update issues | Status transitions | Comments / links | Close |
+|-------|------------------------|--------------------|------------------|-------|
+| **explore** | Create Story + Task per phase; link children → Story | Leave Story/Tasks **To Do** | Story comment: child keys + **Next**; upsert ISSUES | — |
+| **research** | Enrich pipeline Task (artifact link); no new Task if key given | Leave Task status unchanged (usually **To Do**) | Task comment: RESEARCH.md + summary + **Next**; ROADMAP/PLAN/ISSUES | — |
+| **model** | Enrich pipeline Task (preferred); else create Task | Leave **To Do** unless already further along | Task comment: MODEL.md + **Next**; ROADMAP/PLAN/RESEARCH/ISSUES | — |
+| **design** | Enrich Task; create Sub-tasks per work package | Task stays **To Do** (ready to implement) | Task + Story comments: PLAN.md, sub-task keys, **Next**; ISSUES | — |
+| **implement** | May add missing Sub-tasks if plan requires | Task → **In Progress** at start; each Sub-task → **In Progress** then **Done** when finished; Task → **In Review** when PR ready | Comments on Task (session start, packages, PR URL + **Next**); ISSUES | Sub-tasks **Done** as packages complete — not the parent Task |
+| **implement** (fix-forward) | — | Task → **In Progress** if needed, then **In Review** again | Comment: threads addressed + **Next** `/review`; ISSUES | — |
+| **review** | — | Must already be **In Review**; do **not** change to Done | Task comment: review summary + **Next**; ISSUES | — |
+| **ship** | — | See [Ship closeout](#ship-closeout) | Task + Story comments; ROADMAP + ISSUES | **Yes** — close Task, remaining Sub-tasks, and Story when complete |
+| **summarise** | — | Read-only (may fix stale mirror **Next** text only) | — | — |
+
+### Rules
+
+1. **Always** `comment` (or markdown Comments) with **Next** when a skill finishes.
+2. **Always** upsert `docs/agents/ISSUES.md` when mirror is enabled — same status as the tracker.
+3. Provider backends implement `transition` / close natively (Jira Done, GitHub `gh issue close`, Linear Done, markdown Status field).
+4. Never mark the **pipeline Task** **Done** before **ship**.
+5. Never leave Sub-tasks open after **ship**.
+
+## Ship closeout
+
+After a successful merge (or confirmed already-merged PR), **ship** closes tracker work in this order:
+
+1. **Sub-tasks** — `transition` every still-open child of the Task → **Done** (comment each or one batch comment on the parent listing them).
+2. **Task** — `transition` → **Done**; comment with PR URL, merge SHA, list of closed Sub-tasks, **Next: Done**.
+3. **Story** (if linked):
+   - Comment that this phase Task is Done (key + PR).
+   - If **all** child Tasks of the Story are **Done**, `transition` Story → **Done** and comment "Initiative complete".
+   - Otherwise leave Story open; set Story **Next** hint to `/design <next-open-Task>` or `/summarise <Story>`.
+4. **Markdown** — upsert ISSUES mirror (Task/Sub-tasks/Story statuses); update `ROADMAP.md` phase row to Done + PR link; sync markdown `INDEX.md` if provider is markdown.
+5. **Stop** if merge failed — do not close anything.
 
 ## Fix-forward
 
@@ -156,7 +186,7 @@ When **review** leaves blocking findings:
 1. Next skill is **implement** on the same Task (not a new issue).
 2. Implement treats open PR review threads as the work packages.
 3. Do not invent new scope beyond the review + existing plan.
-4. Re-open or keep the PR; return Task to **In Review** when ready.
+4. Re-open or keep the PR; return Task to **In Review** when ready (tracker + mirror).
 5. User runs **review** again, then **ship**.
 
 ## Anti-patterns
@@ -164,6 +194,8 @@ When **review** leaves blocking findings:
 - Creating issues before `WORKSPACE.md` exists (run `/setup` first)
 - Hardcoding Jira (or any single provider) when WORKSPACE selects another
 - Creating a second Task in design when an explore Task was provided
-- Ending a pipeline skill without a **Next** handoff persisted in markdown
+- Ending a pipeline skill without tracker comment + **Next** (+ mirror)
 - Marking **Done** from implement or review (that is **ship**)
+- Shipping while Sub-tasks remain open
+- Closing the Story while sibling phase Tasks are still open
 - Leaving continuity only in chat or only in a remote tracker with mirror enabled but skipped

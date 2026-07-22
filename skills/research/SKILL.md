@@ -193,10 +193,11 @@ Always include citations with arXiv links.
 
 When a pipeline **Task** (or Story) key was given or inferred:
 
-1. `attach_or_link` `RESEARCH.md` on that issue; comment with path + short executive summary + **Next**.
-2. If `ROADMAP.md` lists the phase, add/update an Artifact / Notes cell pointing at `RESEARCH.md`.
-3. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs.
-4. Upsert the markdown mirror (`docs/agents/ISSUES.md`) with artifact + **Next**.
+1. `attach_or_link` `RESEARCH.md` on that issue; `comment` with path + short executive summary + **Next**.
+2. Do **not** change Task status (leave **To Do** / current); do **not** create a parallel Task when a key was given.
+3. If `ROADMAP.md` lists the phase, add/update an Artifact / Notes cell pointing at `RESEARCH.md`.
+4. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs.
+5. Upsert the markdown mirror (`docs/agents/ISSUES.md`) with artifact + **Next**.
 
 Standalone research (no Task): still write `RESEARCH.md`; **Next** may be `/explore` or `/design` if the user wants to start a phase.
 

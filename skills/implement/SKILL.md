@@ -43,16 +43,27 @@ Applies [implementation](../implementation/SKILL.md) to the **current repository
 4. `PLAN.md` / linked specs
 5. User paste
 
-## Status
+## Status (tracker — mandatory)
 
 | When | Action |
 |------|--------|
-| Start (build) | `transition` → **In Progress** |
-| Start (fix-forward) | **In Progress** if needed; keep PR |
-| Sub-task done | Sub-task → **Done** + comment |
-| PR ready | Parent → **In Review** + comment with PR URL + **Next** |
+| Start (build) | Task → **In Progress**; comment session start |
+| Each Sub-task started | that Sub-task → **In Progress** |
+| Sub-task package done | that Sub-task → **Done** + comment |
+| PR ready | Task → **In Review** + comment with PR URL + **Next** `/review` |
+| Start (fix-forward) | Task → **In Progress** if needed; keep PR |
+| Fix-forward complete | Task → **In Review** + comment + **Next** `/review` |
 
-Upsert markdown mirror on each transition/handoff.
+Upsert ISSUES mirror on **every** transition/handoff. Do **not** mark the parent Task **Done** (that is **ship**).
+
+### Tracker duties
+
+| Action | Required |
+|--------|----------|
+| Task In Progress → In Review | yes |
+| Sub-tasks In Progress → Done as completed | yes |
+| PR link on Task | yes |
+| Close parent Task | **no** |
 
 ## Pre-work
 

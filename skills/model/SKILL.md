@@ -70,14 +70,14 @@ Use the **definition hierarchy** from [format.md](format.md).
 ## Tracker and continuity (after approval)
 
 1. Write `MODEL.md` at the agreed path; commit when appropriate (include issue key).
-2. **Pipeline Task provided (preferred):** enrich *that* Task — `attach_or_link` `MODEL.md`, comment summary + **Next**. Do **not** create a parallel Task.
-3. **Standalone:** create a **Task**, link parent Story if any, then same attach/comment.
+2. **Pipeline Task provided (preferred):** enrich *that* Task — `attach_or_link` `MODEL.md`, `comment` summary + **Next**. Do **not** create a parallel Task. Leave status unchanged (usually **To Do**).
+3. **Standalone:** create a **Task** (**To Do**), link parent Story if any, then same attach/comment.
 4. Update shared markdown:
    - `ROADMAP.md` phase notes / artifact column → `MODEL.md`
    - `PLAN.md` if it exists → Inputs / Constraints link to `MODEL.md`
    - `RESEARCH.md` Tracker section if it exists → link `MODEL.md`
    - Upsert `docs/agents/ISSUES.md` mirror
-5. Report path, key, and **Next**.
+5. Report path, key, and **Next**. Do **not** close the Task.
 
 ## Handoff
 

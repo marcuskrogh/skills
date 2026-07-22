@@ -175,7 +175,10 @@ gh pr comment <number> --body "**Standards** (could not anchor inline): ..."
 
 #### 5c. Post on the tracker (+ mirror)
 
-After the GitHub review is submitted, `comment` on the pipeline issue via the tracker backend:
+After the GitHub review is submitted, update the tracker (mandatory):
+
+1. Confirm Task is still **In Review** (do not transition).
+2. `comment` on the pipeline issue:
 
 ```markdown
 ## Code review posted
@@ -190,7 +193,9 @@ Spec: <M> finding(s) — worst: …
 <handoff line — see Handoff below>
 ```
 
-The issue stays **In Review**. Upsert the markdown mirror if enabled. Do **not** transition to **Done** — that is [ship](../ship/SKILL.md).
+3. Upsert the markdown mirror (status **In Review**, updated **Next**).
+
+Do **not** transition to **Done** — that is [ship](../ship/SKILL.md). Do **not** close Sub-tasks here.
 
 #### 5d. Tell the user
 

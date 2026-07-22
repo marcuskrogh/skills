@@ -1,16 +1,19 @@
 ---
 name: ship
 description: >-
-  Close out a pipeline Task after a successful review: confirm the PR is ready,
-  merge (or record merge), transition the issue to Done, and persist closeout in
-  markdown. Use when a clean review should be finished.
+  Close out a pipeline Task after a successful review: merge the PR, close all
+  open Sub-tasks, mark the Task Done, close the parent Story when every phase
+  Task is Done, and sync the markdown mirror. Use when a clean review should finish.
 ---
 
 # Ship
 
-Final step after [review](../review/SKILL.md). Closes the **same pipeline Task**.
+Final step after [review](../review/SKILL.md). Closes tracker work for the
+**pipeline Task** (and related issues) per
+[../workflow/reference.md](../workflow/reference.md) **Ship closeout**.
 
-**On invoke:** read [../workflow/reference.md](../workflow/reference.md) and [../tracker/SKILL.md](../tracker/SKILL.md).
+**On invoke:** read [../workflow/reference.md](../workflow/reference.md) and
+[../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Prerequisites
 
@@ -20,7 +23,9 @@ Authenticated `gh` plus tracker auth for the WORKSPACE provider.
 
 ### 0. Resolve issue
 
-User key/URL or ask once. Prefer status **In Review**. If already **Done**, report and stop.
+1. User key/URL or ask once.
+2. `fetch` Task + children (Sub-tasks) + parent Story if linked.
+3. Prefer status **In Review**. If already **Done**, report and stop (still verify Sub-tasks/Story if user asks to repair closeout).
 
 ### 1. Resolve PR
 
@@ -31,19 +36,43 @@ Same order as review. If latest review is unresolved `REQUEST_CHANGES` without u
 `/implement <KEY>` — Address review findings (fix-forward)
 ```
 
+Do **not** close tracker issues in that case.
+
 ### 2. Merge (or confirm)
 
 | PR state | Action |
 |----------|--------|
-| Open/draft | Ready if needed; merge per WORKSPACE strategy (`gh pr merge`). On failure, stop — do not mark Done. |
+| Open/draft | Ready if needed; merge per WORKSPACE strategy (`gh pr merge`). On failure, **stop** — close nothing. |
 | Merged | Continue closeout. |
 
-### 3. Closeout
+### 3. Tracker closeout (mandatory order)
 
-1. `transition` Task → **Done**.
-2. Comment with PR URL, merge ref, **Next: Done**.
-3. Comment parent Story if linked.
-4. Upsert markdown mirror; optionally tick the phase in `ROADMAP.md`.
-5. Tell the user: issue key/URL, PR URL, shipped — **Done**.
+Follow [Ship closeout](../workflow/reference.md#ship-closeout). Condensed:
 
-No further skill handoff.
+1. **Sub-tasks** — every child not yet **Done** → `transition` **Done**. Comment on the Task listing closed Sub-task keys.
+2. **Task** → **Done**. Comment:
+
+```markdown
+## Shipped
+PR: <url>
+Merge: <sha or url>
+Closed sub-tasks: <keys>
+## Next
+Done — phase closed.
+```
+
+3. **Story** (if linked):
+   - Comment: phase Task `<KEY>` Done + PR URL.
+   - `fetch` sibling Tasks; if **all** are **Done** → Story → **Done** + "Initiative complete".
+   - Else leave Story open; comment suggested **Next** for the next open Task.
+4. **Markdown continuity** — upsert ISSUES mirror for Task, Sub-tasks, Story; mark phase Done in `ROADMAP.md`; if provider is markdown, sync `issues/INDEX.md`.
+
+### 4. Tell the user
+
+- Task key/URL — **Done**
+- Sub-tasks closed (count/keys)
+- Story status (still open vs **Done**)
+- PR URL
+- If Story still open: **Next** hint for the following phase Task
+
+No skill handoff when the Task is Done; optional Next only points at the next phase.

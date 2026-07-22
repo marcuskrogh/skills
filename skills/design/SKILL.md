@@ -85,19 +85,29 @@ When the user passes an explore **Task** key:
 
 ## Tracker (after approval)
 
-Follow one-issue continuity in [../workflow/reference.md](../workflow/reference.md).
+Follow one-issue continuity and the [tracker sync matrix](../workflow/reference.md#tracker-sync-matrix-mandatory).
 
 ### Explore Task provided (preferred)
 
-1. **Update that Task** — do not create a parallel design issue.
-2. Create **Sub-tasks** per work package.
+1. **Update that Task** — do not create a parallel design issue. Status stays **To Do**.
+2. Create **Sub-tasks** per work package — status **To Do**; link parent = Task.
 3. Write `PLAN.md`; `attach_or_link` path on the Task.
-4. Comment Task + Story with plan path, sub-task keys, **Next**.
-5. Upsert markdown mirror if enabled.
+4. `comment` Task + Story with plan path, sub-task keys, **Next**.
+5. Upsert ISSUES mirror for Task + Sub-tasks.
 
 ### Standalone
 
-Create a new **Task** + Sub-tasks, then same artifact/mirror steps.
+Create a new **Task** + Sub-tasks (**To Do**), then same artifact/mirror/comment steps.
+
+### Tracker duties
+
+| Action | Required |
+|--------|----------|
+| Enrich Task / create Sub-tasks | yes |
+| Task status | remain **To Do** |
+| Comments + **Next** | Task + Story |
+| ISSUES mirror | yes when enabled |
+| Close Task | no (ship only) |
 
 ## Handoff
 
