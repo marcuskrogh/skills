@@ -1,16 +1,17 @@
 ---
 name: jira
 description: >-
-  Shared Jira REST integration reference for explore, design, model, implement, and
-  code-review. Not for user invocation — composed only by those skills when they
-  create or update tickets.
+  Jira REST details for the tracker jira backend. Prefer the tracker skill and
+  WORKSPACE.md provider selection. Not for user invocation.
 disable-model-invocation: true
 ---
 
 # Jira
 
-**Shared reference skill.** Users invoke derived skills, not this file.
+**Backend detail** for provider `jira`. Pipeline skills should enter through
+[../tracker/SKILL.md](../tracker/SKILL.md) and [../tracker/backends/jira.md](../tracker/backends/jira.md).
 
-When a workflow skill needs Jira credentials, issue types, transitions, or API patterns, read [reference.md](reference.md).
+API patterns: [reference.md](reference.md).
 
-If the target repository contains `docs/agents/jira.md`, follow that file instead.
+If the target repository contains `docs/agents/jira.md`, follow that file for
+project-specific types and transitions.

@@ -1,97 +1,105 @@
 ---
 name: implement
 description: >-
-  Managed sub-agent implementation in a GitHub repo against a Jira Task or Story and its
-  Sub-tasks. Transitions the parent ticket to In Progress, then In Review when the PR is
-  ready. Use when implementing work defined by a Jira ticket and linked specification.
+  Managed sub-agent implementation against a pipeline Task and Sub-tasks from
+  design. Moves the issue In Progress then In Review; supports fix-forward after
+  review. Persists Next in markdown and the configured tracker.
 ---
 
 # Implement
 
-Applies [implementation](../implementation/SKILL.md) to the **current repository**, tracked in **Jira**.
+Applies [implementation](../implementation/SKILL.md) to the **current repository** on the main pipeline Task.
 
-**On invoke:** read [../implementation/SKILL.md](../implementation/SKILL.md) and [../jira/reference.md](../jira/reference.md).
+**On invoke:** read [../implementation/SKILL.md](../implementation/SKILL.md), [../workflow/reference.md](../workflow/reference.md), and [../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Extension contract
 
 | Extension | This skill |
 |-----------|------------|
-| **Spec source** | Jira ticket description + sub-tasks + repo spec files |
-| **Branch naming** | `<jira-key-lowercase>-<short-description>` |
-| **Delivery** | PR (default) or branch-only |
-| **Verification** | Tests, lint, spec checklist, sub-task completion |
+| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` or `BUG.md` / linked specs |
+| **Branch naming** | From WORKSPACE (default `<key-lowercase>-<short-description>`) |
+| **Delivery** | PR (default from WORKSPACE) or branch-only |
+| **Verification** | Tests, lint, plan checklist, sub-task completion |
 
-## Jira ticket (required)
+## Modes
 
-Obtain the parent **Task**, **Story**, or **Request** key before work:
+| Mode | When | Behavior |
+|------|------|----------|
+| **Build** (default) | Task To Do / In Progress | Full implementation loop |
+| **Fix-forward** | After **review** with blockers; same Task + open PR | Address review threads only |
 
-1. User provides key (e.g. `SW-200`) in the invoke message
-2. User points to a ticket URL
-3. **Ask** — one question: "Which Jira ticket should this implementation track?"
+## Issue (required)
 
-Fetch the ticket and its **Sub-tasks** per [../jira/reference.md](../jira/reference.md). Use sub-tasks as work packages when present; otherwise derive packages from the ticket description and repo spec files (`PLAN.md`, `MODEL.md`, `DOCUMENTATION.md`).
+1. User provides key / URL
+2. Or ask once: "Which issue should this implementation track?"
 
-Do not invent requirements beyond the ticket and linked specs.
+`fetch` Task + Sub-tasks. Prefer Tasks that already have a design plan.
 
 ### Specification priority
 
-1. Jira sub-task descriptions (work packages)
-2. Parent ticket description
-3. Repo files referenced in ticket or repo (`PLAN.md`, `MODEL.md`, …)
-4. User paste in the current message
+1. Fix-forward: open PR review comments
+2. Sub-task descriptions
+3. Task description
+4. `PLAN.md` or `BUG.md` / linked specs
+5. User paste
 
-## Jira status (manager agent)
+## Status (tracker — mandatory)
 
 | When | Action |
 |------|--------|
-| Session start | Transition parent ticket to **In Progress** |
-| Each sub-task started | Transition sub-task to **In Progress** (if separate states exist) |
-| Sub-task done | Transition sub-task to **Done**; comment with brief summary |
-| PR opened (or review ready) | Transition parent to **In Review** |
-| User asks to finish without PR | Comment status; leave parent **In Progress** unless user specifies otherwise |
+| Start (build) | Task → **In Progress**; comment session start |
+| Each Sub-task started | that Sub-task → **In Progress** |
+| Sub-task package done | that Sub-task → **Done** + comment |
+| PR ready | Task → **In Review** + comment with PR URL + **Next** `/review-fix` |
+| Start (fix-forward) | Task → **In Progress** if needed; keep PR |
+| Fix-forward complete | Task → **In Review** + comment + **Next** `/review-fix` (or `/review`) |
 
-Comment on the parent ticket when: session starts, each major package completes, PR is opened (include PR URL).
+Upsert ISSUES mirror on **every** transition/handoff. Do **not** mark the parent Task **Done** (that is **ship**).
+
+### Tracker duties
+
+| Action | Required |
+|--------|----------|
+| Task In Progress → In Review | yes |
+| Sub-tasks In Progress → Done as completed | yes |
+| PR link on Task | yes |
+| Close parent Task | **no** |
 
 ## Pre-work
 
-1. Resolve Jira ticket and sub-tasks
-2. Transition parent to **In Progress**
-3. Ask (one question): **open a PR** or **stop at a feature branch**? Default PR.
-4. Create branch: `<jira-key-lowercase>-<short-description>`
+1. Resolve issue + packages (or review threads)
+2. Status → In Progress
+3. Ask PR vs branch once (skip if fix-forward / WORKSPACE default is enough and user already chose)
+4. Create or reuse branch per WORKSPACE pattern
 
-## Work package types
+## Work packages
 
 | Type | Subagent |
 |------|----------|
 | Structure exploration | `explore` |
-| Research | `generalPurpose` |
-| Implementation | `generalPurpose` |
-| Testing | `generalPurpose` |
-| Review | `bugbot`, `security-review` |
-
-Map packages to Jira sub-tasks by summary or description. Update sub-task status as each package completes.
+| Research / Implementation / Testing | `generalPurpose` |
+| Fix-forward | `generalPurpose` per review thread or grouped finding |
 
 ## PR template
 
-- Summary (from ticket + what was built)
-- `Jira: <url>`
-- Spec references (`PLAN.md`, `MODEL.md`, …)
+- Summary
+- Tracker: `<url or key>`
+- Spec references (`PLAN.md` or `BUG.md`, …)
 - Test plan
-- List of completed sub-tasks
+- Completed sub-tasks / review threads
 
-After PR creation: transition parent to **In Review**; Jira comment with PR link.
+## Handoff
+
+```markdown
+## Next
+`/review-fix <TASK-KEY>` — Review and auto-fix until clean
+```
+
+(Use `/review <TASK-KEY>` for a one-shot review without auto-fix.)
 
 ## Flow
 
-1. Resolve Jira ticket + spec
-2. **In Progress** on parent
-3. Delivery clarification (PR vs branch)
-4. Create branch
-5. Delegate work packages ↔ sub-tasks; update Jira as you go
-6. Verify → PR → **In Review** on parent
-
-## Examples
-
-User: `/implement` SW-200
-
-Agent: [Fetches SW-200 and sub-tasks, transitions to In Progress, asks PR vs branch]
+1. Resolve issue + spec
+2. In Progress
+3. Branch + packages
+4. Verify → PR → In Review → **Next** `/review-fix`

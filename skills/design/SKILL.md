@@ -1,25 +1,25 @@
 ---
 name: design
 description: >-
-  Alignment on a user-specified component, system, or codebase area. Produces PLAN.md
-  and a Jira Task or Story with Sub-tasks per work package. Use when agreeing on
-  requirements and design before coding; may extend an existing explore Story.
+  Alignment on a component or system for the main pipeline. Enriches an explore
+  Task (or creates a Task) with PLAN.md and Sub-tasks. Persists keys and Next in
+  markdown. Use when agreeing on design before coding.
 ---
 
 # Design
 
-Applies [alignment](../alignment/SKILL.md) to a **specific topic**. Produces `PLAN.md` and Jira issues with implementation sub-tasks.
+Applies [alignment](../alignment/SKILL.md) to a **specific topic**. Produces `PLAN.md` and Sub-tasks on the **pipeline Task**.
 
-**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md) and [../jira/reference.md](../jira/reference.md).
+**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md), [../workflow/reference.md](../workflow/reference.md), and [../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Extension contract
 
 | Extension | This skill |
 |-----------|------------|
-| **Subject** | User-described component, system, object, feature, or codebase area |
+| **Subject** | Component, system, feature, or explore Task |
 | **Probes** | See [Probes](#probes) |
 | **Stop condition** | No obvious divergence points remain for scope, behavior, constraints, and acceptance |
-| **Alignment artifact** | `PLAN.md` |
+| **Alignment artifact** | `PLAN.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Does this plan look complete?" |
 
 ### Probes
@@ -30,20 +30,27 @@ Applies [alignment](../alignment/SKILL.md) to a **specific topic**. Produces `PL
 - Compatibility with existing code or conventions
 - Non-obvious constraints the user cares about
 - Acceptance criteria and verification approach
-- Parent Jira key from a prior **explore** session (optional)
-- Jira project key (if not in `JIRA_PROJECT_KEY`)
+- Pipeline Task key from a prior **explore** session (preferred)
 
 ### Opening
 
 | Context | First move |
 |---------|------------|
-| **Thin** | "What do you want to design?" |
-| **Rich** | First specific question on an unresolved divergence point |
+| **Thin** | "What do you want to design?" (or resolve Task key) |
+| **Rich** / Task key given | Load Task (+ Story, `ROADMAP.md`); first divergence question |
 
 ### Scope guard
 
 - No code, file edits, or implementation during alignment
 - No sub-agent delegation — alignment only
+
+## Entry (pipeline)
+
+When the user passes an explore **Task** key:
+
+1. `fetch` the Task and parent Story via tracker.
+2. Load `ROADMAP.md`, and `RESEARCH.md` / `MODEL.md` if present.
+3. Use Task summary/description as the subject.
 
 ## Alignment artifact
 
@@ -66,28 +73,45 @@ Applies [alignment](../alignment/SKILL.md) to a **specific topic**. Produces `PL
 ## Open items
 - …
 
-## Jira
-- Parent: PROJ-123 (optional)
-- Design ticket: PROJ-200
-- Sub-tasks: PROJ-201, …
+## Tracker
+- Provider: …
+- Story: <KEY> (if linked)
+- Task: <KEY>
+- Sub-tasks: …
+
+## Next
+`/implement <KEY>` — Build per this plan
 ```
 
-## Jira (after approval)
+## Tracker (after approval)
 
-1. Confirm credentials per [../jira/reference.md](../jira/reference.md).
-2. If user gave a parent Story/Task from **explore**, fetch it and **Relates** or note parent in description.
-3. Create a **Task** (or **Story** if the project uses stories for features) for this design:
-   - Summary: design topic
-   - Description: plan summary, acceptance criteria, link to parent explore ticket if any
-4. For each **work package** in the plan, create a **Sub-task** under the design ticket:
-   - Summary: package name
-   - Description: scope, inputs, expected deliverables, acceptance criteria
-5. Write `PLAN.md` to the repo if persisting (include Jira keys).
-6. Comment on parent explore ticket (if any) with the new design ticket key.
-7. Report design ticket URL and sub-task list. Session ends.
+Follow one-issue continuity and the [tracker sync matrix](../workflow/reference.md#tracker-sync-matrix-mandatory).
 
-## Examples
+### Explore Task provided (preferred)
 
-User: `/design` the price forecast chart — parent explore ticket SW-40.
+1. **Update that Task** — do not create a parallel design issue. Status stays **To Do**.
+2. Create **Sub-tasks** per work package — status **To Do**; link parent = Task.
+3. Write `PLAN.md`; `attach_or_link` path on the Task.
+4. `comment` Task + Story with plan path, sub-task keys, **Next**.
+5. Upsert ISSUES mirror for Task + Sub-tasks.
 
-Agent: Should the forecast replace the existing chart or appear alongside it?
+### Standalone
+
+Create a new **Task** + Sub-tasks (**To Do**), then same artifact/mirror/comment steps.
+
+### Tracker duties
+
+| Action | Required |
+|--------|----------|
+| Enrich Task / create Sub-tasks | yes |
+| Task status | remain **To Do** |
+| Comments + **Next** | Task + Story |
+| ISSUES mirror | yes when enabled |
+| Close Task | no (ship only) |
+
+## Handoff
+
+```markdown
+## Next
+`/implement <TASK-KEY>` — Build per PLAN.md
+```

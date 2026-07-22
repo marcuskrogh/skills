@@ -1,16 +1,20 @@
 ---
 name: model
 description: >-
-  Mathematical alignment with LaTeX-only questions. Produces MODEL.md in the repository,
-  a Jira Task with the spec attached and summarised, optionally linked to explore or
-  design tickets. Use for dynamical models, OCP, estimators, or applied math specs.
+  Mathematical alignment with LaTeX-only questions. Produces MODEL.md, links it to
+  a pipeline Task when given, and updates shared continuity markdown
+  (ROADMAP/PLAN/ISSUES). Use for dynamical models, OCP, estimators, or applied math.
 ---
 
 # Model
 
-Applies [alignment](../alignment/SKILL.md) to **applied mathematical** topics. Produces `MODEL.md` in the repo and a Jira Task.
+Applies [alignment](../alignment/SKILL.md) to **applied mathematical** topics.
+Optional side path on the main pipeline — usually after **research** or **explore**,
+before or alongside **design**, and before **implement**.
 
-**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md), [format.md](format.md), [reference.md](reference.md), and [../jira/reference.md](../jira/reference.md).
+**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md), [format.md](format.md),
+[reference.md](reference.md), [../workflow/reference.md](../workflow/reference.md),
+and [../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Extension contract
 
@@ -19,7 +23,7 @@ Applies [alignment](../alignment/SKILL.md) to **applied mathematical** topics. P
 | **Subject** | User-described mathematical object (model, OCP, estimator, etc.) |
 | **Probes** | See [Probes](#probes) |
 | **Stop condition** | Mathematical foundations are unambiguous |
-| **Alignment artifact** | `MODEL.md` in the repository |
+| **Alignment artifact** | `MODEL.md` (path from WORKSPACE) |
 | **Readiness prompt** | LaTeX block: "Ready to finalise the model specification?" (see [format.md](format.md)) |
 | **Format override** | LaTeX-only questions per [format.md](format.md) |
 | **Scope guard** | No code unless mathematically essential to clarify the model |
@@ -28,20 +32,18 @@ Applies [alignment](../alignment/SKILL.md) to **applied mathematical** topics. P
 
 - Model class, state/input/output structure, constraints, objectives
 - Numerical schemes, estimation/control choices, discretisation
-- Parent Jira key from **explore** or **design** (optional)
-- Jira project key (if not in `JIRA_PROJECT_KEY`)
-- Target repo path for `MODEL.md` (default: repo root or `docs/` per project convention)
+- Pipeline Task key from **explore** / **design** (preferred)
+- Related `RESEARCH.md` if present
+- Target path for `MODEL.md` (default from WORKSPACE)
 
 ### Opening
 
 | Context | First move |
 |---------|------------|
 | **Thin** | One LaTeX block: what mathematical object or problem class? |
-| **Rich** | One LaTeX block on the first unresolved divergence |
+| **Rich** / Task key | Load Task + `RESEARCH.md` / `ROADMAP.md` if present; first unresolved divergence in LaTeX |
 
 ## Alignment artifact
-
-Write `MODEL.md`:
 
 ```markdown
 # Model: [title]
@@ -55,29 +57,43 @@ Write `MODEL.md`:
 ## Open items
 …
 
-## Jira
-- Task: PROJ-300
+## Tracker
+- Task: <KEY>
+- Research: RESEARCH.md (if any)
+
+## Next
+`/<skill> <KEY>` — <why>
 ```
 
 Use the **definition hierarchy** from [format.md](format.md).
 
-## Jira and repository (after approval)
+## Tracker and continuity (after approval)
 
-1. Write `MODEL.md` to the repository at the agreed path.
-2. **Commit** `MODEL.md` on the current branch (or a dedicated docs branch if the user specifies). Include Jira key in commit message when the ticket exists.
-3. Per [../jira/reference.md](../jira/reference.md):
-   - Create a **Task** (summary: model title; description: brief problem statement + acceptance for future implementation).
-   - If parent explore/design ticket provided, **Relates** link and mention in description.
-   - **Attach** `MODEL.md` to the ticket.
-   - Comment with repo path and commit SHA.
-4. Update `MODEL.md` **Jira** section with ticket key and URL.
-5. Commit the Jira section update if needed.
-6. Report ticket URL and file path. Session ends.
+1. Write `MODEL.md` at the agreed path; commit when appropriate (include issue key).
+2. **Pipeline Task provided (preferred):** enrich *that* Task — `attach_or_link` `MODEL.md`, `comment` summary + **Next**. Do **not** create a parallel Task. Leave status unchanged (usually **To Do**).
+3. **Standalone:** create a **Task** (**To Do**), link parent Story if any, then same attach/comment.
+4. Update shared markdown:
+   - `ROADMAP.md` phase notes / artifact column → `MODEL.md`
+   - `PLAN.md` if it exists → Inputs / Constraints link to `MODEL.md`
+   - `RESEARCH.md` Tracker section if it exists → link `MODEL.md`
+   - Upsert `docs/agents/ISSUES.md` mirror
+5. Report path, key, and **Next**. Do **not** close the Task.
 
-The mathematical specification lives in **both** the repo and Jira — repo is source of truth for version control; Jira tracks the work item for later **implement**.
+## Handoff
+
+| Context | Next |
+|---------|------|
+| Behaviour/UX still open | `/design <KEY>` |
+| Plan already complete | `/implement <KEY>` |
+| Need literature first | `/research <KEY>` |
+
+```markdown
+## Next
+`/design <KEY>` — Design implementation around this model
+```
 
 ## Examples
 
-User: `/model` an MPC for our CSTR, parent SW-40.
+User: `/model` MD-2 — MPC for the CSTR, research in RESEARCH.md.
 
 Agent: [Single LaTeX block — ODE vs SDE vs spatial PDE?]

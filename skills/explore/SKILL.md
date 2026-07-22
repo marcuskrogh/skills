@@ -1,16 +1,16 @@
 ---
 name: explore
 description: >-
-  High-level alignment on a project or feature idea. Produces a roadmap and a Jira Story
-  with linked Tasks for later design or implementation work. Use when the user wants to
-  explore scope, prioritise work, or clarify goals at project scale.
+  High-level alignment on a project or feature idea. Produces a roadmap and
+  tracker Story/Tasks for later design on the main pipeline. Persists keys and
+  Next in markdown. Use when exploring scope or prioritising work at project scale.
 ---
 
 # Explore
 
-Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Produces `ROADMAP.md` and Jira issues.
+Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Produces `ROADMAP.md` and tracker issues that feed **design**.
 
-**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md) and [../jira/reference.md](../jira/reference.md).
+**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md), [../workflow/reference.md](../workflow/reference.md), and [../tracker/SKILL.md](../tracker/SKILL.md) (loads `WORKSPACE.md` + provider backend).
 
 ## Extension contract
 
@@ -19,7 +19,7 @@ Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Prod
 | **Subject** | A project, product area, or feature idea at high level |
 | **Probes** | See [Probes](#probes) |
 | **Stop condition** | Goals, scope boundaries, major components, priorities, and open questions are clear |
-| **Alignment artifact** | `ROADMAP.md` |
+| **Alignment artifact** | `ROADMAP.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Does this roadmap capture what you want to tackle next?" |
 
 ### Probes
@@ -29,7 +29,7 @@ Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Prod
 - Major components, systems, or workstreams involved
 - Dependencies, risks, and unknowns
 - Priority order and sequencing rationale
-- Jira project key (if not in `JIRA_PROJECT_KEY`)
+- Confirm tracker from WORKSPACE (do not re-litigate unless missing)
 
 ### Opening
 
@@ -46,8 +46,6 @@ Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Prod
 
 ## Alignment artifact
 
-Write `ROADMAP.md` when the user approves (unless chat-only):
-
 ```markdown
 # Roadmap: [title]
 
@@ -59,30 +57,47 @@ Write `ROADMAP.md` when the user approves (unless chat-only):
 - …
 
 ## Suggested phases
-| Phase | Topic | Notes |
-|-------|-------|-------|
+| Phase | Topic | Notes | Issue |
+|-------|-------|-------|-------|
+| 1 | … | … | <KEY> |
 
 ## Open questions
 - …
 
-## Jira
-- Story: PROJ-123
-- Tasks: PROJ-124, …
+## Tracker
+- Provider: markdown | jira | github | linear
+- Story: <KEY>
+- Tasks: <KEY>, …
+
+## Next
+`/design <KEY>` — Design the first-priority phase
 ```
 
-## Jira (after approval)
+## Tracker (after approval)
 
-1. Confirm Jira credentials and project per [../jira/reference.md](../jira/reference.md).
-2. Create a **Story** summarising the exploration (title from roadmap, description from Goals + Scope).
-3. For each **suggested phase**, create a **Task** (or Story child) with:
-   - Summary: phase topic
-   - Description: notes, acceptance hints, open questions for that phase
-   - Link to parent Story (`parent` or **Relates** link)
-4. Comment on the Story listing all child keys.
-5. Update `ROADMAP.md` **Jira** section with keys and links.
-6. Report Story URL and task list to the user. Session ends.
+1. Resolve provider ops via [../tracker/reference.md](../tracker/reference.md).
+2. Create a **Story** (Goals + Scope) — status **To Do**.
+3. For each phase, create a **Task** linked to the Story — status **To Do** (pipeline owner for design → ship).
+4. `comment` on the Story with child keys + **Next**; upsert ISSUES mirror (Story + all Tasks).
+5. Update `ROADMAP.md`; report keys/URLs and **Next**. Session ends.
 
-Tasks are intentionally coarse — for later **design** or **implement** sessions, not fully specified here.
+### Tracker duties
+
+| Action | Required |
+|--------|----------|
+| Create Story + Tasks | yes |
+| Link Tasks → Story | yes |
+| Status | **To Do** for all new issues |
+| Comment + **Next** on Story | yes |
+| ISSUES mirror upsert | yes when enabled |
+| Close anything | no |
+
+### Handoff
+
+```markdown
+## Next
+`/design <TASK-KEY>` — Design phase: <topic>
+```
 
 ## Examples
 

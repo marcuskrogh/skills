@@ -23,13 +23,17 @@ Use `curl` or `gh`-style shell; do not commit credentials.
 
 | Skill | Primary issue | Children |
 |-------|---------------|----------|
-| `explore` | **Story** | **Task** per roadmap phase (linked or child) |
-| `design` | **Task** or **Story** | **Sub-task** per work package |
+| `explore` | **Story** | **Task** per roadmap phase (linked or child) — pipeline owner |
+| `bug` | **Bug** (or **Task** with bug label) | Optional **Sub-task**s |
+| `design` | **Same explore Task** (preferred) or new **Task** / **Story** if standalone | **Sub-task** per work package |
 | `model` | **Task** | — |
-| `implement` | Existing **Task** / **Story** / parent | **Sub-task** per work package (if not already present) |
-| `code-review` | Existing ticket in **In Review** | — |
+| `implement` | Existing pipeline **Task** / **Story** | Existing **Sub-tasks** (or create if missing) |
+| `review` | Existing ticket in **In Review** | — |
+| `ship` | Existing ticket after clean review | — → **Done** |
 
 Adjust issue type names to match the Jira project schema if creation fails.
+
+Prefer entering through [../tracker/backends/jira.md](../tracker/backends/jira.md). Main pipeline continuity is in [../workflow/reference.md](../workflow/reference.md).
 
 ## Status workflow
 
@@ -38,9 +42,9 @@ Skills use these logical states (match to project transitions by name):
 | State | Used by |
 |-------|---------|
 | **To Do** / **Backlog** | New tickets from explore, design, model |
-| **In Progress** | `implement` at session start |
-| **In Review** | `implement` when PR is ready; required for `code-review` |
-| **Done** | Out of scope unless user asks |
+| **In Progress** | `implement` at session start (and fix-forward) |
+| **In Review** | `implement` when PR is ready; required for `review` |
+| **Done** | `ship` after merge / confirmed closeout |
 
 Discover transitions:
 
