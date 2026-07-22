@@ -49,7 +49,7 @@ Applies [alignment](../alignment/SKILL.md) to a **specific topic**. Produces `PL
 When the user passes an explore **Task** key:
 
 1. `fetch` the Task and parent Story via tracker.
-2. Load `ROADMAP.md` if present.
+2. Load `ROADMAP.md`, and `RESEARCH.md` / `MODEL.md` if present.
 3. Use Task summary/description as the subject.
 
 ## Alignment artifact

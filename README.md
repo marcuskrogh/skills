@@ -56,12 +56,13 @@ If the environment is **Cursor Cloud**, also pass `-WireCursorCloud` to add `.cu
 skills/                         ← source of truth (Agent Skills layout)
 ├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md
 ├── explore/                    ← project/feature alignment → ROADMAP.md
-├── design/                     ← topic alignment → PLAN.md (enriches pipeline Task)
+├── research/                   ← literature brief → RESEARCH.md
 ├── model/                      ← mathematical alignment → MODEL.md
+├── design/                     ← topic alignment → PLAN.md (enriches pipeline Task)
 ├── implement/                  ← managed implementation from a pipeline Task
 ├── review/                     ← Standards + Spec review
 ├── ship/                       ← merge + Done closeout
-├── arxiv-research/             ← literature review via arXiv
+├── summarise/                  ← status: about / stage / Next
 ├── alignment/                  ← base (composed, not user-invoked)
 ├── implementation/             ← base (composed, not user-invoked)
 ├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
@@ -70,33 +71,35 @@ skills/                         ← source of truth (Agent Skills layout)
 └── manage-skills/              ← meta: maintain this repo
 
 .claude-plugin/                 ← optional Claude Code marketplace manifests
-scripts/                        ← validate / sync / project bootstrap
+scripts/                        ← validate / sync / project bootstrap (incl. arxiv_research.py)
 templates/project-sync/         ← startup sync script template
 ```
 
 ## Main pipeline
 
 ```text
-setup (once) → explore → design → implement → review → ship
+setup (once) → explore → (research / model) → design → implement → review → ship
+                 ↑______________ summarise (anytime) ______________↑
 ```
 
-Run `/setup` first in each consuming repo. It writes `docs/agents/WORKSPACE.md` (tracker choice, paths, delivery). One **Task** owns a phase from design through ship. Continuity (keys, status, **Next**) is always mirrored to markdown when enabled. See `skills/workflow/reference.md`.
+Run `/setup` first in each consuming repo. It writes `docs/agents/WORKSPACE.md` (tracker choice, paths, delivery). One **Task** owns a phase from design through ship. Continuity (keys, status, **Next**, artifact links) is always mirrored to markdown when enabled. See `skills/workflow/reference.md`.
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths) |
 | **explore** | user | High-level alignment → `ROADMAP.md` + Story/Tasks |
+| **research** | user | Literature brief → `RESEARCH.md` (updates Task continuity) |
+| **model** | user | Math alignment → `MODEL.md` (updates Task continuity) |
 | **design** | user | Topic alignment → `PLAN.md` + Sub-tasks on the pipeline Task |
 | **implement** | user | Build from a pipeline Task via managed sub-agents |
 | **review** | user | Two-axis PR review (Standards + Spec) + tracker comment |
 | **ship** | user | Merge PR, mark Task Done, close the phase |
+| **summarise** | user | About / workflow stage / what to run Next |
 
 ## Other skills
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
-| **model** | user | Mathematical alignment → `MODEL.md` + Task |
-| **arxiv-research** | user | arXiv literature review brief |
 | **manage-skills** | user | Maintain and sync this repository |
 | **alignment** | composed | Base questioning loop |
 | **implementation** | composed | Base manager/sub-agent loop |

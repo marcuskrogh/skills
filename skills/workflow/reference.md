@@ -17,10 +17,25 @@ explore  →  design  →  implement  →  review  →  ship
    │           │            │              │            │
  ROADMAP.md  PLAN.md     branch+PR      PR review     merge+Done
  Story+Tasks  same Task   same Task      same Task     same Task
+               ↑
+        research / model   (optional side paths on the same Task)
 ```
 
-`model` and `arxiv-research` are optional side paths — they may feed a Task before
-`implement`, but they are not required on this pipeline.
+### Side paths (same Task + shared markdown)
+
+| Skill | Artifact | When | Continuity updates |
+|-------|----------|------|--------------------|
+| **research** | `RESEARCH.md` | Literature before design/model | Task link, ROADMAP/PLAN notes, ISSUES mirror, **Next** |
+| **model** | `MODEL.md` | Math spec before/with design | Task link (prefer enrich, no parallel Task), ROADMAP/PLAN/RESEARCH links, ISSUES mirror, **Next** |
+| **summarise** | *(read-only)* | Anytime | Reports About / Stage / **Next** from the above |
+
+Typical inserts:
+
+```text
+… → /research <Task> → /model <Task> → /design <Task> → …
+… → /research <Task> → /design <Task> → …
+… → /model <Task> → /implement <Task> → …   (if PLAN already exists)
+```
 
 ## Markdown continuity
 
@@ -30,11 +45,15 @@ GitHub, or Linear:
 | File | Role |
 |------|------|
 | `docs/agents/WORKSPACE.md` | Tracker + path + delivery decisions (`/setup`) |
-| `ROADMAP.md` / `PLAN.md` / `MODEL.md` | Alignment artifacts with keys + **Next** |
+| `ROADMAP.md` | Initiative + phases + keys + **Next** |
+| `PLAN.md` | Design spec + keys + **Next** |
+| `RESEARCH.md` | Literature brief + Task link + **Next** |
+| `MODEL.md` | Math spec + Task link + **Next** |
 | `docs/agents/ISSUES.md` | Mirror table (when enabled in WORKSPACE) |
 | Provider issue (remote or `docs/agents/issues/*.md`) | Work-item system of record for that provider |
 
-Never leave **Next** only in chat.
+Never leave **Next** only in chat. Side-path skills must update the same Task’s
+continuity files — not a disconnected second ticket — when a pipeline key is given.
 
 ## One issue continuity
 
@@ -68,10 +87,13 @@ Never leave **Next** only in chat.
 |----------|-------------|------|
 | `WORKSPACE.md` | setup | Tracker and path decisions |
 | `ROADMAP.md` | explore | Project/feature scope and phase list |
+| `RESEARCH.md` | research | Literature brief for a phase/Task |
+| `MODEL.md` | model | Mathematical specification |
 | `PLAN.md` | design | Spec for implement + Spec-axis review |
 | Branch + PR | implement | Delivery vehicle |
 | PR review | review | Standards + Spec findings |
 | Merge + Done | ship | Closeout |
+| *(status reply)* | summarise | About / stage / Next |
 
 Use paths from `WORKSPACE.md`. Record path + commit SHA on the Task when writing artifacts.
 
@@ -87,12 +109,15 @@ Every pipeline skill **ends** by telling the user the next invoke:
 | After | Next (default) |
 |-------|----------------|
 | setup | `/explore` (if starting work) |
-| explore | `/design <first-priority-Task>` |
+| explore | `/design <first-priority-Task>` (or `/research` / `/model` if needed first) |
+| research | `/model <Task>` or `/design <Task>` |
+| model | `/design <Task>` or `/implement <Task>` if plan exists |
 | design | `/implement <Task>` |
 | implement | `/review <Task>` |
 | review (blocking findings / `REQUEST_CHANGES`) | `/implement <Task>` (fix-forward) |
 | review (no blockers) | `/ship <Task>` |
 | ship | Done — no next skill |
+| summarise | *(reports Next; does not advance)* |
 
 Also write **Next** into: the issue comment (or markdown Comments section), the
 alignment artifact, and the ISSUES mirror when enabled.
@@ -101,10 +126,12 @@ alignment artifact, and the ISSUES mirror when enabled.
 
 | Skill | Load |
 |-------|------|
-| design | Task (+ parent Story), `ROADMAP.md` if present |
-| implement | Task + Sub-tasks, `PLAN.md` / linked specs |
+| research / model | Task (+ Story), `ROADMAP.md`, sibling artifacts (`RESEARCH.md` / `MODEL.md` / `PLAN.md`) |
+| design | Task (+ parent Story), `ROADMAP.md`, `RESEARCH.md` / `MODEL.md` if present |
+| implement | Task + Sub-tasks, `PLAN.md` / `MODEL.md` / linked specs |
 | review | Task + PR + `PLAN.md` / specs |
 | ship | Task + PR + latest review outcome |
+| summarise | Task + all of the above for stage inference |
 
 ## Status chain
 

@@ -64,6 +64,7 @@ Agreed agent workspace setup for this repository.
 | Roadmap | ROADMAP.md |
 | Plan | PLAN.md |
 | Model | MODEL.md |
+| Research | RESEARCH.md |
 
 Plans and models may use a subdirectory (e.g. `docs/plans/<slug>.md`) if agreed;
 record the convention here.
@@ -82,7 +83,7 @@ record the convention here.
 
 | Field | Value |
 |-------|-------|
-| Skills | explore → design → implement → review → ship |
+| Skills | explore → (research/model) → design → implement → review → ship (+ summarise) |
 | One-issue continuity | true |
 | Tracker backend | resolved via provider above (`skills/tracker` when installed) |
 

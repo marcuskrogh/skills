@@ -1,19 +1,19 @@
 ---
-name: arxiv-research
+name: research
 description: >-
-  Investigates a user-described research topic through arXiv using the official
-  export.arxiv.org Atom API via scripts/arxiv_research.py. Plans search strategy,
-  runs batched queries with built-in rate limiting, triages papers, snowballs from
-  seed hits, and delivers a structured research brief with citations. Use when the
-  user wants literature review, paper discovery, state of the art, or research on
-  a topic via arXiv.
+  Literature investigation via arXiv (scripts/arxiv_research.py). Writes RESEARCH.md,
+  links it to a pipeline Task when given, and updates shared continuity markdown
+  (ROADMAP/PLAN/ISSUES). Use for surveys, paper discovery, or state of the art.
 ---
 
-# arXiv Research
+# Research
 
 Systematic literature investigation on arXiv for a user-described topic.
+Optional side path on the main pipeline — feeds **model**, **design**, or **explore**.
 
-**Primary tool:** `scripts/arxiv_research.py` — stdlib Python, MCP-free, calls the official arXiv Atom API, returns structured JSON. Read [reference.md](reference.md) for query syntax and output schema.
+**On invoke:** read [../workflow/reference.md](../workflow/reference.md) and [../tracker/SKILL.md](../tracker/SKILL.md) when a Task key or WORKSPACE exists. Read [reference.md](reference.md) for query syntax.
+
+**Primary tool:** `scripts/arxiv_research.py` — stdlib Python, MCP-free, official arXiv Atom API → JSON.
 
 ## When to use
 
@@ -149,46 +149,72 @@ For each **Core** paper, extract from JSON fields:
 
 Do not hallucinate paper content. If the abstract is insufficient, say so.
 
-### 7. Synthesize findings
+### 7. Synthesize and persist
 
-Deliver a **structured research brief**. Always include citations with arXiv links.
+Write the brief to **`RESEARCH.md`** (path from WORKSPACE, default repo root or `docs/`).
+Always include citations with arXiv links.
 
 ```markdown
 # Research brief: <topic>
 
 ## Question
-<Restated research question and scope>
+…
 
 ## Search strategy
-<Script commands run, queries, result counts>
+…
 
 ## Executive summary
-<3–6 sentences: main themes, consensus, open questions>
+…
 
 ## Key papers
-### 1. <Title> ([arXiv:ID](abs_url))
-- **Authors:** …
-- **Date:** …
-- **Category:** …
-- **Relevance:** …
-- **Takeaway:** …
+…
 
 ## Themes and trends
-<Grouped findings>
+…
 
 ## Gaps and limitations
-<Under-explored or contested areas>
+…
 
 ## Recommended reading order
-<Ordered list for newcomers>
+…
 
 ## Sources
-<Bulleted arXiv IDs with abs URLs>
+…
+
+## Tracker
+- Task: <KEY> (if linked)
+- Artifact: RESEARCH.md
+
+## Next
+`/<skill> <KEY>` — <why>
 ```
 
-### 8. Offer follow-ups
+### 8. Update pipeline context
 
-After the brief, offer (only if natural): narrow/broaden search, extend date window, snowball from new seeds, compare sub-topics.
+When a pipeline **Task** (or Story) key was given or inferred:
+
+1. `attach_or_link` `RESEARCH.md` on that issue; comment with path + short executive summary + **Next**.
+2. If `ROADMAP.md` lists the phase, add/update an Artifact / Notes cell pointing at `RESEARCH.md`.
+3. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs.
+4. Upsert the markdown mirror (`docs/agents/ISSUES.md`) with artifact + **Next**.
+
+Standalone research (no Task): still write `RESEARCH.md`; **Next** may be `/explore` or `/design` if the user wants to start a phase.
+
+### 9. Handoff
+
+Prefer:
+
+| Context | Next |
+|---------|------|
+| Math-heavy follow-up | `/model <KEY>` |
+| Ready to specify behaviour | `/design <KEY>` |
+| Still scoping the initiative | `/explore` |
+| Only needed the brief | No further skill |
+
+```markdown
+## Next
+`/design <KEY>` — Design with research inputs
+```
 
 ## Operational rules
 

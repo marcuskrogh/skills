@@ -4,18 +4,18 @@
     "name": "Marcus Krogh",
     "url": "https://github.com/marcuskrogh"
   },
-  "description": "Agent skills for workspace setup, alignment, design, modelling, implementation, review, and ship.",
+  "description": "Agent skills for workspace setup, alignment, research, design, modelling, implementation, review, ship, and summarise.",
   "plugins": [
     {
       "name": "marcus-skills",
       "source": "./",
-      "description": "Setup + explore/design/implement/review/ship pipeline with pluggable trackers (markdown, Jira, GitHub, Linear).",
+      "description": "Setup + explore/(research|model)/design/implement/review/ship pipeline with pluggable trackers and summarise.",
       "category": "engineering",
       "keywords": [
         "engineering",
         "skills",
         "alignment",
-        "jira",
+        "research",
         "review"
       ]
     }
