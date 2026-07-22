@@ -2,9 +2,17 @@
 
 Agent reference for the primary delivery pipeline. **Not a user-invoked skill.**
 
+## Prerequisites
+
+1. Read `docs/agents/WORKSPACE.md` (see [../setup/format.md](../setup/format.md)).
+2. If missing → ask the user to run `/setup` (or accept defaults and write WORKSPACE.md first).
+3. Resolve the issue tracker via [../tracker/SKILL.md](../tracker/SKILL.md).
+
 ## Pipeline
 
 ```text
+setup (once per repo)
+   ↓
 explore  →  design  →  implement  →  review  →  ship
    │           │            │              │            │
  ROADMAP.md  PLAN.md     branch+PR      PR review     merge+Done
@@ -14,14 +22,28 @@ explore  →  design  →  implement  →  review  →  ship
 `model` and `arxiv-research` are optional side paths — they may feed a Task before
 `implement`, but they are not required on this pipeline.
 
-## One ticket continuity
+## Markdown continuity
 
-**One Jira Task owns a phase from design through ship.**
+**Decisions and handoffs always live in markdown**, even when the tracker is Jira,
+GitHub, or Linear:
+
+| File | Role |
+|------|------|
+| `docs/agents/WORKSPACE.md` | Tracker + path + delivery decisions (`/setup`) |
+| `ROADMAP.md` / `PLAN.md` / `MODEL.md` | Alignment artifacts with keys + **Next** |
+| `docs/agents/ISSUES.md` | Mirror table (when enabled in WORKSPACE) |
+| Provider issue (remote or `docs/agents/issues/*.md`) | Work-item system of record for that provider |
+
+Never leave **Next** only in chat.
+
+## One issue continuity
+
+**One Task owns a phase from design through ship** (provider-native key).
 
 | Stage | Ticket action |
 |-------|----------------|
 | **explore** | Create **Story** + one **Task** per roadmap phase. Tasks are design-ready placeholders. |
-| **design** | Take an explore **Task**. Enrich *that* ticket (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel design ticket when an explore Task is the subject. |
+| **design** | Take an explore **Task**. Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel design ticket when an explore Task is the subject. |
 | **implement** | Work the **same Task** (and its Sub-tasks). Branch + PR; move to **In Review**. |
 | **review** | Review the PR for that Task while it is **In Review**. |
 | **ship** | Merge (or confirm merge), transition Task to **Done**, close the loop on the Story. |
@@ -31,39 +53,40 @@ explore  →  design  →  implement  →  review  →  ship
 | Entry | Behavior |
 |-------|----------|
 | `/design` with no prior explore Task | Create a new Task (+ Sub-tasks) as the pipeline owner. |
-| `/implement` with a ticket that already has a plan | Allowed — design may have been done offline. |
+| `/implement` with an issue that already has a plan | Allowed — design may have been done offline. |
 | Skip **design** | Only when the Task is already implementation-ready (acceptance + packages clear). Prefer design for non-trivial phases. |
 
 ### Linking
 
-- Explore Tasks → parent Story via `parent` or **Relates**.
+- Explore Tasks → parent Story via provider parent/relates.
 - Design/implement/review/ship comments stay on the **same Task**.
-- Comment on the parent Story at design start (plan ready) and at ship (phase Done).
+- Comment on the parent Story at design completion and at ship (phase Done).
 
 ## Artifacts
 
 | Artifact | Owner skill | Role |
 |----------|-------------|------|
+| `WORKSPACE.md` | setup | Tracker and path decisions |
 | `ROADMAP.md` | explore | Project/feature scope and phase list |
 | `PLAN.md` | design | Spec for implement + Spec-axis review |
 | Branch + PR | implement | Delivery vehicle |
 | PR review | review | Standards + Spec findings |
 | Merge + Done | ship | Closeout |
 
-Prefer repo path conventions already used by the project (`docs/`, repo root, etc.).
-Record the path and commit SHA on the Jira Task when writing artifacts.
+Use paths from `WORKSPACE.md`. Record path + commit SHA on the Task when writing artifacts.
 
 ## Handoff protocol
 
-Every pipeline skill **ends** by telling the user the next invoke, using this shape:
+Every pipeline skill **ends** by telling the user the next invoke:
 
 ```markdown
 ## Next
-`/<skill> <TICKET-KEY>` — <one-line why>
+`/<skill> <ISSUE-KEY>` — <one-line why>
 ```
 
 | After | Next (default) |
 |-------|----------------|
+| setup | `/explore` (if starting work) |
 | explore | `/design <first-priority-Task>` |
 | design | `/implement <Task>` |
 | implement | `/review <Task>` |
@@ -71,12 +94,10 @@ Every pipeline skill **ends** by telling the user the next invoke, using this sh
 | review (no blockers) | `/ship <Task>` |
 | ship | Done — no next skill |
 
-Also write the **Next** line into the Jira comment for that session so the handoff
-survives across chats.
+Also write **Next** into: the issue comment (or markdown Comments section), the
+alignment artifact, and the ISSUES mirror when enabled.
 
 ### Entry context
-
-Before the first substantive action, load prior pipeline context when a ticket key is given:
 
 | Skill | Load |
 |-------|------|
@@ -105,7 +126,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 
 When **review** leaves blocking findings:
 
-1. Next skill is **implement** on the same Task (not a new ticket).
+1. Next skill is **implement** on the same Task (not a new issue).
 2. Implement treats open PR review threads as the work packages.
 3. Do not invent new scope beyond the review + existing plan.
 4. Re-open or keep the PR; return Task to **In Review** when ready.
@@ -113,8 +134,9 @@ When **review** leaves blocking findings:
 
 ## Anti-patterns
 
+- Creating issues before `WORKSPACE.md` exists (run `/setup` first)
+- Hardcoding Jira (or any single provider) when WORKSPACE selects another
 - Creating a second Task in design when an explore Task was provided
-- Ending a pipeline skill without a **Next** handoff
+- Ending a pipeline skill without a **Next** handoff persisted in markdown
 - Marking **Done** from implement or review (that is **ship**)
-- Implementing without a usable plan on non-trivial work
-- Skipping ticket keys in handoff lines ("Next: /implement" with no key)
+- Leaving continuity only in chat or only in a remote tracker with mirror enabled but skipped

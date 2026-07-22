@@ -1,17 +1,16 @@
 ---
 name: explore
 description: >-
-  High-level alignment on a project or feature idea. Produces a roadmap and a Jira Story
-  with linked Tasks for later design sessions on the main pipeline
-  (explore → design → implement → review → ship). Use when the user wants to
-  explore scope, prioritise work, or clarify goals at project scale.
+  High-level alignment on a project or feature idea. Produces a roadmap and
+  tracker Story/Tasks for later design on the main pipeline. Persists keys and
+  Next in markdown. Use when exploring scope or prioritising work at project scale.
 ---
 
 # Explore
 
-Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Produces `ROADMAP.md` and Jira issues that feed **design**.
+Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Produces `ROADMAP.md` and tracker issues that feed **design**.
 
-**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md), [../workflow/reference.md](../workflow/reference.md), and [../jira/reference.md](../jira/reference.md).
+**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md), [../workflow/reference.md](../workflow/reference.md), and [../tracker/SKILL.md](../tracker/SKILL.md) (loads `WORKSPACE.md` + provider backend).
 
 ## Extension contract
 
@@ -20,7 +19,7 @@ Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Prod
 | **Subject** | A project, product area, or feature idea at high level |
 | **Probes** | See [Probes](#probes) |
 | **Stop condition** | Goals, scope boundaries, major components, priorities, and open questions are clear |
-| **Alignment artifact** | `ROADMAP.md` |
+| **Alignment artifact** | `ROADMAP.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Does this roadmap capture what you want to tackle next?" |
 
 ### Probes
@@ -30,7 +29,7 @@ Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Prod
 - Major components, systems, or workstreams involved
 - Dependencies, risks, and unknowns
 - Priority order and sequencing rationale
-- Jira project key (if not in `JIRA_PROJECT_KEY`)
+- Confirm tracker from WORKSPACE (do not re-litigate unless missing)
 
 ### Opening
 
@@ -47,8 +46,6 @@ Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Prod
 
 ## Alignment artifact
 
-Write `ROADMAP.md` when the user approves (unless chat-only):
-
 ```markdown
 # Roadmap: [title]
 
@@ -60,45 +57,37 @@ Write `ROADMAP.md` when the user approves (unless chat-only):
 - …
 
 ## Suggested phases
-| Phase | Topic | Notes | Jira Task |
-|-------|-------|-------|-----------|
-| 1 | … | … | PROJ-124 |
+| Phase | Topic | Notes | Issue |
+|-------|-------|-------|-------|
+| 1 | … | … | <KEY> |
 
 ## Open questions
 - …
 
-## Jira
-- Story: PROJ-123
-- Tasks: PROJ-124, …
+## Tracker
+- Provider: markdown | jira | github | linear
+- Story: <KEY>
+- Tasks: <KEY>, …
 
 ## Next
-`/design PROJ-124` — Design the first-priority phase
+`/design <KEY>` — Design the first-priority phase
 ```
 
-## Jira (after approval)
+## Tracker (after approval)
 
-1. Confirm Jira credentials and project per [../jira/reference.md](../jira/reference.md).
-2. Create a **Story** summarising the exploration (title from roadmap, description from Goals + Scope).
-3. For each **suggested phase**, create a **Task** with:
-   - Summary: phase topic
-   - Description: notes, acceptance hints, open questions for that phase; note that this Task is the **pipeline owner** for design → implement → review → ship
-   - Link to parent Story (`parent` or **Relates** link)
-4. Comment on the Story listing all child keys and the **Next** handoff for the first-priority Task.
-5. Update `ROADMAP.md` **Jira** / phase table / **Next** sections with keys and links.
-6. Report Story URL, task list, and **Next** to the user. Session ends.
-
-Tasks are intentionally coarse — each is the ticket that **design** will enrich (same key), not a disposable placeholder replaced by a new ticket.
+1. Resolve provider ops via [../tracker/reference.md](../tracker/reference.md).
+2. Create a **Story** (Goals + Scope).
+3. For each phase, create a **Task** linked to the Story — pipeline owner for design → ship.
+4. Comment on the Story with child keys + **Next**.
+5. Update `ROADMAP.md`; upsert markdown mirror if enabled.
+6. Report Story/Task keys, URLs (if remote), and **Next**. Session ends.
 
 ### Handoff
-
-Default next skill is **design** on the highest-priority Task:
 
 ```markdown
 ## Next
 `/design <TASK-KEY>` — Design phase: <topic>
 ```
-
-Skip to `/implement <TASK-KEY>` only when the user explicitly says a phase is already implementation-ready.
 
 ## Examples
 

@@ -74,7 +74,7 @@ Validates skills, syncs to local agent homes, installs git hooks so `git pull` r
 
 ## Composed skills and relative links
 
-Shared skills (`alignment`, `implementation`, `jira`, `workflow`) must stay **siblings** of the skills that link to them (e.g. `../alignment/SKILL.md`). Do not nest them under a category folder that skills.sh would flatten away on install.
+Shared skills (`alignment`, `implementation`, `jira`, `tracker`, `workflow`) must stay **siblings** of the skills that link to them (e.g. `../alignment/SKILL.md`). Do not nest them under a category folder that skills.sh would flatten away on install.
 
 ## Rules
 

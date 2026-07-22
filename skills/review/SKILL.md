@@ -1,41 +1,41 @@
 ---
 name: review
 description: >-
-  Two-axis GitHub PR review (Standards + Spec) tied to a Jira ticket in In Review
-  on the main pipeline. Posts findings on the PR and Jira; hands off to implement
-  (fix-forward) or ship. Use when reviewing a PR for a pipeline ticket.
+  Two-axis GitHub PR review (Standards + Spec) tied to a pipeline issue in In Review.
+  Posts findings on the PR and the configured tracker; hands off to implement
+  (fix-forward) or ship. Persists Next in markdown.
 ---
 
-Two-axis review posted **on the GitHub pull request** and summarized on the **Jira ticket** — not as repo files or long chat transcripts.
+Two-axis review posted **on the GitHub pull request** and summarized on the **pipeline issue** (tracker from WORKSPACE) — not as repo files or long chat transcripts.
 
 - **Standards** — does the code conform to this repo's documented coding standards?
-- **Spec** — does the code faithfully implement the Jira ticket and linked specification?
+- **Spec** — does the code faithfully implement the tracker issue and linked specification?
 
-Both axes run as **parallel sub-agents**, then this skill publishes on the PR and updates Jira.
+Both axes run as **parallel sub-agents**, then this skill publishes on the PR and updates the tracker (+ markdown mirror).
 
-**On invoke:** read [../workflow/reference.md](../workflow/reference.md) and [../jira/reference.md](../jira/reference.md).
+**On invoke:** read [../workflow/reference.md](../workflow/reference.md) and [../tracker/SKILL.md](../tracker/SKILL.md).
 
-Requires `gh` CLI (authenticated) and Jira API credentials. If either is missing, stop and tell the user.
+Requires authenticated `gh` and tracker auth per WORKSPACE. If either is missing, stop and tell the user.
 
 ## Process
 
-### 0. Resolve the Jira ticket
+### 0. Resolve the pipeline issue
 
-A code review is always tied to one Jira issue in **In Review** (or the project's equivalent).
+A review is always tied to one tracker issue in **In Review** (or the provider equivalent).
 
-1. User provides ticket key or URL (e.g. `/review SW-200`, or link in message).
-2. If missing, ask: "Which Jira ticket is in review?"
-3. Fetch the ticket per [../jira/reference.md](../jira/reference.md).
-4. Confirm status is **In Review** (or equivalent). If not, stop and tell the user to transition the ticket first.
-5. Capture: key, URL, summary, description, sub-tasks, links, attachments (`PLAN.md`, `MODEL.md` hints).
+1. User provides key or URL (e.g. `/review MD-2`, `/review SW-200`, `/review #42`).
+2. If missing, ask: "Which issue is in review?"
+3. `fetch` via the tracker backend.
+4. Confirm status is **In Review** (or equivalent). If not, stop and tell the user to transition first.
+5. Capture: key, URL, summary, description, sub-tasks, links, artifact paths (`PLAN.md`, `MODEL.md`).
 
-The Jira ticket is the **primary spec source** for the Spec axis (before GitHub issues or repo files).
+The tracker issue is the **primary spec source** for the Spec axis.
 
 ### 1. Resolve the pull request
 
 Every review happens on a **draft or open** GitHub PR. Resolve it in this order:
 
-1. **PR linked from Jira** — ticket description, comments, or remote links field.
+1. **PR linked from the issue** — description, comments, or remote links.
 2. **PR the user named** — number, URL, or branch.
 3. **PR for the current branch** — `gh pr view --json number,url,state,isDraft,baseRefName,headRefOid,title,body`.
 4. **Create a draft PR** — if the branch has commits pushed but no PR yet:
@@ -58,15 +58,13 @@ Capture for sub-agents:
 
 Look for the originating spec, in this order:
 
-1. **Jira ticket** from step 0 (description, sub-tasks, attachments).
-2. **PR description** and linked GitHub issues (`gh issue view`).
+1. **Tracker issue** from step 0 (description, sub-tasks, artifacts).
+2. **PR description** and linked GitHub issues (`gh issue view`) when relevant.
 3. Issue references in commit messages on the PR branch.
-4. Spec files under `docs/`, `specs/`, or repo root (`PLAN.md`, `MODEL.md`, `DOCUMENTATION.md`).
+4. Spec files from WORKSPACE paths or repo (`PLAN.md`, `MODEL.md`, `DOCUMENTATION.md`).
 5. Path the user passed as an argument.
 
-If nothing is found beyond the Jira summary, use the ticket body as spec. If the ticket is empty, ask the user once for the spec source.
-
-If `docs/agents/jira.md` exists in the repo, prefer it for Jira workflow details.
+If nothing is found beyond the issue summary, use the issue body as spec. If empty, ask once for the spec source.
 
 ### 3. Identify the standards sources
 
@@ -115,8 +113,8 @@ body: <comment markdown, prefixed with **Standards** or **Spec**>
 **Spec sub-agent prompt** — include:
 
 - PR number, diff, and commit list from step 1.
-- Jira ticket contents from step 0 and spec files from step 2.
-- Brief: "Return findings as structured blocks (format above). The Jira ticket is the authoritative spec. Cover: (a) missing/partial requirements; (b) scope creep; (c) wrong implementations. Quote the ticket or spec line in each `body`. `kind: inline` when tied to a specific changed line; otherwise `kind: general`. Max 12 findings, under 400 words total."
+- Tracker issue contents from step 0 and spec files from step 2.
+- Brief: "Return findings as structured blocks (format above). The tracker issue is the authoritative spec. Cover: (a) missing/partial requirements; (b) scope creep; (c) wrong implementations. Quote the ticket or spec line in each `body`. `kind: inline` when tied to a specific changed line; otherwise `kind: general`. Max 12 findings, under 400 words total."
 
 If the spec is missing, skip the Spec sub-agent.
 
@@ -175,9 +173,9 @@ If the API rejects an inline comment (stale line, unchanged line), post that fin
 gh pr comment <number> --body "**Standards** (could not anchor inline): ..."
 ```
 
-#### 5c. Post on Jira
+#### 5c. Post on the tracker (+ mirror)
 
-After the GitHub review is submitted, comment on the Jira ticket per [../jira/reference.md](../jira/reference.md):
+After the GitHub review is submitted, `comment` on the pipeline issue via the tracker backend:
 
 ```markdown
 ## Code review posted
@@ -192,13 +190,13 @@ Spec: <M> finding(s) — worst: …
 <handoff line — see Handoff below>
 ```
 
-The ticket stays **In Review**. Do **not** transition to **Done** — that is [ship](../ship/SKILL.md).
+The issue stays **In Review**. Upsert the markdown mirror if enabled. Do **not** transition to **Done** — that is [ship](../ship/SKILL.md).
 
 #### 5d. Tell the user
 
 Reply in chat with **only**:
 
-- Jira ticket URL
+- Issue key / URL
 - PR URL
 - One line: review posted — `<N>` Standards / `<M>` Spec findings; event `<COMMENT|REQUEST_CHANGES|APPROVE>`
 - **Next** handoff line

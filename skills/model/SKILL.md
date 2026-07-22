@@ -10,7 +10,7 @@ description: >-
 
 Applies [alignment](../alignment/SKILL.md) to **applied mathematical** topics. Produces `MODEL.md` in the repo and a Jira Task.
 
-**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md), [format.md](format.md), [reference.md](reference.md), and [../jira/reference.md](../jira/reference.md).
+**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md), [format.md](format.md), [reference.md](reference.md), and [../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Extension contract
 
@@ -28,9 +28,9 @@ Applies [alignment](../alignment/SKILL.md) to **applied mathematical** topics. P
 
 - Model class, state/input/output structure, constraints, objectives
 - Numerical schemes, estimation/control choices, discretisation
-- Parent Jira key from **explore** or **design** (optional)
-- Jira project key (if not in `JIRA_PROJECT_KEY`)
-- Target repo path for `MODEL.md` (default: repo root or `docs/` per project convention)
+- Parent issue key from **explore** or **design** (optional)
+- Confirm tracker from WORKSPACE
+- Target repo path for `MODEL.md` (default from WORKSPACE / project convention)
 
 ### Opening
 
@@ -65,16 +65,12 @@ Use the **definition hierarchy** from [format.md](format.md).
 
 1. Write `MODEL.md` to the repository at the agreed path.
 2. **Commit** `MODEL.md` on the current branch (or a dedicated docs branch if the user specifies). Include Jira key in commit message when the ticket exists.
-3. Per [../jira/reference.md](../jira/reference.md):
-   - Create a **Task** (summary: model title; description: brief problem statement + acceptance for future implementation).
-   - If parent explore/design ticket provided, **Relates** link and mention in description.
-   - **Attach** `MODEL.md` to the ticket.
-   - Comment with repo path and commit SHA.
-4. Update `MODEL.md` **Jira** section with ticket key and URL.
-5. Commit the Jira section update if needed.
-6. Report ticket URL and file path. Session ends.
+3. Per tracker backend: create a **Task**, link parent if any, `attach_or_link` `MODEL.md`, comment with path + SHA.
+4. Update `MODEL.md` tracker section with key/URL; upsert markdown mirror if enabled.
+5. Commit tracker section update if needed.
+6. Report key/URL and file path. Session ends.
 
-The mathematical specification lives in **both** the repo and Jira — repo is source of truth for version control; Jira tracks the work item for later **implement**.
+`MODEL.md` in the repo is the versioned source of truth; the tracker holds the work item for later **implement**.
 
 ## Examples
 

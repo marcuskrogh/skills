@@ -32,8 +32,7 @@ Use `curl` or `gh`-style shell; do not commit credentials.
 
 Adjust issue type names to match the Jira project schema if creation fails.
 
-Main pipeline ticket continuity (one Task from design through ship) is defined in
-[../workflow/reference.md](../workflow/reference.md).
+Prefer entering through [../tracker/backends/jira.md](../tracker/backends/jira.md). Main pipeline continuity is in [../workflow/reference.md](../workflow/reference.md).
 
 ## Status workflow
 

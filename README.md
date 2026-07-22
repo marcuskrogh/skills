@@ -1,6 +1,6 @@
 # Agent Skills
 
-Reusable agent skills for alignment, design, modelling, implementation, review, and ship.
+Reusable agent skills for workspace setup, alignment, design, modelling, implementation, review, and ship.
 
 Built on the [Agent Skills](https://agentskills.io) standard. Install once via [skills.sh](https://skills.sh); works with any compatible harness (Cursor, Claude Code, Codex, GitHub Copilot, and others).
 
@@ -54,16 +54,18 @@ If the environment is **Cursor Cloud**, also pass `-WireCursorCloud` to add `.cu
 
 ```
 skills/                         ← source of truth (Agent Skills layout)
+├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md
 ├── explore/                    ← project/feature alignment → ROADMAP.md
 ├── design/                     ← topic alignment → PLAN.md (enriches pipeline Task)
 ├── model/                      ← mathematical alignment → MODEL.md
-├── implement/                  ← managed implementation from a Jira ticket
-├── review/                ← Standards + Spec review
+├── implement/                  ← managed implementation from a pipeline Task
+├── review/                     ← Standards + Spec review
 ├── ship/                       ← merge + Done closeout
 ├── arxiv-research/             ← literature review via arXiv
 ├── alignment/                  ← base (composed, not user-invoked)
 ├── implementation/             ← base (composed, not user-invoked)
-├── jira/                       ← shared Jira reference
+├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
+├── jira/                       ← Jira REST details (tracker backend)
 ├── workflow/                   ← main pipeline contract (composed)
 └── manage-skills/              ← meta: maintain this repo
 
@@ -75,29 +77,31 @@ templates/project-sync/         ← startup sync script template
 ## Main pipeline
 
 ```text
-explore → design → implement → review → ship
+setup (once) → explore → design → implement → review → ship
 ```
 
-One Jira **Task** owns a phase from design through ship. See `skills/workflow/reference.md`.
+Run `/setup` first in each consuming repo. It writes `docs/agents/WORKSPACE.md` (tracker choice, paths, delivery). One **Task** owns a phase from design through ship. Continuity (keys, status, **Next**) is always mirrored to markdown when enabled. See `skills/workflow/reference.md`.
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
-| **explore** | user | High-level alignment → `ROADMAP.md` + Jira Story/Tasks |
+| **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths) |
+| **explore** | user | High-level alignment → `ROADMAP.md` + Story/Tasks |
 | **design** | user | Topic alignment → `PLAN.md` + Sub-tasks on the pipeline Task |
-| **implement** | user | Build from a Jira ticket via managed sub-agents |
-| **review** | user | Two-axis PR review (Standards + Spec) + Jira comment |
+| **implement** | user | Build from a pipeline Task via managed sub-agents |
+| **review** | user | Two-axis PR review (Standards + Spec) + tracker comment |
 | **ship** | user | Merge PR, mark Task Done, close the phase |
 
 ## Other skills
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
-| **model** | user | Mathematical alignment → `MODEL.md` + Jira Task |
+| **model** | user | Mathematical alignment → `MODEL.md` + Task |
 | **arxiv-research** | user | arXiv literature review brief |
 | **manage-skills** | user | Maintain and sync this repository |
 | **alignment** | composed | Base questioning loop |
 | **implementation** | composed | Base manager/sub-agent loop |
-| **jira** | composed | Shared Jira REST reference |
+| **tracker** | composed | Issue tracker contract + backends |
+| **jira** | composed | Jira REST details for the jira backend |
 | **workflow** | composed | Main pipeline continuity + handoffs |
 
 ## Workflow for skill changes
@@ -120,15 +124,15 @@ Use `/manage-skills` for the full checklist.
 | `setup-project-sync.ps1` | Wire startup sync into a project (optional `-WireCursorCloud`) |
 | `setup-github.ps1` | First-time push to GitHub |
 
-## Requirements for Jira-backed skills
+## Tracker credentials
 
-`explore`, `design`, `model`, `implement`, `review`, and `ship` expect:
+Configured by `/setup` in `docs/agents/WORKSPACE.md`. Provider-specific:
 
-| Variable | Purpose |
-|----------|---------|
-| `JIRA_BASE_URL` | e.g. `https://your-org.atlassian.net` |
-| `JIRA_EMAIL` | API user email |
-| `JIRA_API_TOKEN` | Atlassian API token |
-| `JIRA_PROJECT_KEY` | Default project key |
+| Provider | Needs |
+|----------|-------|
+| **markdown** | None (issues under `docs/agents/issues/`) |
+| **jira** | `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, project key |
+| **github** | Authenticated `gh` CLI |
+| **linear** | Linear MCP or `LINEAR_API_KEY` + team key |
 
-`review` and `ship` also need an authenticated `gh` CLI.
+`review` and `ship` also need an authenticated `gh` CLI for PRs.
