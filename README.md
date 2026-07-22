@@ -61,7 +61,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── model/                      ← mathematical alignment → MODEL.md
 ├── design/                     ← topic alignment → PLAN.md (enriches pipeline Task)
 ├── implement/                  ← managed implementation from a pipeline Task
-├── review/                     ← one-shot Standards + Spec review
+├── review/                     ← multi-axis Spec/Correctness/Integration/Standards
 ├── review-fix/                ← review ↔ fix-forward until clean
 ├── ship/                       ← merge + Done closeout
 ├── summarise/                  ← status: about / stage / Next

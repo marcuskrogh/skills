@@ -1,9 +1,10 @@
 ---
 name: review-fix
 description: >-
-  Derived review loop: run Standards+Spec review, automatically fix-forward hard
-  findings via implement, and re-review until clean (or max iterations). Hands off
-  to ship when clean. Use instead of manually alternating /review and /implement.
+  Derived review loop: run thorough multi-axis review, automatically fix-forward
+  blockers/should-fix findings via implement, and re-review until clean (or max
+  iterations). Hands off to ship when clean. Use instead of manually alternating
+  /review and /implement.
 ---
 
 # Review-fix
@@ -50,12 +51,14 @@ loop:
 
 ### Blocking findings
 
-Treat as blockers (same as review handoff):
+Treat as blockers for the loop (must fix before CLEAN / ship):
 
-- Review event `REQUEST_CHANGES`, or
-- Any finding that should block merge (hard documented-standard breach or missing spec requirement)
+- Any finding with `severity: blocker` or `severity: should-fix`
+- Review event `REQUEST_CHANGES`
 
-Soft `COMMENT`-only findings → treat as **CLEAN** for loop exit (same as `/review` → `/ship`).
+`note`-only findings → **CLEAN** for loop exit (ship allowed; notes optional).
+
+When counting improvement for STALLED: compare `(blockers + should-fix)` across iterations — ignore pure `note` churn.
 
 ### Fix-forward constraints
 
