@@ -2,7 +2,8 @@
 # Sync skills from this repo to local agent skill directories.
 # Usage: ./scripts/sync-local.sh [--prune] [--link]
 #
-# Default targets: ~/.cursor, ~/.agents, ~/.claude, ~/.codex, ~/.copilot skills dirs.
+# Default targets are common Agent Skills home dirs. Override by editing TARGET_DIRS
+# or use: npx skills add marcuskrogh/cursor-skills
 
 set -euo pipefail
 
@@ -21,11 +22,11 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SOURCE_DIR="$REPO_ROOT/skills"
 
 TARGET_DIRS=(
-  "${HOME}/.cursor/skills"
   "${HOME}/.agents/skills"
   "${HOME}/.claude/skills"
   "${HOME}/.codex/skills"
   "${HOME}/.copilot/skills"
+  "${HOME}/.cursor/skills"
 )
 
 if [[ ! -d "$SOURCE_DIR" ]]; then
@@ -82,4 +83,4 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
 done
 
 echo ""
-echo "Tip: for project installs across agents, prefer: npx skills add marcuskrogh/cursor-skills"
+echo "Tip: for project installs, prefer: npx skills add marcuskrogh/cursor-skills"

@@ -1,14 +1,10 @@
-# Install skills from this repo into a project's agent skill directories.
+# Install skills from this repo into a project's Agent Skills directory.
 # Prefer: npx skills add marcuskrogh/cursor-skills
 #
 # Usage:
 #   .\scripts\install-to-project.ps1 -ProjectPath C:\path\to\repo
 #   .\scripts\install-to-project.ps1 -ProjectPath C:\path\to\repo -Skill explore,design
-#   .\scripts\install-to-project.ps1 -ProjectPath C:\path\to\repo -Target agents
-#
-# -Target agents  → .agents/skills/ (Cursor / Copilot / Codex project default)
-# -Target cursor  → .cursor/skills/ (legacy Cursor project path)
-# -Target both    → both (default)
+#   .\scripts\install-to-project.ps1 -ProjectPath C:\path\to\repo -TargetDir .agents\skills
 
 param(
     [Parameter(Mandatory = $true)]
@@ -16,8 +12,8 @@ param(
 
     [string[]]$Skill = @(),
 
-    [ValidateSet("agents", "cursor", "both")]
-    [string]$Target = "both",
+    # Relative to the project root. Default is the Agent Skills standard path.
+    [string]$TargetDir = ".agents\skills",
 
     [switch]$All
 )
@@ -36,16 +32,10 @@ if (-not (Test-Path $SourceDir)) {
     Write-Error "Source directory not found: $SourceDir"
 }
 
-$targetDirs = @()
-switch ($Target) {
-    "agents" { $targetDirs = @((Join-Path $ProjectPath ".agents\skills")) }
-    "cursor" { $targetDirs = @((Join-Path $ProjectPath ".cursor\skills")) }
-    "both" {
-        $targetDirs = @(
-            (Join-Path $ProjectPath ".agents\skills"),
-            (Join-Path $ProjectPath ".cursor\skills")
-        )
-    }
+$destRoot = if ([System.IO.Path]::IsPathRooted($TargetDir)) {
+    $TargetDir
+} else {
+    Join-Path $ProjectPath $TargetDir
 }
 
 $available = Get-ChildItem -Path $SourceDir -Directory | Where-Object {
@@ -62,22 +52,19 @@ if ($All -or $Skill.Count -eq 0) {
     }
 }
 
-foreach ($TargetDir in $targetDirs) {
-    New-Item -ItemType Directory -Force -Path $TargetDir | Out-Null
+New-Item -ItemType Directory -Force -Path $destRoot | Out-Null
 
-    foreach ($skill in $toInstall) {
-        $dest = Join-Path $TargetDir $skill.Name
-        if (Test-Path $dest) {
-            Remove-Item $dest -Recurse -Force
-        }
-        Copy-Item -Path $skill.FullName -Destination $dest -Recurse -Force
-        Write-Host "Installed to $($TargetDir): $($skill.Name)"
+foreach ($skill in $toInstall) {
+    $dest = Join-Path $destRoot $skill.Name
+    if (Test-Path $dest) {
+        Remove-Item $dest -Recurse -Force
     }
-
-    Write-Host "Installed $($toInstall.Count) skill(s) to $TargetDir"
+    Copy-Item -Path $skill.FullName -Destination $dest -Recurse -Force
+    Write-Host "Installed: $($skill.Name) -> $dest"
 }
 
 Write-Host ""
+Write-Host "Installed $($toInstall.Count) skill(s) to $destRoot"
 Write-Host "Prefer the universal installer when possible:"
 Write-Host "  npx skills add marcuskrogh/cursor-skills"
-Write-Host "Commit .agents/skills/ (and/or .cursor/skills/) to share with cloud agents and your team."
+Write-Host "Commit $TargetDir to share with collaborators and cloud environments."

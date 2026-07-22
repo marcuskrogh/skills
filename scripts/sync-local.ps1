@@ -1,18 +1,18 @@
 # Sync skills from this repo to local agent skill directories.
 # Usage: .\scripts\sync-local.ps1 [-Prune] [-Link]
 #
-# Default targets cover Cursor, Agent Skills standard, Claude Code, Codex, and Copilot.
-# Override with -Targets, or use skills.sh for project-scoped installs across agents.
+# Default targets are common Agent Skills home dirs across popular harnesses.
+# Override with -Targets. For project installs, prefer: npx skills add marcuskrogh/cursor-skills
 
 param(
     [switch]$Prune,
     [switch]$Link,
     [string[]]$Targets = @(
-        (Join-Path $env:USERPROFILE ".cursor\skills"),
         (Join-Path $env:USERPROFILE ".agents\skills"),
         (Join-Path $env:USERPROFILE ".claude\skills"),
         (Join-Path $env:USERPROFILE ".codex\skills"),
-        (Join-Path $env:USERPROFILE ".copilot\skills")
+        (Join-Path $env:USERPROFILE ".copilot\skills"),
+        (Join-Path $env:USERPROFILE ".cursor\skills")
     )
 )
 
@@ -84,4 +84,4 @@ Write-Host ""
 if (-not $Link) {
   Write-Host "Tip: use -Link for live edits without re-syncing (requires Windows Developer Mode or admin)."
 }
-Write-Host "Tip: for project installs across agents, prefer: npx skills add marcuskrogh/cursor-skills"
+Write-Host "Tip: for project installs, prefer: npx skills add marcuskrogh/cursor-skills"
