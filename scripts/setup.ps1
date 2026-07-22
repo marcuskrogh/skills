@@ -1,7 +1,7 @@
 # One-time local setup for authors of this skills repo.
 # Usage: .\scripts\setup.ps1 [-Link]
 #
-# Prefer project installs via: npx skills add marcuskrogh/cursor-skills
+# Prefer project installs via: npx skills add marcuskrogh/skills
 
 param([switch]$Link)
 
@@ -39,10 +39,10 @@ if (Test-Path $agentsHome) {
 }
 Write-Host ""
 Write-Host "Project install (any Agent Skills harness):" -ForegroundColor Yellow
-Write-Host "  npx skills add marcuskrogh/cursor-skills"
+Write-Host "  npx skills add marcuskrogh/skills"
 Write-Host ""
 Write-Host "Optional Claude Code plugin:" -ForegroundColor Yellow
-Write-Host "  claude plugin marketplace add marcuskrogh/cursor-skills"
+Write-Host "  claude plugin marketplace add marcuskrogh/skills"
 Write-Host "  claude plugin install marcus-skills@marcuskrogh"
 Write-Host ""
 Write-Host "Workflow: edit skills/<name>/, then:" -ForegroundColor Cyan

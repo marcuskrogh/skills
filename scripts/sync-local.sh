@@ -3,7 +3,7 @@
 # Usage: ./scripts/sync-local.sh [--prune] [--link]
 #
 # Default targets are common Agent Skills home dirs. Override by editing TARGET_DIRS
-# or use: npx skills add marcuskrogh/cursor-skills
+# or use: npx skills add marcuskrogh/skills
 
 set -euo pipefail
 
@@ -83,4 +83,4 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
 done
 
 echo ""
-echo "Tip: for project installs, prefer: npx skills add marcuskrogh/cursor-skills"
+echo "Tip: for project installs, prefer: npx skills add marcuskrogh/skills"

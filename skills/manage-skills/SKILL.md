@@ -26,13 +26,13 @@ This repository is the **single source of truth** for these agent skills. Author
 **Universal (recommended):**
 
 ```bash
-npx skills add marcuskrogh/cursor-skills
+npx skills add marcuskrogh/skills
 ```
 
 **Optional Claude Code plugin:**
 
 ```bash
-claude plugin marketplace add marcuskrogh/cursor-skills
+claude plugin marketplace add marcuskrogh/skills
 claude plugin install marcus-skills@marcuskrogh
 ```
 
@@ -47,7 +47,7 @@ Add `-WireCursorCloud` only when the project runs on Cursor Cloud and needs `.cu
 ## After every skill change (authors)
 
 ```powershell
-cd D:\code\cursor-skills
+cd D:\code\skills
 .\scripts\validate-skills.ps1
 .\scripts\sync-local.ps1 -Prune
 ```
@@ -57,7 +57,7 @@ cd D:\code\cursor-skills
 ## First-time setup (this machine)
 
 ```powershell
-cd D:\code\cursor-skills
+cd D:\code\skills
 .\scripts\setup.ps1
 ```
 

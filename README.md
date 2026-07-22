@@ -4,12 +4,12 @@ Reusable agent skills for alignment, design, modelling, implementation, and revi
 
 Built on the [Agent Skills](https://agentskills.io) standard. Install once via [skills.sh](https://skills.sh); works with any compatible harness (Cursor, Claude Code, Codex, GitHub Copilot, and others).
 
-[![skills.sh](https://skills.sh/b/marcuskrogh/cursor-skills)](https://skills.sh/marcuskrogh/cursor-skills)
+[![skills.sh](https://skills.sh/b/marcuskrogh/skills)](https://skills.sh/marcuskrogh/skills)
 
 ## Quickstart
 
 ```bash
-npx skills add marcuskrogh/cursor-skills
+npx skills add marcuskrogh/skills
 ```
 
 Pick the skills you want and which agents to install them for. Skills land in each agent's standard skill directory (project or global). Relative links between skills stay intact because they install as siblings under `.agents/skills/` (or the equivalent home for that agent).
@@ -19,11 +19,11 @@ Pick the skills you want and which agents to install them for. Skills land in ea
 If you use Claude Code and prefer a managed bundle instead of editable copies:
 
 ```bash
-claude plugin marketplace add marcuskrogh/cursor-skills
+claude plugin marketplace add marcuskrogh/skills
 claude plugin install marcus-skills@marcuskrogh
 ```
 
-Or inside Claude Code: `/plugin marketplace add marcuskrogh/cursor-skills` then `/plugin install marcus-skills@marcuskrogh`.
+Or inside Claude Code: `/plugin marketplace add marcuskrogh/skills` then `/plugin install marcus-skills@marcuskrogh`.
 
 | Path | Philosophy |
 |------|------------|
