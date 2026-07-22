@@ -2,15 +2,16 @@
 name: explore
 description: >-
   High-level alignment on a project or feature idea. Produces a roadmap and a Jira Story
-  with linked Tasks for later design or implementation work. Use when the user wants to
+  with linked Tasks for later design sessions on the main pipeline
+  (explore → design → implement → code-review → ship). Use when the user wants to
   explore scope, prioritise work, or clarify goals at project scale.
 ---
 
 # Explore
 
-Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Produces `ROADMAP.md` and Jira issues.
+Applies [alignment](../alignment/SKILL.md) at **project or feature scale**. Produces `ROADMAP.md` and Jira issues that feed **design**.
 
-**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md) and [../jira/reference.md](../jira/reference.md).
+**On invoke:** read [../alignment/SKILL.md](../alignment/SKILL.md), [../workflow/reference.md](../workflow/reference.md), and [../jira/reference.md](../jira/reference.md).
 
 ## Extension contract
 
@@ -59,8 +60,9 @@ Write `ROADMAP.md` when the user approves (unless chat-only):
 - …
 
 ## Suggested phases
-| Phase | Topic | Notes |
-|-------|-------|-------|
+| Phase | Topic | Notes | Jira Task |
+|-------|-------|-------|-----------|
+| 1 | … | … | PROJ-124 |
 
 ## Open questions
 - …
@@ -68,21 +70,35 @@ Write `ROADMAP.md` when the user approves (unless chat-only):
 ## Jira
 - Story: PROJ-123
 - Tasks: PROJ-124, …
+
+## Next
+`/design PROJ-124` — Design the first-priority phase
 ```
 
 ## Jira (after approval)
 
 1. Confirm Jira credentials and project per [../jira/reference.md](../jira/reference.md).
 2. Create a **Story** summarising the exploration (title from roadmap, description from Goals + Scope).
-3. For each **suggested phase**, create a **Task** (or Story child) with:
+3. For each **suggested phase**, create a **Task** with:
    - Summary: phase topic
-   - Description: notes, acceptance hints, open questions for that phase
+   - Description: notes, acceptance hints, open questions for that phase; note that this Task is the **pipeline owner** for design → implement → review → ship
    - Link to parent Story (`parent` or **Relates** link)
-4. Comment on the Story listing all child keys.
-5. Update `ROADMAP.md` **Jira** section with keys and links.
-6. Report Story URL and task list to the user. Session ends.
+4. Comment on the Story listing all child keys and the **Next** handoff for the first-priority Task.
+5. Update `ROADMAP.md` **Jira** / phase table / **Next** sections with keys and links.
+6. Report Story URL, task list, and **Next** to the user. Session ends.
 
-Tasks are intentionally coarse — for later **design** or **implement** sessions, not fully specified here.
+Tasks are intentionally coarse — each is the ticket that **design** will enrich (same key), not a disposable placeholder replaced by a new ticket.
+
+### Handoff
+
+Default next skill is **design** on the highest-priority Task:
+
+```markdown
+## Next
+`/design <TASK-KEY>` — Design phase: <topic>
+```
+
+Skip to `/implement <TASK-KEY>` only when the user explicitly says a phase is already implementation-ready.
 
 ## Examples
 

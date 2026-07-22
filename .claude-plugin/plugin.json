@@ -1,7 +1,7 @@
 {
   "name": "marcus-skills",
   "version": "1.0.0",
-  "description": "Agent skills for alignment, design, modelling, implementation, and code review (Agent Skills standard; also installable as a Claude Code plugin).",
+  "description": "Agent skills for alignment, design, modelling, implementation, review, and ship (Agent Skills standard; also installable as a Claude Code plugin).",
   "author": {
     "name": "Marcus Krogh",
     "url": "https://github.com/marcuskrogh"
@@ -16,7 +16,8 @@
     "design",
     "jira",
     "code-review",
-    "implementation"
+    "implementation",
+    "workflow"
   ],
   "skills": [
     "./skills/alignment",
@@ -28,6 +29,8 @@
     "./skills/implementation",
     "./skills/jira",
     "./skills/manage-skills",
-    "./skills/model"
+    "./skills/model",
+    "./skills/ship",
+    "./skills/workflow"
   ]
 }

@@ -1,6 +1,6 @@
 # Agent Skills
 
-Reusable agent skills for alignment, design, modelling, implementation, and review.
+Reusable agent skills for alignment, design, modelling, implementation, review, and ship.
 
 Built on the [Agent Skills](https://agentskills.io) standard. Install once via [skills.sh](https://skills.sh); works with any compatible harness (Cursor, Claude Code, Codex, GitHub Copilot, and others).
 
@@ -55,14 +55,16 @@ If the environment is **Cursor Cloud**, also pass `-WireCursorCloud` to add `.cu
 ```
 skills/                         ← source of truth (Agent Skills layout)
 ├── explore/                    ← project/feature alignment → ROADMAP.md
-├── design/                     ← topic alignment → PLAN.md
+├── design/                     ← topic alignment → PLAN.md (enriches pipeline Task)
 ├── model/                      ← mathematical alignment → MODEL.md
 ├── implement/                  ← managed implementation from a Jira ticket
 ├── code-review/                ← Standards + Spec review
+├── ship/                       ← merge + Done closeout
 ├── arxiv-research/             ← literature review via arXiv
 ├── alignment/                  ← base (composed, not user-invoked)
 ├── implementation/             ← base (composed, not user-invoked)
 ├── jira/                       ← shared Jira reference
+├── workflow/                   ← main pipeline contract (composed)
 └── manage-skills/              ← meta: maintain this repo
 
 .claude-plugin/                 ← optional Claude Code marketplace manifests
@@ -70,20 +72,33 @@ scripts/                        ← validate / sync / project bootstrap
 templates/project-sync/         ← startup sync script template
 ```
 
-## Skills
+## Main pipeline
+
+```text
+explore → design → implement → code-review → ship
+```
+
+One Jira **Task** owns a phase from design through ship. See `skills/workflow/reference.md`.
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **explore** | user | High-level alignment → `ROADMAP.md` + Jira Story/Tasks |
-| **design** | user | Topic alignment → `PLAN.md` + Jira Task/Sub-tasks |
-| **model** | user | Mathematical alignment → `MODEL.md` + Jira Task |
+| **design** | user | Topic alignment → `PLAN.md` + Sub-tasks on the pipeline Task |
 | **implement** | user | Build from a Jira ticket via managed sub-agents |
 | **code-review** | user | Two-axis PR review (Standards + Spec) + Jira comment |
+| **ship** | user | Merge PR, mark Task Done, close the phase |
+
+## Other skills
+
+| Skill | Invoke | Purpose |
+|-------|--------|---------|
+| **model** | user | Mathematical alignment → `MODEL.md` + Jira Task |
 | **arxiv-research** | user | arXiv literature review brief |
 | **manage-skills** | user | Maintain and sync this repository |
 | **alignment** | composed | Base questioning loop |
 | **implementation** | composed | Base manager/sub-agent loop |
 | **jira** | composed | Shared Jira REST reference |
+| **workflow** | composed | Main pipeline continuity + handoffs |
 
 ## Workflow for skill changes
 
@@ -107,7 +122,7 @@ Use `/manage-skills` for the full checklist.
 
 ## Requirements for Jira-backed skills
 
-`explore`, `design`, `model`, `implement`, and `code-review` expect:
+`explore`, `design`, `model`, `implement`, `code-review`, and `ship` expect:
 
 | Variable | Purpose |
 |----------|---------|
@@ -116,4 +131,4 @@ Use `/manage-skills` for the full checklist.
 | `JIRA_API_TOKEN` | Atlassian API token |
 | `JIRA_PROJECT_KEY` | Default project key |
 
-`code-review` also needs an authenticated `gh` CLI.
+`code-review` and `ship` also need an authenticated `gh` CLI.

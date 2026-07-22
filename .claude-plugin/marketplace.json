@@ -4,12 +4,12 @@
     "name": "Marcus Krogh",
     "url": "https://github.com/marcuskrogh"
   },
-  "description": "Agent skills for alignment, design, modelling, implementation, and code review.",
+  "description": "Agent skills for alignment, design, modelling, implementation, review, and ship.",
   "plugins": [
     {
       "name": "marcus-skills",
       "source": "./",
-      "description": "Explore/design/model/implement workflows with Jira tracking and two-axis code review.",
+      "description": "Explore/design/implement/code-review/ship pipeline with Jira tracking and two-axis review.",
       "category": "engineering",
       "keywords": [
         "engineering",

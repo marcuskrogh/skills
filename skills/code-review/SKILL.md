@@ -1,9 +1,9 @@
 ---
 name: code-review
 description: >-
-  Two-axis GitHub PR review (Standards + Spec) tied to a Jira ticket in In Review.
-  Posts findings on the PR and as Jira comments. Use when reviewing a PR or branch
-  associated with a Jira ticket ready for review.
+  Two-axis GitHub PR review (Standards + Spec) tied to a Jira ticket in In Review
+  on the main pipeline. Posts findings on the PR and Jira; hands off to implement
+  (fix-forward) or ship. Use when reviewing a PR for a pipeline ticket.
 ---
 
 Two-axis review posted **on the GitHub pull request** and summarized on the **Jira ticket** — not as repo files or long chat transcripts.
@@ -13,7 +13,9 @@ Two-axis review posted **on the GitHub pull request** and summarized on the **Ji
 
 Both axes run as **parallel sub-agents**, then this skill publishes on the PR and updates Jira.
 
-Requires `gh` CLI (authenticated) and Jira API credentials per [../jira/reference.md](../jira/reference.md). If either is missing, stop and tell the user.
+**On invoke:** read [../workflow/reference.md](../workflow/reference.md) and [../jira/reference.md](../jira/reference.md).
+
+Requires `gh` CLI (authenticated) and Jira API credentials. If either is missing, stop and tell the user.
 
 ## Process
 
@@ -185,9 +187,12 @@ Standards: <N> finding(s) — worst: …
 Spec: <M> finding(s) — worst: …
 
 [Link to PR review or copy general findings summary]
+
+## Next
+<handoff line — see Handoff below>
 ```
 
-If **REQUEST_CHANGES**, note that the ticket stays **In Review** until addressed. If the user wants **Done**, that is out of scope unless they ask.
+The ticket stays **In Review**. Do **not** transition to **Done** — that is [ship](../ship/SKILL.md).
 
 #### 5d. Tell the user
 
@@ -196,8 +201,28 @@ Reply in chat with **only**:
 - Jira ticket URL
 - PR URL
 - One line: review posted — `<N>` Standards / `<M>` Spec findings; event `<COMMENT|REQUEST_CHANGES|APPROVE>`
+- **Next** handoff line
 
 Do not paste the full review into chat.
+
+## Handoff
+
+| Outcome | Next |
+|---------|------|
+| `REQUEST_CHANGES`, or any finding that should block merge | `/implement <KEY>` — Address review findings (fix-forward) |
+| `COMMENT` / `APPROVE` with no blocking findings | `/ship <KEY>` — Merge and mark Done |
+
+```markdown
+## Next
+`/implement <KEY>` — Address review findings (fix-forward)
+```
+
+or
+
+```markdown
+## Next
+`/ship <KEY>` — Merge PR and close the Task
+```
 
 ## Why two axes
 
