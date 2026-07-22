@@ -3,7 +3,7 @@
 # Target: .agents/skills/  (shared by Cursor, Copilot, Codex, and other harnesses)
 set -euo pipefail
 
-SKILLS_REPO="${SKILLS_REPO:-${CURSOR_SKILLS_REPO:-https://github.com/marcuskrogh/cursor-skills.git}}"
+SKILLS_REPO="${SKILLS_REPO:-${CURSOR_SKILLS_REPO:-https://github.com/marcuskrogh/skills.git}}"
 CACHE_DIR="${SKILLS_CACHE:-${CURSOR_SKILLS_CACHE:-/tmp/agent-skills}}"
 SOURCE_REL="skills"
 TARGET_DIR=".agents/skills"

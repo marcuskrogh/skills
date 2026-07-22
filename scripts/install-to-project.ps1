@@ -1,5 +1,5 @@
 # Install skills from this repo into a project's Agent Skills directory.
-# Prefer: npx skills add marcuskrogh/cursor-skills
+# Prefer: npx skills add marcuskrogh/skills
 #
 # Usage:
 #   .\scripts\install-to-project.ps1 -ProjectPath C:\path\to\repo
@@ -66,5 +66,5 @@ foreach ($skill in $toInstall) {
 Write-Host ""
 Write-Host "Installed $($toInstall.Count) skill(s) to $destRoot"
 Write-Host "Prefer the universal installer when possible:"
-Write-Host "  npx skills add marcuskrogh/cursor-skills"
+Write-Host "  npx skills add marcuskrogh/skills"
 Write-Host "Commit $TargetDir to share with collaborators and cloud environments."

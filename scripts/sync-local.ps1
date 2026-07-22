@@ -2,7 +2,7 @@
 # Usage: .\scripts\sync-local.ps1 [-Prune] [-Link]
 #
 # Default targets are common Agent Skills home dirs across popular harnesses.
-# Override with -Targets. For project installs, prefer: npx skills add marcuskrogh/cursor-skills
+# Override with -Targets. For project installs, prefer: npx skills add marcuskrogh/skills
 
 param(
     [switch]$Prune,
@@ -84,4 +84,4 @@ Write-Host ""
 if (-not $Link) {
   Write-Host "Tip: use -Link for live edits without re-syncing (requires Windows Developer Mode or admin)."
 }
-Write-Host "Tip: for project installs, prefer: npx skills add marcuskrogh/cursor-skills"
+Write-Host "Tip: for project installs, prefer: npx skills add marcuskrogh/skills"

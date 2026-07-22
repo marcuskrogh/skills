@@ -1,11 +1,11 @@
-# First-time GitHub push helper for cursor-skills.
+# First-time GitHub push helper for skills.
 # Usage: .\scripts\setup-github.ps1
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 Set-Location $RepoRoot
 
-$remoteUrl = "https://github.com/marcuskrogh/cursor-skills.git"
+$remoteUrl = "https://github.com/marcuskrogh/skills.git"
 
 if (-not (git rev-parse --is-inside-work-tree 2>$null)) {
     Write-Error "Not a git repository: $RepoRoot"

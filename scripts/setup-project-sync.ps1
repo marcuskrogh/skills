@@ -6,13 +6,13 @@
 #   .\scripts\setup-project-sync.ps1 -ProjectPath D:\code\MyRepo -WireCursorCloud
 #
 # Prefer interactive installs when possible:
-#   npx skills add marcuskrogh/cursor-skills
+#   npx skills add marcuskrogh/skills
 
 param(
     [Parameter(Mandatory = $true)]
     [string]$ProjectPath,
 
-    [string]$SkillsRepo = "https://github.com/marcuskrogh/cursor-skills.git",
+    [string]$SkillsRepo = "https://github.com/marcuskrogh/skills.git",
 
     # Also write .cursor/environment.json so Cursor Cloud runs the sync on VM start.
     [switch]$WireCursorCloud,
@@ -37,7 +37,7 @@ New-Item -ItemType Directory -Force -Path $agentsDir | Out-Null
 
 $syncScript = Join-Path $agentsDir "sync-skills.sh"
 Copy-Item (Join-Path $TemplateRoot "sync-skills.sh") $syncScript -Force
-(Get-Content $syncScript -Raw) -replace 'https://github.com/marcuskrogh/cursor-skills.git', $SkillsRepo |
+(Get-Content $syncScript -Raw) -replace 'https://github.com/marcuskrogh/skills.git', $SkillsRepo |
     Set-Content $syncScript -NoNewline
 
 if (-not $SkipGitignore) {
@@ -83,4 +83,4 @@ if ($WireCursorCloud) {
 }
 Write-Host ""
 Write-Host "Universal install (preferred for interactive use):"
-Write-Host "  npx skills add marcuskrogh/cursor-skills"
+Write-Host "  npx skills add marcuskrogh/skills"
