@@ -125,7 +125,7 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 | **explore** | Create **Story** + one **Task** per roadmap phase. Tasks are define-ready placeholders. |
 | **bug** | Create one **Task** (+ optional Sub-tasks) from `BUG.md`. No Story unless requested. |
 | **define** | Take an explore **Task**. Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel definition ticket when an explore Task is the subject. |
-| **implement** | Work the **same Task** (and its Sub-tasks). Spec from `PLAN.md` or `BUG.md`. Branch + PR; move to **In Review**. |
+| **implement** | Work the **same Task** (and its Sub-tasks). Spec from `PLAN.md` or `BUG.md`. Branch + PR with tests/testability as first-class deliverables; move to **In Review**. |
 | **iterate** | After ship: create a **new** Task from `ITERATE.md` (Relates to prior); new branch from base + **new** PR; move new Task to **In Review**. |
 | **review** | One-shot multi-axis review (Spec, Correctness, Integration, Architecture, Standards); may hand off to fix-forward manually. |
 | **review-fix** | Review → fix-forward → re-review until clean (or max iterations); then ship. |
@@ -205,7 +205,7 @@ alignment artifact, and the ISSUES mirror when enabled.
 | iterate | Prior shipped Task + merged PR + `PLAN.md` / `BUG.md` / prior `ITERATE.md` |
 | research / model | Task (+ Story), `ROADMAP.md`, sibling artifacts (`RESEARCH.md` / `MODEL.md` / `PLAN.md`) |
 | define | Task (+ parent Story), `ROADMAP.md`, `RESEARCH.md` / `MODEL.md` if present |
-| implement | Task + Sub-tasks, `PLAN.md` or `BUG.md` / `MODEL.md` / linked specs |
+| implement | Task + Sub-tasks, `PLAN.md` or `BUG.md` / `MODEL.md` / linked specs; project test/lint commands |
 | review / review-fix | Task + PR + `PLAN.md` / `BUG.md` / `ITERATE.md` / specs |
 | ship | Task + PR + latest review outcome |
 | summarise | Task + all of the above for stage inference |
@@ -232,7 +232,7 @@ enabled). Chat-only status is not enough.
 | **research** | Enrich pipeline Task (artifact link); no new Task if key given | Leave Task status unchanged (usually **To Do**) | Task comment: RESEARCH.md + summary + **Next**; ROADMAP/PLAN/ISSUES | — |
 | **model** | Enrich pipeline Task (preferred); else create Task | Leave **To Do** unless already further along | Task comment: MODEL.md + **Next**; ROADMAP/PLAN/RESEARCH/ISSUES | — |
 | **define** | Enrich Task; create Sub-tasks per work package | Task stays **To Do** (ready to implement) | Task + Story comments: PLAN.md, sub-task keys, **Next**; ISSUES | — |
-| **implement** | May add missing Sub-tasks if plan/bug requires | Task → **In Progress** at start; each Sub-task → **In Progress** then **Done** when finished; Task → **In Review** when PR ready | Comments on Task (session start, packages, PR URL + **Next** `/review-fix`); ISSUES | Sub-tasks **Done** as packages complete — not the parent Task |
+| **implement** | May add missing Sub-tasks if plan/bug requires (incl. Testing packages) | Task → **In Progress** at start; each Sub-task → **In Progress** then **Done** when finished; Task → **In Review** when PR ready (after tests/lint verify) | Comments on Task (session start, packages, PR URL + **Next** `/review-fix`); ISSUES | Sub-tasks **Done** as packages complete — not the parent Task |
 | **implement** (fix-forward) | — | Task → **In Progress** if needed, then **In Review** again | Comment: threads addressed + **Next** `/review` or continue inside `/review-fix`; ISSUES | — |
 | **review** | — | Must already be **In Review**; do **not** change to Done | Task comment: review summary + **Next**; ISSUES | — |
 | **review-fix** | — | Alternates review publish + fix-forward status as above each iteration | Comment each iteration; ISSUES | — (ship closes) |

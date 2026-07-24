@@ -89,7 +89,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── research/                   ← literature brief → RESEARCH.md
 ├── model/                      ← mathematical alignment → MODEL.md
 ├── define/                     ← topic definition → PLAN.md (enriches pipeline Task)
-├── implement/                  ← managed implementation from a pipeline Task
+├── implement/                  ← managed implementation from a pipeline Task (tests + testability first-class)
 ├── iterate/                    ← post-ship fix: brief align + new branch/PR → review-fix
 ├── review/                     ← multi-axis Spec/Correctness/Integration/Architecture/Standards
 ├── review-fix/                ← review ↔ fix-forward until clean
@@ -146,7 +146,7 @@ Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, a
 | **research** | user | Literature brief → `RESEARCH.md` (updates Task continuity) |
 | **model** | user | Math alignment → `MODEL.md` (updates Task continuity) |
 | **define** | user | Topic definition → `PLAN.md` + Sub-tasks on the pipeline Task |
-| **implement** | user | Build from a pipeline Task via managed sub-agents |
+| **implement** | user | Build from a pipeline Task via managed sub-agents; tests and testability required so coverage/quality do not degrade |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
 | **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) |
 | **review-fix** | user | Review ↔ auto fix-forward until clean → ship |
