@@ -103,7 +103,8 @@ Status starts ready to build.
 ### 4. Implement on a new branch
 
 Apply [CONCEPT_IMPLEMENTATION](CONCEPT_IMPLEMENTATION.md): branch from base, fix the
-delta, verify, open a **new** PR. Move the new Task to **In Review**.
+delta (with tests / regression coverage), verify without coverage or quality
+regression on touched paths, open a **new** PR. Move the new Task to **In Review**.
 
 ### 5. Hand off
 

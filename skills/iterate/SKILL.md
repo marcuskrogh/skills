@@ -60,7 +60,7 @@ next ship, run **`/iterate`** again the same way.
 | **Spec source** | `ITERATE.md` + new Task (+ prior `PLAN.md` / `BUG.md` / prior `ITERATE.md` as context) |
 | **Branch naming** | From WORKSPACE using the **new** Task key |
 | **Delivery** | Open PR (WORKSPACE default) |
-| **Verification** | Tests/lint for touched area; acceptance in `ITERATE.md` |
+| **Verification** | Tests (incl. regression for the delta) + lint for touched area; coverage/quality non-degradation; acceptance in `ITERATE.md`; follow [implement testing](../implement/testing.md) |
 
 ## Inputs
 
@@ -150,8 +150,10 @@ overrides:
 2. Ensure local base is current (`git fetch`; branch from WORKSPACE base).
 3. **New** branch named per WORKSPACE + `<NEW-KEY>`.
 4. Task → **In Progress**; implement via managed sub-agents when non-trivial.
-5. Verify → open **new** PR → Task → **In Review**.
-6. PR body: Summary, Tracker, Prior Task/PR, `ITERATE.md`, Test plan.
+5. Verify (tests/lint; regression coverage for the delta; no coverage/quality
+   degradation on touched paths) → open **new** PR → Task → **In Review**.
+6. PR body: Summary, Tracker, Prior Task/PR, `ITERATE.md`, Test plan (commands,
+   new/updated tests, coverage notes).
 7. Upsert ISSUES; comment with PR URL + **Next**.
 
 Do **not** mark Done or merge.

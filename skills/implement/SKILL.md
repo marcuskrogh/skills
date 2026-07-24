@@ -2,8 +2,10 @@
 name: implement
 description: >-
   Managed sub-agent implementation against a pipeline Task and Sub-tasks from
-  define. Moves the issue In Progress then In Review; supports fix-forward after
-  review. Persists Next in markdown and the configured tracker.
+  define. Builds with tests and testability as first-class deliverables so
+  coverage and code quality do not degrade. Moves the issue In Progress then
+  In Review; supports fix-forward after review. Persists Next in markdown and
+  the configured tracker.
 ---
 
 # Implement
@@ -12,7 +14,7 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 **current repository** on the main pipeline Task.
 
 **On invoke:** read [../concepts/CONCEPT_IMPLEMENTATION.md](../concepts/CONCEPT_IMPLEMENTATION.md),
-[../workflow/reference.md](../workflow/reference.md), and
+[testing.md](testing.md), [../workflow/reference.md](../workflow/reference.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Extension contract
@@ -22,14 +24,15 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 | **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` or `BUG.md` / linked specs |
 | **Branch naming** | From WORKSPACE (default `<key-lowercase>-<short-description>`) |
 | **Delivery** | PR (default from WORKSPACE) or branch-only |
-| **Verification** | Tests, lint, plan checklist, sub-task completion |
+| **Verification** | Tests (new/updated) + lint for touched area (or full suite if repo norm); coverage/quality non-degradation; plan checklist; sub-task completion; [testing.md](testing.md) |
+| **Testing checklist** | [testing.md](testing.md) — paste into Implementation / Testing / fix-forward briefs |
 
 ## Modes
 
 | Mode | When | Behavior |
 |------|------|----------|
-| **Build** (default) | Task To Do / In Progress | Full implementation loop |
-| **Fix-forward** | After **review** with blockers; same Task + open PR | Address review threads only |
+| **Build** (default) | Task To Do / In Progress | Full implementation loop with tests in-package |
+| **Fix-forward** | After **review** with blockers; same Task + open PR | Address review threads only; add/adjust tests when the finding is correctness, coverage, or testability |
 
 Post-merge follow-ups on already-shipped work use **`/iterate`** (new Task + new PR),
 not fix-forward.
@@ -77,21 +80,46 @@ Upsert ISSUES mirror on **every** transition/handoff. Do **not** mark the parent
 2. Status → In Progress
 3. Ask PR vs branch once (skip if fix-forward / WORKSPACE default is enough and user already chose)
 4. Create or reuse branch per WORKSPACE pattern
+5. Note the project's usual test/lint commands (from README, CI, package scripts, WORKSPACE)
+
+## Testing and testability (mandatory)
+
+Implementation maintains a **well-structured, testable** codebase. Do not treat tests
+as optional polish after "real" coding.
+
+| Rule | Practice |
+|------|----------|
+| **Tests with behaviour** | Every behavioural work package adds or updates tests in the same package (preferred) or a follow-on **Testing** package **before** verify |
+| **Regression on bugs** | Fixes from `BUG.md` / Correctness findings include a failing-case test |
+| **Design for testability** | Prefer injectable seams over hard-wired I/O, clocks, and neighbors |
+| **No degradation** | Touched-area suite stays green; do not skip/delete coverage to pass; new paths get tests proportional to risk |
+| **Honest verification** | Run real commands; never invent green results |
+
+Paste [testing.md](testing.md) into Implementation, Testing, and relevant fix-forward
+briefs. Evaluate every sub-agent report against the package report fields in that file.
+
+Missing tests for new behaviour = **insufficient package** → re-delegate before moving on.
 
 ## Work packages
 
-| Type | Subagent |
-|------|----------|
-| Structure exploration | `explore` |
-| Research / Implementation / Testing | `generalPurpose` |
-| Fix-forward | `generalPurpose` per review thread or grouped finding |
+| Type | Subagent | Notes |
+|------|----------|-------|
+| Structure exploration | `explore` | Locate seams, existing test patterns, runners |
+| Research | `generalPurpose` | Spike only; no production behaviour without tests planned |
+| Implementation | `generalPurpose` | Code **and** tests; include [testing.md](testing.md) |
+| Testing | `generalPurpose` | Coverage gaps, regression suites, hardening failure paths |
+| Fix-forward | `generalPurpose` | Per review thread or grouped finding; add tests when warranted |
+
+When drafting the plan from Sub-tasks / `PLAN.md`, ensure each behavioural package
+lists test deliverables in its acceptance criteria. If the plan omitted verification,
+add Testing packages explicitly — do not wait for review to invent coverage.
 
 ## PR template
 
 - Summary
 - Tracker: `<url or key>`
 - Spec references (`PLAN.md` or `BUG.md`, …)
-- Test plan
+- Test plan (commands run, new/updated tests, coverage notes, any justified gaps)
 - Completed sub-tasks / review threads
 
 ## Handoff
@@ -107,5 +135,5 @@ Upsert ISSUES mirror on **every** transition/handoff. Do **not** mark the parent
 
 1. Resolve issue + spec
 2. In Progress
-3. Branch + packages
-4. Verify → PR → In Review → **Next** `/review-fix`
+3. Branch + packages (tests in each behavioural package)
+4. Verify (tests/lint/coverage non-degradation + [testing.md](testing.md)) → PR → In Review → **Next** `/review-fix`
