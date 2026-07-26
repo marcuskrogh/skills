@@ -2,8 +2,9 @@
 name: define
 description: >-
   Define a component, system, or pipeline Task before coding. Enriches an explore
-  Task (or creates a Task) with PLAN.md and Sub-tasks. Persists keys and Next in
-  markdown. Use when agreeing on a definition before implementation.
+  investigation Task (or creates a Task) with PLAN.md and Sub-tasks. Explore only
+  set direction — define owns particulars. Persists keys and Next in markdown. Use
+  when agreeing on a definition before implementation.
 ---
 
 # Define
@@ -17,11 +18,21 @@ Produces `PLAN.md` and Sub-tasks on the **pipeline Task**.
 [../workflow/reference.md](../workflow/reference.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
 
+## Relation to explore
+
+**Explore clarifies direction; define settles particulars.** A prior
+`ROADMAP.md` / explore Task is context for *what theme* to define — not a finished
+spec. Always run definition probes with the user. Do not treat roadmap theme notes,
+Story text, or open questions as already decided.
+
+If the Task still needs literature or math before a sound definition, hand off to
+`/research` or `/model` instead of inventing those answers in define.
+
 ## Extension contract
 
 | Extension | This skill |
 |-----------|------------|
-| **Subject** | Component, system, feature, or explore Task |
+| **Subject** | Component, system, feature, or explore investigation Task |
 | **Probes** | See [Probes](#probes) |
 | **Stop condition** | No obvious divergence points remain for scope, behavior, constraints, and acceptance |
 | **Alignment / definition artifact** | `PLAN.md` (path from WORKSPACE) |
@@ -37,6 +48,7 @@ Use definition probes from CONCEPT_DEFINITION, specialised for a pipeline phase:
 - Compatibility with existing code or conventions
 - Non-obvious constraints the user cares about
 - Acceptance criteria and verification approach
+- Open questions parked by **explore** on this theme (preferred starting list)
 - Pipeline Task key from a prior **explore** session (preferred)
 
 ### Opening
@@ -44,12 +56,13 @@ Use definition probes from CONCEPT_DEFINITION, specialised for a pipeline phase:
 | Context | First move |
 |---------|------------|
 | **Thin** | "What do you want to define?" (or resolve Task key) |
-| **Rich** / Task key given | Load Task (+ Story, `ROADMAP.md`); first divergence question |
+| **Rich** / Task key given | Load Task (+ Story, `ROADMAP.md`); first **definition** divergence — never skip questioning because explore already ran |
 
 ### Scope guard
 
 - No code, file edits, or implementation during definition
 - No sub-agent delegation — alignment / definition only
+- Do not re-open initiative-level idea exploration; stay on this Task's theme
 
 ## Entry (pipeline)
 
@@ -57,7 +70,7 @@ When the user passes an explore **Task** key:
 
 1. `fetch` the Task and parent Story via tracker.
 2. Load `ROADMAP.md`, and `RESEARCH.md` / `MODEL.md` if present.
-3. Use Task summary/description as the subject.
+3. Use Task summary/description as the **theme** to define — assume particulars are still open unless the user already answered them in this define session.
 
 ## Alignment artifact
 

@@ -16,9 +16,10 @@ modelling, and not coding.
 ## What this is not
 
 - Not a user-invokable workflow by itself
-- Not high-level initiative scoping (see explore / roadmap skills)
+- Not high-level idea / direction exploration (see explore / roadmap skills — those clarify themes, not this definition)
 - Not implementation or delivery
 - Not a substitute for research or model side-paths when those are needed first
+- Not a no-op after explore: roadmap themes are investigation labels; definition still questions the user on particulars
 
 ## When to apply
 
@@ -104,10 +105,12 @@ Skills should adapt this list to the subject:
 ## Anti-patterns
 
 - Defining at roadmap/initiative scale when only a phase/Task is needed
+- Treating an explore `ROADMAP.md` or Task blurb as already-decided scope/behaviour/acceptance
 - Leaving critical behaviour as "TBD" without listing it under open items
 - Writing implementation details or code during definition
 - Creating a parallel ticket when an existing pipeline Task is the subject
 - Treating definition as optional for non-trivial features
+- Skipping definition questions because explore already ran
 
 ## Authoring skills that use this concept
 
