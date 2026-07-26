@@ -84,7 +84,7 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── CONCEPT_RESEARCH.md
 │   └── CONCEPT_REVIEW.md
 ├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md
-├── explore/                    ← project/feature alignment → ROADMAP.md
+├── explore/                    ← idea-space direction → ROADMAP.md (themes for later define)
 ├── bug/                        ← defect alignment → BUG.md (skips explore/define)
 ├── research/                   ← literature brief → RESEARCH.md
 ├── model/                      ← mathematical alignment → MODEL.md
@@ -141,11 +141,11 @@ Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, a
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths) |
-| **explore** | user | High-level alignment → `ROADMAP.md` + Story/Tasks |
+| **explore** | user | High-abstraction idea exploration → `ROADMAP.md` + Story/Tasks (direction; define owns particulars) |
 | **bug** | user | Defect alignment → `BUG.md` + Task (then implement) |
 | **research** | user | Literature brief → `RESEARCH.md` (updates Task continuity) |
 | **model** | user | Math alignment → `MODEL.md` (updates Task continuity) |
-| **define** | user | Topic definition → `PLAN.md` + Sub-tasks on the pipeline Task |
+| **define** | user | Topic definition → `PLAN.md` + Sub-tasks on the pipeline Task (owns particulars explore deferred) |
 | **implement** | user | Build from a pipeline Task via managed sub-agents; tests and testability required so coverage/quality do not degrade |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
 | **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) |

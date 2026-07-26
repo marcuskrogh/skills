@@ -122,9 +122,9 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 
 | Stage | Ticket action |
 |-------|----------------|
-| **explore** | Create **Story** + one **Task** per roadmap phase. Tasks are define-ready placeholders. |
+| **explore** | Create **Story** + one **Task** per investigation theme. Tasks name themes to define later — direction only, not settled specs. |
 | **bug** | Create one **Task** (+ optional Sub-tasks) from `BUG.md`. No Story unless requested. |
-| **define** | Take an explore **Task**. Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel definition ticket when an explore Task is the subject. |
+| **define** | Take an explore **Task**. Probe particulars with the user (explore did not decide them). Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel definition ticket when an explore Task is the subject. |
 | **implement** | Work the **same Task** (and its Sub-tasks). Spec from `PLAN.md` or `BUG.md`. Branch + PR with tests/testability as first-class deliverables; move to **In Review**. |
 | **iterate** | After ship: create a **new** Task from `ITERATE.md` (Relates to prior); new branch from base + **new** PR; move new Task to **In Review**. |
 | **review** | One-shot multi-axis review (Spec, Correctness, Integration, Architecture, Standards); may hand off to fix-forward manually. |
@@ -155,7 +155,7 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 | Artifact | Owner skill | Role |
 |----------|-------------|------|
 | `WORKSPACE.md` | setup | Tracker and path decisions |
-| `ROADMAP.md` | explore | Project/feature scope and phase list |
+| `ROADMAP.md` | explore | Direction + investigation themes (particulars deferred) |
 | `BUG.md` | bug | Defect report + acceptance for implement/review |
 | `ITERATE.md` | iterate | Post-ship fix delta + acceptance for implement/review |
 | `RESEARCH.md` | research | Literature brief for a phase/Task |
@@ -226,7 +226,7 @@ enabled). Chat-only status is not enough.
 
 | Skill | Create / update issues | Status transitions | Comments / links | Close |
 |-------|------------------------|--------------------|------------------|-------|
-| **explore** | Create Story + Task per phase; link children → Story | Leave Story/Tasks **To Do** | Story comment: child keys + **Next**; upsert ISSUES | — |
+| **explore** | Create Story + Task per investigation theme; link children → Story | Leave Story/Tasks **To Do** | Story comment: child keys + **Next**; upsert ISSUES | — |
 | **bug** | Create Task (+ optional Sub-tasks); link BUG.md | Leave **To Do** | Task comment: BUG.md + **Next**; ISSUES | — |
 | **iterate** | Create **new** Task; link ITERATE.md; Relates → prior Task | New Task → **In Progress** then **In Review** when PR ready | Prior Task comment (follow-up key); new Task comments + PR + **Next** `/review-fix`; ISSUES | — (ship closes the new Task) |
 | **research** | Enrich pipeline Task (artifact link); no new Task if key given | Leave Task status unchanged (usually **To Do**) | Task comment: RESEARCH.md + summary + **Next**; ROADMAP/PLAN/ISSUES | — |
