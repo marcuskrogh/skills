@@ -1,10 +1,11 @@
 ---
 name: define
 description: >-
-  Define a component, system, or pipeline Task before coding. Enriches an explore
-  investigation Task (or creates a Task) with PLAN.md and Sub-tasks. Explore only
-  set direction — define owns particulars. Persists keys and Next in markdown. Use
-  when agreeing on a definition before implementation.
+  Define a component, system, or pipeline Task before coding via user-agent
+  alignment. Enriches an explore investigation Task (or creates a Task) with
+  PLAN.md and Sub-tasks. Explore/research/model only add direction or supportive
+  inputs — define owns particulars and always questions the user. Persists keys
+  and Next in markdown. Use when agreeing on a definition before implementation.
 ---
 
 # Define
@@ -18,15 +19,24 @@ Produces `PLAN.md` and Sub-tasks on the **pipeline Task**.
 [../workflow/reference.md](../workflow/reference.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
 
-## Relation to explore
+## Relation to prior skills
 
-**Explore clarifies direction; define settles particulars.** A prior
-`ROADMAP.md` / explore Task is context for *what theme* to define — not a finished
-spec. Always run definition probes with the user. Do not treat roadmap theme notes,
-Story text, or open questions as already decided.
+**Define is user-agent alignment on particulars.** Prior artifacts orient the
+session — they do **not** replace questioning the user.
+
+| Prior artifact | How define uses it |
+|----------------|--------------------|
+| `ROADMAP.md` / explore Task | Theme / direction only — not a finished spec |
+| `RESEARCH.md` | Supportive literature — evidence and orientation, **not** user answers |
+| `MODEL.md` | Math foundations the user already aligned on — **not** product scope/UX/acceptance |
+
+Always run definition probes with the user. Do **not** treat roadmap notes, Story
+text, open questions, research themes, recommended reading, or model formulations
+as already-decided product scope, behaviour, or acceptance.
 
 If the Task still needs literature or math before a sound definition, hand off to
-`/research` or `/model` instead of inventing those answers in define.
+`/research` or `/model` instead of inventing those answers in define — then return
+and still probe the user on definition particulars.
 
 ## Extension contract
 
@@ -34,7 +44,7 @@ If the Task still needs literature or math before a sound definition, hand off t
 |-----------|------------|
 | **Subject** | Component, system, feature, or explore investigation Task |
 | **Probes** | See [Probes](#probes) |
-| **Stop condition** | No obvious divergence points remain for scope, behavior, constraints, and acceptance |
+| **Stop condition** | No obvious divergence points remain for scope, behavior, constraints, and acceptance — resolved **with the user** |
 | **Alignment / definition artifact** | `PLAN.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Does this plan look complete?" |
 
@@ -50,27 +60,30 @@ Use definition probes from CONCEPT_DEFINITION, specialised for a pipeline phase:
 - Acceptance criteria and verification approach
 - Open questions parked by **explore** on this theme (preferred starting list)
 - Pipeline Task key from a prior **explore** session (preferred)
+- How (if at all) to apply findings from `RESEARCH.md` / constraints from `MODEL.md` — ask; do not assume
 
 ### Opening
 
 | Context | First move |
 |---------|------------|
 | **Thin** | "What do you want to define?" (or resolve Task key) |
-| **Rich** / Task key given | Load Task (+ Story, `ROADMAP.md`); first **definition** divergence — never skip questioning because explore already ran |
+| **Rich** / Task key given | Load Task (+ Story, `ROADMAP.md`, `RESEARCH.md` / `MODEL.md` if present); first **definition** divergence with the user — never skip questioning because explore, research, or model already ran |
 
 ### Scope guard
 
 - No code, file edits, or implementation during definition
 - No sub-agent delegation — alignment / definition only
 - Do not re-open initiative-level idea exploration; stay on this Task's theme
+- Do not adopt research conclusions or invent product decisions from literature without user confirmation
 
 ## Entry (pipeline)
 
 When the user passes an explore **Task** key:
 
 1. `fetch` the Task and parent Story via tracker.
-2. Load `ROADMAP.md`, and `RESEARCH.md` / `MODEL.md` if present.
-3. Use Task summary/description as the **theme** to define — assume particulars are still open unless the user already answered them in this define session.
+2. Load `ROADMAP.md`, and `RESEARCH.md` / `MODEL.md` if present — as **supportive context**.
+3. Use Task summary/description as the **theme** to define — assume particulars are still open unless the user already answered them **in this define session**.
+4. Start the alignment loop with the user. Cite research/model only as options or constraints to confirm — never as settled definition.
 
 ## Alignment artifact
 
@@ -81,7 +94,11 @@ When the user passes an explore **Task** key:
 - …
 
 ## Scope / Decisions / Constraints
-- …
+- … (user-aligned in this define session)
+
+## Inputs (supportive — not substitutes for decisions above)
+- Research: RESEARCH.md (if any)
+- Model: MODEL.md (if any)
 
 ## Acceptance criteria
 - …

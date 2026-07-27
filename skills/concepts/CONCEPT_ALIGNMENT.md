@@ -74,6 +74,12 @@ rule governs selection order.
 | **Thin** — topic named, little detail | One broad opener (skill supplies wording) |
 | **Rich** — user already describes the subject | Use context; skip broad opener; ask first question on an unresolved divergence point |
 
+**Rich** means the **user** already answered something in this session or explicitly
+in the invoke. Agent-written supportive artifacts (e.g. literature briefs) are
+orientation for better questions — not evidence that divergence points are settled.
+Skills that load such artifacts must still open on an unresolved divergence with
+the user unless the skill's contract says otherwise.
+
 ### 2. Alignment loop
 
 1. Ask one short question about the current unknown.
@@ -107,6 +113,7 @@ State overrides in the skill. See `model` for a full format override example.
 - Announcing a question plan
 - Long preamble before the first question
 - Skipping divergence points to finish faster
+- Treating prior research, roadmaps, or other agent briefs as user-approved answers
 - Re-asking settled points
 - Violating scope guards defined by the skill
 - Human-like small talk ("Great question!", "Love that idea!")

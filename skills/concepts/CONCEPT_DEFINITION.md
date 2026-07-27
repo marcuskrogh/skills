@@ -20,6 +20,7 @@ modelling, and not coding.
 - Not implementation or delivery
 - Not a substitute for research or model side-paths when those are needed first
 - Not a no-op after explore: roadmap themes are investigation labels; definition still questions the user on particulars
+- Not a no-op after research or model: literature briefs and math specs are supportive inputs; definition still aligns particulars with the user
 
 ## When to apply
 
@@ -92,7 +93,8 @@ Skills should adapt this list to the subject:
 - Compatibility with existing code or conventions
 - Non-obvious constraints the user cares about
 - Acceptance criteria and verification approach
-- Prior context (roadmap Task, research, model, related issues)
+- Prior context (roadmap Task, research, model, related issues) — as orientation
+  only; research/model do not replace user answers on definition probes
 
 ## Depth guidance
 
@@ -106,6 +108,10 @@ Skills should adapt this list to the subject:
 
 - Defining at roadmap/initiative scale when only a phase/Task is needed
 - Treating an explore `ROADMAP.md` or Task blurb as already-decided scope/behaviour/acceptance
+- Treating `RESEARCH.md` conclusions, themes, or reading order as already-agreed
+  product decisions
+- Treating `MODEL.md` as a finished product definition (it is math alignment only)
+- Skipping definition questions because research or model already ran
 - Leaving critical behaviour as "TBD" without listing it under open items
 - Writing implementation details or code during definition
 - Creating a parallel ticket when an existing pipeline Task is the subject

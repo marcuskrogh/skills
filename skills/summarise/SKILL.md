@@ -30,8 +30,8 @@ artifacts except optionally refreshing the mirror **Next** column if it is stale
 | `PLAN.md` | Feature definition readiness |
 | `BUG.md` | Bug-fix readiness |
 | `ITERATE.md` | Post-ship iterate readiness |
-| `MODEL.md` | Model spec |
-| `RESEARCH.md` | Research brief |
+| `MODEL.md` | Math alignment (not product definition) |
+| `RESEARCH.md` | Literature brief (supportive — not user alignment) |
 | PR (if linked) | Implement / review / ship stage |
 
 ## Infer workflow stage
@@ -46,8 +46,8 @@ Pick the furthest stage that matches evidence:
 | **explore** | Story only / feature Task with no PLAN |
 | **bug** | `BUG.md` linked; not yet In Progress |
 | **iterate** | `ITERATE.md` linked (or Relates to a Done prior Task); building or about to |
-| **research** | `RESEARCH.md` linked; define not done |
-| **model** | `MODEL.md` linked; define not done |
+| **research** | `RESEARCH.md` linked; define not done — brief is supportive only; Next usually `/define` or `/model` |
+| **model** | `MODEL.md` linked; define not done — math aligned; product particulars still need `/define` |
 | **define** | Feature Task enriched but plan incomplete; or PLAN exists, not started |
 | **implement** | Status In Progress, or branch/PR WIP |
 | **review** | Status In Review; PR open (one-shot) |

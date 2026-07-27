@@ -143,9 +143,9 @@ Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, a
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths) |
 | **explore** | user | High-abstraction idea exploration → `ROADMAP.md` + Story/Tasks (direction; define owns particulars) |
 | **bug** | user | Defect alignment → `BUG.md` + Task (then implement) |
-| **research** | user | Literature brief → `RESEARCH.md` (updates Task continuity) |
-| **model** | user | Math alignment → `MODEL.md` (updates Task continuity) |
-| **define** | user | Topic definition → `PLAN.md` + Sub-tasks on the pipeline Task (owns particulars explore deferred) |
+| **research** | user | Literature brief → `RESEARCH.md` (supportive evidence; not user alignment) |
+| **model** | user | Math alignment → `MODEL.md` (math only; does not replace define) |
+| **define** | user | User-agent topic definition → `PLAN.md` + Sub-tasks (owns particulars; always questions the user) |
 | **implement** | user | Build from a pipeline Task via managed sub-agents; tests and testability required so coverage/quality do not degrade |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
 | **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) |

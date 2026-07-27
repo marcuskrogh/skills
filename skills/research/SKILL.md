@@ -1,16 +1,17 @@
 ---
 name: research
 description: >-
-  Literature investigation via arXiv (scripts/arxiv_research.py). Writes RESEARCH.md,
-  links it to a pipeline Task when given, and updates shared continuity markdown
-  (ROADMAP/PLAN/ISSUES). Use for surveys, paper discovery, or state of the art.
+  Literature investigation via arXiv (scripts/arxiv_research.py). Writes RESEARCH.md
+  as supportive evidence for later skills — not user alignment or product decisions.
+  Links to a pipeline Task when given and updates continuity markdown. Use for
+  surveys, paper discovery, or state of the art.
 ---
 
 # Research
 
 Applies [CONCEPT_RESEARCH](../concepts/CONCEPT_RESEARCH.md) as a systematic literature
 investigation on arXiv for a user-described topic. Optional side path on the main
-pipeline — feeds **model**, **define**, or **explore**.
+pipeline — feeds **model**, **define**, or **explore** with **supportive** context.
 
 **On invoke:** read [../concepts/CONCEPT_RESEARCH.md](../concepts/CONCEPT_RESEARCH.md),
 [../workflow/reference.md](../workflow/reference.md), and
@@ -19,6 +20,21 @@ pipeline — feeds **model**, **define**, or **explore**.
 
 **Primary tool:** `scripts/arxiv_research.py` — stdlib Python, MCP-free, official
 arXiv Atom API → JSON.
+
+## Intent
+
+Research is **literature investigation**, not user-agent alignment.
+
+| Research does | Research does not |
+|---------------|-------------------|
+| Survey what the literature says | Speak for the user or settle product choices |
+| Surface themes, gaps, and citations | Lock scope, UX, behaviour, or acceptance |
+| Orient **model** / **define** with evidence | Replace definition probes or math alignment questions |
+| Leave product particulars **open** | Pre-answer what **define** must ask the user |
+
+`RESEARCH.md` is an **input**, not an agreement. Downstream skills must still align
+with the user. Do not phrase the brief or **Next** as if research already decided
+the plan.
 
 ## Extension contract
 
@@ -131,7 +147,7 @@ Extract from JSON fields: problem, approach, contribution, evidence (`abstract` 
 
 ### Artifact
 
-Write **`RESEARCH.md`**:
+Write **`RESEARCH.md`**. Label findings as literature, not project decisions:
 
 ```markdown
 # Research brief: <topic>
@@ -143,19 +159,23 @@ Write **`RESEARCH.md`**:
 …
 
 ## Executive summary
-…
+… (what the literature says — not what we will build)
 
 ## Key papers
 …
 
 ## Themes and trends
-…
+… (in the literature)
 
 ## Gaps and limitations
 …
 
 ## Recommended reading order
-…
+… (sources to study — not a product plan)
+
+## Role in pipeline
+Supportive context for `/model` and `/define`. Does **not** settle user alignment.
+Particulars for define remain open.
 
 ## Sources
 …
@@ -175,7 +195,7 @@ When a pipeline **Task** (or Story) key was given or inferred:
 1. `attach_or_link` `RESEARCH.md` on that issue; `comment` with path + short executive summary + **Next**.
 2. Do **not** change Task status (leave **To Do** / current); do **not** create a parallel Task when a key was given.
 3. If `ROADMAP.md` lists the phase, add/update an Artifact / Notes cell pointing at `RESEARCH.md`.
-4. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs.
+4. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs — as evidence, not as locked decisions.
 5. Upsert the markdown mirror (`docs/agents/ISSUES.md`) with artifact + **Next**.
 
 Standalone research (no Task): still write `RESEARCH.md`; **Next** may be `/explore`
@@ -186,14 +206,16 @@ or `/define` if the user wants to start a phase.
 | Context | Next |
 |---------|------|
 | Math-heavy follow-up | `/model <KEY>` |
-| Ready to specify behaviour | `/define <KEY>` |
+| Ready to define behaviour with the user | `/define <KEY>` |
 | Still scoping the initiative | `/explore` |
 | Only needed the brief | No further skill |
 
 ```markdown
 ## Next
-`/define <KEY>` — Define with research inputs
+`/define <KEY>` — Define with user; research brief is supportive context only
 ```
+
+(or `/model <KEY>` — Align math with user; research brief is supportive context only)
 
 ## Operational rules
 
@@ -203,6 +225,7 @@ or `/define` if the user wants to start a phase.
 4. **No fabrication** — every claim must trace to script JSON output.
 5. **Proportional depth** — quick scan: 1 script call; thorough review: search + snowball.
 6. **Canonical IDs** — use `arxiv_id` field (no `vN` suffix) unless version matters.
+7. **Supportive only** — never present research synthesis as user-approved scope or as a finished definition.
 
 ## Anti-patterns
 
@@ -211,6 +234,8 @@ or `/define` if the user wants to start a phase.
 - Ignoring `total_results` and treating the first page as exhaustive
 - Citing papers not present in script output
 - Scraping search HTML when the API suffices
+- Framing the brief or handoff so `/define` skips questioning the user
+- Treating literature consensus as project decisions
 
 ## Quick examples
 

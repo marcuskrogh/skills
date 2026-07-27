@@ -9,14 +9,21 @@ Produce an honest, citable **research brief** on a scoped question: what is know
 what themes recur, what gaps remain, and what to read next — without fabricating
 sources or overstating coverage.
 
+The brief is **supportive context** for later skills (model, define, explore). It
+adds evidence and orientation. It does **not** speak for the user or settle
+product, UX, scope, or acceptance choices.
+
 Skills specialise the **data source**, tooling, artifact path, and pipeline handoff.
 
 ## What this is not
 
 - Not a user-invokable workflow by itself
 - Not alignment / definition of product behaviour (those are other concepts)
+- Not a substitute for user answers in define or model — literature ≠ user intent
 - Not implementation
 - Not a dump of raw search results without synthesis
+- Not a decision log: themes and findings describe the literature, not what the
+  project will build
 
 ## Extension contract
 
@@ -106,10 +113,15 @@ Write a brief that includes at least: question, search strategy, executive summa
 key sources, themes/trends, gaps/limitations, recommended reading order, and full
 citations with durable links/IDs.
 
+Frame synthesis as **what the literature says**, not what the user decided.
+Recommended reading order ranks sources to study — it does not prescribe product
+scope, architecture, or acceptance criteria for define.
+
 ### 8. Hand off
 
 Point to the next skill only when the brief should feed definition, modelling, or
-further scoping — otherwise end.
+further scoping — otherwise end. Handoff language must treat the brief as
+**supportive input**, never as settled alignment.
 
 ## Invariants
 
@@ -118,6 +130,8 @@ further scoping — otherwise end.
 - **Proportional depth.** Quick scans stay light; thorough reviews search + expand.
 - **No fabrication.** Never cite sources not present in retrieval results.
 - **Canonical IDs.** Prefer stable identifiers from the skill's data source.
+- **Supportive only.** Research informs; it does not align with the user or close
+  divergence points that define / model must resolve with the user.
 
 ## Anti-patterns
 
@@ -126,6 +140,8 @@ further scoping — otherwise end.
 - Citing papers or facts not in retrieval output
 - Skipping synthesis and dumping raw JSON/XML
 - Scraping HTML when the skill's API/script path works
+- Writing briefs that sound like product decisions or approved plans for define
+- Instructing later skills to treat research conclusions as already-agreed with the user
 
 ## Authoring skills that use this concept
 
