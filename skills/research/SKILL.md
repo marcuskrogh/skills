@@ -1,45 +1,75 @@
 ---
 name: research
 description: >-
-  Literature investigation via arXiv (scripts/arxiv_research.py). Writes RESEARCH.md,
-  links it to a pipeline Task when given, and updates shared continuity markdown
-  (ROADMAP/PLAN/ISSUES). Use for surveys, paper discovery, or state of the art.
+  Multi-axis investigation of a topic: arXiv preprints plus formal written sources,
+  web discovery, and informal/practitioner material. Writes RESEARCH.md as
+  supportive evidence — not user alignment or product decisions. Links to a
+  pipeline Task when given and updates continuity markdown. Use for surveys,
+  state of the art, or a wide research pass.
 ---
 
 # Research
 
-Applies [CONCEPT_RESEARCH](../concepts/CONCEPT_RESEARCH.md) as a systematic literature
-investigation on arXiv for a user-described topic. Optional side path on the main
-pipeline — feeds **model**, **define**, or **explore**.
+Applies [CONCEPT_RESEARCH](../concepts/CONCEPT_RESEARCH.md) as a **multi-axis**
+investigation for a user-described topic. Optional side path on the main pipeline
+— feeds **model**, **define**, or **explore** with **supportive** context.
 
 **On invoke:** read [../concepts/CONCEPT_RESEARCH.md](../concepts/CONCEPT_RESEARCH.md),
 [../workflow/reference.md](../workflow/reference.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md) when a Task key or WORKSPACE exists. Read
-[reference.md](reference.md) for query syntax.
+[reference.md](reference.md) for axis tooling (arXiv script, web fetch notes).
 
-**Primary tool:** `scripts/arxiv_research.py` — stdlib Python, MCP-free, official
-arXiv Atom API → JSON.
+**Default:** cover **all relevant axes**. arXiv is **one axis**, not the whole
+pass. Narrow to a single axis only when the user asks (e.g. "arXiv only").
+
+## Intent
+
+Research is **evidence gathering across sources**, not user-agent alignment.
+
+| Research does | Research does not |
+|---------------|-------------------|
+| Survey what sources say across axes | Speak for the user or settle product choices |
+| Surface themes, gaps, and citations | Lock scope, UX, behaviour, or acceptance |
+| Orient **model** / **define** with evidence | Replace definition probes or math alignment questions |
+| Leave product particulars **open** | Pre-answer what **define** must ask the user |
+
+`RESEARCH.md` is an **input**, not an agreement. Downstream skills must still align
+with the user. Do not phrase the brief or **Next** as if research already decided
+the plan.
 
 ## Extension contract
 
 | Extension | This skill |
 |-----------|------------|
-| **Data source** | arXiv Atom API via `scripts/arxiv_research.py` |
-| **Retrieval path** | Script first (`search` / `lookup` / `snowball`); curl/WebFetch fallback only if Python unavailable |
+| **Research axes** | See [Axes](#axes) — all by default |
+| **Retrieval path** | Per axis below; arXiv via `scripts/arxiv_research.py`; others via WebSearch / WebFetch (or harness equivalents) |
 | **Artifact** | `RESEARCH.md` (path from WORKSPACE) |
-| **Citation rules** | Every claim traces to script JSON; use canonical `arxiv_id` |
+| **Citation rules** | Every claim traces to retrieved evidence; include durable ID/URL + **axis** label |
 
 ## When to use
 
-- "What does arXiv say about …?"
-- Literature review, survey, or state-of-the-art on a topic
-- Find seminal or recent papers in a field
-- Compare approaches, methods, or trends from preprints
-- Resolve or enrich known arXiv IDs in context of a broader question
+- Wide survey or state-of-the-art on a topic (default)
+- "What does the field / web / literature say about …?"
+- Compare approaches across papers, standards, docs, and practice
+- Find seminal works, recent advances, or practitioner gotchas
+- Resolve known arXiv IDs / DOIs / RFCs in a broader multi-axis pass
+- Explicit single-axis ask (e.g. arXiv-only) — then skip other axes and note why
 
-## Data source (mandatory)
+## Axes
 
-Use `scripts/arxiv_research.py` as the **first** retrieval path:
+Cover each axis that fits the topic. Skip only with a recorded reason (user scope,
+out of domain, or quick-scan proportionality).
+
+| Axis | Sources | Primary retrieval |
+|------|---------|-------------------|
+| **1. Preprints (arXiv)** | arXiv (and noted peer preprint servers if relevant) | `scripts/arxiv_research.py` — see [reference.md](reference.md) |
+| **2. Formal written** | Journals, proceedings, books, standards, RFCs, official specs, textbooks | WebSearch → WebFetch durable pages (DOI, publisher, IETF, ISO, W3C, …) |
+| **3. Web discovery** | Search indexes, docs hubs, survey pages, encyclopedic overviews, secondary catalogs | WebSearch with complementary queries; WebFetch key landing pages |
+| **4. Informal / practitioner** | Engineering blogs, talks/slides, repo READMEs/ADRs, forums, industry reports, newsletters | WebSearch + WebFetch; label as informal |
+
+### Axis 1 — Preprints (arXiv)
+
+Use `scripts/arxiv_research.py` as the **first** path for this axis:
 
 ```bash
 python3 scripts/arxiv_research.py search -q 'all:topic AND cat:cs.LG' --max-results 25
@@ -47,91 +77,89 @@ python3 scripts/arxiv_research.py lookup --ids 1706.03762,2312.00752
 python3 scripts/arxiv_research.py snowball --ids 1706.03762 --max-results 20
 ```
 
-The script handles URL encoding, rate limiting (≥3 s between API calls), Atom XML
-parsing, deduplication, and JSON output.
-
 **Fallback** (only if Python is unavailable): `curl -sL` on
 `https://export.arxiv.org/api/query?...` or `WebFetch` on the same URL. Do **not**
 scrape `arxiv.org/search` unless the request needs DOI, ORCID, ACM, or MSC lookup
 (see reference.md).
 
+Design **2–4 complementary arXiv queries** (broad / title / abstract / recency /
+author). Prefer **one** multi-`-q` script invocation. Full flags and JSON schema:
+[reference.md](reference.md).
+
+### Axis 2 — Formal written
+
+Search for peer-reviewed and normative material beyond preprints:
+
+- Journal / conference versions of preprint hits (DOI, publisher PDF/HTML)
+- Standards and RFCs (IETF, ISO, IEEE, W3C, …)
+- Books / handbook chapters and survey articles
+- Official product or API specifications when the topic is systems/software
+
+Prefer durable identifiers (DOI, RFC number, standard designation). Note
+peer-review or normative status when known.
+
+### Axis 3 — Web discovery
+
+Run **2–4 complementary web queries** (not one string), e.g.:
+
+1. Broad topic + "survey" / "overview" / "state of the art"
+2. Method or system name + comparison / benchmark
+3. Official documentation or "site:" filters for known hubs
+4. Recency-oriented queries when the user wants recent advances
+
+Use results to discover candidates for axes 1–2 and 4; fetch primary pages rather
+than citing search snippets alone.
+
+### Axis 4 — Informal / practitioner
+
+Seek practice-facing material that formal corpora miss:
+
+- Engineering blog posts and postmortems
+- Conference talks, slides, recorded demos
+- High-signal repo docs (README, ADR, design notes)
+- Forums / Q&A only when they add unique operational detail
+- Industry whitepapers and reputable newsletters
+
+**Always label** these as informal. Do not present them as peer-reviewed fact.
+
 ## Workflow specialisation
 
-Follow CONCEPT_RESEARCH. arXiv-specific notes:
+Follow CONCEPT_RESEARCH. Multi-axis notes:
 
-### Scope
+### 1. Scope
 
-Domain filters use arXiv categories (`cat:cs.LG`, `cat:math.OC`, …).
+Infer topic, intent, depth, and time horizon. Default axes = all four. If the user
+says "arXiv only" (or similar), run that axis alone and state the scope in the brief.
 
-### Search strategy
+### 2. Plan
 
-Design **2–4 complementary queries**:
+Write a short plan: which axes, which queries/targets per axis. Record it in
+`RESEARCH.md` under Search strategy.
 
-1. **Broad discovery** — `all:` terms + optional `cat:` filter
-2. **Title-focused** — `ti:"key phrase"` for landmark papers
-3. **Abstract-focused** — `abs:` terms for methodological overlap
-4. **Recency slice** — same query + `submittedDate:` window
-5. **Author anchor** (if user names researchers) — `au:lastname`
+### 3. Execute
 
-### Execute (one script call)
+Run axes in parallel when tools allow; otherwise Preprints → Formal → Web →
+Informal is a good order (seeds from preprints often unlock formal versions and
+practitioner discussion).
 
-Run **all planned queries in a single invocation**:
+### 4. Expand
 
-```bash
-python3 scripts/arxiv_research.py search \
-  -q 'all:retrieval+augmented+generation+AND+cat:cs.CL' \
-  -q 'ti:"retrieval+augmented"' \
-  -q 'abs:RAG+AND+submittedDate:[202301010000+TO+202512312359]' \
-  --max-results 50 \
-  --sort submittedDate \
-  --order descending
-```
+Snowball across axes: arXiv snowball for papers; follow DOIs/citations for formal;
+follow "discussed in" / author sites / related repos for informal.
 
-**Sort defaults:**
+### 5. Triage
 
-| Intent | Flags |
-|--------|-------|
-| Seminal / foundational | default (`relevance`) |
-| Latest work | `--sort submittedDate --order descending` |
-| Recently updated surveys | `--sort lastUpdatedDate --order descending` |
+Merge candidates; dedupe by DOI / arXiv ID / canonical URL. Prefer items that
+appear on multiple axes. Tier Core / Supporting / Peripheral with axis labels.
 
-**Lookup known papers** in the same pass when IDs are known:
+### 6. Deep read
 
-```bash
-python3 scripts/arxiv_research.py lookup --ids 1706.03762,2401.12345
-```
+Extract problem, approach, contribution, evidence, limitations, links — from
+retrieved text only.
 
-**Pagination** (only when `total_results` exceeds one page and more depth is needed):
+### 7. Artifact
 
-```bash
-python3 scripts/arxiv_research.py search -q 'all:topic' --max-results 50 --start 50
-```
-
-Use `--paginate` to fetch all pages for a query (respects rate limits; use sparingly).
-
-### Snowball
-
-```bash
-python3 scripts/arxiv_research.py snowball \
-  --ids 1706.03762,2312.00752 \
-  --max-results 20 \
-  --years-back 3
-```
-
-### Triage
-
-Work from the script's JSON `papers` array. Papers appearing in multiple
-`source_queries` are stronger candidates. Prefer `submitted_date`, `journal_ref` /
-`doi`, and title/abstract signals ("survey", "review").
-
-### Deep read
-
-Extract from JSON fields: problem, approach, contribution, evidence (`abstract` +
-`comment`), limitations, `abs_url` / `pdf_url`.
-
-### Artifact
-
-Write **`RESEARCH.md`**:
+Write **`RESEARCH.md`**. Label findings as source evidence, not project decisions:
 
 ```markdown
 # Research brief: <topic>
@@ -139,26 +167,38 @@ Write **`RESEARCH.md`**:
 ## Question
 …
 
+## Axes covered
+| Axis | Status | Notes |
+|------|--------|-------|
+| Preprints (arXiv) | covered / skipped | … |
+| Formal written | covered / skipped | … |
+| Web discovery | covered / skipped | … |
+| Informal / practitioner | covered / skipped | … |
+
 ## Search strategy
-…
+… (queries / targets per axis)
 
 ## Executive summary
-…
+… (what the sources say — not what we will build)
 
-## Key papers
-…
+## Key sources
+… (mixed axes; each item: title, axis, ID/URL, one-line relevance)
 
 ## Themes and trends
-…
+… (note agreements and disagreements across axes)
 
 ## Gaps and limitations
-…
+… (incl. axis blind spots)
 
 ## Recommended reading order
-…
+… (sources to study — not a product plan)
+
+## Role in pipeline
+Supportive context for `/model` and `/define`. Does **not** settle user alignment.
+Particulars for define remain open.
 
 ## Sources
-…
+… (full citations with durable links/IDs + axis)
 
 ## Tracker
 - Task: <KEY> (if linked)
@@ -175,7 +215,7 @@ When a pipeline **Task** (or Story) key was given or inferred:
 1. `attach_or_link` `RESEARCH.md` on that issue; `comment` with path + short executive summary + **Next**.
 2. Do **not** change Task status (leave **To Do** / current); do **not** create a parallel Task when a key was given.
 3. If `ROADMAP.md` lists the phase, add/update an Artifact / Notes cell pointing at `RESEARCH.md`.
-4. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs.
+4. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs — as evidence, not as locked decisions.
 5. Upsert the markdown mirror (`docs/agents/ISSUES.md`) with artifact + **Next**.
 
 Standalone research (no Task): still write `RESEARCH.md`; **Next** may be `/explore`
@@ -186,35 +226,49 @@ or `/define` if the user wants to start a phase.
 | Context | Next |
 |---------|------|
 | Math-heavy follow-up | `/model <KEY>` |
-| Ready to specify behaviour | `/define <KEY>` |
+| Ready to define behaviour with the user | `/define <KEY>` |
 | Still scoping the initiative | `/explore` |
 | Only needed the brief | No further skill |
 
 ```markdown
 ## Next
-`/define <KEY>` — Define with research inputs
+`/define <KEY>` — Define with user; research brief is supportive context only
 ```
+
+(or `/model <KEY>` — Align math with user; research brief is supportive context only)
 
 ## Operational rules
 
-1. **Script first** — one `search` call with multiple `-q` flags beats many sequential `curl` calls.
-2. **MCP-free** — do not require MCP servers; the script is the standard path.
-3. **Honest coverage** — arXiv is preprints; note peer-review status.
-4. **No fabrication** — every claim must trace to script JSON output.
-5. **Proportional depth** — quick scan: 1 script call; thorough review: search + snowball.
-6. **Canonical IDs** — use `arxiv_id` field (no `vN` suffix) unless version matters.
+1. **Multi-axis by default** — arXiv alone is not a complete pass unless scoped.
+2. **Script first on preprints** — one `search` with multiple `-q` flags beats many `curl`s.
+3. **Web for the other axes** — WebSearch / WebFetch (or harness equivalents); no MCP required.
+4. **Honest coverage** — note preprint vs peer-reviewed vs informal; say what was skipped.
+5. **No fabrication** — every claim traces to retrieved output (script JSON, fetched page, or search result you opened).
+6. **Proportional depth** — quick scan: light pass on ≥2 axes; thorough: all relevant axes + expand.
+7. **Canonical IDs** — arXiv ID (no `vN` unless needed), DOI, RFC/standard id, or durable URL.
+8. **Supportive only** — never present research synthesis as user-approved scope or a finished definition.
 
 ## Anti-patterns
 
-- Multiple separate script invocations when one `search -q ... -q ...` suffices
-- Hand-parsing Atom XML when the script is available
-- Ignoring `total_results` and treating the first page as exhaustive
-- Citing papers not present in script output
-- Scraping search HTML when the API suffices
+- arXiv-only (or any single-axis) research when the user asked for a normal / wide pass
+- Multiple separate arXiv script invocations when one `search -q ... -q ...` suffices
+- Citing search snippets without fetching the underlying page when depth requires it
+- Treating blogs/forums as peer-reviewed without labeling informal
+- Ignoring `total_results` on arXiv and treating the first page as exhaustive
+- Framing the brief or handoff so `/define` skips questioning the user
+- Treating source consensus as project decisions
 
 ## Quick examples
 
-**Recent diffusion models for protein design:**
+**Wide pass — diffusion models for protein design:**
+
+1. Preprints: multi-query arXiv search + optional snowball.
+2. Formal: DOI / journal versions; any standards or reviews.
+3. Web: "protein diffusion design survey", lab/docs hubs.
+4. Informal: practitioner posts, notable repo READMEs, talks.
+5. Triage across axes → `RESEARCH.md`.
+
+**arXiv-scoped (user asked):**
 
 ```bash
 python3 scripts/arxiv_research.py search \
@@ -224,14 +278,4 @@ python3 scripts/arxiv_research.py search \
   --max-results 30 --sort submittedDate --order descending
 ```
 
-Then triage → brief.
-
-**Transformer paper + 2017 attention landscape:**
-
-```bash
-python3 scripts/arxiv_research.py lookup --ids 1706.03762
-python3 scripts/arxiv_research.py search \
-  -q 'all:attention+AND+submittedDate:[201701010000+TO+201712312359]+AND+cat:cs.CL' \
-  --max-results 30 --sort submittedDate
-python3 scripts/arxiv_research.py snowball --ids 1706.03762 --years-back 1 --max-results 15
-```
+Record Axes covered: only Preprints; others skipped (user scope).

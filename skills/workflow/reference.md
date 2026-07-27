@@ -62,9 +62,13 @@ clarify → new branch from base → implement → **new** PR → `/review-fix`.
 
 | Skill | Artifact | When | Continuity updates |
 |-------|----------|------|--------------------|
-| **research** | `RESEARCH.md` | Literature before define/model | Task link, ROADMAP/PLAN notes, ISSUES mirror, **Next** |
-| **model** | `MODEL.md` | Math spec before/with define | Task link (prefer enrich, no parallel Task), ROADMAP/PLAN/RESEARCH links, ISSUES mirror, **Next** |
+| **research** | `RESEARCH.md` | Multi-axis literature before define/model (arXiv + formal + web + informal) — **supportive evidence only**, not user alignment | Task link, ROADMAP/PLAN notes, ISSUES mirror, **Next** |
+| **model** | `MODEL.md` | Math alignment with user before/with define — **math only**, not product definition | Task link (prefer enrich, no parallel Task), ROADMAP/PLAN/RESEARCH links, ISSUES mirror, **Next** |
 | **summarise** | *(read-only)* | Anytime (feature or bug Task) | Reports About / Stage / **Next** from the above |
+
+Research and model **add information and direction**. They must not be treated as
+substitutes for user answers in **define**. Define always probes the user on
+scope, behaviour, constraints, and acceptance.
 
 Typical feature inserts:
 
@@ -108,8 +112,8 @@ GitHub, or Linear:
 | `PLAN.md` | Definition / plan + keys + **Next** (features) |
 | `BUG.md` | Bug report + acceptance + **Next** (bug fixes) |
 | `ITERATE.md` | Post-ship fix delta + acceptance + **Next** (iterate) |
-| `RESEARCH.md` | Literature brief + Task link + **Next** |
-| `MODEL.md` | Math spec + Task link + **Next** |
+| `RESEARCH.md` | Multi-axis research brief (supportive evidence) + Task link + **Next** |
+| `MODEL.md` | Math alignment with user + Task link + **Next** |
 | `docs/agents/ISSUES.md` | Mirror table (when enabled in WORKSPACE) |
 | Provider issue (remote or `docs/agents/issues/*.md`) | Work-item system of record for that provider |
 
@@ -124,7 +128,7 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 |-------|----------------|
 | **explore** | Create **Story** + one **Task** per investigation theme. Tasks name themes to define later — direction only, not settled specs. |
 | **bug** | Create one **Task** (+ optional Sub-tasks) from `BUG.md`. No Story unless requested. |
-| **define** | Take an explore **Task**. Probe particulars with the user (explore did not decide them). Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel definition ticket when an explore Task is the subject. |
+| **define** | Take an explore **Task**. Probe particulars with the user (explore / research / model did not decide product scope, behaviour, or acceptance). Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel definition ticket when an explore Task is the subject. |
 | **implement** | Work the **same Task** (and its Sub-tasks). Spec from `PLAN.md` or `BUG.md`. Branch + PR with tests/testability as first-class deliverables; move to **In Review**. |
 | **iterate** | After ship: create a **new** Task from `ITERATE.md` (Relates to prior); new branch from base + **new** PR; move new Task to **In Review**. |
 | **review** | One-shot multi-axis review (Spec, Correctness, Integration, Architecture, Standards); may hand off to fix-forward manually. |
@@ -158,9 +162,9 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 | `ROADMAP.md` | explore | Direction + investigation themes (particulars deferred) |
 | `BUG.md` | bug | Defect report + acceptance for implement/review |
 | `ITERATE.md` | iterate | Post-ship fix delta + acceptance for implement/review |
-| `RESEARCH.md` | research | Literature brief for a phase/Task |
-| `MODEL.md` | model | Mathematical specification |
-| `PLAN.md` | define | Spec for implement + Spec-axis review |
+| `RESEARCH.md` | research | Multi-axis research brief — supportive evidence for a phase/Task (not user alignment) |
+| `MODEL.md` | model | Mathematical specification aligned with the user (not product definition) |
+| `PLAN.md` | define | Spec for implement + Spec-axis review (user-aligned particulars) |
 | Branch + PR | implement / iterate | Delivery vehicle (iterate always opens a **new** PR) |
 | PR review | review / review-fix | Multi-axis findings incl. Architecture (+ auto fix-forward in review-fix) |
 | Merge + Done | ship | Closeout |
@@ -203,8 +207,8 @@ alignment artifact, and the ISSUES mirror when enabled.
 |-------|------|
 | bug | Existing related Task/Story if linked; codebase pointers from user only |
 | iterate | Prior shipped Task + merged PR + `PLAN.md` / `BUG.md` / prior `ITERATE.md` |
-| research / model | Task (+ Story), `ROADMAP.md`, sibling artifacts (`RESEARCH.md` / `MODEL.md` / `PLAN.md`) |
-| define | Task (+ parent Story), `ROADMAP.md`, `RESEARCH.md` / `MODEL.md` if present |
+| research / model | Task (+ Story), `ROADMAP.md`, sibling artifacts (`RESEARCH.md` / `MODEL.md` / `PLAN.md`) — research is supportive only |
+| define | Task (+ parent Story), `ROADMAP.md`, `RESEARCH.md` / `MODEL.md` if present as **supportive** context — still question the user |
 | implement | Task + Sub-tasks, `PLAN.md` or `BUG.md` / `MODEL.md` / linked specs; project test/lint commands |
 | review / review-fix | Task + PR + `PLAN.md` / `BUG.md` / `ITERATE.md` / specs |
 | ship | Task + PR + latest review outcome |
@@ -289,6 +293,7 @@ Do **not** use `/iterate` while the original PR is still open — that is fix-fo
 - Creating issues before `WORKSPACE.md` exists (run `/setup` first)
 - Hardcoding Jira (or any single provider) when WORKSPACE selects another
 - Creating a second Task in define when an explore Task was provided
+- Treating `RESEARCH.md` or `MODEL.md` as settled product definition so define skips user probes
 - Ending a pipeline skill without tracker comment + **Next** (+ mirror)
 - Marking **Done** from implement, iterate, or review (that is **ship**)
 - Shipping while Sub-tasks remain open
