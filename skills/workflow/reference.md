@@ -62,7 +62,7 @@ clarify → new branch from base → implement → **new** PR → `/review-fix`.
 
 | Skill | Artifact | When | Continuity updates |
 |-------|----------|------|--------------------|
-| **research** | `RESEARCH.md` | Literature before define/model — **supportive evidence only**, not user alignment | Task link, ROADMAP/PLAN notes, ISSUES mirror, **Next** |
+| **research** | `RESEARCH.md` | Multi-axis literature before define/model (arXiv + formal + web + informal) — **supportive evidence only**, not user alignment | Task link, ROADMAP/PLAN notes, ISSUES mirror, **Next** |
 | **model** | `MODEL.md` | Math alignment with user before/with define — **math only**, not product definition | Task link (prefer enrich, no parallel Task), ROADMAP/PLAN/RESEARCH links, ISSUES mirror, **Next** |
 | **summarise** | *(read-only)* | Anytime (feature or bug Task) | Reports About / Stage / **Next** from the above |
 
@@ -112,7 +112,7 @@ GitHub, or Linear:
 | `PLAN.md` | Definition / plan + keys + **Next** (features) |
 | `BUG.md` | Bug report + acceptance + **Next** (bug fixes) |
 | `ITERATE.md` | Post-ship fix delta + acceptance + **Next** (iterate) |
-| `RESEARCH.md` | Literature brief (supportive evidence) + Task link + **Next** |
+| `RESEARCH.md` | Multi-axis research brief (supportive evidence) + Task link + **Next** |
 | `MODEL.md` | Math alignment with user + Task link + **Next** |
 | `docs/agents/ISSUES.md` | Mirror table (when enabled in WORKSPACE) |
 | Provider issue (remote or `docs/agents/issues/*.md`) | Work-item system of record for that provider |
@@ -162,7 +162,7 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 | `ROADMAP.md` | explore | Direction + investigation themes (particulars deferred) |
 | `BUG.md` | bug | Defect report + acceptance for implement/review |
 | `ITERATE.md` | iterate | Post-ship fix delta + acceptance for implement/review |
-| `RESEARCH.md` | research | Literature brief — supportive evidence for a phase/Task (not user alignment) |
+| `RESEARCH.md` | research | Multi-axis research brief — supportive evidence for a phase/Task (not user alignment) |
 | `MODEL.md` | model | Mathematical specification aligned with the user (not product definition) |
 | `PLAN.md` | define | Spec for implement + Spec-axis review (user-aligned particulars) |
 | Branch + PR | implement / iterate | Delivery vehicle (iterate always opens a **new** PR) |

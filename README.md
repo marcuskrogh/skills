@@ -86,7 +86,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md
 ├── explore/                    ← idea-space direction → ROADMAP.md (themes for later define)
 ├── bug/                        ← defect alignment → BUG.md (skips explore/define)
-├── research/                   ← literature brief → RESEARCH.md
+├── research/                   ← multi-axis research brief → RESEARCH.md
 ├── model/                      ← mathematical alignment → MODEL.md
 ├── define/                     ← topic definition → PLAN.md (enriches pipeline Task)
 ├── implement/                  ← managed implementation from a pipeline Task (tests + testability first-class)
@@ -143,7 +143,7 @@ Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, a
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths) |
 | **explore** | user | High-abstraction idea exploration → `ROADMAP.md` + Story/Tasks (direction; define owns particulars) |
 | **bug** | user | Defect alignment → `BUG.md` + Task (then implement) |
-| **research** | user | Literature brief → `RESEARCH.md` (supportive evidence; not user alignment) |
+| **research** | user | Multi-axis research brief → `RESEARCH.md` (arXiv + formal + web + informal; supportive, not user alignment) |
 | **model** | user | Math alignment → `MODEL.md` (math only; does not replace define) |
 | **define** | user | User-agent topic definition → `PLAN.md` + Sub-tasks (owns particulars; always questions the user) |
 | **implement** | user | Build from a pipeline Task via managed sub-agents; tests and testability required so coverage/quality do not degrade |

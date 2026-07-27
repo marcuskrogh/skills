@@ -1,10 +1,27 @@
-# arXiv API reference (for agents)
+# Research axes reference (for agents)
+
+Tooling notes for the multi-axis **research** skill. Do not present this file to the
+user during research.
+
+Default pass covers **all relevant axes**. arXiv is axis 1 only.
+
+| Axis | Tooling |
+|------|---------|
+| Preprints (arXiv) | `scripts/arxiv_research.py` (below) |
+| Formal written | WebSearch → WebFetch (DOI, publisher, RFC/standards sites) |
+| Web discovery | WebSearch (+ WebFetch of key pages) |
+| Informal / practitioner | WebSearch → WebFetch; always label informal |
+
+---
+
+# Axis 1: arXiv API
 
 Official docs: https://info.arxiv.org/help/api/user-manual.html
 
 ## Primary tool: `scripts/arxiv_research.py`
 
-Stdlib Python script — no MCP, no extra dependencies. Always prefer this over raw `curl`.
+Stdlib Python script — no MCP, no extra dependencies. Always prefer this over raw `curl`
+for the preprint axis.
 
 ### Commands
 
@@ -197,3 +214,39 @@ Not searchable via Atom API: DOI, ORCID, ACM/MSC field search, cross-listed-only
 | `q-bio` | Quantitative biology |
 
 Full list: https://arxiv.org/category_taxonomy
+
+---
+
+# Axes 2–4: web retrieval notes
+
+## Formal written
+
+Prefer:
+
+- DOI landing pages (`https://doi.org/...`)
+- Publisher HTML/PDF abstracts
+- IETF RFC (`https://www.rfc-editor.org/rfc/rfcNNNN`)
+- W3C / ISO / IEEE public abstracts or freely available specs
+- Open survey articles and textbooks with stable URLs
+
+Record: title, authors/org, year, DOI or standard id, peer-review/normative note.
+
+## Web discovery
+
+- Use several complementary queries (synonyms, "survey", method names, vendors).
+- Treat search hits as pointers — fetch the page before deep claims.
+- Encyclopedic pages are orientation only; prefer primary sources for Core tier.
+
+## Informal / practitioner
+
+- Prefer named authors, known labs/companies, or widely cited posts.
+- Capture date and venue (blog, talk, repo).
+- Never upgrade informal status silently in the brief.
+
+## Citation hygiene (all axes)
+
+| Prefer | Avoid |
+|--------|-------|
+| arXiv ID, DOI, RFC number, permalink | Homepages that rot; bare search-result titles |
+| Axis label on every citation | Mixing informal with formal without labels |
+| Quoting only retrieved text | Filling gaps from memory |

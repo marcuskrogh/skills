@@ -31,7 +31,7 @@ artifacts except optionally refreshing the mirror **Next** column if it is stale
 | `BUG.md` | Bug-fix readiness |
 | `ITERATE.md` | Post-ship iterate readiness |
 | `MODEL.md` | Math alignment (not product definition) |
-| `RESEARCH.md` | Literature brief (supportive — not user alignment) |
+| `RESEARCH.md` | Multi-axis research brief (supportive — not user alignment) |
 | PR (if linked) | Implement / review / ship stage |
 
 ## Infer workflow stage
