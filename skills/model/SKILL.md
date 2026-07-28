@@ -103,12 +103,16 @@ Use the **definition hierarchy** from [format.md](format.md).
 1. Write `MODEL.md` at the agreed path; commit when appropriate (include issue key).
 2. **Pipeline Task provided (preferred):** enrich *that* Task — `attach_or_link` `MODEL.md`, `comment` summary + **Next**. Do **not** create a parallel Task. Leave status unchanged (usually **To Do**).
 3. **Standalone:** create a **Task** (**To Do**), link parent Story if any, then same attach/comment.
-4. Update shared markdown:
+4. **Delivery branch:** when committing `MODEL.md` for a pipeline Task, reuse the Task’s
+   open branch/PR or start it once — same rules as research/define
+   ([delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop)).
+   Record branch + PR on the Task. Do **not** open a model-only PR alongside a separate define PR.
+5. Update shared markdown (on that delivery branch when it exists):
    - `ROADMAP.md` phase notes / artifact column → `MODEL.md`
    - `PLAN.md` if it exists → Inputs / Constraints link to `MODEL.md`
    - `RESEARCH.md` Tracker section if it exists → link `MODEL.md`
    - Upsert `docs/agents/ISSUES.md` mirror
-5. Report path, key, and **Next**. Do **not** close the Task.
+6. Report path, key, branch/PR, and **Next**. Do **not** close the Task.
 
 ## Handoff
 

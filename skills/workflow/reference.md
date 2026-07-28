@@ -17,13 +17,19 @@ setup (once per repo)
    ↓
 explore  →  define  →  implement  →  review-fix  →  ship
    │           │            │              │               │
- ROADMAP.md  PLAN.md     branch+PR    review↔fix loop   merge+Done
- Story+Tasks  same Task   same Task      same Task        same Task
+ ROADMAP.md  PLAN.md     same branch   review↔fix loop  merge that PR
+ Story+Tasks  + branch+PR  + same PR     same Task         + Done
+               same Task ───────────────────────────────→ closed-loop
                ↑
-        research / model   (optional side paths on the same Task)
+        research / model   (optional; same Task + same delivery branch)
 ```
 
 (`/review` remains available for a one-shot review without auto-fix.)
+
+**One branch, one PR, closed-loop ship** — see [Delivery branch continuity](#delivery-branch-continuity-closed-loop).
+When the user continues via **Next**, every skill from define through ship reuses the
+Task’s delivery branch and PR. Ship updates continuity on that branch, merges it,
+and leaves no open follow-up PR.
 
 ### Bug fix workflow
 
@@ -32,8 +38,9 @@ setup (once per repo)
    ↓
 bug  →  implement  →  review-fix  →  ship
  │          │              │               │
-BUG.md   branch+PR    review↔fix loop   merge+Done
- Task     same Task      same Task        same Task
+BUG.md   same branch   review↔fix loop  merge that PR
++ branch+PR  same PR     same Task         + Done
+ Task ──────────────────────────────────→ closed-loop
 ```
 
 **`/bug` replaces explore + define** for defects: one short alignment → `BUG.md` + one
@@ -126,14 +133,65 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 
 | Stage | Ticket action |
 |-------|----------------|
-| **explore** | Create **Story** + one **Task** per investigation theme. Tasks name themes to define later — direction only, not settled specs. |
-| **bug** | Create one **Task** (+ optional Sub-tasks) from `BUG.md`. No Story unless requested. |
-| **define** | Take an explore **Task**. Probe particulars with the user (explore / research / model did not decide product scope, behaviour, or acceptance). Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel definition ticket when an explore Task is the subject. |
-| **implement** | Work the **same Task** (and its Sub-tasks). Spec from `PLAN.md` or `BUG.md`. Branch + PR with tests/testability as first-class deliverables; move to **In Review**. |
+| **explore** | Create **Story** + one **Task** per investigation theme. Tasks name themes to define later — direction only, not settled specs. Explore does **not** open the delivery PR for a phase Task. |
+| **bug** | Create one **Task** (+ optional Sub-tasks) from `BUG.md`. No Story unless requested. Start the Task’s **delivery branch** (+ draft PR when Open PR by default) when committing `BUG.md`. |
+| **define** | Take an explore **Task**. Probe particulars with the user (explore / research / model did not decide product scope, behaviour, or acceptance). Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel definition ticket when an explore Task is the subject. Start or **reuse** the Task’s **delivery branch** (+ draft PR) when committing `PLAN.md`. |
+| **research / model** | Enrich the **same Task**. If a delivery branch/PR already exists, commit artifacts there. If not and the skill is committing repo files for this Task, start the delivery branch (+ draft PR) so later define/implement continue on it. |
+| **implement** | Work the **same Task** (and its Sub-tasks). Spec from `PLAN.md` or `BUG.md`. **Reuse** the existing delivery branch + PR; only create them if missing. Tests/testability first-class; move to **In Review**. |
 | **iterate** | After ship: create a **new** Task from `ITERATE.md` (Relates to prior); new branch from base + **new** PR; move new Task to **In Review**. |
-| **review** | One-shot multi-axis review (Spec, Correctness, Integration, Architecture, Standards); may hand off to fix-forward manually. |
-| **review-fix** | Review → fix-forward → re-review until clean (or max iterations); then ship. |
-| **ship** | Merge PR; close all open **Sub-tasks** → **Done**; Task → **Done**; Story → **Done** only when every child Task is Done; sync ISSUES + ROADMAP. |
+| **review** | One-shot multi-axis review (Spec, Correctness, Integration, Architecture, Standards) on the **same** PR; may hand off to fix-forward manually. |
+| **review-fix** | Review → fix-forward → re-review on the **same** branch/PR until clean (or max iterations); then ship. |
+| **ship** | Closed-loop: push continuity updates (`PLAN`/`ROADMAP`/`ISSUES`, …) onto the **same** delivery branch → merge **that** PR → close Sub-tasks/Task/(Story when complete). **No** second ship-only PR. |
+
+## Delivery branch continuity (closed-loop)
+
+**Goal:** for one pipeline Task (e.g. `SWD-84`), continuing via **Next** yields
+**one branch and one PR** from the first repo-writing skill on that Task through
+ship — not separate PRs for research, define, implement, and ship.
+
+### Rules
+
+1. **One delivery branch per Task.** Name it per WORKSPACE (`Branch pattern` + Task
+   key). Record **branch name** and **PR URL** on the Task (comment + `PLAN.md` /
+   `BUG.md` Tracker section + ISSUES mirror) as soon as they exist.
+2. **Resolve before create.** On every pipeline skill that writes to the repo for
+   that Task, look up the Task’s recorded branch/PR (issue comment, artifact
+   Tracker section, ISSUES, `gh pr list` by head/Task key). If an **open** delivery
+   PR or branch exists → **checkout/reuse it**. Do **not** open a second PR.
+3. **First writer starts it.** The first of research / model / define / bug that
+   commits artifacts for the Task creates the branch (and draft PR when
+   `Open PR by default`). Later skills only push commits to that head.
+4. **Implement never forks a parallel PR.** If define (or research/bug) already
+   opened `cursor/<key>-…`, implement continues there — same PR body updated,
+   not `…-implement-…` as a second PR.
+5. **Ship is closed-loop on that PR:**
+   - Commit markdown closeout (`PLAN.md` shipped notes, `ROADMAP.md` phase Done,
+     ISSUES mirror, markdown issue files if provider is markdown) onto the
+     **delivery branch** and **push**.
+   - Then **merge that PR** (WORKSPACE strategy).
+   - Delete the remote head branch after merge when the host allows.
+   - Tracker Done transitions may follow merge; they are remote ops, not a new PR.
+   - **Never** open a ship-only follow-up PR for continuity leftovers.
+6. **Explore** may write `ROADMAP.md` without owning a phase Task’s delivery PR
+   (initiative spans many Tasks). Once a phase Task has a delivery branch, further
+   ROADMAP row updates for that phase go on **that** branch when practical.
+7. **Iterate** (post-ship only) always starts a **new** Task + **new** branch +
+   **new** PR — that is a new closed-loop, not a continuation of a merged PR.
+
+### Anti-pattern (what this replaces)
+
+```text
+❌ /research → PR #A
+   /define   → PR #B
+   /implement → PR #C
+   /ship     → merge #C, then leftover PR #D for ROADMAP/PLAN closeout
+
+✅ /research → branch+draft PR #N (or wait until define)
+   /define   → same #N (PLAN.md)
+   /implement → same #N (code)
+   /review-fix → same #N
+   /ship     → closeout commits on #N → merge #N → Done (no open PR left)
+```
 
 ### Standalone entry
 
@@ -165,9 +223,9 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 | `RESEARCH.md` | research | Multi-axis research brief — supportive evidence for a phase/Task (not user alignment) |
 | `MODEL.md` | model | Mathematical specification aligned with the user (not product definition) |
 | `PLAN.md` | define | Spec for implement + Spec-axis review (user-aligned particulars) |
-| Branch + PR | implement / iterate | Delivery vehicle (iterate always opens a **new** PR) |
+| Branch + PR | define / bug / research / model (first writer) → implement → ship; **iterate** post-ship | **One** delivery vehicle per Task through ship (iterate always opens a **new** PR) |
 | PR review | review / review-fix | Multi-axis findings incl. Architecture (+ auto fix-forward in review-fix) |
-| Merge + Done | ship | Closeout |
+| Merge + Done | ship | Closed-loop closeout on the **same** PR (no leftover PR) |
 | *(status reply)* | summarise | About / stage / Next |
 
 Use paths from `WORKSPACE.md`. Record path + commit SHA on the Task when writing artifacts.
@@ -209,9 +267,9 @@ alignment artifact, and the ISSUES mirror when enabled.
 | iterate | Prior shipped Task + merged PR + `PLAN.md` / `BUG.md` / prior `ITERATE.md` |
 | research / model | Task (+ Story), `ROADMAP.md`, sibling artifacts (`RESEARCH.md` / `MODEL.md` / `PLAN.md`) — research is supportive only |
 | define | Task (+ parent Story), `ROADMAP.md`, `RESEARCH.md` / `MODEL.md` if present as **supportive** context — still question the user |
-| implement | Task + Sub-tasks, `PLAN.md` or `BUG.md` / `MODEL.md` / linked specs; project test/lint commands |
-| review / review-fix | Task + PR + `PLAN.md` / `BUG.md` / `ITERATE.md` / specs |
-| ship | Task + PR + latest review outcome |
+| implement | Task + Sub-tasks, `PLAN.md` or `BUG.md` / `MODEL.md` / linked specs; **existing delivery branch/PR**; project test/lint commands |
+| review / review-fix | Task + **same** delivery PR + `PLAN.md` / `BUG.md` / `ITERATE.md` / specs |
+| **ship** | Task + **same** delivery PR + latest review outcome; pre-merge continuity on that branch |
 | summarise | Task + all of the above for stage inference |
 
 ## Status chain
@@ -231,16 +289,16 @@ enabled). Chat-only status is not enough.
 | Skill | Create / update issues | Status transitions | Comments / links | Close |
 |-------|------------------------|--------------------|------------------|-------|
 | **explore** | Create Story + Task per investigation theme; link children → Story | Leave Story/Tasks **To Do** | Story comment: child keys + **Next**; upsert ISSUES | — |
-| **bug** | Create Task (+ optional Sub-tasks); link BUG.md | Leave **To Do** | Task comment: BUG.md + **Next**; ISSUES | — |
+| **bug** | Create Task (+ optional Sub-tasks); link BUG.md; start delivery branch + draft PR | Leave **To Do** | Task comment: BUG.md + branch/PR + **Next**; ISSUES | — |
 | **iterate** | Create **new** Task; link ITERATE.md; Relates → prior Task | New Task → **In Progress** then **In Review** when PR ready | Prior Task comment (follow-up key); new Task comments + PR + **Next** `/review-fix`; ISSUES | — (ship closes the new Task) |
-| **research** | Enrich pipeline Task (artifact link); no new Task if key given | Leave Task status unchanged (usually **To Do**) | Task comment: RESEARCH.md + summary + **Next**; ROADMAP/PLAN/ISSUES | — |
-| **model** | Enrich pipeline Task (preferred); else create Task | Leave **To Do** unless already further along | Task comment: MODEL.md + **Next**; ROADMAP/PLAN/RESEARCH/ISSUES | — |
-| **define** | Enrich Task; create Sub-tasks per work package | Task stays **To Do** (ready to implement) | Task + Story comments: PLAN.md, sub-task keys, **Next**; ISSUES | — |
-| **implement** | May add missing Sub-tasks if plan/bug requires (incl. Testing packages) | Task → **In Progress** at start; each Sub-task → **In Progress** then **Done** when finished; Task → **In Review** when PR ready (after tests/lint verify) | Comments on Task (session start, packages, PR URL + **Next** `/review-fix`); ISSUES | Sub-tasks **Done** as packages complete — not the parent Task |
+| **research** | Enrich pipeline Task (artifact link); no new Task if key given; reuse/start delivery branch when committing | Leave Task status unchanged (usually **To Do**) | Task comment: RESEARCH.md + branch/PR + summary + **Next**; ROADMAP/PLAN/ISSUES | — |
+| **model** | Enrich pipeline Task (preferred); else create Task; reuse/start delivery branch when committing | Leave **To Do** unless already further along | Task comment: MODEL.md + branch/PR + **Next**; ROADMAP/PLAN/RESEARCH/ISSUES | — |
+| **define** | Enrich Task; create Sub-tasks per work package; start/reuse delivery branch + draft PR when committing PLAN.md | Task stays **To Do** (ready to implement) | Task + Story comments: PLAN.md, branch, PR URL, sub-task keys, **Next**; ISSUES | — |
+| **implement** | May add missing Sub-tasks if plan/bug requires (incl. Testing packages); **reuse** delivery branch/PR | Task → **In Progress** at start; each Sub-task → **In Progress** then **Done** when finished; Task → **In Review** when PR ready (after tests/lint verify) | Comments on Task (session start, packages, **same** PR URL + **Next** `/review-fix`); ISSUES | Sub-tasks **Done** as packages complete — not the parent Task |
 | **implement** (fix-forward) | — | Task → **In Progress** if needed, then **In Review** again | Comment: threads addressed + **Next** `/review` or continue inside `/review-fix`; ISSUES | — |
 | **review** | — | Must already be **In Review**; do **not** change to Done | Task comment: review summary + **Next**; ISSUES | — |
 | **review-fix** | — | Alternates review publish + fix-forward status as above each iteration | Comment each iteration; ISSUES | — (ship closes) |
-| **ship** | — | See [Ship closeout](#ship-closeout) | Task + Story comments; ROADMAP + ISSUES | **Yes** — close Task, remaining Sub-tasks, and Story when complete |
+| **ship** | — | See [Ship closeout](#ship-closeout) | Task + Story comments; pre-merge ROADMAP/PLAN/ISSUES on delivery branch | **Yes** — merge **that** PR (no ship-only PR); close Task, remaining Sub-tasks, and Story when complete |
 | **summarise** | — | Read-only (may fix stale mirror **Next** text only) | — | — |
 
 ### Rules
@@ -253,16 +311,39 @@ enabled). Chat-only status is not enough.
 
 ## Ship closeout
 
-After a successful merge (or confirmed already-merged PR), **ship** closes tracker work in this order:
+**Ship is closed-loop on the Task’s single delivery PR.** Do not open a new branch
+or PR for closeout.
 
-1. **Sub-tasks** — `transition` every still-open child of the Task → **Done** (comment each or one batch comment on the parent listing them).
-2. **Task** — `transition` → **Done**; comment with PR URL, merge SHA, list of closed Sub-tasks, **Next: Done**.
-3. **Story** (if linked):
+Order:
+
+1. **Pre-merge continuity (on the delivery branch)** — while the PR is still
+   **open**, commit and push:
+   - `PLAN.md` / `BUG.md` / `ITERATE.md` — mark shipped / Next Done + PR link
+   - `ROADMAP.md` — phase row Done + PR link (when this Task owns a phase)
+   - ISSUES mirror (and markdown issue files if provider is markdown) reflecting
+     imminent Done
+   - Any other continuity the session owes the repo for this Task
+2. **Merge** — merge **that** PR per WORKSPACE strategy. On failure, **stop** —
+   do not close tracker issues; do not open a replacement PR for the same closeout.
+3. **Sub-tasks** — `transition` every still-open child of the Task → **Done**
+   (comment each or one batch comment on the parent listing them).
+4. **Task** — `transition` → **Done**; comment with PR URL, merge SHA, list of
+   closed Sub-tasks, **Next: Done**.
+5. **Story** (if linked):
    - Comment that this phase Task is Done (key + PR).
-   - If **all** child Tasks of the Story are **Done**, `transition` Story → **Done** and comment "Initiative complete".
-   - Otherwise leave Story open; set Story **Next** hint to `/define <next-open-Task>` or `/summarise <Story>`.
-4. **Markdown** — upsert ISSUES mirror (Task/Sub-tasks/Story statuses); update `ROADMAP.md` phase row to Done + PR link; sync markdown `INDEX.md` if provider is markdown.
-5. **Stop** if merge failed — do not close anything.
+   - If **all** child Tasks of the Story are **Done**, `transition` Story → **Done**
+     and comment "Initiative complete".
+   - Otherwise leave Story open; set Story **Next** hint to `/define <next-open-Task>`
+     or `/summarise <Story>`.
+6. **Remote branch** — delete the delivery head after merge when the host allows
+   (`gh pr merge --delete-branch` or equivalent). Confirm no open PR remains for
+   this Task.
+7. **Stop** if merge failed — do not close anything.
+
+If the PR was **already merged** before ship ran, apply any missing markdown
+continuity as a **direct commit on the base branch** only when unavoidable — still
+**do not** leave an unmerged closeout PR. Prefer keeping continuity in the delivery
+PR before merge so this fallback is rare.
 
 ## Fix-forward
 
@@ -301,3 +382,7 @@ Do **not** use `/iterate` while the original PR is still open — that is fix-fo
 - Leaving continuity only in chat or only in a remote tracker with mirror enabled but skipped
 - Opening an iterate PR while the same work still has an **open** PR (use fix-forward)
 - Reusing a merged PR / old head instead of a new branch from base for post-ship fixes
+- Opening a **new** branch/PR per skill step (research / define / implement / ship) for the same Task
+- Implement ignoring an existing define/research delivery PR and starting a parallel `…-implement-…` PR
+- Ship merging the code PR then leaving a **second unmerged PR** for ROADMAP/PLAN/ISSUES closeout
+- Recording **Next** without recording the delivery **branch + PR** so the following skill cannot reuse them

@@ -80,6 +80,7 @@ record the convention here.
 | Open PR by default | true |
 | Merge strategy | merge \| squash \| rebase |
 | Require `gh` for review/ship | true |
+| One delivery PR per Task | true (define→ship closed-loop; reuse branch/PR on Next) |
 
 ## Pipeline
 
@@ -87,6 +88,7 @@ record the convention here.
 |-------|-------|
 | Skills | explore → (research/model) → define → implement → review-fix → ship; **or** bug → implement → review-fix → ship; **or** ship → iterate → review-fix → ship (+ summarise; `/review` = one-shot) |
 | One-issue continuity | true |
+| One delivery branch/PR per Task | true (ship merges that PR after pre-merge continuity; no leftover ship PR) |
 | Tracker backend | resolved via provider above (`skills/tracker` when installed) |
 
 ## Notes
@@ -106,6 +108,7 @@ record the convention here.
 | Roadmap / Plan / Bug / Iterate / Model | repo root `ROADMAP.md`, `PLAN.md`, `BUG.md`, `ITERATE.md`, `MODEL.md` |
 | Base branch | `main` |
 | Open PR | `true` |
+| One delivery PR per Task | `true` |
 | Merge | `squash` if repo uses squash; else `merge` |
 
 ## Continuity rule

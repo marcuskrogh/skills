@@ -2,10 +2,11 @@
 name: implement
 description: >-
   Managed sub-agent implementation against a pipeline Task and Sub-tasks from
-  define. Builds with tests and testability as first-class deliverables so
-  coverage and code quality do not degrade. Moves the issue In Progress then
-  In Review; supports fix-forward after review. Persists Next in markdown and
-  the configured tracker.
+  define. Reuses the Task’s existing delivery branch/PR (does not open a parallel
+  implement-only PR). Builds with tests and testability as first-class
+  deliverables so coverage and code quality do not degrade. Moves the issue In
+  Progress then In Review; supports fix-forward after review. Persists Next in
+  markdown and the configured tracker.
 ---
 
 # Implement
@@ -22,8 +23,8 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 | Extension | This skill |
 |-----------|------------|
 | **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` or `BUG.md` / linked specs |
-| **Branch naming** | From WORKSPACE (default `<key-lowercase>-<short-description>`) |
-| **Delivery** | PR (default from WORKSPACE) or branch-only |
+| **Branch naming** | From WORKSPACE (default `<key-lowercase>-<short-description>`) — **reuse** Task delivery branch if it already exists |
+| **Delivery** | **Same** PR as define/bug/research when one exists (default from WORKSPACE) or branch-only |
 | **Verification** | Tests (new/updated) + lint for touched area (or full suite if repo norm); coverage/quality non-degradation; plan checklist; sub-task completion; [testing.md](testing.md) |
 | **Testing checklist** | [testing.md](testing.md) — paste into Implementation / Testing / fix-forward briefs |
 
@@ -79,7 +80,12 @@ Upsert ISSUES mirror on **every** transition/handoff. Do **not** mark the parent
 1. Resolve issue + packages (or review threads)
 2. Status → In Progress
 3. Ask PR vs branch once (skip if fix-forward / WORKSPACE default is enough and user already chose)
-4. Create or reuse branch per WORKSPACE pattern
+4. **Delivery branch (mandatory reuse):** resolve the Task’s existing open branch/PR
+   from define/bug/research/model (issue comments, PLAN/BUG Tracker section, ISSUES,
+   `gh pr list`). If found → checkout that branch and continue on **that** PR. If
+   missing → create branch (+ PR) per WORKSPACE once. **Never** open a parallel
+   implement-only PR for the same Task. See
+   [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop).
 5. Note the project's usual test/lint commands (from README, CI, package scripts, WORKSPACE)
 
 ## Testing and testability (mandatory)
@@ -135,5 +141,5 @@ add Testing packages explicitly — do not wait for review to invent coverage.
 
 1. Resolve issue + spec
 2. In Progress
-3. Branch + packages (tests in each behavioural package)
-4. Verify (tests/lint/coverage non-degradation + [testing.md](testing.md)) → PR → In Review → **Next** `/review-fix`
+3. Reuse (or create once) delivery branch + packages (tests in each behavioural package)
+4. Verify (tests/lint/coverage non-degradation + [testing.md](testing.md)) → same PR ready → In Review → **Next** `/review-fix`

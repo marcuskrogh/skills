@@ -9,11 +9,13 @@ description: >-
 
 # Review-fix
 
-Automates the **review ↔ implement (fix-forward)** loop on one pipeline Task and PR.
+Automates the **review ↔ implement (fix-forward)** loop on one pipeline Task and
+**its single delivery PR** (same branch from define/bug through ship).
 
 Composes [review](../review/SKILL.md) (five axes: Spec, Correctness, Integration,
 Architecture, Standards) and [implement](../implement/SKILL.md) fix-forward mode.
-Does **not** replace first-time **implement** (build) or **ship**.
+Does **not** replace first-time **implement** (build) or **ship**. Does **not**
+open a new PR — fix-forward stays on the existing delivery head.
 
 **On invoke:** read [../workflow/reference.md](../workflow/reference.md),
 [../review/SKILL.md](../review/SKILL.md), [../implement/SKILL.md](../implement/SKILL.md),
