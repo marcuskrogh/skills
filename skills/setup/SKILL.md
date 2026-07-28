@@ -33,6 +33,7 @@ overridable) that all pipeline skills read first.
 - Whether to **always mirror** issue keys/status/Next into markdown (`docs/agents/ISSUES.md`)
 - Artifact roots: agents dir, roadmap path, plan path pattern, model path
 - Default base branch, branch naming, PR default (open vs branch-only), merge strategy
+- Confirm **one delivery PR per Task** (define→ship closed-loop; default yes)
 - Whether pipeline skills may invent a default setup if `WORKSPACE.md` is missing (recommend: no — run setup)
 
 ### Opening

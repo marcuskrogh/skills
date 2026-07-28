@@ -88,9 +88,11 @@ Lightweight alternative to **explore** + **define** for the
 ## Tracker
 - Task: <KEY>
 - Sub-tasks: … (if any)
+- Branch: <delivery-branch>
+- PR: <url or draft url>
 
 ## Next
-`/implement <KEY>` — Fix per BUG.md
+`/implement <KEY>` — Fix per BUG.md (same branch/PR)
 ```
 
 ## Tracker (after approval)
@@ -98,9 +100,14 @@ Lightweight alternative to **explore** + **define** for the
 1. Create a **Task** (type/label **bug** when the provider supports it — e.g. GitHub label `bug`, Jira Bug issue type if available, else Task with `[Bug]` prefix).
 2. Description = summary + repro + expected/actual + acceptance; `attach_or_link` `BUG.md`.
 3. Optional **Sub-tasks** only when work packages are truly separate (repro test vs fix vs docs). Prefer **no** Sub-tasks for small fixes.
-4. Status **To Do**. `comment` with path + **Next**. Upsert ISSUES mirror.
-5. If linked to a parent Story/Task, `link` and comment there.
-6. Write `BUG.md`; report key/URL and **Next**. Session ends.
+4. Status **To Do**.
+5. **Delivery branch:** create (or reuse) the Task’s delivery branch per WORKSPACE;
+   write `BUG.md` there; open a **draft** PR when `Open PR by default`. This is the
+   same PR implement/review/ship will use — see
+   [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop).
+6. `comment` with path + **branch** + **PR URL** + **Next**. Upsert ISSUES mirror.
+7. If linked to a parent Story/Task, `link` and comment there.
+8. Report key/URL, branch/PR, and **Next**. Session ends.
 
 Do **not** create a Story for a lone bug unless the user asks.
 
@@ -109,19 +116,22 @@ Do **not** create a Story for a lone bug unless the user asks.
 | Action | Required |
 |--------|----------|
 | Create Task (+ optional Sub-tasks) | yes |
+| Start delivery branch + draft PR when committing BUG.md | yes |
 | Status | **To Do** |
-| Comment + **Next** | yes |
+| Comment + branch/PR + **Next** | yes |
 | ISSUES mirror | yes when enabled |
 | Close | no |
+| Second bug-only PR | **no** |
 
 ## Handoff
 
 ```markdown
 ## Next
-`/implement <TASK-KEY>` — Fix per BUG.md
+`/implement <TASK-KEY>` — Fix per BUG.md on the same delivery branch/PR
 ```
 
-Then the shared delivery loop: **implement → review → ship** (same as features).
+Then the shared delivery loop: **implement → review-fix → ship** (one branch/PR,
+closed-loop).
 
 If the bug is a follow-up on work that **just shipped** and the user wants one invoke
 through a new PR, prefer **`/iterate`** instead of `/bug` → `/implement`.

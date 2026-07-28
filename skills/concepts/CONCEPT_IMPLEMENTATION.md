@@ -56,8 +56,10 @@ Skills **may** define:
   constraints, deliverables, and branch context.
 - **Iterative plan.** Re-evaluate the plan after each sub-agent report; revise
   remaining packages when findings change assumptions.
-- **Branch discipline.** Create a feature branch before the first delegation;
-  sub-agents commit to that branch.
+- **Branch discipline.** Resolve the skill’s delivery branch before the first
+  delegation. Prefer an **existing** open branch/PR for the same Task (from define,
+  bug, research, or model) over creating a new one. Sub-agents commit to that
+  branch only.
 - **No silent gaps.** If a sub-agent report is insufficient, re-delegate with named
   gaps — do not silently fix large gaps in the management thread.
 - **Tests with behaviour.** Every package that changes observable behaviour includes
@@ -108,9 +110,11 @@ user — do not invent requirements.
 
 Run any **pre-work** defined by the skill (e.g. issue ID, write spec file to repo).
 
-### 3. Create branch
+### 3. Create or reuse branch
 
-Create the feature branch per **branch naming** before any delegation.
+Resolve the skill’s **branch naming** / delivery rules. If an open delivery branch
+or PR already exists for this work item, reuse it. Otherwise create the feature
+branch before any delegation.
 
 ### 4. Draft plan
 
@@ -167,6 +171,7 @@ Each delegation must include:
 - Delegating without acceptance criteria or branch context
 - Skipping plan re-evaluation after surprising findings
 - Starting on `main` without a feature branch
+- Opening a second PR for the same work item when an open delivery PR already exists
 - Ending without the agreed **delivery** outcome
 - Proceeding without a usable specification
 - Shipping observable behaviour without tests

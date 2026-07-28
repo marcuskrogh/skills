@@ -203,6 +203,8 @@ Particulars for define remain open.
 ## Tracker
 - Task: <KEY> (if linked)
 - Artifact: RESEARCH.md
+- Branch: <delivery-branch if committing>
+- PR: <url if open>
 
 ## Next
 `/<skill> <KEY>` — <why>
@@ -214,9 +216,15 @@ When a pipeline **Task** (or Story) key was given or inferred:
 
 1. `attach_or_link` `RESEARCH.md` on that issue; `comment` with path + short executive summary + **Next**.
 2. Do **not** change Task status (leave **To Do** / current); do **not** create a parallel Task when a key was given.
-3. If `ROADMAP.md` lists the phase, add/update an Artifact / Notes cell pointing at `RESEARCH.md`.
-4. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs — as evidence, not as locked decisions.
-5. Upsert the markdown mirror (`docs/agents/ISSUES.md`) with artifact + **Next**.
+3. **Delivery branch:** if committing `RESEARCH.md` (or other continuity) for this Task,
+   follow [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop):
+   reuse the Task’s open branch/PR if any; otherwise start the delivery branch (+ draft
+   PR when Open PR by default) so define/implement continue on the **same** PR. Do
+   **not** open a research-only PR that will be abandoned when define starts another.
+4. If `ROADMAP.md` lists the phase, add/update an Artifact / Notes cell pointing at `RESEARCH.md`
+   (on the delivery branch when one exists for this Task).
+5. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs — as evidence, not as locked decisions.
+6. Upsert the markdown mirror (`docs/agents/ISSUES.md`) with artifact + branch/PR + **Next**.
 
 Standalone research (no Task): still write `RESEARCH.md`; **Next** may be `/explore`
 or `/define` if the user wants to start a phase.
@@ -257,6 +265,8 @@ or `/define` if the user wants to start a phase.
 - Ignoring `total_results` on arXiv and treating the first page as exhaustive
 - Framing the brief or handoff so `/define` skips questioning the user
 - Treating source consensus as project decisions
+- Opening a separate research-only PR when the Task already has (or will immediately
+  get) a define/implement delivery PR — use one branch
 
 ## Quick examples
 

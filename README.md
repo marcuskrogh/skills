@@ -93,7 +93,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── iterate/                    ← post-ship fix: brief align + new branch/PR → review-fix
 ├── review/                     ← multi-axis Spec/Correctness/Integration/Architecture/Standards
 ├── review-fix/                ← review ↔ fix-forward until clean
-├── ship/                       ← merge + Done closeout
+├── ship/                       ← closed-loop merge on the delivery PR + Done closeout
 ├── summarise/                  ← status: about / stage / Next
 ├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
 ├── jira/                       ← Jira REST details (tracker backend)
@@ -122,11 +122,17 @@ Invokable skills **derive from** concepts and further specify them for a purpose
 setup → explore → (research / model) → define → implement → review-fix → ship
 ```
 
+One Task → **one delivery branch + one PR** from the first repo-writing skill on
+that Task through ship. Continuing via **Next** reuses that branch/PR. **Ship**
+pushes continuity updates onto it, merges it, and leaves no leftover open PR.
+
 **Bug fix** (`/bug` replaces explore + define)
 
 ```text
 setup → bug → implement → review-fix → ship
 ```
+
+Same closed-loop delivery (bug starts the branch/PR when writing `BUG.md`).
 
 **Post-ship iterate** (merged work still needs a fix)
 
@@ -136,21 +142,21 @@ ship → iterate → review-fix → ship → (optional) iterate …
 
 `/review` remains a one-shot review; `/review-fix` loops review ↔ fix until clean. `/iterate` opens a **new** branch/PR after ship (not fix-forward on an open PR). `/summarise` works anytime.
 
-Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, artifact links) is mirrored to markdown when enabled. See `skills/workflow/reference.md`.
+Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, artifact links, **branch/PR**) is mirrored to markdown when enabled. See `skills/workflow/reference.md` (especially **Delivery branch continuity**).
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths) |
 | **explore** | user | High-abstraction idea exploration → `ROADMAP.md` + Story/Tasks (direction; define owns particulars) |
-| **bug** | user | Defect alignment → `BUG.md` + Task (then implement) |
+| **bug** | user | Defect alignment → `BUG.md` + Task + delivery branch/PR (then implement) |
 | **research** | user | Multi-axis research brief → `RESEARCH.md` (arXiv + formal + web + informal; supportive, not user alignment) |
 | **model** | user | Math alignment → `MODEL.md` (math only; does not replace define) |
-| **define** | user | User-agent topic definition → `PLAN.md` + Sub-tasks (owns particulars; always questions the user) |
-| **implement** | user | Build from a pipeline Task via managed sub-agents; tests and testability required so coverage/quality do not degrade |
+| **define** | user | User-agent topic definition → `PLAN.md` + Sub-tasks + delivery branch/PR (owns particulars; always questions the user) |
+| **implement** | user | Build on the **same** delivery branch/PR; tests and testability required so coverage/quality do not degrade |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
 | **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) |
 | **review-fix** | user | Review ↔ auto fix-forward until clean → ship |
-| **ship** | user | Merge PR, mark Task Done, close the phase |
+| **ship** | user | Pre-merge continuity on the delivery branch, merge that PR, mark Task Done (no leftover PR) |
 | **summarise** | user | About / workflow stage / what to run Next |
 
 ## Other skills

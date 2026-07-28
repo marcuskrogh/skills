@@ -3,9 +3,10 @@ name: define
 description: >-
   Define a component, system, or pipeline Task before coding via user-agent
   alignment. Enriches an explore investigation Task (or creates a Task) with
-  PLAN.md and Sub-tasks. Explore/research/model only add direction or supportive
-  inputs — define owns particulars and always questions the user. Persists keys
-  and Next in markdown. Use when agreeing on a definition before implementation.
+  PLAN.md, Sub-tasks, and the Task’s delivery branch/PR for closed-loop ship.
+  Explore/research/model only add direction or supportive inputs — define owns
+  particulars and always questions the user. Persists keys and Next in markdown.
+  Use when agreeing on a definition before implementation.
 ---
 
 # Define
@@ -71,7 +72,9 @@ Use definition probes from CONCEPT_DEFINITION, specialised for a pipeline phase:
 
 ### Scope guard
 
-- No code, file edits, or implementation during definition
+- No production code or implementation during definition
+- Writing/updating `PLAN.md` (and continuity mirrors) on the Task’s **delivery
+  branch** is required after approval — that is not “implementation”
 - No sub-agent delegation — alignment / definition only
 - Do not re-open initiative-level idea exploration; stay on this Task's theme
 - Do not adopt research conclusions or invent product decisions from literature without user confirmation
@@ -115,40 +118,49 @@ When the user passes an explore **Task** key:
 - Story: <KEY> (if linked)
 - Task: <KEY>
 - Sub-tasks: …
+- Branch: <delivery-branch>
+- PR: <url or draft url>
 
 ## Next
-`/implement <KEY>` — Build per this plan
+`/implement <KEY>` — Build per this plan (same branch/PR)
 ```
 
 ## Tracker (after approval)
 
-Follow one-issue continuity and the [tracker sync matrix](../workflow/reference.md#tracker-sync-matrix-mandatory).
+Follow one-issue continuity, [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop),
+and the [tracker sync matrix](../workflow/reference.md#tracker-sync-matrix-mandatory).
 
 ### Explore Task provided (preferred)
 
 1. **Update that Task** — do not create a parallel definition issue. Status stays **To Do**.
 2. Create **Sub-tasks** per work package — status **To Do**; link parent = Task.
-3. Write `PLAN.md`; `attach_or_link` path on the Task.
-4. `comment` Task + Story with plan path, sub-task keys, **Next**.
-5. Upsert ISSUES mirror for Task + Sub-tasks.
+3. **Delivery branch:** resolve existing open branch/PR for this Task (from research/model
+   comments or `gh`). If none, create the branch per WORKSPACE pattern. Write `PLAN.md`
+   on that branch; open or update a **draft** PR when `Open PR by default` (same PR
+   implement will use — do **not** plan a second implement-only PR).
+4. `attach_or_link` path on the Task; `comment` Task + Story with plan path, **branch**,
+   **PR URL**, sub-task keys, **Next**.
+5. Upsert ISSUES mirror for Task + Sub-tasks (include branch/PR).
 
 ### Standalone
 
-Create a new **Task** + Sub-tasks (**To Do**), then same artifact/mirror/comment steps.
+Create a new **Task** + Sub-tasks (**To Do**), then same artifact/branch/PR/mirror/comment steps.
 
 ### Tracker duties
 
 | Action | Required |
 |--------|----------|
 | Enrich Task / create Sub-tasks | yes |
+| Start or reuse delivery branch + draft PR | yes when committing PLAN.md |
 | Task status | remain **To Do** |
-| Comments + **Next** | Task + Story |
+| Comments + branch/PR + **Next** | Task + Story |
 | ISSUES mirror | yes when enabled |
 | Close Task | no (ship only) |
+| Second PR for define alone | **no** |
 
 ## Handoff
 
 ```markdown
 ## Next
-`/implement <TASK-KEY>` — Build per PLAN.md
+`/implement <TASK-KEY>` — Build per PLAN.md on the same delivery branch/PR
 ```
