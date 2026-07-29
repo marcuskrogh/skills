@@ -243,6 +243,27 @@ Every pipeline skill **ends** by telling the user the next invoke:
 `/<skill> <ISSUE-KEY>` — <one-line why>
 ```
 
+### Continuation keywords
+
+Treat these bare (or near-bare) user phrases like skill invokes. Resolve the active
+Task the same way [summarise](../summarise/SKILL.md) does (explicit key → active
+ISSUES row → ask once).
+
+| Keyword (examples) | Meaning | Action |
+|--------------------|---------|--------|
+| **next**, "what's next", "continue", "go" | Advance **one** step | Run the persisted `## Next` skill for that Task (e.g. `/implement`, `/review-fix`). Do **not** skip ahead through the whole tail. |
+| **ship**, "ship it", "finish", "finish remaining", "close it out" | Finish **remaining** work through Done | Run [ship](../ship/SKILL.md) for that Task — implement and/or review-fix as still needed, then closeout. |
+
+Rules:
+
+1. **next** and **ship** are first-class cues — do not ask which skill if the cue and
+   active Task are clear.
+2. Prefer an explicit key in the message (`ship MD-5`, `next SWD-84`) when present.
+3. If both could apply, follow the user's word: **ship** → remaining-workflow
+   orchestrator; **next** → single persisted Next step.
+4. If the Task is not ready for ship (no PLAN/BUG/ITERATE), say so and fall back to
+   the correct Next (usually `/define` / `/bug` / `/iterate`).
+
 | After | Next (default) |
 |-------|----------------|
 | setup | `/explore` or `/bug` (depending on intent) |

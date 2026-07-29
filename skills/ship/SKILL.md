@@ -4,13 +4,21 @@ description: >-
   Finalize remaining pipeline work for a Task from any stage after define (or
   after bug / iterate ready-to-build): run implement and/or review-fix as
   needed, then closed-loop merge of the delivery PR and Done closeout. Use when
-  the user wants to finish the remaining workflow through Done in one invoke —
-  not only after a clean review.
+  the user says ship, ship it, finish, finish remaining, or close it out — the
+  workflow recognises "ship" like it recognises "next" — or invokes /ship; not
+  only after a clean review.
 ---
 
 # Ship
 
 Orchestrates **remaining** delivery steps through Done for one pipeline Task.
+
+**Keyword:** the workflow treats **ship** (and close variants: "ship it", "finish",
+"finish remaining", "close it out") like it treats **next** — a continuation cue,
+not only a slash command. See
+[Continuation keywords](../workflow/reference.md#continuation-keywords).
+Saying **next** runs the single persisted Next step; saying **ship** runs this
+skill and finishes whatever remains through Done.
 
 May be invoked at **any point after** a ready-to-build definition exists — not
 only after [review-fix](../review-fix/SKILL.md). Typical remaining tails:
@@ -43,10 +51,13 @@ Authenticated `gh` plus tracker auth for the WORKSPACE provider.
 
 ### 0. Resolve issue
 
-1. User key/URL or ask once.
-2. `fetch` Task + children (Sub-tasks) + parent Story if linked.
-3. Load continuity: `PLAN.md` / `BUG.md` / `ITERATE.md`, ISSUES mirror, linked PR.
-4. If already **Done** and PR merged — report and stop (still verify Sub-tasks/Story
+1. User key/URL (`/ship MD-5`, `ship SWD-84`, …).
+2. Else the single **active** row in `docs/agents/ISSUES.md` (In Progress / In Review,
+   or To Do with PLAN/BUG/ITERATE when that is the clear pipeline Task).
+3. Else ask once: "Which issue should I ship?"
+4. `fetch` Task + children (Sub-tasks) + parent Story if linked.
+5. Load continuity: `PLAN.md` / `BUG.md` / `ITERATE.md`, ISSUES mirror, linked PR.
+6. If already **Done** and PR merged — report and stop (still verify Sub-tasks/Story
    if the user asks to repair closeout).
 
 ### 1. Detect stage → remaining work
@@ -161,22 +172,26 @@ or `/iterate` when post-ship follow-up is needed.
 
 ## Examples
 
-User: `/ship MD-5` right after define
+User: `ship` (or `/ship MD-5`) right after define
 
 Agent: Stage = defined → run implement → review-fix → closeout  
 → Task Done, PR merged
 
-User: `/ship MD-5` after implement (In Review, no review yet)
+User: `ship it` after implement (In Review, no review yet)
 
 Agent: Stage = in review → run review-fix → closeout  
 → Task Done, PR merged
+
+User: `next` after implement
+
+Agent: Runs persisted Next only → `/review-fix` (does **not** auto-closeout)
 
 User: `/ship MD-5` after review-fix CLEAN
 
 Agent: Stage = ship-ready → closeout only  
 → Task Done, PR merged
 
-User: `/ship MD-5` when review-fix STALLED
+User: `ship` when review-fix STALLED
 
 Agent: Ran review-fix → STALLED — did **not** merge  
-Next: `/implement MD-5` or `/ship MD-5` after addressing findings
+Next: `/implement MD-5` or `ship` after addressing findings

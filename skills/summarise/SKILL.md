@@ -3,7 +3,8 @@ name: summarise
 description: >-
   Summarises a pipeline Task (or Story): what it is about, where it sits in the
   feature or bug workflow, which artifacts exist, and what to run next. Use when
-  asking status, where am I, or what next.
+  asking status, where am I, or what next. (Bare "next" advances one persisted
+  step; bare "ship" finishes remaining work — see workflow continuation keywords.)
 ---
 
 # Summarise
@@ -13,6 +14,11 @@ artifacts except optionally refreshing the mirror **Next** column if it is stale
 
 **On invoke:** read [../workflow/reference.md](../workflow/reference.md) and
 [../tracker/SKILL.md](../tracker/SKILL.md).
+
+Bare user cues **next** and **ship** are not this skill — they are
+[continuation keywords](../workflow/reference.md#continuation-keywords)
+(**next** = run persisted Next once; **ship** = run [ship](../ship/SKILL.md)).
+Use summarise when the user wants status / "what next" *reported*, not advanced.
 
 ## Resolve the subject
 
@@ -79,8 +85,9 @@ Pick the furthest stage that matches evidence:
 If Done: **Next** is the following phase Task from ROADMAP, another bug, `/iterate` when merged work still needs a fix, or "No further work on this Task."
 
 When the Task is ready-to-build or further along but not Done, prefer suggesting
-`/ship <KEY>` when the user wants to **finish remaining** work in one invoke;
-otherwise suggest the single next step skill (`/implement`, `/review-fix`, …).
+`/ship <KEY>` (or bare `ship`) when the user wants to **finish remaining** work in
+one invoke; otherwise suggest the single next step skill (`/implement`,
+`/review-fix`, …) — bare `next` runs that one step.
 ## Rules
 
 - Do not implement, transition, or open PRs.

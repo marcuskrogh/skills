@@ -144,6 +144,9 @@ ship → iterate → review-fix → ship → (optional) iterate …
 
 `/review` remains a one-shot review; `/review-fix` loops review ↔ fix until clean. `/iterate` opens a **new** branch/PR after ship (not fix-forward on an open PR). `/summarise` works anytime.
 
+Bare continuation cues (see workflow **Continuation keywords**): **`next`** advances
+one persisted Next step; **`ship`** finishes remaining work through Done.
+
 Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, artifact links, **branch/PR**) is mirrored to markdown when enabled. See `skills/workflow/reference.md` (especially **Delivery branch continuity**).
 
 | Skill | Invoke | Purpose |
@@ -158,7 +161,7 @@ Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, a
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
 | **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) |
 | **review-fix** | user | Review ↔ auto fix-forward until clean → ship |
-| **ship** | user | Finish remaining work after define/bug/iterate-ready (implement and/or review-fix as needed), then closed-loop merge + Done |
+| **ship** | user | Finish remaining work after define/bug/iterate-ready (implement and/or review-fix as needed), then closed-loop merge + Done. Bare **ship** is a continuation keyword (like **next**). |
 | **summarise** | user | About / workflow stage / what to run Next |
 
 ## Other skills
