@@ -125,6 +125,8 @@ When the user passes an explore **Task** key:
 `/implement <KEY>` — Build per this plan (same branch/PR)
 ```
 
+(`PLAN.md` may also note `/ship <KEY>` as an alternate Next to finish remaining
+work through Done.)
 ## Tracker (after approval)
 
 Follow one-issue continuity, [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop),
@@ -164,3 +166,5 @@ Create a new **Task** + Sub-tasks (**To Do**), then same artifact/branch/PR/mirr
 ## Next
 `/implement <TASK-KEY>` — Build per PLAN.md on the same delivery branch/PR
 ```
+
+(Or `/ship <TASK-KEY>` to finish remaining: implement → review-fix → closeout.)

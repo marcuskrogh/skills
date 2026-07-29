@@ -170,9 +170,11 @@ Do **not** mark Done or merge.
 `/review-fix <NEW-KEY>` — Review and auto-fix until clean
 ```
 
+(Or `/ship <NEW-KEY>` to finish remaining: review-fix → closeout.)
+
 ## Chaining
 
-After `/review-fix` → `/ship` on the iterate Task:
+After `/review-fix` → `/ship` on the iterate Task (or `/ship` alone to finish remaining):
 
 - If problems persist → `/iterate <NEW-KEY-or-PRIOR> <description>` again
   (creates yet another Task + branch + PR).

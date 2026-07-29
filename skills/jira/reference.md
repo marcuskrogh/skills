@@ -29,7 +29,7 @@ Use `curl` or `gh`-style shell; do not commit credentials.
 | `model` | **Task** | — |
 | `implement` | Existing pipeline **Task** / **Story** | Existing **Sub-tasks** (or create if missing) |
 | `review` | Existing ticket in **In Review** | — |
-| `ship` | Existing ticket after clean review | — → **Done** |
+| `ship` | Existing pipeline Task after define/bug/iterate-ready (any remaining stage) | May compose implement / review-fix; then → **Done** |
 
 Adjust issue type names to match the Jira project schema if creation fails.
 
