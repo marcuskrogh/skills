@@ -130,8 +130,10 @@ Do **not** create a Story for a lone bug unless the user asks.
 `/implement <TASK-KEY>` — Fix per BUG.md on the same delivery branch/PR
 ```
 
+(Or `/ship <TASK-KEY>` to finish remaining: implement → review-fix → closeout.)
+
 Then the shared delivery loop: **implement → review-fix → ship** (one branch/PR,
-closed-loop).
+closed-loop). `/ship` alone can run that remaining tail from this point.
 
 If the bug is a follow-up on work that **just shipped** and the user wants one invoke
 through a new PR, prefer **`/iterate`** instead of `/bug` → `/implement`.

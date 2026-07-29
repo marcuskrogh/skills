@@ -86,9 +86,9 @@ record the convention here.
 
 | Field | Value |
 |-------|-------|
-| Skills | explore → (research/model) → define → implement → review-fix → ship; **or** bug → implement → review-fix → ship; **or** ship → iterate → review-fix → ship (+ summarise; `/review` = one-shot) |
+| Skills | explore → (research/model) → define → implement → review-fix → ship; **or** bug → implement → review-fix → ship; **or** ship → iterate → review-fix → ship (+ summarise; `/review` = one-shot). `/ship` may finish remaining steps from any point after define/bug/iterate-ready. |
 | One-issue continuity | true |
-| One delivery branch/PR per Task | true (ship merges that PR after pre-merge continuity; no leftover ship PR) |
+| One delivery branch/PR per Task | true (ship may run remaining implement/review-fix then merges that PR after pre-merge continuity; no leftover ship PR) |
 | Tracker backend | resolved via provider above (`skills/tracker` when installed) |
 
 ## Notes

@@ -135,11 +135,12 @@ add Testing packages explicitly — do not wait for review to invent coverage.
 `/review-fix <TASK-KEY>` — Review and auto-fix until clean
 ```
 
-(Use `/review <TASK-KEY>` for a one-shot review without auto-fix.)
+(Use `/review <TASK-KEY>` for a one-shot review without auto-fix.
+Or `/ship <TASK-KEY>` to finish remaining: review-fix → closeout.)
 
 ## Flow
 
 1. Resolve issue + spec
 2. In Progress
 3. Reuse (or create once) delivery branch + packages (tests in each behavioural package)
-4. Verify (tests/lint/coverage non-degradation + [testing.md](testing.md)) → same PR ready → In Review → **Next** `/review-fix`
+4. Verify (tests/lint/coverage non-degradation + [testing.md](testing.md)) → same PR ready → In Review → **Next** `/review-fix` (or `/ship` to finish)

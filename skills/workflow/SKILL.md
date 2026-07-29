@@ -2,9 +2,10 @@
 name: workflow
 description: >-
   Shared pipeline contract for feature work, bug fixes, and post-ship iterate,
-  including one delivery branch/PR per Task (closed-loop ship), review-fix loops,
-  research/model side paths, and summarise. Markdown continuity and pluggable
-  trackers. Not for user invocation — composed by those skills.
+  including one delivery branch/PR per Task (closed-loop ship), ship as remaining-
+  workflow orchestrator after define, review-fix loops, research/model side paths,
+  and summarise. Markdown continuity and pluggable trackers. Not for user
+  invocation — composed by those skills.
 disable-model-invocation: true
 ---
 

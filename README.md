@@ -93,7 +93,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── iterate/                    ← post-ship fix: brief align + new branch/PR → review-fix
 ├── review/                     ← multi-axis Spec/Correctness/Integration/Architecture/Standards
 ├── review-fix/                ← review ↔ fix-forward until clean
-├── ship/                       ← closed-loop merge on the delivery PR + Done closeout
+├── ship/                       ← remaining-workflow orchestrator → closed-loop merge + Done
 ├── summarise/                  ← status: about / stage / Next
 ├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
 ├── jira/                       ← Jira REST details (tracker backend)
@@ -123,8 +123,10 @@ setup → explore → (research / model) → define → implement → review-fix
 ```
 
 One Task → **one delivery branch + one PR** from the first repo-writing skill on
-that Task through ship. Continuing via **Next** reuses that branch/PR. **Ship**
-pushes continuity updates onto it, merges it, and leaves no leftover open PR.
+that Task through ship. Continuing via **Next** reuses that branch/PR. **`/ship`**
+may be invoked after define (or after bug / iterate ready-to-build) to run any
+**remaining** steps (`implement` → `review-fix` → closeout as needed), then merge
+and leave no leftover open PR.
 
 **Bug fix** (`/bug` replaces explore + define)
 
@@ -156,7 +158,7 @@ Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, a
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
 | **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) |
 | **review-fix** | user | Review ↔ auto fix-forward until clean → ship |
-| **ship** | user | Pre-merge continuity on the delivery branch, merge that PR, mark Task Done (no leftover PR) |
+| **ship** | user | Finish remaining work after define/bug/iterate-ready (implement and/or review-fix as needed), then closed-loop merge + Done |
 | **summarise** | user | About / workflow stage / what to run Next |
 
 ## Other skills

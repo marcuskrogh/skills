@@ -78,6 +78,9 @@ Pick the furthest stage that matches evidence:
 
 If Done: **Next** is the following phase Task from ROADMAP, another bug, `/iterate` when merged work still needs a fix, or "No further work on this Task."
 
+When the Task is ready-to-build or further along but not Done, prefer suggesting
+`/ship <KEY>` when the user wants to **finish remaining** work in one invoke;
+otherwise suggest the single next step skill (`/implement`, `/review-fix`, …).
 ## Rules
 
 - Do not implement, transition, or open PRs.
