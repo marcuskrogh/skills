@@ -84,7 +84,7 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── CONCEPT_RESEARCH.md
 │   └── CONCEPT_REVIEW.md
 ├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md
-├── explore/                    ← idea-space direction → ROADMAP.md (themes for later define)
+├── explore/                    ← fog-clearing wayfinding → ROADMAP.md map + sequenced route Tasks
 ├── bug/                        ← defect alignment → BUG.md (skips explore/define)
 ├── research/                   ← multi-axis research brief → RESEARCH.md
 ├── model/                      ← mathematical alignment → MODEL.md
@@ -119,14 +119,15 @@ Invokable skills **derive from** concepts and further specify them for a purpose
 **Feature**
 
 ```text
-setup → explore → (research / model) → define → implement → review-fix → ship
+setup → explore → (research / model / define route…) → implement → review-fix → ship
 ```
 
-One Task → **one delivery branch + one PR** from the first repo-writing skill on
-that Task through ship. Continuing via **Next** reuses that branch/PR. **`/ship`**
-may be invoked after define (or after bug / iterate ready-to-build) to run any
-**remaining** steps (`implement` → `review-fix` → closeout as needed), then merge
-and leave no leftover open PR.
+Explore charts a **map** of foggy work into sequenced, dependent route Tasks
+(research, model, define, …). Each define Task → **one delivery branch + one PR**
+from the first repo-writing skill on that Task through ship. Continuing via
+**Next** reuses that branch/PR. **`/ship`** may be invoked after define (or after
+bug / iterate ready-to-build) to run any **remaining** steps (`implement` →
+`review-fix` → closeout as needed), then merge and leave no leftover open PR.
 
 **Bug fix** (`/bug` replaces explore + define)
 
@@ -152,7 +153,7 @@ Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, a
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths) |
-| **explore** | user | High-abstraction idea exploration → `ROADMAP.md` + Story/Tasks (direction; define owns particulars) |
+| **explore** | user | Clear fog on vague/large work → `ROADMAP.md` map + Story + sequenced route Tasks (research / model / define / …) |
 | **bug** | user | Defect alignment → `BUG.md` + Task + delivery branch/PR (then implement) |
 | **research** | user | Multi-axis research brief → `RESEARCH.md` (arXiv + formal + web + informal; supportive, not user alignment) |
 | **model** | user | Math alignment → `MODEL.md` (math only; does not replace define) |

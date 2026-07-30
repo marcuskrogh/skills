@@ -16,10 +16,10 @@ modelling, and not coding.
 ## What this is not
 
 - Not a user-invokable workflow by itself
-- Not high-level idea / direction exploration (see explore / roadmap skills — those clarify themes, not this definition)
+- Not fog-clearing wayfinding (see explore — that charts destination and route Tasks, not this definition)
 - Not implementation or delivery
 - Not a substitute for research or model side-paths when those are needed first
-- Not a no-op after explore: roadmap themes are investigation labels; definition still questions the user on particulars
+- Not a no-op after explore: roadmap route steps are questions to walk, not settled specs; definition still questions the user on particulars
 - Not a no-op after research or model: literature briefs and math specs are supportive inputs; definition still aligns particulars with the user
 
 ## When to apply
@@ -107,7 +107,7 @@ Skills should adapt this list to the subject:
 ## Anti-patterns
 
 - Defining at roadmap/initiative scale when only a phase/Task is needed
-- Treating an explore `ROADMAP.md` or Task blurb as already-decided scope/behaviour/acceptance
+- Treating an explore `ROADMAP.md` Destination/route row or Task blurb as already-decided scope/behaviour/acceptance
 - Treating `RESEARCH.md` conclusions, themes, or reading order as already-agreed
   product decisions
 - Treating `MODEL.md` as a finished product definition (it is math alignment only)

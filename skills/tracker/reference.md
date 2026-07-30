@@ -9,8 +9,8 @@ Backend files implement these operations.
 
 | Logical type | Role in pipeline |
 |--------------|------------------|
-| **Story** | Explore parent — holds phases |
-| **Task** | Pipeline owner from define → ship (one Task per phase) |
+| **Story** | Explore map parent — holds the route |
+| **Task** | Pipeline / route owner (define → ship for define-typed route Tasks) |
 | **Sub-task** | Work package under a Task |
 
 Map these names to provider-native types in the backend file.

@@ -59,7 +59,7 @@ overridable) that all pipeline skills read first.
 
 ```markdown
 ## Next
-`/explore` — Start a feature
+`/explore` — Chart foggy or large work (map + route)
 ```
 
 or

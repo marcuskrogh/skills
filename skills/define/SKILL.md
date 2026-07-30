@@ -2,9 +2,9 @@
 name: define
 description: >-
   Define a component, system, or pipeline Task before coding via user-agent
-  alignment. Enriches an explore investigation Task (or creates a Task) with
+  alignment. Enriches an explore route/define Task (or creates a Task) with
   PLAN.md, Sub-tasks, and the Task’s delivery branch/PR for closed-loop ship.
-  Explore/research/model only add direction or supportive inputs — define owns
+  Explore charts the foggy map; research/model add supportive inputs — define owns
   particulars and always questions the user. Persists keys and Next in markdown.
   Use when agreeing on a definition before implementation.
 ---
@@ -27,7 +27,7 @@ session — they do **not** replace questioning the user.
 
 | Prior artifact | How define uses it |
 |----------------|--------------------|
-| `ROADMAP.md` / explore Task | Theme / direction only — not a finished spec |
+| `ROADMAP.md` / explore route Task | Destination + this step’s question — not a finished spec |
 | `RESEARCH.md` | Supportive literature — evidence and orientation, **not** user answers |
 | `MODEL.md` | Math foundations the user already aligned on — **not** product scope/UX/acceptance |
 
@@ -43,7 +43,7 @@ and still probe the user on definition particulars.
 
 | Extension | This skill |
 |-----------|------------|
-| **Subject** | Component, system, feature, or explore investigation Task |
+| **Subject** | Component, system, feature, or explore route (define) Task |
 | **Probes** | See [Probes](#probes) |
 | **Stop condition** | No obvious divergence points remain for scope, behavior, constraints, and acceptance — resolved **with the user** |
 | **Alignment / definition artifact** | `PLAN.md` (path from WORKSPACE) |
@@ -59,8 +59,8 @@ Use definition probes from CONCEPT_DEFINITION, specialised for a pipeline phase:
 - Compatibility with existing code or conventions
 - Non-obvious constraints the user cares about
 - Acceptance criteria and verification approach
-- Open questions parked by **explore** on this theme (preferred starting list)
-- Pipeline Task key from a prior **explore** session (preferred)
+- Open questions / fog pointers parked by **explore** on this route Task (preferred starting list)
+- Pipeline Task key from a prior **explore** map (preferred)
 - How (if at all) to apply findings from `RESEARCH.md` / constraints from `MODEL.md` — ask; do not assume
 
 ### Opening
@@ -76,16 +76,16 @@ Use definition probes from CONCEPT_DEFINITION, specialised for a pipeline phase:
 - Writing/updating `PLAN.md` (and continuity mirrors) on the Task’s **delivery
   branch** is required after approval — that is not “implementation”
 - No sub-agent delegation — alignment / definition only
-- Do not re-open initiative-level idea exploration; stay on this Task's theme
+- Do not re-open map-level wayfinding; stay on this route Task's step
 - Do not adopt research conclusions or invent product decisions from literature without user confirmation
 
 ## Entry (pipeline)
 
-When the user passes an explore **Task** key:
+When the user passes an explore **route Task** key:
 
 1. `fetch` the Task and parent Story via tracker.
 2. Load `ROADMAP.md`, and `RESEARCH.md` / `MODEL.md` if present — as **supportive context**.
-3. Use Task summary/description as the **theme** to define — assume particulars are still open unless the user already answered them **in this define session**.
+3. Use Task summary/description as the **route step** to define — assume particulars are still open unless the user already answered them **in this define session**.
 4. Start the alignment loop with the user. Cite research/model only as options or constraints to confirm — never as settled definition.
 
 ## Alignment artifact
@@ -132,7 +132,7 @@ work through Done.)
 Follow one-issue continuity, [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop),
 and the [tracker sync matrix](../workflow/reference.md#tracker-sync-matrix-mandatory).
 
-### Explore Task provided (preferred)
+### Explore route Task provided (preferred)
 
 1. **Update that Task** — do not create a parallel definition issue. Status stays **To Do**.
 2. Create **Sub-tasks** per work package — status **To Do**; link parent = Task.

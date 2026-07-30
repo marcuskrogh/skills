@@ -15,14 +15,18 @@ Agent reference for the primary delivery pipeline. **Not a user-invoked skill.**
 ```text
 setup (once per repo)
    ↓
-explore  →  define  →  implement  →  review-fix  →  ship
-   │           │            │              │               │
- ROADMAP.md  PLAN.md     same branch   review↔fix loop  merge that PR
- Story+Tasks  + branch+PR  + same PR     same Task         + Done
-               same Task ───────────────────────────────→ closed-loop
-               ↑
-        research / model   (optional; same Task + same delivery branch)
+explore  →  (research / model)*  →  define  →  implement  →  review-fix  →  ship
+   │              │                   │            │              │               │
+ ROADMAP.md    RESEARCH.md         PLAN.md     same branch   review↔fix loop  merge that PR
+ map Story     / MODEL.md          + branch+PR  + same PR     same Task         + Done
+ + route Tasks  (route Tasks)       same Task ───────────────────────────────→ closed-loop
+   │                                                      ↑
+   └──── sequenced / dependent frontier ──────────────────┘
 ```
+
+Explore **charts** the foggy effort as a map: Destination, route Tasks (typed and
+ordered, with blockers), fog (Not yet specified), and Out of scope. Downstream
+skills **walk** the frontier; re-invoke `/explore` on the map to graduate fog.
 
 (`/review` remains available for a one-shot review without auto-fix.)
 
@@ -117,7 +121,7 @@ GitHub, or Linear:
 | File | Role |
 |------|------|
 | `docs/agents/WORKSPACE.md` | Tracker + path + delivery decisions (`/setup`) |
-| `ROADMAP.md` | Initiative + phases + keys + **Next** (features) |
+| `ROADMAP.md` | Initiative map + route + keys + **Next** (features) |
 | `PLAN.md` | Definition / plan + keys + **Next** (features) |
 | `BUG.md` | Bug report + acceptance + **Next** (bug fixes) |
 | `ITERATE.md` | Post-ship fix delta + acceptance + **Next** (iterate) |
@@ -135,7 +139,7 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 
 | Stage | Ticket action |
 |-------|----------------|
-| **explore** | Create **Story** + one **Task** per investigation theme. Tasks name themes to define later — direction only, not settled specs. Explore does **not** open the delivery PR for a phase Task. |
+| **explore** | Create **Story** (the map) + one **Task** per route step (research / model / define / task), with type, sequence, and **Blocked by**. Fog stays in `ROADMAP.md` until sharp enough to ticket. Explore does **not** open the delivery PR for a route Task. |
 | **bug** | Create one **Task** (+ optional Sub-tasks) from `BUG.md`. No Story unless requested. Start the Task’s **delivery branch** (+ draft PR when Open PR by default) when committing `BUG.md`. |
 | **define** | Take an explore **Task**. Probe particulars with the user (explore / research / model did not decide product scope, behaviour, or acceptance). Enrich *that* issue (description, `PLAN.md`, Sub-tasks). Do **not** create a parallel definition ticket when an explore Task is the subject. Start or **reuse** the Task’s **delivery branch** (+ draft PR) when committing `PLAN.md`. |
 | **research / model** | Enrich the **same Task**. If a delivery branch/PR already exists, commit artifacts there. If not and the skill is committing repo files for this Task, start the delivery branch (+ draft PR) so later define/implement continue on it. |
@@ -176,9 +180,10 @@ ship — not separate PRs for research, define, implement, and ship.
    - Delete the remote head branch after merge when the host allows.
    - Tracker Done transitions may follow merge; they are remote ops, not a new PR.
    - **Never** open a ship-only follow-up PR for continuity leftovers.
-6. **Explore** may write `ROADMAP.md` without owning a phase Task’s delivery PR
-   (initiative spans many Tasks). Once a phase Task has a delivery branch, further
-   ROADMAP row updates for that phase go on **that** branch when practical.
+6. **Explore** may write `ROADMAP.md` (the map) without owning a route Task’s delivery PR
+   — research / model / define own delivery continuity when they first write for that Task.
+   Once a route Task has a delivery branch, further ROADMAP Route/Cleared updates for
+   that Task go on **that** branch when practical.
 7. **Iterate** (post-ship only) always starts a **new** Task + **new** branch +
    **new** PR — that is a new closed-loop, not a continuation of a merged PR.
 
@@ -209,7 +214,7 @@ ship — not separate PRs for research, define, implement, and ship.
 
 ### Linking
 
-- Explore Tasks → parent Story via provider parent/relates.
+- Explore route Tasks → parent Story (map) via provider parent/relates. Record **Blocked by** on dependents.
 - Bug Tasks are usually standalone; may **Relates** to a Story/Task if they block a phase.
 - Iterate Tasks are **new** Tasks that **Relates** to the shipped prior Task (or prior iterate Task).
 - Define/implement/review/ship comments stay on the **same Task**.
@@ -221,7 +226,7 @@ ship — not separate PRs for research, define, implement, and ship.
 | Artifact | Owner skill | Role |
 |----------|-------------|------|
 | `WORKSPACE.md` | setup | Tracker and path decisions |
-| `ROADMAP.md` | explore | Direction + investigation themes (particulars deferred) |
+| `ROADMAP.md` | explore | Map: Destination + sequenced route + fog + out of scope + **Next** |
 | `BUG.md` | bug | Defect report + acceptance for implement/review |
 | `ITERATE.md` | iterate | Post-ship fix delta + acceptance for implement/review |
 | `RESEARCH.md` | research | Multi-axis research brief — supportive evidence for a phase/Task (not user alignment) |
@@ -267,7 +272,7 @@ Rules:
 | After | Next (default) |
 |-------|----------------|
 | setup | `/explore` or `/bug` (depending on intent) |
-| explore | `/define <first-priority-Task>` (or `/research` / `/model` if needed first) |
+| explore | Frontier route Task: `/research` / `/model` / `/define` / checklist as typed — lowest unblocked **Order** |
 | bug | `/implement <Task>` — or `/ship <Task>` to finish remaining (implement → review-fix → closeout) |
 | research | `/model <Task>` or `/define <Task>` |
 | model | `/define <Task>` or `/implement <Task>` if plan exists |
@@ -314,7 +319,7 @@ enabled). Chat-only status is not enough.
 
 | Skill | Create / update issues | Status transitions | Comments / links | Close |
 |-------|------------------------|--------------------|------------------|-------|
-| **explore** | Create Story + Task per investigation theme; link children → Story | Leave Story/Tasks **To Do** | Story comment: child keys + **Next**; upsert ISSUES | — |
+| **explore** | Create Story (map) + typed route Tasks; link children → Story; record Blocked by | Leave Story/Tasks **To Do** | Story comment: child keys + deps + **Next**; upsert ISSUES | Mis-scoped only |
 | **bug** | Create Task (+ optional Sub-tasks); link BUG.md; start delivery branch + draft PR | Leave **To Do** | Task comment: BUG.md + branch/PR + **Next**; ISSUES | — |
 | **iterate** | Create **new** Task; link ITERATE.md; Relates → prior Task | New Task → **In Progress** then **In Review** when PR ready | Prior Task comment (follow-up key); new Task comments + PR + **Next** `/review-fix`; ISSUES | — (ship closes the new Task) |
 | **research** | Enrich pipeline Task (artifact link); no new Task if key given; reuse/start delivery branch when committing | Leave Task status unchanged (usually **To Do**) | Task comment: RESEARCH.md + branch/PR + summary + **Next**; ROADMAP/PLAN/ISSUES | — |
