@@ -108,7 +108,7 @@ Use the **definition hierarchy** from [format.md](format.md).
    ([delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop)).
    Record branch + PR on the Task. Do **not** open a model-only PR alongside a separate define PR.
 5. Update shared markdown (on that delivery branch when it exists):
-   - `ROADMAP.md` phase notes / artifact column → `MODEL.md`
+   - `ROADMAP.md` route / Cleared notes → `MODEL.md`
    - `PLAN.md` if it exists → Inputs / Constraints link to `MODEL.md`
    - `RESEARCH.md` Tracker section if it exists → link `MODEL.md`
    - Upsert `docs/agents/ISSUES.md` mirror

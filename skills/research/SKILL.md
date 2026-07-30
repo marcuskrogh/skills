@@ -221,7 +221,7 @@ When a pipeline **Task** (or Story) key was given or inferred:
    reuse the Task’s open branch/PR if any; otherwise start the delivery branch (+ draft
    PR when Open PR by default) so define/implement continue on the **same** PR. Do
    **not** open a research-only PR that will be abandoned when define starts another.
-4. If `ROADMAP.md` lists the phase, add/update an Artifact / Notes cell pointing at `RESEARCH.md`
+4. If `ROADMAP.md` lists the route step, add/update notes pointing at `RESEARCH.md`
    (on the delivery branch when one exists for this Task).
 5. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs — as evidence, not as locked decisions.
 6. Upsert the markdown mirror (`docs/agents/ISSUES.md`) with artifact + branch/PR + **Next**.

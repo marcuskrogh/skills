@@ -49,7 +49,7 @@ Pick the furthest stage that matches evidence:
 | Stage | Evidence |
 |-------|----------|
 | **setup** | No WORKSPACE (tell user to `/setup`) |
-| **explore** | Story only / feature Task with no PLAN |
+| **explore** | Map Story / route Task with no PLAN yet |
 | **bug** | `BUG.md` linked; not yet In Progress |
 | **iterate** | `ITERATE.md` linked (or Relates to a Done prior Task); building or about to |
 | **research** | `RESEARCH.md` linked; define not done — brief is supportive only; Next usually `/define` or `/model` |

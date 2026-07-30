@@ -23,7 +23,7 @@ Use `curl` or `gh`-style shell; do not commit credentials.
 
 | Skill | Primary issue | Children |
 |-------|---------------|----------|
-| `explore` | **Story** | **Task** per investigation theme (linked or child) — pipeline owner; direction only |
+| `explore` | **Story** (map) | **Task** per route step (research / model / define / task) with sequence and blockers |
 | `bug` | **Bug** (or **Task** with bug label) | Optional **Sub-task**s |
 | `define` | **Same explore Task** (preferred) or new **Task** / **Story** if standalone | **Sub-task** per work package |
 | `model` | **Task** | — |
