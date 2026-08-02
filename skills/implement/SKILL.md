@@ -3,10 +3,11 @@ name: implement
 description: >-
   Managed sub-agent implementation against a pipeline Task and Sub-tasks from
   define. Reuses the Task’s existing delivery branch/PR (does not open a parallel
-  implement-only PR). Builds with tests and testability as first-class
-  deliverables so coverage and code quality do not degrade. Moves the issue In
-  Progress then In Review; supports fix-forward after review. Persists Next in
-  markdown and the configured tracker.
+  implement-only PR). Scores package difficulty and defaults workers to Composer
+  2.5 (elevates to Grok only when Demanding); manager stays on Grok. Builds with
+  tests and testability as first-class deliverables so coverage and code quality
+  do not degrade. Moves the issue In Progress then In Review; supports
+  fix-forward after review. Persists Next in markdown and the configured tracker.
 ---
 
 # Implement
@@ -15,6 +16,7 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 **current repository** on the main pipeline Task.
 
 **On invoke:** read [../concepts/CONCEPT_IMPLEMENTATION.md](../concepts/CONCEPT_IMPLEMENTATION.md),
+[../concepts/CONCEPT_DELEGATION.md](../concepts/CONCEPT_DELEGATION.md),
 [testing.md](testing.md), [../workflow/reference.md](../workflow/reference.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
 
@@ -27,6 +29,7 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 | **Delivery** | **Same** PR as define/bug/research when one exists (default from WORKSPACE) or branch-only |
 | **Verification** | Tests (new/updated) + lint for touched area (or full suite if repo norm); coverage/quality non-degradation; plan checklist; sub-task completion; [testing.md](testing.md) |
 | **Testing checklist** | [testing.md](testing.md) — paste into Implementation / Testing / fix-forward briefs |
+| **Model routing** | [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — score each package; default Composer 2.5; elevate Grok only for Demanding signals or failed Composer attempt |
 
 ## Modes
 
@@ -108,13 +111,22 @@ Missing tests for new behaviour = **insufficient package** → re-delegate befor
 
 ## Work packages
 
-| Type | Subagent | Notes |
-|------|----------|-------|
-| Structure exploration | `explore` | Locate seams, existing test patterns, runners |
-| Research | `generalPurpose` | Spike only; no production behaviour without tests planned |
-| Implementation | `generalPurpose` | Code **and** tests; include [testing.md](testing.md) |
-| Testing | `generalPurpose` | Coverage gaps, regression suites, hardening failure paths |
-| Fix-forward | `generalPurpose` | Per review thread or grouped finding; add tests when warranted |
+| Type | Subagent | Default model | Elevate to Grok when |
+|------|----------|---------------|----------------------|
+| Structure exploration | `explore` | Composer 2.5 | Unfamiliar large area with ambiguous seams |
+| Research | `generalPurpose` | Composer 2.5 | Novel domain spike with conflicting approaches |
+| Implementation | `generalPurpose` | Composer 2.5 | Novel design, security/authz, concurrency, large cross-cutting change |
+| Testing | `generalPurpose` | Composer 2.5 | Flaky harness design, concurrency tests, subtle regression isolation |
+| Fix-forward | `generalPurpose` | Composer 2.5 | Architectural must-fixes, subtle correctness/races, prior Composer miss |
+
+**Manager** (this skill’s invoking agent) plans, scores difficulty, evaluates
+reports, and owns tracker/PR — stays on the parent / most competent model
+(**Cursor Grok 4.5**). Do not orchestrate on Composer.
+
+Before each spawn: write `difficulty` + `model` + one-line `reason` into the
+package plan; pass `model` on the `Task` call when the harness supports it
+(`composer-2.5` or `cursor-grok-4.5-high`). Bias: when unsure, choose Composer.
+Insufficient Composer report → re-delegate the same package to Grok with named gaps.
 
 When drafting the plan from Sub-tasks / `PLAN.md`, ensure each behavioural package
 lists test deliverables in its acceptance criteria. If the plan omitted verification,

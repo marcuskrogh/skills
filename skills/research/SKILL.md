@@ -15,7 +15,8 @@ investigation for a user-described topic. Optional side path on the main pipelin
 — feeds **model**, **define**, or **explore** with **supportive** context.
 
 **On invoke:** read [../concepts/CONCEPT_RESEARCH.md](../concepts/CONCEPT_RESEARCH.md),
-[../workflow/reference.md](../workflow/reference.md), and
+[../concepts/CONCEPT_DELEGATION.md](../concepts/CONCEPT_DELEGATION.md) when spawning
+axis sub-agents, [../workflow/reference.md](../workflow/reference.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md) when a Task key or WORKSPACE exists. Read
 [reference.md](reference.md) for axis tooling (arXiv script, web fetch notes).
 
@@ -141,6 +142,11 @@ Write a short plan: which axes, which queries/targets per axis. Record it in
 Run axes in parallel when tools allow; otherwise Preprints → Formal → Web →
 Informal is a good order (seeds from preprints often unlock formal versions and
 practitioner discussion).
+
+When using sub-agents / `Task` for axes: apply
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — default **Composer 2.5**
+per axis; keep synthesis and brief authorship on the manager (parent / Grok);
+elevate an axis to Grok only for Demanding signals or after a weak Composer pass.
 
 ### 4. Expand
 

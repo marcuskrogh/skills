@@ -20,6 +20,7 @@ next ship, run **`/iterate`** again the same way.
 **On invoke:** read [../concepts/CONCEPT_ITERATION.md](../concepts/CONCEPT_ITERATION.md),
 [../concepts/CONCEPT_ALIGNMENT.md](../concepts/CONCEPT_ALIGNMENT.md),
 [../concepts/CONCEPT_IMPLEMENTATION.md](../concepts/CONCEPT_IMPLEMENTATION.md),
+[../concepts/CONCEPT_DELEGATION.md](../concepts/CONCEPT_DELEGATION.md),
 [../workflow/reference.md](../workflow/reference.md),
 [../implement/SKILL.md](../implement/SKILL.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
@@ -149,7 +150,9 @@ overrides:
 1. Spec = `ITERATE.md` (prior PLAN/BUG are context only).
 2. Ensure local base is current (`git fetch`; branch from WORKSPACE base).
 3. **New** branch named per WORKSPACE + `<NEW-KEY>`.
-4. Task → **In Progress**; implement via managed sub-agents when non-trivial.
+4. Task → **In Progress**; implement via managed sub-agents when non-trivial —
+   apply implement’s [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) routing
+   (Composer-default workers; manager stays Grok).
 5. Verify (tests/lint; regression coverage for the delta; no coverage/quality
    degradation on touched paths) → open **new** PR → Task → **In Review**.
 6. PR body: Summary, Tracker, Prior Task/PR, `ITERATE.md`, Test plan (commands,
