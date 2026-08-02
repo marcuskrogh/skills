@@ -98,11 +98,17 @@ When flagging, name a concrete move, for example:
 - Introduce a façade to hide a message chain or unstable neighbor
 - Align with an existing pattern already used for a sibling feature
 
-Severity: improvement opportunity → `note`; clear architectural regression in this PR → `should-fix`; hard documented constraint breach → `blocker`.
+Severity (**fix-biased**): introduced/worsened structural problem with a concrete
+in-PR refactoring → `should-fix`; hard documented constraint breach → `blocker`;
+optional adjacent cleanup the PR did not cause → `note`. When unsure between
+`note` and `should-fix`, choose `should-fix`.
 
 ## Standards (smell baseline)
 
-Repo docs override. Smells are usually `note` (or `should-fix` if severe). Skip tooling-enforced style.
+Repo docs override. **Fix-biased:** actionable named smells in **changed** code
+(clear rename / extract / move) → `should-fix`. Documented convention breaches →
+`should-fix` or `blocker`. Pure taste with no named smell and no repo-doc backing →
+`note`. Skip tooling-enforced style.
 
 ### Smell baseline (_Refactoring_, Fowler ch.3)
 
@@ -124,4 +130,10 @@ Repo docs override. Smells are usually `note` (or `should-fix` if severe). Skip 
 - Horizontal: consistency with neighbouring modules and established patterns in the repo
 
 When a smell is really a module/layer/dependency problem, prefer an **Architecture**
-finding with a structural refactoring over a Standards note.
+finding with a structural refactoring (usually `should-fix`) over a Standards note.
+
+### Severity reminder (all axes)
+
+Follow [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md) fix-biased severity. **When in
+doubt between `note` and `should-fix`, choose `should-fix`.** Demoting actionable
+findings to `note` is an anti-pattern.

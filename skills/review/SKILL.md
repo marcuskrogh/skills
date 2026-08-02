@@ -104,9 +104,15 @@ vertical_or_horizontal: vertical | horizontal
 body: <markdown: problem → evidence → suggested fix; prefix with **Axis**>
 ```
 
-Use CONCEPT_REVIEW severity meanings. **Budgets:** max **20** findings per axis,
-**≤800 words** per axis. Prefer fewer high-severity findings over many notes. Every
-finding needs **evidence** and a **concrete fix hint**.
+Use CONCEPT_REVIEW **fix-biased** severity meanings. **Budgets:** max **20** findings
+per axis, **≤800 words** per axis. Prefer **accurate severity** over a soft review —
+do not demote actionable findings to `note` to avoid `REQUEST_CHANGES`. If the cap
+binds, drop weakest-evidence / lowest-value items first, not severity. Every finding
+needs **evidence** and a **concrete fix hint**.
+
+**Default elevation:** actionable findings (evidence + concrete in-PR fix + in blast
+radius) → `should-fix` or `blocker`. Reserve `note` for optional polish, out-of-scope
+follow-ups, or speculative cleanup outside the change's blast radius.
 
 For **Architecture**, bodies must name the structural problem, cite evidence
 (paths, dependency edges, layer violations), and propose a **concrete refactoring**
@@ -118,19 +124,19 @@ refactoring."
 
 Include: context pack + Spec checklist from [checklist.md](checklist.md#spec).
 
-Brief: Trace **each** acceptance criterion / work package / bug repro expectation through the diff and neighbors. Vertical: is this requirement fully implemented inside the changed paths? Horizontal: are related UI/API/docs/migrations/flags updated? Flag missing, partial, wrong, or scope-creep behaviour. Quote the spec line in `body`.
+Brief: Trace **each** acceptance criterion / work package / bug repro expectation through the diff and neighbors. Vertical: is this requirement fully implemented inside the changed paths? Horizontal: are related UI/API/docs/migrations/flags updated? Flag missing, partial, wrong, or scope-creep behaviour. Quote the spec line in `body`. Severity: missing/wrong required behaviour → `blocker`; incomplete related surfaces or partial delivery → `should-fix`; optional extras beyond the issue → `note`.
 
 #### Correctness sub-agent
 
 Include: context pack + Correctness checklist + any tooling failures.
 
-Brief: Vertical deep-dive into changed functions/paths — logic bugs, edges, error handling, null/empty, off-by-one, resource lifecycle, concurrency, idempotency. Horizontal: do tests cover new behaviour and failure paths; do existing tests still match contracts? Prefer `blocker`/`should-fix` for real failure modes.
+Brief: Vertical deep-dive into changed functions/paths — logic bugs, edges, error handling, null/empty, off-by-one, resource lifecycle, concurrency, idempotency. Horizontal: do tests cover new behaviour and failure paths; do existing tests still match contracts? Prefer `blocker`/`should-fix` for real failure modes. Missing or outdated tests for new behaviour → `should-fix` (not `note`). Unexplained tooling failures from the manager run → `blocker`. Micro-optimizations with no correctness impact → `note`.
 
 #### Integration sub-agent
 
 Include: context pack + Integration checklist + neighbor map.
 
-Brief: Horizontal first — call graph, API/schema compatibility, authz (vertical *and* horizontal privilege), shared state, config/env, feature flags, data migrations, event contracts, error propagation across boundaries. Vertical: at each boundary crossed by the change, validate assumptions. Read neighbor files; do not stop at the hunk. Do **not** turn this into a redesign review — that is Architecture.
+Brief: Horizontal first — call graph, API/schema compatibility, authz (vertical *and* horizontal privilege), shared state, config/env, feature flags, data migrations, event contracts, error propagation across boundaries. Vertical: at each boundary crossed by the change, validate assumptions. Read neighbor files; do not stop at the hunk. Do **not** turn this into a redesign review — that is Architecture. Severity: contract/auth/compat/migration hazards → `blocker` or `should-fix`; undocumented required config/secrets risks → `should-fix`; nice-to-have observability with no failure risk → `note`.
 
 #### Architecture sub-agent
 
@@ -142,7 +148,7 @@ Brief: Deep structural analysis of how the change sits in the codebase.
 
 **Horizontal:** Across packages/layers — dependency direction and cycles introduced or worsened, shotgun surgery patterns (one concern scattered), divergent change (one module serving unrelated reasons), missing or eroded boundaries, duplication that should be a shared module vs false sharing that should stay separate, consistency with existing architectural patterns and ADRs.
 
-**Refactorings:** For each finding, propose a specific structural move grounded in this repo (not a textbook lecture). Prefer improvements the PR could make now or as a clearly scoped follow-up. Severity: structural improvements → `note`; clear regression vs intended architecture → `should-fix`; hard ADR / documented layering breach → `blocker`.
+**Refactorings:** For each finding, propose a specific structural move grounded in this repo (not a textbook lecture). Prefer improvements the PR could make now. Severity (**fix-biased**): structural problems this PR **introduced or worsened**, with a concrete in-PR refactoring → `should-fix`; hard ADR / documented layering breach → `blocker`; optional adjacent redesign the PR did not cause → `note`. When unsure between `note` and `should-fix`, choose `should-fix`.
 
 Do not restate Integration contract breaks or Standards naming/duplication smells unless they are symptoms of a larger structural problem — then frame them as Architecture with the structural fix.
 
@@ -150,7 +156,7 @@ Do not restate Integration contract breaks or Standards naming/duplication smell
 
 Include: standards pack + smell baseline.
 
-Brief: Documented standard breaches (can be `blocker`/`should-fix`) and baseline smells (`note` unless severe). Name the smell. Repo overrides baseline. Skip tooling-enforced style. Leave structural redesign to Architecture; Standards owns local clarity and documented conventions.
+Brief: Documented standard breaches (`blocker` / `should-fix`) and baseline smells. **Actionable named smells in changed code** (clear rename / extract / move) → `should-fix`, not `note`. Name the smell. Repo overrides baseline. Skip tooling-enforced style. Leave structural redesign to Architecture; Standards owns local clarity and documented conventions. Pure taste without a named smell or repo-doc backing → `note`.
 
 If the spec pack is empty, skip Spec but still run the other four; ask the user once if everything is empty of intent.
 
@@ -192,9 +198,13 @@ Do **not** write review output into the repo or paste the full review in chat.
 Under each axis: general findings (or "None."), then counts by severity.
 
 5. Review event:
-   - `REQUEST_CHANGES` — any `blocker` or `should-fix`
-   - `COMMENT` — only `note`s, or no findings
+   - `REQUEST_CHANGES` — any `blocker` or `should-fix` (expect this often under fix-biased severity)
+   - `COMMENT` — only non-actionable `note`s, or no findings
    - `APPROVE` — zero findings on all axes (rare)
+
+After merge, before submit: scan for actionable findings labeled `note`. If they meet
+CONCEPT_REVIEW's actionable test, **promote** them to `should-fix` (manager duty —
+do not leave fix-worthy items as soft notes).
 
 #### 5b. Submit via gh
 
@@ -227,11 +237,12 @@ Only: issue key/URL, PR URL, one-line counts + event, **Next**. No full review d
 | Outcome | Next |
 |---------|------|
 | Any `blocker` or `should-fix` | `/review-fix <KEY>` (preferred) or `/implement <KEY>` fix-forward |
-| Only `note`s or zero findings | `/ship <KEY>` |
+| Only actionable `note`s | `/review-fix <KEY>` (preferred) — review-fix still fixes actionable notes |
+| Only non-actionable `note`s or zero findings | `/ship <KEY>` |
 
 ```markdown
 ## Next
-`/review-fix <KEY>` — Auto-fix blockers and re-review
+`/review-fix <KEY>` — Auto-fix blockers, should-fix, and actionable notes; re-review
 ```
 
 or

@@ -52,7 +52,12 @@ A change can look fine on one cut and fail on another:
 
 Architecture findings must be **grounded in the change and nearby structure** — not a free-floating redesign of the whole codebase. Prefer concrete refactorings (extract module, invert dependency, split package, introduce a port/adapter, collapse a leaky abstraction) with evidence from the neighbor map and architecture pack.
 
-**Severity guidance for Architecture:** default structural improvement opportunities to `note`; use `should-fix` when the PR introduces a clear architectural regression (wrong layer, new cycle, boundary leak that forces shotgun surgery); reserve `blocker` for hard documented constraints (ADR / architecture doc violations).
+**Severity guidance for Architecture (fix-biased):** if this PR **introduces or
+worsens** a structural problem and a **concrete in-PR refactoring** exists (wrong
+layer, new/worsened cycle, boundary leak, cohesion damage, shotgun surgery), use
+`should-fix`. Hard documented constraints (ADR / architecture doc / dependency
+rules) → `blocker`. Reserve `note` only for optional adjacent improvements **outside**
+the change's blast radius or speculative cleanups the PR did not cause.
 
 **Vertical** catches bugs and design faults inside a path; **horizontal** catches
 breaks and structural drift across the system. Both are required on every axis
@@ -78,13 +83,41 @@ Skills **may** define:
 | **Tooling evidence** | Whether to run lint/type/test and feed failures in |
 | **Handoff** | Next skill when blocking vs clean |
 
-## Severity (default model)
+## Severity (fix-biased default model)
 
-| Level | Meaning | Ship impact |
-|-------|---------|-------------|
-| `blocker` | Wrong/missing required behaviour, likely prod bug, security hole, hard standard breach, or hard documented architecture/ADR breach | Must fix before ship |
-| `should-fix` | Clear defect, gap, or architectural regression that should not ship | Treat as blocking for fix loops |
-| `note` | Improvement, smell, optional cleanup, structural refactoring opportunity | Soft; does not block ship alone |
+**Bias:** when choosing between `note` and `should-fix`, prefer **`should-fix`** if
+the finding is evidenced, actionable in this change set (or immediate neighbors),
+and has a concrete fix hint. Do **not** demote actionable findings to `note` to keep
+the review soft or to avoid `REQUEST_CHANGES`.
+
+| Level | Meaning | Ship / fix-loop impact |
+|-------|---------|------------------------|
+| `blocker` | Wrong/missing required behaviour, likely prod bug, security hole, broken tooling proof, hard standard / ADR / layering breach, missing acceptance-critical behaviour | Must fix before ship; always blocking for fix loops |
+| `should-fix` | Clear defect or gap that should not ship: logic/edge bugs, missing tests for new behaviour, incomplete horizontal updates, auth/contract risks, documented convention breaches, **actionable** smells in changed code, structural problems this PR introduced or worsened with a concrete in-PR refactoring | Treat as blocking for fix loops; triggers `REQUEST_CHANGES` |
+| `note` | Truly optional polish, preference without a clear defect, out-of-scope follow-up, or speculative cleanup **outside** the PR blast radius | Soft for plain `/review` → ship; **still must-fix when actionable** under `/review-fix` |
+
+### What counts as actionable (for elevation and fix loops)
+
+A finding is **actionable** when **all** of the following hold:
+
+1. Evidence cites the change or an immediate neighbor / caller / test
+2. Body names a **concrete fix** (not "consider improving")
+3. The fix fits this PR's scope (touched paths + necessary neighbors) — not a
+   multi-week redesign
+
+Actionable findings default to **`should-fix`** (or `blocker` if ship-critical).
+Use `note` only when the item fails the actionable test **or** is explicitly
+deferred as out-of-scope follow-up.
+
+### Axis calibration shortcuts
+
+| Axis | Prefer `should-fix` / `blocker` for | Prefer `note` only for |
+|------|--------------------------------------|-------------------------|
+| **Spec** | Missing, partial, wrong acceptance behaviour; incomplete related surfaces called for by the plan | Clarifying questions; optional extras beyond the issue |
+| **Correctness** | Real failure modes, bad error handling, races, missing/outdated tests for new behaviour, unexplained tooling failures | Micro-optimizations with no correctness impact |
+| **Integration** | Caller/contract/auth/config/migration/flag hazards | Nice-to-have observability polish with no failure risk |
+| **Architecture** | Introduced/worsened wrong-layer, cycles, boundary leaks, god-module growth with a concrete refactoring | Adjacent redesign the PR did not cause |
+| **Standards** | Named smells in changed code with a clear rename/extract/move; documented convention breaches | Pure taste not backed by repo docs or a named smell |
 
 ## Investigation context (mandatory)
 
@@ -113,8 +146,10 @@ Each finding should be structured enough for fix-forward:
 - Vertical or horizontal
 - Body: problem → evidence → suggested fix
 
-**Budgets (defaults):** prefer fewer high-severity findings; cap volume per axis;
-require evidence and a concrete fix hint.
+**Budgets (defaults):** cap volume per axis; require evidence and a concrete fix
+hint. Prefer **accurate severity** over a soft review — do not collapse actionable
+items into `note` to stay under budget; drop lowest-value / weakest-evidence items
+first if the cap binds.
 
 ## Process (conceptual)
 
@@ -124,13 +159,15 @@ require evidence and a concrete fix hint.
 4. Run all applicable axes (prefer parallel investigators).
 5. Merge, deduplicate, keep axes separate in the published review.
 6. Publish to the skill's target; summarise counts to the user — not the full dump.
-7. Hand off: fix loop if blocking; ship path if clean / notes-only.
+7. Hand off: fix loop if blocking / actionable findings remain; ship path only when
+   clean (or plain `/review` with non-actionable notes only).
 
 ## Anti-patterns
 
 - Reviewing hunks without neighbors or spec
 - Collapsing all axes into one undifferentiated list
-- Many notes, few evidenced blockers
+- **Demoting** actionable findings to `note` so the PR looks ship-ready
+- Many soft notes that should have been `should-fix` / `blocker`
 - Inventing CI results
 - Dumping the full review into chat when a PR (or other durable surface) is the publish target
 - Approving when blockers or should-fix remain
@@ -138,6 +175,7 @@ require evidence and a concrete fix hint.
   evidence, and a concrete refactoring
 - Mixing Integration (runtime fit) with Architecture (structural fit) or Standards
   (local smells) into one undifferentiated pile
+- Leaving actionable inline notes unfixed in `/review-fix` because they were labeled `note`
 
 ## Authoring skills that use this concept
 
