@@ -59,7 +59,7 @@ Pick the furthest stage that matches evidence:
 | **review** | Status In Review; PR open (one-shot) |
 | **review-fix** | Actively looping review↔fix, or preferred post-implement/iterate stage |
 | **fix-forward** | In Review/In Progress + open `REQUEST_CHANGES` / unreplied review threads |
-| **ship-ready** | In Review + latest review clean (no blockers) |
+| **ship-ready** | In Review + latest review clean (no must-fix: blockers / should-fix / actionable notes) |
 | **done** | Status Done / PR merged |
 
 ## Reply shape (chat only)

@@ -69,8 +69,8 @@ Infer the furthest stage from evidence (same idea as [summarise](../summarise/SK
 | No ready-to-build artifact (`PLAN.md` / `BUG.md` / `ITERATE.md`) and Task not yet defined | **Stop** — tell the user to run `/define`, `/bug`, or `/iterate` first. Ship does not explore or define. |
 | Defined / bug-aligned / iterate-aligned; Task **To Do** (or equivalent); no meaningful implementation on the delivery PR yet | `implement` → `review-fix` → **closeout** |
 | Task **In Progress**; implementation incomplete | Finish `implement` (build) → `review-fix` → **closeout** |
-| Task **In Review**; PR open; latest review unresolved / `REQUEST_CHANGES` / blockers | `review-fix` → **closeout** |
-| Task **In Review**; PR open; clean review (no blockers / notes-only) **or** no review yet but user wants full finish | `review-fix` (if no clean review yet) → **closeout**; if already CLEAN, **closeout** only |
+| Task **In Review**; PR open; latest review unresolved / `REQUEST_CHANGES` / blockers / should-fix / actionable notes | `review-fix` → **closeout** |
+| Task **In Review**; PR open; clean review (no must-fix findings) **or** no review yet but user wants full finish | `review-fix` (if no clean review yet) → **closeout**; if already CLEAN, **closeout** only |
 | PR already merged; Task not Done | **closeout** (tracker + missing continuity on base only when unavoidable) |
 
 Tell the user the detected stage and the remaining sequence **before** running it
@@ -85,7 +85,7 @@ Execute the remaining sequence **in order**. Follow each skill’s full process
 | Step | How |
 |------|-----|
 | **implement** | Build mode per [implement](../implement/SKILL.md): reuse delivery branch/PR, work packages + tests, Task → **In Review**, handoff continuity. |
-| **review-fix** | Full loop per [review-fix](../review-fix/SKILL.md) (default `max_iterations` **3** unless the user set another). Prefer review-fix over one-shot `/review` so blockers are fixed before closeout. |
+| **review-fix** | Full loop per [review-fix](../review-fix/SKILL.md) (default `max_iterations` **4** unless the user set another). Prefer review-fix over one-shot `/review` so must-fix findings (including actionable notes) are fixed before closeout. |
 | **closeout** | Only after review-fix exits **CLEAN** (or the Task was already ship-ready). See [§3](#3-closeout-mandatory). |
 
 #### Stops (do not closeout)

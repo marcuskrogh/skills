@@ -109,10 +109,12 @@ Post-ship iterate path:
 Prefer **`/review-fix`** after implement to avoid manual review↔implement iteration:
 
 ```text
-review → (blockers?) → implement fix-forward → review → … → clean → /ship
+review → (must-fix?) → implement fix-forward → review → … → clean → /ship
 ```
 
-Plain **`/review`** only posts findings and hands off; you then run `/implement` yourself.
+Must-fix = `blocker` + `should-fix` + **actionable** `note`s (see CONCEPT_REVIEW /
+review-fix). Plain **`/review`** only posts findings and hands off; you then run
+`/implement` yourself (or `/review-fix` to auto-loop).
 ## Markdown continuity
 
 **Decisions and handoffs always live in markdown**, even when the tracker is Jira,
@@ -279,8 +281,8 @@ Rules:
 | define | `/implement <Task>` — or `/ship <Task>` to finish remaining (implement → review-fix → closeout) |
 | implement | `/review-fix <Task>` (preferred) or `/review <Task>` — or `/ship <Task>` to finish remaining (review-fix → closeout) |
 | iterate | `/review-fix <NewTask>` — or `/ship <NewTask>` to finish remaining |
-| review (blocking findings / `REQUEST_CHANGES`) | `/implement <Task>` (fix-forward) — or use `/review-fix` / `/ship` to automate |
-| review (no blockers) | `/ship <Task>` (closeout) |
+| review (must-fix findings / `REQUEST_CHANGES`) | `/implement <Task>` (fix-forward) — or use `/review-fix` / `/ship` to automate |
+| review (no must-fix; non-actionable notes optional) | `/ship <Task>` (closeout) |
 | review-fix (CLEAN) | `/ship <Task>` (closeout) |
 | review-fix (STOPPED / STALLED) | `/implement <Task>` or `/review <Task>` (manual) or re-run with higher max — or `/ship <Task>` to retry remaining |
 | ship (Done) | Done — no next skill (or next phase / next bug); if merged work still wrong → `/iterate` |
@@ -408,15 +410,16 @@ PR before merge so this fallback is rare.
 
 ## Fix-forward
 
-When **review** leaves blocking findings and you are **not** using **review-fix**:
+When **review** leaves must-fix findings (`blocker`, `should-fix`, or actionable
+`note`s) and you are **not** using **review-fix**:
 
 1. Next skill is **implement** on the same Task (not a new issue).
-2. Implement treats open PR review threads as the work packages.
+2. Implement treats open PR review threads as the work packages (including actionable notes).
 3. Do not invent new scope beyond the review + existing plan/bug.
 4. Re-open or keep the PR; return Task to **In Review** when ready (tracker + mirror).
 5. User runs **review** again, then **ship**.
 
-Prefer **`/review-fix <KEY>`** to run steps 1–5 automatically until clean (see that skill for max-iteration / stall guards).
+Prefer **`/review-fix <KEY>`** to run steps 1–5 automatically until clean (see that skill for max-iteration / stall guards; default max **4**).
 
 ## Post-ship iterate
 

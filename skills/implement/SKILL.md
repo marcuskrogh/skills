@@ -33,7 +33,7 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 | Mode | When | Behavior |
 |------|------|----------|
 | **Build** (default) | Task To Do / In Progress | Full implementation loop with tests in-package |
-| **Fix-forward** | After **review** with blockers; same Task + open PR | Address review threads only; add/adjust tests when the finding is correctness, coverage, or testability |
+| **Fix-forward** | After **review** with must-fix findings; same Task + open PR | Address review threads only (blockers, should-fix, and actionable notes); add/adjust tests when the finding is correctness, coverage, or testability |
 
 Post-merge follow-ups on already-shipped work use **`/iterate`** (new Task + new PR),
 not fix-forward.
