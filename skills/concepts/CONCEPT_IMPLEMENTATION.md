@@ -42,18 +42,33 @@ Skills **may** define:
 | **Pre-work** | Steps before first delegation (e.g. commit spec file, ask issue ID) |
 | **Work package types** | Domain-specific package categories |
 | **Subagent mapping** | Which subagent type per package kind |
+| **Model routing** | Skill-specific defaults for [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (must stay Composer-biased) |
 | **PR template** | Required PR body sections |
 | **Testing checklist** | Concrete test/testability checks to paste into package briefs |
+
+## Model routing (mandatory when delegating)
+
+Apply [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) on every work-package spawn:
+
+- **Manager** (plan, evaluate, tracker, verify ownership) stays on the parent /
+  most competent model — do not orchestrate on Composer.
+- **Workers** default to **Composer 2.5**; elevate to **Cursor Grok 4.5** only
+  when a Demanding signal applies or after an insufficient Composer attempt.
+- Score difficulty **before** each `Task` call; pass `model` when the harness
+  supports it; escalate by re-delegating to Grok with named gaps.
 
 ## Invariants
 
 - **Management role.** The invoking agent owns the plan and delegates — it does not
   absorb large implementation work unless a package is trivial or delegation fails
-  after retry.
+  after retry. Management stays on the parent / most competent model; workers use
+  [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (Composer-biased).
 - **Spec fidelity.** Every work package and evaluation cross-references the
   specification. Deviations require plan revision or user alignment.
 - **Isolated packages.** Each delegation is self-contained with objective, inputs,
   constraints, deliverables, and branch context.
+- **Value-aware workers.** Score difficulty before each spawn; default Composer;
+  elevate to Grok only for Demanding signals or failed Composer attempts.
 - **Iterative plan.** Re-evaluate the plan after each sub-agent report; revise
   remaining packages when findings change assumptions.
 - **Branch discipline.** Resolve the skill’s delivery branch before the first
@@ -127,15 +142,18 @@ testability constraints when the design needs seams for isolation.
 
 ```
 1. Select next work package
-2. Delegate to a sub-agent with:
+2. Evaluate difficulty → assign worker model (CONCEPT_DELEGATION; bias Composer)
+3. Delegate to a sub-agent with:
    - objective and acceptance criteria (including tests / testability)
    - spec excerpts and prior package findings
    - branch name; files/areas to touch or avoid
    - testing checklist when the skill provides one
-3. Receive sub-agent report
-4. Evaluate against package criteria, overall spec, and testing/testability invariants
-5. Update plan if needed; mark done or re-delegate
-6. Repeat until all packages complete
+   - model slug when the harness supports per-sub-agent models
+4. Receive sub-agent report
+5. Evaluate against package criteria, overall spec, and testing/testability invariants
+6. If insufficient → re-delegate (escalate to Grok if the first worker was Composer)
+7. Update plan if needed; mark done or re-delegate
+8. Repeat until all packages complete
 ```
 
 ### 6. Verify and deliver
@@ -155,6 +173,7 @@ Each delegation must include:
 - **Deliverables** — code, **tests** (or explicit justification if none), findings,
   and notes on coverage of new/changed paths
 - **Branch** — feature branch; sub-agents commit here
+- **Difficulty / model** — tier + assigned worker model per CONCEPT_DELEGATION
 
 ## Evaluating sub-agent results
 
@@ -180,12 +199,16 @@ Each delegation must include:
 - Skipping the project test suite to save time, or inventing green CI
 - Only happy-path tests when failure modes are part of the spec or obvious in the code
 - Leaving existing tests broken or outdated after a contract change
+- Running every implementation worker on Grok by default (violates CONCEPT_DELEGATION)
+- Skipping difficulty scoring / `model` assignment when the harness supports it
 
 ## Authoring skills that use this concept
 
 1. Instruct the agent to **read this file first** on invoke.
-2. Fill in the **extension contract** (including a concrete **Verification** that
+2. Also require [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) when the skill spawns
+   sub-agents.
+3. Fill in the **extension contract** (including a concrete **Verification** that
    covers tests and non-degradation).
-3. Prefer a **testing checklist** for package briefs when the skill is the main
+4. Prefer a **testing checklist** for package briefs when the skill is the main
    build path.
-4. Link: `[CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md)`.
+5. Link: `[CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md)`.

@@ -68,6 +68,16 @@ Skills **may** define:
 | **Depth presets** | Quick scan vs thorough review (axes still plural unless scoped) |
 | **Pipeline continuity** | How to attach the brief to a Task / roadmap |
 | **Handoff defaults** | Next skill after the brief |
+| **Model routing** | When axes run as sub-agents — apply [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) |
+
+## Model routing (when axes are sub-agents)
+
+If the skill (or harness) runs research axes via sub-agents / `Task` calls, apply
+[CONCEPT_DELEGATION](CONCEPT_DELEGATION.md): manager synthesizes and writes the
+brief on the parent model; axis workers default to **Composer 2.5**; elevate to
+**Cursor Grok 4.5** only for Demanding synthesis (dense conflicting formal
+literature, high-stakes correctness of citations across axes) or after an
+insufficient Composer axis pass.
 
 ## Workflow (conceptual)
 

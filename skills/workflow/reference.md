@@ -8,6 +8,21 @@ Agent reference for the primary delivery pipeline. **Not a user-invoked skill.**
 2. If missing → ask the user to run `/setup` (or accept defaults and write WORKSPACE.md first).
 3. Resolve the issue tracker via [../tracker/SKILL.md](../tracker/SKILL.md).
 
+## Value-aware sub-agent routing
+
+Whenever a pipeline skill spawns sub-agents (`Task` / investigators / work
+packages), apply [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md):
+
+| Role | Model |
+|------|-------|
+| **Manager / orchestrator** (plan, merge findings, tracker, ship control) | Parent session — prefer **Cursor Grok 4.5**; never hand orchestration to Composer |
+| **Workers** (implement packages, review axes, research axes, fix-forward) | Default **Composer 2.5**; elevate **Cursor Grok 4.5** only for Demanding signals or after a failed Composer attempt |
+
+Bias toward Composer for value-efficient handling. Especially enforce this in
+**implement**, **review**, and **review-fix**; also when **research**, **iterate**,
+or **ship** compose those paths. Score difficulty before each spawn; pass `model`
+when the harness supports it.
+
 ## Pipeline
 
 ### Feature workflow
@@ -451,3 +466,4 @@ Do **not** use `/iterate` while the original PR is still open — that is fix-fo
 - Implement ignoring an existing define/research delivery PR and starting a parallel `…-implement-…` PR
 - Ship merging the code PR then leaving a **second unmerged PR** for ROADMAP/PLAN/ISSUES closeout
 - Recording **Next** without recording the delivery **branch + PR** so the following skill cannot reuse them
+- Running all implement/review workers on Grok by default (violates CONCEPT_DELEGATION — prefer Composer unless Demanding)
