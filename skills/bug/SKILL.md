@@ -105,6 +105,8 @@ Lightweight alternative to **explore** + **define** for the
    write `BUG.md` there; open a **draft** PR when `Open PR by default`. This is the
    same PR implement/review/ship will use — see
    [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop).
+   When **Artifact location** is `external`, write `BUG.md` under the external root
+   instead and push its content into the Task; still create the branch for the fix.
 6. `comment` with path + **branch** + **PR URL** + **Next**. Upsert ISSUES mirror.
 7. If linked to a parent Story/Task, `link` and comment there.
 8. Report key/URL, branch/PR, and **Next**. Session ends.

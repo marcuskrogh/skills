@@ -24,13 +24,18 @@ Use summarise when the user wants status / "what next" *reported*, not advanced.
 
 1. User provides issue key/URL (`/summarise MD-2`, `/summarise PROJ-200`, `/summarise #42`).
 2. Else use the single **active** row in `docs/agents/ISSUES.md` (In Progress / In Review).
-3. Else ask once: "Which issue should I summarise?"
+3. Else, when the mirror is disabled, infer from the tracker: the single issue in
+   **In Progress** / **In Review** assigned to the user that matches the current
+   branch's key, or the key embedded in the branch name.
+4. Else ask once: "Which issue should I summarise?"
 
-`fetch` the issue via the tracker backend. Load linked markdown when present:
+`fetch` the issue via the tracker backend. Load linked markdown when present,
+resolving each path against the effective workspace (repo root, or the **External
+artifact root** when **Artifact location** is `external`):
 
 | File | Use |
 |------|-----|
-| `docs/agents/WORKSPACE.md` | Provider + paths |
+| `WORKSPACE.md` (repo and/or global) | Provider + paths + artifact location |
 | `docs/agents/ISSUES.md` | Mirror status / Next |
 | `ROADMAP.md` | Phase context / parent Story |
 | `PLAN.md` | Feature definition readiness |

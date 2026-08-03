@@ -2,7 +2,9 @@
 
 Logical operations used by pipeline skills. **Not a user-invoked skill.**
 
-Provider and paths come from `docs/agents/WORKSPACE.md` ([../setup/format.md](../setup/format.md)).
+Provider and paths come from the **effective workspace** — the repo's
+`docs/agents/WORKSPACE.md` layered over the global `~/.agents/WORKSPACE.md`
+([../setup/format.md](../setup/format.md) → **Resolution order**).
 Backend files implement these operations.
 
 ## Logical issue types
@@ -67,10 +69,27 @@ When `WORKSPACE.md` has **Mirror to markdown: true**:
 
 At the start of explore / bug / research / model / define / implement / review / review-fix / ship / summarise:
 
-1. Locate `docs/agents/WORKSPACE.md` (or ask once if missing → `/setup`).
+1. Resolve the **effective workspace** per [../setup/format.md](../setup/format.md):
+   `$AGENT_WORKSPACE_FILE` → repo `docs/agents/WORKSPACE.md` → global
+   `~/.agents/WORKSPACE.md` (or `$XDG_CONFIG_HOME/agents/`, `~/.copilot/`,
+   `~/.claude/`, `~/.codex/`, `~/.cursor/`). Repo fields override global fields
+   unless the repo sets `Extends global: false`. If neither resolves, ask once → `/setup`.
 2. Read **Provider** and provider settings.
 3. Load this contract + the provider backend.
-4. Prefer artifact paths from WORKSPACE over hardcoded roots.
+4. Prefer artifact paths from the effective workspace over hardcoded roots, and
+   honour **Artifact location** (`repo` vs `external`).
+
+## Artifact linkage
+
+`attach_or_link(key, path)` depends on **Artifact location**:
+
+| Location | Record on the issue |
+|----------|---------------------|
+| `repo` | Repo-relative path + commit SHA (and PR link once open) |
+| `external` | Absolute path **plus the artifact's full content** in the issue description or a comment — the issue is the durable, shareable copy; there is no SHA |
+
+With `external`, never cite a repo-relative artifact path in a handoff, PR body,
+or issue: it does not exist in the repo and will mislead reviewers.
 
 ## Close semantics
 

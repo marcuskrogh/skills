@@ -101,6 +101,8 @@ Use the **definition hierarchy** from [format.md](format.md).
 ## Tracker and continuity (after approval)
 
 1. Write `MODEL.md` at the agreed path; commit when appropriate (include issue key).
+   When **Artifact location** is `external`, write it under the external root and
+   push its content into the Task instead of committing.
 2. **Pipeline Task provided (preferred):** enrich *that* Task — `attach_or_link` `MODEL.md`, `comment` summary + **Next**. Do **not** create a parallel Task. Leave status unchanged (usually **To Do**).
 3. **Standalone:** create a **Task** (**To Do**), link parent Story if any, then same attach/comment.
 4. **Delivery branch:** when committing `MODEL.md` for a pipeline Task, reuse the Task’s

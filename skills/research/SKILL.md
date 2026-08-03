@@ -227,6 +227,8 @@ When a pipeline **Task** (or Story) key was given or inferred:
    reuse the Task’s open branch/PR if any; otherwise start the delivery branch (+ draft
    PR when Open PR by default) so define/implement continue on the **same** PR. Do
    **not** open a research-only PR that will be abandoned when define starts another.
+   When **Artifact location** is `external`, nothing is committed here — write under
+   the external root and push the content into the Task; do not start a branch yet.
 4. If `ROADMAP.md` lists the route step, add/update notes pointing at `RESEARCH.md`
    (on the delivery branch when one exists for this Task).
 5. If `PLAN.md` exists for the Task, add a **Research** section or link under Open items / Inputs — as evidence, not as locked decisions.

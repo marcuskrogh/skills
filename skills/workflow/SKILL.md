@@ -19,4 +19,5 @@ handoff rules, **continuation keywords** (`next` vs `ship`), or **delivery branc
 closed-loop ship** rules, read [reference.md](reference.md).
 
 Issue tracker operations: [../tracker/SKILL.md](../tracker/SKILL.md).
-Workspace decisions: [../setup/SKILL.md](../setup/SKILL.md) → `docs/agents/WORKSPACE.md`.
+Workspace decisions: [../setup/SKILL.md](../setup/SKILL.md) → repo
+`docs/agents/WORKSPACE.md` layered over global `~/.agents/WORKSPACE.md`.

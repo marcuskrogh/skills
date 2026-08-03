@@ -2,7 +2,8 @@
 name: tracker
 description: >-
   Shared issue-tracker contract for pipeline skills. Resolves the provider from
-  docs/agents/WORKSPACE.md (markdown, jira, github, or linear). Not for user
+  the effective workspace (repo docs/agents/WORKSPACE.md over global
+  ~/.agents/WORKSPACE.md): markdown, jira, github, or linear. Not for user
   invocation — composed by explore, define, implement, review, ship, and setup.
 disable-model-invocation: true
 ---
@@ -11,7 +12,10 @@ disable-model-invocation: true
 
 **Shared reference skill.** Users configure the tracker via [setup](../setup/SKILL.md), not this file.
 
-1. Read the repo's `docs/agents/WORKSPACE.md` (or path from that file).
+1. Resolve the **effective workspace** per [../setup/format.md](../setup/format.md)
+   → **Resolution order**: `$AGENT_WORKSPACE_FILE`, then the repo's
+   `docs/agents/WORKSPACE.md`, then the global `~/.agents/WORKSPACE.md`
+   (or harness fallback). Repository fields override global fields.
 2. Read [reference.md](reference.md) for the logical operations.
 3. Read the matching backend:
    - [backends/markdown.md](backends/markdown.md)
@@ -19,4 +23,4 @@ disable-model-invocation: true
    - [backends/github.md](backends/github.md)
    - [backends/linear.md](backends/linear.md)
 
-If `WORKSPACE.md` is missing, tell the user to run `/setup` before creating issues.
+If neither layer resolves, tell the user to run `/setup` before creating issues.
