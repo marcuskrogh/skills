@@ -3,12 +3,12 @@ name: implement
 description: >-
   Managed sub-agent implementation against a pipeline Task and Sub-tasks from
   define. Reuses the Task’s existing delivery branch/PR (does not open a parallel
-  implement-only PR). Scores package difficulty and defaults workers to the
-  platform low-capability tier (elevates to high-capability only when Demanding);
-  manager stays high-capability. Builds with tests and testability as first-class
-  deliverables so coverage and code quality do not degrade. Moves the issue In
-  Progress then In Review; supports fix-forward after review. Persists Next in
-  markdown and the configured tracker.
+  implement-only PR). Scores package difficulty across low/mid/high capability
+  tiers (Routine → low, Moderate → mid, Demanding → high); manager stays
+  high-capability. Builds with tests and testability as first-class deliverables
+  so coverage and code quality do not degrade. Moves the issue In Progress then
+  In Review; supports fix-forward after review. Persists Next in markdown and the
+  configured tracker.
 ---
 
 # Implement
@@ -30,7 +30,7 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 | **Delivery** | **Same** PR as define/bug/research when one exists (default from WORKSPACE) or branch-only |
 | **Verification** | Tests (new/updated) + lint for touched area (or full suite if repo norm); coverage/quality non-degradation; plan checklist; sub-task completion; [testing.md](testing.md) |
 | **Testing checklist** | [testing.md](testing.md) — paste into Implementation / Testing / fix-forward briefs |
-| **Model routing** | [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — score each package; default low-capability; elevate high-capability only for Demanding signals or failed value-tier attempt |
+| **Model routing** | [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — score each package; Routine → low, Moderate → mid, Demanding → high; escalate one tier after failed attempts |
 
 ## Modes
 
@@ -112,24 +112,24 @@ Missing tests for new behaviour = **insufficient package** → re-delegate befor
 
 ## Work packages
 
-| Type | Subagent | Default category | Elevate to high-capability when |
-|------|----------|------------------|---------------------------------|
-| Structure exploration | `explore` | Low-capability | Unfamiliar large area with ambiguous seams |
-| Research | `generalPurpose` | Low-capability | Novel domain spike with conflicting approaches |
-| Implementation | `generalPurpose` | Low-capability | Novel design, security/authz, concurrency, large cross-cutting change |
-| Testing | `generalPurpose` | Low-capability | Flaky harness design, concurrency tests, subtle regression isolation |
-| Fix-forward | `generalPurpose` | Low-capability | Architectural must-fixes, subtle correctness/races, prior value-tier miss |
+| Type | Subagent | Default category | Elevate when |
+|------|----------|------------------|--------------|
+| Structure exploration | `explore` | Mid-capability | Unfamiliar large area with ambiguous seams → high |
+| Research | `generalPurpose` | Mid-capability | Novel domain spike with conflicting approaches → high |
+| Implementation | `generalPurpose` | Mid-capability (Routine → low) | Novel design, security/authz, concurrency, large cross-cutting change → high |
+| Testing | `generalPurpose` | Mid-capability (Routine → low) | Flaky harness design, concurrency tests, subtle regression isolation → high |
+| Fix-forward | `generalPurpose` | Low-capability (obvious) / Mid otherwise | Architectural must-fixes, subtle correctness/races, prior lower-tier miss → next tier / high |
 
 **Manager** (this skill’s invoking agent) plans, scores difficulty, evaluates
 reports, and owns tracker/PR — stays on the parent / high-capability model per
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md). Do not orchestrate on a
-low-capability worker.
+low- or mid-capability worker.
 
 Before each spawn: write `platform` + `difficulty` + `category` + `model` +
 one-line `reason` into the package plan; pass `model` on the `Task` call when the
 harness supports it (pick from the platform’s ranked catalog). Bias: when unsure,
-choose low-capability. Insufficient value-tier report → re-delegate the same
-package to high-capability with named gaps.
+choose the lower adequate tier. Insufficient report → re-delegate the same package
+one tier up (low → mid → high) with named gaps.
 
 When drafting the plan from Sub-tasks / `PLAN.md`, ensure each behavioural package
 lists test deliverables in its acceptance criteria. If the plan omitted verification,

@@ -144,10 +144,9 @@ Informal is a good order (seeds from preprints often unlock formal versions and
 practitioner discussion).
 
 When using sub-agents / `Task` for axes: apply
-[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — default **low-capability**
-per axis; keep synthesis and brief authorship on the manager (parent /
-high-capability); elevate an axis to high-capability only for Demanding signals
-or after a weak value-tier pass.
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — Routine → **low**,
+Moderate → **mid**, Demanding → **high**; keep synthesis and brief authorship on
+the manager (parent / high-capability); escalate one tier after a weak pass.
 
 ### 4. Expand
 

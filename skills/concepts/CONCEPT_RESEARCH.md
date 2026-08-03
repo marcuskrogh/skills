@@ -74,11 +74,11 @@ Skills **may** define:
 
 If the skill (or harness) runs research axes via sub-agents / `Task` calls, apply
 [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md): manager synthesizes and writes the
-brief on the parent / high-capability model; axis workers default to the
-platform’s top available **low-capability** model; elevate to **high-capability**
-only for Demanding synthesis (dense conflicting formal literature, high-stakes
-correctness of citations across axes) or after an insufficient value-tier axis
-pass. Use the platform catalog (or General).
+brief on the parent / high-capability model; axis workers map Routine → **low**,
+Moderate → **mid**, Demanding → **high**; elevate to **high-capability** only for
+Demanding synthesis (dense conflicting formal literature, high-stakes correctness
+of citations across axes) or after climbing the escalation ladder. Use the
+platform catalog (or General).
 
 ## Workflow (conceptual)
 

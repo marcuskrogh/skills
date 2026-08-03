@@ -152,7 +152,7 @@ overrides:
 3. **New** branch named per WORKSPACE + `<NEW-KEY>`.
 4. Task → **In Progress**; implement via managed sub-agents when non-trivial —
    apply implement’s [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) routing
-   (low-capability-default workers; manager stays high-capability).
+   (low/mid/high by difficulty; manager stays high-capability).
 5. Verify (tests/lint; regression coverage for the delta; no coverage/quality
    degradation on touched paths) → open **new** PR → Task → **In Review**.
 6. PR body: Summary, Tracker, Prior Task/PR, `ITERATE.md`, Test plan (commands,

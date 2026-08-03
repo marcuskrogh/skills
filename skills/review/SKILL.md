@@ -3,10 +3,10 @@ name: review
 description: >-
   Thorough multi-axis GitHub PR review (Spec, Correctness, Integration,
   Architecture, Standards) with vertical and horizontal investigation. Scores
-  each axis for difficulty and defaults investigators to the platform
-  low-capability tier (elevates to high-capability only when Demanding); manager
-  stays high-capability. Tied to a pipeline issue in In Review; posts findings on
-  the PR and tracker; hands off to review-fix or ship.
+  each axis across low/mid/high capability tiers (Routine → low, Moderate → mid,
+  Demanding → high); manager stays high-capability. Tied to a pipeline issue in
+  In Review; posts findings on the PR and tracker; hands off to review-fix or
+  ship.
 ---
 
 # Review
@@ -31,7 +31,7 @@ stop and tell the user.
 | **Spec source** | Tracker issue + `PLAN.md` / `BUG.md` / `ITERATE.md` / `MODEL.md` |
 | **Publish target** | GitHub PR review via `gh api` + tracker comment |
 | **Checklist** | [checklist.md](checklist.md) — paste into each sub-agent brief |
-| **Model routing** | [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — per-axis difficulty; default low-capability; elevate high-capability only for Demanding signals |
+| **Model routing** | [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — per-axis difficulty; Routine → low, Moderate → mid, Demanding → high |
 
 ## Axes (this skill)
 
@@ -96,20 +96,20 @@ Pass this context into every sub-agent brief. Architecture needs the architectur
 
 Score **each axis** with [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)
 before spawning. **Manager** (context pack, merge, severity promotion, publish)
-stays on the parent / high-capability model. Workers default to the platform’s
-top available **low-capability** model; elevate an axis only when that axis has
-a Demanding signal (or when re-running an insufficient value-tier pass).
+stays on the parent / high-capability model. Workers map Routine → **low**,
+Moderate → **mid**, Demanding → **high**; climb one tier after an insufficient
+lower-tier pass.
 
 | Axis | Default category | Elevate to high-capability when |
 |------|------------------|---------------------------------|
-| **Spec** | Low-capability | Large/ambiguous PLAN with many interdependent packages; conflicting acceptance |
-| **Correctness** | Low-capability | Concurrency/races, security, subtle algorithms, unexplained tooling failures |
-| **Integration** | Low-capability | Authz, migrations, public API/schema breaks, multi-service contracts |
-| **Architecture** | Low-capability | New layers/modules, dependency cycles, ADR conflicts, large structural shift |
-| **Standards** | Low-capability | Almost never — elevate only after a failed value-tier standards pass |
+| **Spec** | Mid-capability | Large/ambiguous PLAN with many interdependent packages; conflicting acceptance |
+| **Correctness** | Mid-capability | Concurrency/races, security, subtle algorithms, unexplained tooling failures |
+| **Integration** | Mid-capability | Authz, migrations, public API/schema breaks, multi-service contracts |
+| **Architecture** | Mid-capability | New layers/modules, dependency cycles, ADR conflicts, large structural shift |
+| **Standards** | Low-capability | Almost never — elevate via mid only after a failed low/mid standards pass |
 
-Bias: when unsure, keep low-capability. Axes in the same batch may use different
-models. Pick concrete slugs from the platform catalog (or General).
+Bias: when unsure, keep the lower adequate tier. Axes in the same batch may use
+different models. Pick concrete slugs from the platform catalog (or General).
 
 One message, five `Task` calls (`subagent_type: "generalPurpose"`, each with its
 assigned `model` when the harness supports it).

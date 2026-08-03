@@ -15,10 +15,10 @@ packages), apply [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md):
 
 | Role | Model |
 |------|-------|
-| **Manager / orchestrator** (plan, merge findings, tracker, ship control) | Parent session — prefer top available **high-capability** model; never hand orchestration to a low-capability worker |
-| **Workers** (implement packages, review axes, research axes, fix-forward) | Default **low-capability** (platform catalog); elevate **high-capability** only for Demanding signals or after a failed value-tier attempt |
+| **Manager / orchestrator** (plan, merge findings, tracker, ship control) | Parent session — prefer top available **high-capability** model; never hand orchestration to a low- or mid-capability worker |
+| **Workers** (implement packages, review axes, research axes, fix-forward) | **Low** (Routine) / **mid** (Moderate) / **high** (Demanding) from the platform catalog; escalate one tier after a failed attempt |
 
-Bias toward low-capability for value-efficient handling. Especially enforce this in
+Bias toward the lower adequate tier for value-efficient handling. Especially enforce this in
 **implement**, **review**, and **review-fix**; also when **research**, **iterate**,
 or **ship** compose those paths. Detect the platform, score difficulty before each
 spawn, and pass `model` from the ranked catalog when the harness supports it.
@@ -466,4 +466,4 @@ Do **not** use `/iterate` while the original PR is still open — that is fix-fo
 - Implement ignoring an existing define/research delivery PR and starting a parallel `…-implement-…` PR
 - Ship merging the code PR then leaving a **second unmerged PR** for ROADMAP/PLAN/ISSUES closeout
 - Recording **Next** without recording the delivery **branch + PR** so the following skill cannot reuse them
-- Running all implement/review workers on high-capability by default (violates CONCEPT_DELEGATION — prefer low-capability unless Demanding)
+- Running all implement/review workers on high-capability by default (violates CONCEPT_DELEGATION — prefer low/mid unless Demanding)

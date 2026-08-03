@@ -42,7 +42,7 @@ Skills **may** define:
 | **Pre-work** | Steps before first delegation (e.g. commit spec file, ask issue ID) |
 | **Work package types** | Domain-specific package categories |
 | **Subagent mapping** | Which subagent type per package kind |
-| **Model routing** | Skill-specific defaults for [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (must stay low-capability-biased) |
+| **Model routing** | Skill-specific defaults for [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (must stay value-biased: low/mid before high) |
 | **PR template** | Required PR body sections |
 | **Testing checklist** | Concrete test/testability checks to paste into package briefs |
 
@@ -51,12 +51,11 @@ Skills **may** define:
 Apply [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) on every work-package spawn:
 
 - **Manager** (plan, evaluate, tracker, verify ownership) stays on the parent /
-  high-capability model — do not orchestrate on a low-capability worker.
-- **Workers** default to the platform’s top available **low-capability** model;
-  elevate to **high-capability** only when a Demanding signal applies or after an
-  insufficient value-tier attempt.
+  high-capability model — do not orchestrate on a low- or mid-capability worker.
+- **Workers** use Routine → **low**, Moderate → **mid**, Demanding → **high**
+  from the platform catalog.
 - Score difficulty **before** each `Task` call; pass `model` when the harness
-  supports it; escalate by re-delegating to high-capability with named gaps.
+  supports it; escalate **one tier at a time** (low → mid → high) with named gaps.
 - Use the platform catalog (or General) — do not hard-code a single brand pair.
 
 ## Invariants
@@ -64,14 +63,13 @@ Apply [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) on every work-package spawn:
 - **Management role.** The invoking agent owns the plan and delegates — it does not
   absorb large implementation work unless a package is trivial or delegation fails
   after retry. Management stays on the parent / high-capability model; workers use
-  [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (low-capability-biased).
+  [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (value-biased low/mid/high).
 - **Spec fidelity.** Every work package and evaluation cross-references the
   specification. Deviations require plan revision or user alignment.
 - **Isolated packages.** Each delegation is self-contained with objective, inputs,
   constraints, deliverables, and branch context.
-- **Value-aware workers.** Score difficulty before each spawn; default
-  low-capability; elevate to high-capability only for Demanding signals or failed
-  value-tier attempts.
+- **Value-aware workers.** Score difficulty before each spawn; map to low/mid/high;
+  escalate one tier only after insufficient reports.
 - **Iterative plan.** Re-evaluate the plan after each sub-agent report; revise
   remaining packages when findings change assumptions.
 - **Branch discipline.** Resolve the skill’s delivery branch before the first
@@ -145,7 +143,7 @@ testability constraints when the design needs seams for isolation.
 
 ```
 1. Select next work package
-2. Evaluate difficulty → assign worker model (CONCEPT_DELEGATION; bias low-capability)
+2. Evaluate difficulty → assign worker model (CONCEPT_DELEGATION; bias low/mid before high)
 3. Delegate to a sub-agent with:
    - objective and acceptance criteria (including tests / testability)
    - spec excerpts and prior package findings
@@ -154,7 +152,7 @@ testability constraints when the design needs seams for isolation.
    - model slug when the harness supports per-sub-agent models
 4. Receive sub-agent report
 5. Evaluate against package criteria, overall spec, and testing/testability invariants
-6. If insufficient → re-delegate (escalate to high-capability if the first worker was low-capability)
+6. If insufficient → re-delegate (escalate one tier: low → mid → high)
 7. Update plan if needed; mark done or re-delegate
 8. Repeat until all packages complete
 ```

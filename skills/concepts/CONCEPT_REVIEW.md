@@ -79,7 +79,7 @@ Skills **may** define:
 | Extension | Purpose |
 |-----------|---------|
 | **Parallelism** | Sub-agent mapping (e.g. one agent per axis) |
-| **Model routing** | Per-axis defaults for [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (must stay low-capability-biased) |
+| **Model routing** | Per-axis defaults for [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (must stay value-biased: low/mid before high) |
 | **Severity model** | blocker / should-fix / note and ship impact |
 | **Tooling evidence** | Whether to run lint/type/test and feed failures in |
 | **Handoff** | Next skill when blocking vs clean |
@@ -90,13 +90,14 @@ Apply [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) before spawning axis workers:
 
 - **Manager** builds context, merges findings, promotes severity, publishes the
   review, and owns tracker handoff — stays on the parent / high-capability model.
-- **Each axis worker** defaults to the platform’s top available **low-capability**
-  model. Elevate an axis to **high-capability** only when that axis has a
+- **Each axis worker** maps Routine → **low**, Moderate → **mid**, Demanding →
+  **high**. Elevate an axis to **high-capability** only when that axis has a
   Demanding signal (e.g. concurrency / security for Correctness;
   auth/migration/public API for Integration; new layers / ADR conflict / cycles
-  for Architecture), or when re-running an insufficient value-tier pass.
+  for Architecture), or when climbing the ladder after an insufficient lower-tier
+  pass.
 - Axes in one parallel batch may use **different** models. Bias remains:
-  prefer low-capability when unsure. Use the platform catalog (or General).
+  prefer the lower adequate tier when unsure. Use the platform catalog (or General).
 
 ## Severity (fix-biased default model)
 
@@ -171,7 +172,7 @@ first if the cap binds.
 1. Resolve the subject under review and confirm it is ready for review.
 2. Resolve the change set; confirm a non-empty diff.
 3. Build investigation context.
-4. Score difficulty per axis → assign worker models (CONCEPT_DELEGATION; bias low-capability).
+4. Score difficulty per axis → assign worker models (CONCEPT_DELEGATION; bias low/mid before high).
 5. Run all applicable axes (prefer parallel investigators with explicit `model` when supported).
 6. Merge, deduplicate, keep axes separate in the published review (manager duty).
 7. Publish to the skill's target; summarise counts to the user — not the full dump.
