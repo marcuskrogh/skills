@@ -89,8 +89,23 @@ the exception.
 ## Platform catalogs
 
 Ranks are preference order within the category for **this skills repo**. Adjust
-via WORKSPACE or a skill override when a project disagrees. Fast / mini variants
-are fallbacks for the same row, not separate higher-ranked picks.
+via WORKSPACE or a skill override when a project disagrees.
+
+### Catalog rules
+
+1. **One model per provider** per category — do not list multiple Claude, GPT, or
+   Grok generations side by side. Prefer the current cost-efficient pick for that
+   provider; put prior generations only as that row’s fallback slug.
+2. **Cost-aware** — within a category, rank cheaper capable options above pricier
+   peers when they are adequate; prefer standard effort / non-`xhigh` / non-fast
+   premium modes as the primary slug; use costlier effort modes only as fallback
+   when the primary slug is unavailable.
+3. **Never Fable 5** — do not select Claude Fable 5 (`fable`, `claude-fable-5`,
+   thinking variants, or aliases like `best` that resolve to Fable). It has a
+   special data policy this repo avoids. Use Opus (or the next catalog entry)
+   instead.
+4. Fast / mini / prior-gen variants are **fallbacks for the same row**, not
+   separate ranked picks.
 
 ### Cursor
 
@@ -98,107 +113,98 @@ When the harness exposes a `model` parameter on sub-agent / `Task` calls:
 
 #### High-capability (ranked)
 
-| Rank | Model | Slug (prefer) | Fallback |
-|------|-------|---------------|----------|
-| 1 | Cursor Grok 4.5 | `cursor-grok-4.5-high` | `cursor-grok-4.5-high-fast` |
-| 2 | Claude Opus 5 | `claude-opus-5-thinking-high` | `claude-opus-5-thinking-high-fast` |
-| 3 | Claude Fable 5 | `claude-fable-5-thinking-xhigh` | `claude-fable-5-thinking-high` |
-| 4 | GPT-5.6 Sol | `gpt-5.6-sol-xhigh` | `gpt-5.6-sol-high` / `gpt-5.6-sol-high-fast` |
-| 5 | Claude Opus 4.8 | `claude-opus-4-8-thinking-high` | `claude-opus-4-8-thinking-high-fast` |
-| 6 | GPT-5.5 | `gpt-5.5-high` | `gpt-5.5-high-fast` |
-| 7 | Claude Sonnet 4.6 | `claude-4.6-sonnet-high-thinking` | — |
-| 8 | Kimi K3 | `kimi-k3-high` | — |
+| Rank | Provider | Model | Slug (prefer) | Fallback |
+|------|----------|-------|---------------|----------|
+| 1 | Cursor / xAI | Cursor Grok 4.5 | `cursor-grok-4.5-high` | `cursor-grok-4.5-high-fast` |
+| 2 | Anthropic | Claude Opus 5 | `claude-opus-5-thinking-high` | `claude-opus-5-thinking-high-fast` |
+| 3 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol-high` | `gpt-5.6-sol-high-fast` (avoid `xhigh` unless required) |
+| 4 | Moonshot | Kimi K3 | `kimi-k3-high` | — |
 
 #### Low-capability (ranked)
 
-| Rank | Model | Slug (prefer) | Fallback |
-|------|-------|---------------|----------|
-| 1 | Composer 2.5 | `composer-2.5` | `composer-2.5-fast` |
+| Rank | Provider | Model | Slug (prefer) | Fallback |
+|------|----------|-------|---------------|----------|
+| 1 | Cursor | Composer 2.5 | `composer-2.5` | `composer-2.5-fast` |
 
 ### Claude Code
 
-Use aliases the CLI resolves (`/model`, sub-agent model, or env defaults). Prefer
-full IDs when pinning.
+Anthropic-only harness. Use aliases the CLI resolves (`/model`, sub-agent model,
+or env defaults). Prefer full IDs when pinning. **Do not** use `fable` or `best`
+(both can select Fable 5).
 
 #### High-capability (ranked)
 
-| Rank | Model | Slug / alias (prefer) | Fallback |
-|------|-------|----------------------|----------|
-| 1 | Claude Fable 5 | `fable` / `claude-fable-5` | latest Opus via `best` if Fable unavailable |
-| 2 | Claude Opus 5 | `opus` / `claude-opus-5` | `claude-opus-4-8` |
-| 3 | Claude Opus 4.8 | `claude-opus-4-8` | prior Opus pin if required |
+| Rank | Provider | Model | Slug / alias (prefer) | Fallback |
+|------|----------|-------|----------------------|----------|
+| 1 | Anthropic | Claude Opus 5 | `opus` / `claude-opus-5` | `claude-opus-4-8` |
 
 #### Low-capability (ranked)
 
-| Rank | Model | Slug / alias (prefer) | Fallback |
-|------|-------|----------------------|----------|
-| 1 | Claude Sonnet 5 | `sonnet` / `claude-sonnet-5` | `claude-sonnet-4-6` |
-| 2 | Claude Haiku 4.5 | `haiku` / `claude-haiku-4-5` | — |
+| Rank | Provider | Model | Slug / alias (prefer) | Fallback |
+|------|----------|-------|----------------------|----------|
+| 1 | Anthropic | Claude Sonnet 5 | `sonnet` / `claude-sonnet-5` | `claude-sonnet-4-6` |
 
-Manager preference: Fable when available, else Opus. Workers default to Sonnet;
-Haiku only for trivial Routine packages when Sonnet is unavailable or clearly
-oversized for the brief.
+Manager preference: Opus 5. Workers default to Sonnet 5.
 
 ### Codex (OpenAI)
 
+OpenAI-only harness.
+
 #### High-capability (ranked)
 
-| Rank | Model | Slug (prefer) | Fallback |
-|------|-------|---------------|----------|
-| 1 | GPT-5.6 Sol | `gpt-5.6-sol` | higher reasoning effort on Sol before switching models |
-| 2 | GPT-5.5 | `gpt-5.5` | — |
+| Rank | Provider | Model | Slug (prefer) | Fallback |
+|------|----------|-------|---------------|----------|
+| 1 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol` | raise reasoning effort on Sol before leaving the row |
 
 #### Low-capability (ranked)
 
-| Rank | Model | Slug (prefer) | Fallback |
-|------|-------|---------------|----------|
-| 1 | GPT-5.6 Terra | `gpt-5.6-terra` | — |
-| 2 | GPT-5.6 Luna | `gpt-5.6-luna` | — |
+| Rank | Provider | Model | Slug (prefer) | Fallback |
+|------|----------|-------|---------------|----------|
+| 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` | `gpt-5.6-luna` only if Terra is unavailable |
 
-Manager preference: Sol. Workers default to Terra; Luna for narrow Routine
-extraction/transform packages when Terra is unavailable or clearly oversized.
+Manager preference: Sol. Workers default to Terra.
 
 ### GitHub Copilot
 
 Copilot exposes a multi-vendor picker. Prefer the same category logic; use the
-IDs the Copilot agent / IDE model picker accepts.
+IDs the Copilot agent / IDE model picker accepts. **Never** pick Claude Fable 5.
 
 #### High-capability (ranked)
 
-| Rank | Model | Prefer |
-|------|-------|--------|
-| 1 | Claude Fable 5 | when available for long-horizon / hardest agent work |
-| 2 | Claude Opus 5 | default elevated coding agent |
-| 3 | GPT-5.6 Sol | OpenAI frontier alternative |
-| 4 | xAI Grok 4.5 | when the Copilot catalog exposes it |
-| 5 | Claude Opus 4.8 | prior Opus |
-| 6 | GPT-5.5 | prior OpenAI frontier |
+| Rank | Provider | Model | Prefer |
+|------|----------|-------|--------|
+| 1 | Anthropic | Claude Opus 5 | default elevated coding agent (cost-capable frontier) |
+| 2 | xAI | Grok 4.5 | when the Copilot catalog exposes it |
+| 3 | OpenAI | GPT-5.6 Sol | OpenAI frontier alternative |
 
 #### Low-capability (ranked)
 
-| Rank | Model | Prefer |
-|------|-------|--------|
-| 1 | Claude Sonnet 5 | default value worker |
-| 2 | GPT-5.6 Terra | OpenAI balanced worker |
-| 3 | GPT-5.6 Luna / GPT-5 mini / Claude Haiku 4.5 | narrow Routine only |
+| Rank | Provider | Model | Prefer |
+|------|----------|-------|--------|
+| 1 | Anthropic | Claude Sonnet 5 | default value worker |
+| 2 | OpenAI | GPT-5.6 Terra | OpenAI balanced worker (`gpt-5.6-luna` / GPT-5 mini only if Terra unavailable) |
 
 ### General (any platform)
 
 Use when the harness is not listed above, the catalog is incomplete, or model
 IDs differ from the tables.
 
-1. **Partition** available models into high-capability (frontier / strongest
-   reasoning / highest-effort coding agents) and low-capability (mid-tier or
-   cost-efficient coding models that still handle well-specified implementation,
-   review axes, and fix-forward).
-2. **Rank within each partition** by capability (newest frontier first in
-   high-capability; cheapest-still-capable first in low-capability only when
-   capability is comparable — never promote a weak model into high-capability
-   to fill a blank).
-3. **Apply the same bias and difficulty rules** as platform-specific catalogs.
-4. If only one model exists, use it for both manager and workers; still score
+1. **Exclude** models with special/restrictive data policies (including Claude
+   Fable 5 and aliases that resolve to it).
+2. **Partition** available models into high-capability (frontier / strongest
+   reasoning coding agents) and low-capability (mid-tier / cost-efficient coding
+   models that still handle well-specified implementation, review axes, and
+   fix-forward).
+3. **One model per provider** in each partition — pick the current
+   cost-efficient representative; older generations are fallbacks for that row
+   only.
+4. **Rank** high-capability by capability-per-cost (adequate frontier first;
+   do not default to the most expensive option). Rank low-capability by
+   cheapest-still-capable.
+5. **Apply the same bias and difficulty rules** as platform-specific catalogs.
+6. If only one model exists, use it for both manager and workers; still score
    difficulty for briefs and for when a second model appears later.
-5. If several vendors are available with no project preference, prefer one
+7. If several vendors are available with no project preference, prefer one
    vendor stack for the session (fewer surprises) and keep workers in the
    low-capability partition whenever difficulty allows.
 
@@ -245,9 +251,9 @@ reason: <one short line — the deciding signal>
    silently absorb large gaps in the manager thread.
 3. If the high-capability worker also fails → manager may do a **narrow** repair
    or ask the user; do not endlessly re-spawn.
-4. Optional within-category step: if the first low-capability pick was a deep
-   fallback (e.g. Haiku / Luna) and the report is thin, retry once with a
-   higher-ranked low-capability model before escalating to high-capability.
+4. Optional within-category step: if the first low-capability pick used a deep
+   cost fallback on the same row and the report is thin, retry once with that
+   row’s primary slug before escalating to high-capability.
 
 Escalation is the main safety valve that makes value-default routing safe.
 
@@ -288,6 +294,8 @@ that still obeys the bias rule and Demanding elevation signals.
 - Re-implementing large gaps in the manager thread instead of escalating the worker
 - Hard-coding a single brand pair (e.g. only Composer / Grok) when the platform
   catalog lists a ranked hierarchy
+- Listing multiple models from the same provider in one category
+- Selecting Claude Fable 5 (or `best` / other aliases that resolve to it)
 - Using the General catalog on a known platform to ignore its ranking
 - Announcing model brands to the user on every spawn when it adds no decision value
 
