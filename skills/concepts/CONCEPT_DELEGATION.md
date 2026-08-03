@@ -198,8 +198,8 @@ Copilot exposes a multi-vendor picker. Prefer the same category logic; use the
 IDs the Copilot agent / IDE model picker accepts. **Never** pick Claude Fable 5
 or Claude Haiku.
 
-**Cost split:** Luna / Sonnet for Routine; Terra / Sonnet for Moderate; Opus /
-Grok / Sol only for Demanding.
+**Cost split:** Luna for Routine; Sonnet / Terra for Moderate; Opus / Grok / Sol
+only for Demanding.
 
 #### High-capability (ranked)
 
@@ -220,29 +220,68 @@ Grok / Sol only for Demanding.
 
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
-| 1 | Anthropic | Claude Sonnet 5 | same Anthropic workhorse as mid (no Haiku) |
-| 2 | OpenAI | GPT-5.6 Luna | OpenAI value worker |
+| 1 | OpenAI | GPT-5.6 Luna | value worker (Sonnet is mid-only on Copilot) |
 
-### General (any platform)
+### General (any other harness)
 
-Use when the harness is not listed above, the catalog is incomplete, or model
-IDs differ from the tables.
+Use when the harness is **not** Cursor, Claude Code, Codex, or GitHub Copilot —
+or when those catalogs are incomplete and you must choose among exposed models.
 
-1. **Exclude** Claude Fable 5 (and aliases that resolve to it) and **Claude Haiku**
-   (any version).
-2. **Cost first** — identify the cheapest coding workhorse that can handle
-   well-specified Routine/Moderate work; assign it to **both low and mid**.
-   Identify one premium / frontier model for **high** (Demanding + manager).
-3. **One model per provider** in each band when multiple vendors exist; do not
-   pad catalogs with extra mid brands for cost theater.
-4. If low and mid share a model, escalate insufficient workers **directly to
-   high**.
-5. **Apply the same bias and difficulty rules** as platform-specific catalogs.
-6. If only one model exists, use it for both manager and workers; still score
-   difficulty for briefs and for when more models appear later.
-7. If several vendors are available with no project preference, prefer one
-   vendor stack for the session (fewer surprises) and keep workers on the
-   cost workhorse whenever difficulty allows.
+Map harness-specific IDs/aliases onto the rows below. Skip any row the session
+cannot call. **Never** select Claude Fable 5 (or aliases that resolve to it) or
+Claude Haiku.
+
+#### Price / capability basis (approx. API list, Aug 2026)
+
+| Band | Model | Why this rank |
+|------|-------|---------------|
+| High | Claude Opus 5 | Frontier agentic coding at ~$5 / $25 — best frontier price/capability among allowed highs |
+| High | xAI Grok 4.5 | Strong coding agent when exposed; prefer after Opus when both available |
+| High | GPT-5.6 Sol | Frontier OpenAI (~$5 / $30) — same input band as Opus, higher output cost |
+| Mid | GPT-5.6 Terra | Balanced everyday coding (~$2–2.50 / $12–15) — cheapest capable mid |
+| Mid | Claude Sonnet 5 | Strong mid coding (~$3 / $15) — one Anthropic mid; no cheaper Anthropic mid without Haiku |
+| Low | GPT-5.6 Luna | Cheapest capable OpenAI coding worker (~$0.20–1 / $1.20–6) |
+| Low | Composer 2.5 | Dedicated low-cost coding agent when the harness exposes it (Cursor-family) |
+
+Excluded from General: Fable 5 (data policy + premium price), Haiku (policy),
+GPT‑5.5 Pro / other ultra-premium compute SKUs (cost without default worker need).
+
+#### High-capability (ranked)
+
+| Rank | Provider | Model | Prefer / map to |
+|------|----------|-------|-----------------|
+| 1 | Anthropic | Claude Opus 5 | `opus`, `claude-opus-5`, or harness equivalent |
+| 2 | xAI | Grok 4.5 | `grok-4.5`, `cursor-grok-4.5-high`, or harness equivalent |
+| 3 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol` or harness equivalent |
+
+#### Mid-capability (ranked)
+
+| Rank | Provider | Model | Prefer / map to |
+|------|----------|-------|-----------------|
+| 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` or harness equivalent |
+| 2 | Anthropic | Claude Sonnet 5 | `sonnet`, `claude-sonnet-5`, or harness equivalent |
+
+#### Low-capability (ranked)
+
+| Rank | Provider | Model | Prefer / map to |
+|------|----------|-------|-----------------|
+| 1 | OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` or harness equivalent |
+| 2 | Cursor | Composer 2.5 | `composer-2.5` when exposed |
+
+#### General selection notes
+
+1. Walk the chosen category top-down; use the first model the harness exposes.
+2. **One model per provider** already applied in the tables — do not add a second
+   Claude/GPT/Grok generation beside the ranked pick.
+3. If **low** has no available row (e.g. Anthropic-only host with no Composer/Luna),
+   use the top available **mid** model for Routine, then escalate to **high** on
+   failure (same as low/mid sharing a model).
+4. If only one model exists in the whole session, use it for manager and workers;
+   still record difficulty for when more models appear.
+5. Prefer staying on one vendor stack for a given batch of workers when several
+   mid/low options are equally available and cost-comparable.
+6. Apply the same difficulty bias and escalation ladder as platform-specific
+   catalogs.
 
 ---
 
