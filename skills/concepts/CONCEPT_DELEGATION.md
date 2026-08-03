@@ -172,7 +172,7 @@ or `haiku`.
 
 OpenAI-only harness.
 
-**Cost split:** Terra for Routine and Moderate; Sol for Demanding / manager.
+**Cost split:** Luna for Routine, Terra for Moderate, Sol for Demanding / manager.
 
 #### High-capability (ranked)
 
@@ -190,7 +190,7 @@ OpenAI-only harness.
 
 | Rank | Provider | Model | Slug (prefer) | Fallback |
 |------|----------|-------|---------------|----------|
-| 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` | `gpt-5.6-luna` only if Terra is unavailable |
+| 1 | OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` | — |
 
 ### GitHub Copilot
 
@@ -198,8 +198,8 @@ Copilot exposes a multi-vendor picker. Prefer the same category logic; use the
 IDs the Copilot agent / IDE model picker accepts. **Never** pick Claude Fable 5
 or Claude Haiku.
 
-**Cost split:** Sonnet / Terra for Routine and Moderate; Opus / Grok / Sol only
-for Demanding.
+**Cost split:** Luna / Sonnet for Routine; Terra / Sonnet for Moderate; Opus /
+Grok / Sol only for Demanding.
 
 #### High-capability (ranked)
 
@@ -214,14 +214,14 @@ for Demanding.
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
 | 1 | Anthropic | Claude Sonnet 5 | cost workhorse |
-| 2 | OpenAI | GPT-5.6 Terra | OpenAI cost workhorse |
+| 2 | OpenAI | GPT-5.6 Terra | OpenAI balanced worker |
 
 #### Low-capability (ranked)
 
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
-| 1 | Anthropic | Claude Sonnet 5 | same workhorse as mid |
-| 2 | OpenAI | GPT-5.6 Terra | same workhorse as mid (`gpt-5.6-luna` only if Terra unavailable) |
+| 1 | Anthropic | Claude Sonnet 5 | same Anthropic workhorse as mid (no Haiku) |
+| 2 | OpenAI | GPT-5.6 Luna | OpenAI value worker |
 
 ### General (any platform)
 
