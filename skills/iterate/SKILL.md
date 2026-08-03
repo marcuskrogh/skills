@@ -101,6 +101,9 @@ max. Scope guard: no unrelated feature design; no coding until the artifact is a
 
 ### 2. Write `ITERATE.md` + create Task
 
+Write it on the new branch, or under the external artifact root with its content
+pushed into the new Task when **Artifact location** is `external`.
+
 ```markdown
 # Iterate: [title]
 

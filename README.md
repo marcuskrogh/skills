@@ -84,7 +84,7 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── CONCEPT_DEFINITION.md
 │   ├── CONCEPT_RESEARCH.md
 │   └── CONCEPT_REVIEW.md
-├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md
+├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md or ~/.agents/WORKSPACE.md (global)
 ├── explore/                    ← fog-clearing wayfinding → ROADMAP.md map + sequenced route Tasks
 ├── bug/                        ← defect alignment → BUG.md (skips explore/define)
 ├── research/                   ← multi-axis research brief → RESEARCH.md
@@ -153,11 +153,48 @@ branch/PR after ship (not fix-forward on an open PR). `/summarise` works anytime
 Bare continuation cues (see workflow **Continuation keywords**): **`next`** advances
 one persisted Next step; **`ship`** finishes remaining work through Done.
 
-Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, artifact links, **branch/PR**) is mirrored to markdown when enabled. See `skills/workflow/reference.md` (especially **Delivery branch continuity**).
+Run `/setup` first — either **globally** (once per machine, `~/.agents/WORKSPACE.md`)
+or **per repo** (`docs/agents/WORKSPACE.md`), see [Workspace scopes](#workspace-scopes).
+Continuity (keys, status, **Next**, artifact links, **branch/PR**) is mirrored to
+markdown when enabled. See `skills/workflow/reference.md` (especially **Delivery branch continuity**).
+
+## Workspace scopes
+
+`/setup` writes a `WORKSPACE.md` at one of two scopes:
+
+| Scope | Path | Committed? | Applies to |
+|-------|------|-----------|------------|
+| **repository** | `docs/agents/WORKSPACE.md` | Yes | That repo and its collaborators |
+| **global** | `~/.agents/WORKSPACE.md` | Never | Every repo on this machine |
+
+Resolution order, evaluated before any tracker or artifact operation:
+
+1. `$AGENT_WORKSPACE_FILE` (explicit override)
+2. Repo `docs/agents/WORKSPACE.md`
+3. Global `~/.agents/WORKSPACE.md`, then `$XDG_CONFIG_HOME/agents/WORKSPACE.md`,
+   then harness homes (`~/.copilot`, `~/.claude`, `~/.codex`, `~/.cursor`)
+4. Neither → the skill stops and asks you to run `/setup`
+
+Repository fields **override global fields one by one**, so a repo can change just
+the tracker and inherit everything else. Set `Extends global: false` in a repo file
+to opt out of inheritance entirely.
+
+### Keeping repos clean
+
+Global scope plus `Artifact location: external` runs the whole pipeline without
+adding a single file to a consuming repo:
+
+- `WORKSPACE.md` lives in `~/.agents/`
+- `PLAN.md` / `ROADMAP.md` / `BUG.md` / `MODEL.md` / `RESEARCH.md` / `ITERATE.md`
+  are written under `~/.agents/artifacts/<repo>/` and their **full content is
+  pushed into the tracker issue**, which becomes the durable, shareable copy
+- Disable the markdown mirror so the remote tracker is the sole source of truth
+
+Only the code change itself lands in the repo, on the Task's delivery branch/PR.
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
-| **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths) |
+| **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths), repository or global scope |
 | **explore** | user | Clear fog on vague/large work → `ROADMAP.md` map + Story + sequenced route Tasks (research / model / define / …) |
 | **bug** | user | Defect alignment → `BUG.md` + Task + delivery branch/PR (then implement) |
 | **research** | user | Multi-axis research brief → `RESEARCH.md` (arXiv + formal + web + informal; supportive, not user alignment) |

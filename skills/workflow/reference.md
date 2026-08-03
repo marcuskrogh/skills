@@ -4,9 +4,12 @@ Agent reference for the primary delivery pipeline. **Not a user-invoked skill.**
 
 ## Prerequisites
 
-1. Read `docs/agents/WORKSPACE.md` (see [../setup/format.md](../setup/format.md)).
-2. If missing → ask the user to run `/setup` (or accept defaults and write WORKSPACE.md first).
+1. Resolve the **effective workspace** — `$AGENT_WORKSPACE_FILE`, else the repo's
+   `docs/agents/WORKSPACE.md` layered over the global `~/.agents/WORKSPACE.md`
+   (see [../setup/format.md](../setup/format.md) → **Resolution order**).
+2. If neither layer resolves → ask the user to run `/setup` (or accept defaults and write a workspace file first).
 3. Resolve the issue tracker via [../tracker/SKILL.md](../tracker/SKILL.md).
+4. Honour **Artifact location**: write artifacts into the repo only when it is `repo`.
 
 ## Value-aware sub-agent routing
 
@@ -137,7 +140,7 @@ GitHub, or Linear:
 
 | File | Role |
 |------|------|
-| `docs/agents/WORKSPACE.md` | Tracker + path + delivery decisions (`/setup`) |
+| `WORKSPACE.md` (repo `docs/agents/` and/or global `~/.agents/`) | Tracker + path + delivery decisions (`/setup`) |
 | `ROADMAP.md` | Initiative map + route + keys + **Next** (features) |
 | `PLAN.md` | Definition / plan + keys + **Next** (features) |
 | `BUG.md` | Bug report + acceptance + **Next** (bug fixes) |
@@ -146,6 +149,11 @@ GitHub, or Linear:
 | `MODEL.md` | Math alignment with user + Task link + **Next** |
 | `docs/agents/ISSUES.md` | Mirror table (when enabled in WORKSPACE) |
 | Provider issue (remote or `docs/agents/issues/*.md`) | Work-item system of record for that provider |
+
+Artifact files resolve against the repo root or the **External artifact root**
+depending on **Artifact location**. When location is `external` **or** the mirror
+is disabled, the provider issue is the only durable store: write keys, status,
+artifact content, and **Next** into the issue before ending the skill.
 
 Never leave **Next** only in chat. Side-path skills must update the same Task’s
 continuity files — not a disconnected second ticket — when a pipeline key is given.
@@ -242,7 +250,7 @@ ship — not separate PRs for research, define, implement, and ship.
 
 | Artifact | Owner skill | Role |
 |----------|-------------|------|
-| `WORKSPACE.md` | setup | Tracker and path decisions |
+| `WORKSPACE.md` | setup | Tracker and path decisions (repository and/or global scope) |
 | `ROADMAP.md` | explore | Map: Destination + sequenced route + fog + out of scope + **Next** |
 | `BUG.md` | bug | Defect report + acceptance for implement/review |
 | `ITERATE.md` | iterate | Post-ship fix delta + acceptance for implement/review |
@@ -254,7 +262,10 @@ ship — not separate PRs for research, define, implement, and ship.
 | Merge + Done | ship | Remaining-workflow orchestrator then closed-loop closeout on the **same** PR (no leftover PR) |
 | *(status reply)* | summarise | About / stage / Next |
 
-Use paths from `WORKSPACE.md`. Record path + commit SHA on the Task when writing artifacts.
+Use paths from the effective `WORKSPACE.md`. When **Artifact location** is `repo`,
+record path + commit SHA on the Task when writing artifacts. When it is `external`,
+write the artifact under the **External artifact root**, push its full content into
+the Task, and record the absolute path — no SHA, nothing added to the repo.
 
 ## Handoff protocol
 
@@ -451,7 +462,10 @@ Do **not** use `/iterate` while the original PR is still open — that is fix-fo
 
 ## Anti-patterns
 
-- Creating issues before `WORKSPACE.md` exists (run `/setup` first)
+- Creating issues before any `WORKSPACE.md` resolves (run `/setup` first)
+- Reading only the repo workspace file and ignoring the global layer (or vice versa)
+- Writing artifacts into the repo when **Artifact location** is `external`
+- Citing a repo-relative artifact path that only exists under the external root
 - Hardcoding Jira (or any single provider) when WORKSPACE selects another
 - Creating a second Task in define when an explore Task was provided
 - Treating `RESEARCH.md` or `MODEL.md` as settled product definition so define skips user probes

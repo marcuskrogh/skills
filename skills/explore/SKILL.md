@@ -237,7 +237,9 @@ User invokes with an existing map (Story key, `ROADMAP.md`, or equivalent).
    child.
 5. `comment` on the Story with child keys, dependency sketch, and **Next**; upsert
    ISSUES mirror (Story + all Tasks).
-6. Write/update `ROADMAP.md`; report names (with keys/URLs) and **Next**. Session
+6. Write/update `ROADMAP.md` (under the external artifact root, pushing its content
+   into the Story, when **Artifact location** is `external`); report names (with
+   keys/URLs) and **Next**. Session
    ends.
 
 ### Tracker duties

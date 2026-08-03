@@ -140,6 +140,9 @@ and the [tracker sync matrix](../workflow/reference.md#tracker-sync-matrix-manda
    comments or `gh`). If none, create the branch per WORKSPACE pattern. Write `PLAN.md`
    on that branch; open or update a **draft** PR when `Open PR by default` (same PR
    implement will use — do **not** plan a second implement-only PR).
+   When **Artifact location** is `external`, write `PLAN.md` under the external root
+   instead and push its content into the Task; still create the branch (and PR when
+   there is a code change to carry) so implement has its delivery vehicle.
 4. `attach_or_link` path on the Task; `comment` Task + Story with plan path, **branch**,
    **PR URL**, sub-task keys, **Next**.
 5. Upsert ISSUES mirror for Task + Sub-tasks (include branch/PR).
