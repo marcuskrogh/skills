@@ -78,7 +78,7 @@ If the environment is **Cursor Cloud**, also pass `-WireCursorCloud` to add `.cu
 skills/                         ← source of truth (Agent Skills layout)
 ├── concepts/                   ← uninvokable CONCEPT_*.md (loaded only when a skill references them)
 │   ├── CONCEPT_ALIGNMENT.md
-│   ├── CONCEPT_DELEGATION.md   ← difficulty → Composer/Grok worker routing (manager stays Grok)
+│   ├── CONCEPT_DELEGATION.md   ← difficulty → ranked low/mid/high-capability catalogs (platform-dependent; manager stays high-capability)
 │   ├── CONCEPT_IMPLEMENTATION.md
 │   ├── CONCEPT_ITERATION.md
 │   ├── CONCEPT_DEFINITION.md
@@ -115,7 +115,7 @@ templates/project-sync/         ← startup sync script template
 
 Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug` applies the same concepts lightly for defects).
 
-**Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty, default workers to **Composer 2.5**, elevate to **Cursor Grok 4.5** only when Demanding, and keep the manager/orchestrator on Grok.
+**Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick from ranked platform catalogs (with a General fallback).
 
 ## Pipelines
 
@@ -163,9 +163,9 @@ Run `/setup` first in each consuming repo. Continuity (keys, status, **Next**, a
 | **research** | user | Multi-axis research brief → `RESEARCH.md` (arXiv + formal + web + informal; supportive, not user alignment) |
 | **model** | user | Math alignment → `MODEL.md` (math only; does not replace define) |
 | **define** | user | User-agent topic definition → `PLAN.md` + Sub-tasks + delivery branch/PR (owns particulars; always questions the user) |
-| **implement** | user | Build on the **same** delivery branch/PR; tests and testability required; Composer-biased work-package routing |
+| **implement** | user | Build on the **same** delivery branch/PR; tests and testability required; low/mid/high work-package routing |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
-| **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) — fix-biased severity; Composer-biased axis workers |
+| **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) — fix-biased severity; low/mid/high axis workers |
 | **review-fix** | user | Review ↔ auto fix-forward (blockers, should-fix, actionable notes) until clean → ship; same value routing inside the loop |
 | **ship** | user | Finish remaining work after define/bug/iterate-ready (implement and/or review-fix as needed), then closed-loop merge + Done. Bare **ship** is a continuation keyword (like **next**). |
 | **summarise** | user | About / workflow stage / what to run Next |

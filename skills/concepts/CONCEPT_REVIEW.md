@@ -79,7 +79,7 @@ Skills **may** define:
 | Extension | Purpose |
 |-----------|---------|
 | **Parallelism** | Sub-agent mapping (e.g. one agent per axis) |
-| **Model routing** | Per-axis defaults for [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (must stay Composer-biased) |
+| **Model routing** | Per-axis defaults for [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (must stay value-biased: low/mid before high) |
 | **Severity model** | blocker / should-fix / note and ship impact |
 | **Tooling evidence** | Whether to run lint/type/test and feed failures in |
 | **Handoff** | Next skill when blocking vs clean |
@@ -89,14 +89,15 @@ Skills **may** define:
 Apply [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) before spawning axis workers:
 
 - **Manager** builds context, merges findings, promotes severity, publishes the
-  review, and owns tracker handoff — stays on the parent / most competent model.
-- **Each axis worker** defaults to **Composer 2.5**. Elevate an axis to
-  **Cursor Grok 4.5** only when that axis has a Demanding signal (e.g. concurrency
-  / security for Correctness; auth/migration/public API for Integration; new
-  layers / ADR conflict / cycles for Architecture), or when re-running an
-  insufficient Composer pass.
+  review, and owns tracker handoff — stays on the parent / high-capability model.
+- **Each axis worker** maps Routine → **low**, Moderate → **mid**, Demanding →
+  **high**. Elevate an axis to **high-capability** only when that axis has a
+  Demanding signal (e.g. concurrency / security for Correctness;
+  auth/migration/public API for Integration; new layers / ADR conflict / cycles
+  for Architecture), or when climbing the ladder after an insufficient lower-tier
+  pass.
 - Axes in one parallel batch may use **different** models. Bias remains:
-  prefer Composer when unsure.
+  prefer the lower adequate tier when unsure. Use the platform catalog (or General).
 
 ## Severity (fix-biased default model)
 
@@ -171,7 +172,7 @@ first if the cap binds.
 1. Resolve the subject under review and confirm it is ready for review.
 2. Resolve the change set; confirm a non-empty diff.
 3. Build investigation context.
-4. Score difficulty per axis → assign worker models (CONCEPT_DELEGATION; bias Composer).
+4. Score difficulty per axis → assign worker models (CONCEPT_DELEGATION; bias low/mid before high).
 5. Run all applicable axes (prefer parallel investigators with explicit `model` when supported).
 6. Merge, deduplicate, keep axes separate in the published review (manager duty).
 7. Publish to the skill's target; summarise counts to the user — not the full dump.
@@ -192,8 +193,9 @@ first if the cap binds.
 - Mixing Integration (runtime fit) with Architecture (structural fit) or Standards
   (local smells) into one undifferentiated pile
 - Leaving actionable inline notes unfixed in `/review-fix` because they were labeled `note`
-- Running all five axis workers on Grok by default (violates CONCEPT_DELEGATION)
+- Running all five axis workers on high-capability by default (violates CONCEPT_DELEGATION)
 - Skipping per-axis difficulty scoring when investigators are sub-agents
+- Ignoring the platform catalog and always using one fixed brand pair
 
 ## Authoring skills that use this concept
 

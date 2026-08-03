@@ -44,7 +44,8 @@ unmerged follow-up PR.
 [../review-fix/SKILL.md](../review-fix/SKILL.md).
 When those skills spawn workers, they apply
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — ship does **not** override
-toward Grok; the ship orchestrator itself stays on the parent / most competent model.
+toward high-capability; the ship orchestrator itself stays on the parent /
+high-capability model.
 
 ## Prerequisites
 
