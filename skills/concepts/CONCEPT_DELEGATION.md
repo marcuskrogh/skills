@@ -99,39 +99,42 @@ via WORKSPACE or a skill override when a project disagrees.
 
 ### Catalog rules
 
-1. **One model per provider** per category — do not list multiple Claude, GPT, or
+1. **Cost first** — for each harness, prefer the cheapest model that can do the
+   work. In practice this usually means one **cost workhorse** for both
+   **low** and **mid**, and a single **premium** model for **high** (see Cursor:
+   Composer for Routine/Moderate, Grok for Demanding). Do not introduce extra
+   mid-tier brands when the workhorse already covers Moderate.
+2. **One model per provider** per category — do not list multiple Claude, GPT, or
    Grok generations side by side. Prefer the current cost-efficient pick for that
    provider; put prior generations only as that row’s fallback slug.
-2. **Cost-aware** — within a category, rank cheaper capable options above pricier
-   peers when they are adequate; prefer standard effort / non-`xhigh` / non-fast
-   premium modes as the primary slug; use costlier effort modes only as fallback
-   when the primary slug is unavailable.
 3. **Never Fable 5** — do not select Claude Fable 5 (`fable`, `claude-fable-5`,
    thinking variants, or aliases like `best` that resolve to Fable). It has a
-   special data policy this repo avoids. Use Opus (or the next catalog entry)
-   instead.
-4. Fast / mini / prior-gen variants are **fallbacks for the same row**, not
+   special data policy this repo avoids.
+4. **Never Haiku** — do not select Claude Haiku (any version) for workers or
+   managers.
+5. Fast / mini / prior-gen variants are **fallbacks for the same row**, not
    separate ranked picks.
+6. **Same slug for low and mid** is allowed (and preferred when cost-optimal).
+   If low and mid resolve to the same model, an insufficient report escalates
+   **directly to high** — do not re-spawn the same model as a no-op mid retry.
 
 ### Cursor
 
-When the harness exposes a `model` parameter on sub-agent / `Task` calls:
+When the harness exposes a `model` parameter on sub-agent / `Task` calls.
+**Cost split:** Composer handles all Routine and Moderate workers; Grok handles
+Demanding workers and is preferred for the manager.
 
 #### High-capability (ranked)
 
 | Rank | Provider | Model | Slug (prefer) | Fallback |
 |------|----------|-------|---------------|----------|
 | 1 | Cursor / xAI | Cursor Grok 4.5 | `cursor-grok-4.5-high` | `cursor-grok-4.5-high-fast` |
-| 2 | Anthropic | Claude Opus 5 | `claude-opus-5-thinking-high` | `claude-opus-5-thinking-high-fast` |
-| 3 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol-high` | `gpt-5.6-sol-high-fast` (avoid `xhigh` unless required) |
-| 4 | Moonshot | Kimi K3 | `kimi-k3-high` | — |
 
 #### Mid-capability (ranked)
 
 | Rank | Provider | Model | Slug (prefer) | Fallback |
 |------|----------|-------|---------------|----------|
-| 1 | Anthropic | Claude Sonnet 4.6 | `claude-4.6-sonnet-high-thinking` | — |
-| 2 | OpenAI | GPT-5.5 | `gpt-5.5-high` | `gpt-5.5-high-fast` |
+| 1 | Cursor | Composer 2.5 | `composer-2.5` | `composer-2.5-fast` |
 
 #### Low-capability (ranked)
 
@@ -142,8 +145,10 @@ When the harness exposes a `model` parameter on sub-agent / `Task` calls:
 ### Claude Code
 
 Anthropic-only harness. Use aliases the CLI resolves (`/model`, sub-agent model,
-or env defaults). Prefer full IDs when pinning. **Do not** use `fable` or `best`
-(both can select Fable 5).
+or env defaults). Prefer full IDs when pinning. **Do not** use `fable`, `best`,
+or `haiku`.
+
+**Cost split:** Sonnet for Routine and Moderate; Opus for Demanding / manager.
 
 #### High-capability (ranked)
 
@@ -161,13 +166,13 @@ or env defaults). Prefer full IDs when pinning. **Do not** use `fable` or `best`
 
 | Rank | Provider | Model | Slug / alias (prefer) | Fallback |
 |------|----------|-------|----------------------|----------|
-| 1 | Anthropic | Claude Haiku 4.5 | `haiku` / `claude-haiku-4-5` | — |
-
-Manager preference: Opus 5. Workers: Haiku for Routine, Sonnet for Moderate.
+| 1 | Anthropic | Claude Sonnet 5 | `sonnet` / `claude-sonnet-5` | `claude-sonnet-4-6` |
 
 ### Codex (OpenAI)
 
 OpenAI-only harness.
+
+**Cost split:** Terra for Routine and Moderate; Sol for Demanding / manager.
 
 #### High-capability (ranked)
 
@@ -185,20 +190,22 @@ OpenAI-only harness.
 
 | Rank | Provider | Model | Slug (prefer) | Fallback |
 |------|----------|-------|---------------|----------|
-| 1 | OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` | — |
-
-Manager preference: Sol. Workers: Luna for Routine, Terra for Moderate.
+| 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` | `gpt-5.6-luna` only if Terra is unavailable |
 
 ### GitHub Copilot
 
 Copilot exposes a multi-vendor picker. Prefer the same category logic; use the
-IDs the Copilot agent / IDE model picker accepts. **Never** pick Claude Fable 5.
+IDs the Copilot agent / IDE model picker accepts. **Never** pick Claude Fable 5
+or Claude Haiku.
+
+**Cost split:** Sonnet / Terra for Routine and Moderate; Opus / Grok / Sol only
+for Demanding.
 
 #### High-capability (ranked)
 
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
-| 1 | Anthropic | Claude Opus 5 | default elevated coding agent (cost-capable frontier) |
+| 1 | Anthropic | Claude Opus 5 | elevated coding agent |
 | 2 | xAI | Grok 4.5 | when the Copilot catalog exposes it |
 | 3 | OpenAI | GPT-5.6 Sol | OpenAI frontier alternative |
 
@@ -206,43 +213,36 @@ IDs the Copilot agent / IDE model picker accepts. **Never** pick Claude Fable 5.
 
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
-| 1 | Anthropic | Claude Sonnet 5 | default balanced worker |
-| 2 | OpenAI | GPT-5.6 Terra | OpenAI balanced worker |
+| 1 | Anthropic | Claude Sonnet 5 | cost workhorse |
+| 2 | OpenAI | GPT-5.6 Terra | OpenAI cost workhorse |
 
 #### Low-capability (ranked)
 
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
-| 1 | Anthropic | Claude Haiku 4.5 | default value worker |
-| 2 | OpenAI | GPT-5.6 Luna | or GPT-5 mini if Luna unavailable |
+| 1 | Anthropic | Claude Sonnet 5 | same workhorse as mid |
+| 2 | OpenAI | GPT-5.6 Terra | same workhorse as mid (`gpt-5.6-luna` only if Terra unavailable) |
 
 ### General (any platform)
 
 Use when the harness is not listed above, the catalog is incomplete, or model
 IDs differ from the tables.
 
-1. **Exclude** models with special/restrictive data policies (including Claude
-   Fable 5 and aliases that resolve to it).
-2. **Partition** available models into three bands:
-   - **High-capability** — frontier / strongest reasoning coding agents
-   - **Mid-capability** — balanced everyday coding agents (strong tool use, not
-     the cheapest and not the frontier)
-   - **Low-capability** — cost-efficient models that still handle well-specified
-     Routine implementation, review axes, and obvious fix-forward
-3. **One model per provider** in each partition — pick the current
-   cost-efficient representative; older generations are fallbacks for that row
-   only.
-4. **Rank** high-capability by capability-per-cost (adequate frontier first;
-   do not default to the most expensive option). Rank mid and low by
-   cheapest-still-capable within that band.
-5. If a provider has only two usable models, map them to low + high and leave
-   mid empty for that provider (Moderate then uses low, with escalation to high).
-6. **Apply the same bias and difficulty rules** as platform-specific catalogs.
-7. If only one model exists, use it for both manager and workers; still score
+1. **Exclude** Claude Fable 5 (and aliases that resolve to it) and **Claude Haiku**
+   (any version).
+2. **Cost first** — identify the cheapest coding workhorse that can handle
+   well-specified Routine/Moderate work; assign it to **both low and mid**.
+   Identify one premium / frontier model for **high** (Demanding + manager).
+3. **One model per provider** in each band when multiple vendors exist; do not
+   pad catalogs with extra mid brands for cost theater.
+4. If low and mid share a model, escalate insufficient workers **directly to
+   high**.
+5. **Apply the same bias and difficulty rules** as platform-specific catalogs.
+6. If only one model exists, use it for both manager and workers; still score
    difficulty for briefs and for when more models appear later.
-8. If several vendors are available with no project preference, prefer one
-   vendor stack for the session (fewer surprises) and keep workers in the
-   lowest adequate partition whenever difficulty allows.
+7. If several vendors are available with no project preference, prefer one
+   vendor stack for the session (fewer surprises) and keep workers on the
+   cost workhorse whenever difficulty allows.
 
 ---
 
@@ -288,10 +288,12 @@ Escalate **one tier at a time** (cost-aware ladder):
    wrong severity, incomplete deliverables) → re-delegate the **same** package
    to the **next higher** category (low → mid → high) with named gaps — do not
    silently absorb large gaps in the manager thread.
-3. Skip mid only when that catalog is empty for the platform; then low → high.
-4. If the high-capability worker also fails → manager may do a **narrow** repair
+3. If low and mid resolve to the **same model** (common under cost-first
+   catalogs), skip the no-op mid retry and escalate **directly to high**.
+4. Skip mid only when that catalog is empty for the platform; then low → high.
+5. If the high-capability worker also fails → manager may do a **narrow** repair
    or ask the user; do not endlessly re-spawn.
-5. Optional within-category step: if the first pick used a deep cost fallback on
+6. Optional within-category step: if the first pick used a deep cost fallback on
    the same row and the report is thin, retry once with that row’s primary slug
    before climbing a tier.
 
@@ -337,6 +339,8 @@ that still obeys the bias rule and the Routine / Moderate / Demanding mapping.
   catalog lists a ranked hierarchy
 - Listing multiple models from the same provider in one category
 - Selecting Claude Fable 5 (or `best` / other aliases that resolve to it)
+- Selecting Claude Haiku for any worker or manager role
+- Padding mid with a costlier brand when the low workhorse already covers Moderate
 - Using the General catalog on a known platform to ignore its ranking
 - Announcing model brands to the user on every spawn when it adds no decision value
 
