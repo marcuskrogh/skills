@@ -251,10 +251,9 @@ costlier closed frontier pick.
 | Mid | Qwen3-Coder | Open-weight coding specialist (Apache); strong self-host / hosted mid |
 | Mid | Llama 4 Maverick | Meta open-weight generalist when a coding-capable mid is needed |
 | Low | GPT-5.6 Luna | Cheapest capable OpenAI coding worker (~$0.20–1 / $1.20–6) |
-| Low | Gemini 3.5 Flash-Lite | High-throughput low-cost Google worker (~$0.30 / $2.50) |
+| Low | Gemini 3.5 Flash-Lite | High-throughput low-cost Google worker (~$0.30 / $2.50); Gemma 4 if only local open Google weights |
 | Low | Composer 2.5 | Dedicated low-cost coding agent when exposed (Cursor-family) |
 | Low | MiniMax M3 | Low-cost open / hosted throughput when exposed |
-| Low | Gemma 4 | Local / private low-tier when only small open weights are available |
 
 Excluded: Fable 5 (data policy + premium), Haiku (policy), GPT‑5.5 Pro and other
 ultra-premium compute SKUs as default workers.
@@ -285,10 +284,9 @@ ultra-premium compute SKUs as default workers.
 | Rank | Provider | Model | Prefer / map to |
 |------|----------|-------|-----------------|
 | 1 | OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` |
-| 2 | Google | Gemini 3.5 Flash-Lite | `gemini-3.5-flash-lite` |
+| 2 | Google | Gemini 3.5 Flash-Lite | `gemini-3.5-flash-lite`; `gemma-4` only if Flash-Lite unavailable and local/private Google open weights are the option |
 | 3 | Cursor | Composer 2.5 | `composer-2.5` when exposed |
 | 4 | MiniMax | MiniMax M3 | `minimax-m3` / latest MiniMax coding throughput SKU |
-| 5 | Google (open) | Gemma 4 | `gemma-4` local/small open when only on-device / private low is available |
 
 #### General selection notes
 
