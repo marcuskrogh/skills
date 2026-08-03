@@ -3,9 +3,10 @@ name: review-fix
 description: >-
   Derived review loop: run thorough multi-axis review, automatically fix-forward
   blockers, should-fix, and actionable notes via implement, and re-review until
-  clean (or max iterations). Applies Composer-biased difficulty routing for review
-  axes and fix-forward packages; orchestrator stays on Grok. Hands off to ship
-  when clean. Use instead of manually alternating /review and /implement.
+  clean (or max iterations). Applies low-capability-biased difficulty routing for
+  review axes and fix-forward packages; orchestrator stays high-capability. Hands
+  off to ship when clean. Use instead of manually alternating /review and
+  /implement.
 ---
 
 # Review-fix
@@ -25,13 +26,17 @@ Every review pass and fix-forward package inside the loop applies
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md):
 
 - **Orchestrator** of this loop (iteration control, CLEAN/STOPPED/STALLED, tracker)
-  stays on the parent / most competent model (**Cursor Grok 4.5**).
-- Review axis workers and fix-forward workers **default to Composer 2.5**.
-- Elevate to **Cursor Grok 4.5** only for Demanding signals (see review / implement
-  tables) or after an insufficient Composer attempt on the same package/axis.
-- Prefer Composer for most fix-forward threads — obvious patches should not burn Grok.
+  stays on the parent / high-capability model.
+- Review axis workers and fix-forward workers **default to low-capability**
+  (platform catalog).
+- Elevate to **high-capability** only for Demanding signals (see review /
+  implement tables) or after an insufficient value-tier attempt on the same
+  package/axis.
+- Prefer low-capability for most fix-forward threads — obvious patches should not
+  burn a high-capability model.
 
-Do not “upgrade the whole loop to Grok” because an earlier iteration was hard.
+Do not “upgrade the whole loop to high-capability” because an earlier iteration
+was hard.
 
 **On invoke:** read [../workflow/reference.md](../workflow/reference.md),
 [../concepts/CONCEPT_DELEGATION.md](../concepts/CONCEPT_DELEGATION.md),

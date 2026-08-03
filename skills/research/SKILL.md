@@ -144,9 +144,10 @@ Informal is a good order (seeds from preprints often unlock formal versions and
 practitioner discussion).
 
 When using sub-agents / `Task` for axes: apply
-[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — default **Composer 2.5**
-per axis; keep synthesis and brief authorship on the manager (parent / Grok);
-elevate an axis to Grok only for Demanding signals or after a weak Composer pass.
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — default **low-capability**
+per axis; keep synthesis and brief authorship on the manager (parent /
+high-capability); elevate an axis to high-capability only for Demanding signals
+or after a weak value-tier pass.
 
 ### 4. Expand
 

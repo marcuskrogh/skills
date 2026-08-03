@@ -74,10 +74,11 @@ Skills **may** define:
 
 If the skill (or harness) runs research axes via sub-agents / `Task` calls, apply
 [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md): manager synthesizes and writes the
-brief on the parent model; axis workers default to **Composer 2.5**; elevate to
-**Cursor Grok 4.5** only for Demanding synthesis (dense conflicting formal
-literature, high-stakes correctness of citations across axes) or after an
-insufficient Composer axis pass.
+brief on the parent / high-capability model; axis workers default to the
+platform’s top available **low-capability** model; elevate to **high-capability**
+only for Demanding synthesis (dense conflicting formal literature, high-stakes
+correctness of citations across axes) or after an insufficient value-tier axis
+pass. Use the platform catalog (or General).
 
 ## Workflow (conceptual)
 

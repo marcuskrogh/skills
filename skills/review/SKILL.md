@@ -3,10 +3,10 @@ name: review
 description: >-
   Thorough multi-axis GitHub PR review (Spec, Correctness, Integration,
   Architecture, Standards) with vertical and horizontal investigation. Scores
-  each axis for difficulty and defaults investigators to Composer 2.5 (elevates
-  to Grok only when Demanding); manager stays on Grok. Tied to a pipeline issue
-  in In Review; posts findings on the PR and tracker; hands off to review-fix
-  or ship.
+  each axis for difficulty and defaults investigators to the platform
+  low-capability tier (elevates to high-capability only when Demanding); manager
+  stays high-capability. Tied to a pipeline issue in In Review; posts findings on
+  the PR and tracker; hands off to review-fix or ship.
 ---
 
 # Review
@@ -31,7 +31,7 @@ stop and tell the user.
 | **Spec source** | Tracker issue + `PLAN.md` / `BUG.md` / `ITERATE.md` / `MODEL.md` |
 | **Publish target** | GitHub PR review via `gh api` + tracker comment |
 | **Checklist** | [checklist.md](checklist.md) — paste into each sub-agent brief |
-| **Model routing** | [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — per-axis difficulty; default Composer 2.5; elevate Grok only for Demanding signals |
+| **Model routing** | [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) — per-axis difficulty; default low-capability; elevate high-capability only for Demanding signals |
 
 ## Axes (this skill)
 
@@ -96,23 +96,23 @@ Pass this context into every sub-agent brief. Architecture needs the architectur
 
 Score **each axis** with [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)
 before spawning. **Manager** (context pack, merge, severity promotion, publish)
-stays on the parent / most competent model (**Cursor Grok 4.5**). Workers default
-to **Composer 2.5**; elevate an axis only when that axis has a Demanding signal
-(or when re-running an insufficient Composer pass).
+stays on the parent / high-capability model. Workers default to the platform’s
+top available **low-capability** model; elevate an axis only when that axis has
+a Demanding signal (or when re-running an insufficient value-tier pass).
 
-| Axis | Default model | Elevate to Grok when |
-|------|---------------|----------------------|
-| **Spec** | Composer 2.5 | Large/ambiguous PLAN with many interdependent packages; conflicting acceptance |
-| **Correctness** | Composer 2.5 | Concurrency/races, security, subtle algorithms, unexplained tooling failures |
-| **Integration** | Composer 2.5 | Authz, migrations, public API/schema breaks, multi-service contracts |
-| **Architecture** | Composer 2.5 | New layers/modules, dependency cycles, ADR conflicts, large structural shift |
-| **Standards** | Composer 2.5 | Almost never — elevate only after a failed Composer standards pass |
+| Axis | Default category | Elevate to high-capability when |
+|------|------------------|---------------------------------|
+| **Spec** | Low-capability | Large/ambiguous PLAN with many interdependent packages; conflicting acceptance |
+| **Correctness** | Low-capability | Concurrency/races, security, subtle algorithms, unexplained tooling failures |
+| **Integration** | Low-capability | Authz, migrations, public API/schema breaks, multi-service contracts |
+| **Architecture** | Low-capability | New layers/modules, dependency cycles, ADR conflicts, large structural shift |
+| **Standards** | Low-capability | Almost never — elevate only after a failed value-tier standards pass |
 
-Bias: when unsure, keep Composer. Axes in the same batch may use different models.
+Bias: when unsure, keep low-capability. Axes in the same batch may use different
+models. Pick concrete slugs from the platform catalog (or General).
 
 One message, five `Task` calls (`subagent_type: "generalPurpose"`, each with its
-assigned `model` when the harness supports it — `composer-2.5` or
-`cursor-grok-4.5-high`).
+assigned `model` when the harness supports it).
 
 Each returns **structured findings only**:
 
