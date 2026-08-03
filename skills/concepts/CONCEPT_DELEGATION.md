@@ -231,56 +231,82 @@ Map harness-specific IDs/aliases onto the rows below. Skip any row the session
 cannot call. **Never** select Claude Fable 5 (or aliases that resolve to it) or
 Claude Haiku.
 
-#### Price / capability basis (approx. API list, Aug 2026)
+Open-weight and third-party models are **first-class** here: when a cheaper
+open-weight (or other) model is capable enough for the tier, prefer it over a
+costlier closed frontier pick.
+
+#### Price / capability basis (approx. API / hosted list, Aug 2026)
 
 | Band | Model | Why this rank |
 |------|-------|---------------|
-| High | Claude Opus 5 | Frontier agentic coding at ~$5 / $25 — best frontier price/capability among allowed highs |
-| High | xAI Grok 4.5 | Strong coding agent when exposed; prefer after Opus when both available |
-| High | GPT-5.6 Sol | Frontier OpenAI (~$5 / $30) — same input band as Opus, higher output cost |
-| Mid | GPT-5.6 Terra | Balanced everyday coding (~$2–2.50 / $12–15) — cheapest capable mid |
-| Mid | Claude Sonnet 5 | Strong mid coding (~$3 / $15) — one Anthropic mid; no cheaper Anthropic mid without Haiku |
+| High | DeepSeek V4-Pro | Open-weight frontier coding at ~$0.44 / $0.87 — best high-tier price/capability when exposed |
+| High | GLM-5.2 (Z.ai) | Top open-weight SWE-bench Pro / long-horizon agents; MIT weights |
+| High | Claude Opus 5 | Best closed frontier value (~$5 / $25) among allowed Anthropic highs |
+| High | Kimi K3 | Strong open-weight / hosted agentic coding when available |
+| High | xAI Grok 4.5 | Strong closed coding agent when exposed |
+| High | GPT-5.6 Sol | Closed OpenAI frontier (~$5 / $30) |
+| Mid | Gemini 3.6 Flash | Capable mid coding/agents at ~$1.50 / $7.50 — cheapest closed mid |
+| Mid | GPT-5.6 Terra | Balanced OpenAI everyday coding (~$2–2.50 / $12–15) |
+| Mid | Claude Sonnet 5 | Strong Anthropic mid (~$3 / $15) |
+| Mid | Qwen3-Coder | Open-weight coding specialist (Apache); strong self-host / hosted mid |
+| Mid | Llama 4 Maverick | Meta open-weight generalist when a coding-capable mid is needed |
 | Low | GPT-5.6 Luna | Cheapest capable OpenAI coding worker (~$0.20–1 / $1.20–6) |
-| Low | Composer 2.5 | Dedicated low-cost coding agent when the harness exposes it (Cursor-family) |
+| Low | Gemini 3.5 Flash-Lite | High-throughput low-cost Google worker (~$0.30 / $2.50) |
+| Low | Composer 2.5 | Dedicated low-cost coding agent when exposed (Cursor-family) |
+| Low | MiniMax M3 | Low-cost open / hosted throughput when exposed |
+| Low | Gemma 4 | Local / private low-tier when only small open weights are available |
 
-Excluded from General: Fable 5 (data policy + premium price), Haiku (policy),
-GPT‑5.5 Pro / other ultra-premium compute SKUs (cost without default worker need).
+Excluded: Fable 5 (data policy + premium), Haiku (policy), GPT‑5.5 Pro and other
+ultra-premium compute SKUs as default workers.
 
 #### High-capability (ranked)
 
 | Rank | Provider | Model | Prefer / map to |
 |------|----------|-------|-----------------|
-| 1 | Anthropic | Claude Opus 5 | `opus`, `claude-opus-5`, or harness equivalent |
-| 2 | xAI | Grok 4.5 | `grok-4.5`, `cursor-grok-4.5-high`, or harness equivalent |
-| 3 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol` or harness equivalent |
+| 1 | DeepSeek | DeepSeek V4-Pro | `deepseek-v4-pro`, `deepseek-chat` Pro equivalent |
+| 2 | Z.ai | GLM-5.2 | `glm-5.2`, `glm-5` latest coding |
+| 3 | Anthropic | Claude Opus 5 | `opus`, `claude-opus-5` |
+| 4 | Moonshot | Kimi K3 | `kimi-k3`, `kimi-k3-high`, K2.6 if K3 unavailable |
+| 5 | xAI | Grok 4.5 | `grok-4.5`, `cursor-grok-4.5-high` |
+| 6 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol` |
 
 #### Mid-capability (ranked)
 
 | Rank | Provider | Model | Prefer / map to |
 |------|----------|-------|-----------------|
-| 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` or harness equivalent |
-| 2 | Anthropic | Claude Sonnet 5 | `sonnet`, `claude-sonnet-5`, or harness equivalent |
+| 1 | Google | Gemini 3.6 Flash | `gemini-3.6-flash` |
+| 2 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` |
+| 3 | Anthropic | Claude Sonnet 5 | `sonnet`, `claude-sonnet-5` |
+| 4 | Alibaba | Qwen3-Coder | `qwen3-coder`, latest Qwen coder instruct |
+| 5 | Meta | Llama 4 Maverick | `llama-4-maverick` or harness Llama 4 coding mid |
 
 #### Low-capability (ranked)
 
 | Rank | Provider | Model | Prefer / map to |
 |------|----------|-------|-----------------|
-| 1 | OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` or harness equivalent |
-| 2 | Cursor | Composer 2.5 | `composer-2.5` when exposed |
+| 1 | OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` |
+| 2 | Google | Gemini 3.5 Flash-Lite | `gemini-3.5-flash-lite` |
+| 3 | Cursor | Composer 2.5 | `composer-2.5` when exposed |
+| 4 | MiniMax | MiniMax M3 | `minimax-m3` / latest MiniMax coding throughput SKU |
+| 5 | Google (open) | Gemma 4 | `gemma-4` local/small open when only on-device / private low is available |
 
 #### General selection notes
 
 1. Walk the chosen category top-down; use the first model the harness exposes.
-2. **One model per provider** already applied in the tables — do not add a second
-   Claude/GPT/Grok generation beside the ranked pick.
-3. If **low** has no available row (e.g. Anthropic-only host with no Composer/Luna),
-   use the top available **mid** model for Routine, then escalate to **high** on
-   failure (same as low/mid sharing a model).
-4. If only one model exists in the whole session, use it for manager and workers;
+2. **One model per provider** already applied — do not add a second generation
+   from the same vendor beside the ranked pick (use it only as that row’s fallback).
+3. Prefer **open-weight / cheaper hosted** rows when they meet the tier’s needs;
+   do not skip to a closed frontier model out of habit.
+4. If **low** has no available row, use the top available **mid** for Routine,
+   then escalate to **high** on failure.
+5. If only one model exists in the whole session, use it for manager and workers;
    still record difficulty for when more models appear.
-5. Prefer staying on one vendor stack for a given batch of workers when several
-   mid/low options are equally available and cost-comparable.
-6. Apply the same difficulty bias and escalation ladder as platform-specific
+6. Prefer staying on one vendor stack for a given batch of workers when several
+   options are equally available and cost-comparable.
+7. Self-hosted open weights: treat inference cost (GPU time) as the price signal —
+   still prefer the highest-ranked **available** open model in the tier that fits
+   hardware, rather than silently upgrading to a paid closed API.
+8. Apply the same difficulty bias and escalation ladder as platform-specific
    catalogs.
 
 ---
