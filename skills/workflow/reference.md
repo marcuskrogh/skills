@@ -79,7 +79,7 @@ the work.
         ↓
 iterate  →  review-fix  →  ship  →  (optional) iterate again …
    │              │             │
-ITERATE.md    review↔fix     merge+Done
+ITERATE.md    review→fix     merge+Done
  new Task       new Task      new Task
  new branch+PR
 ```
