@@ -1,31 +1,34 @@
 ---
 name: review-fix
 description: >-
-  Derived review loop: run thorough multi-axis review, automatically fix-forward
-  blockers, should-fix, and actionable notes via implement, and re-review until
-  clean (or max iterations). Applies low/mid/high difficulty routing for review
-  axes and fix-forward packages; orchestrator stays high-capability. Hands off to
-  ship when clean. Use instead of manually alternating /review and /implement.
+  Derived single-pass review: run thorough multi-axis review, automatically
+  fix-forward blockers, should-fix, and actionable notes via implement, then
+  report CLEAN (no re-review). Applies low/mid/high difficulty routing for
+  review axes and fix-forward packages; orchestrator stays high-capability.
+  Hands off to ship when clean. Use instead of manually alternating /review and
+  /implement.
 ---
 
 # Review-fix
 
-Automates the **review ↔ implement (fix-forward)** loop on one pipeline Task and
-**its single delivery PR** (same branch from define/bug through ship).
+Runs **one review**, then **one fix-forward** when needed, on one pipeline Task and
+**its single delivery PR** (same branch from define/bug through ship). Does **not**
+re-review after fixes — exits **CLEAN** once findings are addressed (or none
+existed).
 
 Composes [review](../review/SKILL.md) (five axes: Spec, Correctness, Integration,
 Architecture, Standards — **fix-biased** severity) and [implement](../implement/SKILL.md)
 fix-forward mode. Does **not** replace first-time **implement** (build) or **ship**
 closeout. Does **not** open a new PR — fix-forward stays on the existing delivery
-head. (`/ship` may compose this loop as part of finishing remaining work.)
+head. (`/ship` may compose this skill as part of finishing remaining work.)
 
 ## Model routing
 
-Every review pass and fix-forward package inside the loop applies
+Review axes and fix-forward packages apply
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md):
 
-- **Orchestrator** of this loop (iteration control, CLEAN/STOPPED/STALLED, tracker)
-  stays on the parent / high-capability model.
+- **Orchestrator** of this skill (pass control, CLEAN/FAILED, tracker) stays on
+  the parent / high-capability model.
 - Review axis workers and fix-forward workers use Routine → **low**, Moderate →
   **mid**, Demanding → **high** (platform catalog).
 - Escalate **one tier at a time** after an insufficient attempt on the same
@@ -33,7 +36,7 @@ Every review pass and fix-forward package inside the loop applies
 - Prefer low/mid for most fix-forward threads — obvious patches should not burn
   a high-capability model.
 
-Do not “upgrade the whole loop to high-capability” because an earlier iteration
+Do not “upgrade the whole skill to high-capability” because an earlier package
 was hard.
 
 **On invoke:** read [../workflow/reference.md](../workflow/reference.md),
@@ -52,30 +55,27 @@ Use plain `/review` when you only want findings posted, with no auto-fix.
 ## Inputs
 
 1. Issue key/URL (`/review-fix MD-5`) — same resolution as review
-2. Optional: `max_iterations` (default **4**) — hard stops after this many review passes that still have must-fix findings
-3. Optional: user override to stop early
+2. Optional: user override to stop after review without fixing
 
 Requires authenticated `gh` + tracker auth. Task should be **In Review** (or become so after the first review publish / existing PR).
 
-## Loop
+## Process
 
 ```text
-iteration = 1
-loop:
-  1. Run full /review process for <KEY> (publish on PR + tracker comment)
-     — including manager promotion of mislabeled actionable notes → should-fix
-  2. If no must-fix findings → break CLEAN
-  3. If iteration >= max_iterations → break STOPPED
-  4. If must-fix count did not improve vs previous iteration → break STALLED
-  5. Run /implement fix-forward for <KEY> (address must-fix review threads)
-  6. Ensure Task → In Review; upsert ISSUES mirror
-  7. iteration += 1
-  8. continue
+1. Run full /review process for <KEY> (publish on PR + tracker comment)
+   — including manager promotion of mislabeled actionable notes → should-fix
+2. If no must-fix findings → exit CLEAN
+3. Run /implement fix-forward for <KEY> (address must-fix review threads)
+4. Ensure Task → In Review; upsert ISSUES mirror
+5. Exit CLEAN — do not re-review
 ```
+
+Single pass only. Do **not** run a second review after fix-forward. Trust the
+fixes and hand off to ship.
 
 ### Must-fix findings (aggressive scope)
 
-Treat as **must-fix** for the loop (must address before CLEAN / ship):
+Treat as **must-fix** for the skill (must address before CLEAN / ship):
 
 1. Any finding with `severity: blocker` or `severity: should-fix`
 2. Review event `REQUEST_CHANGES`
@@ -85,17 +85,12 @@ Treat as **must-fix** for the loop (must address before CLEAN / ship):
    - Fix fits this PR's blast radius (touched paths + necessary neighbors)
 4. Inline (`kind: inline`) notes on changed files with a concrete fix hint — treat as actionable unless the body explicitly marks them out-of-scope / follow-up
 
-**Do not** exit CLEAN while actionable notes remain. Soft, non-actionable notes only
-(out-of-scope follow-up, pure preference, speculative cleanup outside blast radius)
-may remain on CLEAN.
-
-When counting improvement for STALLED: compare
-`(blockers + should-fix + actionable notes)` across iterations — ignore pure
-non-actionable `note` churn.
+Soft, non-actionable notes only (out-of-scope follow-up, pure preference,
+speculative cleanup outside blast radius) may remain on CLEAN.
 
 ### Fix-forward constraints
 
-When calling implement inside the loop:
+When calling implement:
 
 - Same Task + same PR branch
 - Packages = open PR review threads / requested changes **and** unresolved
@@ -103,7 +98,7 @@ When calling implement inside the loop:
 - Prefer fixing higher severity first, then actionable notes
 - No new scope beyond review + existing `PLAN.md` / `BUG.md` (neighbor edits
   required by a finding are in scope)
-- After fixes: push, Task → **In Review**, comment with iteration number
+- After fixes: push, Task → **In Review**, comment that findings were addressed
 - If a note is genuinely out-of-scope, reply on the thread marking it deferred
   (with reason) so it no longer counts as must-fix — do not silently ignore it
 
@@ -111,14 +106,13 @@ When calling implement inside the loop:
 
 | Exit | Condition | Next |
 |------|-----------|------|
-| **CLEAN** | No must-fix findings (non-actionable notes optional) | `/ship <KEY>` |
-| **STOPPED** | Hit `max_iterations` with must-fix left | Report remaining findings; Next `/implement <KEY>` or `/review <KEY>` (manual) or raise max |
-| **STALLED** | Must-fix count not decreasing | Stop; ask user how to proceed — do not spin |
+| **CLEAN** | No must-fix findings after review, **or** fix-forward addressed all must-fix findings (no re-review) | `/ship <KEY>` |
+| **FAILED** | Fix-forward could not address must-fix findings | Report remaining findings; Next `/implement <KEY>` or `/review <KEY>` (manual) |
 
-### Tracker / markdown each iteration
+### Tracker / markdown
 
-- After each review: Task comment + ISSUES (**In Review**, **Next** = continuing loop or ship)
-- After each fix-forward: Task comment (threads addressed, including actionable notes) + ISSUES
+- After review: Task comment + ISSUES (**In Review**, **Next** = fix-forward continuing or ship)
+- After fix-forward: Task comment (threads addressed, including actionable notes) + ISSUES
 - On CLEAN: **Next** `/ship <KEY>` on Task + mirror
 
 ## Tell the user
@@ -126,9 +120,9 @@ When calling implement inside the loop:
 When finished, only:
 
 - Issue key/URL, PR URL
-- Iterations run
-- Exit reason (CLEAN / STOPPED / STALLED)
-- Finding counts per iteration (blockers / should-fix / actionable notes / deferred notes — one line each)
+- Whether fix-forward ran (yes/no)
+- Exit reason (CLEAN / FAILED)
+- Finding counts from the review (blockers / should-fix / actionable notes / deferred notes — one line)
 - **Next** handoff line
 
 Do not paste full review bodies into chat (same as review).
@@ -137,10 +131,10 @@ Do not paste full review bodies into chat (same as review).
 
 User: `/review-fix MD-5`
 
-Agent: [review → 2 blockers + 3 should-fix + 2 actionable notes → fix-forward → review → clean]  
+Agent: [review → 2 blockers + 3 should-fix + 2 actionable notes → fix-forward → CLEAN]  
 Next: `/ship MD-5`
 
-User: `/review-fix MD-5` max 2
+User: `/review-fix MD-5`
 
-Agent: [two dirty passes → STOPPED]  
-Next: `/implement MD-5` — remaining findings, or re-run with higher max
+Agent: [review → no must-fix findings → CLEAN]  
+Next: `/ship MD-5`
