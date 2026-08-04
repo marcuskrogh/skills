@@ -147,7 +147,7 @@ add Testing packages explicitly — do not wait for review to invent coverage.
 
 ```markdown
 ## Next
-`/review-fix <TASK-KEY>` — Review and auto-fix until clean
+`/review-fix <TASK-KEY>` — Review and auto-fix (single pass)
 ```
 
 (Use `/review <TASK-KEY>` for a one-shot review without auto-fix.

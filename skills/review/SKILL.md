@@ -264,7 +264,7 @@ Only: issue key/URL, PR URL, one-line counts + event, **Next**. No full review d
 
 ```markdown
 ## Next
-`/review-fix <KEY>` — Auto-fix blockers, should-fix, and actionable notes; re-review
+`/review-fix <KEY>` — Auto-fix blockers, should-fix, and actionable notes (single pass)
 ```
 
 or

@@ -89,12 +89,12 @@ Execute the remaining sequence **in order**. Follow each skill’s full process
 | Step | How |
 |------|-----|
 | **implement** | Build mode per [implement](../implement/SKILL.md): reuse delivery branch/PR, work packages + tests, Task → **In Review**, handoff continuity. |
-| **review-fix** | Full loop per [review-fix](../review-fix/SKILL.md) (default `max_iterations` **4** unless the user set another). Prefer review-fix over one-shot `/review` so must-fix findings (including actionable notes) are fixed before closeout. |
+| **review-fix** | Single pass per [review-fix](../review-fix/SKILL.md): one review, fix-forward if needed, report CLEAN (no re-review). Prefer review-fix over one-shot `/review` so must-fix findings (including actionable notes) are fixed before closeout. |
 | **closeout** | Only after review-fix exits **CLEAN** (or the Task was already ship-ready). See [§3](#3-closeout-mandatory). |
 
 #### Stops (do not closeout)
 
-If **review-fix** exits **STOPPED** or **STALLED**, or implement cannot finish:
+If **review-fix** exits **FAILED**, or implement cannot finish:
 
 - **Do not** merge or mark Done.
 - Report what ran, what remains, and **Next** (`/implement`, `/review-fix`, or re-run
@@ -195,7 +195,7 @@ User: `/ship MD-5` after review-fix CLEAN
 Agent: Stage = ship-ready → closeout only  
 → Task Done, PR merged
 
-User: `ship` when review-fix STALLED
+User: `ship` when review-fix FAILED
 
-Agent: Ran review-fix → STALLED — did **not** merge  
+Agent: Ran review-fix → FAILED — did **not** merge  
 Next: `/implement MD-5` or `ship` after addressing findings

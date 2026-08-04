@@ -93,7 +93,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── implement/                  ← managed implementation from a pipeline Task (tests + testability first-class)
 ├── iterate/                    ← post-ship fix: brief align + new branch/PR → review-fix
 ├── review/                     ← multi-axis Spec/Correctness/Integration/Architecture/Standards
-├── review-fix/                ← review ↔ fix-forward until clean
+├── review-fix/                ← one review → fix-forward → CLEAN (no re-review)
 ├── ship/                       ← remaining-workflow orchestrator → closed-loop merge + Done
 ├── summarise/                  ← status: about / stage / Next
 ├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
@@ -146,9 +146,10 @@ Same closed-loop delivery (bug starts the branch/PR when writing `BUG.md`).
 ship → iterate → review-fix → ship → (optional) iterate …
 ```
 
-`/review` remains a one-shot review; `/review-fix` loops review ↔ fix until clean
-(fix-biased: blockers, should-fix, and actionable notes). `/iterate` opens a **new**
-branch/PR after ship (not fix-forward on an open PR). `/summarise` works anytime.
+`/review` remains a one-shot review; `/review-fix` runs one review → fix-forward →
+CLEAN (no re-review; fix-biased: blockers, should-fix, and actionable notes).
+`/iterate` opens a **new** branch/PR after ship (not fix-forward on an open PR).
+`/summarise` works anytime.
 
 Bare continuation cues (see workflow **Continuation keywords**): **`next`** advances
 one persisted Next step; **`ship`** finishes remaining work through Done.
@@ -203,7 +204,7 @@ Only the code change itself lands in the repo, on the Task's delivery branch/PR.
 | **implement** | user | Build on the **same** delivery branch/PR; tests and testability required; low/mid/high work-package routing |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
 | **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) — fix-biased severity; low/mid/high axis workers |
-| **review-fix** | user | Review ↔ auto fix-forward (blockers, should-fix, actionable notes) until clean → ship; same value routing inside the loop |
+| **review-fix** | user | One review → auto fix-forward (blockers, should-fix, actionable notes) → CLEAN (no re-review) → ship; same value routing for axes/packages |
 | **ship** | user | Finish remaining work after define/bug/iterate-ready (implement and/or review-fix as needed), then closed-loop merge + Done. Bare **ship** is a continuation keyword (like **next**). |
 | **summarise** | user | About / workflow stage / what to run Next |
 

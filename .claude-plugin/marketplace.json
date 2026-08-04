@@ -9,7 +9,7 @@
     {
       "name": "marcus-skills",
       "source": "./",
-      "description": "Feature and bug pipelines with iterate, review-fix loops, pluggable trackers, and summarise.",
+      "description": "Feature and bug pipelines with iterate, review-fix, pluggable trackers, and summarise.",
       "category": "engineering",
       "keywords": [
         "engineering",

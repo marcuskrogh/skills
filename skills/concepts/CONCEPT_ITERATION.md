@@ -108,7 +108,7 @@ regression on touched paths, open a **new** PR. Move the new Task to **In Review
 
 ### 5. Hand off
 
-End with **Next** → review loop on the **new** Task/PR. User may `/ship` when clean,
+End with **Next** → `/review-fix` on the **new** Task/PR. User may `/ship` when clean,
 then `/iterate` again if needed.
 
 ## Anti-patterns

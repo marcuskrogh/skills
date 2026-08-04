@@ -35,7 +35,7 @@ setup (once per repo)
    ↓
 explore  →  (research / model)*  →  define  →  implement  →  review-fix  →  ship
    │              │                   │            │              │               │
- ROADMAP.md    RESEARCH.md         PLAN.md     same branch   review↔fix loop  merge that PR
+ ROADMAP.md    RESEARCH.md         PLAN.md     same branch   review→fix once  merge that PR
  map Story     / MODEL.md          + branch+PR  + same PR     same Task         + Done
  + route Tasks  (route Tasks)       same Task ───────────────────────────────→ closed-loop
    │                                                      ↑
@@ -62,7 +62,7 @@ setup (once per repo)
    ↓
 bug  →  implement  →  review-fix  →  ship
  │          │              │               │
-BUG.md   same branch   review↔fix loop  merge that PR
+BUG.md   same branch   review→fix once  merge that PR
 + branch+PR  same PR     same Task         + Done
  Task ──────────────────────────────────→ closed-loop
 ```
@@ -79,7 +79,7 @@ the work.
         ↓
 iterate  →  review-fix  →  ship  →  (optional) iterate again …
    │              │             │
-ITERATE.md    review↔fix     merge+Done
+ITERATE.md    review→fix     merge+Done
  new Task       new Task      new Task
  new branch+PR
 ```
@@ -122,17 +122,18 @@ Post-ship iterate path:
              ↘ (problems persist) ──────────────────────────────↗ /iterate …
 ```
 
-### Review-fix loop
+### Review-fix (single pass)
 
-Prefer **`/review-fix`** after implement to avoid manual review↔implement iteration:
+Prefer **`/review-fix`** after implement to avoid manual review↔implement ping-pong:
 
 ```text
-review → (must-fix?) → implement fix-forward → review → … → clean → /ship
+review → (must-fix?) → implement fix-forward → CLEAN → /ship
 ```
 
-Must-fix = `blocker` + `should-fix` + **actionable** `note`s (see CONCEPT_REVIEW /
-review-fix). Plain **`/review`** only posts findings and hands off; you then run
-`/implement` yourself (or `/review-fix` to auto-loop).
+Single pass: one review, then fix-forward when needed — **no re-review**. Must-fix =
+`blocker` + `should-fix` + **actionable** `note`s (see CONCEPT_REVIEW / review-fix).
+Plain **`/review`** only posts findings and hands off; you then run `/implement`
+yourself (or `/review-fix` to review + auto-fix once).
 ## Markdown continuity
 
 **Decisions and handoffs always live in markdown**, even when the tracker is Jira,
@@ -171,7 +172,7 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 | **implement** | Work the **same Task** (and its Sub-tasks). Spec from `PLAN.md` or `BUG.md`. **Reuse** the existing delivery branch + PR; only create them if missing. Tests/testability first-class; move to **In Review**. |
 | **iterate** | After ship: create a **new** Task from `ITERATE.md` (Relates to prior); new branch from base + **new** PR; move new Task to **In Review**. |
 | **review** | One-shot multi-axis review (Spec, Correctness, Integration, Architecture, Standards) on the **same** PR; may hand off to fix-forward manually. |
-| **review-fix** | Review → fix-forward → re-review on the **same** branch/PR until clean (or max iterations); then ship closeout (or continue via `/ship`). |
+| **review-fix** | One review → fix-forward (if needed) on the **same** branch/PR → report CLEAN (no re-review); then ship closeout (or continue via `/ship`). |
 | **ship** | **Remaining-workflow orchestrator** after define/bug/iterate-ready: run `implement` and/or `review-fix` as still needed, then closed-loop closeout — push continuity (`PLAN`/`ROADMAP`/`ISSUES`, …) onto the **same** delivery branch → merge **that** PR → close Sub-tasks/Task/(Story when complete). **No** second ship-only PR. |
 
 ## Delivery branch continuity (closed-loop)
@@ -310,7 +311,7 @@ Rules:
 | review (must-fix findings / `REQUEST_CHANGES`) | `/implement <Task>` (fix-forward) — or use `/review-fix` / `/ship` to automate |
 | review (no must-fix; non-actionable notes optional) | `/ship <Task>` (closeout) |
 | review-fix (CLEAN) | `/ship <Task>` (closeout) |
-| review-fix (STOPPED / STALLED) | `/implement <Task>` or `/review <Task>` (manual) or re-run with higher max — or `/ship <Task>` to retry remaining |
+| review-fix (FAILED) | `/implement <Task>` or `/review <Task>` (manual) — or `/ship <Task>` to retry remaining |
 | ship (Done) | Done — no next skill (or next phase / next bug); if merged work still wrong → `/iterate` |
 | ship (stopped before Done) | `/ship <Task>` to retry remaining, or the specific skill that unblocks |
 | summarise | *(reports Next; does not advance — may suggest `/ship` to finish remaining)* |
@@ -356,7 +357,7 @@ enabled). Chat-only status is not enough.
 | **implement** | May add missing Sub-tasks if plan/bug requires (incl. Testing packages); **reuse** delivery branch/PR | Task → **In Progress** at start; each Sub-task → **In Progress** then **Done** when finished; Task → **In Review** when PR ready (after tests/lint verify) | Comments on Task (session start, packages, **same** PR URL + **Next** `/review-fix`); ISSUES | Sub-tasks **Done** as packages complete — not the parent Task |
 | **implement** (fix-forward) | — | Task → **In Progress** if needed, then **In Review** again | Comment: threads addressed + **Next** `/review` or continue inside `/review-fix`; ISSUES | — |
 | **review** | — | Must already be **In Review**; do **not** change to Done | Task comment: review summary + **Next**; ISSUES | — |
-| **review-fix** | — | Alternates review publish + fix-forward status as above each iteration | Comment each iteration; ISSUES | — (ship closes) |
+| **review-fix** | — | Review publish, then fix-forward status if needed (single pass) | Comment after review and after fix-forward; ISSUES | — (ship closes) |
 | **ship** | May compose implement / review-fix first (their rows apply while running) | See [Ship remaining workflow](#ship-remaining-workflow) + [Ship closeout](#ship-closeout) | Task + Story comments; pre-merge ROADMAP/PLAN/ISSUES on delivery branch | **Yes** (after CLEAN) — merge **that** PR (no ship-only PR); close Task, remaining Sub-tasks, and Story when complete |
 | **summarise** | — | Read-only (may fix stale mirror **Next** text only) | — | — |
 
@@ -384,7 +385,7 @@ if review not CLEAN → run /review-fix on the same PR
    ↓
 if CLEAN (or already ship-ready) → Ship closeout
    ↓
-if review-fix STOPPED/STALLED → stop; do not merge; report Next
+if review-fix FAILED → stop; do not merge; report Next
 ```
 
 | Invoked when | Remaining |
@@ -445,7 +446,7 @@ When **review** leaves must-fix findings (`blocker`, `should-fix`, or actionable
 4. Re-open or keep the PR; return Task to **In Review** when ready (tracker + mirror).
 5. User runs **review** again, then **ship**.
 
-Prefer **`/review-fix <KEY>`** to run steps 1–5 automatically until clean (see that skill for max-iteration / stall guards; default max **4**).
+Prefer **`/review-fix <KEY>`** to run review + fix-forward once and report CLEAN (see that skill; no re-review).
 
 ## Post-ship iterate
 

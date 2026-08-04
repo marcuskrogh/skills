@@ -132,7 +132,7 @@ pushed into the new Task when **Artifact location** is `external`.
 - Relates: <PRIOR-KEY>
 
 ## Next
-`/review-fix <NEW-KEY>` — Review and auto-fix until clean
+`/review-fix <NEW-KEY>` — Review and auto-fix (single pass)
 ```
 
 Tracker duties:
@@ -173,7 +173,7 @@ Do **not** mark Done or merge.
 
 ```markdown
 ## Next
-`/review-fix <NEW-KEY>` — Review and auto-fix until clean
+`/review-fix <NEW-KEY>` — Review and auto-fix (single pass)
 ```
 
 (Or `/ship <NEW-KEY>` to finish remaining: review-fix → closeout.)
