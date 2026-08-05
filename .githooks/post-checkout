@@ -1,13 +1,21 @@
 #!/bin/sh
 # Auto-sync skills to local agent skill dirs after git checkout (branch switch).
 REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# Recognize this skills repo by path name or layout (cloud checkouts may be /workspace).
+is_skills_repo=false
 case "$REPO_ROOT" in
-  *cursor-skills*|*/skills) ;;
-  *) exit 0 ;;
+  *cursor-skills*|*/skills) is_skills_repo=true ;;
 esac
+if [ -f "$REPO_ROOT/scripts/sync-local.sh" ] && [ -d "$REPO_ROOT/skills" ] && [ -f "$REPO_ROOT/skills/manage-skills/SKILL.md" ]; then
+  is_skills_repo=true
+fi
+[ "$is_skills_repo" = true ] || exit 0
 
 if command -v pwsh >/dev/null 2>&1; then
   pwsh -NoProfile -ExecutionPolicy Bypass -File "$REPO_ROOT/scripts/sync-local.ps1" -Prune
 elif command -v powershell >/dev/null 2>&1; then
   powershell -NoProfile -ExecutionPolicy Bypass -File "$REPO_ROOT/scripts/sync-local.ps1" -Prune
+elif [ -f "$REPO_ROOT/scripts/sync-local.sh" ]; then
+  bash "$REPO_ROOT/scripts/sync-local.sh" --prune
 fi
