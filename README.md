@@ -93,8 +93,8 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── define/                     ← topic definition → PLAN.md (enriches pipeline Task)
 ├── implement/                  ← managed implementation from a pipeline Task (tests + testability first-class)
 ├── iterate/                    ← post-ship fix: brief align + new branch/PR → review-fix
-├── review/                     ← multi-axis Spec/Correctness/Integration/Architecture/Standards
-├── review-fix/                ← one review → fix-forward → CLEAN (no re-review)
+├── review/                     ← adaptive-depth Spec/Correctness/Integration/Architecture/Standards
+├── review-fix/                ← one adaptive-depth review → fix-forward → CLEAN (no re-review)
 ├── ship/                       ← remaining-workflow orchestrator → closed-loop merge + Done
 ├── summarise/                  ← status: about / stage / Next
 ├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
@@ -149,7 +149,7 @@ Same closed-loop delivery (bug starts the branch/PR when writing `BUG.md`).
 ship → iterate → review-fix → ship → (optional) iterate …
 ```
 
-`/review` remains a one-shot review; `/review-fix` runs one review → fix-forward →
+`/review` remains a one-shot adaptive-depth review; `/review-fix` runs one review → fix-forward →
 CLEAN (no re-review; fix-biased: blockers, should-fix, and actionable notes).
 `/iterate` opens a **new** branch/PR after ship (not fix-forward on an open PR).
 `/summarise` works anytime.
@@ -206,8 +206,8 @@ Only the code change itself lands in the repo, on the Task's delivery branch/PR.
 | **define** | user | User-agent topic definition → `PLAN.md` + Sub-tasks + delivery branch/PR (owns particulars; always questions the user) |
 | **implement** | user | Build on the **same** delivery branch/PR; tests and testability required; low/mid/high work-package routing |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
-| **review** | user | Thorough multi-axis PR review (Spec, Correctness, Integration, Architecture, Standards) — fix-biased severity; low/mid/high axis workers |
-| **review-fix** | user | One review → auto fix-forward (blockers, should-fix, actionable notes) → CLEAN (no re-review) → ship; same value routing for axes/packages |
+| **review** | user | Adaptive-depth PR review — `full` five-axis on larger feature work, `focused` 1–2 workers on bugs/small deltas; fix-biased severity; low/mid/high workers |
+| **review-fix** | user | One adaptive-depth review → auto fix-forward (blockers, should-fix, actionable notes) → CLEAN (no re-review) → ship; same value routing for workers/packages |
 | **ship** | user | Finish remaining work after define/bug/iterate-ready (implement and/or review-fix as needed), then closed-loop merge + Done. Bare **ship** is a continuation keyword (like **next**). |
 | **summarise** | user | About / workflow stage / what to run Next |
 

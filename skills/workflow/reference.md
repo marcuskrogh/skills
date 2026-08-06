@@ -19,7 +19,7 @@ packages), apply [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md):
 | Role | Model |
 |------|-------|
 | **Manager / orchestrator** (plan, merge findings, tracker, ship control) | Parent session — prefer top available **high-capability** model; never hand orchestration to a low- or mid-capability worker |
-| **Workers** (implement packages, review axes, research axes, fix-forward) | **Low** (Routine) / **mid** (Moderate) / **high** (Demanding) from the platform catalog; escalate one tier after a failed attempt |
+| **Workers** (implement packages, review workers, research axes, fix-forward) | **Low** (Routine) / **mid** (Moderate) / **high** (Demanding) from the platform catalog; escalate one tier after a failed attempt |
 
 Bias toward the lower adequate tier for value-efficient handling. Especially enforce this in
 **implement**, **review**, and **review-fix**; also when **research**, **iterate**,
@@ -171,8 +171,8 @@ continuity files — not a disconnected second ticket — when a pipeline key is
 | **research / model** | Enrich the **same Task**. If a delivery branch/PR already exists, commit artifacts there. If not and the skill is committing repo files for this Task, start the delivery branch (+ draft PR) so later define/implement continue on it. |
 | **implement** | Work the **same Task** (and its Sub-tasks). Spec from `PLAN.md` or `BUG.md`. **Reuse** the existing delivery branch + PR; only create them if missing. Tests/testability first-class; move to **In Review**. |
 | **iterate** | After ship: create a **new** Task from `ITERATE.md` (Relates to prior); new branch from base + **new** PR; move new Task to **In Review**. |
-| **review** | One-shot multi-axis review (Spec, Correctness, Integration, Architecture, Standards) on the **same** PR; may hand off to fix-forward manually. |
-| **review-fix** | One review → fix-forward (if needed) on the **same** branch/PR → report CLEAN (no re-review); then ship closeout (or continue via `/ship`). |
+| **review** | Adaptive-depth review on the **same** PR (`full` five-axis or `focused` 1–2 workers); may hand off to fix-forward manually. |
+| **review-fix** | One adaptive-depth review → fix-forward (if needed) on the **same** branch/PR → report CLEAN (no re-review); then ship closeout (or continue via `/ship`). |
 | **ship** | **Remaining-workflow orchestrator** after define/bug/iterate-ready: run `implement` and/or `review-fix` as still needed, then closed-loop closeout — push continuity (`PLAN`/`ROADMAP`/`ISSUES`, …) onto the **same** delivery branch → merge **that** PR → close Sub-tasks/Task/(Story when complete). **No** second ship-only PR. |
 
 ## Delivery branch continuity (closed-loop)
@@ -259,7 +259,7 @@ ship — not separate PRs for research, define, implement, and ship.
 | `MODEL.md` | model | Mathematical specification aligned with the user (not product definition) |
 | `PLAN.md` | define | Spec for implement + Spec-axis review (user-aligned particulars) |
 | Branch + PR | define / bug / research / model (first writer) → implement → ship; **iterate** post-ship | **One** delivery vehicle per Task through ship (iterate always opens a **new** PR) |
-| PR review | review / review-fix | Multi-axis findings incl. Architecture (+ auto fix-forward in review-fix) |
+| PR review | review / review-fix | Adaptive-depth findings (`full` includes Architecture; `focused` covers risk surface) (+ auto fix-forward in review-fix) |
 | Merge + Done | ship | Remaining-workflow orchestrator then closed-loop closeout on the **same** PR (no leftover PR) |
 | *(status reply)* | summarise | About / stage / Next |
 

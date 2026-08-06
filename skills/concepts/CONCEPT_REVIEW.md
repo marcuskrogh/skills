@@ -13,6 +13,7 @@ When spawning axis workers, also load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md
 - **vertical** — deep within a changed path
 - **horizontal** — across related code and contracts
 - **actionable** — evidenced on the change (or immediate neighbor), names a concrete fix, fits this PR's blast radius
+- **depth** — `full` (all five axes, one worker each) vs `focused` (one or two bundled workers on the risk surface)
 
 ## Axes
 
@@ -35,7 +36,7 @@ refactorings with evidence, not free-floating redesigns.
 
 ## Invariants
 
-- **Both directions on every applicable axis** — vertical and horizontal.
+- **Proportional depth.** Choose **depth** before spawn from work-package shape and change size. `full` when the package warrants all-axis coverage; `focused` for bugs, small iterates, and localized deltas. Record the choice. Both vertical and horizontal still apply on every included axis.
 - **Investigation context before axis work** — changed paths, file snapshots, neighbor map, spec pack, architecture pack, standards pack, tooling evidence when cheap.
 - **Fix-biased severity.** Prefer `should-fix` over `note` when actionable. Do not demote to keep the review soft.
 - **Publish to the durable surface** (PR review, etc.); summarise counts to the user — not a full paste when a publish target exists.
@@ -56,6 +57,7 @@ refactorings with evidence, not free-floating redesigns.
 Axis; severity; inline vs general; path/line when inline; vertical or horizontal;
 body: problem → evidence → suggested fix. Cap volume per axis; drop weakest
 evidence first if the cap binds — never by demoting actionable items to `note`.
+Bundled workers still tag each finding with its **axis**.
 
 ## Extensions
 
@@ -65,8 +67,9 @@ evidence first if the cap binds — never by demoting actionable items to `note`
 | **Spec source** | must | Where acceptance lives |
 | **Publish target** | must | Where findings are posted |
 | **Checklist** | must | Axis checklists for investigator briefs |
-| **Parallelism** | may | Sub-agent mapping (e.g. one per axis) |
-| **Model routing** | may | Per-axis defaults (value-biased) |
+| **Depth routing** | may | Signals → `full` \| `focused`; focused worker bundling |
+| **Parallelism** | may | Sub-agent mapping for each depth |
+| **Model routing** | may | Per-worker defaults (value-biased) |
 | **Severity model** | may | Overrides to the fix-biased default |
 | **Tooling evidence** | may | Whether to run lint/type/test into briefs |
 | **Handoff** | may | Next when blocking vs clean |
@@ -76,7 +79,7 @@ evidence first if the cap binds — never by demoting actionable items to `note`
 1. Resolve subject + readiness. Done when reviewable.
 2. Resolve change set. Done when non-empty diff confirmed.
 3. Build investigation context. Done when packs are ready for briefs.
-4. Score difficulty per axis → assign worker models. Done when each axis has a tier/model.
-5. Run applicable axes (prefer parallel with explicit `model`). Done when all axis reports return.
+4. Choose **depth** → score difficulty per worker → assign models. Done when depth and each worker tier/model are recorded.
+5. Run workers for that depth (prefer parallel when more than one). Done when all worker reports return.
 6. Merge, dedupe, keep axes separate in publish. Done when review is published.
 7. Hand off: fix loop if blocking/actionable remain; ship path only when clean (or plain `/review` with non-actionable notes only).

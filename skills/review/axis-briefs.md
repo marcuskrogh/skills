@@ -1,8 +1,10 @@
 # Review — axis investigator briefs
 
-Disclosed reference for [review](SKILL.md). Paste the matching brief into each
-axis `Task` along with the manager's context pack and [checklist.md](checklist.md)
-section. Severity is **fix-biased** per [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md).
+Disclosed reference for [review](SKILL.md) under **depth** `full` (one worker per
+axis). For `focused` bundling, use [depth.md](depth.md#focused-briefs). Paste the
+matching brief into each axis `Task` along with the manager's context pack and
+[checklist.md](checklist.md) section. Severity is **fix-biased** per
+[CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md).
 
 Each worker returns structured findings only:
 

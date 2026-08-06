@@ -65,7 +65,7 @@ Each worker call includes: full brief; `model` when supported; difficulty one-li
 | Family | Expectation |
 |--------|-------------|
 | **implement** / **iterate** build | Score each package; escalate one tier after fails |
-| **review** / **review-fix** | Score each axis (may differ in one batch); low/mid for most fix-forward |
+| **review** / **review-fix** | Score each worker (per-axis under `full`, Core/Integration under `focused`); low/mid for most fix-forward |
 | **research** (axis workers) | Default low/mid; high only for dense conflicting formal synthesis |
 | **ship** / composers | Inherit from invoked skills — do not override toward high |
 | **explore** / alignment-only | No worker routing unless the skill explicitly delegates |
