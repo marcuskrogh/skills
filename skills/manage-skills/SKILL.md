@@ -79,7 +79,9 @@ claude plugin install marcus-skills@marcuskrogh
 .\scripts\setup-project-sync.ps1 -ProjectPath C:\path\to\repo
 ```
 
-Add `-WireCursorCloud` only when the project runs on Cursor Cloud and needs `.cursor/environment.json`.
+Add `-WireCursorCloud` only when the project runs on Cursor Cloud and needs
+`.cursor/environment.json` (`install` + `start` both run `.agents/sync-skills.sh`
+so boots stay on latest `SKILLS_REF` even when a Build snapshot skips install).
 
 ## Updating an existing install to latest main
 

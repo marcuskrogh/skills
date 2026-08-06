@@ -100,7 +100,11 @@ For environments that should pull skills at startup instead of committing them:
 
 Writes `.agents/sync-skills.sh` and gitignores `.agents/skills/`. Each sync checks out `SKILLS_REF` (default `main`), replaces `.agents/skills/`, and records the revision in `.agents/skills/.skills-version`.
 
-If the environment is **Cursor Cloud**, also pass `-WireCursorCloud` to add `.cursor/environment.json` that runs the same sync.
+If the environment is **Cursor Cloud**, also pass `-WireCursorCloud` to add
+`.cursor/environment.json` that runs the same sync on **install** (Build) and
+**start** (every boot). `start` matters because Cursor can reuse a snapshotted
+Build and skip re-running `install`, which would otherwise leave skills stale
+while `marcuskrogh/skills` advances on `main`.
 
 ## Architecture
 

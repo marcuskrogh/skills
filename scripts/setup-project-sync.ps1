@@ -16,7 +16,8 @@ param(
 
     [string]$SkillsRepo = "https://github.com/marcuskrogh/skills.git",
 
-    # Also write .cursor/environment.json so Cursor Cloud runs the sync on VM start.
+    # Also write .cursor/environment.json so Cursor Cloud syncs skills on Build
+    # install and again on every VM start (install alone can be snapshotted stale).
     [switch]$WireCursorCloud,
 
     [switch]$SkipGitignore
@@ -62,14 +63,18 @@ if ($WireCursorCloud) {
     $cursorDir = Join-Path $ProjectPath ".cursor"
     New-Item -ItemType Directory -Force -Path $cursorDir | Out-Null
     $envJson = Join-Path $cursorDir "environment.json"
-    $installCmd = "bash .agents/sync-skills.sh"
+    $syncCmd = "bash .agents/sync-skills.sh"
     if (Test-Path $envJson) {
-        Write-Warning "environment.json already exists — merge install steps manually:"
-        Write-Warning "  $installCmd && <your existing install>"
+        Write-Warning "environment.json already exists — merge sync into both hooks manually:"
+        Write-Warning "  install: $syncCmd && <your existing install>"
+        Write-Warning "  start:   $syncCmd && <your existing start>   # every boot; not snapshotted"
     } else {
+        # install: warm the Build snapshot; start: refresh to latest SKILLS_REF every boot
+        # (Cursor may skip re-running install when reusing a cached Build).
         $content = @"
 {
-  "install": "$installCmd"
+  "install": "$syncCmd",
+  "start": "$syncCmd"
 }
 "@
         Set-Content -Path $envJson -Value $content -NoNewline
@@ -81,7 +86,7 @@ Write-Host "Project skill sync installed:"
 Write-Host "  $syncScript"
 Write-Host "Commit .agents/sync-skills.sh and .gitignore"
 if ($WireCursorCloud) {
-    Write-Host "Also commit .cursor/environment.json (Cursor Cloud adapter)"
+    Write-Host "Also commit .cursor/environment.json (Cursor Cloud: install + start sync)"
 }
 Write-Host ""
 Write-Host "Sync / update to latest main (or another ref):"
