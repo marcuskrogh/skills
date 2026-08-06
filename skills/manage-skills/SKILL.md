@@ -17,7 +17,7 @@ This repository is the **single source of truth** for these agent skills. Author
 | Location | Role |
 |----------|------|
 | `skills/` in this repo | **Edit here** — git source of truth (Agent Skills layout) |
-| `skills/concepts/` | **Uninvokable concepts** (`CONCEPT_*.md`) — not skills; synced as sibling `concepts/` |
+| `skills/concepts/` | **Uninvokable concepts** (`CONCEPT_*.md`) + disclosed refs (e.g. `PLATFORM-CATALOGS.md`) — synced as sibling `concepts/` |
 | `~/.agents/skills/` | Shared / standard global mirror — sync only |
 | `~/.claude/skills/`, `~/.codex/skills/`, `~/.copilot/skills/`, `~/.cursor/skills/` | Per-harness global mirrors — sync only |
 | Project `.agents/skills/` | Per-project install (skills.sh default for most harnesses) |
@@ -102,11 +102,22 @@ cd D:\code\skills
 
 Validates skills, syncs to local agent homes, installs git hooks so `git pull` re-syncs.
 
+## Writing skills and concepts
+
+Before creating or editing skill/concept prose, read
+[writing-for-agents](../writing-for-agents/SKILL.md) — lean shapes, leading words,
+single source of truth (concepts own invariants; skills fill **extensions** only),
+progressive disclosure, and pruning. Skill invocation tradeoffs:
+[SKILL-MECHANICS.md](../writing-for-agents/SKILL-MECHANICS.md).
+
+Autonomous discovery of which pipeline to run is the model-invoked
+[workflows](../workflows/SKILL.md) router — keep pipeline skills user-invoked.
+
 ## Creating a new skill
 
-1. Add `skills/<name>/SKILL.md` (`name` must match folder name).
-2. If the skill draws on a shared idea, prefer a `skills/concepts/CONCEPT_*.md` and instruct **On invoke: read …**.
-3. Add reference `.md` files alongside as needed.
+1. Add `skills/<name>/SKILL.md` (`name` must match folder name) using the **skill shape**.
+2. If the skill draws on a shared idea, prefer a `skills/concepts/CONCEPT_*.md` and instruct **On invoke: read …** — do not restate concept invariants.
+3. Add disclosed reference `.md` files alongside (or under `concepts/`) as needed.
 4. Add `"./skills/<name>"` to `.claude-plugin/plugin.json` → `skills`.
 5. `.\scripts\validate-skills.ps1`
 6. `.\scripts\sync-local.ps1 -Prune`
@@ -114,9 +125,9 @@ Validates skills, syncs to local agent homes, installs git hooks so `git pull` r
 
 ## Creating a new concept
 
-1. Add `skills/concepts/CONCEPT_<NAME>.md` (uppercase name, `CONCEPT_` prefix).
+1. Add `skills/concepts/CONCEPT_<NAME>.md` (uppercase name, `CONCEPT_` prefix) using the **concept shape**.
 2. Do **not** add a `SKILL.md` under `concepts/` and do **not** list concepts in `plugin.json` skills.
-3. Reference the concept only from skills that need it (progressive disclosure).
+3. Disclose long catalogs as sibling `.md` files (e.g. `PLATFORM-CATALOGS.md`); reference the concept only from skills that need it.
 4. Validate + sync as above.
 
 ## Rules
@@ -127,3 +138,4 @@ Validates skills, syncs to local agent homes, installs git hooks so `git pull` r
 - **Sync after edits** so local mirrors match the repo (skills + `concepts/`).
 - **Document updates** — consumers advance with `npx skills update`, re-add, or `SKILLS_REF=main` sync; stamp lives in `.skills-version`.
 - **Do not revive base skills** (`alignment`, `implementation`) as invokable entries — use concepts instead.
+- **Prune duplication** — one meaning, one home (`writing-for-agents`).

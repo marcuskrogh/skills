@@ -1,416 +1,75 @@
 # Concept: Delegation (value-aware model routing)
 
-**Uninvokable concept.** Skills that spawn sub-agents must instruct the agent to
-read this file on invoke (or when composing a skill that delegates). Do not
-surface this concept unless a skill references it.
+Before every sub-agent spawn, the **manager** scores **task difficulty** and
+assigns a **worker** model for value-efficient execution. Uninvokable — load
+only when a skill's On-invoke pointer fires (skills that spawn workers).
 
-## Purpose
+Catalogs are platform-dependent: detect harness → load
+[PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md) (or General) → pick within category.
 
-Before every sub-agent spawn, the **manager** (orchestrating agent) evaluates
-**task difficulty** and assigns a worker model for **value-efficient** execution.
-Routine work goes to a **low-capability** model; well-specified but non-trivial
-work to a **mid-capability** model; only genuinely hard or high-stakes packages
-use a **high-capability** model.
+## Leading words
 
-This keeps multi-agent loops (especially **implement**, **review**, and
-**review-fix**) from spending premium capacity on work a lower tier handles
-well.
+- **manager** — orchestrating agent; stays on parent / high-capability
+- **worker** — each `Task` / sub-agent; routed low / mid / high
+- **Routine / Moderate / Demanding** — difficulty tiers → low / mid / high categories
 
-Catalogs are **platform-dependent**. Detect the harness, load that platform's
-ranked lists, then pick within the correct category. If the platform is unknown
-or has no specific section, use [General (any platform)](#general-any-platform).
+## Invariants
 
-## What this is not
-
-- Not a user-invokable workflow by itself
-- Not a reason to downgrade the **manager** — orchestration, planning, merge of
-  findings, severity promotion, plan revision, and tracker/PR decisions stay on
-  a **high-capability** model (or the parent session when the harness cannot
-  switch)
-- Not an excuse to skip acceptance criteria, briefs, or verification
-- Not a requirement to announce model choice to the user on every spawn (record
-  it in the brief / internal plan; mention to the user only when useful)
-- Not a fixed two-model world — each category is a **ranked hierarchy**; pick the
-  best available entry, not only the historical Composer / Grok pair
+- **Workers only.** Never hand orchestration, plan merge, severity promotion, tracker/PR, or verification ownership to a low/mid worker.
+- **Score before spawn.** Hardest matching signal wins; no Demanding/Moderate signal → Routine (low).
+- **Bias down.** When unclear, prefer lower category. Importance ≠ difficulty. Do not elevate "just in case."
+- **One-tier escalate.** Insufficient report → re-delegate same package one tier up with named gaps. If low and mid resolve to the same model, escalate directly to high.
+- **Pass `model`** when the harness supports it; still record difficulty when it cannot.
+- **Platform catalog.** Use the ranked list for the detected harness; General only when unknown/incomplete. Never Fable 5 or Haiku (catalog policy).
 
 ## Roles
 
-| Role | Who | Model |
-|------|-----|-------|
-| **Manager** | Invoking / parent agent | Parent session model — **do not** hand orchestration to a low- or mid-capability sub-agent. Prefer the top available **high-capability** model when the session can choose. |
-| **Worker** | Each `Task` / sub-agent | Chosen per package via [Difficulty → category → model](#difficulty--category--model) |
+| Role | Model |
+|------|-------|
+| **Manager** | Parent / top available high-capability |
+| **Worker** | Category from difficulty, then highest-ranked available slug in that category |
 
-Never spawn a "manager of managers" on a low- or mid-capability model to save
-cost. Value routing applies to **workers only**.
+## Difficulty → category
 
-## Categories and ranking
+| Tier | Signals (any one) | Category |
+|------|-------------------|----------|
+| **Routine** | Localized; clear acceptance; known pattern; docs/rename; checklist Spec | Low |
+| **Moderate** | Multi-file well-specified; standard tests; clear Integration; most Implementation/Testing/fix-forward | Mid |
+| **Demanding** | Novel/ambiguous design; concurrency/security/crypto; subtle algorithms; large Architecture risk; prior mid miss on same package; high blast-radius API/migration | High |
 
-Three categories. Within each, models are **ranked** (1 = prefer first). Selection
-is always: **category from difficulty**, then **highest-ranked model in that
-category that the harness exposes and the session may use**.
+If mid is unavailable: Moderate → low, then escalate insufficient work to high.
 
-| Category | Alias | Used for |
-|----------|-------|----------|
-| **Low-capability** | value | Routine packages |
-| **Mid-capability** | balanced | Moderate packages; first escalation after a weak low-capability pass |
-| **High-capability** | competent / elevated | Demanding packages; preferred manager; escalation after a weak mid-capability pass |
-
-If a platform has **no mid-capability** entry available, treat Moderate as
-**low-capability** (still bias down) and escalate insufficient Moderate work to
-**high-capability**.
-
-### Selection algorithm
-
-1. **Detect platform** — Cursor, Claude Code, Codex, GitHub Copilot, or other.
-2. **Load catalog** — matching platform section below, else [General](#general-any-platform).
-   WORKSPACE / skill overrides win when present.
-3. **Score difficulty** — [Difficulty evaluation](#difficulty-evaluation-mandatory-before-each-spawn).
-4. **Choose category** — Routine → low; Moderate → mid; Demanding → high.
-5. **Pick model** — walk the category ranking top-down; use the first slug the
-   harness accepts. Prefer the listed primary slug; use the row's fallback only
-   when the primary is unavailable.
-6. **Pass `model`** when the harness supports per-sub-agent models. If it cannot,
-   note that once and continue; still record difficulty so briefs and escalation
-   stay consistent.
-
-### Bias rule (value first)
-
-When the choice is unclear:
-
-1. Prefer the **lower** category (low > mid > high).
-2. Prefer **Routine → low** and **Moderate → mid** even if the package is
-   important — importance ≠ difficulty.
-3. Elevate to **high-capability** only when at least one **Demanding** signal is
-   present, or when re-delegating after an insufficient mid-capability report
-   (or after insufficient low when mid is unavailable).
-4. Do **not** elevate "just in case" or because the parent is high-capability.
-5. Within a category, prefer the **highest-ranked available** model — do not
-   skip down the list to save cost after the category is chosen.
-
-Default stance: **most workers are low- or mid-capability**; high-capability
-workers are the exception.
-
----
-
-## Platform catalogs
-
-Ranks are preference order within the category for **this skills repo**. Adjust
-via WORKSPACE or a skill override when a project disagrees.
-
-### Catalog rules
-
-1. **Cost first** — for each harness, prefer the cheapest model that can do the
-   work. In practice this usually means one **cost workhorse** for both
-   **low** and **mid**, and a single **premium** model for **high** (see Cursor:
-   Composer for Routine/Moderate, Grok for Demanding). Do not introduce extra
-   mid-tier brands when the workhorse already covers Moderate.
-2. **One model per provider** per category — do not list multiple Claude, GPT, or
-   Grok generations side by side. Prefer the current cost-efficient pick for that
-   provider; put prior generations only as that row’s fallback slug.
-3. **Never Fable 5** — do not select Claude Fable 5 (`fable`, `claude-fable-5`,
-   thinking variants, or aliases like `best` that resolve to Fable). It has a
-   special data policy this repo avoids.
-4. **Never Haiku** — do not select Claude Haiku (any version) for workers or
-   managers.
-5. Fast / mini / prior-gen variants are **fallbacks for the same row**, not
-   separate ranked picks.
-6. **Same slug for low and mid** is allowed (and preferred when cost-optimal).
-   If low and mid resolve to the same model, an insufficient report escalates
-   **directly to high** — do not re-spawn the same model as a no-op mid retry.
-
-### Cursor
-
-When the harness exposes a `model` parameter on sub-agent / `Task` calls.
-**Cost split:** Composer handles all Routine and Moderate workers; Grok handles
-Demanding workers and is preferred for the manager.
-
-#### High-capability (ranked)
-
-| Rank | Provider | Model | Slug (prefer) | Fallback |
-|------|----------|-------|---------------|----------|
-| 1 | Cursor / xAI | Cursor Grok 4.5 | `cursor-grok-4.5-high` | `cursor-grok-4.5-high-fast` |
-
-#### Mid-capability (ranked)
-
-| Rank | Provider | Model | Slug (prefer) | Fallback |
-|------|----------|-------|---------------|----------|
-| 1 | Cursor | Composer 2.5 | `composer-2.5` | `composer-2.5-fast` |
-
-#### Low-capability (ranked)
-
-| Rank | Provider | Model | Slug (prefer) | Fallback |
-|------|----------|-------|---------------|----------|
-| 1 | Cursor | Composer 2.5 | `composer-2.5` | `composer-2.5-fast` |
-
-### Claude Code
-
-Anthropic-only harness. Use aliases the CLI resolves (`/model`, sub-agent model,
-or env defaults). Prefer full IDs when pinning. **Do not** use `fable`, `best`,
-or `haiku`.
-
-**Cost split:** Sonnet for Routine and Moderate; Opus for Demanding / manager.
-
-#### High-capability (ranked)
-
-| Rank | Provider | Model | Slug / alias (prefer) | Fallback |
-|------|----------|-------|----------------------|----------|
-| 1 | Anthropic | Claude Opus 5 | `opus` / `claude-opus-5` | `claude-opus-4-8` |
-
-#### Mid-capability (ranked)
-
-| Rank | Provider | Model | Slug / alias (prefer) | Fallback |
-|------|----------|-------|----------------------|----------|
-| 1 | Anthropic | Claude Sonnet 5 | `sonnet` / `claude-sonnet-5` | `claude-sonnet-4-6` |
-
-#### Low-capability (ranked)
-
-| Rank | Provider | Model | Slug / alias (prefer) | Fallback |
-|------|----------|-------|----------------------|----------|
-| 1 | Anthropic | Claude Sonnet 5 | `sonnet` / `claude-sonnet-5` | `claude-sonnet-4-6` |
-
-### Codex (OpenAI)
-
-OpenAI-only harness.
-
-**Cost split:** Luna for Routine, Terra for Moderate, Sol for Demanding / manager.
-
-#### High-capability (ranked)
-
-| Rank | Provider | Model | Slug (prefer) | Fallback |
-|------|----------|-------|---------------|----------|
-| 1 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol` | raise reasoning effort on Sol before leaving the row |
-
-#### Mid-capability (ranked)
-
-| Rank | Provider | Model | Slug (prefer) | Fallback |
-|------|----------|-------|---------------|----------|
-| 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` | — |
-
-#### Low-capability (ranked)
-
-| Rank | Provider | Model | Slug (prefer) | Fallback |
-|------|----------|-------|---------------|----------|
-| 1 | OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` | — |
-
-### GitHub Copilot
-
-Copilot exposes a multi-vendor picker. Prefer the same category logic; use the
-IDs the Copilot agent / IDE model picker accepts. **Never** pick Claude Fable 5
-or Claude Haiku.
-
-**Cost split:** Luna for Routine; Sonnet / Terra for Moderate; Opus / Grok / Sol
-only for Demanding.
-
-#### High-capability (ranked)
-
-| Rank | Provider | Model | Prefer |
-|------|----------|-------|--------|
-| 1 | Anthropic | Claude Opus 5 | elevated coding agent |
-| 2 | xAI | Grok 4.5 | when the Copilot catalog exposes it |
-| 3 | OpenAI | GPT-5.6 Sol | OpenAI frontier alternative |
-
-#### Mid-capability (ranked)
-
-| Rank | Provider | Model | Prefer |
-|------|----------|-------|--------|
-| 1 | Anthropic | Claude Sonnet 5 | cost workhorse |
-| 2 | OpenAI | GPT-5.6 Terra | OpenAI balanced worker |
-
-#### Low-capability (ranked)
-
-| Rank | Provider | Model | Prefer |
-|------|----------|-------|--------|
-| 1 | OpenAI | GPT-5.6 Luna | value worker (Sonnet is mid-only on Copilot) |
-
-### General (any other harness)
-
-Use when the harness is **not** Cursor, Claude Code, Codex, or GitHub Copilot —
-or when those catalogs are incomplete and you must choose among exposed models.
-
-Map harness-specific IDs/aliases onto the rows below. Skip any row the session
-cannot call. **Never** select Claude Fable 5 (or aliases that resolve to it) or
-Claude Haiku.
-
-Open-weight and third-party models are **first-class** here: when a cheaper
-open-weight (or other) model is capable enough for the tier, prefer it over a
-costlier closed frontier pick.
-
-#### Price / capability basis (approx. API / hosted list, Aug 2026)
-
-| Band | Model | Why this rank |
-|------|-------|---------------|
-| High | DeepSeek V4-Pro | Open-weight frontier coding at ~$0.44 / $0.87 — best high-tier price/capability when exposed |
-| High | GLM-5.2 (Z.ai) | Top open-weight SWE-bench Pro / long-horizon agents; MIT weights |
-| High | Claude Opus 5 | Best closed frontier value (~$5 / $25) among allowed Anthropic highs |
-| High | Kimi K3 | Strong open-weight / hosted agentic coding when available |
-| High | xAI Grok 4.5 | Strong closed coding agent when exposed |
-| High | GPT-5.6 Sol | Closed OpenAI frontier (~$5 / $30) |
-| Mid | Gemini 3.6 Flash | Capable mid coding/agents at ~$1.50 / $7.50 — cheapest closed mid |
-| Mid | GPT-5.6 Terra | Balanced OpenAI everyday coding (~$2–2.50 / $12–15) |
-| Mid | Claude Sonnet 5 | Strong Anthropic mid (~$3 / $15) |
-| Mid | Qwen3-Coder | Open-weight coding specialist (Apache); strong self-host / hosted mid |
-| Mid | Llama 4 Maverick | Meta open-weight generalist when a coding-capable mid is needed |
-| Low | GPT-5.6 Luna | Cheapest capable OpenAI coding worker (~$0.20–1 / $1.20–6) |
-| Low | Gemini 3.5 Flash-Lite | High-throughput low-cost Google worker (~$0.30 / $2.50); Gemma 4 if only local open Google weights |
-| Low | Composer 2.5 | Dedicated low-cost coding agent when exposed (Cursor-family) |
-| Low | MiniMax M3 | Low-cost open / hosted throughput when exposed |
-
-Excluded: Fable 5 (data policy + premium), Haiku (policy), GPT‑5.5 Pro and other
-ultra-premium compute SKUs as default workers.
-
-#### High-capability (ranked)
-
-| Rank | Provider | Model | Prefer / map to |
-|------|----------|-------|-----------------|
-| 1 | DeepSeek | DeepSeek V4-Pro | `deepseek-v4-pro`, `deepseek-chat` Pro equivalent |
-| 2 | Z.ai | GLM-5.2 | `glm-5.2`, `glm-5` latest coding |
-| 3 | Anthropic | Claude Opus 5 | `opus`, `claude-opus-5` |
-| 4 | Moonshot | Kimi K3 | `kimi-k3`, `kimi-k3-high`, K2.6 if K3 unavailable |
-| 5 | xAI | Grok 4.5 | `grok-4.5`, `cursor-grok-4.5-high` |
-| 6 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol` |
-
-#### Mid-capability (ranked)
-
-| Rank | Provider | Model | Prefer / map to |
-|------|----------|-------|-----------------|
-| 1 | Google | Gemini 3.6 Flash | `gemini-3.6-flash` |
-| 2 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` |
-| 3 | Anthropic | Claude Sonnet 5 | `sonnet`, `claude-sonnet-5` |
-| 4 | Alibaba | Qwen3-Coder | `qwen3-coder`, latest Qwen coder instruct |
-| 5 | Meta | Llama 4 Maverick | `llama-4-maverick` or harness Llama 4 coding mid |
-
-#### Low-capability (ranked)
-
-| Rank | Provider | Model | Prefer / map to |
-|------|----------|-------|-----------------|
-| 1 | OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` |
-| 2 | Google | Gemini 3.5 Flash-Lite | `gemini-3.5-flash-lite`; `gemma-4` only if Flash-Lite unavailable and local/private Google open weights are the option |
-| 3 | Cursor | Composer 2.5 | `composer-2.5` when exposed |
-| 4 | MiniMax | MiniMax M3 | `minimax-m3` / latest MiniMax coding throughput SKU |
-
-#### General selection notes
-
-1. Walk the chosen category top-down; use the first model the harness exposes.
-2. **One model per provider** already applied — do not add a second generation
-   from the same vendor beside the ranked pick (use it only as that row’s fallback).
-3. Prefer **open-weight / cheaper hosted** rows when they meet the tier’s needs;
-   do not skip to a closed frontier model out of habit.
-4. If **low** has no available row, use the top available **mid** for Routine,
-   then escalate to **high** on failure.
-5. If only one model exists in the whole session, use it for manager and workers;
-   still record difficulty for when more models appear.
-6. Prefer staying on one vendor stack for a given batch of workers when several
-   options are equally available and cost-comparable.
-7. Self-hosted open weights: treat inference cost (GPU time) as the price signal —
-   still prefer the highest-ranked **available** open model in the tier that fits
-   hardware, rather than silently upgrading to a paid closed API.
-8. Apply the same difficulty bias and escalation ladder as platform-specific
-   catalogs.
-
----
-
-## Difficulty evaluation (mandatory before each spawn)
-
-The manager scores each work package / review axis / research axis **before**
-calling the sub-agent. Use the **hardest matching signal** — one Demanding
-signal is enough to elevate to high; one Moderate signal (with no Demanding)
-maps to mid; absence of Moderate/Demanding signals defaults to **low-capability**.
-
-### Signals → tier
-
-| Tier | Typical signals (any one may apply) |
-|------|-------------------------------------|
-| **Routine** (**low-capability**) | Localized change; clear acceptance; known repo pattern; docs/comments/rename; smell/standards pass; single-thread fix-forward with an obvious patch; checklist-driven Spec mapping |
-| **Moderate** (**mid-capability**) | Multi-file but well-specified; standard tests; Integration with clear contracts; most Implementation / Testing packages; most fix-forward batches; parallel review axes without hard risk |
-| **Demanding** (**high-capability**) | Novel or ambiguous design; cross-cutting correctness (concurrency, races, distributed consistency); security / authz / crypto; subtle algorithms or numerical methods; large structural / Architecture risk (new layers, cycles, ADR conflict); failed prior mid-capability attempt on the **same** package; high blast-radius public API or migration |
-
-## Difficulty → category → model
-
-| Evaluated tier | Category | Assign |
-|----------------|----------|--------|
-| Routine | Low-capability | Top available low-capability model for the platform |
-| Moderate | Mid-capability | Top available mid-capability model (else low, then escalate to high if weak) |
-| Demanding | High-capability | Top available high-capability model for the platform |
-
-Record in the internal package plan (and optionally the brief header):
+Record in the package plan:
 
 ```text
 platform: cursor | claude-code | codex | github-copilot | general
 difficulty: routine | moderate | demanding
 category: low-capability | mid-capability | high-capability
 model: <slug-or-alias>
-reason: <one short line — the deciding signal>
+reason: <one short line — deciding signal>
 ```
-
-## Escalation
-
-Escalate **one tier at a time** (cost-aware ladder):
-
-1. First attempt: assign per the table above (bias toward the lower category).
-2. If the worker report is **insufficient** (gaps vs acceptance, weak evidence,
-   wrong severity, incomplete deliverables) → re-delegate the **same** package
-   to the **next higher** category (low → mid → high) with named gaps — do not
-   silently absorb large gaps in the manager thread.
-3. If low and mid resolve to the **same model** (common under cost-first
-   catalogs), skip the no-op mid retry and escalate **directly to high**.
-4. Skip mid only when that catalog is empty for the platform; then low → high.
-5. If the high-capability worker also fails → manager may do a **narrow** repair
-   or ask the user; do not endlessly re-spawn.
-6. Optional within-category step: if the first pick used a deep cost fallback on
-   the same row and the report is thin, retry once with that row’s primary slug
-   before climbing a tier.
-
-Escalation is the main safety valve that makes value-default routing safe.
 
 ## Spawn contract
 
-Each sub-agent call must include:
+Each worker call includes: full brief; `model` when supported; difficulty one-liner.
 
-1. Full package / axis brief (unchanged skill requirements)
-2. Explicit `model` when the harness supports it
-3. The difficulty one-liner (so a resumed or re-delegated agent shares context)
+## Extensions
 
-Manager duties that **stay** on the parent (high-capability): plan drafting,
-package ordering, difficulty scoring, merging/deduplicating findings, severity
-promotion, tracker transitions, PR publish, verification command ownership,
-and **Next** handoff.
+| Slot | Required | Purpose |
+|------|----------|---------|
+| **Default table** | may | Per-axis or package-type defaults — still value-biased |
+| **Catalog override** | may | WORKSPACE / skill ranked lists replacing repo defaults |
 
-## Skill specialisations
+## Skill families
 
-Skills **must** apply this concept whenever they use sub-agents. They **may**
-publish a default assignment table (e.g. per review axis or work-package type)
-that still obeys the bias rule and the Routine / Moderate / Demanding mapping.
-
-| Skill family | Expectation |
-|--------------|-------------|
-| **implement** / **iterate** build | Score each work package; Routine → low, Moderate → mid, Demanding → high; escalate one tier after failed attempts |
-| **review** | Score each axis (can differ per axis in one parallel batch); same three-tier mapping |
-| **review-fix** | Same routing inside composed review + fix-forward implement; prefer low/mid for most fix-forward threads |
-| **research** (when axes run as sub-agents) | Default low or mid per axis difficulty; elevate to high only for dense formal synthesis / conflicting high-stakes literature |
-| **ship** / other composers | Inherit routing from the skills they invoke — do not override toward high-capability |
+| Family | Expectation |
+|--------|-------------|
+| **implement** / **iterate** build | Score each package; escalate one tier after fails |
+| **review** / **review-fix** | Score each axis (may differ in one batch); low/mid for most fix-forward |
+| **research** (axis workers) | Default low/mid; high only for dense conflicting formal synthesis |
+| **ship** / composers | Inherit from invoked skills — do not override toward high |
 | **explore** / alignment-only | No worker routing unless the skill explicitly delegates |
 
-## Anti-patterns
+## Reference
 
-- Running all workers on high-capability because the manager is high-capability
-- Skipping difficulty evaluation and always passing no `model` (silent premium inherit)
-- Treating Moderate as Demanding (or always jumping low → high) when mid exists
-- Elevating every Architecture or Correctness axis "by default" without a Demanding signal
-- Downgrading the manager / merge step to low- or mid-capability to save cost
-- Re-implementing large gaps in the manager thread instead of escalating the worker
-- Hard-coding a single brand pair (e.g. only Composer / Grok) when the platform
-  catalog lists a ranked hierarchy
-- Listing multiple models from the same provider in one category
-- Selecting Claude Fable 5 (or `best` / other aliases that resolve to it)
-- Selecting Claude Haiku for any worker or manager role
-- Padding mid with a costlier brand when the low workhorse already covers Moderate
-- Using the General catalog on a known platform to ignore its ranking
-- Announcing model brands to the user on every spawn when it adds no decision value
-
-## Authoring skills that use this concept
-
-1. Instruct the agent to **read this file** on invoke when the skill delegates.
-2. Add a short **Model routing** section (or extension row) with any skill-specific
-   default table — still **value-biased** (low/mid before high), referring to
-   categories rather than a single brand unless documenting an example.
-3. Link: `[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)`.
+Load [PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md) when assigning models.

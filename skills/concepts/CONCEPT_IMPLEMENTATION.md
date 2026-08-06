@@ -1,216 +1,54 @@
 # Concept: Implementation
 
-**Uninvokable concept.** Skills that need this behaviour must instruct the agent to
-read this file on invoke. Do not surface this concept unless a skill references it.
+Execute an agreed **specification** via a **manager** that plans, delegates,
+evaluates, and tracks — without absorbing large implementation in the manager
+thread. Every delivery leaves the touched area at least as testable and as well
+covered as before. Uninvokable — load only when a skill's On-invoke pointer fires.
 
-## Purpose
+When spawning workers, also load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 
-Execute an agreed **specification** in a codebase via a **management agent** that
-plans, delegates, evaluates, and tracks alignment with the spec — without
-implementing large work directly.
+## Leading words
 
-Implementation is also how the codebase stays **well-structured and testable**.
-Every delivery must leave the touched area at least as easy to test, and at least
-as well covered, as before — preferably better. Features that land without tests,
-or designs that hard-wire collaborators and block isolation, degrade quality over
-time even when the feature "works."
-
-## What this is not
-
-- Not a user-invokable workflow by itself
-- Not solo implementation in the management thread
-- Not alignment — the spec must already exist (from a prior alignment session,
-  artifact file, or user-provided plan)
-- Not "code first, tests later" — tests and testability are part of the work,
-  not an optional afterthought
-
-## Extension contract
-
-Skills that apply this concept **must** define:
-
-| Extension | Purpose |
-|-----------|---------|
-| **Spec source** | How the management agent obtains the specification (chat artifact, file path, user paste) |
-| **Branch naming** | How to name the feature branch |
-| **Delivery** | PR vs branch-only vs other completion criteria |
-| **Verification** | Final checks before delivery — tests (new/updated), lint, coverage/quality non-degradation for the touched area, spec checklist |
-
-Skills **may** define:
-
-| Extension | Purpose |
-|-----------|---------|
-| **Pre-work** | Steps before first delegation (e.g. commit spec file, ask issue ID) |
-| **Work package types** | Domain-specific package categories |
-| **Subagent mapping** | Which subagent type per package kind |
-| **Model routing** | Skill-specific defaults for [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (must stay value-biased: low/mid before high) |
-| **PR template** | Required PR body sections |
-| **Testing checklist** | Concrete test/testability checks to paste into package briefs |
-
-## Model routing (mandatory when delegating)
-
-Apply [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) on every work-package spawn:
-
-- **Manager** (plan, evaluate, tracker, verify ownership) stays on the parent /
-  high-capability model — do not orchestrate on a low- or mid-capability worker.
-- **Workers** use Routine → **low**, Moderate → **mid**, Demanding → **high**
-  from the platform catalog.
-- Score difficulty **before** each `Task` call; pass `model` when the harness
-  supports it; escalate **one tier at a time** (low → mid → high) with named gaps.
-- Use the platform catalog (or General) — do not hard-code a single brand pair.
+- **manager** / **worker** — see CONCEPT_DELEGATION
+- **spec fidelity** — every package and evaluation cross-references the specification
 
 ## Invariants
 
-- **Management role.** The invoking agent owns the plan and delegates — it does not
-  absorb large implementation work unless a package is trivial or delegation fails
-  after retry. Management stays on the parent / high-capability model; workers use
-  [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) (value-biased low/mid/high).
-- **Spec fidelity.** Every work package and evaluation cross-references the
-  specification. Deviations require plan revision or user alignment.
-- **Isolated packages.** Each delegation is self-contained with objective, inputs,
-  constraints, deliverables, and branch context.
-- **Value-aware workers.** Score difficulty before each spawn; map to low/mid/high;
-  escalate one tier only after insufficient reports.
-- **Iterative plan.** Re-evaluate the plan after each sub-agent report; revise
-  remaining packages when findings change assumptions.
-- **Branch discipline.** Resolve the skill’s delivery branch before the first
-  delegation. Prefer an **existing** open branch/PR for the same Task (from define,
-  bug, research, or model) over creating a new one. Sub-agents commit to that
-  branch only.
-- **No silent gaps.** If a sub-agent report is insufficient, re-delegate with named
-  gaps — do not silently fix large gaps in the management thread.
-- **Tests with behaviour.** Every package that changes observable behaviour includes
-  or updates tests in the same package (or a tightly coupled follow-on Testing
-  package before verification). Bug fixes include regression coverage for the
-  failing case.
-- **Design for testability.** Prefer clear seams: injectable collaborators,
-  isolatable units, and dependency direction that allows testing without a full
-  system boot. Do not hard-wire infrastructure, clocks, I/O, or neighbors in ways
-  that force a redesign to test later.
-- **No coverage or quality regression.** Verification must not leave the touched
-  area with a weaker suite, broken tests, or lower effective coverage of new/changed
-  paths than before. New behaviour needs tests proportional to risk; failure paths
-  count, not only happy paths.
-- **Verification is mandatory.** Do not deliver without running the project's usual
-  tests/lint for the touched area (or full suite when that is the repo norm). If
-  tooling is unavailable, say so explicitly — do not invent green results.
+- **Management role.** Manager owns plan and evaluation; delegates large work. Manager stays high-capability; workers use CONCEPT_DELEGATION (value-biased).
+- **Spec fidelity.** Deviations require plan revision or user alignment — not silent invention.
+- **Isolated packages.** Each delegation is self-contained: objective, inputs, constraints, deliverables, branch, difficulty/model.
+- **Iterative plan.** Re-evaluate after each report; revise remaining packages when findings change assumptions.
+- **Branch discipline.** Resolve the skill's delivery branch before first delegation; prefer an existing open branch/PR for the Task; workers commit only there.
+- **No silent gaps.** Insufficient report → re-delegate with named gaps (escalate one tier); do not absorb large gaps in the manager thread.
+- **Tests with behaviour.** Behavioural packages include/update tests in-package (or a Testing package before verify). Bug fixes include regression coverage.
+- **Design for testability.** Injectable seams; isolatable units; no hard-wired I/O/clocks/neighbors that force redesign to test.
+- **No coverage/quality regression.** Touched-area suite stays honest and green; failure paths count.
+- **Verification mandatory.** Run real project tests/lint for the touched area (or full suite if that is the norm). Never invent green results.
 
-## Testing and testability
+## Extensions
 
-Treat testing as a **first-class work product**, equal to production code:
-
-| Concern | Expectation |
-|---------|-------------|
-| **New behaviour** | Automated tests that would fail if the behaviour were missing or wrong |
-| **Bug fixes** | Regression test (or equivalent automated check) that reproduces the defect |
-| **Contract changes** | Existing tests updated so they still match the real contract |
-| **Failure paths** | Errors, empty/null, auth denial, partial failure — not only the happy path |
-| **Structure** | Collaborators mockable/faked at a seam; no need to redesign to isolate a unit |
-| **Coverage** | Touched paths covered; do not leave large new branches or public APIs untested |
-| **Repo norms** | Follow the project's test layout, naming, fixtures, and runners |
-
-When the spec's acceptance criteria omit verification details, still add tests for
-changed behaviour unless the change is purely non-behavioural (docs, comments,
-config rename with no runtime effect) — and say so in the package report.
-
-**vs later review:** Review axes (Correctness, Architecture) catch gaps; implementation
-must not rely on review to invent the test suite. Ship tests with the code.
+| Slot | Required | Purpose |
+|------|----------|---------|
+| **Spec source** | must | How the manager obtains the spec |
+| **Branch naming** | must | Feature branch pattern |
+| **Delivery** | must | PR vs branch-only vs other completion |
+| **Verification** | must | Final checks — tests, lint, non-degradation, spec checklist |
+| **Pre-work** | may | Steps before first delegation |
+| **Work package types** | may | Domain package categories |
+| **Subagent mapping** | may | Subagent type per package kind |
+| **Model routing** | may | Defaults for CONCEPT_DELEGATION (still value-biased) |
+| **PR template** | may | Required PR body sections |
+| **Testing checklist** | may | Concrete checks for package briefs |
 
 ## Flow
 
-### 1. Obtain specification
+1. **Obtain spec** — from skill source; ask if missing. Done when spec is usable.
+2. **Pre-work** — skill-defined. Done when pre-work complete.
+3. **Branch** — reuse open delivery branch/PR for the work item, else create. Done when branch is checked out.
+4. **Draft plan** — ordered packages with acceptance (tests in behavioural packages). Done when packages cover the spec.
+5. **Implementation loop** — select package → score difficulty → delegate → evaluate (incl. tests/testability) → re-delegate or mark done → revise plan. Done when all packages complete.
+6. **Verify and deliver** — skill verification + delivery outcome. Done when checks pass and delivery criteria met.
 
-Load the spec from the skill's **spec source**. If missing or ambiguous, ask the
-user — do not invent requirements.
+## Package brief (minimum)
 
-### 2. Pre-work
-
-Run any **pre-work** defined by the skill (e.g. issue ID, write spec file to repo).
-
-### 3. Create or reuse branch
-
-Resolve the skill’s **branch naming** / delivery rules. If an open delivery branch
-or PR already exists for this work item, reuse it. Otherwise create the feature
-branch before any delegation.
-
-### 4. Draft plan
-
-Break the spec into ordered **work packages** — discrete, delegable units with
-acceptance criteria. Respect dependencies. Include testing in each behavioural
-package (or schedule dedicated Testing packages before verify). Call out
-testability constraints when the design needs seams for isolation.
-
-### 5. Implementation loop
-
-```
-1. Select next work package
-2. Evaluate difficulty → assign worker model (CONCEPT_DELEGATION; bias low/mid before high)
-3. Delegate to a sub-agent with:
-   - objective and acceptance criteria (including tests / testability)
-   - spec excerpts and prior package findings
-   - branch name; files/areas to touch or avoid
-   - testing checklist when the skill provides one
-   - model slug when the harness supports per-sub-agent models
-4. Receive sub-agent report
-5. Evaluate against package criteria, overall spec, and testing/testability invariants
-6. If insufficient → re-delegate (escalate one tier: low → mid → high)
-7. Update plan if needed; mark done or re-delegate
-8. Repeat until all packages complete
-```
-
-### 6. Verify and deliver
-
-Run **verification** (tests, lint, coverage/quality check for the touched area,
-spec checklist). Deliver per the skill (**PR**, branch status, status report).
-Do not hand off to review with known red tests or untested new behaviour.
-
-## Work package delegation
-
-Each delegation must include:
-
-- **Objective** — what this package must achieve
-- **Inputs** — spec sections, prior findings, decisions
-- **Constraints** — scope, style, dependencies from the spec; testability seams
-  when relevant
-- **Deliverables** — code, **tests** (or explicit justification if none), findings,
-  and notes on coverage of new/changed paths
-- **Branch** — feature branch; sub-agents commit here
-- **Difficulty / model** — tier + assigned worker model per CONCEPT_DELEGATION
-
-## Evaluating sub-agent results
-
-1. Check deliverables against package acceptance criteria (including tests).
-2. Cross-reference with the spec and overall plan.
-3. Check testability: can the new unit be exercised without hard-wired neighbors?
-4. Check coverage intent: are new/changed behavioural paths exercised by tests?
-5. If insufficient → re-delegate with specific gaps (missing tests count as gaps).
-6. If plan assumptions were wrong → revise remaining packages before continuing.
-
-## Anti-patterns
-
-- Implementing large chunks directly instead of delegating
-- Delegating without acceptance criteria or branch context
-- Skipping plan re-evaluation after surprising findings
-- Starting on `main` without a feature branch
-- Opening a second PR for the same work item when an open delivery PR already exists
-- Ending without the agreed **delivery** outcome
-- Proceeding without a usable specification
-- Shipping observable behaviour without tests
-- "We'll add tests in a follow-up" without an in-plan Testing package before verify
-- Hard-wiring collaborators, clocks, or I/O so the unit cannot be isolated
-- Skipping the project test suite to save time, or inventing green CI
-- Only happy-path tests when failure modes are part of the spec or obvious in the code
-- Leaving existing tests broken or outdated after a contract change
-- Running every implementation worker on high-capability by default (violates CONCEPT_DELEGATION)
-- Skipping difficulty scoring / `model` assignment when the harness supports it
-- Ignoring the platform catalog and always using one fixed brand pair
-
-## Authoring skills that use this concept
-
-1. Instruct the agent to **read this file first** on invoke.
-2. Also require [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md) when the skill spawns
-   sub-agents.
-3. Fill in the **extension contract** (including a concrete **Verification** that
-   covers tests and non-degradation).
-4. Prefer a **testing checklist** for package briefs when the skill is the main
-   build path.
-5. Link: `[CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md)`.
+Objective; inputs; constraints (incl. testability seams); deliverables (code + tests or explicit justification); branch; difficulty / model.
