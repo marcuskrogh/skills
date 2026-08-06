@@ -27,7 +27,7 @@ as directed there.
 
 | Slot | This skill |
 |------|------------|
-| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / linked specs |
+| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `ITERATE.md` / linked specs |
 | **Branch naming** | WORKSPACE pattern — **reuse** Task delivery branch if it exists |
 | **Delivery** | **Same** PR as define/bug/tweak/research when one exists (or branch-only per WORKSPACE) |
 | **Verification** | Tests + lint for touched area (or full suite if repo norm); non-degradation; plan checklist; sub-task completion; [testing.md](testing.md) |
@@ -48,7 +48,7 @@ as directed there.
 1. Fix-forward: open PR review comments
 2. Sub-task descriptions
 3. Task description
-4. `PLAN.md` / `BUG.md` / `TWEAK.md` / linked specs
+4. `PLAN.md` / `BUG.md` / `TWEAK.md` / `ITERATE.md` / linked specs
 5. User paste
 
 Resolve issue: user key/URL, or ask once "Which issue should this implementation track?"

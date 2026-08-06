@@ -1,6 +1,6 @@
 # Agent instructions
 
-**Prefer workflow.** When the user describes a feature, bug, problem, idea,
+**Prefer workflow.** When the user describes a feature, bug, tweak, problem, idea,
 investigation, or follow-up — even without naming a skill — invoke
 [`workflows`](skills/workflows/SKILL.md): infer the supported pipeline, then load
 and run only that skill. Do not freestyle coding or ad-hoc planning when a

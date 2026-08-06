@@ -51,7 +51,7 @@ whether you can answer it now.
 
 | Put it here | When |
 |-------------|------|
-| **Route Task** | Sharp enough to hand to `/research`, `/model`, `/define`, or a concrete unblocker — even if blocked |
+| **Route Task** | Sharp enough to hand to `/research`, `/model`, `/define`, `/bug`, `/tweak`, or a concrete unblocker — even if blocked |
 | **Not yet specified** (fog) | Sensed but not ticket-sized — do not pre-slice into fake Tasks |
 | **Out of scope** | Beyond this destination — never graduates unless destination is redrawn |
 

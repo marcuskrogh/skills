@@ -155,7 +155,7 @@ curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
 …
 
 ## Artifact
-- Repo: `path/to/PLAN.md` (commit SHA if applicable)
+- Repo: `path/to/PLAN.md` (or BUG.md / TWEAK.md / ITERATE.md; commit SHA if applicable)
 - Attached: MODEL.md
 
 ## Acceptance criteria

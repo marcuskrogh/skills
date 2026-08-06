@@ -34,7 +34,7 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **research** | Multi-axis question | `RESEARCH.md` (supportive) + continuity | `/model` or `/define` |
 | **model** | Math alignment with user | `MODEL.md` + continuity | `/define` |
 | **define** | Route or standalone Task | `PLAN.md` + Sub-tasks + branch/PR | `/implement` |
-| **implement** | PLAN/BUG/TWEAK ready | Code on **same** PR; Task → In Review | `/review-fix` |
+| **implement** | PLAN/BUG/TWEAK/ITERATE ready | Code on **same** PR; Task → In Review | `/review-fix` |
 | **iterate** | Shipped work still wrong | `ITERATE.md` + **new** Task/PR; In Review | `/review-fix` |
 | **review** | Task In Review | Findings on the **same** PR | `/review-fix` or `/ship` |
 | **review-fix** | Task In Review | One review → fix-forward → CLEAN | `/ship` |

@@ -6,7 +6,7 @@ description: >-
   conventions. Writes docs/agents/WORKSPACE.md, or ~/.agents/WORKSPACE.md for
   machine-wide defaults that apply to every repo without adding files to it.
   Use when onboarding a repo, setting global defaults, changing tracker, or
-  before first explore/define.
+  before first explore/define/bug/tweak.
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 # Agent Skills
 
-Reusable agent skills for workspace setup, alignment, definition, modelling, implementation, review, and ship.
+Reusable agent skills for workspace setup, alignment, definition, tweaks, modelling, implementation, review, and ship.
 
 Built on the [Agent Skills](https://agentskills.io) standard. Install via an agent (preferred when possible) or [skills.sh](https://skills.sh); works with any compatible harness (Cursor, Claude Code, Codex, GitHub Copilot, and others).
 
