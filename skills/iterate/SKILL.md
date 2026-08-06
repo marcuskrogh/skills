@@ -27,11 +27,11 @@ before spawning workers, also read
 
 | Slot | This skill |
 |------|------------|
-| **Prior context** | Explicit prior key → session just-shipped → latest Done ISSUES row → ask once. Stop if prior PR still open. |
+| **Prior context** | Explicit prior key → session just-shipped → latest Done ISSUES row → ask once |
 | **Alignment depth** | Skip if invoke is enough; else ≤ few clarifying questions; stop when fix is implementable |
 | **Iteration artifact** | `ITERATE.md` |
-| **Branch + delivery** | New branch from WORKSPACE base; **new** PR |
-| **Tracker** | New Task linked to prior; → In Progress → In Review |
+| **Branch + delivery** | WORKSPACE base + **new** Task key; open new PR |
+| **Tracker** | New Task Relates to prior; iterate row in [tracker-sync](../workflow/tracker-sync.md#matrix) |
 | **Handoff** | `/review-fix <NEW-KEY>` |
 | **Chain policy** | Each iterate Task Relates to immediate prior (or original) |
 
@@ -63,12 +63,12 @@ before spawning workers, also read
 
 ## Steps
 
-Follow the CONCEPT_ITERATION flow with these specialisations:
+Follow the CONCEPT_ITERATION flow. Skill specialisations:
 
-1. **Resolve lineage** — Fetch the prior Task, merged PR, and PLAN/BUG/ITERATE artifacts; validate post-merge entry. Done when the prior delivery is identified and confirmed merged, or an open-PR fix-forward handoff is reported.
-2. **Capture and persist the delta** — Apply the brief CONCEPT_ALIGNMENT flow when needed, write `ITERATE.md`, and create the new related Task with optional Sub-tasks. Done when the delta is implementable and artifact, lineage comments, tracker, and mirror agree.
-3. **Implement on a new delivery head** — Apply CONCEPT_IMPLEMENTATION through [implement](../implement/SKILL.md), using CONCEPT_DELEGATION for workers and the iterate row in the tracker matrix. Done when checks pass, the new PR is ready, and the new Task is **In Review**.
-4. **Hand off** — Report the new and prior keys, PR URL, artifact path, and persist **Next**. Done when every configured durable surface points to `/review-fix <NEW-KEY>`.
+1. **Resolve lineage** — Fetch prior Task, merged PR, and PLAN/BUG/ITERATE; apply Prior context resolution. Done when lineage is identified per the concept stop, or an open-PR fix-forward handoff is reported.
+2. **Capture and persist** — Brief CONCEPT_ALIGNMENT when needed; write `ITERATE.md`; create related Task (+ optional Sub-tasks); comment prior; upsert ISSUES. Done when artifact, Task, comments, and mirror agree.
+3. **Implement** — Run [implement](../implement/SKILL.md) Build on `<NEW-KEY>` with CONCEPT_DELEGATION. Done when checks pass, new PR ready, Task **In Review**.
+4. **Hand off** — Persist **Next** on every configured durable surface. Done when all point to `/review-fix <NEW-KEY>`.
 
 ## Artifact
 
@@ -109,8 +109,3 @@ Follow the CONCEPT_ITERATION flow with these specialisations:
 ## Next
 `/review-fix <NEW-KEY>` — Review and auto-fix on the new delivery PR
 ```
-
-## Chaining
-
-After ship on the iterate Task: problems persist → `/iterate` again (another Task +
-branch + PR). Relates chain continues.

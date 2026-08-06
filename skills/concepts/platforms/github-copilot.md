@@ -29,4 +29,3 @@ only for Demanding.
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
 | 1 | OpenAI | GPT-5.6 Luna | value worker (Sonnet is mid-only on Copilot) |
-

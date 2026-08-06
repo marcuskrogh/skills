@@ -23,4 +23,3 @@ OpenAI-only harness.
 | Rank | Provider | Model | Slug (prefer) | Fallback |
 |------|----------|-------|---------------|----------|
 | 1 | OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` | — |
-

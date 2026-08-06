@@ -23,4 +23,3 @@ Demanding workers and is preferred for the manager.
 | Rank | Provider | Model | Slug (prefer) | Fallback |
 |------|----------|-------|---------------|----------|
 | 1 | Cursor | Composer 2.5 | `composer-2.5` | `composer-2.5-fast` |
-
