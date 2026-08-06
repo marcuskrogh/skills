@@ -1,9 +1,9 @@
 ---
 name: bug
 description: >-
-  Fast bug-report alignment that replaces explore and define for defects.
-  Produces BUG.md and a single tracker Task (optional Sub-tasks), then hands off
-  to implement → review → ship. Use when fixing a bug without a full feature pipeline.
+  Bug alignment and lightweight definition for a clear defect. Produces BUG.md
+  and one tracker Task (optional Sub-tasks), then hands off to implementation.
+  Use when the fix is the work and no feature discovery is needed.
 disable-model-invocation: true
 ---
 
@@ -11,11 +11,13 @@ disable-model-invocation: true
 
 Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) and
 [CONCEPT_DEFINITION](../concepts/CONCEPT_DEFINITION.md) to a **defect**.
-Lightweight alternative to **explore** + **define** for the
-[bug fix workflow](../workflow/reference.md#bug-fix-workflow).
+Produces an implementation-ready `BUG.md` through lightweight alignment.
 
 **On invoke:** read those concepts, [../workflow/reference.md](../workflow/reference.md),
-and [../tracker/SKILL.md](../tracker/SKILL.md).
+[../workflow/delivery.md](../workflow/delivery.md),
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
+[../workflow/handoff.md](../workflow/handoff.md), and
+[../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Extensions
 
@@ -27,11 +29,15 @@ and [../tracker/SKILL.md](../tracker/SKILL.md).
 | **Alignment / definition artifact** | `BUG.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Is this enough to implement the fix?" |
 | **Opening** | Thin: "What is broken?" Rich (stack/steps pasted): first question on highest-impact gap |
-| **Scope guard** | Defects only — features redirect to `/explore` or `/define`; no implementation during alignment; keep the loop short |
+| **Scope guard** | Defect acceptance and optional lineage only; keep the loop short |
 | **Depth** | Lightweight — fewer questions than full define |
 | **Work packages** | Optional Sub-tasks only when packages are truly separate |
 
-Post-ship follow-up on work that just merged → prefer `/iterate` over `/bug` → `/implement`.
+## Steps
+
+1. **Resolve context** — Load any related Task/Story and user-provided code pointers. Done when the defect subject and optional parent are identified.
+2. **Align and define** — Follow the CONCEPT_ALIGNMENT flow with the definition extensions above. Done when the stop condition holds and the user approves `BUG.md`.
+3. **Persist and track** — Write the artifact, follow delivery continuity, apply the bug row in the tracker sync matrix, and persist the Handoff. Done when the Task, artifact, branch/PR, mirrors, and **Next** agree.
 
 ## Artifact
 
@@ -77,24 +83,12 @@ Post-ship follow-up on work that just merged → prefer `/iterate` over `/bug` �
 
 ## Tracker (after approval)
 
-1. Create **Task** (bug type/label when supported; else `[Bug]` prefix).
-2. Description = summary + repro + expected/actual + acceptance; `attach_or_link` `BUG.md`.
-3. Optional Sub-tasks only when packages are separate; prefer none for small fixes.
-4. Status **To Do**.
-5. Delivery branch + draft PR when committing `BUG.md` ([delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop)); external artifact location → write under external root, push into Task, still create branch for the fix.
-6. `comment` path + branch + PR + **Next**; upsert ISSUES mirror; link parent if any.
-7. Report key/URL, branch/PR, **Next**. Session ends.
-
-No Story for a lone bug unless the user asks.
-
-| Action | Required |
-|--------|----------|
-| Create Task (+ optional Sub-tasks) | yes |
-| Start delivery branch + draft PR when committing BUG.md | yes |
-| Status | **To Do** |
-| Comment + branch/PR + **Next** | yes |
-| ISSUES mirror | yes when enabled |
-| Close / second bug-only PR | **no** |
+Follow the [bug tracker row](../workflow/tracker-sync.md#matrix) and
+[delivery continuity](../workflow/delivery.md). Create one **Task** using the
+provider's bug type/label (or `[Bug]` prefix); add Sub-tasks only for genuinely
+separate packages. A lone bug needs no Story unless the user requests one.
+Keep the Task **To Do** and record `BUG.md`, branch/PR, optional parent, and
+**Next** on every configured durable surface.
 
 ## Handoff
 

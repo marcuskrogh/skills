@@ -4,25 +4,24 @@ Continue **post-delivery** work with minimal friction: a short delta, brief
 alignment when needed, then a **new branch + new PR**. Uninvokable — load only
 when a skill's On-invoke pointer fires.
 
+## Intent
+
 Composes brief [CONCEPT_ALIGNMENT](CONCEPT_ALIGNMENT.md) +
-[CONCEPT_IMPLEMENTATION](CONCEPT_IMPLEMENTATION.md). Review stays a separate
-skill (`/review-fix`) so the loop can repeat after ship.
-
-## Leading words
-
-- **iterate** — post-ship delta on a new branch/PR
-- **fix-forward** — same open PR before ship (not this concept)
+[CONCEPT_IMPLEMENTATION](CONCEPT_IMPLEMENTATION.md) for work that already
+shipped but still needs a fix. Review stays a separate skill (`/review-fix`)
+so the loop can repeat after ship. Open-PR review findings route to
+**fix-forward**, not this concept.
 
 ## Invariants
 
-- **Post-merge only for this loop.** Open PR with review findings → fix-forward, not iterate.
-- **New branch from base.** From WORKSPACE base (usually `main`); not onto a merged head as if continuing that PR.
+- **Post-merge entry.** Enter this loop after the prior delivery merges.
+- **New branch from base.** From WORKSPACE base (usually `main`).
 - **New PR every iteration.**
-- **Delta, not reboot.** Spec is the reported problem + acceptance; prior PLAN/BUG are context, not a fresh product definition.
+- **Delta, not reboot.** Spec is the reported problem + acceptance; prior PLAN/BUG are context.
 - **Brief alignment.** Prefer zero questions when the invoke suffices; at most a short clarifying loop (one question per message).
 - **Session continuity.** Load prior Task, merged PR, and artifacts before guessing.
 - **Chainable.** After this PR ships, another iterate on the same lineage is valid.
-- **No silent ship.** Delivers In Review; merge/Done remain `/ship`.
+- **Ends at In Review.** Merge/Done remain `/ship`.
 
 ## Extensions
 

@@ -1,12 +1,9 @@
 ---
 name: define
 description: >-
-  Define a component, system, or pipeline Task before coding via user-agent
-  alignment. Enriches an explore route/define Task (or creates a Task) with
-  PLAN.md, Sub-tasks, and the Task’s delivery branch/PR for closed-loop ship.
-  Explore charts the foggy map; research/model add supportive inputs — define owns
-  particulars and always questions the user. Persists keys and Next in markdown.
-  Use when agreeing on a definition before implementation.
+  Alignment on a concrete component, system, or pipeline Task before coding.
+  Produces PLAN.md, Sub-tasks, and the Task's delivery branch/PR. Use when a
+  buildable slice needs user-approved scope, behaviour, and acceptance.
 disable-model-invocation: true
 ---
 
@@ -17,31 +14,30 @@ Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) and
 Produces `PLAN.md` and Sub-tasks on the **pipeline Task**.
 
 **On invoke:** read those concepts, [../workflow/reference.md](../workflow/reference.md),
-and [../tracker/SKILL.md](../tracker/SKILL.md).
+[../workflow/delivery.md](../workflow/delivery.md),
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
+[../workflow/handoff.md](../workflow/handoff.md), and
+[../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Extensions
 
 | Slot | This skill |
 |------|------------|
 | **Subject** | Component, system, feature, or explore route (define) Task |
-| **Probes** | CONCEPT_DEFINITION defaults + fog pointers on this route Task; Task key from explore; how to apply `RESEARCH.md` / `MODEL.md` — ask, do not assume |
+| **Probes** | Scope in/out; behaviour divergences; constraints; acceptance; work packages; fog pointers on this route Task; Task key; how to apply `RESEARCH.md` / `MODEL.md` |
 | **Stop condition** | No obvious divergences remain for scope, behaviour, constraints, acceptance — resolved **with the user** |
 | **Alignment / definition artifact** | `PLAN.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Does this plan look complete?" |
 | **Opening** | Thin: "What do you want to define?" (or resolve Task key). Rich / key given: load Task (+ Story, ROADMAP, RESEARCH, MODEL if present); first **definition** divergence with the user |
-| **Scope guard** | No production code; no worker delegation; stay on this route step (no map-level wayfinding); writing `PLAN.md` on the delivery branch after approval is required |
+| **Scope guard** | Stay on this route Task; write approved `PLAN.md` on its delivery branch |
 | **Depth** | Full feature definition |
 | **Work packages** | Sub-tasks per package |
 
-Prior artifacts (`ROADMAP.md`, `RESEARCH.md`, `MODEL.md`) **orient** — they do not
-replace probes. If literature or math is still missing, hand off to `/research` or
-`/model`, then return and still probe the user.
-
 ## Steps
 
-1. **Entry (route Task key)** — `fetch` Task + Story; load ROADMAP / RESEARCH / MODEL as supportive context; treat Task body as the route step (particulars still open unless answered in this session). Done when alignment can start.
-2. **Align** — CONCEPT_ALIGNMENT + CONCEPT_DEFINITION. Done when stop condition + readiness approval hold.
-3. **Persist + track** — below. Done when PLAN.md, Sub-tasks, branch/PR, comments, and **Next** are written.
+1. **Resolve entry** — Fetch the route Task + Story and load ROADMAP / RESEARCH / MODEL as supportive context. Done when the subject, existing decisions, and unresolved definition divergences are known.
+2. **Align and define** — Follow the CONCEPT_ALIGNMENT flow with the definition extensions above. Done when the stop condition holds and the user approves `PLAN.md`.
+3. **Persist and track** — Write the artifact, follow delivery continuity, apply the define row in the tracker sync matrix, and persist the Handoff. Done when `PLAN.md`, Sub-tasks, branch/PR, comments, mirrors, and **Next** agree.
 
 ## Artifact
 
@@ -54,7 +50,7 @@ replace probes. If literature or math is still missing, hand off to `/research` 
 ## Scope / Decisions / Constraints
 - … (user-aligned in this define session)
 
-## Inputs (supportive — not substitutes for decisions above)
+## Inputs
 - Research: RESEARCH.md (if any)
 - Model: MODEL.md (if any)
 
@@ -84,25 +80,11 @@ replace probes. If literature or math is still missing, hand off to `/research` 
 
 ## Tracker (after approval)
 
-Follow one-issue continuity, [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop),
-and the [tracker sync matrix](../workflow/reference.md#tracker-sync-matrix-mandatory).
-
-**Explore route Task (preferred):** update that Task (stay **To Do**); create Sub-tasks
-per package; reuse or create delivery branch + draft PR (same PR implement will use —
-never a second define-only PR); external artifact location → write under external root
-and push content into Task, still create branch for delivery; `attach_or_link` +
-comment Task/Story with path, branch, PR, Sub-task keys, **Next**; upsert ISSUES mirror.
-
-**Standalone:** create Task + Sub-tasks (**To Do**), then same artifact/branch/PR steps.
-
-| Action | Required |
-|--------|----------|
-| Enrich Task / create Sub-tasks | yes |
-| Start or reuse delivery branch + draft PR | yes when committing PLAN.md |
-| Task status | remain **To Do** |
-| Comments + branch/PR + **Next** | Task + Story |
-| ISSUES mirror | yes when enabled |
-| Close Task / second PR for define alone | **no** |
+Follow [delivery continuity](../workflow/delivery.md) and the
+[define tracker row](../workflow/tracker-sync.md#matrix). Enrich the explore
+route Task when present; otherwise create the pipeline Task. Keep it **To Do**,
+create Sub-tasks per work package, and record `PLAN.md`, branch/PR, Sub-task
+keys, and **Next** on the Task, parent Story, and enabled mirror.
 
 ## Handoff
 

@@ -4,32 +4,51 @@ Before every sub-agent spawn, the **manager** scores **task difficulty** and
 assigns a **worker** model for value-efficient execution. Uninvokable — load
 only when a skill's On-invoke pointer fires (skills that spawn workers).
 
-Catalogs are platform-dependent: detect harness → load
-[PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md) (or General) → pick within category.
+## Intent
+
+Keep orchestration on the parent / high-capability session while routing each
+worker to the lowest adequate tier. Detect harness → load the matching catalog
+from [PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md) → the matching platform file
+(or General) → pick within category.
 
 ## Leading words
 
-- **manager** — orchestrating agent; stays on parent / high-capability
-- **worker** — each `Task` / sub-agent; routed low / mid / high
 - **Routine / Moderate / Demanding** — difficulty tiers → low / mid / high categories
 
 ## Invariants
 
-- **Workers only.** Never hand orchestration, plan merge, severity promotion, tracker/PR, or verification ownership to a low/mid worker.
+- **Workers only.** Orchestration, plan merge, severity promotion, tracker/PR, and verification ownership stay on the manager.
 - **Score before spawn.** Hardest matching signal wins; no Demanding/Moderate signal → Routine (low).
-- **Bias down.** When unclear, prefer lower category. Importance ≠ difficulty. Do not elevate "just in case."
+- **Bias down.** When unclear, prefer lower category. Importance ≠ difficulty.
 - **One-tier escalate.** Insufficient report → re-delegate same package one tier up with named gaps. If low and mid resolve to the same model, escalate directly to high.
 - **Pass `model`** when the harness supports it; still record difficulty when it cannot.
-- **Platform catalog.** Use the ranked list for the detected harness; General only when unknown/incomplete. Never Fable 5 or Haiku (catalog policy).
+- **Platform catalog.** Model selection follows the ranked list for the detected harness; General only when unknown/incomplete.
 
-## Roles
+## Extensions
+
+| Slot | Required | Purpose |
+|------|----------|---------|
+| **Default table** | may | Per-axis or package-type defaults — still value-biased |
+| **Catalog override** | may | WORKSPACE / skill ranked lists replacing repo defaults |
+
+## Flow
+
+1. **Detect platform** — harness → catalog file. Done when catalog is selected.
+2. **Score difficulty** — hardest matching signal → Routine / Moderate / Demanding. Done when tier is recorded.
+3. **Assign model** — category from tier → highest-ranked available slug; pass `model` when supported. Done when model is chosen.
+4. **Spawn** — full brief + difficulty one-liner. Done when worker is launched.
+5. **Evaluate** — insufficient → escalate one tier with named gaps. Done when report is adequate or high tier exhausted.
+
+## Reference
+
+### Roles
 
 | Role | Model |
 |------|-------|
 | **Manager** | Parent / top available high-capability |
 | **Worker** | Category from difficulty, then highest-ranked available slug in that category |
 
-## Difficulty → category
+### Difficulty → category
 
 | Tier | Signals (any one) | Category |
 |------|-------------------|----------|
@@ -49,27 +68,9 @@ model: <slug-or-alias>
 reason: <one short line — deciding signal>
 ```
 
-## Spawn contract
+### Spawn contract
 
 Each worker call includes: full brief; `model` when supported; difficulty one-liner.
 
-## Extensions
-
-| Slot | Required | Purpose |
-|------|----------|---------|
-| **Default table** | may | Per-axis or package-type defaults — still value-biased |
-| **Catalog override** | may | WORKSPACE / skill ranked lists replacing repo defaults |
-
-## Skill families
-
-| Family | Expectation |
-|--------|-------------|
-| **implement** / **iterate** build | Score each package; escalate one tier after fails |
-| **review** / **review-fix** | Score each worker (per-axis under `full`, Core/Integration under `focused`); low/mid for most fix-forward |
-| **research** (axis workers) | Default low/mid; high only for dense conflicting formal synthesis |
-| **ship** / composers | Inherit from invoked skills — do not override toward high |
-| **explore** / alignment-only | No worker routing unless the skill explicitly delegates |
-
-## Reference
-
-Load [PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md) when assigning models.
+Load [PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md), then only the detected
+platform file, when assigning models.

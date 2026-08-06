@@ -109,12 +109,15 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── concepts/                   ← uninvokable CONCEPT_*.md (loaded only when a skill references them)
 │   ├── CONCEPT_ALIGNMENT.md
 │   ├── CONCEPT_DELEGATION.md   ← difficulty → low/mid/high; catalogs disclosed
-│   ├── PLATFORM-CATALOGS.md    ← disclosed ranked model catalogs per harness
+│   ├── PLATFORM-CATALOGS.md    ← catalog rules + pointers to per-harness files
+│   ├── platforms/              ← disclosed ranked models (load only detected harness)
 │   ├── CONCEPT_IMPLEMENTATION.md
 │   ├── CONCEPT_ITERATION.md
 │   ├── CONCEPT_DEFINITION.md
 │   ├── CONCEPT_RESEARCH.md
 │   └── CONCEPT_REVIEW.md
+├── workflow/                   ← lean delivery contract + disclosed delivery/handoff/tracker/ship refs
+├── workflows/                  ← model-invoked router into pipeline skills
 ├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md or ~/.agents/WORKSPACE.md (global)
 ├── explore/                    ← fog-clearing wayfinding → ROADMAP.md map + sequenced route Tasks
 ├── bug/                        ← defect alignment → BUG.md (skips explore/define)
@@ -129,8 +132,6 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── summarise/                  ← status: about / stage / Next
 ├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
 ├── jira/                       ← Jira REST details (tracker backend)
-├── workflow/                   ← pipeline contract (composed)
-├── workflows/                  ← model-invoked router → pick path, then load skill
 ├── manage-skills/              ← meta: maintain this repo (+ agent-install.md)
 └── writing-for-agents/         ← lean shapes + vocabulary for skills/concepts
 
@@ -149,7 +150,7 @@ templates/project-sync/         ← startup sync script template
 
 Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug` applies the same concepts lightly for defects). Concepts own **invariants**; skills fill **extensions** only — see `writing-for-agents` for the lean reference format and shared vocabulary. Pipeline skills are **user-invoked**; the model-invoked **`workflows`** router discovers which path fits a work request, then progressive-discloses only that skill.
 
-**Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick from ranked platform catalogs in `PLATFORM-CATALOGS.md` (with a General fallback).
+**Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick from ranked platform catalogs via `PLATFORM-CATALOGS.md` (then only the detected harness file under `concepts/platforms/`).
 
 ## Pipelines
 
@@ -191,7 +192,8 @@ one persisted Next step; **`ship`** finishes remaining work through Done.
 Run `/setup` first — either **globally** (once per machine, `~/.agents/WORKSPACE.md`)
 or **per repo** (`docs/agents/WORKSPACE.md`), see [Workspace scopes](#workspace-scopes).
 Continuity (keys, status, **Next**, artifact links, **branch/PR**) is mirrored to
-markdown when enabled. See `skills/workflow/reference.md` (especially **Delivery branch continuity**).
+markdown when enabled. See `skills/workflow/reference.md` and
+`skills/workflow/delivery.md`.
 
 ## Workspace scopes
 

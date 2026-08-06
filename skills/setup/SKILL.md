@@ -37,13 +37,12 @@ Repository fields override global field-by-field — [format.md](format.md) → 
 | **Opening** | Thin: scope then tracker. Rich / existing file: load effective workspace; ask highest-impact divergence. Global exists, repo does not: show inherited; ask only what this repo must differ |
 | **Scope guard** | No feature/model/implement; no pipeline Story/Task during setup; global scope creates no repo dirs/commits |
 
-## After approval
+## Steps
 
-1. Write workspace file per [format.md](format.md) (repo: only fields that differ from global when a global layer exists).
-2. Repo scope: ensure agents dir; markdown provider → issues dir + INDEX stub; mirror → ISSUES stub; external artifacts → create root (never in repo / `.gitignore`).
-3. Commit only on ask — **never** commit a global workspace file; report its path.
-4. Verify provider credentials ([../tracker/reference.md](../tracker/reference.md)); report gaps.
-5. Report path, scope, tracker + **Next** (`/explore`, `/bug`, or none).
+1. **Align** — Follow CONCEPT_ALIGNMENT with the extensions above. Done when stop condition + readiness approval hold.
+2. **Write workspace** — Persist per [format.md](format.md) (repo: only fields that differ from global when a global layer exists). Done when the file exists at the agreed path.
+3. **Provision paths** — Repo scope: ensure agents dir; markdown provider → issues dir + INDEX stub; mirror → ISSUES stub; external artifacts → create root outside the repo. Done when required dirs exist.
+4. **Verify and hand off** — Check provider credentials ([../tracker/reference.md](../tracker/reference.md)); report path, scope, tracker, gaps, and **Next** (`/explore`, `/bug`, or none). Done when the user has the Next cue. Commit only on ask — never commit a global workspace file.
 
 ## Re-run
 

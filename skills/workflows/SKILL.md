@@ -1,11 +1,9 @@
 ---
 name: workflows
 description: >-
-  Prefer a supported workflow for any feature, bug, problem, idea, investigation,
-  or follow-up the user describes. Use whenever they state what they want built,
-  fixed, explored, researched, modelled, reviewed, shipped, or continued — even
-  with no skill name — and route before freestyle coding or ad-hoc planning.
-  Infer the workflow from context, then load and run only the matching skill(s).
+  Workflow routing for features, bugs, ideas, investigations, reviews,
+  follow-ups, and delivery. Infer the supported path from user context, then
+  progressively disclose and run only the matching skill.
 ---
 
 # Workflows
@@ -21,10 +19,10 @@ Pipeline skills stay user-invoked (`disable-model-invocation`). This skill is th
 always-loaded pointer that keeps workflows discoverable without loading every
 pipeline skill into context.
 
-Do **not** restate skill invariants here. After choosing a path, **read and run**
-the target skill (and the concepts it points at). Continuity mechanics live in
-[../workflow/reference.md](../workflow/reference.md) — load only when the chosen
-skill needs them (or when resolving an in-flight Task).
+**On invoke:** use the catalog first. For a continuation or in-flight Task, read
+[../workflow/reference.md](../workflow/reference.md) and
+[../workflow/handoff.md](../workflow/handoff.md). After choosing a path, read
+the target skill and only its On-invoke concepts and references.
 
 ## Leading words
 
@@ -38,7 +36,7 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | Workflow | When | First skill to load |
 |----------|------|---------------------|
 | **setup** | No usable `WORKSPACE.md` (repo or global), or user wants tracker/paths/defaults changed | [setup](../setup/SKILL.md) |
-| **continue** | Bare **next** / persisted **Next** / “continue” on an active Task | Run the persisted Next skill once ([workflow reference — continuation](../workflow/reference.md#continuation-keywords)) |
+| **continue** | Bare **next** / persisted **Next** / “continue” on an active Task | Run persisted Next once ([continuation keywords](../workflow/reference.md#continuation-keywords); [entry context](../workflow/handoff.md#entry-context)) |
 | **ship** | Bare **ship** / “finish” / “close it out” / finish remaining through Done | [ship](../ship/SKILL.md) |
 | **bug** | Behaviour is wrong; fix is the work; no foggy product definition needed | [bug](../bug/SKILL.md) |
 | **iterate** | Prior Task/PR **already merged**; still broken or incomplete | [iterate](../iterate/SKILL.md) |
@@ -52,32 +50,17 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **review-fix** | Want one review → fix → CLEAN on the delivery PR | [review-fix](../review-fix/SKILL.md) |
 | **summarise** | Status / “where am I” / “what next” *reported*, not advanced | [summarise](../summarise/SKILL.md) |
 
-### Feature vs bug vs iterate (quick cut)
-
-| Signal | Workflow |
-|--------|----------|
-| Wrong behaviour; repro imaginable; fix is the deliverable | **bug** |
-| Shipped/merged; same lineage still wrong | **iterate** |
-| Open PR; review wants changes | **fix-forward** / **review-fix** |
-| New capability, unclear shape, or multi-step fog | **explore** (then route Tasks) |
-| Slice already sharp enough to define | **define** |
-| PLAN/BUG ready | **implement** or **ship** (finish remaining) |
-
-Plain descriptions map the same way — e.g. “login is broken after deploy” → **bug**;
-“I want forecasting on the energy platform” → **explore**; “add a CSV export to the
-reports page” (scope mostly clear) → **define**; “finish this” → **ship**.
-
 Side paths **research** / **model** insert on a feature route; they do not replace
 **define** probes with the user.
 
 ## Steps
 
-1. **Preconditions** — If no workspace resolves, choose **setup** first (do not invent pipeline config mid-flight).
-2. **Gather cheap context** — User wording; active ISSUES / branch / open PR if present; named keys. Do **not** load every pipeline skill yet.
-3. **Infer workflow** — Use the catalog. Default stance: **a row fits**. If two rows fit equally and the wrong pick would waste real work, ask **one** clarifying question; otherwise decide and route.
-4. **Announce** — One short line: chosen workflow + first skill (e.g. “Bug workflow → `/bug`”).
-5. **Disclose and run** — Read that skill’s `SKILL.md` (and only the concepts/refs it requires On invoke). Follow it fully — tracker, artifacts, **Next**.
-6. **Stop at the skill’s handoff** — Do not auto-chain the entire pipeline unless the user asked to **ship** / finish remaining, or the skill you ran is itself an orchestrator (`ship`, `review-fix`).
+1. **Check preconditions** — Resolve the effective workspace before selecting delivery work. Done when workspace availability is known and **setup** is selected if missing.
+2. **Gather cheap context** — Read user wording, named keys, and available active ISSUES / branch / open PR signals. Done when enough context exists to compare catalog rows without loading pipeline skills.
+3. **Infer workflow** — Pick the first matching catalog row; ask one question only when equally valid paths would cause material rework. Done when exactly one workflow is selected.
+4. **Announce** — State the chosen workflow and first skill in one short line. Done when the user can see the route being entered.
+5. **Disclose and run** — Read the selected skill and only its On-invoke concepts/references; execute its tracker, artifact, and Handoff contract. Done when that skill's completion criterion holds.
+6. **Honor the boundary** — End at the skill Handoff, except when the selected orchestrator (`ship`, `review-fix`) owns further composition. Done when control is returned with persisted **Next** or the orchestrator's terminal result.
 
 ## Invariants
 

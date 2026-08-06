@@ -150,9 +150,9 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 
 | Field | Value |
 |-------|-------|
-| Skills | explore (map foggy work → sequenced route) → research/model/define as typed → implement → review-fix → ship; **or** bug → implement → review-fix → ship; **or** ship → iterate → review-fix → ship (+ summarise; `/review` = one-shot). Continuation keywords: **next** = one persisted step; **ship** = finish remaining after define/bug/iterate-ready. |
+| Skills | Prefer [workflows](../workflows/SKILL.md) catalog; continuity in [workflow/reference.md](../workflow/reference.md) |
 | One-issue continuity | true |
-| One delivery branch/PR per Task | true (ship may run remaining implement/review-fix then merges that PR after pre-merge continuity; no leftover ship PR) |
+| One delivery branch/PR per Task | true |
 | Tracker backend | resolved via provider above (`skills/tracker` when installed) |
 
 ## Notes

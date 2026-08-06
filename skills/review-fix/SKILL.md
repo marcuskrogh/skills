@@ -1,39 +1,44 @@
 ---
 name: review-fix
 description: >-
-  Derived single-pass review: run adaptive-depth review (full or focused via
-  /review), automatically fix-forward blockers, should-fix, and actionable notes
-  via implement, then report CLEAN (no re-review). Applies low/mid/high difficulty
-  routing for review workers and fix-forward packages; orchestrator stays
-  high-capability. Hands off to ship when clean. Use instead of manually
-  alternating /review and /implement.
+  Review fix-forward in one pass: run adaptive-depth review, address blockers,
+  should-fix findings, and actionable notes on the same PR, then report CLEAN
+  without re-review. Use for an In Review delivery that should advance directly
+  toward ship.
 disable-model-invocation: true
 ---
 
 # Review-fix
 
-One **review**, then one **fix-forward** when needed, on one Task and its
-**single delivery PR**. Does **not** re-review after fixes — exits **CLEAN** once
-must-fix findings are addressed (or none existed).
-
-Composes [review](../review/SKILL.md) and [implement](../implement/SKILL.md)
-fix-forward. Inherits review **depth** (`full` / `focused`). Does not replace
-first-time build or **ship** closeout. Does not open a new PR.
+Applies [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md) to one Task and its
+**single delivery PR**, plus
+[CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) when findings
+require fix-forward. CLEAN follows once must-fix findings are addressed.
 
 **On invoke:** read [../workflow/reference.md](../workflow/reference.md),
-[../concepts/CONCEPT_DELEGATION.md](../concepts/CONCEPT_DELEGATION.md),
-[../concepts/CONCEPT_REVIEW.md](../concepts/CONCEPT_REVIEW.md),
-[../review/SKILL.md](../review/SKILL.md), [../implement/SKILL.md](../implement/SKILL.md),
-and [../tracker/SKILL.md](../tracker/SKILL.md).
+[../workflow/delivery.md](../workflow/delivery.md),
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
+[../workflow/handoff.md](../workflow/handoff.md), CONCEPT_REVIEW above,
+[../review/SKILL.md](../review/SKILL.md), and
+[../tracker/SKILL.md](../tracker/SKILL.md). If review produces must-fix
+findings, then read CONCEPT_IMPLEMENTATION above and
+[../implement/SKILL.md](../implement/SKILL.md). Before spawning workers, read
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
+as directed there.
 
-Orchestrator stays high-capability; review and fix-forward workers use
-CONCEPT_DELEGATION (prefer low/mid for most fix-forward). Do not upgrade the
-whole skill because one package was hard.
+## Extensions
 
-## When
-
-After `/implement` when you want review + fixes without ping-pong. Plain
-`/review` when findings only, no auto-fix.
+| Slot | This skill |
+|------|------------|
+| **Change source** | Task's existing delivery PR |
+| **Spec source** | Task + PLAN / BUG / ITERATE + published review findings |
+| **Publish target** | One GitHub PR review + tracker summary |
+| **Checklist / depth** | [review](../review/SKILL.md) full or focused contract |
+| **Parallelism / model routing** | Review workers and fix-forward packages use CONCEPT_DELEGATION |
+| **Branch naming** | Existing Task delivery branch |
+| **Delivery** | Push fixes to the same PR; leave merge to ship |
+| **Verification** | Review finding checks + affected tests/lint from implement |
+| **Handoff** | CLEAN → `/ship <KEY>`; FAILED → named remaining work |
 
 ## Inputs
 
@@ -43,31 +48,28 @@ after review publish).
 
 ## Steps
 
-```text
-1. /review for <KEY> (adaptive depth; promote actionable notes → should-fix)
-2. No must-fix → CLEAN
-3. /implement fix-forward for must-fix threads
-4. Task → In Review; upsert ISSUES
-5. CLEAN — do not re-review
-```
+1. **Resolve delivery** — Resolve the issue and its existing PR through delivery continuity; require review readiness and configured auth. Done when one Task/PR pair is ready or a concrete stop is reported.
+2. **Review once** — Run the full [review](../review/SKILL.md) contract at adaptive depth and publish its findings. Done when the PR review and finding counts are durable.
+3. **Fix forward when needed** — Promote actionable notes to must-fix, then run [implement](../implement/SKILL.md) fix-forward against those threads on the same PR. End after this fix pass. Done when all must-fix findings are addressed (**CLEAN**) or unresolved findings are named (**FAILED**).
+4. **Track and hand off** — Apply the review-fix tracker row, return the Task to **In Review** after fixes, update ISSUES, and persist **Next**. Done when Task, PR, mirror, and user report agree on CLEAN/FAILED and its Handoff.
 
 ### Must-fix
 
-1. `blocker` or `should-fix`
-2. Review event `REQUEST_CHANGES`
-3. Actionable `note`s per CONCEPT_REVIEW (evidence + concrete fix + in blast radius)
-4. Inline notes on changed files with a concrete fix hint — actionable unless body marks deferred/out-of-scope
+- `blocker` or `should-fix`
+- Review event `REQUEST_CHANGES`
+- Actionable `note`s per CONCEPT_REVIEW (evidence + concrete fix + in blast radius)
+- Inline notes on changed files with a concrete fix hint — actionable unless body marks deferred/out-of-scope
 
 Soft non-actionable notes may remain on CLEAN.
 
 ### Fix-forward constraints
 
 Same Task + same PR; packages = review threads **and** unresolved actionable notes;
-higher severity first; no new scope beyond review + PLAN/BUG (neighbor edits required
-by a finding are in scope); after fixes push → **In Review** + comment; genuinely
-out-of-scope notes → reply deferred with reason (do not silently ignore).
+higher severity first; scope = review + PLAN/BUG plus neighbor edits required by
+a finding. After fixes push → **In Review** + comment. Reply to deferred notes
+with their out-of-scope reason.
 
-## Exits
+## Handoff
 
 | Exit | Condition | Next |
 |------|-----------|------|

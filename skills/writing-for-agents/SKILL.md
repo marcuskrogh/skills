@@ -125,9 +125,10 @@ across a real context boundary (hand-off / subagent), not an inline call.
   **sediment**.
 - Hunt **no-ops**: instructions the model already obeys by default. Delete
   the whole sentence when it fails the test.
-- Delete boilerplate that every file repeats identically ("Uninvokable…",
-  "Authoring skills…", "What this is not" that only negates the purpose).
-  Say it once here; concepts open on **Intent**.
+- Delete boilerplate that every file repeats identically ("Authoring skills…",
+  "What this is not" that only negates the purpose). Concepts open on
+  **Intent**; the one-line Uninvokable role line in the concept shape is the
+  allowed exception (do not expand it into a section).
 
 ## Concept shape
 

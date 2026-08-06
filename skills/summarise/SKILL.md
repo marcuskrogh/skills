@@ -1,10 +1,8 @@
 ---
 name: summarise
 description: >-
-  Summarises a pipeline Task (or Story): what it is about, where it sits in the
-  feature or bug workflow, which artifacts exist, and what to run next. Use when
-  asking status, where am I, or what next. (Bare "next" advances one persisted
-  step; bare "ship" finishes remaining work — see workflow continuation keywords.)
+  Status summary for a pipeline Task or Story: purpose, track, stage, artifacts,
+  and the next valid invoke. Use for status, where-am-I, or what-next questions.
 disable-model-invocation: true
 ---
 
@@ -13,18 +11,16 @@ disable-model-invocation: true
 Read-only status for feature/bug/iterate pipelines. Does **not** change issues or
 artifacts except optionally refreshing a stale mirror **Next** column.
 
-**On invoke:** read [../workflow/reference.md](../workflow/reference.md) and
+**On invoke:** read [../workflow/reference.md](../workflow/reference.md),
+[../workflow/handoff.md](../workflow/handoff.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
-
-Bare **next** / **ship** are [continuation keywords](../workflow/reference.md#continuation-keywords),
-not this skill — use summarise when the user wants status *reported*.
 
 ## Steps
 
-1. **Resolve subject** — key/URL → single active ISSUES row → tracker inference from branch → ask once. `fetch`; load linked artifacts against effective workspace (repo root or external artifact root).
-2. **Infer track** — feature (PLAN/ROADMAP), bug (BUG without feature plan), iterate (ITERATE / Relates to Done prior).
-3. **Infer furthest stage** from evidence (table below).
-4. **Reply** in the shape below. Prefer persisted **Next** when still valid; recompute if status moved past it. Ready-to-build+ → suggest `/ship` when the user wants to finish remaining; else the single next skill. Missing WORKSPACE → **Next** `/setup`.
+1. **Resolve subject** — Resolve key/URL → single active ISSUES row → branch inference → ask once; fetch it and load linked artifacts from the effective workspace. Done when one Task or Story and its available evidence are identified.
+2. **Infer track** — Classify feature (PLAN/ROADMAP), bug (BUG without feature plan), or iterate (ITERATE / Relates to Done prior). Done when one track is supported by durable evidence.
+3. **Infer furthest stage** — Compare tracker, artifact, branch, PR, and review evidence against the table below. Done when the highest evidenced stage and any inconsistency are named.
+4. **Reply** — Use the reply shape below and the Handoff table to validate persisted **Next**; recompute stale Next from current status. Done when the answer reports About, Track, Stage, Artifacts, Status, and one valid **Next** (or no further work).
 
 | Stage | Evidence |
 |-------|----------|
@@ -64,5 +60,3 @@ not this skill — use summarise when the user wants status *reported*.
 
 If Done: **Next** = following ROADMAP phase Task, another bug, `/iterate` when merged
 work still needs a fix, or "No further work on this Task."
-
-Do not implement, transition, or open PRs.

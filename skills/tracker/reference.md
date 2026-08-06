@@ -103,7 +103,7 @@ or issue: it does not exist in the repo and will mislead reviewers.
 | linear | State = Done |
 
 Ship is responsible for Done on Sub-tasks, Task, and Story-when-complete — see
-[../workflow/reference.md](../workflow/reference.md#ship-closeout).
+[../workflow/ship.md](../workflow/ship.md#closeout).
 
 ## Credentials
 
