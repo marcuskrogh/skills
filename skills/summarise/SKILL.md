@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 # Summarise
 
-Read-only status for feature/bug/iterate pipelines. Does **not** change issues or
+Read-only status for feature/bug/tweak/iterate pipelines. Does **not** change issues or
 artifacts except optionally refreshing a stale mirror **Next** column.
 
 **On invoke:** read [../workflow/reference.md](../workflow/reference.md),
@@ -18,7 +18,7 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 ## Steps
 
 1. **Resolve subject** — Resolve key/URL → single active ISSUES row → branch inference → ask once; fetch it and load linked artifacts from the effective workspace. Done when one Task or Story and its available evidence are identified.
-2. **Infer track** — Classify feature (PLAN/ROADMAP), bug (BUG without feature plan), or iterate (ITERATE / Relates to Done prior). Done when one track is supported by durable evidence.
+2. **Infer track** — Classify feature (PLAN/ROADMAP), bug (BUG without feature plan), tweak (TWEAK), or iterate (ITERATE / Relates to Done prior). Done when one track is supported by durable evidence.
 3. **Infer furthest stage** — Compare tracker, artifact, branch, PR, and review evidence against the table below. Done when the highest evidenced stage and any inconsistency are named.
 4. **Reply** — Use the reply shape below and the Handoff table to validate persisted **Next**; recompute stale Next from current status. Done when the answer reports About, Track, Stage, Artifacts, Status, and one valid **Next** (or no further work).
 
@@ -27,6 +27,7 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 | **setup** | No WORKSPACE |
 | **explore** | Map Story / route Task, no PLAN yet |
 | **bug** | `BUG.md` linked; not yet In Progress |
+| **tweak** | `TWEAK.md` linked; not yet In Progress |
 | **iterate** | `ITERATE.md` (or Relates Done prior); building or about to |
 | **research** | `RESEARCH.md`; define not done — Next usually `/define` or `/model` |
 | **model** | `MODEL.md`; define not done — math aligned; particulars need `/define` |
@@ -43,14 +44,14 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 ```markdown
 # <KEY>: <title>
 
-**Track:** feature | bug | iterate
+**Track:** feature | bug | tweak | iterate
 
-**About:** <2–4 sentences from issue + PLAN/BUG/ITERATE/ROADMAP>
+**About:** <2–4 sentences from issue + PLAN/BUG/TWEAK/ITERATE/ROADMAP>
 
 **Stage:** <stage> — <one line why>
 
 **Artifacts:**
-- ROADMAP / PLAN / BUG / ITERATE / MODEL / RESEARCH / PR — present or missing
+- ROADMAP / PLAN / BUG / TWEAK / ITERATE / MODEL / RESEARCH / PR — present or missing
 
 **Status:** <To Do | In Progress | In Review | Done>
 
@@ -58,5 +59,5 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 `/<skill> <KEY>` — <one-line why>
 ```
 
-If Done: **Next** = following ROADMAP phase Task, another bug, `/iterate` when merged
+If Done: **Next** = following ROADMAP phase Task, another bug or tweak, `/iterate` when merged
 work still needs a fix, or "No further work on this Task."

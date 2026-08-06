@@ -125,6 +125,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md or ~/.agents/WORKSPACE.md (global)
 ├── explore/                    ← fog-clearing wayfinding → ROADMAP.md map + sequenced route Tasks
 ├── bug/                        ← defect alignment → BUG.md (skips explore/define)
+├── tweak/                      ← small intentional change → TWEAK.md (lightweight; skips explore/define)
 ├── research/                   ← multi-axis research brief → RESEARCH.md
 ├── model/                      ← mathematical alignment → MODEL.md
 ├── define/                     ← topic definition → PLAN.md (enriches pipeline Task)
@@ -152,7 +153,7 @@ templates/project-sync/         ← startup sync script template
 | **Skill** | `skills/<name>/SKILL.md` | Yes (unless `disable-model-invocation`) | Yes (name + description) | On invoke / composition |
 | **Concept** | `skills/concepts/CONCEPT_<NAME>.md` | No | No | Only when an invoked skill tells the agent to read it |
 
-Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug` applies the same concepts lightly for defects). Concepts own **invariants**; skills fill **extensions** only — see `writing-for-agents` for the lean reference format and shared vocabulary. Pipeline skills are **user-invoked**; the model-invoked **`workflows`** router discovers which path fits a work request, then progressive-discloses only that skill.
+Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug` and `tweak` apply the same concepts lightly for defects and small intentional changes). Concepts own **invariants**; skills fill **extensions** only — see `writing-for-agents` for the lean reference format and shared vocabulary. Pipeline skills are **user-invoked**; the model-invoked **`workflows`** router discovers which path fits a work request, then progressive-discloses only that skill.
 
 **Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick from ranked platform catalogs via `PLATFORM-CATALOGS.md` (then only the detected harness file under `concepts/platforms/`).
 
@@ -168,7 +169,7 @@ Explore charts a **map** of foggy work into sequenced, dependent route Tasks
 (research, model, define, …). Each define Task → **one delivery branch + one PR**
 from the first repo-writing skill on that Task through ship. Continuing via
 **Next** reuses that branch/PR. **`/ship`** may be invoked after define (or after
-bug / iterate ready-to-build) to run any **remaining** steps (`implement` →
+bug / tweak / iterate ready-to-build) to run any **remaining** steps (`implement` →
 `review-fix` → closeout as needed), then merge and leave no leftover open PR.
 
 **Bug fix** (`/bug` replaces explore + define)
@@ -178,6 +179,16 @@ setup → bug → implement → review-fix → ship
 ```
 
 Same closed-loop delivery (bug starts the branch/PR when writing `BUG.md`).
+
+**Tweak** (`/tweak` replaces explore + define for small intentional changes)
+
+```text
+setup → tweak → implement → review-fix → ship
+```
+
+Same closed-loop delivery as bug (tweak starts the branch/PR when writing `TWEAK.md`).
+Use when extending an existing pattern or adjusting clear behaviour — not a defect,
+not a full feature definition, and not a post-ship iterate.
 
 **Post-ship iterate** (merged work still needs a fix)
 
@@ -226,7 +237,7 @@ Global scope plus `Artifact location: external` runs the whole pipeline without
 adding a single file to a consuming repo:
 
 - `WORKSPACE.md` lives in `~/.agents/`
-- `PLAN.md` / `ROADMAP.md` / `BUG.md` / `MODEL.md` / `RESEARCH.md` / `ITERATE.md`
+- `PLAN.md` / `ROADMAP.md` / `BUG.md` / `TWEAK.md` / `MODEL.md` / `RESEARCH.md` / `ITERATE.md`
   are written under `~/.agents/artifacts/<repo>/` and their **full content is
   pushed into the tracker issue**, which becomes the durable, shareable copy
 - Disable the markdown mirror so the remote tracker is the sole source of truth
@@ -238,14 +249,15 @@ Only the code change itself lands in the repo, on the Task's delivery branch/PR.
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths), repository or global scope |
 | **explore** | user | Clear fog on vague/large work → `ROADMAP.md` map + Story + sequenced route Tasks (research / model / define / …) |
 | **bug** | user | Defect alignment → `BUG.md` + Task + delivery branch/PR (then implement) |
+| **tweak** | user | Small intentional change → `TWEAK.md` + Task + delivery branch/PR (then implement) |
 | **research** | user | Multi-axis research brief → `RESEARCH.md` (arXiv + formal + web + informal; supportive, not user alignment) |
 | **model** | user | Math alignment → `MODEL.md` (math only; does not replace define) |
 | **define** | user | User-agent topic definition → `PLAN.md` + Sub-tasks + delivery branch/PR (owns particulars; always questions the user) |
 | **implement** | user | Build on the **same** delivery branch/PR; tests and testability required; low/mid/high work-package routing |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
-| **review** | user | Adaptive-depth PR review — `full` five-axis on larger feature work, `focused` 1–2 workers on bugs/small deltas; fix-biased severity; low/mid/high workers |
+| **review** | user | Adaptive-depth PR review — `full` five-axis on larger feature work, `focused` 1–2 workers on bugs/tweaks/small deltas; fix-biased severity; low/mid/high workers |
 | **review-fix** | user | One adaptive-depth review → auto fix-forward (blockers, should-fix, actionable notes) → CLEAN (no re-review) → ship; same value routing for workers/packages |
-| **ship** | user | Finish remaining work after define/bug/iterate-ready (implement and/or review-fix as needed), then closed-loop merge + Done. Bare **ship** is a continuation keyword (like **next**). |
+| **ship** | user | Finish remaining work after define/bug/tweak/iterate-ready (implement and/or review-fix as needed), then closed-loop merge + Done. Bare **ship** is a continuation keyword (like **next**). |
 | **summarise** | user | About / workflow stage / what to run Next |
 
 ## Other skills

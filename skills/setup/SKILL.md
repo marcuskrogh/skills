@@ -42,7 +42,7 @@ Repository fields override global field-by-field — [format.md](format.md) → 
 1. **Align** — Follow CONCEPT_ALIGNMENT with the extensions above. Done when stop condition + readiness approval hold.
 2. **Write workspace** — Persist per [format.md](format.md) (repo: only fields that differ from global when a global layer exists). Done when the file exists at the agreed path.
 3. **Provision paths** — Repo scope: ensure agents dir; markdown provider → issues dir + INDEX stub; mirror → ISSUES stub; external artifacts → create root outside the repo. Done when required dirs exist.
-4. **Verify and hand off** — Check provider credentials ([../tracker/reference.md](../tracker/reference.md)); report path, scope, tracker, gaps, and **Next** (`/explore`, `/bug`, or none). Done when the user has the Next cue. Commit only on ask — never commit a global workspace file.
+4. **Verify and hand off** — Check provider credentials ([../tracker/reference.md](../tracker/reference.md)); report path, scope, tracker, gaps, and **Next** (`/explore`, `/bug`, `/tweak`, or none). Done when the user has the Next cue. Commit only on ask — never commit a global workspace file.
 
 ## Re-run
 

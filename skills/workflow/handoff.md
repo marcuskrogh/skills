@@ -19,9 +19,10 @@ enough.
 
 | After | Next (default) |
 |-------|----------------|
-| setup | `/explore` or `/bug` |
+| setup | `/explore`, `/bug`, or `/tweak` |
 | explore | Frontier route Task skill — lowest unblocked **Order** |
 | bug | `/implement <Task>` (or `/ship <Task>` for remaining) |
+| tweak | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | research | `/model <Task>` or `/define <Task>` |
 | model | `/define <Task>` (or `/implement` if PLAN exists) |
 | define | `/implement <Task>` (or `/ship <Task>` for remaining) |
@@ -40,10 +41,11 @@ enough.
 | Skill | Load |
 |-------|------|
 | bug | Related Task/Story if linked; codebase pointers from user |
-| iterate | Prior shipped Task + merged PR + PLAN/BUG/prior ITERATE |
+| tweak | Related Task/Story if linked; codebase pointers from user |
+| iterate | Prior shipped Task + merged PR + PLAN/BUG/TWEAK/prior ITERATE |
 | research / model | Task (+ Story), ROADMAP, sibling artifacts — research is supportive |
 | define | Task (+ Story), ROADMAP, RESEARCH/MODEL as **supportive** — still probe the user |
-| implement | Task + Sub-tasks, PLAN or BUG, **existing delivery branch/PR**, test/lint commands |
-| review / review-fix | Task + **same** delivery PR + PLAN/BUG/ITERATE |
-| ship | Task + PLAN/BUG/ITERATE + delivery branch/PR; detect stage |
+| implement | Task + Sub-tasks, PLAN / BUG / TWEAK, **existing delivery branch/PR**, test/lint commands |
+| review / review-fix | Task + **same** delivery PR + PLAN/BUG/TWEAK/ITERATE |
+| ship | Task + PLAN/BUG/TWEAK/ITERATE + delivery branch/PR; detect stage |
 | summarise | Task + artifacts needed for stage inference |

@@ -17,7 +17,7 @@ Load [disclosed refs](#disclosed-refs) only when a step needs them.
 - **One Task** owns work from ready-to-build through ship (provider-native key).
 - **One open delivery branch + PR** per Task from the first repo-writing skill
   through ship.
-- **First writer starts** the branch/PR (research / model / define / bug when
+- **First writer starts** the branch/PR (research / model / define / bug / tweak when
   committing); later skills **reuse** the recorded head.
 - **Explore** charts the map; it does not own a route Task’s delivery PR.
 - **Iterate** (post-merge only) opens a **new** Task + branch + PR.
@@ -30,10 +30,11 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 |-------|-------|----------|--------------|
 | **explore** | Foggy initiative | `ROADMAP.md` + Story + typed route Tasks | Frontier skill by Order |
 | **bug** | Defect; fix is the work | `BUG.md` + Task + delivery branch/PR | `/implement` |
+| **tweak** | Small intentional change to existing behaviour | `TWEAK.md` + Task + delivery branch/PR | `/implement` |
 | **research** | Multi-axis question | `RESEARCH.md` (supportive) + continuity | `/model` or `/define` |
 | **model** | Math alignment with user | `MODEL.md` + continuity | `/define` |
 | **define** | Route or standalone Task | `PLAN.md` + Sub-tasks + branch/PR | `/implement` |
-| **implement** | PLAN/BUG ready | Code on **same** PR; Task → In Review | `/review-fix` |
+| **implement** | PLAN/BUG/TWEAK ready | Code on **same** PR; Task → In Review | `/review-fix` |
 | **iterate** | Shipped work still wrong | `ITERATE.md` + **new** Task/PR; In Review | `/review-fix` |
 | **review** | Task In Review | Findings on the **same** PR | `/review-fix` or `/ship` |
 | **review-fix** | Task In Review | One review → fix-forward → CLEAN | `/ship` |
@@ -62,7 +63,7 @@ the user’s word. Full Next table and persistence targets: [handoff.md](handoff
 |----------|-------|------|
 | `WORKSPACE.md` | setup | Tracker + path + delivery decisions |
 | `ROADMAP.md` | explore | Map + route + **Next** |
-| `BUG.md` / `ITERATE.md` / `PLAN.md` | bug / iterate / define | Spec + keys + **Next** |
+| `BUG.md` / `TWEAK.md` / `ITERATE.md` / `PLAN.md` | bug / tweak / iterate / define | Spec + keys + **Next** |
 | `RESEARCH.md` / `MODEL.md` | research / model | Supportive / math alignment + **Next** |
 | Branch + PR | First writer → ship | One delivery vehicle per Task |
 | Merge + Done | ship | Closed-loop closeout on that PR |

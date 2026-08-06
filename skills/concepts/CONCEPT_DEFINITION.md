@@ -16,7 +16,7 @@ research, math modelling, and coding are other skills' jobs.
 - **Decisions over option lists** in the final artifact; open items only when the user accepts deferral.
 - **Particulars with the user.** Explore route blurbs, `RESEARCH.md`, and `MODEL.md` orient — they do not replace definition probes.
 - **Artifact-only during definition.** Production code changes begin in implementation; writing the definition artifact on the delivery branch is allowed when the skill requires it.
-- **Proportional depth.** Full for non-trivial features; lightweight for clear defects; confirm gaps only when already implementation-ready.
+- **Proportional depth.** Full for non-trivial features; lightweight for clear defects and tweaks; confirm gaps only when already implementation-ready.
 
 ## Extensions
 
@@ -25,7 +25,7 @@ research, math modelling, and coding are other skills' jobs.
 | **Subject** | must | Kind of thing being defined |
 | **Probes** | must | Definition-oriented question areas (skill fills) |
 | **Stop condition** | must | When the definition is implementable |
-| **Definition artifact** | must | Format and filename (`PLAN.md`, `BUG.md`, …) |
+| **Definition artifact** | must | Format and filename (`PLAN.md`, `BUG.md`, `TWEAK.md`, …) |
 | **Readiness prompt** | must | How to confirm with the user |
 | **Opening** | may | Thin vs rich / key-driven entry |
 | **Scope guard** | may | Exclusions during definition |

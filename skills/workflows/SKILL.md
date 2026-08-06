@@ -26,7 +26,7 @@ the target skill and only its On-invoke concepts and references.
 
 ## Leading words
 
-- **workflow** — named delivery path (feature / bug / iterate / side / continue)
+- **workflow** — named delivery path (feature / bug / tweak / iterate / side / continue)
 - **prefer workflow** — if a catalog row fits, route; do not freestyle past it
 
 ## Catalog
@@ -39,6 +39,7 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **continue** | Bare **next** / persisted **Next** / “continue” on an active Task | Run persisted Next once ([continuation keywords](../workflow/reference.md#continuation-keywords); [entry context](../workflow/handoff.md#entry-context)) |
 | **ship** | Bare **ship** / “finish” / “close it out” / finish remaining through Done | [ship](../ship/SKILL.md) |
 | **bug** | Behaviour is wrong; fix is the work; no foggy product definition needed | [bug](../bug/SKILL.md) |
+| **tweak** | Small intentional change to existing behaviour; not a defect; too light for full define | [tweak](../tweak/SKILL.md) |
 | **iterate** | Prior Task/PR **already merged**; still broken or incomplete | [iterate](../iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](../review-fix/SKILL.md) (or implement fix-forward) |
 | **explore** | Vague, oversized, or foggy initiative — destination felt, way unclear | [explore](../explore/SKILL.md) |
