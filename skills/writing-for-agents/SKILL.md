@@ -1,0 +1,232 @@
+---
+name: writing-for-agents
+description: >-
+  Writing skills and concepts for agents. Use when creating or editing a
+  SKILL.md, CONCEPT_*.md, skill reference file, AGENTS.md, or CLAUDE.md in
+  this repo — especially to prune duplication, sharpen terminology, or
+  apply the lean concept/skill shapes.
+---
+
+Reference for writing any document an agent in this repo consumes — a **skill**,
+a **concept**, a disclosed reference file, or a pointer in `AGENTS.md` /
+`CLAUDE.md`. Packaging differs; writing does not: the same levers make each one
+**predictable** — the agent taking the same _process_ every run, not producing
+the same output.
+
+Inspired by [Matt Pocock's writing-for-agents](https://github.com/mattpocock/skills/tree/main/skills/productivity/writing-for-agents);
+specialised for this repo's **concept → skill** split. For install/sync/plugin
+mechanics, see [`manage-skills`](../manage-skills/SKILL.md). For skill-only
+invocation tradeoffs, see [`SKILL-MECHANICS.md`](SKILL-MECHANICS.md).
+
+## Concepts vs skills
+
+| Kind | Path | Invokable? | Owns |
+|------|------|------------|------|
+| **Concept** | `skills/concepts/CONCEPT_<NAME>.md` | Never | Shared **invariants**, **flow**, and **extension slots** |
+| **Skill** | `skills/<name>/SKILL.md` | Yes | **Extensions filled**, artifact paths, tracker duties, **Next** |
+
+A skill **applies** one or more concepts. The concept is the single source of
+truth for behaviour every applying skill shares. The skill adds only what that
+purpose specialises.
+
+**Rule:** a skill never restates a concept invariant. Point at the concept;
+fill the extension table; write skill-only steps (artifact shape, tracker,
+handoff). Restating an invariant is **duplication** — it inflates prominence
+and drifts.
+
+## Context pointers
+
+A **context pointer** names out-of-context material and encodes when to reach
+it. A skill `description`, an **On invoke: read …** line, and a concept link
+are the same object. The pointer's _wording_ decides reach reliability.
+
+- **Front-load the leading word** — the trigger token first.
+- **One trigger per branch.** Synonyms that rename one case are one branch
+  written twice; collapse them.
+- **Cut identity the body already carries.**
+
+## The two loads
+
+- **Context load** — always-loaded material (skill descriptions, AGENTS lines).
+  Earns hard pruning.
+- **Cognitive load** — cost on the human as index. Spend where human judgement
+  matters; remove where it does not.
+
+Material reached only through a pointer escapes context load at the price of
+the pointer's line.
+
+## Information hierarchy
+
+Documents mix **steps** (ordered actions) and **reference** (definitions,
+rules, facts). Rank each piece by how immediately the agent needs it:
+
+1. **In-file step** — what the agent does, in order.
+2. **In-file reference** — consulted on demand (flat peer-sets are fine).
+3. **Disclosed reference** — sibling file behind a pointer (e.g. platform
+   catalogs, axis checklists).
+
+**Progressive disclosure** moves material down the ladder so the top stays
+legible. Branching is the cleanest test: inline what every branch needs; push
+what only some branches reach.
+
+**Co-location** keeps a concept's definition, rules, and caveats under one
+heading. **Sprawl** is a document too long even when every line is live —
+cure with the ladder and by sequence/branch splits.
+
+## Leading words
+
+A **leading word** is a compact concept the model already holds (or that you
+define once) and then repeat as a _token_, never as a restated paragraph. It
+anchors execution in the body and invocation in pointers.
+
+Repo tokens (use these; do not paraphrase into soft synonyms):
+
+| Token | Meaning |
+|-------|---------|
+| **divergence** | Choice where multiple valid paths exist and a wrong assumption wastes rework |
+| **alignment** | Relentless one-question loop until divergences that matter are resolved with the user |
+| **fog** | Work felt but not yet ticketable; recorded, not faked into specs |
+| **destination** | Named end-state of an explore map |
+| **route** | Sequenced Tasks that clear fog; charted by explore, walked by later skills |
+| **frontier** | First takeable Task on the route |
+| **extension** | Skill-filled slot the concept declares but does not specialise |
+| **invariant** | Concept-owned rule every applying skill inherits — never restated |
+| **probe** | Domain question area; selection order still follows divergence value |
+| **Next** | Persisted handoff cue naming the following skill + key |
+| **fix-forward** | Same open PR; address review findings only |
+| **iterate** | Post-ship delta on a **new** branch/PR |
+| **manager** | Orchestrating agent — stays high-capability; plans, evaluates, tracks |
+| **worker** | Delegated sub-agent — value-routed low/mid/high |
+
+Hunt restatements that a leading word retires. Prefer an existing pretrained
+word over a coined one when the prior is strong enough.
+
+**Negation** is the failure mode beside this lever: "don't X" activates X.
+State the **positive** target. A prohibition earns its place only as a hard
+guardrail you cannot phrase positively — and even then pair it with the
+positive. Prefer **invariants** over **anti-pattern** lists; the latter are
+usually invariants written twice in negative form.
+
+## Steps and completion criteria
+
+Every step ends on a **completion criterion** — checkable, preferably
+exhaustive. Vague bounds invite **premature completion**. Sharpen the bound
+first; only if it stays fuzzy _and_ you observe rush, split the sequence
+across a real context boundary (hand-off / subagent), not an inline call.
+
+## Pruning
+
+- **Single source of truth** per meaning. Concepts own shared behaviour;
+  skills own specialisations; the **environment** (`package.json`, CI,
+  directory layout, `--help`) owns lookup facts — restating those is a
+  **cache**, kept only when the lookup is expensive.
+- Check **relevance** line by line. Default fate without pruning is
+  **sediment**.
+- Hunt **no-ops**: instructions the model already obeys by default. Delete
+  the whole sentence when it fails the test.
+- Delete boilerplate that every file repeats identically ("Uninvokable…",
+  "Authoring skills…", "What this is not" that only negates the purpose).
+  Say it once here; concepts open on **Intent**.
+
+## Concept shape
+
+Keep concepts short. Target: intent + invariants + extensions (+ flow when
+the sequence is the point). Disclose long catalogs.
+
+```markdown
+# Concept: <Name>
+
+<One-line role.> Uninvokable — load only when a skill's On-invoke pointer fires.
+
+## Intent
+
+<2–4 sentences: what, when, outcome. Positive framing only.>
+
+## Leading words   # optional — only new or sharpened tokens
+
+- **token** — definition
+
+## Invariants
+
+- **Name.** Positive rule the agent can check.
+- …
+
+## Extensions
+
+| Slot | Required | Purpose |
+|------|----------|---------|
+| **Subject** | must | … |
+| **Opening** | may | … |
+
+## Flow   # when sequence matters
+
+1. … — done when <criterion>
+2. …
+
+## Reference   # or disclose to SIBLING.md
+
+<Tables every applying skill needs; otherwise push behind a pointer.>
+```
+
+Omit: "What this is not", "Anti-patterns", "Authoring skills that use this
+concept", duplicate probe lists that skills will specialise anyway.
+
+## Skill shape
+
+```markdown
+---
+name: <folder>
+description: >-
+  <Leading word first>. <What it produces>. <When to use>.
+# disable-model-invocation: true   # user-invoked only — see SKILL-MECHANICS.md
+---
+
+# <Name>
+
+Applies [CONCEPT_…](../concepts/…) to <subject>. <One sentence on outcome.>
+
+**On invoke:** read <concept(s)>, <workflow/tracker as needed>, <disclosed refs>.
+
+## Extensions
+
+| Slot | This skill |
+|------|------------|
+| **Subject** | … |
+| **Stop condition** | … |
+| **Artifact** | `FILE.md` |
+| **Readiness prompt** | "…" |
+
+## Steps   # skill-only — do not restate concept flow/invariants
+
+1. …
+2. …
+
+## Artifact
+
+\`\`\`markdown
+# template
+\`\`\`
+
+## Tracker / Handoff
+
+<Duties table + Next block>
+```
+
+**Description** is a context pointer: leading word front, one trigger per
+genuine branch, no body identity. Prefer user-invocation
+(`disable-model-invocation: true`) for pipeline skills the human indexes;
+keep model-invocation when the agent must discover the skill (this skill;
+shared composed helpers when appropriate). See
+[`SKILL-MECHANICS.md`](SKILL-MECHANICS.md).
+
+## Editing checklist
+
+When touching a concept or skill:
+
+1. **Whose meaning is this?** Concept, skill, disclosed ref, or environment?
+2. **Already said?** Delete the restatement; link the source.
+3. **Negation → positive?** Convert anti-patterns into invariants or delete.
+4. **Leading word available?** Collapse the triad into the token.
+5. **Ladder correct?** Disclose catalogs and branch-only material.
+6. **Completion criteria sharp?** Especially on alignment stop and verify.
+7. **Validate:** `.\scripts\validate-skills.ps1`

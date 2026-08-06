@@ -7,6 +7,7 @@ description: >-
   Explore charts the foggy map; research/model add supportive inputs — define owns
   particulars and always questions the user. Persists keys and Next in markdown.
   Use when agreeing on a definition before implementation.
+disable-model-invocation: true
 ---
 
 # Define
@@ -15,80 +16,34 @@ Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) and
 [CONCEPT_DEFINITION](../concepts/CONCEPT_DEFINITION.md) to a **specific topic**.
 Produces `PLAN.md` and Sub-tasks on the **pipeline Task**.
 
-**On invoke:** read [../concepts/CONCEPT_ALIGNMENT.md](../concepts/CONCEPT_ALIGNMENT.md),
-[../concepts/CONCEPT_DEFINITION.md](../concepts/CONCEPT_DEFINITION.md),
-[../workflow/reference.md](../workflow/reference.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+**On invoke:** read those concepts, [../workflow/reference.md](../workflow/reference.md),
+and [../tracker/SKILL.md](../tracker/SKILL.md).
 
-## Relation to prior skills
+## Extensions
 
-**Define is user-agent alignment on particulars.** Prior artifacts orient the
-session — they do **not** replace questioning the user.
-
-| Prior artifact | How define uses it |
-|----------------|--------------------|
-| `ROADMAP.md` / explore route Task | Destination + this step’s question — not a finished spec |
-| `RESEARCH.md` | Supportive literature — evidence and orientation, **not** user answers |
-| `MODEL.md` | Math foundations the user already aligned on — **not** product scope/UX/acceptance |
-
-Always run definition probes with the user. Do **not** treat roadmap notes, Story
-text, open questions, research themes, recommended reading, or model formulations
-as already-decided product scope, behaviour, or acceptance.
-
-If the Task still needs literature or math before a sound definition, hand off to
-`/research` or `/model` instead of inventing those answers in define — then return
-and still probe the user on definition particulars.
-
-## Extension contract
-
-| Extension | This skill |
-|-----------|------------|
+| Slot | This skill |
+|------|------------|
 | **Subject** | Component, system, feature, or explore route (define) Task |
-| **Probes** | See [Probes](#probes) |
-| **Stop condition** | No obvious divergence points remain for scope, behavior, constraints, and acceptance — resolved **with the user** |
+| **Probes** | CONCEPT_DEFINITION defaults + fog pointers on this route Task; Task key from explore; how to apply `RESEARCH.md` / `MODEL.md` — ask, do not assume |
+| **Stop condition** | No obvious divergences remain for scope, behaviour, constraints, acceptance — resolved **with the user** |
 | **Alignment / definition artifact** | `PLAN.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Does this plan look complete?" |
+| **Opening** | Thin: "What do you want to define?" (or resolve Task key). Rich / key given: load Task (+ Story, ROADMAP, RESEARCH, MODEL if present); first **definition** divergence with the user |
+| **Scope guard** | No production code; no worker delegation; stay on this route step (no map-level wayfinding); writing `PLAN.md` on the delivery branch after approval is required |
+| **Depth** | Full feature definition |
+| **Work packages** | Sub-tasks per package |
 
-### Probes
+Prior artifacts (`ROADMAP.md`, `RESEARCH.md`, `MODEL.md`) **orient** — they do not
+replace probes. If literature or math is still missing, hand off to `/research` or
+`/model`, then return and still probe the user.
 
-Use definition probes from CONCEPT_DEFINITION, specialised for a pipeline phase:
+## Steps
 
-- Scope boundaries (in / out)
-- UX and behavior where multiple valid implementations exist
-- Data sources, ownership, and edge cases
-- Compatibility with existing code or conventions
-- Non-obvious constraints the user cares about
-- Acceptance criteria and verification approach
-- Open questions / fog pointers parked by **explore** on this route Task (preferred starting list)
-- Pipeline Task key from a prior **explore** map (preferred)
-- How (if at all) to apply findings from `RESEARCH.md` / constraints from `MODEL.md` — ask; do not assume
+1. **Entry (route Task key)** — `fetch` Task + Story; load ROADMAP / RESEARCH / MODEL as supportive context; treat Task body as the route step (particulars still open unless answered in this session). Done when alignment can start.
+2. **Align** — CONCEPT_ALIGNMENT + CONCEPT_DEFINITION. Done when stop condition + readiness approval hold.
+3. **Persist + track** — below. Done when PLAN.md, Sub-tasks, branch/PR, comments, and **Next** are written.
 
-### Opening
-
-| Context | First move |
-|---------|------------|
-| **Thin** | "What do you want to define?" (or resolve Task key) |
-| **Rich** / Task key given | Load Task (+ Story, `ROADMAP.md`, `RESEARCH.md` / `MODEL.md` if present); first **definition** divergence with the user — never skip questioning because explore, research, or model already ran |
-
-### Scope guard
-
-- No production code or implementation during definition
-- Writing/updating `PLAN.md` (and continuity mirrors) on the Task’s **delivery
-  branch** is required after approval — that is not “implementation”
-- No sub-agent delegation — alignment / definition only
-- Do not re-open map-level wayfinding; stay on this route Task's step
-- Do not adopt research conclusions or invent product decisions from literature without user confirmation
-
-## Entry (pipeline)
-
-When the user passes an explore **route Task** key:
-
-1. `fetch` the Task and parent Story via tracker.
-2. Load `ROADMAP.md`, and `RESEARCH.md` / `MODEL.md` if present — as **supportive context**.
-3. Use Task summary/description as the **route step** to define — assume particulars are still open unless the user already answered them **in this define session**.
-4. Start the alignment loop with the user. Cite research/model only as options or constraints to confirm — never as settled definition.
-
-## Alignment artifact
+## Artifact
 
 ```markdown
 # Implementation plan: [title]
@@ -125,33 +80,20 @@ When the user passes an explore **route Task** key:
 `/implement <KEY>` — Build per this plan (same branch/PR)
 ```
 
-(`PLAN.md` may also note `/ship <KEY>` as an alternate Next to finish remaining
-work through Done.)
+(`PLAN.md` may note `/ship <KEY>` as alternate Next.)
+
 ## Tracker (after approval)
 
 Follow one-issue continuity, [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop),
 and the [tracker sync matrix](../workflow/reference.md#tracker-sync-matrix-mandatory).
 
-### Explore route Task provided (preferred)
+**Explore route Task (preferred):** update that Task (stay **To Do**); create Sub-tasks
+per package; reuse or create delivery branch + draft PR (same PR implement will use —
+never a second define-only PR); external artifact location → write under external root
+and push content into Task, still create branch for delivery; `attach_or_link` +
+comment Task/Story with path, branch, PR, Sub-task keys, **Next**; upsert ISSUES mirror.
 
-1. **Update that Task** — do not create a parallel definition issue. Status stays **To Do**.
-2. Create **Sub-tasks** per work package — status **To Do**; link parent = Task.
-3. **Delivery branch:** resolve existing open branch/PR for this Task (from research/model
-   comments or `gh`). If none, create the branch per WORKSPACE pattern. Write `PLAN.md`
-   on that branch; open or update a **draft** PR when `Open PR by default` (same PR
-   implement will use — do **not** plan a second implement-only PR).
-   When **Artifact location** is `external`, write `PLAN.md` under the external root
-   instead and push its content into the Task; still create the branch (and PR when
-   there is a code change to carry) so implement has its delivery vehicle.
-4. `attach_or_link` path on the Task; `comment` Task + Story with plan path, **branch**,
-   **PR URL**, sub-task keys, **Next**.
-5. Upsert ISSUES mirror for Task + Sub-tasks (include branch/PR).
-
-### Standalone
-
-Create a new **Task** + Sub-tasks (**To Do**), then same artifact/branch/PR/mirror/comment steps.
-
-### Tracker duties
+**Standalone:** create Task + Sub-tasks (**To Do**), then same artifact/branch/PR steps.
 
 | Action | Required |
 |--------|----------|
@@ -160,8 +102,7 @@ Create a new **Task** + Sub-tasks (**To Do**), then same artifact/branch/PR/mirr
 | Task status | remain **To Do** |
 | Comments + branch/PR + **Next** | Task + Story |
 | ISSUES mirror | yes when enabled |
-| Close Task | no (ship only) |
-| Second PR for define alone | **no** |
+| Close Task / second PR for define alone | **no** |
 
 ## Handoff
 

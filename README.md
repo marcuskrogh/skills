@@ -78,7 +78,8 @@ If the environment is **Cursor Cloud**, also pass `-WireCursorCloud` to add `.cu
 skills/                         ← source of truth (Agent Skills layout)
 ├── concepts/                   ← uninvokable CONCEPT_*.md (loaded only when a skill references them)
 │   ├── CONCEPT_ALIGNMENT.md
-│   ├── CONCEPT_DELEGATION.md   ← difficulty → ranked low/mid/high-capability catalogs (platform-dependent; manager stays high-capability)
+│   ├── CONCEPT_DELEGATION.md   ← difficulty → low/mid/high; catalogs disclosed
+│   ├── PLATFORM-CATALOGS.md    ← disclosed ranked model catalogs per harness
 │   ├── CONCEPT_IMPLEMENTATION.md
 │   ├── CONCEPT_ITERATION.md
 │   ├── CONCEPT_DEFINITION.md
@@ -99,7 +100,8 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
 ├── jira/                       ← Jira REST details (tracker backend)
 ├── workflow/                   ← pipeline contract (composed)
-└── manage-skills/              ← meta: maintain this repo
+├── manage-skills/              ← meta: maintain this repo
+└── writing-for-agents/         ← lean shapes + vocabulary for skills/concepts
 
 .claude-plugin/                 ← optional Claude Code marketplace manifests
 scripts/                        ← validate / sync / project bootstrap (incl. arxiv_research.py)
@@ -113,9 +115,9 @@ templates/project-sync/         ← startup sync script template
 | **Skill** | `skills/<name>/SKILL.md` | Yes (unless `disable-model-invocation`) | Yes (name + description) | On invoke / composition |
 | **Concept** | `skills/concepts/CONCEPT_<NAME>.md` | No | No | Only when an invoked skill tells the agent to read it |
 
-Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug` applies the same concepts lightly for defects).
+Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug` applies the same concepts lightly for defects). Concepts own **invariants**; skills fill **extensions** only — see `writing-for-agents` for the lean reference format and shared vocabulary.
 
-**Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick from ranked platform catalogs (with a General fallback).
+**Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick from ranked platform catalogs in `PLATFORM-CATALOGS.md` (with a General fallback).
 
 ## Pipelines
 
@@ -213,6 +215,7 @@ Only the code change itself lands in the repo, on the Task's delivery branch/PR.
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **manage-skills** | user | Maintain and sync this repository |
+| **writing-for-agents** | model | Lean shapes + vocabulary when creating/editing skills or concepts |
 | **tracker** | composed | Issue tracker contract + backends |
 | **jira** | composed | Jira REST details for the jira backend |
 | **workflow** | composed | Pipeline continuity + handoffs |

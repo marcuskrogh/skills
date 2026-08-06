@@ -85,10 +85,16 @@ if (-not (Test-Path $ConceptsDir)) {
             Write-Host "OK: $($cf.FullName)"
         }
     }
+    # Disclosed reference files (e.g. PLATFORM-CATALOGS.md) are allowed beside CONCEPT_*.md
     Get-ChildItem -Path $ConceptsDir -File | Where-Object {
-        $_.Name -notlike "CONCEPT_*.md" -and $_.Name -ne "README.md"
+        $_.Name -notlike "CONCEPT_*.md" -and $_.Name -ne "README.md" -and $_.Extension -ne ".md"
     } | ForEach-Object {
         Write-Host "WARN: unexpected file in concepts/: $($_.Name)"
+    }
+    Get-ChildItem -Path $ConceptsDir -File -Filter "*.md" | Where-Object {
+        $_.Name -notlike "CONCEPT_*.md" -and $_.Name -ne "README.md"
+    } | ForEach-Object {
+        Write-Host "OK: disclosed concept reference $($_.FullName)"
     }
 }
 
