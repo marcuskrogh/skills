@@ -34,21 +34,29 @@ SOURCE_REL="skills"
 die() { echo "install-from-git: $*" >&2; exit 1; }
 
 resolve_skills_root() {
-  # 1) Explicit override
+  # 1) Explicit override (local author testing / custom checkout)
   if [ -n "${SKILLS_SOURCE:-}" ]; then
     printf '%s\n' "$SKILLS_SOURCE"
     return
   fi
 
-  # 2) Script lives inside a skills clone (…/scripts/install-from-git.sh)
-  local script_path script_dir candidate
+  # 2) Script lives inside a skills clone (…/scripts/install-from-git.sh).
+  #    Use that checkout only when it already resolves to SKILLS_REF — otherwise
+  #    fall through to the cache so pins (tags/SHAs) are honoured.
+  local script_path script_dir candidate head want
   script_path="${BASH_SOURCE[0]:-}"
   if [ -n "$script_path" ] && [ -f "$script_path" ]; then
     script_dir="$(cd "$(dirname "$script_path")" && pwd)"
     candidate="$(cd "$script_dir/.." && pwd)"
     if [ -d "$candidate/$SOURCE_REL" ] && [ -f "$candidate/$SOURCE_REL/workflows/SKILL.md" ]; then
-      printf '%s\n' "$candidate"
-      return
+      if git -C "$candidate" rev-parse --verify --quiet "${SKILLS_REF}^{commit}" >/dev/null 2>&1; then
+        head="$(git -C "$candidate" rev-parse HEAD)"
+        want="$(git -C "$candidate" rev-parse "${SKILLS_REF}^{commit}")"
+        if [ "$head" = "$want" ]; then
+          printf '%s\n' "$candidate"
+          return
+        fi
+      fi
     fi
   fi
 
@@ -288,13 +296,6 @@ PROJECT_ROOT="$(cd "$PROJECT_ROOT" && pwd)"
 
 SKILLS_ROOT="$(resolve_skills_root)"
 [ -d "$SKILLS_ROOT" ] || die "skills root not found"
-
-# When bootstrapping via curl|bash, resolve_skills_root clones the cache.
-# When running from a local clone at an arbitrary ref, still honour SKILLS_REF
-# only if we fell back to cache; local script path uses that checkout as-is
-# unless SKILLS_SOURCE/cache path was used. Re-fetch when using cache and the
-# script did not already check out the ref inside ensure_cache_at_ref via
-# resolve — already handled.
 
 install_skills "$SKILLS_ROOT"
 if [ "$SKIP_POINTERS" != "1" ]; then

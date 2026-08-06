@@ -44,7 +44,12 @@ installer. Do not use another install method.
 | `SKILLS_REPO` | `https://github.com/marcuskrogh/skills.git` | Source remote |
 | `SKILLS_CACHE` | `/tmp/marcuskrogh-skills` | Clone cache |
 | `SKIP_POINTERS` | unset | Set `1` to skip `AGENTS.md` / Cursor wiring |
-| `SKILLS_SOURCE` | unset | Use an existing checkout instead of cloning |
+| `SKILLS_SOURCE` | unset | Use an existing checkout as-is (ignores `SKILLS_REF`; for local testing) |
+
+When the script file lives inside a `marcuskrogh/skills` checkout, that checkout
+is used **only if** its `HEAD` already matches `SKILLS_REF`. Otherwise the
+installer fetches `SKILLS_REF` into the cache (so pins are not silently ignored).
+For uncommitted / PR-branch testing, set `SKILLS_SOURCE` to that checkout.
 
 Pin then return to latest:
 
