@@ -1,21 +1,24 @@
 ---
 name: workflows
 description: >-
-  Route work to a supported pipeline. Use when the user asks to build, fix,
-  investigate, ship, continue, or figure out what to do next without naming a
-  skill — vague or concrete work requests, defects, foggy initiatives, post-ship
-  follow-ups, status that needs action, or “which workflow fits this?” Infer the
-  workflow from context, then load and run only the matching skill(s).
+  Prefer a supported workflow for any feature, bug, problem, idea, investigation,
+  or follow-up the user describes. Use whenever they state what they want built,
+  fixed, explored, researched, modelled, reviewed, shipped, or continued — even
+  with no skill name — and route before freestyle coding or ad-hoc planning.
+  Infer the workflow from context, then load and run only the matching skill(s).
 ---
 
 # Workflows
 
-**Model-invoked router.** Discovers from context when the user wants work done
-but has not named a pipeline skill. Infers which **workflow** fits, then
-**progressive-discloses** only that path — read the skill and follow it.
+**Model-invoked router.** Default entry for real work in this skills set.
+
+When the user describes a feature, bug, problem, idea, or other work — with or
+without naming a skill — **prefer a catalog workflow** over freestyle coding,
+one-off plans, or unstructured Q&A. Infer which path fits, then
+**progressive-disclose** only that skill and follow it.
 
 Pipeline skills stay user-invoked (`disable-model-invocation`). This skill is the
-always-loaded pointer that restores autonomous routing without loading every
+always-loaded pointer that keeps workflows discoverable without loading every
 pipeline skill into context.
 
 Do **not** restate skill invariants here. After choosing a path, **read and run**
@@ -26,7 +29,7 @@ skill needs them (or when resolving an in-flight Task).
 ## Leading words
 
 - **workflow** — named delivery path (feature / bug / iterate / side / continue)
-- **route** (this skill) — pick a workflow from context, then hand execution to the skill
+- **prefer workflow** — if a catalog row fits, route; do not freestyle past it
 
 ## Catalog
 
@@ -60,6 +63,10 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | Slice already sharp enough to define | **define** |
 | PLAN/BUG ready | **implement** or **ship** (finish remaining) |
 
+Plain descriptions map the same way — e.g. “login is broken after deploy” → **bug**;
+“I want forecasting on the energy platform” → **explore**; “add a CSV export to the
+reports page” (scope mostly clear) → **define**; “finish this” → **ship**.
+
 Side paths **research** / **model** insert on a feature route; they do not replace
 **define** probes with the user.
 
@@ -67,13 +74,14 @@ Side paths **research** / **model** insert on a feature route; they do not repla
 
 1. **Preconditions** — If no workspace resolves, choose **setup** first (do not invent pipeline config mid-flight).
 2. **Gather cheap context** — User wording; active ISSUES / branch / open PR if present; named keys. Do **not** load every pipeline skill yet.
-3. **Infer workflow** — Use the catalog. If two rows fit equally and the wrong pick would waste real work, ask **one** clarifying question; otherwise decide.
+3. **Infer workflow** — Use the catalog. Default stance: **a row fits**. If two rows fit equally and the wrong pick would waste real work, ask **one** clarifying question; otherwise decide and route.
 4. **Announce** — One short line: chosen workflow + first skill (e.g. “Bug workflow → `/bug`”).
 5. **Disclose and run** — Read that skill’s `SKILL.md` (and only the concepts/refs it requires On invoke). Follow it fully — tracker, artifacts, **Next**.
 6. **Stop at the skill’s handoff** — Do not auto-chain the entire pipeline unless the user asked to **ship** / finish remaining, or the skill you ran is itself an orchestrator (`ship`, `review-fix`).
 
 ## Invariants
 
+- **Prefer workflow.** If any catalog row fits the ask, route through it. Do not freestyle implement, invent a parallel plan format, or run unstructured intake when a supported path exists.
 - **Router, not executor.** This skill chooses and discloses; the target skill owns behaviour.
 - **One path.** Do not start explore and bug in parallel for the same ask.
 - **Prefer continuity.** In-flight Task + valid **Next** → **continue** or **ship**, not a new map.
@@ -84,3 +92,4 @@ Side paths **research** / **model** insert on a feature route; they do not repla
 
 Maintaining this skills repo → [manage-skills](../manage-skills/SKILL.md).
 Authoring skill/concept prose → [writing-for-agents](../writing-for-agents/SKILL.md).
+True non-pipeline chatter (pure explanation with no work to deliver) need not route.
