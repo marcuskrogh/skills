@@ -16,9 +16,18 @@ Two choices, trading the two loads:
   index.
 
 Pick model-invocation only when the agent must discover the skill, or another
-skill must reach it. Pipeline skills (`explore`, `define`, `implement`, …)
-are **user-invoked** in this repo — the human (or bare **Next** / **ship**
-continuation) is the index.
+skill must reach it.
+
+In this repo:
+
+| Kind | Invocation | Examples |
+|------|------------|----------|
+| **Router** | model-invoked | `workflows`, `writing-for-agents` |
+| **Pipeline / meta** | user-invoked | `explore`, `define`, `implement`, `manage-skills`, … |
+| **Composed reference** | user-invoked (not for humans) | `workflow`, `tracker`, `jira` |
+
+Pipeline skills stay user-invoked so their descriptions do not spend context load
+every turn. Discovery of “which pipeline?” is `workflows`' job.
 
 Shared reference two user-invoked skills both need lives in a **concept** or
 plain disclosed file — not in either skill body copied twice.
@@ -31,8 +40,20 @@ description — independent reach must earn that.
 
 ## Router skills
 
-When user-invoked skills multiply past what you remember, a **router skill**
-names the others and when to reach for each. It hints; it cannot fire
-user-invoked skills (no description for the agent to follow). Prefer
-`/summarise` and workflow **Next** as the lightweight routers already in this
-repo before adding another.
+A **router** restores discoverability without loading every user-invoked skill:
+
+1. **Model-invoked description** lists the work-request branches that should
+   fire it (build, fix, investigate, ship, foggy initiative, …).
+2. **Body** is a catalog + inference steps — not a copy of each pipeline skill.
+3. **Hand-off** is progressive disclosure: after choosing a workflow, **read and
+   follow** the target skill (composition). User-invoked skills have no agent
+   description, but an explicit “read `../bug/SKILL.md` and run it” pointer still
+   reaches them.
+
+Do not build a router that only *hints* at skill names for the human to type
+when the goal is autonomous routing — that spends cognitive load and fails the
+discovery job. Hint-only routers belong where the human must stay the index.
+
+This repo’s router: [`workflows`](../workflows/SKILL.md). Continuity contract
+(not a router): [`workflow`](../workflow/SKILL.md) + `reference.md`. Status
+report without advancing work: [`summarise`](../summarise/SKILL.md).

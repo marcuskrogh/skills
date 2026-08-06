@@ -214,10 +214,9 @@ Applies [CONCEPT_…](../concepts/…) to <subject>. <One sentence on outcome.>
 
 **Description** is a context pointer: leading word front, one trigger per
 genuine branch, no body identity. Prefer user-invocation
-(`disable-model-invocation: true`) for pipeline skills the human indexes;
-keep model-invocation when the agent must discover the skill (this skill;
-shared composed helpers when appropriate). See
-[`SKILL-MECHANICS.md`](SKILL-MECHANICS.md).
+(`disable-model-invocation: true`) for pipeline skills; keep model-invocation
+for routers and authoring aids the agent must discover (`workflows`,
+`writing-for-agents`). See [`SKILL-MECHANICS.md`](SKILL-MECHANICS.md).
 
 ## Editing checklist
 

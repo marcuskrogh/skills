@@ -42,6 +42,7 @@
     "./skills/summarise",
     "./skills/tracker",
     "./skills/workflow",
+    "./skills/workflows",
     "./skills/writing-for-agents"
   ]
 }

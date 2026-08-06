@@ -110,6 +110,9 @@ single source of truth (concepts own invariants; skills fill **extensions** only
 progressive disclosure, and pruning. Skill invocation tradeoffs:
 [SKILL-MECHANICS.md](../writing-for-agents/SKILL-MECHANICS.md).
 
+Autonomous discovery of which pipeline to run is the model-invoked
+[workflows](../workflows/SKILL.md) router — keep pipeline skills user-invoked.
+
 ## Creating a new skill
 
 1. Add `skills/<name>/SKILL.md` (`name` must match folder name) using the **skill shape**.

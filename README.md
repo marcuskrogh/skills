@@ -100,6 +100,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
 ├── jira/                       ← Jira REST details (tracker backend)
 ├── workflow/                   ← pipeline contract (composed)
+├── workflows/                  ← model-invoked router → pick path, then load skill
 ├── manage-skills/              ← meta: maintain this repo
 └── writing-for-agents/         ← lean shapes + vocabulary for skills/concepts
 
@@ -115,7 +116,7 @@ templates/project-sync/         ← startup sync script template
 | **Skill** | `skills/<name>/SKILL.md` | Yes (unless `disable-model-invocation`) | Yes (name + description) | On invoke / composition |
 | **Concept** | `skills/concepts/CONCEPT_<NAME>.md` | No | No | Only when an invoked skill tells the agent to read it |
 
-Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug` applies the same concepts lightly for defects). Concepts own **invariants**; skills fill **extensions** only — see `writing-for-agents` for the lean reference format and shared vocabulary.
+Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug` applies the same concepts lightly for defects). Concepts own **invariants**; skills fill **extensions** only — see `writing-for-agents` for the lean reference format and shared vocabulary. Pipeline skills are **user-invoked**; the model-invoked **`workflows`** router discovers which path fits a work request, then progressive-discloses only that skill.
 
 **Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick from ranked platform catalogs in `PLATFORM-CATALOGS.md` (with a General fallback).
 
@@ -214,6 +215,7 @@ Only the code change itself lands in the repo, on the Task's delivery branch/PR.
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
+| **workflows** | model | Infer which pipeline fits a work request, then load and run that skill |
 | **manage-skills** | user | Maintain and sync this repository |
 | **writing-for-agents** | model | Lean shapes + vocabulary when creating/editing skills or concepts |
 | **tracker** | composed | Issue tracker contract + backends |
