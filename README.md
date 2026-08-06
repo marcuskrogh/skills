@@ -2,17 +2,42 @@
 
 Reusable agent skills for workspace setup, alignment, definition, modelling, implementation, review, and ship.
 
-Built on the [Agent Skills](https://agentskills.io) standard. Install once via [skills.sh](https://skills.sh); works with any compatible harness (Cursor, Claude Code, Codex, GitHub Copilot, and others).
+Built on the [Agent Skills](https://agentskills.io) standard. Install via an agent (preferred when possible) or [skills.sh](https://skills.sh); works with any compatible harness (Cursor, Claude Code, Codex, GitHub Copilot, and others).
 
 [![skills.sh](https://skills.sh/b/marcuskrogh/skills)](https://skills.sh/marcuskrogh/skills)
 
 ## Quickstart
 
+### Ask an agent (preferred)
+
+Paste this into an agent in the **consuming** repo. Do not freestyle a different install layout.
+
+```text
+Install marcuskrogh/skills into this repository from git using the canonical
+installer. Do not use another install method.
+
+1. From the project root, run exactly:
+   curl -fsSL https://raw.githubusercontent.com/marcuskrogh/skills/main/scripts/install-from-git.sh | bash
+2. If curl|bash is unavailable: shallow-clone
+   https://github.com/marcuskrogh/skills.git at ref main into a temp dir, then
+   run: bash <clone>/scripts/install-from-git.sh
+3. Commit the paths the script lists (.agents/skills/, AGENTS.md, CLAUDE.md,
+   .cursor/rules/github-skills.mdc).
+4. Confirm .agents/skills/.skills-version exists and
+   .agents/skills/workflows/SKILL.md is present.
+```
+
+That script replaces `.agents/skills/` (all skills + `concepts/`), stamps
+`.skills-version`, and wires prefer-workflow pointers. Full invariants:
+[`skills/manage-skills/agent-install.md`](skills/manage-skills/agent-install.md).
+
+### Or use skills.sh (`npx`)
+
 ```bash
 npx skills add marcuskrogh/skills
 ```
 
-Pick the skills you want and which agents to install them for. Skills land in each agent's standard skill directory (project or global). Relative links between skills stay intact because they install as siblings under `.agents/skills/` (or the equivalent home for that agent). Concepts install alongside as `concepts/` (not invokable).
+Pick the skills you want and which agents to install them for. Skills land in each agent's standard skill directory (project or global). Relative links between skills stay intact because they install as siblings under `.agents/skills/` (or the equivalent home for that agent). Concepts install alongside as `concepts/` (not invokable). `npx` does not write the prefer-workflow `AGENTS.md` block — use the agent installer when you want that wiring.
 
 ## Updating skills (existing install → latest main)
 
@@ -20,20 +45,24 @@ If a project already has skills installed and you want the newest `main`:
 
 | Install style | Command |
 |---------------|---------|
+| **Agent-from-git** | Re-run `scripts/install-from-git.sh` (or the agent prompt above), then commit |
 | **skills.sh** | `npx skills update -y` |
 | **skills.sh** (force re-add) | `npx skills add marcuskrogh/skills -y` |
 | **Startup sync** | `SKILLS_REF=main bash .agents/sync-skills.sh` |
 | **Committed copy** (`install-to-project.ps1`) | Pull/clone this repo on `main`, re-run the install script, commit `.agents/skills/` |
 
-Startup sync and `install-to-project` write `.agents/skills/.skills-version` (`repo`, `ref`, `sha`, `synced_at`) so you can see what is installed.
+Agent-from-git, startup sync, and `install-to-project` write `.agents/skills/.skills-version` (`repo`, `ref`, `sha`, `synced_at`) so you can see what is installed.
 
 Projects that already committed an older `.agents/sync-skills.sh` should refresh that script from `templates/project-sync/sync-skills.sh` (or re-run `setup-project-sync.ps1`) before relying on `SKILLS_REF` / the version stamp.
 
-Pin a tag or commit with the sync script, then return to tracking `main` when ready:
+Pin a tag or commit with the agent installer or sync script, then return to tracking `main` when ready:
 
 ```bash
-SKILLS_REF=<tag-or-sha> bash .agents/sync-skills.sh   # pin
-SKILLS_REF=main bash .agents/sync-skills.sh           # latest main again
+SKILLS_REF=<tag-or-sha> bash /path/to/install-from-git.sh   # pin
+SKILLS_REF=main bash /path/to/install-from-git.sh           # latest main again
+# startup sync equivalent:
+SKILLS_REF=<tag-or-sha> bash .agents/sync-skills.sh
+SKILLS_REF=main bash .agents/sync-skills.sh
 ```
 
 ## Optional: Claude Code plugin
@@ -49,7 +78,8 @@ Or inside Claude Code: `/plugin marketplace add marcuskrogh/skills` then `/plugi
 
 | Path | Philosophy |
 |------|------------|
-| **skills.sh** | Editable copies in your project — fork and adapt |
+| **Agent-from-git** | Canonical committed install + prefer-workflow pointers — agents run one script |
+| **skills.sh** | Editable copies in your project — fork and adapt (CLI / multi-harness) |
 | **Claude plugin** | Read-only bundle that updates when this repo ships |
 
 ## Author setup (this repo)
@@ -101,11 +131,12 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── jira/                       ← Jira REST details (tracker backend)
 ├── workflow/                   ← pipeline contract (composed)
 ├── workflows/                  ← model-invoked router → pick path, then load skill
-├── manage-skills/              ← meta: maintain this repo
+├── manage-skills/              ← meta: maintain this repo (+ agent-install.md)
 └── writing-for-agents/         ← lean shapes + vocabulary for skills/concepts
 
 .claude-plugin/                 ← optional Claude Code marketplace manifests
-scripts/                        ← validate / sync / project bootstrap (incl. arxiv_research.py)
+scripts/                        ← validate / sync / install-from-git / project bootstrap
+templates/agent-install/        ← consumer AGENTS.md block + Cursor rule
 templates/project-sync/         ← startup sync script template
 ```
 
@@ -235,12 +266,14 @@ Use `/manage-skills` for the full checklist.
 
 | Script | Purpose |
 |--------|---------|
+| `install-from-git.sh` | **Canonical** agent/project install from git → `.agents/skills/` + pointers |
 | `setup.ps1` | Author setup — validate, sync local homes, git hooks |
 | `sync-local.ps1` / `sync-local.sh` | Mirror `skills/` into local agent homes |
-| `install-to-project.ps1` | Copy skills into a project's `.agents/skills` |
+| `install-to-project.ps1` | Copy skills into a project's `.agents/skills` (from a local clone) |
 | `validate-skills.ps1` | Frontmatter, naming, plugin.json coverage, concepts |
 | `setup-project-sync.ps1` | Wire startup sync into a project (optional `-WireCursorCloud`) |
 | `templates/project-sync/sync-skills.sh` | Startup sync: fetch `SKILLS_REF` (default `main`) → `.agents/skills/` + `.skills-version` |
+| `templates/agent-install/` | Consumer `AGENTS.md` block + Cursor rule used by `install-from-git.sh` |
 | `setup-github.ps1` | First-time push to GitHub |
 
 ## Tracker credentials

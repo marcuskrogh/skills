@@ -5,7 +5,9 @@
 #   .\scripts\setup-project-sync.ps1 -ProjectPath D:\code\MyRepo
 #   .\scripts\setup-project-sync.ps1 -ProjectPath D:\code\MyRepo -WireCursorCloud
 #
-# Prefer interactive installs when possible:
+# Prefer agent-from-git when an agent can install:
+#   bash scripts/install-from-git.sh
+# Also supported:
 #   npx skills add marcuskrogh/skills
 
 param(
@@ -88,6 +90,8 @@ Write-Host "  SKILLS_REF=main bash .agents/sync-skills.sh          # explicit la
 Write-Host "  SKILLS_REF=<tag-or-sha> bash .agents/sync-skills.sh # pin a version"
 Write-Host "Installed revision is recorded in .agents/skills/.skills-version"
 Write-Host ""
-Write-Host "Universal install (preferred for interactive use):"
+Write-Host "Agent-from-git (preferred when an agent can install):"
+Write-Host "  bash <clone>/scripts/install-from-git.sh"
+Write-Host "Also supported (skills.sh):"
 Write-Host "  npx skills add marcuskrogh/skills"
 Write-Host "  npx skills update -y   # later: pull latest for installed skills"
