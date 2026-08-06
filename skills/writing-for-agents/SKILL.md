@@ -95,9 +95,10 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **Next** | Persisted handoff cue naming the following skill + key |
 | **fix-forward** | Same open PR; address review findings only |
 | **iterate** | Post-ship delta on a **new** branch/PR |
+| **tweak** | Small intentional change to existing behaviour; lightweight define sibling of bug |
 | **manager** | Orchestrating agent — stays high-capability; plans, evaluates, tracks |
 | **worker** | Delegated sub-agent — value-routed low/mid/high |
-| **depth** | Proportional intensity preset (review: `full` vs `focused`; define: Full vs Lightweight) |
+| **depth** | Proportional intensity preset (review: `full` vs `focused`; define/bug/tweak: Full vs Lightweight) |
 
 Hunt restatements that a leading word retires. Prefer an existing pretrained
 word over a coined one when the prior is strong enough.

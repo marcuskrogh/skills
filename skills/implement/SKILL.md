@@ -4,7 +4,7 @@ description: >-
   Implementation of a pipeline Task through managed, value-routed work
   packages. Reuses the Task's delivery branch/PR, verifies code and tests, and
   moves the Task from In Progress to In Review. Use for an approved PLAN.md,
-  BUG.md, ITERATE.md, or review fix-forward.
+  BUG.md, TWEAK.md, ITERATE.md, or review fix-forward.
 disable-model-invocation: true
 ---
 
@@ -27,9 +27,9 @@ as directed there.
 
 | Slot | This skill |
 |------|------------|
-| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` or `BUG.md` / linked specs |
+| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `ITERATE.md` / linked specs |
 | **Branch naming** | WORKSPACE pattern — **reuse** Task delivery branch if it exists |
-| **Delivery** | **Same** PR as define/bug/research when one exists (or branch-only per WORKSPACE) |
+| **Delivery** | **Same** PR as define/bug/tweak/research when one exists (or branch-only per WORKSPACE) |
 | **Verification** | Tests + lint for touched area (or full suite if repo norm); non-degradation; plan checklist; sub-task completion; [testing.md](testing.md) |
 | **Testing checklist** | [testing.md](testing.md) — paste into Implementation / Testing / fix-forward briefs |
 | **Model routing** | CONCEPT_DELEGATION — score each package; escalate one tier after failed attempts |
@@ -48,7 +48,7 @@ as directed there.
 1. Fix-forward: open PR review comments
 2. Sub-task descriptions
 3. Task description
-4. `PLAN.md` or `BUG.md` / linked specs
+4. `PLAN.md` / `BUG.md` / `TWEAK.md` / `ITERATE.md` / linked specs
 5. User paste
 
 Resolve issue: user key/URL, or ask once "Which issue should this implementation track?"

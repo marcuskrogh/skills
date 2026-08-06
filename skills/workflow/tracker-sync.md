@@ -9,7 +9,7 @@ enabled). Load when creating issues, transitioning status, commenting, or closin
 To Do / Backlog  →  In Progress  →  In Review  →  Done
   explore/define      implement         implement      ship
   research/model      iterate           iterate
-  bug                                   review
+  bug / tweak                           review
 ```
 
 ## Matrix
@@ -18,6 +18,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 |-------|-----------------|--------|------------------|-------|
 | **explore** | Story (map) + typed route Tasks; Blocked by | Leave **To Do** | Story: child keys + deps + **Next**; ISSUES | Mis-scoped only |
 | **bug** | Task (+ optional Sub-tasks); link BUG.md; start delivery branch/PR | Leave **To Do** | Task: BUG.md + branch/PR + **Next**; ISSUES | — |
+| **tweak** | Task (+ optional Sub-tasks); link TWEAK.md; start delivery branch/PR | Leave **To Do** | Task: TWEAK.md + branch/PR + **Next**; ISSUES | — |
 | **iterate** | **New** Task; link ITERATE.md; Relates → prior | In Progress → **In Review** when PR ready | Prior + new Task comments; **Next** `/review-fix`; ISSUES | — (ship closes) |
 | **research** | Enrich pipeline Task; reuse/start delivery when committing | Unchanged (usually **To Do**) | RESEARCH.md + branch/PR + **Next**; ROADMAP/PLAN/ISSUES | — |
 | **model** | Enrich Task (preferred); else create; reuse/start delivery when committing | Leave **To Do** unless further along | MODEL.md + branch/PR + **Next**; links + ISSUES | — |

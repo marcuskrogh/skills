@@ -31,7 +31,7 @@ as directed there.
 | Slot | This skill |
 |------|------------|
 | **Change source** | Task's existing delivery PR |
-| **Spec source** | Task + PLAN / BUG / ITERATE + published review findings |
+| **Spec source** | Task + PLAN / BUG / TWEAK / ITERATE + published review findings |
 | **Publish target** | One GitHub PR review + tracker summary |
 | **Checklist / depth** | [review](../review/SKILL.md) full or focused contract |
 | **Parallelism / model routing** | Review workers and fix-forward packages use CONCEPT_DELEGATION |
@@ -65,7 +65,7 @@ Soft non-actionable notes may remain on CLEAN.
 ### Fix-forward constraints
 
 Same Task + same PR; packages = review threads **and** unresolved actionable notes;
-higher severity first; scope = review + PLAN/BUG plus neighbor edits required by
+higher severity first; scope = review + PLAN/BUG/TWEAK plus neighbor edits required by
 a finding. After fixes push → **In Review** + comment. Reply to deferred notes
 with their out-of-scope reason.
 

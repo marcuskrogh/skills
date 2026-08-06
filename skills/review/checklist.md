@@ -8,16 +8,16 @@ Axes: **Spec**, **Correctness**, **Integration**, **Architecture**, **Standards*
 ## Spec
 
 ### Vertical
-- [ ] Each acceptance criterion / bug expected-result is implemented in the changed code
+- [ ] Each acceptance criterion / bug expected-result / tweak desired-change is implemented in the changed code
 - [ ] Work-package / sub-task outcomes are actually delivered (not just TODOs/comments)
-- [ ] Edge cases called out in PLAN/BUG are handled
+- [ ] Edge cases called out in PLAN/BUG/TWEAK are handled
 - [ ] Wrong algorithm or behaviour relative to the written spec
 
 ### Horizontal
 - [ ] Related surfaces updated: API, UI, docs, config, migrations, feature flags, metrics
 - [ ] No scope creep beyond the issue (extra behaviour that should be a new Task)
 - [ ] BUG fixes include regression protection called for in acceptance (test or equivalent)
-- [ ] MODEL/PLAN numeric or domain constraints reflected at all touchpoints
+- [ ] MODEL/PLAN/BUG/TWEAK numeric or domain constraints reflected at all touchpoints
 
 ## Correctness
 

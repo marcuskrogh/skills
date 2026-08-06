@@ -1,7 +1,7 @@
 ---
 name: workflows
 description: >-
-  Workflow routing for features, bugs, ideas, investigations, reviews,
+  Workflow routing for features, bugs, tweaks, ideas, investigations, reviews,
   follow-ups, and delivery. Infer the supported path from user context, then
   progressively disclose and run only the matching skill.
 ---
@@ -10,7 +10,7 @@ description: >-
 
 **Model-invoked router.** Default entry for real work in this skills set.
 
-When the user describes a feature, bug, problem, idea, or other work — with or
+When the user describes a feature, bug, tweak, problem, idea, or other work — with or
 without naming a skill — **prefer a catalog workflow** over freestyle coding,
 one-off plans, or unstructured Q&A. Infer which path fits, then
 **progressive-disclose** only that skill and follow it.
@@ -26,7 +26,7 @@ the target skill and only its On-invoke concepts and references.
 
 ## Leading words
 
-- **workflow** — named delivery path (feature / bug / iterate / side / continue)
+- **workflow** — named delivery path (feature / bug / tweak / iterate / side / continue)
 - **prefer workflow** — if a catalog row fits, route; do not freestyle past it
 
 ## Catalog
@@ -39,13 +39,14 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **continue** | Bare **next** / persisted **Next** / “continue” on an active Task | Run persisted Next once ([continuation keywords](../workflow/reference.md#continuation-keywords); [entry context](../workflow/handoff.md#entry-context)) |
 | **ship** | Bare **ship** / “finish” / “close it out” / finish remaining through Done | [ship](../ship/SKILL.md) |
 | **bug** | Behaviour is wrong; fix is the work; no foggy product definition needed | [bug](../bug/SKILL.md) |
+| **tweak** | Small intentional change to existing behaviour; not a defect; too light for full define | [tweak](../tweak/SKILL.md) |
 | **iterate** | Prior Task/PR **already merged**; still broken or incomplete | [iterate](../iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](../review-fix/SKILL.md) (or implement fix-forward) |
 | **explore** | Vague, oversized, or foggy initiative — destination felt, way unclear | [explore](../explore/SKILL.md) |
 | **research** | Need multi-axis literature/evidence before deciding; not product alignment | [research](../research/SKILL.md) |
 | **model** | Need math formulation aligned with the user (not product scope/UX) | [model](../model/SKILL.md) |
 | **define** | Concrete feature/slice to pin down with the user before coding | [define](../define/SKILL.md) |
-| **implement** | Ready-to-build PLAN/BUG/ITERATE exists; build or resume build | [implement](../implement/SKILL.md) |
+| **implement** | Ready-to-build PLAN/BUG/TWEAK/ITERATE exists; build or resume build | [implement](../implement/SKILL.md) |
 | **review** | Want findings only on an In Review PR (no auto-fix) | [review](../review/SKILL.md) |
 | **review-fix** | Want one review → fix → CLEAN on the delivery PR | [review-fix](../review-fix/SKILL.md) |
 | **summarise** | Status / “where am I” / “what next” *reported*, not advanced | [summarise](../summarise/SKILL.md) |
@@ -66,7 +67,7 @@ Side paths **research** / **model** insert on a feature route; they do not repla
 
 - **Prefer workflow.** If any catalog row fits the ask, route through it. Do not freestyle implement, invent a parallel plan format, or run unstructured intake when a supported path exists.
 - **Router, not executor.** This skill chooses and discloses; the target skill owns behaviour.
-- **One path.** Do not start explore and bug in parallel for the same ask.
+- **One path.** Do not start explore and bug/tweak/define in parallel for the same ask.
 - **Prefer continuity.** In-flight Task + valid **Next** → **continue** or **ship**, not a new map.
 - **No skill dump.** Never load all pipeline skills “just in case.”
 - **Explicit slash wins.** If the user named `/define` (etc.), run that skill — do not re-route unless they ask which workflow fits.
