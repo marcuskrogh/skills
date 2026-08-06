@@ -5,72 +5,39 @@ description: >-
   foundations only — not product definition. Links to a pipeline Task when given
   and updates continuity markdown. Use for dynamical models, OCP, estimators, or
   applied math.
+disable-model-invocation: true
 ---
 
 # Model
 
 Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) to **applied
-mathematical** topics. Optional side path on the main pipeline — usually after
-**research** or **explore**, before or alongside **define**, and before **implement**.
+mathematics**. Optional pipeline side path — usually after **research** /
+**explore**, before or alongside **define**.
 
-**On invoke:** read [../concepts/CONCEPT_ALIGNMENT.md](../concepts/CONCEPT_ALIGNMENT.md),
-[format.md](format.md), [reference.md](reference.md),
+**On invoke:** read CONCEPT_ALIGNMENT, [format.md](format.md), [reference.md](reference.md),
 [../workflow/reference.md](../workflow/reference.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
 
-## Intent
+Settles formulation, assumptions, and numerical choices **with the user** — not
+product scope, UX, behaviour, or acceptance (`/define`). `RESEARCH.md` orients
+questions; it does not choose the model for the user.
 
-Model is **user-agent alignment on mathematics only**. It settles the formulation,
-assumptions, and numerical choices the user agrees to — not product scope, UX,
-behaviour, or acceptance (those belong to **define**).
+## Extensions
 
-| Model does | Model does not |
-|------------|----------------|
-| Align math foundations with the user | Decide product / UX / acceptance for define |
-| Use `RESEARCH.md` as literature orientation | Treat research conclusions as already-agreed math |
-| Produce `MODEL.md` as a math constraint for later work | Replace `/define` questioning |
-
-### Relation to research
-
-`RESEARCH.md` is **supportive evidence** — what the literature says. Use it to
-frame better math questions. Do **not** assume the brief chose the model class,
-objective, constraints, or discretisation for the user. Always ask the user on
-mathematical divergence points.
-
-### Relation to define
-
-`MODEL.md` constrains *how the math is stated*. Define still owns *what to build*
-(scope, behaviour, acceptance, work packages) and must probe the user on those
-particulars even when a model already exists.
-
-## Extension contract
-
-| Extension | This skill |
-|-----------|------------|
-| **Subject** | User-described mathematical object (model, OCP, estimator, etc.) |
-| **Probes** | See [Probes](#probes) |
-| **Stop condition** | Mathematical foundations are unambiguous **with the user** |
+| Slot | This skill |
+|------|------------|
+| **Subject** | Mathematical object (model, OCP, estimator, …) |
+| **Probes** | Model class; state/input/output; constraints/objectives; numerical schemes / estimation / discretisation; Task key; `RESEARCH.md` as literature only; `MODEL.md` path |
+| **Stop condition** | Mathematical foundations unambiguous **with the user** |
 | **Alignment artifact** | `MODEL.md` (path from WORKSPACE) |
-| **Readiness prompt** | LaTeX block: "Ready to finalise the model specification?" (see [format.md](format.md)) |
+| **Readiness prompt** | LaTeX block: "Ready to finalise the model specification?" ([format.md](format.md)) |
 | **Format override** | LaTeX-only questions per [format.md](format.md) |
+| **Opening** | Thin: one LaTeX block — what mathematical object/problem class? Rich / Task key: load Task + RESEARCH/ROADMAP; first unresolved **math** divergence |
 | **Scope guard** | No code unless mathematically essential; no product/UX definition |
 
-### Probes
+## Artifact
 
-- Model class, state/input/output structure, constraints, objectives
-- Numerical schemes, estimation/control choices, discretisation
-- Pipeline Task key from **explore** / **define** (preferred)
-- Related `RESEARCH.md` if present — as literature context only, not settled answers
-- Target path for `MODEL.md` (default from WORKSPACE)
-
-### Opening
-
-| Context | First move |
-|---------|------------|
-| **Thin** | One LaTeX block: what mathematical object or problem class? |
-| **Rich** / Task key | Load Task + `RESEARCH.md` / `ROADMAP.md` if present; first unresolved **math** divergence with the user — never skip because research already ran |
-
-## Alignment artifact
+Use the definition hierarchy from [format.md](format.md):
 
 ```markdown
 # Model: [title]
@@ -96,50 +63,18 @@ for `/define`.
 `/<skill> <KEY>` — <why>
 ```
 
-Use the **definition hierarchy** from [format.md](format.md).
+## Tracker (after approval)
 
-## Tracker and continuity (after approval)
-
-1. Write `MODEL.md` at the agreed path; commit when appropriate (include issue key).
-   When **Artifact location** is `external`, write it under the external root and
-   push its content into the Task instead of committing.
-2. **Pipeline Task provided (preferred):** enrich *that* Task — `attach_or_link` `MODEL.md`, `comment` summary + **Next**. Do **not** create a parallel Task. Leave status unchanged (usually **To Do**).
-3. **Standalone:** create a **Task** (**To Do**), link parent Story if any, then same attach/comment.
-4. **Delivery branch:** when committing `MODEL.md` for a pipeline Task, reuse the Task’s
-   open branch/PR or start it once — same rules as research/define
-   ([delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop)).
-   Record branch + PR on the Task. Do **not** open a model-only PR alongside a separate define PR.
-5. Update shared markdown (on that delivery branch when it exists):
-   - `ROADMAP.md` route / Cleared notes → `MODEL.md`
-   - `PLAN.md` if it exists → Inputs / Constraints link to `MODEL.md`
-   - `RESEARCH.md` Tracker section if it exists → link `MODEL.md`
-   - Upsert `docs/agents/ISSUES.md` mirror
-6. Report path, key, branch/PR, and **Next**. Do **not** close the Task.
+1. Write `MODEL.md` (external location → external root + push into Task).
+2. Pipeline Task: `attach_or_link` + comment + **Next**; no parallel Task; leave status.
+3. Standalone: create Task (**To Do**), then same.
+4. Committing → [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop); never a model-only PR beside a separate define PR.
+5. Update ROADMAP / PLAN Inputs / RESEARCH Tracker when present; upsert ISSUES. Do not close the Task.
 
 ## Handoff
 
 | Context | Next |
 |---------|------|
-| Behaviour/UX / scope still open | `/define <KEY>` |
+| Behaviour / UX / scope still open | `/define <KEY>` |
 | Plan already complete | `/implement <KEY>` |
 | Need literature first | `/research <KEY>` |
-
-```markdown
-## Next
-`/define <KEY>` — Define product particulars with user; MODEL.md is math input only
-```
-
-## Anti-patterns
-
-- Treating `RESEARCH.md` themes as the user's mathematical choices
-- Skipping LaTeX alignment questions because a paper or brief "already decided"
-- Writing product scope, UX, or acceptance into `MODEL.md`
-- Handing off to define in a way that implies definition probes are optional
-
-## Examples
-
-User: `/model` MD-2 — MPC for the CSTR, research in RESEARCH.md.
-
-Agent: [Single LaTeX block — ODE vs SDE vs spatial PDE?]
-
-*(Research may mention common formulations; still ask the user which to adopt.)*

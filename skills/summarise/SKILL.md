@@ -5,69 +5,44 @@ description: >-
   feature or bug workflow, which artifacts exist, and what to run next. Use when
   asking status, where am I, or what next. (Bare "next" advances one persisted
   step; bare "ship" finishes remaining work — see workflow continuation keywords.)
+disable-model-invocation: true
 ---
 
 # Summarise
 
-Read-only status skill for feature and bug pipelines. Does **not** change issues or
-artifacts except optionally refreshing the mirror **Next** column if it is stale.
+Read-only status for feature/bug/iterate pipelines. Does **not** change issues or
+artifacts except optionally refreshing a stale mirror **Next** column.
 
 **On invoke:** read [../workflow/reference.md](../workflow/reference.md) and
 [../tracker/SKILL.md](../tracker/SKILL.md).
 
-Bare user cues **next** and **ship** are not this skill — they are
-[continuation keywords](../workflow/reference.md#continuation-keywords)
-(**next** = run persisted Next once; **ship** = run [ship](../ship/SKILL.md)).
-Use summarise when the user wants status / "what next" *reported*, not advanced.
+Bare **next** / **ship** are [continuation keywords](../workflow/reference.md#continuation-keywords),
+not this skill — use summarise when the user wants status *reported*.
 
-## Resolve the subject
+## Steps
 
-1. User provides issue key/URL (`/summarise MD-2`, `/summarise PROJ-200`, `/summarise #42`).
-2. Else use the single **active** row in `docs/agents/ISSUES.md` (In Progress / In Review).
-3. Else, when the mirror is disabled, infer from the tracker: the single issue in
-   **In Progress** / **In Review** assigned to the user that matches the current
-   branch's key, or the key embedded in the branch name.
-4. Else ask once: "Which issue should I summarise?"
-
-`fetch` the issue via the tracker backend. Load linked markdown when present,
-resolving each path against the effective workspace (repo root, or the **External
-artifact root** when **Artifact location** is `external`):
-
-| File | Use |
-|------|-----|
-| `WORKSPACE.md` (repo and/or global) | Provider + paths + artifact location |
-| `docs/agents/ISSUES.md` | Mirror status / Next |
-| `ROADMAP.md` | Phase context / parent Story |
-| `PLAN.md` | Feature definition readiness |
-| `BUG.md` | Bug-fix readiness |
-| `ITERATE.md` | Post-ship iterate readiness |
-| `MODEL.md` | Math alignment (not product definition) |
-| `RESEARCH.md` | Multi-axis research brief (supportive — not user alignment) |
-| PR (if linked) | Implement / review / ship stage |
-
-## Infer workflow stage
-
-Detect **track**: feature if `PLAN.md` / ROADMAP phase; **bug** if `BUG.md` (or bug label/type) without a feature plan; **iterate** if `ITERATE.md` (post-ship follow-up).
-
-Pick the furthest stage that matches evidence:
+1. **Resolve subject** — key/URL → single active ISSUES row → tracker inference from branch → ask once. `fetch`; load linked artifacts against effective workspace (repo root or external artifact root).
+2. **Infer track** — feature (PLAN/ROADMAP), bug (BUG without feature plan), iterate (ITERATE / Relates to Done prior).
+3. **Infer furthest stage** from evidence (table below).
+4. **Reply** in the shape below. Prefer persisted **Next** when still valid; recompute if status moved past it. Ready-to-build+ → suggest `/ship` when the user wants to finish remaining; else the single next skill. Missing WORKSPACE → **Next** `/setup`.
 
 | Stage | Evidence |
 |-------|----------|
-| **setup** | No WORKSPACE (tell user to `/setup`) |
-| **explore** | Map Story / route Task with no PLAN yet |
+| **setup** | No WORKSPACE |
+| **explore** | Map Story / route Task, no PLAN yet |
 | **bug** | `BUG.md` linked; not yet In Progress |
-| **iterate** | `ITERATE.md` linked (or Relates to a Done prior Task); building or about to |
-| **research** | `RESEARCH.md` linked; define not done — brief is supportive only; Next usually `/define` or `/model` |
-| **model** | `MODEL.md` linked; define not done — math aligned; product particulars still need `/define` |
-| **define** | Feature Task enriched but plan incomplete; or PLAN exists, not started |
-| **implement** | Status In Progress, or branch/PR WIP |
-| **review** | Status In Review; PR open (one-shot) |
-| **review-fix** | Preferred post-implement/iterate stage (single review → fix → CLEAN) |
-| **fix-forward** | In Review/In Progress + open `REQUEST_CHANGES` / unreplied review threads |
-| **ship-ready** | In Review + latest review clean (no must-fix: blockers / should-fix / actionable notes) |
-| **done** | Status Done / PR merged |
+| **iterate** | `ITERATE.md` (or Relates Done prior); building or about to |
+| **research** | `RESEARCH.md`; define not done — Next usually `/define` or `/model` |
+| **model** | `MODEL.md`; define not done — math aligned; particulars need `/define` |
+| **define** | Feature Task enriched / PLAN exists, not started |
+| **implement** | In Progress, or branch/PR WIP |
+| **review** | In Review; PR open (one-shot) |
+| **review-fix** | Preferred post-implement/iterate stage |
+| **fix-forward** | In Review/In Progress + open REQUEST_CHANGES / unreplied threads |
+| **ship-ready** | In Review + clean review (no must-fix) |
+| **done** | Done / PR merged |
 
-## Reply shape (chat only)
+## Reply shape
 
 ```markdown
 # <KEY>: <title>
@@ -87,14 +62,7 @@ Pick the furthest stage that matches evidence:
 `/<skill> <KEY>` — <one-line why>
 ```
 
-If Done: **Next** is the following phase Task from ROADMAP, another bug, `/iterate` when merged work still needs a fix, or "No further work on this Task."
+If Done: **Next** = following ROADMAP phase Task, another bug, `/iterate` when merged
+work still needs a fix, or "No further work on this Task."
 
-When the Task is ready-to-build or further along but not Done, prefer suggesting
-`/ship <KEY>` (or bare `ship`) when the user wants to **finish remaining** work in
-one invoke; otherwise suggest the single next step skill (`/implement`,
-`/review-fix`, …) — bare `next` runs that one step.
-## Rules
-
-- Do not implement, transition, or open PRs.
-- Prefer persisted **Next** from issue / mirror / PLAN / BUG when still valid; recompute if status moved past it.
-- If WORKSPACE is missing, say so and **Next** = `/setup`.
+Do not implement, transition, or open PRs.
