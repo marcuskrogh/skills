@@ -1,11 +1,9 @@
 ---
 name: research
 description: >-
-  Multi-axis investigation of a topic: arXiv preprints plus formal written sources,
-  web discovery, and informal/practitioner material. Writes RESEARCH.md as
-  supportive evidence — not user alignment or product decisions. Links to a
-  pipeline Task when given and updates continuity markdown. Use for surveys,
-  state of the art, or a wide research pass.
+  Research across preprint, formal, web, and practitioner axes. Produces a
+  citable RESEARCH.md as supportive evidence and links it to a pipeline Task
+  when present. Use for surveys, state of the art, or a wide evidence pass.
 disable-model-invocation: true
 ---
 
@@ -15,12 +13,15 @@ Applies [CONCEPT_RESEARCH](../concepts/CONCEPT_RESEARCH.md) as a **multi-axis**
 investigation. Optional pipeline side path — feeds **model** / **define** /
 **explore** with **supportive** context only.
 
-**On invoke:** read CONCEPT_RESEARCH, [../concepts/CONCEPT_DELEGATION.md](../concepts/CONCEPT_DELEGATION.md)
-when spawning axis workers, [reference.md](reference.md),
-[../workflow/reference.md](../workflow/reference.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md) when a Task key or WORKSPACE exists.
-
-**Default:** all relevant axes. Narrow to one axis only when the user asks; record why.
+**On invoke:** read [CONCEPT_RESEARCH](../concepts/CONCEPT_RESEARCH.md),
+[reference.md](reference.md), and
+[../workflow/reference.md](../workflow/reference.md), plus
+[../workflow/handoff.md](../workflow/handoff.md) when writing **Next**. When
+spawning axis workers, also read
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md). When linking the brief
+to a Task, also read [../workflow/delivery.md](../workflow/delivery.md),
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
+and [../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Extensions
 
@@ -45,11 +46,9 @@ when spawning axis workers, [reference.md](reference.md),
 
 Follow CONCEPT_RESEARCH flow. Specialisations:
 
-1. **Scope** — default all four axes; "arXiv only" (etc.) → that axis alone, stated in brief.
-2. **Plan** — queries/targets per axis → Search strategy in `RESEARCH.md`.
-3. **Execute** — parallel when tools allow; else Preprints → Formal → Web → Informal. Prefer one multi-`-q` arXiv `search` over many script invocations.
-4. **Expand / triage / deep read** — per concept; dedupe by DOI / arXiv ID / canonical URL; prefer multi-axis hits.
-5. **Artifact + continuity** — below.
+1. **Scope and plan axes** — Default to all four axes; when the user narrows the pass, record the included axes and reason. Write queries/targets into Search strategy. Done when every included axis has a retrieval plan and every skipped axis has a reason.
+2. **Retrieve and synthesize** — Run axes in parallel when tools allow; otherwise Preprints → Formal → Web → Informal. Prefer one multi-`-q` arXiv search, dedupe by DOI / arXiv ID / canonical URL, and prefer multi-axis hits. Done when the CONCEPT_RESEARCH completion bars hold for retrieval, triage, deep read, and synthesis.
+3. **Persist and continue** — Write `RESEARCH.md`; when linked, apply delivery continuity and the research tracker row; persist the Handoff when there is a next pipeline step. Done when claims are traceable and the artifact, Task, branch/PR, mirrors, and **Next** agree where applicable.
 
 ## Artifact
 
@@ -86,7 +85,7 @@ Follow CONCEPT_RESEARCH flow. Specialisations:
 … (sources to study — not a product plan)
 
 ## Role in pipeline
-Supportive context for `/model` and `/define`. Does **not** settle user alignment.
+Supportive context for `/model` and `/define`.
 
 ## Sources
 … (full citations + axis)
@@ -105,9 +104,11 @@ Supportive context for `/model` and `/define`. Does **not** settle user alignmen
 
 When a Task key is given/inferred:
 
-1. `attach_or_link` + comment (path, short summary, **Next**); leave status unchanged; no parallel Task.
-2. Committing `RESEARCH.md` → [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop) (reuse open branch/PR; never a research-only PR abandoned when define starts). External artifact location → write under external root, push into Task; no branch yet.
-3. Update ROADMAP notes / PLAN Inputs when present; upsert ISSUES mirror.
+Follow [delivery continuity](../workflow/delivery.md) when committing and the
+[research tracker row](../workflow/tracker-sync.md#matrix). Enrich the existing
+Task, leave its status unchanged, and update ROADMAP notes / PLAN Inputs when
+present. Record the artifact, short summary, branch/PR, **Next**, and enabled
+mirror; external artifacts are pushed into the Task without starting a branch.
 
 Standalone: still write `RESEARCH.md`; **Next** may be `/explore` or `/define`.
 

@@ -1,27 +1,27 @@
 ---
 name: review
 description: >-
-  Adaptive-depth GitHub PR review: full five-axis pass on larger feature work,
-  focused one-or-two-worker pass on bugs, small iterates, and localized deltas.
-  Axes Spec, Correctness, Integration, Architecture, Standards; scores workers
-  across low/mid/high (Routine → low, Moderate → mid, Demanding → high); manager
-  stays high-capability. Tied to a pipeline issue in In Review; posts findings
-  on the PR and tracker; hands off to review-fix or ship.
+  Review of a GitHub PR at adaptive full or focused depth across Spec,
+  Correctness, Integration, Architecture, and Standards. Publishes findings on
+  the PR and pipeline Task, then hands off to review-fix or ship.
 disable-model-invocation: true
 ---
 
 # Review
 
 Applies [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md) as a review posted
-**on the GitHub pull request** and summarised on the **pipeline issue** — not as
-repo files or long chat transcripts. **Depth** is proportional: `full` or
-`focused` per [depth.md](depth.md).
+**on the GitHub pull request** and summarised on the **pipeline issue**.
+**Depth** is proportional: `full` or `focused` per [depth.md](depth.md).
 
-**On invoke:** read CONCEPT_REVIEW, [../concepts/CONCEPT_DELEGATION.md](../concepts/CONCEPT_DELEGATION.md)
-(+ [../concepts/PLATFORM-CATALOGS.md](../concepts/PLATFORM-CATALOGS.md) when assigning models),
-[../workflow/reference.md](../workflow/reference.md), [depth.md](depth.md),
+**On invoke:** read [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md),
+[../workflow/reference.md](../workflow/reference.md),
+[../workflow/delivery.md](../workflow/delivery.md),
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
+[../workflow/handoff.md](../workflow/handoff.md), [depth.md](depth.md),
 [checklist.md](checklist.md), [axis-briefs.md](axis-briefs.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+[../tracker/SKILL.md](../tracker/SKILL.md). Before spawning workers, also read
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
+as directed there.
 
 Requires authenticated `gh` and tracker auth per WORKSPACE. If either is missing, stop.
 
@@ -53,12 +53,13 @@ Focused defaults: [depth.md](depth.md#model-defaults-focused).
 
 ## Steps
 
-1. **Resolve issue** — key/URL or ask once; `fetch`; require **In Review** (else stop). Capture key, summary, sub-tasks, artifact paths.
-2. **Resolve PR** — issue-linked → user-named → current branch → draft if commits exist. Confirm non-empty diff; capture number, URL, base, head SHA, diff, commits.
-3. **Build investigation context** — CONCEPT_REVIEW packs: changed paths, file snapshots, neighbor map, spec/architecture/standards packs, tooling evidence. Pass into every brief.
-4. **Choose depth + spawn** — pick `full` or `focused` per [depth.md](depth.md); score each worker; one message with the matching `Task` calls and `model` when supported. `full` briefs from [axis-briefs.md](axis-briefs.md); `focused` briefs from [depth.md](depth.md#focused-briefs). Empty Spec pack → skip Spec (still run other included axes); ask once if everything is empty of intent.
-5. **Publish** — merge/dedupe (Architecture over Standards for same structural issue; Integration for runtime contract breaks); promote mislabeled actionable `note`s → `should-fix`; submit one PR review via `gh api` (`REQUEST_CHANGES` if any blocker/should-fix; `COMMENT` for non-actionable notes only; `APPROVE` only on zero findings). Unanchorable inlines → PR conversation with axis prefix. Never commit review JSON; never paste full review in chat.
-6. **Tracker** — comment depth + counts + event + **Next**; keep Task **In Review**; upsert ISSUES. Do not mark Done.
+Follow the CONCEPT_REVIEW flow with these specialisations:
+
+1. **Resolve issue and PR** — Resolve the key, fetch the **In Review** Task, and use delivery continuity to locate its PR. Capture number, URL, base, head SHA, commits, and a non-empty diff. Done when one reviewable Task/PR pair is identified or a readiness stop is reported.
+2. **Build context and choose depth** — Prepare the concept's investigation packs, choose `full` or `focused` via [depth.md](depth.md), and score each included worker. Done when every brief has the relevant packs and a recorded tier/model.
+3. **Run and merge workers** — Use the matching full or focused briefs; skip Spec only when its pack is empty, and ask once when all intent is absent. Dedupe with Architecture owning structural overlap and Integration owning runtime contract breaks. Done when all included worker reports are evaluated and one severity-normalized finding set remains.
+4. **Publish** — Submit one PR review via `gh api`: `REQUEST_CHANGES` for blocker/should-fix, `COMMENT` for non-actionable notes only, or `APPROVE` for zero findings. Put unanchorable findings in the PR conversation with an axis prefix. Done when the durable PR review contains every retained finding and no review JSON is committed.
+5. **Track and hand off** — Apply the review tracker row with depth, counts, event, and **Next** while keeping the Task **In Review**. Done when Task, enabled mirror, and user summary agree on the review outcome and Handoff.
 
 ### Review body shape
 

@@ -1,14 +1,10 @@
 ---
 name: implement
 description: >-
-  Managed sub-agent implementation against a pipeline Task and Sub-tasks from
-  define. Reuses the Task’s existing delivery branch/PR (does not open a parallel
-  implement-only PR). Scores package difficulty across low/mid/high capability
-  tiers (Routine → low, Moderate → mid, Demanding → high); manager stays
-  high-capability. Builds with tests and testability as first-class deliverables
-  so coverage and code quality do not degrade. Moves the issue In Progress then
-  In Review; supports fix-forward after review. Persists Next in markdown and the
-  configured tracker.
+  Implementation of a pipeline Task through managed, value-routed work
+  packages. Reuses the Task's delivery branch/PR, verifies code and tests, and
+  moves the Task from In Progress to In Review. Use for an approved PLAN.md,
+  BUG.md, ITERATE.md, or review fix-forward.
 disable-model-invocation: true
 ---
 
@@ -18,10 +14,14 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 **current repository** on the main pipeline Task.
 
 **On invoke:** read [../concepts/CONCEPT_IMPLEMENTATION.md](../concepts/CONCEPT_IMPLEMENTATION.md),
-[../concepts/CONCEPT_DELEGATION.md](../concepts/CONCEPT_DELEGATION.md)
-(and [../concepts/PLATFORM-CATALOGS.md](../concepts/PLATFORM-CATALOGS.md) when assigning models),
-[testing.md](testing.md), [../workflow/reference.md](../workflow/reference.md), and
+[testing.md](testing.md), [../workflow/reference.md](../workflow/reference.md),
+[../workflow/delivery.md](../workflow/delivery.md),
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
+[../workflow/handoff.md](../workflow/handoff.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
+When spawning workers, also read
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
+as directed there.
 
 ## Extensions
 
@@ -43,8 +43,6 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 | **Build** (default) | Task To Do / In Progress | Full implementation loop with tests in-package |
 | **Fix-forward** | After review with must-fix findings; same Task + open PR | Address review threads only; add/adjust tests for correctness/coverage/testability findings |
 
-Post-merge follow-ups → `/iterate`, not fix-forward.
-
 ## Spec priority
 
 1. Fix-forward: open PR review comments
@@ -57,30 +55,18 @@ Resolve issue: user key/URL, or ask once "Which issue should this implementation
 
 ## Tracker status
 
-| When | Action |
-|------|--------|
-| Start (build) | Task → **In Progress**; comment session start |
-| Each Sub-task started | Sub-task → **In Progress** |
-| Sub-task package done | Sub-task → **Done** + comment |
-| PR ready / fix-forward complete | Task → **In Review** + comment with PR URL + **Next** `/review-fix` |
-| Start (fix-forward) | Task → **In Progress** if needed; keep PR |
-
-Upsert ISSUES mirror on every transition. Parent Task **Done** is **ship** only.
-
-| Action | Required |
-|--------|----------|
-| Task In Progress → In Review | yes |
-| Sub-tasks In Progress → Done as completed | yes |
-| PR link on Task | yes |
-| Close parent Task | **no** |
+Follow the [implementation rows](../workflow/tracker-sync.md#matrix), including
+Sub-task transitions and the enabled ISSUES mirror. The parent Task remains
+open for ship closeout.
 
 ## Steps
 
-1. Resolve issue + packages (or review threads) → In Progress.
-2. **Delivery branch (mandatory reuse):** resolve existing open branch/PR for this Task; else create once. Never a parallel implement-only PR. See [delivery branch continuity](../workflow/reference.md#delivery-branch-continuity-closed-loop).
-3. Note project test/lint commands from environment (README, CI, package scripts, WORKSPACE).
-4. Draft/execute packages per CONCEPT_IMPLEMENTATION + CONCEPT_DELEGATION. Paste [testing.md](testing.md) into briefs; missing tests for new behaviour = insufficient → re-delegate.
-5. Verify → same PR ready → In Review → **Next**.
+Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
+
+1. **Resolve work and status** — Resolve the Task, spec, Sub-tasks or review threads, then apply the implementation start transition. Done when the usable spec and active packages are known and the Task is **In Progress**.
+2. **Resolve delivery and commands** — Follow [delivery continuity](../workflow/delivery.md) and inspect repository-owned test/lint commands. Done when the Task's one delivery head is checked out and verification commands are recorded.
+3. **Execute packages** — Use CONCEPT_DELEGATION for every worker and include [testing.md](testing.md) in implementation, testing, and fix-forward briefs. Done when all packages satisfy the spec, behavioural tests, and Sub-task completion criteria.
+4. **Verify and deliver** — Run the recorded checks, update the same PR, apply the implementation tracker row, and persist the Handoff. Done when checks pass, the Task is **In Review**, the PR and mirrors are current, and **Next** is recorded.
 
 ## Work packages
 

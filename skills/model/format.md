@@ -46,7 +46,8 @@ When embedding a model, optimiser, or estimator:
 4. Separate levels with `\\[6pt]`.
 5. **One closing question** per message — not a survey.
 
-**Anti-patterns:** flattening hierarchy; `& lhs = rhs` instead of `lhs &= rhs`; markdown or inline `$...$` outside the block.
+Keep hierarchy levels distinct. Align relations as `lhs &= rhs`. Keep all content
+inside the single display-math block (no markdown or inline `$...$` outside).
 
 ### Closing artifact and readiness
 
@@ -77,5 +78,3 @@ y_k^{m} &= C x_k + v_k, & v_k &\sim \mathcal{N}(0,R) \\
 & \text{Kalman filter, EKF, UKF, or particle filter?}
 \end{aligned}
 $$
-
-See the former `maths-grill-and-develop` skill history for extended hierarchical examples (CSTR SDE, MPC OCP).

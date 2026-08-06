@@ -1,10 +1,9 @@
 ---
 name: explore
 description: >-
-  Clear the fog on a vague or oversized piece of work. Charts a shared map
-  (ROADMAP.md + Story) of sequenced, dependent route Tasks — research, model,
-  define, and other investigations — then hands off the frontier. Use when the
-  destination is felt but the way there is not yet visible.
+  Exploration through foggy or oversized work. Charts ROADMAP.md plus a Story
+  of sequenced route Tasks, then hands off the frontier. Use when the
+  destination is felt but the route is not yet visible.
 disable-model-invocation: true
 ---
 
@@ -14,7 +13,9 @@ Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) to **wayfinding** 
 charting a course through foggy work. Explore charts; downstream skills walk.
 
 **On invoke:** read [../concepts/CONCEPT_ALIGNMENT.md](../concepts/CONCEPT_ALIGNMENT.md),
-[../workflow/reference.md](../workflow/reference.md), and
+[../workflow/reference.md](../workflow/reference.md),
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
+[../workflow/handoff.md](../workflow/handoff.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
 
 ## Leading words
@@ -24,9 +25,8 @@ charting a course through foggy work. Explore charts; downstream skills walk.
 - **route** — sequenced Tasks that clear fog
 - **frontier** — open, unblocked route Tasks
 
-**Plan the route; don't walk it.** Creating a research/model/define Task is not
-running that skill. Temptation to just do the work usually means the map's edge
-is reached — hand off.
+**Chart the route.** Creating a research/model/define Task completes a map step;
+the frontier's Handoff starts execution.
 
 ## Extensions
 
@@ -73,7 +73,7 @@ to the same unit.
 
 Wire **Blocked by** after Tasks have keys. A Task is **unblocked** when every
 blocker is **Done** (or waived). **Next** = first frontier Task's skill (respect
-Order). Explore does **not** open delivery branches — downstream skills do.
+Order).
 
 ## Artifact
 
@@ -117,53 +117,37 @@ Keep Destination short. **Not yet specified** stays non-empty whenever honest fo
 
 ### Chart the map
 
-1. Name the destination (align until "clear" is sayable).
-2. Map frontier breadth-first — typed route steps over vague themes.
-3. If no fog (already clear and small) — stop; ask `/define`, `/bug`, or just do the work. Do not invent a map for show.
-4. Present ROADMAP; readiness prompt.
-5. On approval → Tracker; **Next** = first frontier skill. Session ends.
+1. **Align** — Follow CONCEPT_ALIGNMENT with the extensions above. Done when the destination and map stop condition hold.
+2. **Classify the route** — Map the visible frontier breadth-first into typed Tasks, fog, and out of scope. Done when every visible item has exactly one classification and dependencies are known.
+3. **Handle a clear direct path** — If the work is already small and fog-free, select the direct handoff instead of manufacturing route Tasks. Done when `/define`, `/bug`, or the concrete action is identified.
+4. **Approve the map** — Present `ROADMAP.md` with the readiness prompt. Done when the user approves it or names the next divergence.
+5. **Persist and hand off** — Apply the explore tracker row and choose the first frontier skill by Order. Done when Story, Tasks, dependencies, artifact, mirror, and **Next** agree.
 
 ### Continue the map
 
-1. Load map at low resolution (Destination, Route, Cleared, fog).
-2. Orient: what cleared? current frontier?
-3. Graduate sharp fog into new Tasks; wire deps; drop graduated patches from fog.
-4. Mis-scoped past destination → Out of scope (close those Tasks).
-5. Update ROADMAP, Story comment, ISSUES; **Next** = new frontier. Default is rechart and hand off — walk a Task only if the user asks.
+1. **Load and orient** — Read Destination, Route, Cleared, and fog; compare them with tracker state. Done when cleared work and the current frontier are identified.
+2. **Rechart** — Graduate sharp fog into Tasks, wire dependencies, and move work beyond the destination to Out of scope. Done when each changed item is classified and every new Task has enough context for its declared skill.
+3. **Persist and hand off** — Update ROADMAP, Story, tracker, and ISSUES; choose the new frontier by Order. Done when all durable surfaces carry the same route and **Next**.
 
 ## Tracker (after approval)
 
-1. Provider ops via [../tracker/reference.md](../tracker/reference.md).
-2. **Story** for the map — Destination + Notes — **To Do**.
-3. Each route row → **Task** linked to Story — **To Do**; body: Type, Question/step, Blocked by, fog pointers, which skill — **not** a pre-baked answer.
-4. Second pass: record dependencies on parent and child.
-5. Story comment with keys, deps, **Next**; upsert ISSUES; write ROADMAP (external root + push into Story when Artifact location is external). Report and end.
-
-| Action | Required |
-|--------|----------|
-| Create Story + route Tasks | yes (chart) / newly graduated (continue) |
-| Link Tasks → Story; type + Blocked by | yes |
-| Status | **To Do** for new issues |
-| Comment + **Next** on Story | yes |
-| ISSUES mirror | yes when enabled |
-| Delivery branch/PR | **no** (downstream) |
-| Close | only mis-scoped Tasks ruled out of scope |
+Follow the [explore tracker row](../workflow/tracker-sync.md#matrix) using the
+configured provider operations. The Story carries Destination + Notes; each
+route Task carries Type, question/step, blockers, fog pointers, and skill.
+Create dependencies in a second pass after keys exist. New issues stay **To
+Do**; close only Tasks newly ruled beyond the destination.
 
 ## Handoff
 
 Prefer the frontier's declared type; if several unblocked, lowest **Order** (or ask once when ambiguous):
 
-```markdown
-## Next
-`/research <TASK-KEY>` — <title>: evidence this route needs before definition
-```
+| Frontier type | Invoke |
+|---------------|--------|
+| research | `/research <TASK-KEY>` |
+| model | `/model <TASK-KEY>` |
+| define | `/define <TASK-KEY>` |
 
 ```markdown
 ## Next
-`/model <TASK-KEY>` — <title>: math alignment this route needs next
-```
-
-```markdown
-## Next
-`/define <TASK-KEY>` — <title>: define the first unblocked buildable slice
+`/<skill> <TASK-KEY>` — <title>: <why this frontier step is next>
 ```

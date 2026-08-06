@@ -2,28 +2,23 @@
 
 Execute an agreed **specification** via a **manager** that plans, delegates,
 evaluates, and tracks — without absorbing large implementation in the manager
-thread. Every delivery leaves the touched area at least as testable and as well
-covered as before. Uninvokable — load only when a skill's On-invoke pointer fires.
+thread. Uninvokable — load only when a skill's On-invoke pointer fires.
 
-When spawning workers, also load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
+## Intent
 
-## Leading words
-
-- **manager** / **worker** — see CONCEPT_DELEGATION
-- **spec fidelity** — every package and evaluation cross-references the specification
+Deliver the spec through isolated work packages so every touched area stays at
+least as testable and as well covered as before. When spawning workers, also
+load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 
 ## Invariants
 
-- **Management role.** Manager owns plan and evaluation; delegates large work. Manager stays high-capability; workers use CONCEPT_DELEGATION (value-biased).
-- **Spec fidelity.** Deviations require plan revision or user alignment — not silent invention.
+- **Spec fidelity.** Every package and evaluation cross-references the specification; deviations require plan revision or user alignment.
 - **Isolated packages.** Each delegation is self-contained: objective, inputs, constraints, deliverables, branch, difficulty/model.
 - **Iterative plan.** Re-evaluate after each report; revise remaining packages when findings change assumptions.
 - **Branch discipline.** Resolve the skill's delivery branch before first delegation; prefer an existing open branch/PR for the Task; workers commit only there.
-- **No silent gaps.** Insufficient report → re-delegate with named gaps (escalate one tier); do not absorb large gaps in the manager thread.
-- **Tests with behaviour.** Behavioural packages include/update tests in-package (or a Testing package before verify). Bug fixes include regression coverage.
-- **Design for testability.** Injectable seams; isolatable units; no hard-wired I/O/clocks/neighbors that force redesign to test.
-- **No coverage/quality regression.** Touched-area suite stays honest and green; failure paths count.
-- **Verification mandatory.** Run real project tests/lint for the touched area (or full suite if that is the norm). Never invent green results.
+- **Named-gap re-delegate.** Insufficient report → re-delegate with named gaps (escalate one tier).
+- **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); bug fixes include regression coverage; injectable seams; touched-area suite stays honest and green.
+- **Verification mandatory.** Run real project tests/lint for the touched area (or full suite if that is the norm); report observed results only.
 
 ## Extensions
 
@@ -49,6 +44,8 @@ When spawning workers, also load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 5. **Implementation loop** — select package → score difficulty → delegate → evaluate (incl. tests/testability) → re-delegate or mark done → revise plan. Done when all packages complete.
 6. **Verify and deliver** — skill verification + delivery outcome. Done when checks pass and delivery criteria met.
 
-## Package brief (minimum)
+## Reference
+
+### Package brief (minimum)
 
 Objective; inputs; constraints (incl. testability seams); deliverables (code + tests or explicit justification); branch; difficulty / model.

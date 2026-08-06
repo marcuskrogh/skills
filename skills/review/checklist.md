@@ -132,8 +132,7 @@ Repo docs override. **Fix-biased:** actionable named smells in **changed** code
 When a smell is really a module/layer/dependency problem, prefer an **Architecture**
 finding with a structural refactoring (usually `should-fix`) over a Standards note.
 
-### Severity reminder (all axes)
+### Severity (all axes)
 
-Follow [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md) fix-biased severity. **When in
-doubt between `note` and `should-fix`, choose `should-fix`.** Demoting actionable
-findings to `note` is an anti-pattern.
+Follow [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md) fix-biased severity.
+Actionable findings earn `should-fix` (or `blocker` when ship-critical).

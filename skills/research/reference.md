@@ -1,252 +1,65 @@
-# Research axes reference (for agents)
+# Research axes reference
 
-Tooling notes for the multi-axis **research** skill. Do not present this file to the
-user during research.
-
-Default pass covers **all relevant axes**. arXiv is axis 1 only.
+Tooling notes for the **research** skill. Do not present during research.
 
 | Axis | Tooling |
 |------|---------|
 | Preprints (arXiv) | `scripts/arxiv_research.py` (below) |
-| Formal written | WebSearch → WebFetch (DOI, publisher, RFC/standards sites) |
+| Formal written | WebSearch → WebFetch (DOI, publisher, RFC/standards) |
 | Web discovery | WebSearch (+ WebFetch of key pages) |
 | Informal / practitioner | WebSearch → WebFetch; always label informal |
 
----
+## Axis 1: arXiv
 
-# Axis 1: arXiv API
-
-Official docs: https://info.arxiv.org/help/api/user-manual.html
-
-## Primary tool: `scripts/arxiv_research.py`
-
-Stdlib Python script — no MCP, no extra dependencies. Always prefer this over raw `curl`
-for the preprint axis.
-
-### Commands
+Prefer `scripts/arxiv_research.py` (stdlib; no MCP). Discover flags and JSON shape
+via `python3 scripts/arxiv_research.py --help` and the subcommand's `--help`.
 
 | Command | Purpose |
 |---------|---------|
 | `search` | One or more `-q` queries; merges and deduplicates |
-| `lookup` | Fetch metadata by arXiv ID (`--ids`) |
+| `lookup` | Metadata by arXiv ID (`--ids`) |
 | `snowball` | Expand from seed IDs via author/category follow-ups |
 
-### Examples
-
 ```bash
-# Multi-query search (one invocation)
 python3 scripts/arxiv_research.py search \
   -q 'all:transformer AND cat:cs.LG' \
   -q 'ti:"attention is all you need"' \
-  --max-results 50 \
-  --sort submittedDate \
-  --order descending
+  --max-results 50 --sort submittedDate --order descending
 
-# Known paper lookup
 python3 scripts/arxiv_research.py lookup --ids 1706.03762,hep-th/9711200
 
-# Snowball from seeds
-python3 scripts/arxiv_research.py snowball \
-  --ids 1706.03762 \
-  --max-results 20 \
-  --years-back 3
-
-# Pagination
-python3 scripts/arxiv_research.py search -q 'all:topic' --max-results 50 --start 50
-
-# Fetch all pages (slow; rate-limited)
-python3 scripts/arxiv_research.py search -q 'all:topic' --paginate --max-results 100
+python3 scripts/arxiv_research.py snowball --ids 1706.03762 --max-results 20
 ```
 
-### Flags
+Prefer one multi-`-q` `search` over many script invocations. The script enforces
+**≥ 3 seconds** between API requests — do not parallelise raw `curl` against the
+same API.
 
-| Flag | Applies to | Default | Description |
-|------|-----------|---------|-------------|
-| `-q` / `--query` | search | — | Search expression (repeatable) |
-| `--ids` | lookup, snowball | — | Comma-separated arXiv IDs |
-| `--max-results` | all | 25 | Page size (max 200) |
-| `--sort` | search | relevance | `relevance`, `submittedDate`, `lastUpdatedDate` |
-| `--order` | search | descending | `ascending`, `descending` |
-| `--start` | search | 0 | Pagination offset |
-| `--paginate` | search | off | Fetch all pages per query |
-| `--years-back` | snowball | 3 | Date window for follow-ups |
-| `--max-authors` | snowball | 3 | Top authors to expand |
-| `--max-categories` | snowball | 2 | Top categories to expand |
-| `--compact` | all | off | Compact JSON output |
+**Fallback** (Python unavailable): Atom API
+`https://export.arxiv.org/api/query` — see
+https://info.arxiv.org/help/api/user-manual.html. Extract IDs via WebFetch of
+`arxiv.org/search` when the Atom API cannot answer (DOI/ORCID filters, etc.),
+then `lookup --ids`.
 
-### JSON output schema
+Common categories: `cs.LG`, `cs.CL`, `cs.CV`, `cs.AI`, `stat.ML`, `math.OC`,
+`q-bio` — full taxonomy at https://arxiv.org/category_taxonomy.
 
-**`search` mode:**
+## Axes 2–4: web retrieval
 
-```json
-{
-  "mode": "search",
-  "queries": [
-    { "search_query": "...", "total_results": 1234, "fetched": 25 }
-  ],
-  "unique_papers": 42,
-  "papers": [ { "...paper fields..." } ]
-}
-```
+**Formal written** — Prefer DOI pages, publisher abstracts, IETF RFCs, W3C/ISO/IEEE
+public specs, open surveys with stable URLs. Record title, authors/org, year, DOI
+or standard id, peer-review/normative note.
 
-**`lookup` mode:**
+**Web discovery** — Several complementary queries; fetch before deep claims;
+encyclopedic pages orient only.
 
-```json
-{
-  "mode": "lookup",
-  "id_list": "1706.03762",
-  "total_results": 1,
-  "papers": [ { "...paper fields..." } ]
-}
-```
+**Informal / practitioner** — Prefer named authors, known labs/companies, or widely
+cited posts; capture date and venue; keep the informal label.
 
-**`snowball` mode:**
-
-```json
-{
-  "mode": "snowball",
-  "seed_ids": ["1706.03762"],
-  "seed_papers": [ { "..." } ],
-  "follow_up_queries": ["au:vaswani+AND+..."],
-  "top_authors": ["vaswani"],
-  "top_categories": ["cs.CL", "cs.LG"],
-  "unique_papers": 18,
-  "papers": [ { "..." } ]
-}
-```
-
-**Paper object fields:**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `arxiv_id` | string | Canonical ID without version |
-| `version` | int \| null | Version number |
-| `canonical_id_with_version` | string | e.g. `1706.03762v7` |
-| `title` | string | Paper title |
-| `authors` | string[] | Author names (ordered) |
-| `abstract` | string | Abstract text |
-| `submitted_date` | string | ISO 8601 v1 submission |
-| `updated_date` | string | ISO 8601 latest update |
-| `primary_category` | string | e.g. `cs.LG` |
-| `categories` | string[] | All categories |
-| `comment` | string \| null | Author comments |
-| `journal_ref` | string \| null | Journal reference |
-| `doi` | string \| null | DOI if set |
-| `abs_url` | string | Abstract page URL |
-| `pdf_url` | string | PDF URL |
-| `source_queries` | string[] | Which search queries returned this paper |
-
-## Raw API (fallback only)
-
-```
-https://export.arxiv.org/api/query
-```
-
-Use when Python is unavailable:
-
-```bash
-curl -sL "https://export.arxiv.org/api/query?search_query=all:topic&max_results=25"
-```
-
-## Query parameters
-
-| Parameter | Type | Default | Purpose |
-|-----------|------|---------|---------|
-| `search_query` | string | — | Boolean search expression |
-| `id_list` | CSV | — | One or more arXiv IDs |
-| `start` | int | 0 | 0-based offset |
-| `max_results` | int | 10 | Page size (server max 2000) |
-| `sortBy` | enum | relevance | `relevance`, `submittedDate`, `lastUpdatedDate` |
-| `sortOrder` | enum | descending | `ascending`, `descending` |
-
-## Field prefixes (`search_query`)
-
-| Field | Prefix | Example |
-|-------|--------|---------|
-| All | `all:` | `all:diffusion+model` |
-| Title | `ti:` | `ti:"graph+neural+network"` |
-| Author | `au:` | `au:lecun` |
-| Abstract | `abs:` | `abs:reinforcement+learning` |
-| Comments | `co:` | `co:"NeurIPS+2024"` |
-| Journal ref | `jr:` | `jr:"Nature"` |
-| Report number | `rn:` | `rn:CERN-PH-TH` |
-| Category | `cat:` | `cat:cs.LG` |
-
-## Boolean operators
-
-- `AND`, `OR`, `ANDNOT` — join with `+`: `all:transformer+AND+cat:cs.LG`
-- Group: `%28cat:cs.LG+OR+cat:cs.AI%29`
-- Phrases: `%22...%22`
-
-## Date ranges
-
-```
-submittedDate:[YYYYMMDDHHMM TO YYYYMMDDHHMM]
-lastUpdatedDate:[YYYYMMDDHHMM TO YYYYMMDDHHMM]
-```
-
-URL-encode brackets as `%5B` and `%5D`.
-
-## arXiv ID formats
-
-- **New style:** `YYMM.NNNNN` (e.g. `1706.03762`)
-- **Old style:** `archive/YYMMNNN` (e.g. `hep-th/9711200`)
-- **Version pin:** append `vN` to `id_list`
-
-## Rate limiting
-
-The script enforces **≥ 3 seconds** between API requests. Do not bypass with parallel raw `curl` calls.
-
-## API limitations (HTML fallback)
-
-Not searchable via Atom API: DOI, ORCID, ACM/MSC field search, cross-listed-only filter. Use `arxiv.org/search` via WebFetch, extract IDs, then `lookup --ids`.
-
-## Common categories
-
-| Code | Area |
-|------|------|
-| `cs.LG` | Machine learning |
-| `cs.CL` | Computation and language |
-| `cs.CV` | Computer vision |
-| `cs.AI` | Artificial intelligence |
-| `stat.ML` | Machine learning (statistics) |
-| `math.OC` | Optimization and control |
-| `q-bio` | Quantitative biology |
-
-Full list: https://arxiv.org/category_taxonomy
-
----
-
-# Axes 2–4: web retrieval notes
-
-## Formal written
-
-Prefer:
-
-- DOI landing pages (`https://doi.org/...`)
-- Publisher HTML/PDF abstracts
-- IETF RFC (`https://www.rfc-editor.org/rfc/rfcNNNN`)
-- W3C / ISO / IEEE public abstracts or freely available specs
-- Open survey articles and textbooks with stable URLs
-
-Record: title, authors/org, year, DOI or standard id, peer-review/normative note.
-
-## Web discovery
-
-- Use several complementary queries (synonyms, "survey", method names, vendors).
-- Treat search hits as pointers — fetch the page before deep claims.
-- Encyclopedic pages are orientation only; prefer primary sources for Core tier.
-
-## Informal / practitioner
-
-- Prefer named authors, known labs/companies, or widely cited posts.
-- Capture date and venue (blog, talk, repo).
-- Never upgrade informal status silently in the brief.
-
-## Citation hygiene (all axes)
+## Citation hygiene
 
 | Prefer | Avoid |
 |--------|-------|
-| arXiv ID, DOI, RFC number, permalink | Homepages that rot; bare search-result titles |
-| Axis label on every citation | Mixing informal with formal without labels |
+| arXiv ID, DOI, RFC number, permalink | Rotting homepages; bare search titles |
+| Axis label on every citation | Mixing informal with formal unlabeled |
 | Quoting only retrieved text | Filling gaps from memory |

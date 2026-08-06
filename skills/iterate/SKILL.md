@@ -1,10 +1,9 @@
 ---
 name: iterate
 description: >-
-  Post-ship follow-up: brief clarifying alignment on a reported issue with already
-  merged work, new branch from base, implement the fix, open a new PR, then hand
-  off to review-fix. Use when a shipped Task/PR needs another fix cycle; invoke
-  again if problems persist after the next ship.
+  Iteration on already merged work through a brief delta, a new Task and branch,
+  implementation, and a new PR. Use when shipped work needs another fix cycle
+  before review-fix.
 disable-model-invocation: true
 ---
 
@@ -14,13 +13,15 @@ Applies [CONCEPT_ITERATION](../concepts/CONCEPT_ITERATION.md), with brief
 [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) when needed and
 [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) for the fix.
 
-**On invoke:** read those concepts, [../concepts/CONCEPT_DELEGATION.md](../concepts/CONCEPT_DELEGATION.md),
+**On invoke:** read those concepts,
 [../workflow/reference.md](../workflow/reference.md),
-[../implement/SKILL.md](../implement/SKILL.md), and
+[../workflow/delivery.md](../workflow/delivery.md),
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
+[../workflow/handoff.md](../workflow/handoff.md),
 [../tracker/SKILL.md](../tracker/SKILL.md).
-
-Open PR needs review fixes → `/review-fix` / fix-forward, not iterate. Brand-new
-unrelated defect → `/bug`. New feature → `/explore` / `/define`.
+Before implementation, read [../implement/SKILL.md](../implement/SKILL.md);
+before spawning workers, also read
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md).
 
 ## Extensions
 
@@ -62,11 +63,12 @@ unrelated defect → `/bug`. New feature → `/explore` / `/define`.
 
 ## Steps
 
-1. **Resolve prior** — fetch Task; load PLAN/BUG/ITERATE + merged PR. Open PR → stop, redirect to fix-forward.
-2. **Brief alignment** — rich invoke: draft artifact; thin: one question at a time until implementable. No full define/bug questionnaire.
-3. **Persist** — write `ITERATE.md` (on new branch, or external root + push into Task); create new Task (Relates prior); optional Sub-tasks; comment prior; upsert ISSUES.
-4. **Implement** — [implement](../implement/SKILL.md) Build on `<NEW-KEY>`: branch from current base; In Progress → workers via CONCEPT_DELEGATION → verify → **new** PR → In Review. Do not merge or Done.
-5. **Tell user** — new key, prior key, PR URL, `ITERATE.md` path, **Next**.
+Follow the CONCEPT_ITERATION flow with these specialisations:
+
+1. **Resolve lineage** — Fetch the prior Task, merged PR, and PLAN/BUG/ITERATE artifacts; validate post-merge entry. Done when the prior delivery is identified and confirmed merged, or an open-PR fix-forward handoff is reported.
+2. **Capture and persist the delta** — Apply the brief CONCEPT_ALIGNMENT flow when needed, write `ITERATE.md`, and create the new related Task with optional Sub-tasks. Done when the delta is implementable and artifact, lineage comments, tracker, and mirror agree.
+3. **Implement on a new delivery head** — Apply CONCEPT_IMPLEMENTATION through [implement](../implement/SKILL.md), using CONCEPT_DELEGATION for workers and the iterate row in the tracker matrix. Done when checks pass, the new PR is ready, and the new Task is **In Review**.
+4. **Hand off** — Report the new and prior keys, PR URL, artifact path, and persist **Next**. Done when every configured durable surface points to `/review-fix <NEW-KEY>`.
 
 ## Artifact
 
@@ -99,6 +101,13 @@ unrelated defect → `/bug`. New feature → `/explore` / `/define`.
 
 ## Next
 `/review-fix <NEW-KEY>` — Review and auto-fix (single pass)
+```
+
+## Handoff
+
+```markdown
+## Next
+`/review-fix <NEW-KEY>` — Review and auto-fix on the new delivery PR
 ```
 
 ## Chaining

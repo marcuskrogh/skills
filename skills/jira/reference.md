@@ -19,21 +19,14 @@ Auth for REST calls: `-u "$JIRA_EMAIL:$JIRA_API_TOKEN"`
 
 Use `curl` or `gh`-style shell; do not commit credentials.
 
-## Issue types (default mapping)
+## Issue types
 
-| Skill | Primary issue | Children |
-|-------|---------------|----------|
-| `explore` | **Story** (map) | **Task** per route step (research / model / define / task) with sequence and blockers |
-| `bug` | **Bug** (or **Task** with bug label) | Optional **Sub-task**s |
-| `define` | **Same explore Task** (preferred) or new **Task** / **Story** if standalone | **Sub-task** per work package |
-| `model` | **Task** | — |
-| `implement` | Existing pipeline **Task** / **Story** | Existing **Sub-tasks** (or create if missing) |
-| `review` | Existing ticket in **In Review** | — |
-| `ship` | Existing pipeline Task after define/bug/iterate-ready (any remaining stage) | May compose implement / review-fix; then → **Done** |
+Prefer entering through [../tracker/backends/jira.md](../tracker/backends/jira.md).
+Logical create/update ownership is in
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md). Map Story / Task /
+Bug / Sub-task names to the project schema when creation fails.
 
-Adjust issue type names to match the Jira project schema if creation fails.
-
-Prefer entering through [../tracker/backends/jira.md](../tracker/backends/jira.md). Main pipeline continuity is in [../workflow/reference.md](../workflow/reference.md).
+Main pipeline continuity: [../workflow/reference.md](../workflow/reference.md).
 
 ## Status workflow
 

@@ -12,15 +12,8 @@ disable-model-invocation: true
 
 **Shared reference skill.** Users configure the tracker via [setup](../setup/SKILL.md), not this file.
 
-1. Resolve the **effective workspace** per [../setup/format.md](../setup/format.md)
-   → **Resolution order**: `$AGENT_WORKSPACE_FILE`, then the repo's
-   `docs/agents/WORKSPACE.md`, then the global `~/.agents/WORKSPACE.md`
-   (or harness fallback). Repository fields override global fields.
-2. Read [reference.md](reference.md) for the logical operations.
-3. Read the matching backend:
-   - [backends/markdown.md](backends/markdown.md)
-   - [backends/jira.md](backends/jira.md)
-   - [backends/github.md](backends/github.md)
-   - [backends/linear.md](backends/linear.md)
+**On invoke:** resolve the **effective workspace**
+([../setup/format.md](../setup/format.md) → **Resolution order**), then read
+[reference.md](reference.md) and only the matching backend under `backends/`.
 
-If neither layer resolves, tell the user to run `/setup` before creating issues.
+If neither workspace layer resolves, hand off to `/setup` before creating issues.
