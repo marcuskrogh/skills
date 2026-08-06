@@ -1,7 +1,8 @@
 # One-time local setup for authors of this skills repo.
 # Usage: .\scripts\setup.ps1 [-Link]
 #
-# Prefer project installs via: npx skills add marcuskrogh/skills
+# Prefer project installs via agent-from-git (scripts/install-from-git.sh).
+# Also supported: npx skills add marcuskrogh/skills
 
 param([switch]$Link)
 
@@ -38,7 +39,9 @@ if (Test-Path $agentsHome) {
     }
 }
 Write-Host ""
-Write-Host "Project install (any Agent Skills harness):" -ForegroundColor Yellow
+Write-Host "Project install — agent-from-git (preferred when an agent can run it):" -ForegroundColor Yellow
+Write-Host "  bash scripts/install-from-git.sh"
+Write-Host "Also supported (skills.sh):" -ForegroundColor Yellow
 Write-Host "  npx skills add marcuskrogh/skills"
 Write-Host ""
 Write-Host "Optional Claude Code plugin:" -ForegroundColor Yellow

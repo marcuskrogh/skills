@@ -1,5 +1,6 @@
 # Install skills from this repo into a project's Agent Skills directory.
-# Prefer: npx skills add marcuskrogh/skills
+# Prefer agent-from-git (scripts/install-from-git.sh) when an agent can install.
+# Also supported: npx skills add marcuskrogh/skills
 #
 # Usage:
 #   .\scripts\install-to-project.ps1 -ProjectPath C:\path\to\repo
@@ -100,10 +101,12 @@ Write-Host "Installed $($toInstall.Count) skill(s) + concepts to $destRoot"
 if ($sha) {
     Write-Host "Version stamp: $ref @ $($sha.Substring(0, [Math]::Min(7, $sha.Length))) -> $stampPath"
 }
-Write-Host "Prefer the universal installer when possible:"
+Write-Host "Prefer agent-from-git when an agent can install:"
+Write-Host "  bash scripts/install-from-git.sh   # from a clone of marcuskrogh/skills"
+Write-Host "Also supported:"
 Write-Host "  npx skills add marcuskrogh/skills"
-Write-Host "To update a committed install later, re-run this script or:"
+Write-Host "To update a committed install later, re-run install-from-git.sh, this script, or:"
 Write-Host "  npx skills update -y"
 Write-Host "  # or force from main:"
 Write-Host "  npx skills add marcuskrogh/skills -y"
-Write-Host "Commit $TargetDir to share with collaborators and cloud environments."
+Write-Host "Commit $TargetDir (and AGENTS.md pointers if using install-from-git) to share."

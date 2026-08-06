@@ -2,8 +2,9 @@
 # Sync skills from this repo to local agent skill directories.
 # Usage: ./scripts/sync-local.sh [--prune] [--link]
 #
-# Default targets are common Agent Skills home dirs. Override by editing TARGET_DIRS
-# or use: npx skills add marcuskrogh/skills
+# Default targets are common Agent Skills home dirs. Override by editing TARGET_DIRS.
+# For project installs prefer: bash scripts/install-from-git.sh
+# Also supported: npx skills add marcuskrogh/skills
 #
 # Always syncs skills/*/ (with SKILL.md) and skills/concepts/ as sibling folders.
 
@@ -100,4 +101,6 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
 done
 
 echo ""
-echo "Tip: for project installs, prefer: npx skills add marcuskrogh/skills"
+echo "Tip: for project installs, prefer agent-from-git:"
+echo "  bash scripts/install-from-git.sh"
+echo "Also supported: npx skills add marcuskrogh/skills"

@@ -2,7 +2,9 @@
 # Usage: .\scripts\sync-local.ps1 [-Prune] [-Link]
 #
 # Default targets are common Agent Skills home dirs across popular harnesses.
-# Override with -Targets. For project installs, prefer: npx skills add marcuskrogh/skills
+# Override with -Targets. For project installs, prefer agent-from-git:
+#   bash scripts/install-from-git.sh
+# Also supported: npx skills add marcuskrogh/skills
 #
 # Always syncs skills/*/ (with SKILL.md) and skills/concepts/ as sibling folders.
 
@@ -103,4 +105,6 @@ Write-Host ""
 if (-not $Link) {
   Write-Host "Tip: use -Link for live edits without re-syncing (requires Windows Developer Mode or admin)."
 }
-Write-Host "Tip: for project installs, prefer: npx skills add marcuskrogh/skills"
+Write-Host "Tip: for project installs, prefer agent-from-git:"
+Write-Host "  bash scripts/install-from-git.sh"
+Write-Host "Also supported: npx skills add marcuskrogh/skills"
