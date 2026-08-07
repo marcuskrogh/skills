@@ -23,15 +23,17 @@ platform file below (use General when unknown or incomplete).
 5. **Never Haiku** — do not select Claude Haiku (any version) for workers or
    managers.
 6. Fast / mini / prior-gen variants are **fallbacks for the same row**, not
-   separate ranked picks.
+   separate ranked picks — **except on Cursor**, which forbids `*-fast` entirely
+   (see rule 8).
 7. **Same slug for low and mid** is allowed (and preferred when cost-optimal).
    If low and mid resolve to the same model, an insufficient report escalates
    **directly to high**.
 8. **Cursor first-party** — on Cursor (Desktop, Cloud, CLI), the platform file
-   is a closed allowlist of **Composer** and **Grok** only. Third-party models
-   in the Cursor picker (Claude, GPT, Kimi, …) bill the **API budget**;
-   Composer and Grok bill the **internal** budget. Never pass a third-party
-   slug on Cursor — remap to the category's catalog prefer slug.
+   is a closed allowlist of **Composer** and **Grok** standard slugs only
+   (`composer-2.5`, `cursor-grok-4.5-high`). No `*-fast` variants. Third-party
+   models in the Cursor picker (Claude, GPT, Kimi, …) bill the **API budget**;
+   Composer and Grok bill the **internal** budget. Never pass a third-party or
+   fast slug on Cursor — remap to the category's catalog slug.
 
 ## Platforms
 

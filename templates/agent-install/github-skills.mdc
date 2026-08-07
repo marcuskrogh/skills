@@ -8,10 +8,9 @@ prefer the model-invoked **workflows** skill: infer which pipeline fits, then
 read and run only that skill. Do not freestyle past a supported workflow.
 
 On Cursor, sub-agent / Task `model` values are catalog-closed: only
-`composer-2.5` / `composer-2.5-fast` (Routine/Moderate) or
-`cursor-grok-4.5-high` / `cursor-grok-4.5-high-fast` (Demanding/manager).
-Third-party models bill the API budget. Load CONCEPT_DELEGATION and
-`concepts/platforms/cursor.md` before spawning workers.
+`composer-2.5` (Routine/Moderate) or `cursor-grok-4.5-high` (Demanding/manager).
+No `*-fast` variants. Third-party models bill the API budget. Load
+CONCEPT_DELEGATION and `concepts/platforms/cursor.md` before spawning workers.
 
 Repo skills: https://github.com/marcuskrogh/skills
 Installed at: `.agents/skills/`

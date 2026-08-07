@@ -7,6 +7,10 @@ Grok. Every other slug in the harness picker (Claude, GPT, Kimi, Fable, …)
 bills the **API budget** instead of the internal budget — never select them,
 including for Cloud Agents, Desktop, and CLI.
 
+**No fast variants.** Never pass `*-fast` slugs (`composer-2.5-fast`,
+`cursor-grok-4.5-high-fast`, or any other fast SKU). Use the standard prefer
+slugs only.
+
 **Detect Cursor when** any of: Cursor Desktop / Cloud / CLI session; Task /
 sub-agent tool exposes `composer-*` or `cursor-grok-*` slugs; agent identity
 names Cursor Grok / Composer. Do **not** fall through to General while on
@@ -19,29 +23,29 @@ is preferred for the manager.
 
 ## Allowed slugs (complete)
 
-| Role | Prefer | Fallback only |
-|------|--------|---------------|
-| High / manager / Demanding worker | `cursor-grok-4.5-high` | `cursor-grok-4.5-high-fast` |
-| Mid / Moderate worker | `composer-2.5` | `composer-2.5-fast` |
-| Low / Routine worker | `composer-2.5` | `composer-2.5-fast` |
+| Role | Slug |
+|------|------|
+| High / manager / Demanding worker | `cursor-grok-4.5-high` |
+| Mid / Moderate worker | `composer-2.5` |
+| Low / Routine worker | `composer-2.5` |
 
-No other slug is legal on this platform. Off-allowlist request → remap to the
-row for the scored category, then spawn.
+No other slug is legal on this platform. Off-allowlist or `*-fast` request →
+remap to the row for the scored category, then spawn.
 
 ## High-capability (ranked)
 
-| Rank | Provider | Model | Slug (prefer) | Fallback |
-|------|----------|-------|---------------|----------|
-| 1 | Cursor / xAI | Cursor Grok 4.5 | `cursor-grok-4.5-high` | `cursor-grok-4.5-high-fast` |
+| Rank | Provider | Model | Slug |
+|------|----------|-------|------|
+| 1 | Cursor / xAI | Cursor Grok 4.5 | `cursor-grok-4.5-high` |
 
 ## Mid-capability (ranked)
 
-| Rank | Provider | Model | Slug (prefer) | Fallback |
-|------|----------|-------|---------------|----------|
-| 1 | Cursor | Composer 2.5 | `composer-2.5` | `composer-2.5-fast` |
+| Rank | Provider | Model | Slug |
+|------|----------|-------|------|
+| 1 | Cursor | Composer 2.5 | `composer-2.5` |
 
 ## Low-capability (ranked)
 
-| Rank | Provider | Model | Slug (prefer) | Fallback |
-|------|----------|-------|---------------|----------|
-| 1 | Cursor | Composer 2.5 | `composer-2.5` | `composer-2.5-fast` |
+| Rank | Provider | Model | Slug |
+|------|----------|-------|------|
+| 1 | Cursor | Composer 2.5 | `composer-2.5` |

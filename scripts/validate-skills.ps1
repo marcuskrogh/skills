@@ -107,9 +107,7 @@ if (-not (Test-Path $ConceptsDir)) {
         $slugMatches = [regex]::Matches($cursorText, '`([a-z0-9][a-z0-9._-]*)`')
         $allowed = @(
             'composer-2.5',
-            'composer-2.5-fast',
-            'cursor-grok-4.5-high',
-            'cursor-grok-4.5-high-fast'
+            'cursor-grok-4.5-high'
         )
         $illegal = @()
         foreach ($m in $slugMatches) {
@@ -118,7 +116,7 @@ if (-not (Test-Path $ConceptsDir)) {
             if ($slug -notmatch '^(composer|cursor-grok|claude|gpt|kimi|fable|opus|sonnet|haiku|gemini|llama|qwen|minimax|deepseek|glm|grok)') {
                 continue
             }
-            if ($slug -notin $allowed) {
+            if ($slug -match '-fast$' -or $slug -notin $allowed) {
                 $illegal += $slug
             }
         }
