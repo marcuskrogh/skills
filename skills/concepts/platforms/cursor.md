@@ -7,8 +7,7 @@ Grok. Every other slug in the harness picker (Claude, GPT, Kimi, Fable, …)
 bills the **API budget** instead of the internal budget — never select them,
 including for Cloud Agents, Desktop, and CLI.
 
-**No fast variants.** Never pass `*-fast` slugs (`composer-2.5-fast`,
-`cursor-grok-4.5-high-fast`, or any other fast SKU). Use the standard prefer
+**No fast variants.** Never pass any `*-fast` SKU. Use the standard prefer
 slugs only.
 
 **Detect Cursor when** any of: Cursor Desktop / Cloud / CLI session; Task /
