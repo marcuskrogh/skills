@@ -96,6 +96,47 @@ if (-not (Test-Path $ConceptsDir)) {
     } | ForEach-Object {
         Write-Host "OK: disclosed concept reference $($_.FullName)"
     }
+
+    # Cursor platform file must stay a closed Composer + Grok allowlist.
+    $cursorPlatform = Join-Path (Join-Path $ConceptsDir "platforms") "cursor.md"
+    if (-not (Test-Path $cursorPlatform)) {
+        Write-Host "FAIL: Missing Cursor platform catalog: $cursorPlatform"
+        $script:errors++
+    } else {
+        $cursorText = Get-Content -Path $cursorPlatform -Raw
+        $slugMatches = [regex]::Matches($cursorText, '`([a-z0-9][a-z0-9._-]*)`')
+        $allowed = @(
+            'composer-2.5',
+            'composer-2.5-fast',
+            'cursor-grok-4.5-high',
+            'cursor-grok-4.5-high-fast'
+        )
+        $illegal = @()
+        foreach ($m in $slugMatches) {
+            $slug = $m.Groups[1].Value
+            # Skip non-model backticks (file paths, short tokens)
+            if ($slug -notmatch '^(composer|cursor-grok|claude|gpt|kimi|fable|opus|sonnet|haiku|gemini|llama|qwen|minimax|deepseek|glm|grok)') {
+                continue
+            }
+            if ($slug -notin $allowed) {
+                $illegal += $slug
+            }
+        }
+        if ($illegal.Count -gt 0) {
+            $uniq = $illegal | Select-Object -Unique
+            Write-Host "FAIL: Cursor platform catalog has off-allowlist model slug(s): $($uniq -join ', ')"
+            $script:errors++
+        } else {
+            Write-Host "OK: Cursor platform allowlist (Composer + Grok only)"
+        }
+        foreach ($need in $allowed) {
+            $wrapped = '`' + $need + '`'
+            if ($cursorText.IndexOf($wrapped) -lt 0) {
+                Write-Host "FAIL: Cursor platform catalog missing required slug $wrapped"
+                $script:errors++
+            }
+        }
+    }
 }
 
 $pluginJson = Join-Path $RepoRoot ".claude-plugin\plugin.json"
