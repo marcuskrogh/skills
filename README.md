@@ -155,7 +155,7 @@ templates/project-sync/         ← startup sync script template
 
 Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug` and `tweak` apply the same concepts lightly for defects and small intentional changes). Concepts own **invariants**; skills fill **extensions** only — see `writing-for-agents` for the lean reference format and shared vocabulary. Pipeline skills are **user-invoked**; the model-invoked **`workflows`** router discovers which path fits a work request, then progressive-discloses only that skill.
 
-**Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick from ranked platform catalogs via `PLATFORM-CATALOGS.md` (then only the detected harness file under `concepts/platforms/`).
+**Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick **catalog-closed** from ranked platform catalogs via `PLATFORM-CATALOGS.md` (then only the detected harness file under `concepts/platforms/`). On **Cursor**, that file is a closed allowlist of **Composer** + **Grok** only (third-party picker models bill the API budget).
 
 ## Pipelines
 

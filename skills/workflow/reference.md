@@ -81,4 +81,5 @@ Paths follow WORKSPACE. Record path + commit SHA on the Task when location is
 | `/ship` remaining tails or closeout | [ship.md](ship.md) |
 
 Value-aware worker routing: [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)
-(load only when spawning workers).
+(load only when spawning workers). Catalog-closed — on Cursor, only Composer /
+Grok slugs from [platforms/cursor.md](../concepts/platforms/cursor.md).
