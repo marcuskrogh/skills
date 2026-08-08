@@ -16,6 +16,7 @@ PR after CLEAN.
 
 **On invoke:** read [../workflow/reference.md](../workflow/reference.md),
 [../workflow/ship.md](../workflow/ship.md),
+[../workflow/changelog.md](../workflow/changelog.md),
 [../workflow/delivery.md](../workflow/delivery.md),
 [../workflow/tracker-sync.md](../workflow/tracker-sync.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md). After stage detection, read only the
@@ -41,10 +42,11 @@ Requires authenticated `gh` + tracker auth.
 
    Done when exactly one remaining path is selected.
 3. **Run remaining** — Run each selected skill's full contract in order, preserving its delegation and verification rules. Done when the tail reaches CLEAN or a named implement/review-fix hard stop.
-4. **Close out** — Run the [closed-loop closeout](../workflow/ship.md#closeout) on the recorded delivery PR. Done when its closeout criterion holds or merge failure is reported without closing tracker work.
+4. **Close out** — Run the [closed-loop closeout](../workflow/ship.md#closeout) on the recorded delivery PR, including [changelog](../workflow/changelog.md) detection and entry when the repo maintains one. Done when its closeout criterion holds or merge failure is reported without closing tracker work.
 
 ## Tell the user
 
 Task Done (or stop reason); stage detected + steps run; Sub-tasks closed; Story status;
-PR URL; closed-loop confirmation when merged; Next hint for next phase or `/iterate`
-when post-ship follow-up needed. No skill handoff when Task is Done.
+PR URL; closed-loop confirmation when merged; changelog path + entry when updated (or
+skip reason when omitted); Next hint for next phase or `/iterate` when post-ship
+follow-up needed. No skill handoff when Task is Done.
