@@ -12,8 +12,8 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 
 ## Leading words
 
-- **dev-surface** — development linking surface where issue keys belong (branch names, PR titles/bodies, commits that link work, tracker fields/comments, agent artifacts, handoffs, ISSUES mirrors)
-- **product surface** — end-user facing shipped source and copy (UI/frontend strings, user-facing changelogs / release notes / update descriptions, in-app help, emails, other end-user text)
+- **dev-surface** (pl. **dev-surfaces**) — development linking surface where issue keys belong (branch names, PR titles/bodies, commits that link work, tracker fields/comments, agent artifacts, handoffs, ISSUES mirrors)
+- **product surface** (pl. **product surfaces**) — end-user facing shipped source and copy (UI/frontend strings, user-facing changelogs / release notes / update descriptions, in-app help, emails, other end-user text)
 
 ## Invariants
 
@@ -54,4 +54,4 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 
 ### Package brief (minimum)
 
-Objective; inputs; constraints (incl. testability seams; issue keys on **dev-surfaces** only); deliverables (code + tests or explicit justification); branch; difficulty / model.
+Objective; inputs; constraints (incl. testability seams; **Dev-surface keys**); deliverables (code + tests or explicit justification); branch; difficulty / model.

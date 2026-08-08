@@ -99,8 +99,8 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **manager** | Orchestrating agent — stays high-capability; plans, evaluates, tracks |
 | **worker** | Delegated sub-agent — value-routed low/mid/high |
 | **depth** | Proportional intensity preset (review: `full` vs `focused`; define/bug/tweak: Full vs Lightweight) |
-| **dev-surface** | Development linking surface where issue keys belong (branches, PRs, commits, tracker, artifacts, handoffs) |
-| **product surface** | End-user facing shipped source and copy — product language exclusively; no issue keys |
+| **dev-surface** | (pl. **dev-surfaces**) Development linking surface where issue keys belong — full list: CONCEPT_IMPLEMENTATION Leading words |
+| **product surface** | (pl. **product surfaces**) End-user facing shipped source and copy — product language exclusively; full list: CONCEPT_IMPLEMENTATION Leading words |
 
 Hunt restatements that a leading word retires. Prefer an existing pretrained
 word over a coined one when the prior is strong enough.

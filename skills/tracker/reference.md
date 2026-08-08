@@ -50,9 +50,7 @@ Handoffs and other **dev-surfaces** always use the provider's issue key:
 
 Examples: `MD-2`, `PROJ-124`, `#42`, `ENG-123`.
 
-Issue keys link development work (branches, PRs, commits, tracker, artifacts,
-handoffs). **Product surfaces** use product language exclusively — see
-[CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) **Dev-surface keys**.
+**Product surfaces** → [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) **Dev-surface keys**.
 
 ## Markdown continuity (all providers)
 
