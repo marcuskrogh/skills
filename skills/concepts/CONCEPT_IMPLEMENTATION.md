@@ -10,12 +10,18 @@ Deliver the spec through isolated work packages so every touched area stays at
 least as testable and as well covered as before. When spawning workers, also
 load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 
+## Leading words
+
+- **dev-surface** (pl. **dev-surfaces**) — development linking surface where issue keys belong (branch names, PR titles/bodies, commits that link work, tracker fields/comments, agent artifacts, handoffs, ISSUES mirrors)
+- **product surface** (pl. **product surfaces**) — end-user facing shipped source and copy (UI/frontend strings, user-facing changelogs / release notes / update descriptions, in-app help, emails, other end-user text)
+
 ## Invariants
 
 - **Spec fidelity.** Every package and evaluation cross-references the specification; deviations require plan revision or user alignment.
 - **Isolated packages.** Each delegation is self-contained: objective, inputs, constraints, deliverables, branch, difficulty/model.
 - **Iterative plan.** Re-evaluate after each report; revise remaining packages when findings change assumptions.
 - **Branch discipline.** Resolve the skill's delivery branch before first delegation; prefer an existing open branch/PR for the Task; workers commit only there.
+- **Dev-surface keys.** Issue keys live only on **dev-surfaces**. **Product surfaces** carry product language exclusively.
 - **Named-gap re-delegate.** Insufficient report → re-delegate with named gaps (escalate one tier).
 - **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); bug fixes and behaviour-changing tweaks include regression coverage; injectable seams; touched-area suite stays honest and green.
 - **Verification mandatory.** Run real project tests/lint for the touched area (or full suite if that is the norm); report observed results only.
@@ -48,4 +54,4 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 
 ### Package brief (minimum)
 
-Objective; inputs; constraints (incl. testability seams); deliverables (code + tests or explicit justification); branch; difficulty / model.
+Objective; inputs; constraints (incl. testability seams; **Dev-surface keys**); deliverables (code + tests or explicit justification); branch; difficulty / model.
