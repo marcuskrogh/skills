@@ -114,6 +114,7 @@ Agreed agent workspace setup.
 | Iterate | ITERATE.md |
 | Model | MODEL.md |
 | Research | RESEARCH.md |
+| Changelog | CHANGELOG.md (optional; auto-detect when empty) |
 
 Artifact paths are relative to the repo root when **Location** is `repo`, and to
 the **External artifact root** when it is `external`.

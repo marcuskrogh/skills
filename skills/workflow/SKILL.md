@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **On invoke:** read [reference.md](reference.md). Disclose branch refs only when
 needed: [delivery.md](delivery.md), [handoff.md](handoff.md),
-[tracker-sync.md](tracker-sync.md), [ship.md](ship.md).
+[tracker-sync.md](tracker-sync.md), [ship.md](ship.md), [changelog.md](changelog.md).
 
 Issue tracker operations: [../tracker/SKILL.md](../tracker/SKILL.md).
 Workspace decisions: [../setup/SKILL.md](../setup/SKILL.md).
