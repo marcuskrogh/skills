@@ -207,7 +207,7 @@ write_fallback_block() {
   # Keep in sync with templates/agent-install/AGENTS.block.md
   cat > "$1" <<'EOF'
 <!-- marcuskrogh/skills:begin -->
-**Prefer workflow.** When the user describes a feature, bug, tweak, problem, idea,
+**Prefer workflow.** When the user describes a feature, bug, tweak, refine, problem, idea,
 investigation, or follow-up — even without naming a skill — invoke
 [`.agents/skills/workflows/SKILL.md`](.agents/skills/workflows/SKILL.md): infer
 the supported pipeline, then load and run only that skill. Do not freestyle
