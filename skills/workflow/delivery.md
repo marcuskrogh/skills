@@ -32,7 +32,7 @@ ship. Load when creating, resolving, or pushing to a delivery head.
 | `/refine` | Create Task; start delivery branch when committing `REFINE.md`; Next `/implement` |
 | `/iterate` | New Task + branch + PR from base; Next `/review-fix` |
 | `/define` with no explore Task | Create Task (+ Sub-tasks) as pipeline owner |
-| `/implement` with existing PLAN or BUG | Allowed; reuse delivery head |
+| `/implement` with existing PLAN / BUG / TWEAK / REFINE | Allowed; reuse delivery head |
 | Skip define on features | Only when already implementation-ready |
 | Skip define for defects / tweaks / refinements | Use `/bug`, `/tweak`, or `/refine` instead |
 

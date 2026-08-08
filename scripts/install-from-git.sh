@@ -230,7 +230,7 @@ description: Prefer supported workflows for any described work
 alwaysApply: true
 ---
 
-When the user describes a feature, bug, tweak, problem, idea, or other work to deliver,
+When the user describes a feature, bug, tweak, refine, problem, idea, or other work to deliver,
 prefer the model-invoked **workflows** skill: infer which pipeline fits, then
 read and run only that skill. Do not freestyle past a supported workflow.
 

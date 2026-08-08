@@ -250,7 +250,7 @@ Global scope plus `Artifact location: external` runs the whole pipeline without
 adding a single file to a consuming repo:
 
 - `WORKSPACE.md` lives in `~/.agents/`
-- `PLAN.md` / `ROADMAP.md` / `BUG.md` / `TWEAK.md` / `MODEL.md` / `RESEARCH.md` / `ITERATE.md`
+- `PLAN.md` / `ROADMAP.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `MODEL.md` / `RESEARCH.md` / `ITERATE.md`
   are written under `~/.agents/artifacts/<repo>/` and their **full content is
   pushed into the tracker issue**, which becomes the durable, shareable copy
 - Disable the markdown mirror so the remote tracker is the sole source of truth
