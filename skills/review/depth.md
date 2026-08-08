@@ -16,12 +16,12 @@ reason in the tracker comment.
 | User names full / thorough / all-axes | **full** |
 | `PLAN.md` feature work with multi-package scope, new modules/layers, wide blast radius, or structural/ADR risk | **full** |
 | Diff touches many packages or public API / schema / migration surface as the main change | **full** |
-| `BUG.md` / `TWEAK.md` / `ITERATE.md` (default) | **focused** |
+| `BUG.md` / `TWEAK.md` / `REFINE.md` / `ITERATE.md` (default) | **focused** |
 | `PLAN.md` but small localized slice (few files, one concern, no new layers) | **focused** |
-| Ambiguous | **focused** for bug/tweak/iterate; **full** for feature `PLAN.md` |
+| Ambiguous | **focused** for bug/tweak/refine/iterate; **full** for feature `PLAN.md` |
 
 Structural red flags while packing context (new layers, cycles, ADR conflicts) →
-promote to **full** even on a bug/tweak/iterate Task.
+promote to **full** even on a bug/tweak/refine/iterate Task.
 
 ## Worker map
 

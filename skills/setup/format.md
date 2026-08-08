@@ -111,6 +111,7 @@ Agreed agent workspace setup.
 | Plan | PLAN.md |
 | Bug | BUG.md |
 | Tweak | TWEAK.md |
+| Refine | REFINE.md |
 | Iterate | ITERATE.md |
 | Model | MODEL.md |
 | Research | RESEARCH.md |
@@ -174,7 +175,7 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 | Key prefix | `MD` |
 | Mirror | `true` |
 | Mirror path | `docs/agents/ISSUES.md` |
-| Roadmap / Plan / Bug / Tweak / Iterate / Model | repo root `ROADMAP.md`, `PLAN.md`, `BUG.md`, `TWEAK.md`, `ITERATE.md`, `MODEL.md` |
+| Roadmap / Plan / Bug / Tweak / Refine / Iterate / Model | repo root `ROADMAP.md`, `PLAN.md`, `BUG.md`, `TWEAK.md`, `REFINE.md`, `ITERATE.md`, `MODEL.md` |
 | Base branch | `main` |
 | Open PR | `true` |
 | One delivery PR per Task | `true` |
@@ -185,7 +186,7 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 Regardless of remote tracker, when **Mirror to markdown** is true (recommended):
 
 1. Create/update rows in the mirror file whenever issues are created, transitioned, or handed off.
-2. Always write keys + **Next** into `ROADMAP.md` / `PLAN.md` / `BUG.md` / `TWEAK.md` / `ITERATE.md` / issue bodies.
+2. Always write keys + **Next** into `ROADMAP.md` / `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `ITERATE.md` / issue bodies.
 3. Remote tracker remains authoritative for status **except** for `markdown` provider, where issue files are authoritative.
 
 When **Mirror to markdown** is false, the remote tracker is the *only* continuity

@@ -4,12 +4,12 @@
     "name": "Marcus Krogh",
     "url": "https://github.com/marcuskrogh"
   },
-  "description": "Agent skills for workspace setup, features, bugs, tweaks, research, define, implementation, iterate, review-fix, ship, and summarise.",
+  "description": "Agent skills for workspace setup, features, bugs, tweaks, refinements, research, define, implementation, iterate, review-fix, ship, and summarise.",
   "plugins": [
     {
       "name": "marcus-skills",
       "source": "./",
-      "description": "Feature, bug, and tweak pipelines with iterate, review-fix, pluggable trackers, and summarise.",
+      "description": "Feature, bug, tweak, and refine pipelines with iterate, review-fix, pluggable trackers, and summarise.",
       "category": "engineering",
       "keywords": [
         "engineering",
@@ -18,6 +18,7 @@
         "define",
         "bug",
         "tweak",
+        "refine",
         "research",
         "iterate",
         "review-fix"

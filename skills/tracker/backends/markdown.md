@@ -26,7 +26,7 @@ Key format: `<KeyPrefix>-<n>` (default `MD-1`, `MD-2`, …). Allocate the next i
 | Status | To Do |
 | Parent | MD-1 |
 | Children | MD-3, MD-4 |
-| Artifact | PLAN.md (or BUG.md / TWEAK.md / ITERATE.md) |
+| Artifact | PLAN.md (or BUG.md / TWEAK.md / REFINE.md / ITERATE.md) |
 | PR | |
 | Created | 2026-07-22 |
 

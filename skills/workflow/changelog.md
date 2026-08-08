@@ -47,12 +47,14 @@ Done when placement and shape match an existing section.
 
 ## Entry content
 
-Derive from the shipped artifact (`PLAN` / `BUG` / `TWEAK` / `ITERATE`):
+Derive from the shipped artifact (`PLAN` / `BUG` / `TWEAK` / `REFINE` / `ITERATE`):
 
 - **1–3 bullets** or **one short paragraph** (≤ 2 sentences).
 - Lead with **user-visible outcome**, not implementation detail.
 - Bug fixes: what users can do now that was broken.
 - Tweaks/features: what is new or easier.
+- Refinements: usually omit (internal structure/docs) unless the user-facing
+  surface itself was the refine subject.
 - Omit when the change is purely internal (docs-only for agents, CI, refactors
   with no user effect) — note skip in ship summary.
 
@@ -62,4 +64,4 @@ Done when entry is compact and product-facing.
 
 Runs inside ship closeout **pre-merge continuity** (open PR) or direct base
 commit when the PR was already merged — same rules as other continuity files.
-Commit on the delivery branch with PLAN/BUG/TWEAK/ITERATE continuity.
+Commit on the delivery branch with PLAN/BUG/TWEAK/REFINE/ITERATE continuity.

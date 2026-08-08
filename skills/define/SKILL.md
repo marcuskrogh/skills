@@ -4,7 +4,8 @@ description: >-
   Alignment on a concrete component, system, or pipeline Task before coding.
   Produces PLAN.md, Sub-tasks, and the Task's delivery branch/PR. Use when a
   buildable slice needs user-approved scope, behaviour, and acceptance. Prefer
-  /tweak when the change is a small intentional delta on existing behaviour.
+  /tweak when the change is a small intentional delta on existing behaviour;
+  prefer /refine when improving a bounded area without changing behaviour.
 disable-model-invocation: true
 ---
 

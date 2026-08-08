@@ -45,7 +45,7 @@ Always:
 
 1. Perform the Jira API call.
 2. If mirror enabled, upsert `docs/agents/ISSUES.md`.
-3. Put keys + URLs into `ROADMAP.md` / `PLAN.md` / `BUG.md` / `TWEAK.md` / `ITERATE.md` as applicable.
+3. Put keys + URLs into `ROADMAP.md` / `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `ITERATE.md` as applicable.
 
 ## Keys
 
