@@ -69,7 +69,7 @@ When `WORKSPACE.md` has **Mirror to markdown: true**:
 
 ## Loading workspace
 
-At the start of explore / bug / tweak / research / model / define / implement / review / review-fix / ship / summarise:
+At the start of explore / bug / tweak / refine / research / model / define / implement / review / review-fix / ship / summarise:
 
 1. Resolve the **effective workspace** per [../setup/format.md](../setup/format.md):
    `$AGENT_WORKSPACE_FILE` → repo `docs/agents/WORKSPACE.md` → global

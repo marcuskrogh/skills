@@ -23,7 +23,7 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 - **Branch discipline.** Resolve the skill's delivery branch before first delegation; prefer an existing open branch/PR for the Task; workers commit only there.
 - **Dev-surface keys.** Issue keys live only on **dev-surfaces**. **Product surfaces** carry product language exclusively.
 - **Named-gap re-delegate.** Insufficient report → re-delegate with named gaps (escalate one tier).
-- **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); bug fixes and behaviour-changing tweaks include regression coverage; injectable seams; touched-area suite stays honest and green.
+- **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); bug fixes and behaviour-changing tweaks include regression coverage; refinements verify behaviour is unchanged (non-regression); injectable seams; touched-area suite stays honest and green.
 - **Verification mandatory.** Run real project tests/lint for the touched area (or full suite if that is the norm); report observed results only.
 
 ## Extensions

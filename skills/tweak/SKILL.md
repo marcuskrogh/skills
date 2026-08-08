@@ -4,7 +4,8 @@ description: >-
   Tweak alignment and lightweight definition for a small intentional change to
   existing behaviour. Produces TWEAK.md and one tracker Task (optional
   Sub-tasks), then hands off to implementation. Use when the change is clear,
-  not a defect, and too small for full feature definition.
+  not a defect, and too small for full feature definition. Prefer /refine when
+  the area needs structural or descriptive improvement without behaviour change.
 disable-model-invocation: true
 ---
 
