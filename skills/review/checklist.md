@@ -128,6 +128,7 @@ Repo docs override. **Fix-biased:** actionable named smells in **changed** code
 ### Vertical / horizontal for standards
 - Vertical: naming, structure, and clarity inside new functions
 - Horizontal: consistency with neighbouring modules and established patterns in the repo
+- [ ] Issue keys stay on **dev-surfaces**; **product surfaces** (UI/frontend copy, user-facing changelogs/release notes/update descriptions, in-app help, emails, other end-user text) use product language only — see [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) **Dev-surface keys**
 
 When a smell is really a module/layer/dependency problem, prefer an **Architecture**
 finding with a structural refactoring (usually `should-fix`) over a Standards note.

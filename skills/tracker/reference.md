@@ -39,9 +39,9 @@ Every backend must support:
 | `link(parent, child, kind)` | Parent/child or relates |
 | `attach_or_link(key, path)` | Attach file or record repo path + SHA in description |
 
-## Keys in handoffs
+## Keys on dev-surfaces
 
-Handoffs always use the provider's issue key:
+Handoffs and other **dev-surfaces** always use the provider's issue key:
 
 ```markdown
 ## Next
@@ -49,6 +49,10 @@ Handoffs always use the provider's issue key:
 ```
 
 Examples: `MD-2`, `PROJ-124`, `#42`, `ENG-123`.
+
+Issue keys link development work (branches, PRs, commits, tracker, artifacts,
+handoffs). **Product surfaces** use product language exclusively — see
+[CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) **Dev-surface keys**.
 
 ## Markdown continuity (all providers)
 
