@@ -1,7 +1,7 @@
 ---
 name: workflows
 description: >-
-  Workflow routing for features, bugs, tweaks, refinements, ideas,
+  Workflow routing for features, bugs, tweaks, refinements, reworks, ideas,
   investigations, reviews, follow-ups, and delivery. Infer the supported path
   from user context, then progressively disclose and run only the matching
   skill.
@@ -11,8 +11,8 @@ description: >-
 
 **Model-invoked router.** Default entry for real work in this skills set.
 
-When the user describes a feature, bug, tweak, refine, problem, idea, or other
-work — with or without naming a skill — **prefer a catalog workflow** over
+When the user describes a feature, bug, tweak, refine, rework, problem, idea, or
+other work — with or without naming a skill — **prefer a catalog workflow** over
 freestyle coding, one-off plans, or unstructured Q&A. Infer which path fits,
 then **progressive-disclose** only that skill and follow it.
 
@@ -27,7 +27,7 @@ the target skill and only its On-invoke concepts and references.
 
 ## Leading words
 
-- **workflow** — named delivery path (feature / bug / tweak / refine / iterate / side / continue)
+- **workflow** — named delivery path (feature / bug / tweak / refine / rework / iterate / side / continue)
 - **prefer workflow** — if a catalog row fits, route; do not freestyle past it
 
 ## Catalog
@@ -42,16 +42,18 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **bug** | Behaviour is wrong; fix is the work; no foggy product definition needed | [bug](../bug/SKILL.md) |
 | **tweak** | Small intentional change to existing behaviour; not a defect; too light for full define | [tweak](../tweak/SKILL.md) |
 | **refine** | Bounded area needs structural/descriptive improvement; behaviour stays the same; thin area description required | [refine](../refine/SKILL.md) |
+| **rework** | Intentional implementation change that must not degrade measured outcomes; thin area + parity bar; comparative eval on implement | [rework](../rework/SKILL.md) |
 | **iterate** | Prior Task/PR **already merged**; still broken or incomplete | [iterate](../iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](../review-fix/SKILL.md) (or implement fix-forward) |
 | **explore** | Vague, oversized, or foggy initiative — destination felt, way unclear | [explore](../explore/SKILL.md) |
 | **research** | Need multi-axis literature/evidence before deciding; not product alignment | [research](../research/SKILL.md) |
 | **model** | Need math formulation aligned with the user (not product scope/UX) | [model](../model/SKILL.md) |
 | **define** | Concrete feature/slice to pin down with the user before coding | [define](../define/SKILL.md) |
-| **implement** | Ready-to-build PLAN/BUG/TWEAK/REFINE/ITERATE exists; build or resume build | [implement](../implement/SKILL.md) |
+| **implement** | Ready-to-build PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE exists; build or resume build | [implement](../implement/SKILL.md) |
 | **review** | Want findings only on an In Review PR (no auto-fix) | [review](../review/SKILL.md) |
 | **review-fix** | Want one review → fix → CLEAN on the delivery PR | [review-fix](../review-fix/SKILL.md) |
 | **summarise** | Status / “where am I” / “what next” *reported*, not advanced | [summarise](../summarise/SKILL.md) |
+| **help** | Which skill / how workflows relate / navigation overview — explain only, do not start delivery | [help](../help/SKILL.md) |
 
 Side paths **research** / **model** insert on a feature route; they do not replace
 **define** probes with the user.
@@ -69,7 +71,8 @@ Side paths **research** / **model** insert on a feature route; they do not repla
 
 - **Prefer workflow.** If any catalog row fits the ask, route through it. Do not freestyle implement, invent a parallel plan format, or run unstructured intake when a supported path exists.
 - **Router, not executor.** This skill chooses and discloses; the target skill owns behaviour.
-- **One path.** Do not start explore and bug/tweak/refine/define in parallel for the same ask.
+- **One path.** Do not start explore and bug/tweak/refine/rework/define in parallel for the same ask.
+- **Help explains.** If the user only wants a map or which-skill guidance, prefer **help** over starting a delivery skill.
 - **Prefer continuity.** In-flight Task + valid **Next** → **continue** or **ship**, not a new map.
 - **No skill dump.** Never load all pipeline skills “just in case.”
 - **Explicit slash wins.** If the user named `/define` (etc.), run that skill — do not re-route unless they ask which workflow fits.

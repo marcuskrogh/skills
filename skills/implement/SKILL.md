@@ -4,7 +4,7 @@ description: >-
   Implementation of a pipeline Task through managed, value-routed work
   packages. Reuses the Task's delivery branch/PR, verifies code and tests, and
   moves the Task from In Progress to In Review. Use for an approved PLAN.md,
-  BUG.md, TWEAK.md, REFINE.md, ITERATE.md, or review fix-forward.
+  BUG.md, TWEAK.md, REFINE.md, REWORK.md, ITERATE.md, or review fix-forward.
 disable-model-invocation: true
 ---
 
@@ -19,6 +19,7 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 [../workflow/tracker-sync.md](../workflow/tracker-sync.md),
 [../workflow/handoff.md](../workflow/handoff.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
+When the spec is `REWORK.md`, also read [rework.md](rework.md).
 When spawning workers, also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
 as directed there.
@@ -27,11 +28,11 @@ as directed there.
 
 | Slot | This skill |
 |------|------------|
-| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `ITERATE.md` / linked specs |
+| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs |
 | **Branch naming** | WORKSPACE pattern — **reuse** Task delivery branch if it exists |
-| **Delivery** | **Same** PR as define/bug/tweak/refine/research when one exists (or branch-only per WORKSPACE) |
-| **Verification** | Tests + lint for touched area (or full suite if repo norm); non-degradation; plan checklist; sub-task completion; [testing.md](testing.md) |
-| **Testing checklist** | [testing.md](testing.md) — paste into Implementation / Testing / fix-forward briefs |
+| **Delivery** | **Same** PR as define/bug/tweak/refine/rework/research when one exists (or branch-only per WORKSPACE) |
+| **Verification** | Tests + lint for touched area (or full suite if repo norm); non-degradation; plan checklist; sub-task completion; [testing.md](testing.md); **rework** → [rework.md](rework.md) comparative eval |
+| **Testing checklist** | [testing.md](testing.md) — paste into Implementation / Testing / fix-forward briefs; rework adds [rework.md](rework.md) |
 | **Model routing** | CONCEPT_DELEGATION — score each package; escalate one tier after failed attempts |
 | **Work package types** | See table below |
 | **PR template** | Summary; Tracker; Spec refs; Test plan; Completed sub-tasks / review threads |
@@ -48,7 +49,7 @@ as directed there.
 1. Fix-forward: open PR review comments
 2. Sub-task descriptions
 3. Task description
-4. `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `ITERATE.md` / linked specs
+4. `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs
 5. User paste
 
 Resolve issue: user key/URL, or ask once "Which issue should this implementation track?"
@@ -65,7 +66,7 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 
 1. **Resolve work and status** — Resolve the Task, spec, Sub-tasks or review threads, then apply the implementation start transition. Done when the usable spec and active packages are known and the Task is **In Progress**.
 2. **Resolve delivery and commands** — Follow [delivery continuity](../workflow/delivery.md) and inspect repository-owned test/lint commands. Done when the Task's one delivery head is checked out and verification commands are recorded.
-3. **Execute packages** — Use CONCEPT_DELEGATION for every worker and include [testing.md](testing.md) in implementation, testing, and fix-forward briefs. Done when all packages satisfy the spec, behavioural tests, and Sub-task completion criteria.
+3. **Execute packages** — Use CONCEPT_DELEGATION for every worker and include [testing.md](testing.md) in implementation, testing, and fix-forward briefs. When the spec is `REWORK.md`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate) before treating verify as done. Done when all packages satisfy the spec, behavioural tests, Sub-task completion criteria, and (for rework) the parity bar.
 4. **Verify and deliver** — Run the recorded checks, update the same PR, apply the implementation tracker row, and persist the Handoff. Done when checks pass, the Task is **In Review**, the PR and mirrors are current, and **Next** is recorded.
 
 ## Work packages
@@ -76,9 +77,10 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 | Research | `generalPurpose` | Mid | Novel domain spike with conflicting approaches → high |
 | Implementation | `generalPurpose` | Mid (Routine → low) | Novel design, security/authz, concurrency, large cross-cutting → high |
 | Testing | `generalPurpose` | Mid (Routine → low) | Flaky harness, concurrency tests, subtle regression isolation → high |
+| Comparative eval (rework) | `generalPurpose` | Mid | Novel harness, control/performance isolation, conflicting metrics → high |
 | Fix-forward | `generalPurpose` | Low (obvious) / Mid otherwise | Architectural must-fixes, subtle correctness/races, prior lower-tier miss → next tier / high |
 
-Ensure each behavioural package lists test deliverables; if the plan omitted verification, add Testing packages before verify.
+Ensure each behavioural package lists test deliverables; if the plan omitted verification, add Testing packages before verify. For `REWORK.md`, ensure Baseline / Compare / Reiterate packages exist per [rework.md](rework.md).
 
 ## Handoff
 

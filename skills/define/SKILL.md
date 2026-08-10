@@ -5,7 +5,8 @@ description: >-
   Produces PLAN.md, Sub-tasks, and the Task's delivery branch/PR. Use when a
   buildable slice needs user-approved scope, behaviour, and acceptance. Prefer
   /tweak when the change is a small intentional delta on existing behaviour;
-  prefer /refine when improving a bounded area without changing behaviour.
+  prefer /refine when improving a bounded area without changing behaviour;
+  prefer /rework when swapping an implementation that must not degrade outcomes.
 disable-model-invocation: true
 ---
 

@@ -30,7 +30,7 @@ Requires authenticated `gh` and tracker auth per WORKSPACE. If either is missing
 | Slot | This skill |
 |------|------------|
 | **Change source** | GitHub PR linked to the pipeline Task (or current branch) |
-| **Spec source** | Tracker issue + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `ITERATE.md` / `MODEL.md` |
+| **Spec source** | Tracker issue + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `MODEL.md` |
 | **Publish target** | GitHub PR review via `gh api` + tracker comment |
 | **Checklist** | [checklist.md](checklist.md) + [axis-briefs.md](axis-briefs.md) |
 | **Depth routing** | [depth.md](depth.md) — after context pack |

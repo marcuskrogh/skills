@@ -48,7 +48,7 @@ before spawning workers, also read
 
 | Slot | This skill |
 |------|------------|
-| **Spec source** | `ITERATE.md` + new Task (+ prior PLAN/BUG/TWEAK/REFINE/ITERATE as context) |
+| **Spec source** | `ITERATE.md` + new Task (+ prior PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE as context) |
 | **Branch naming** | WORKSPACE + **new** Task key |
 | **Delivery** | Open new PR |
 | **Verification** | Tests incl. regression for the delta; lint; non-degradation; [implement testing](../implement/testing.md) |
@@ -65,7 +65,7 @@ before spawning workers, also read
 
 Follow the CONCEPT_ITERATION flow. Skill specialisations:
 
-1. **Resolve lineage** — Fetch prior Task, merged PR, and PLAN/BUG/TWEAK/REFINE/ITERATE; apply Prior context resolution. Done when lineage is identified per the concept stop, or an open-PR fix-forward handoff is reported.
+1. **Resolve lineage** — Fetch prior Task, merged PR, and PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE; apply Prior context resolution. Done when lineage is identified per the concept stop, or an open-PR fix-forward handoff is reported.
 2. **Capture and persist** — Brief CONCEPT_ALIGNMENT when needed; write `ITERATE.md`; create related Task (+ optional Sub-tasks); comment prior; upsert ISSUES. Done when artifact, Task, comments, and mirror agree.
 3. **Implement** — Run [implement](../implement/SKILL.md) Build on `<NEW-KEY>` with CONCEPT_DELEGATION. Done when checks pass, new PR ready, Task **In Review**.
 4. **Hand off** — Persist **Next** on every configured durable surface. Done when all point to `/review-fix <NEW-KEY>`.
@@ -78,7 +78,7 @@ Follow the CONCEPT_ITERATION flow. Skill specialisations:
 ## Prior work
 - Task: <PRIOR-KEY>
 - PR: <merged url or n/a>
-- Spec context: PLAN.md | BUG.md | TWEAK.md | REFINE.md | prior ITERATE.md | …
+- Spec context: PLAN.md | BUG.md | TWEAK.md | REFINE.md | REWORK.md | prior ITERATE.md | …
 
 ## Problem
 - …

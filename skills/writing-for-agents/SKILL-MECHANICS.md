@@ -22,7 +22,7 @@ In this repo:
 
 | Kind | Invocation | Examples |
 |------|------------|----------|
-| **Router** | model-invoked | `workflows`, `writing-for-agents` |
+| **Router** | model-invoked | `workflows`, `writing-for-agents`, `help` |
 | **Pipeline / meta** | user-invoked | `explore`, `define`, `implement`, `manage-skills`, … |
 | **Composed reference** | user-invoked (not for humans) | `workflow`, `tracker`, `jira` |
 
@@ -56,4 +56,5 @@ discovery job. Hint-only routers belong where the human must stay the index.
 
 This repo’s router: [`workflows`](../workflows/SKILL.md). Continuity contract
 (not a router): [`workflow`](../workflow/SKILL.md) + `reference.md`. Status
-report without advancing work: [`summarise`](../summarise/SKILL.md).
+report without advancing work: [`summarise`](../summarise/SKILL.md). Human
+navigation map without starting delivery: [`help`](../help/SKILL.md).

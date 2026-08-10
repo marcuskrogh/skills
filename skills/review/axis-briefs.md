@@ -28,12 +28,14 @@ optional polish, out-of-scope follow-ups, or speculative cleanup outside blast r
 
 Include: context pack + Spec checklist from [checklist.md](checklist.md#spec).
 
-Trace **each** acceptance criterion / work package / bug repro expectation through
+Trace **each** acceptance criterion / work package / bug repro expectation /
+tweak desired-change / refine preserve-behaviour / rework parity bar through
 the diff and neighbors. Vertical: is this requirement fully implemented inside the
 changed paths? Horizontal: are related UI/API/docs/migrations/flags updated? Flag
 missing, partial, wrong, or scope-creep behaviour. Quote the spec line in `body`.
 Missing/wrong required behaviour → `blocker`; incomplete related surfaces →
-`should-fix`; optional extras beyond the issue → `note`.
+`should-fix`; optional extras beyond the issue → `note`. For REWORK, missing
+baseline-vs-candidate evidence against the parity bar → `blocker`.
 
 ## Correctness
 

@@ -17,7 +17,7 @@ so the loop can repeat after ship. Open-PR review findings route to
 - **Post-merge entry.** Enter this loop after the prior delivery merges.
 - **New branch from base.** From WORKSPACE base (usually `main`).
 - **New PR every iteration.**
-- **Delta, not reboot.** Spec is the reported problem + acceptance; prior PLAN/BUG/TWEAK/REFINE are context.
+- **Delta, not reboot.** Spec is the reported problem + acceptance; prior PLAN/BUG/TWEAK/REFINE/REWORK are context.
 - **Brief alignment.** Prefer zero questions when the invoke suffices; at most a short clarifying loop (one question per message).
 - **Session continuity.** Load prior Task, merged PR, and artifacts before guessing.
 - **Chainable.** After this PR ships, another iterate on the same lineage is valid.

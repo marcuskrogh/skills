@@ -9,7 +9,7 @@ enabled). Load when creating issues, transitioning status, commenting, or closin
 To Do / Backlog  →  In Progress  →  In Review  →  Done
   explore/define      implement         implement      ship
   research/model      iterate           iterate
-  bug / tweak / refine                  review
+  bug / tweak / refine / rework         review
 ```
 
 ## Matrix
@@ -20,6 +20,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 | **bug** | Task (+ optional Sub-tasks); link BUG.md; start delivery branch/PR | Leave **To Do** | Task: BUG.md + branch/PR + **Next**; ISSUES | — |
 | **tweak** | Task (+ optional Sub-tasks); link TWEAK.md; start delivery branch/PR | Leave **To Do** | Task: TWEAK.md + branch/PR + **Next**; ISSUES | — |
 | **refine** | Task (+ optional Sub-tasks); link REFINE.md; start delivery branch/PR | Leave **To Do** | Task: REFINE.md + branch/PR + **Next**; ISSUES | — |
+| **rework** | Task (+ optional Sub-tasks); link REWORK.md; start delivery branch/PR | Leave **To Do** | Task: REWORK.md + branch/PR + **Next**; ISSUES | — |
 | **iterate** | **New** Task; link ITERATE.md; Relates → prior | In Progress → **In Review** when PR ready | Prior + new Task comments; **Next** `/review-fix`; ISSUES | — (ship closes) |
 | **research** | Enrich pipeline Task; reuse/start delivery when committing | Unchanged (usually **To Do**) | RESEARCH.md + branch/PR + **Next**; ROADMAP/PLAN/ISSUES | — |
 | **model** | Enrich Task (preferred); else create; reuse/start delivery when committing | Leave **To Do** unless further along | MODEL.md + branch/PR + **Next**; links + ISSUES | — |

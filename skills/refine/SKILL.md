@@ -7,7 +7,8 @@ description: >-
   (optional Sub-tasks), then hands off to implementation. Use when a class,
   feature slice, README, or other bounded surface is outdated relative to
   current architecture or conventions. Prefer /tweak for intentional behaviour
-  changes; prefer /bug for defects.
+  changes without a comparative bar; prefer /rework when replacing an
+  implementation that must not degrade measured outcomes; prefer /bug for defects.
 disable-model-invocation: true
 ---
 

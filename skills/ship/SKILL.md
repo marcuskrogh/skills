@@ -28,12 +28,12 @@ Requires authenticated `gh` + tracker auth.
 
 ## Steps
 
-1. **Resolve issue** — Resolve key/URL → single active ISSUES row → ask once; fetch Task, children, Story, PLAN/BUG/TWEAK/REFINE/ITERATE, and linked PR. Done when one Task and its delivery state are identified, including an already-Done result.
+1. **Resolve issue** — Resolve key/URL → single active ISSUES row → ask once; fetch Task, children, Story, PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE, and linked PR. Done when one Task and its delivery state are identified, including an already-Done result.
 2. **Detect stage → remaining** — Apply the [remaining workflow](../workflow/ship.md#remaining-workflow) and tell the user the detected tail in one short line:
 
 | Evidence | Remaining |
 |----------|-----------|
-| No ready-to-build artifact | **Stop** — `/define`, `/bug`, `/tweak`, `/refine`, or `/iterate` first |
+| No ready-to-build artifact | **Stop** — `/define`, `/bug`, `/tweak`, `/refine`, `/rework`, or `/iterate` first |
 | Defined; To Do; no meaningful impl on delivery PR | implement → review-fix → closeout |
 | In Progress; impl incomplete | finish implement → review-fix → closeout |
 | In Review; unresolved REQUEST_CHANGES / must-fix | review-fix → closeout |
