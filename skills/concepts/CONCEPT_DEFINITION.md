@@ -17,7 +17,7 @@ research, math modelling, and coding are other skills' jobs.
 - **Particulars with the user.** Explore route blurbs, `RESEARCH.md`, and `MODEL.md` orient — they do not replace definition probes.
 - **Artifact-only during definition.** Production code changes begin in implementation; writing the definition artifact on the delivery branch is allowed when the skill requires it.
 - **Proportional depth.** Full for non-trivial features; lightweight for clear defects, tweaks, refinements, and reworks; confirm gaps only when already implementation-ready.
-- **Classify and bind when the skill requires it.** Skills that apply [CONCEPT_CLASSIFICATION](CONCEPT_CLASSIFICATION.md) persist class + workflow binding on the definition artifact so later stages stay deterministic.
+- **Classify and bind when the skill requires it.** Skills that apply [CONCEPT_CLASSIFICATION](CONCEPT_CLASSIFICATION.md) persist class + workflow binding on the definition artifact so later stages stay deterministic. **Classification does not replace alignment** — bind only after definition divergences are resolved with the user (proportional depth still applies).
 
 ## Extensions
 
