@@ -2,16 +2,19 @@
 name: implement
 description: >-
   Implementation of a pipeline Task through managed, value-routed work
-  packages. Reuses the Task's delivery branch/PR, verifies code and tests, and
-  moves the Task from In Progress to In Review. Use for an approved PLAN.md,
-  BUG.md, TWEAK.md, REFINE.md, REWORK.md, ITERATE.md, or review fix-forward.
+  packages. Reuses the Task's delivery branch/PR, honors PLAN.md Workflow
+  binding when present, verifies code and tests, and moves the Task from In
+  Progress to In Review. Use for an approved PLAN.md, BUG.md, TWEAK.md,
+  REFINE.md, REWORK.md, ITERATE.md, or review fix-forward.
 disable-model-invocation: true
 ---
 
 # Implement
 
 Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
-**current repository** on the main pipeline Task.
+**current repository** on the main pipeline Task. When `PLAN.md` has a
+**Workflow** binding (from define + [CONCEPT_CLASSIFICATION](../concepts/CONCEPT_CLASSIFICATION.md)),
+honor its parameters — do not reclassify.
 
 **On invoke:** read [../concepts/CONCEPT_IMPLEMENTATION.md](../concepts/CONCEPT_IMPLEMENTATION.md),
 [testing.md](testing.md), [../workflow/reference.md](../workflow/reference.md),
@@ -19,8 +22,9 @@ Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) to the
 [../workflow/tracker-sync.md](../workflow/tracker-sync.md),
 [../workflow/handoff.md](../workflow/handoff.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
-When the spec is `REWORK.md`, also read [rework.md](rework.md).
-When spawning workers, also read
+When `implement.verify` is `comparative` (or the spec is `REWORK.md`), also read
+[rework.md](rework.md).
+When `implement.mode` is `multiagent` (or spawning workers otherwise), also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
 as directed there.
 
@@ -29,13 +33,14 @@ as directed there.
 | Slot | This skill |
 |------|------------|
 | **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs |
+| **Workflow binding** | `PLAN.md` `## Workflow` when present; else legacy fallback in [CLASSIFICATION-CATALOG.md](../concepts/CLASSIFICATION-CATALOG.md#legacy-fallback) |
 | **Branch naming** | WORKSPACE pattern — **reuse** Task delivery branch if it exists |
 | **Delivery** | **Same** PR as define/bug/tweak/refine/rework/research when one exists (or branch-only per WORKSPACE) |
-| **Verification** | Tests + lint for touched area (or full suite if repo norm); non-degradation; plan checklist; sub-task completion; [testing.md](testing.md); **rework** → [rework.md](rework.md) comparative eval |
-| **Testing checklist** | [testing.md](testing.md) — paste into Implementation / Testing / fix-forward briefs; rework adds [rework.md](rework.md) |
-| **Model routing** | CONCEPT_DELEGATION — score each package; escalate one tier after failed attempts |
+| **Verification** | Per binding `implement.verify`: `tests` → [testing.md](testing.md); `non-regression` → behaviour unchanged + testing.md; `comparative` → [rework.md](rework.md) + testing.md. Plus lint, plan checklist, sub-task completion |
+| **Testing checklist** | [testing.md](testing.md); comparative adds [rework.md](rework.md) |
+| **Model routing** | CONCEPT_DELEGATION when `implement.mode=multiagent` or workers are spawned; `single` → manager may implement localized packages without workers when Routine |
 | **Work package types** | See table below |
-| **PR template** | Summary; Tracker; Spec refs; Test plan; Completed sub-tasks / review threads |
+| **PR template** | Summary; Tracker; Spec refs; Workflow binding; Test plan; Completed sub-tasks / review threads |
 
 ## Modes
 
@@ -47,10 +52,11 @@ as directed there.
 ## Spec priority
 
 1. Fix-forward: open PR review comments
-2. Sub-task descriptions
-3. Task description
-4. `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs
-5. User paste
+2. `PLAN.md` **Workflow** / **Classification** binding (do not override without user ask)
+3. Sub-task descriptions
+4. Task description
+5. `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs
+6. User paste
 
 Resolve issue: user key/URL, or ask once "Which issue should this implementation track?"
 
@@ -64,10 +70,10 @@ open for ship closeout.
 
 Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 
-1. **Resolve work and status** — Resolve the Task, spec, Sub-tasks or review threads, then apply the implementation start transition. Done when the usable spec and active packages are known and the Task is **In Progress**.
+1. **Resolve work and status** — Resolve the Task, spec, Workflow binding (or legacy fallback), Sub-tasks or review threads, then apply the implementation start transition. Done when the usable spec, binding params, and active packages are known and the Task is **In Progress**.
 2. **Resolve delivery and commands** — Follow [delivery continuity](../workflow/delivery.md) and inspect repository-owned test/lint commands. Done when the Task's one delivery head is checked out and verification commands are recorded.
-3. **Execute packages** — Use CONCEPT_DELEGATION for every worker and include [testing.md](testing.md) in implementation, testing, and fix-forward briefs. When the spec is `REWORK.md`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate) before treating verify as done. Done when all packages satisfy the spec, behavioural tests, Sub-task completion criteria, and (for rework) the parity bar.
-4. **Verify and deliver** — Run the recorded checks, update the same PR, apply the implementation tracker row, and persist the Handoff. Done when checks pass, the Task is **In Review**, the PR and mirrors are current, and **Next** is recorded.
+3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md) in briefs. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, Sub-task criteria, and binding.
+4. **Verify and deliver** — Run the recorded checks, update the same PR (include binding summary), apply the implementation tracker row, and persist **Next** from the bound **Chain** (usually `/review-fix`). Done when checks pass, the Task is **In Review**, the PR and mirrors are current, and **Next** is recorded.
 
 ## Work packages
 
@@ -77,16 +83,18 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 | Research | `generalPurpose` | Mid | Novel domain spike with conflicting approaches → high |
 | Implementation | `generalPurpose` | Mid (Routine → low) | Novel design, security/authz, concurrency, large cross-cutting → high |
 | Testing | `generalPurpose` | Mid (Routine → low) | Flaky harness, concurrency tests, subtle regression isolation → high |
-| Comparative eval (rework) | `generalPurpose` | Mid | Novel harness, control/performance isolation, conflicting metrics → high |
+| Comparative eval | `generalPurpose` | Mid | Novel harness, control/performance isolation, conflicting metrics → high |
 | Fix-forward | `generalPurpose` | Low (obvious) / Mid otherwise | Architectural must-fixes, subtle correctness/races, prior lower-tier miss → next tier / high |
 
-Ensure each behavioural package lists test deliverables; if the plan omitted verification, add Testing packages before verify. For `REWORK.md`, ensure Baseline / Compare / Reiterate packages exist per [rework.md](rework.md).
+Ensure each behavioural package lists test deliverables; if the plan omitted verification, add Testing packages before verify. For comparative verify, ensure Baseline / Compare / Reiterate packages exist per [rework.md](rework.md).
 
 ## Handoff
 
+Prefer the next step in the bound **Chain**. Default:
+
 ```markdown
 ## Next
-`/review-fix <TASK-KEY>` — Review and auto-fix (single pass)
+`/review-fix <TASK-KEY>` — Review and auto-fix per Workflow binding
 ```
 
 (Use `/review <TASK-KEY>` for one-shot review without auto-fix.

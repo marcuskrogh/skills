@@ -51,7 +51,7 @@ whether you can answer it now.
 
 | Put it here | When |
 |-------------|------|
-| **Route Task** | Sharp enough to hand to `/research`, `/model`, `/define`, `/bug`, `/tweak`, `/refine`, `/rework`, or a concrete unblocker — even if blocked |
+| **Route Task** | Sharp enough to hand to `/define` (preferred), `/research`, `/model`, or a concrete unblocker — even if blocked |
 | **Not yet specified** (fog) | Sensed but not ticket-sized — do not pre-slice into fake Tasks |
 | **Out of scope** | Beyond this destination — never graduates unless destination is redrawn |
 
@@ -119,7 +119,7 @@ Keep Destination short. **Not yet specified** stays non-empty whenever honest fo
 
 1. **Align** — Follow CONCEPT_ALIGNMENT with the extensions above. Done when the destination and map stop condition hold.
 2. **Classify the route** — Map the visible frontier breadth-first into typed Tasks, fog, and out of scope. Done when every visible item has exactly one classification and dependencies are known.
-3. **Handle a clear direct path** — If the work is already small and fog-free, select the direct handoff instead of manufacturing route Tasks. Done when `/define`, `/bug`, `/tweak`, `/refine`, `/rework`, or the concrete action is identified.
+3. **Handle a clear direct path** — If the work is already small and fog-free, select the direct handoff instead of manufacturing route Tasks. Done when `/define` (preferred front door) or the concrete action is identified.
 4. **Approve the map** — Present `ROADMAP.md` with the readiness prompt. Done when the user approves it or names the next divergence.
 5. **Persist and hand off** — Apply the explore tracker row and choose the first frontier skill by Order. Done when Story, Tasks, dependencies, artifact, mirror, and **Next** agree.
 

@@ -108,7 +108,7 @@ Agreed agent workspace setup.
 | Workspace | docs/agents/WORKSPACE.md |
 | Continuity mirror | docs/agents/ISSUES.md |
 | Roadmap | ROADMAP.md |
-| Plan | PLAN.md |
+| Plan | PLAN.md (incl. Classification + Workflow when from define) |
 | Bug | BUG.md |
 | Tweak | TWEAK.md |
 | Refine | REFINE.md |

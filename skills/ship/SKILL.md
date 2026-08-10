@@ -33,7 +33,7 @@ Requires authenticated `gh` + tracker auth.
 
 | Evidence | Remaining |
 |----------|-----------|
-| No ready-to-build artifact | **Stop** — `/define`, `/bug`, `/tweak`, `/refine`, `/rework`, or `/iterate` first |
+| No ready-to-build artifact | **Stop** — `/define` (or `/iterate`) first; manual `/bug`/`/tweak`/`/refine`/`/rework` also ready-to-build |
 | Defined; To Do; no meaningful impl on delivery PR | implement → review-fix → closeout |
 | In Progress; impl incomplete | finish implement → review-fix → closeout |
 | In Review; unresolved REQUEST_CHANGES / must-fix | review-fix → closeout |

@@ -18,7 +18,7 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 ## Steps
 
 1. **Resolve subject** — Resolve key/URL → single active ISSUES row → branch inference → ask once; fetch it and load linked artifacts from the effective workspace. Done when one Task or Story and its available evidence are identified.
-2. **Infer track** — Classify feature (PLAN/ROADMAP), bug (BUG without feature plan), tweak (TWEAK), refine (REFINE), rework (REWORK), or iterate (ITERATE / Relates to Done prior). Done when one track is supported by durable evidence.
+2. **Infer track** — Prefer `PLAN.md` **Classification.Class** when present; else classify feature (PLAN/ROADMAP), bug (BUG), tweak (TWEAK), refine (REFINE), rework (REWORK), or iterate (ITERATE / Relates to Done prior). Done when one track is supported by durable evidence.
 3. **Infer furthest stage** — Compare tracker, artifact, branch, PR, and review evidence against the table below. Done when the highest evidenced stage and any inconsistency are named.
 4. **Reply** — Use the reply shape below and the Handoff table to validate persisted **Next**; recompute stale Next from current status. Done when the answer reports About, Track, Stage, Artifacts, Status, and one valid **Next** (or no further work).
 
@@ -48,12 +48,13 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 
 **Track:** feature | bug | tweak | refine | rework | iterate
 
-**About:** <2–4 sentences from issue + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/ROADMAP>
+**About:** <2–4 sentences from issue + PLAN (incl. Classification/Workflow) / BUG/TWEAK/REFINE/REWORK/ITERATE/ROADMAP>
 
 **Stage:** <stage> — <one line why>
 
 **Artifacts:**
 - ROADMAP / PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / MODEL / RESEARCH / PR — present or missing
+- Workflow binding: <template + key params, or "none (legacy)">
 
 **Status:** <To Do | In Progress | In Review | Done>
 

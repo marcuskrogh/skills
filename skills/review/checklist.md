@@ -8,10 +8,11 @@ Axes: **Spec**, **Correctness**, **Integration**, **Architecture**, **Standards*
 ## Spec
 
 ### Vertical
-- [ ] Each acceptance criterion / bug expected-result / tweak desired-change / refine preserve-behaviour bar / rework parity bar is implemented in the changed code
+- [ ] Each acceptance criterion / bug expected-result / tweak desired-change / refine preserve-behaviour bar / rework parity bar / PLAN Classification acceptance is implemented in the changed code
 - [ ] Work-package / sub-task outcomes are actually delivered (not just TODOs/comments)
 - [ ] Edge cases called out in PLAN/BUG/TWEAK/REFINE/REWORK are handled
 - [ ] Wrong algorithm or behaviour relative to the written spec
+- [ ] PLAN Workflow binding (if present) was followed for verify mode (tests / non-regression / comparative evidence)
 
 ### Horizontal
 - [ ] Related surfaces updated: API, UI, docs, config, migrations, feature flags, metrics

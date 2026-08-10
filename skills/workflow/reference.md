@@ -35,7 +35,7 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **rework** | Intentional implementation change; no measured degradation | `REWORK.md` + Task + delivery branch/PR | `/implement` (comparative) |
 | **research** | Multi-axis question | `RESEARCH.md` (supportive) + continuity | `/model` or `/define` |
 | **model** | Math alignment with user | `MODEL.md` + continuity | `/define` |
-| **define** | Route or standalone Task | `PLAN.md` + Sub-tasks + branch/PR | `/implement` |
+| **define** | Route or standalone Task (front door for concrete work) | `PLAN.md` + Classification + Workflow binding + Sub-tasks + branch/PR | First skill in bound Chain (usually `/implement`) |
 | **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE ready | Code on **same** PR; Task → In Review | `/review-fix` |
 | **iterate** | Shipped work still wrong | `ITERATE.md` + **new** Task/PR; In Review | `/review-fix` |
 | **review** | Task In Review | Findings on the **same** PR | `/review-fix` or `/ship` |
@@ -65,7 +65,8 @@ the user’s word. Full Next table and persistence targets: [handoff.md](handoff
 |----------|-------|------|
 | `WORKSPACE.md` | setup | Tracker + path + delivery decisions |
 | `ROADMAP.md` | explore | Map + route + **Next** |
-| `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `PLAN.md` | bug / tweak / refine / rework / iterate / define | Spec + keys + **Next** |
+| `PLAN.md` | define | Spec + Classification + Workflow binding + keys + **Next** |
+| `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` | bug / tweak / refine / rework / iterate (manual override) | Spec + keys + **Next** |
 | `RESEARCH.md` / `MODEL.md` | research / model | Supportive / math alignment + **Next** |
 | Branch + PR | First writer → ship | One delivery vehicle per Task |
 | Merge + Done | ship | Closed-loop closeout on that PR |

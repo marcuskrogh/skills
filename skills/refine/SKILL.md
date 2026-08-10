@@ -6,9 +6,10 @@ description: >-
   Requires a thin area description. Produces REFINE.md and one tracker Task
   (optional Sub-tasks), then hands off to implementation. Use when a class,
   feature slice, README, or other bounded surface is outdated relative to
-  current architecture or conventions. Prefer /tweak for intentional behaviour
-  changes without a comparative bar; prefer /rework when replacing an
-  implementation that must not degrade measured outcomes; prefer /bug for defects.
+  current architecture or conventions. Prefer /define for new work (agent
+  classifies as refine). Prefer /tweak for intentional behaviour changes
+  without a comparative bar; prefer /rework when replacing an implementation
+  that must not degrade measured outcomes; prefer /bug for defects.
 disable-model-invocation: true
 ---
 

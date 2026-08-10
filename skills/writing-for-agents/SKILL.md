@@ -98,6 +98,10 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **tweak** | Small intentional change to existing behaviour; lightweight define sibling of bug |
 | **refine** | Bounded structural/descriptive improvement without behaviour change; lightweight define sibling of bug/tweak |
 | **rework** | Intentional implementation change with measured non-degradation (parity bar + comparative eval); lightweight define sibling of refine/tweak |
+| **class** | Closed label for kind of work (bug/tweak/refine/rework/feature/…); from CONCEPT_CLASSIFICATION |
+| **binding** | Selected workflow template + parameters persisted on the definition artifact |
+| **template** | Named delivery bundle (fix-fast, parity-iterative, …) |
+| **front door** | Primary human entry: explore (fog) or define (concrete) |
 | **manager** | Orchestrating agent — stays high-capability; plans, evaluates, tracks |
 | **worker** | Delegated sub-agent — value-routed low/mid/high |
 | **depth** | Proportional intensity preset (review: `full` vs `focused`; define/bug/tweak/refine/rework: Full vs Lightweight) |

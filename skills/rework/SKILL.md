@@ -6,9 +6,11 @@ description: >-
   description and a parity bar. Produces REWORK.md and one tracker Task
   (optional Sub-tasks), then hands off to implementation with comparative
   evaluation. Use when replacing or simplifying a backend/control path (or
-  similar) while holding measured outcomes. Prefer /refine when executable
-  behaviour stays the same with no intentional algorithm change; prefer /tweak
-  when intentional behaviour change is acceptable without a comparative bar.
+  similar) while holding measured outcomes. Prefer /define for new work (agent
+  classifies as rework and binds parity-iterative). Prefer /refine when
+  executable behaviour stays the same with no intentional algorithm change;
+  prefer /tweak when intentional behaviour change is acceptable without a
+  comparative bar.
 disable-model-invocation: true
 ---
 

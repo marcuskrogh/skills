@@ -110,38 +110,40 @@ while `marcuskrogh/skills` advances on `main`.
 
 ```
 skills/                         ← source of truth (Agent Skills layout)
-├── concepts/                   ← uninvokable CONCEPT_*.md (loaded only when a skill references them)
+├── concepts/                   ← uninvokable CONCEPT_*.md + disclosed refs
 │   ├── CONCEPT_ALIGNMENT.md
+│   ├── CONCEPT_CLASSIFICATION.md
+│   ├── CLASSIFICATION-CATALOG.md
 │   ├── CONCEPT_DELEGATION.md   ← difficulty → low/mid/high; catalogs disclosed
-│   ├── PLATFORM-CATALOGS.md    ← catalog rules + pointers to per-harness files
-│   ├── platforms/              ← disclosed ranked models (load only detected harness)
+│   ├── PLATFORM-CATALOGS.md
+│   ├── platforms/
 │   ├── CONCEPT_IMPLEMENTATION.md
 │   ├── CONCEPT_ITERATION.md
 │   ├── CONCEPT_DEFINITION.md
 │   ├── CONCEPT_RESEARCH.md
 │   └── CONCEPT_REVIEW.md
 ├── workflow/                   ← lean delivery contract + disclosed delivery/handoff/tracker/ship refs
-├── workflows/                  ← model-invoked router into pipeline skills
-├── setup/                      ← workspace alignment → docs/agents/WORKSPACE.md or ~/.agents/WORKSPACE.md (global)
-├── explore/                    ← fog-clearing wayfinding → ROADMAP.md map + sequenced route Tasks
-├── bug/                        ← defect alignment → BUG.md (skips explore/define)
-├── tweak/                      ← small intentional change → TWEAK.md (lightweight; skips explore/define)
-├── refine/                     ← bounded structural/descriptive improvement → REFINE.md (behaviour unchanged)
-├── rework/                     ← intentional impl swap → REWORK.md (parity bar; comparative eval on implement)
+├── workflows/                  ← model-invoked router (explore/define front doors)
+├── setup/                      ← workspace alignment → WORKSPACE.md
+├── explore/                    ← fog-clearing wayfinding → ROADMAP.md
+├── define/                     ← front door: align + classify + bind → PLAN.md
+├── bug/                        ← manual override → BUG.md
+├── tweak/                      ← manual override → TWEAK.md
+├── refine/                     ← manual override → REFINE.md
+├── rework/                     ← manual override → REWORK.md (comparative eval)
 ├── research/                   ← multi-axis research brief → RESEARCH.md
 ├── model/                      ← mathematical alignment → MODEL.md
-├── define/                     ← topic definition → PLAN.md (enriches pipeline Task)
-├── implement/                  ← managed implementation from a pipeline Task (tests + testability first-class)
-├── iterate/                    ← post-ship fix: brief align + new branch/PR → review-fix
-├── review/                     ← adaptive-depth Spec/Correctness/Integration/Architecture/Standards
-├── review-fix/                ← one adaptive-depth review → fix-forward → CLEAN (no re-review)
-├── ship/                       ← remaining-workflow orchestrator → closed-loop merge + Done
+├── implement/                  ← honors PLAN Workflow binding
+├── iterate/                    ← post-ship fix → review-fix
+├── review/                     ← adaptive-depth; honors bound review.mode/depth
+├── review-fix/                ← one review → fix-forward → CLEAN
+├── ship/                       ← remaining-workflow orchestrator → Done
 ├── summarise/                  ← status: about / stage / Next
-├── help/                       ← which skill / workflow map (explain only)
-├── tracker/                    ← pluggable issue tracker (markdown/jira/github/linear)
-├── jira/                       ← Jira REST details (tracker backend)
-├── manage-skills/              ← meta: maintain this repo (+ agent-install.md)
-└── writing-for-agents/         ← lean shapes + vocabulary for skills/concepts
+├── help/                       ← front-door map (explain only)
+├── tracker/                    ← pluggable issue tracker
+├── jira/                       ← Jira REST details
+├── manage-skills/              ← meta: maintain this repo
+└── writing-for-agents/         ← lean shapes + vocabulary
 
 .claude-plugin/                 ← optional Claude Code marketplace manifests
 scripts/                        ← validate / sync / install-from-git / project bootstrap
@@ -156,69 +158,36 @@ templates/project-sync/         ← startup sync script template
 | **Skill** | `skills/<name>/SKILL.md` | Yes (unless `disable-model-invocation`) | Yes (name + description) | On invoke / composition |
 | **Concept** | `skills/concepts/CONCEPT_<NAME>.md` | No | No | Only when an invoked skill tells the agent to read it |
 
-Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition for a pipeline Task; `bug`, `tweak`, `refine`, and `rework` apply the same concepts lightly for defects, small intentional changes, behaviour-preserving refinements, and measured non-degradation reworks). Concepts own **invariants**; skills fill **extensions** only — see `writing-for-agents` for the lean reference format and shared vocabulary. Pipeline skills are **user-invoked**; the model-invoked **`workflows`** router discovers which path fits a work request, then progressive-discloses only that skill. **`help`** explains the catalog without starting delivery.
+Invokable skills **derive from** concepts and further specify them for a purpose (e.g. `define` applies alignment + definition + **classification** for concrete work; `bug` / `tweak` / `refine` / `rework` remain manual overrides with the same class semantics). Concepts own **invariants**; skills fill **extensions** only — see `writing-for-agents`. Pipeline skills are **user-invoked**; the model-invoked **`workflows`** router prefers **explore** / **define** front doors, then progressive-discloses only that skill. **`help`** explains the catalog without starting delivery.
 
 **Sub-agent value routing:** skills that delegate (`implement`, `review`, `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply `CONCEPT_DELEGATION` — score difficulty (Routine → **low**, Moderate → **mid**, Demanding → **high**), keep the manager/orchestrator on high-capability, escalate one tier at a time, and pick **catalog-closed** from ranked platform catalogs via `PLATFORM-CATALOGS.md` (then only the detected harness file under `concepts/platforms/`). On **Cursor**, that file is a closed allowlist of **Composer** + **Grok** only (third-party picker models bill the API budget).
 
 ## Pipelines
 
-**Feature**
+**Front doors:** `/explore` (fog) and `/define` (concrete work). Define
+**classifies** the work (bug / tweak / refine / rework / feature / …) and
+**binds** an efficient workflow template + parameters onto `PLAN.md` and the
+tracker; later steps follow that chain via **Next**.
 
 ```text
-setup → explore → (research / model / define route…) → implement → review-fix → ship
+setup → explore? → define (classify + bind) → [bound chain, often implement → review-fix → ship]
 ```
 
 Explore charts a **map** of foggy work into sequenced, dependent route Tasks
-(research, model, define, …). Each define Task → **one delivery branch + one PR**
-from the first repo-writing skill on that Task through ship. Continuing via
-**Next** reuses that branch/PR. **`/ship`** may be invoked after define (or after
-bug / tweak / refine / rework / iterate ready-to-build) to run any **remaining** steps (`implement` →
-`review-fix` → closeout as needed), then merge and leave no leftover open PR.
+(usually define, optionally research/model). Each define Task → **one delivery
+branch + one PR** from the first repo-writing skill on that Task through ship.
+Continuing via **Next** reuses that branch/PR. **`/ship`** may be invoked after
+define (or after a bound implement/review stage) to run any **remaining** steps,
+then merge and leave no leftover open PR.
 
-**Bug fix** (`/bug` replaces explore + define)
+**Manual overrides** (`/bug`, `/tweak`, `/refine`, `/rework`, …) remain
+user-invokable when you want to skip define’s classifier; prefer `/define` for
+new work.
 
-```text
-setup → bug → implement → review-fix → ship
-```
-
-Same closed-loop delivery (bug starts the branch/PR when writing `BUG.md`).
-
-**Tweak** (`/tweak` replaces explore + define for small intentional changes)
-
-```text
-setup → tweak → implement → review-fix → ship
-```
-
-Same closed-loop delivery as bug (tweak starts the branch/PR when writing `TWEAK.md`).
-Use when extending an existing pattern or adjusting clear behaviour — not a defect,
-not a full feature definition, and not a post-ship iterate.
-
-**Refine** (`/refine` replaces explore + define for bounded structural/descriptive work)
-
-```text
-setup → refine → implement → review-fix → ship
-```
-
-Same closed-loop delivery as bug/tweak (refine starts the branch/PR when writing
-`REFINE.md`). Requires a thin description of the area (class, functionality,
-README, …). Improves structure, naming, comments, or docs to match current
-architecture — **executable behaviour stays the same**. Prefer `/tweak` when
-behaviour should change; prefer `/rework` when the implementation changes but
-measured outcomes must hold; prefer `/bug` for defects.
-
-**Rework** (`/rework` replaces explore + define for intentional implementation swaps)
-
-```text
-setup → rework → implement (comparative eval) → review-fix → ship
-```
-
-Same closed-loop delivery as bug/tweak/refine (rework starts the branch/PR when
-writing `REWORK.md`). Requires a thin area description and a **parity bar**
-(metrics, scenarios, tolerances, baseline method). Implementation runs
-**baseline vs candidate** against that bar and reiterates on degradation —
-suite green alone is not enough. Prefer `/refine` when executable behaviour is
-unchanged; prefer `/tweak` when intentional behaviour change needs no
-comparative bar.
+**Classification + binding** — see `concepts/CONCEPT_CLASSIFICATION.md` and
+`concepts/CLASSIFICATION-CATALOG.md` (templates such as fix-fast,
+parity-iterative, feature-heavy; params for multiagent implement/review,
+comparative verify, review depth).
 
 **Post-ship iterate** (merged work still needs a fix)
 
@@ -277,21 +246,18 @@ Only the code change itself lands in the repo, on the Task's delivery branch/PR.
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths), repository or global scope |
-| **explore** | user | Clear fog on vague/large work → `ROADMAP.md` map + Story + sequenced route Tasks (research / model / define / …) |
-| **bug** | user | Defect alignment → `BUG.md` + Task + delivery branch/PR (then implement) |
-| **tweak** | user | Small intentional change → `TWEAK.md` + Task + delivery branch/PR (then implement) |
-| **refine** | user | Bounded structural/descriptive improvement (behaviour unchanged) → `REFINE.md` + Task + delivery branch/PR (then implement) |
-| **rework** | user | Intentional implementation swap under a parity bar → `REWORK.md` + Task + delivery branch/PR (then implement with comparative eval) |
-| **research** | user | Multi-axis research brief → `RESEARCH.md` (arXiv + formal + web + informal; supportive, not user alignment) |
-| **model** | user | Math alignment → `MODEL.md` (math only; does not replace define) |
-| **define** | user | User-agent topic definition → `PLAN.md` + Sub-tasks + delivery branch/PR (owns particulars; always questions the user) |
-| **implement** | user | Build on the **same** delivery branch/PR; tests and testability required; rework Tasks use baseline vs candidate eval; low/mid/high work-package routing |
+| **explore** | user | Clear fog on vague/large work → `ROADMAP.md` map + Story + sequenced route Tasks (usually define) |
+| **define** | user | **Front door** for concrete work → align, **classify**, **bind workflow** → `PLAN.md` + Sub-tasks + delivery branch/PR |
+| **bug** / **tweak** / **refine** / **rework** | user | Manual overrides (class-specific artifacts); prefer `/define` for new work |
+| **research** | user | Multi-axis research brief → `RESEARCH.md` (supportive; often via define `side_paths`) |
+| **model** | user | Math alignment → `MODEL.md` (math only; often via define `side_paths`) |
+| **implement** | user | Build on the **same** delivery branch/PR; honors PLAN Workflow binding (verify mode, multiagent) |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
-| **review** | user | Adaptive-depth PR review — `full` five-axis on larger feature work, `focused` 1–2 workers on bugs/tweaks/refines/reworks/small deltas; fix-biased severity; low/mid/high workers |
-| **review-fix** | user | One adaptive-depth review → auto fix-forward (blockers, should-fix, actionable notes) → CLEAN (no re-review) → ship; same value routing for workers/packages |
-| **ship** | user | Finish remaining work after define/bug/tweak/refine/rework/iterate-ready (implement and/or review-fix as needed), then closed-loop merge + Done. Bare **ship** is a continuation keyword (like **next**). |
+| **review** | user | Adaptive-depth PR review — honors bound `review.depth` / `review.mode` when present |
+| **review-fix** | user | One review → auto fix-forward → CLEAN → ship |
+| **ship** | user | Finish remaining work along the bound chain, then merge + Done. Bare **ship** is a continuation keyword |
 | **summarise** | user | About / workflow stage / what to run Next |
-| **help** | model | Which skill / workflow map — explains choices; does not start delivery |
+| **help** | model | Front-door map — explains choices; does not start delivery |
 
 ## Other skills
 

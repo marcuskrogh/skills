@@ -9,19 +9,26 @@ requires. Severity stays **fix-biased** per
 ## Choose depth
 
 Pick the **first matching** row. Record `depth: full | focused` and a one-line
-reason in the tracker comment.
+reason in the tracker comment. When `PLAN.md` has `## Workflow`, **honor
+`review.depth` and `review.mode`** from the binding (do not re-guess from class
+vibes). Map `review.mode=multiagent` → workers per **full**; `review.mode=single`
+→ workers per **focused** (unless depth was explicitly `full` with single-mode
+Core-only — still use the depth worker map below).
 
 | Signal | Depth |
 |--------|-------|
+| Bound `review.depth=full` (PLAN Workflow) | **full** |
+| Bound `review.depth=focused` (PLAN Workflow) | **focused** |
 | User names full / thorough / all-axes | **full** |
-| `PLAN.md` feature work with multi-package scope, new modules/layers, wide blast radius, or structural/ADR risk | **full** |
-| Diff touches many packages or public API / schema / migration surface as the main change | **full** |
+| `PLAN.md` feature work with multi-package scope, new modules/layers, wide blast radius, or structural/ADR risk (no binding) | **full** |
+| Diff touches many packages or public API / schema / migration surface as the main change (no binding) | **full** |
 | `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` (default) | **focused** |
-| `PLAN.md` but small localized slice (few files, one concern, no new layers) | **focused** |
-| Ambiguous | **focused** for bug/tweak/refine/rework/iterate; **full** for feature `PLAN.md` |
+| `PLAN.md` but small localized slice (few files, one concern, no new layers) (no binding) | **focused** |
+| Ambiguous | **focused** for bug/tweak/refine/rework/iterate; **full** for unbound feature `PLAN.md` |
 
 Structural red flags while packing context (new layers, cycles, ADR conflicts) →
-promote to **full** even on a bug/tweak/refine/rework/iterate Task.
+promote to **full** even on a bug/tweak/refine/rework/iterate Task **unless** the
+user explicitly locked a focused binding and reaffirms it.
 
 ## Worker map
 
