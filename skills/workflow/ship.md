@@ -4,12 +4,12 @@ Load when running `/ship` — remaining-tail detection or closed-loop closeout.
 
 ## Remaining workflow
 
-`/ship` finalizes whatever is still left after define / bug / tweak / refine / iterate-ready.
+`/ship` finalizes whatever is still left after define / bug / tweak / refine / rework / iterate-ready.
 It is not limited to “clean review → merge”.
 
 ```text
 detect stage
-  → not ready-to-build → stop; tell user /define|/bug|/tweak|/refine|/iterate
+  → not ready-to-build → stop; tell user /define|/bug|/tweak|/refine|/rework|/iterate
   → implementation outstanding → /implement on delivery branch/PR
   → review not CLEAN → /review-fix on same PR
   → CLEAN / ship-ready → closeout
@@ -18,7 +18,7 @@ detect stage
 
 | Invoked when | Remaining |
 |--------------|-----------|
-| After define / bug / tweak / refine (To Do, plan/bug/tweak/refine ready) | implement → review-fix → closeout |
+| After define / bug / tweak / refine / rework (To Do, plan ready) | implement → review-fix → closeout |
 | After implement (In Review) | review-fix → closeout |
 | After review-fix CLEAN / clean review | closeout |
 | After iterate (new Task In Review) | review-fix → closeout |
@@ -32,7 +32,7 @@ Closed-loop on the Task’s **single delivery PR**. Run only after CLEAN review
 (or already ship-ready / explicit user override).
 
 1. **Pre-merge continuity (PR still open)** — commit and push on the delivery branch:
-   - PLAN / BUG / TWEAK / REFINE / ITERATE — shipped / **Next: Done** + PR link
+   - PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE — shipped / **Next: Done** + PR link
    - ROADMAP — phase Done + PR link when this Task owns a phase
    - **Changelog** — when [detected](changelog.md), append compact entry per repo format
    - ISSUES (and markdown issue files if provider is markdown)

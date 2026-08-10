@@ -21,7 +21,7 @@ before spawn. When spawning axis workers, also load
 
 ## Invariants
 
-- **Proportional depth.** Choose depth before spawn from work-package shape and change size. `full` when the package warrants all-axis coverage; `focused` for bugs, tweaks, refinements, small iterates, and localized deltas. Record the choice. Both vertical and horizontal still apply on every included axis.
+- **Proportional depth.** Choose depth before spawn from work-package shape and change size. `full` when the package warrants all-axis coverage; `focused` for bugs, tweaks, refinements, reworks, small iterates, and localized deltas. Record the choice. Both vertical and horizontal still apply on every included axis.
 - **Investigation context before axis work** — changed paths, file snapshots, neighbor map, spec pack, architecture pack, standards pack, tooling evidence when cheap.
 - **Fix-biased severity.** Prefer `should-fix` over `note` when **actionable**.
 - **Publish to the durable surface** (PR review, etc.); summarise counts to the user when a publish target exists.

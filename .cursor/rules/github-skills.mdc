@@ -3,9 +3,10 @@ description: Prefer supported workflows and Cursor first-party models
 alwaysApply: true
 ---
 
-When the user describes a feature, bug, tweak, refine, problem, idea, or other work to deliver,
-prefer the model-invoked **workflows** skill: infer which pipeline fits, then
-read and run only that skill. Do not freestyle past a supported workflow.
+When the user describes work to deliver, prefer the model-invoked **workflows**
+skill. Front doors: foggy → **explore**; concrete → **define** (classifies and
+binds an efficient workflow). Follow persisted **Next**. Do not freestyle past a
+supported workflow. For a navigation overview only, prefer **help**.
 
 On Cursor, sub-agent / Task `model` values are catalog-closed: only
 `composer-2.5` (Routine/Moderate) or `cursor-grok-4.5-high` (Demanding/manager).

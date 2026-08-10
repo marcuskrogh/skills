@@ -1,13 +1,16 @@
 # Agent instructions
 
-**Prefer workflow.** When the user describes a feature, bug, tweak, refine, problem, idea,
-investigation, or follow-up — even without naming a skill — invoke
-[`workflows`](skills/workflows/SKILL.md): infer the supported pipeline, then load
-and run only that skill. Do not freestyle coding or ad-hoc planning when a
-catalog workflow fits.
+**Prefer workflow.** When the user describes work to deliver — even without naming
+a skill — invoke [`workflows`](skills/workflows/SKILL.md). **Front doors:** foggy
+→ [`explore`](skills/explore/SKILL.md); concrete (bug, tweak, refine, rework,
+feature, …) → [`define`](skills/define/SKILL.md), which classifies the work and
+binds an efficient workflow. Follow persisted **Next** afterward. Do not freestyle
+coding or ad-hoc planning when a catalog workflow fits.
 
 Continuation cues: bare **next** / **ship** still apply (see
-`skills/workflow/reference.md`). Explicit `/skill` names win over re-routing.
+`skills/workflow/reference.md`). Explicit `/skill` names win over re-routing
+(manual overrides remain available). Lost on which skill to use →
+[`help`](skills/help/SKILL.md).
 
 **Cursor models (catalog-closed).** On Cursor, every sub-agent / `Task` `model`
 must be `composer-2.5` (Routine / Moderate) or `cursor-grok-4.5-high` (Demanding /

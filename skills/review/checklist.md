@@ -8,17 +8,19 @@ Axes: **Spec**, **Correctness**, **Integration**, **Architecture**, **Standards*
 ## Spec
 
 ### Vertical
-- [ ] Each acceptance criterion / bug expected-result / tweak desired-change / refine preserve-behaviour bar is implemented in the changed code
+- [ ] Each acceptance criterion / bug expected-result / tweak desired-change / refine preserve-behaviour bar / rework parity bar / PLAN Classification acceptance is implemented in the changed code
 - [ ] Work-package / sub-task outcomes are actually delivered (not just TODOs/comments)
-- [ ] Edge cases called out in PLAN/BUG/TWEAK/REFINE are handled
+- [ ] Edge cases called out in PLAN/BUG/TWEAK/REFINE/REWORK are handled
 - [ ] Wrong algorithm or behaviour relative to the written spec
+- [ ] PLAN Workflow binding (if present) was followed for verify mode (tests / non-regression / comparative evidence)
 
 ### Horizontal
 - [ ] Related surfaces updated: API, UI, docs, config, migrations, feature flags, metrics
 - [ ] No scope creep beyond the issue (extra behaviour that should be a new Task)
 - [ ] BUG fixes include regression protection called for in acceptance (test or equivalent)
 - [ ] REFINE keeps executable behaviour unchanged; verification matches Preserve behaviour
-- [ ] MODEL/PLAN/BUG/TWEAK/REFINE numeric or domain constraints reflected at all touchpoints
+- [ ] REWORK meets the parity bar; PR/evidence shows baseline vs candidate comparison (not suite-green alone)
+- [ ] MODEL/PLAN/BUG/TWEAK/REFINE/REWORK numeric or domain constraints reflected at all touchpoints
 
 ## Correctness
 

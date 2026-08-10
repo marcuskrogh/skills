@@ -47,7 +47,7 @@ Done when placement and shape match an existing section.
 
 ## Entry content
 
-Derive from the shipped artifact (`PLAN` / `BUG` / `TWEAK` / `REFINE` / `ITERATE`):
+Derive from the shipped artifact (`PLAN` / `BUG` / `TWEAK` / `REFINE` / `REWORK` / `ITERATE`):
 
 - **1–3 bullets** or **one short paragraph** (≤ 2 sentences).
 - Lead with **user-visible outcome**, not implementation detail.
@@ -64,4 +64,4 @@ Done when entry is compact and product-facing.
 
 Runs inside ship closeout **pre-merge continuity** (open PR) or direct base
 commit when the PR was already merged — same rules as other continuity files.
-Commit on the delivery branch with PLAN/BUG/TWEAK/REFINE/ITERATE continuity.
+Commit on the delivery branch with PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE continuity.

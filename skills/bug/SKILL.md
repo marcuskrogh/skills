@@ -4,8 +4,10 @@ description: >-
   Bug alignment and lightweight definition for a clear defect. Produces BUG.md
   and one tracker Task (optional Sub-tasks), then hands off to implementation.
   Use when the fix is the work and no feature discovery is needed. Prefer
-  /tweak for small intentional changes that are not defects; prefer /refine
-  when improving structure or docs without changing behaviour.
+  /define for new work (agent classifies as bug). Prefer /tweak for small
+  intentional changes that are not defects; prefer /refine when improving
+  structure or docs without changing behaviour; prefer /rework when replacing
+  an implementation under a measured non-degradation bar.
 disable-model-invocation: true
 ---
 
