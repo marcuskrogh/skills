@@ -28,7 +28,7 @@ the map; does not start delivery.
 | If you… | Run | What happens |
 |---------|-----|----------------|
 | Have no usable workspace yet | `/setup` | `WORKSPACE.md` (tracker + paths) |
-| Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + Story + sequenced route Tasks |
+| Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks; research/model = finding docs on the delivery branch → `/define` |
 | Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Align → **classify** → **bind workflow** → `PLAN.md` + **Next** |
 
 Without an explicit override or continuation: **foggy → explore**, **concrete →
@@ -71,10 +71,13 @@ continue or ship, not a new map. Details:
 setup → explore? → define (classify + bind) → [bound chain, often implement → review-fix → ship]
 ```
 
-Explore charts a **map**; each define Task owns **one delivery branch + one PR**
-from the first repo-writing skill through ship. Continuing via **Next** reuses
-that branch/PR. **`/ship`** may run after define (or mid-chain) to finish any
-**remaining** steps, then merge and close out.
+Explore charts a **map**; research / model commit **finding docs**
+(`RESEARCH.md` / `MODEL.md`) onto the delivery branch and **never open their
+own PRs** — define opens the single delivery PR. Each define Task owns **one
+delivery branch + one PR** through ship. Continuing via **Next** reuses that
+branch/PR (implement reads research/model docs when writing product docs).
+**`/ship`** may run after define (or mid-chain) to finish any **remaining**
+steps, then merge and close out.
 
 ### Post-ship iterate
 
@@ -119,9 +122,10 @@ Side paths **research** / **model** usually appear via define’s bound
 
 ### Delivery contract (one line)
 
-One Task → one open delivery branch/PR through ship; explore maps without owning
-a route PR; iterate (post-merge only) opens a new Task + PR. Continuity (keys,
-status, Next, artifacts, branch/PR) mirrors to markdown when enabled — see
+One Task → one open delivery branch/PR through ship; research / model add finding
+docs on that branch only (no separate PR); explore maps without owning a route
+PR; iterate (post-merge only) opens a new Task + PR. Continuity (keys, status,
+Next, artifacts, branch/PR) mirrors to markdown when enabled — see
 [`skills/workflow/`](skills/workflow/SKILL.md).
 
 ## Concepts vs skills
@@ -176,8 +180,8 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── tweak/                      ← manual override → TWEAK.md
 ├── refine/                     ← manual override → REFINE.md
 ├── rework/                     ← manual override → REWORK.md (comparative eval)
-├── research/                   ← multi-axis research brief → RESEARCH.md
-├── model/                      ← mathematical alignment → MODEL.md
+├── research/                   ← finding docs → RESEARCH.md on delivery branch (no PR)
+├── model/                      ← math finding docs → MODEL.md on delivery branch (no PR)
 ├── implement/                  ← honors PLAN Workflow binding
 ├── iterate/                    ← post-ship fix → review-fix
 ├── review/                     ← adaptive-depth; honors bound review.mode/depth
@@ -201,11 +205,11 @@ templates/project-sync/         ← startup sync script template
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (repository or global) |
-| **explore** | user | Clear fog → `ROADMAP.md` + Story + sequenced route Tasks |
+| **explore** | user | Clear fog → `ROADMAP.md` + Story + route Tasks (one delivery unit; research/model = finding docs, no separate PRs) |
 | **define** | user | **Front door** for concrete work → align, classify, bind → `PLAN.md` |
 | **bug** / **tweak** / **refine** / **rework** | user | Manual overrides; prefer `/define` for new work |
-| **research** / **model** | user | Supportive evidence / math (often via define `side_paths`) |
-| **implement** | user | Build on the **same** delivery branch/PR; honors Workflow binding |
+| **research** / **model** | user | Finding docs on delivery branch (no PR; often via define `side_paths`) |
+| **implement** | user | Build on the **same** delivery branch/PR; uses RESEARCH/MODEL when formulating docs |
 | **iterate** | user | Post-ship fix → new Task/branch/PR → review-fix |
 | **review** | user | Adaptive-depth findings only |
 | **review-fix** | user | One review → fix-forward → CLEAN → ship |

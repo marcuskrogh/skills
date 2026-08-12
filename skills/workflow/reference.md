@@ -15,11 +15,13 @@ Load [disclosed refs](#disclosed-refs) only when a step needs them.
 ## Delivery identity
 
 - **One Task** owns work from ready-to-build through ship (provider-native key).
-- **One open delivery branch + PR** per Task from the first repo-writing skill
-  through ship.
-- **First writer starts** the branch/PR (research / model / define / bug / tweak / refine / rework when
-  committing); later skills **reuse** the recorded head.
-- **Explore** charts the map; it does not own a route Task’s delivery PR.
+- **One open delivery branch + PR** per **delivery** Task through ship.
+- **Research / model** commit finding docs (`RESEARCH.md` / `MODEL.md`) onto that
+  branch and **never open a PR**. **First PR-opening writer** is define / bug /
+  tweak / refine / rework; later skills **reuse** the recorded head.
+- **Explore** charts the map; it does not open a map-only PR. Prefer one
+  define-typed delivery Task for research/model/define that share a build
+  ([delivery.md](delivery.md#charting-vs-delivery)).
 - **Iterate** (post-merge only) opens a **new** Task + branch + PR.
 
 Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
@@ -33,8 +35,8 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **tweak** | Small intentional change to existing behaviour | `TWEAK.md` + Task + delivery branch/PR | `/implement` |
 | **refine** | Bounded structural/descriptive improvement; behaviour unchanged | `REFINE.md` + Task + delivery branch/PR | `/implement` |
 | **rework** | Intentional implementation change; no measured degradation | `REWORK.md` + Task + delivery branch/PR | `/implement` (comparative) |
-| **research** | Multi-axis question | `RESEARCH.md` (supportive) + continuity | `/model` or `/define` |
-| **model** | Math alignment with user | `MODEL.md` + continuity | `/define` |
+| **research** | Multi-axis question | `RESEARCH.md` finding docs on delivery branch (no PR) | `/model` or `/define` |
+| **model** | Math alignment with user | `MODEL.md` finding docs on delivery branch (no PR) | `/define` |
 | **define** | Route or standalone Task (front door for concrete work) | `PLAN.md` + Classification + Workflow binding + Sub-tasks + branch/PR | First skill in bound Chain (usually `/implement`) |
 | **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE ready | Code on **same** PR; Task → In Review | `/review-fix` |
 | **iterate** | Shipped work still wrong | `ITERATE.md` + **new** Task/PR; In Review | `/review-fix` |
@@ -67,8 +69,8 @@ the user’s word. Full Next table and persistence targets: [handoff.md](handoff
 | `ROADMAP.md` | explore | Map + route + **Next** |
 | `PLAN.md` | define | Spec + Classification + Workflow binding + keys + **Next** |
 | `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` | bug / tweak / refine / rework / iterate (manual override) | Spec + keys + **Next** |
-| `RESEARCH.md` / `MODEL.md` | research / model | Supportive / math alignment + **Next** |
-| Branch + PR | First writer → ship | One delivery vehicle per Task |
+| `RESEARCH.md` / `MODEL.md` | research / model | Finding docs on the delivery branch for define / implement (+ **Next**); never their own PR |
+| Branch + PR | Define / bug / tweak / refine / rework → ship | One delivery vehicle per Task (research/model may start the branch only) |
 | Merge + Done | ship | Closed-loop closeout on that PR |
 
 Paths follow WORKSPACE. Record path + commit SHA on the Task when location is
