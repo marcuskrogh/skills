@@ -20,7 +20,7 @@ enough.
 | After | Next (default) |
 |-------|----------------|
 | setup | `/explore` or `/define` (front doors); `/help` for the map |
-| explore | Frontier route Task skill — usually `/define` |
+| explore | Frontier route Task skill — usually `/define` on a delivery Task; supportive steps leave no hanging PR |
 | bug | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | tweak | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | refine | `/implement <Task>` (or `/ship <Task>` for remaining) |

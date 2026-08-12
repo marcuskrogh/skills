@@ -16,14 +16,14 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 
 | Skill | Create / update | Status | Comments / links | Close |
 |-------|-----------------|--------|------------------|-------|
-| **explore** | Story (map) + typed route Tasks; Blocked by | Leave **To Do** | Story: child keys + deps + **Next**; ISSUES | Mis-scoped only |
+| **explore** | Story (map) + typed route Tasks; Blocked by; prefer one define-typed delivery Task | Leave **To Do** | Story: child keys + deps + **Next**; ISSUES; no map-only PR | Mis-scoped; any explore-only open PR at handoff |
 | **bug** | Task (+ optional Sub-tasks); link BUG.md; start delivery branch/PR | Leave **To Do** | Task: BUG.md + branch/PR + **Next**; ISSUES | — |
 | **tweak** | Task (+ optional Sub-tasks); link TWEAK.md; start delivery branch/PR | Leave **To Do** | Task: TWEAK.md + branch/PR + **Next**; ISSUES | — |
 | **refine** | Task (+ optional Sub-tasks); link REFINE.md; start delivery branch/PR | Leave **To Do** | Task: REFINE.md + branch/PR + **Next**; ISSUES | — |
 | **rework** | Task (+ optional Sub-tasks); link REWORK.md; start delivery branch/PR | Leave **To Do** | Task: REWORK.md + branch/PR + **Next**; ISSUES | — |
 | **iterate** | **New** Task; link ITERATE.md; Relates → prior | In Progress → **In Review** when PR ready | Prior + new Task comments; **Next** `/review-fix`; ISSUES | — (ship closes) |
-| **research** | Enrich pipeline Task; reuse/start delivery when committing | Unchanged (usually **To Do**) | RESEARCH.md + branch/PR + **Next**; ROADMAP/PLAN/ISSUES | — |
-| **model** | Enrich Task (preferred); else create; reuse/start delivery when committing | Leave **To Do** unless further along | MODEL.md + branch/PR + **Next**; links + ISSUES | — |
+| **research** | Enrich **delivery** Task (preferred); reuse/start delivery when committing on that key | Unchanged on delivery Task; **Done** when supportive-only route Task completes | RESEARCH.md + branch/PR + **Next**; ROADMAP/PLAN/ISSUES; close supportive-only PR without merge | Supportive-only Task after durable handoff |
+| **model** | Enrich **delivery** Task (preferred); else create; reuse/start delivery when committing on that key | Leave **To Do** on delivery Task unless further along; **Done** when supportive-only route Task completes | MODEL.md + branch/PR + **Next**; links + ISSUES; close supportive-only PR without merge | Supportive-only Task after durable handoff |
 | **define** | Enrich Task; Sub-tasks per package; start/reuse delivery + draft PR; record Classification + Workflow binding | Stay **To Do** | PLAN.md, class, template/params/chain, branch, PR, Sub-task keys, **Next**; ISSUES | — |
 | **implement** | May add missing Sub-tasks (incl. Testing); **reuse** delivery | Task → In Progress; Sub-tasks → Done as finished; Task → **In Review** | Session + packages + **same** PR + **Next**; ISSUES | Sub-tasks only — not parent |
 | **implement** (fix-forward) | — | In Progress if needed → **In Review** | Threads addressed + **Next**; ISSUES | — |
@@ -37,5 +37,9 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 1. **Always** comment (or markdown Comments) with **Next** when a skill finishes.
 2. **Always** upsert `docs/agents/ISSUES.md` when mirror is enabled — same status as the tracker.
 3. Provider backends implement `transition` / close natively.
-4. Pipeline Task reaches **Done** only via **ship**.
+4. **Delivery** Tasks reach **Done** only via **ship**. **Supportive-only** explore
+   route Tasks (research/model/task that advance a different key) reach **Done**
+   at their skill handoff after any charting PR is closed without merge.
 5. Leave no Sub-tasks open after **ship**.
+6. Leave no hanging charting / supportive-only open PRs after explore or
+   supportive handoff ([delivery.md](delivery.md#charting-vs-delivery)).

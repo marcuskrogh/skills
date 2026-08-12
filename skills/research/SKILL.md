@@ -31,7 +31,7 @@ and [../tracker/SKILL.md](../tracker/SKILL.md).
 | **Retrieval path** | See table; arXiv details in [reference.md](reference.md) |
 | **Artifact** | `RESEARCH.md` (path from WORKSPACE) |
 | **Citation rules** | Every claim → retrieved evidence; durable ID/URL + **axis** label |
-| **Pipeline continuity** | Attach to Task; delivery branch when committing |
+| **Pipeline continuity** | Attach to delivery Task when possible; supportive-only route Tasks leave no hanging PR |
 | **Handoff defaults** | `/model` / `/define` / `/explore` / none |
 | **Model routing** | CONCEPT_DELEGATION when axes are workers; synthesis stays on manager |
 
@@ -48,7 +48,7 @@ Follow CONCEPT_RESEARCH flow. Specialisations:
 
 1. **Scope and plan axes** — Default to all four axes; when the user narrows the pass, record the included axes and reason. Write queries/targets into Search strategy. Done when every included axis has a retrieval plan and every skipped axis has a reason.
 2. **Retrieve and synthesize** — Run axes in parallel when tools allow; otherwise Preprints → Formal → Web → Informal. Prefer one multi-`-q` arXiv search, dedupe by DOI / arXiv ID / canonical URL, and prefer multi-axis hits. Done when the CONCEPT_RESEARCH completion bars hold for retrieval, triage, deep read, and synthesis.
-3. **Persist and continue** — Write `RESEARCH.md`; when linked, apply delivery continuity and the research tracker row; persist the Handoff when there is a next pipeline step. Done when claims are traceable and the artifact, Task, branch/PR, mirrors, and **Next** agree where applicable.
+3. **Persist and continue** — Write `RESEARCH.md`; when linked, apply delivery continuity and the research tracker row; persist the Handoff when there is a next pipeline step. Done when claims are traceable and the artifact, Task, mirrors, and **Next** agree — with no hanging supportive-only PR.
 
 ## Artifact
 
@@ -106,9 +106,13 @@ When a Task key is given/inferred:
 
 Follow [delivery continuity](../workflow/delivery.md) when committing and the
 [research tracker row](../workflow/tracker-sync.md#matrix). Enrich the existing
-Task, leave its status unchanged, and update ROADMAP notes / PLAN Inputs when
-present. Record the artifact, short summary, branch/PR, **Next**, and enabled
-mirror; external artifacts are pushed into the Task without starting a branch.
+**delivery** Task when this brief feeds that key’s define→ship path; leave its
+status unchanged. On a **supportive-only** explore route Task, prefer tracker /
+external persistence or the downstream delivery head — do not leave an open PR
+for this key; at handoff mark the Task **Done** and close any charting PR
+without merge ([charting vs delivery](../workflow/delivery.md#charting-vs-delivery)).
+Update ROADMAP notes / PLAN Inputs when present. Record the artifact, short
+summary, branch/PR (delivery only), **Next**, and enabled mirror.
 
 Standalone: still write `RESEARCH.md`; **Next** may be `/explore` or `/define`.
 

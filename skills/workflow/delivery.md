@@ -1,7 +1,9 @@
 # Delivery branch continuity
 
-One pipeline Task → **one open delivery branch and PR** from first writer through
-ship. Load when creating, resolving, or pushing to a delivery head.
+One **delivery** Task → **one open delivery branch and PR** from first writer
+through ship. Charting / supportive-only explore work follows
+[charting vs delivery](#charting-vs-delivery). Load when creating, resolving,
+or pushing to a delivery head.
 
 ## Rules
 
@@ -13,15 +15,28 @@ ship. Load when creating, resolving, or pushing to a delivery head.
    branch → **checkout and reuse**. Done when the existing head is checked out,
    or confirmed absent.
 3. **First writer starts.** First of research / model / define / bug / tweak / refine / rework that commits
-   for the Task creates the branch (and draft PR when `Open PR by default`).
+   for a **delivery** Task creates the branch (and draft PR when `Open PR by default`).
    Later skills only push to that head. Done when branch exists and is recorded.
 4. **Same PR through ship.** Implement, review-fix, and ship continue on that
    head — update the PR body; do not open a parallel `…-implement-…` or
    ship-only PR.
-5. **Explore** may write `ROADMAP.md` without owning a route Task’s delivery PR.
-   Once a route Task has a delivery branch, further ROADMAP updates for that Task
-   go on **that** branch when practical.
+5. **Explore charts; it does not open a map-only PR.** Write `ROADMAP.md` on the
+   frontier delivery Task’s branch when that head exists; otherwise persist via
+   tracker / external location or a local commit **without** opening a PR. Once a
+   route Task has a delivery branch, further ROADMAP updates for that Task go on
+   **that** branch when practical.
 6. **Iterate** (post-merge only) always starts a **new** Task + branch + PR.
+
+## Charting vs delivery
+
+| Kind | What | Branch / PR |
+|------|------|-------------|
+| **Delivery Task** | Will (or may) reach implement → ship on this key — including a define-typed explore route Task that also runs research/model | One open delivery branch/PR from first writer through ship |
+| **Supportive-only route Task** | Explore-typed research/model/task whose **Next** advances a *different* key; no implement/ship on this key | Prefer no PR: push artifact into the tracker (external) or commit onto the **downstream delivery Task’s** head when known. If a PR was opened, at handoff fold durable content onto tracker or downstream head, **close the PR without merge**, delete the head when allowed, mark this Task **Done** |
+| **Explore map (Story)** | `ROADMAP.md` + Story + route tickets | Charting only — never leave an explore-only open PR |
+
+**Invariant:** after explore handoff or a supportive skill’s handoff, the only
+allowed open delivery PR for that Story is the active define→ship head (if any).
 
 ## Standalone entry
 
@@ -40,6 +55,8 @@ ship. Load when creating, resolving, or pushing to a delivery head.
 ## Linking
 
 - Explore route Tasks → parent Story; record **Blocked by** on dependents.
+  Prefer one define-typed **delivery unit** per shared build; supportive-only
+  children leave no hanging PR and go **Done** at their skill handoff.
 - Bug Tasks are usually standalone; may Relates to a Story/Task.
 - Tweak Tasks are usually standalone; may Relates to a Story/Task.
 - Refine Tasks are usually standalone; may Relates to a Story/Task.

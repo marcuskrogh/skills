@@ -42,7 +42,7 @@ questions; it does not choose the model for the user.
 
 1. **Resolve context** — Load the Task, Story, ROADMAP, and RESEARCH when present, then identify the first unresolved mathematical divergence. Done when the subject and supportive inputs are known.
 2. **Align** — Follow the CONCEPT_ALIGNMENT flow using the extensions and LaTeX format above. Done when the mathematical stop condition holds and the user approves `MODEL.md`.
-3. **Persist and continue** — Write the artifact; when linked, apply delivery continuity and the model tracker row; persist the Handoff. Done when the artifact, Task, branch/PR, mirrors, and **Next** agree where applicable.
+3. **Persist and continue** — Write the artifact; when linked, apply delivery continuity and the model tracker row; persist the Handoff. Done when the artifact, Task, mirrors, and **Next** agree — with no hanging supportive-only PR.
 
 ## Artifact
 
@@ -74,10 +74,15 @@ Math alignment input for `/define`.
 ## Tracker (after approval)
 
 Follow [delivery continuity](../workflow/delivery.md) when committing and the
-[model tracker row](../workflow/tracker-sync.md#matrix). Enrich the pipeline
-Task when present; otherwise create one **To Do**. Record `MODEL.md`, branch/PR,
-and **Next**; update ROADMAP / PLAN Inputs / RESEARCH Tracker and the enabled
-mirror. External artifacts are pushed into the Task.
+[model tracker row](../workflow/tracker-sync.md#matrix). Enrich the **delivery**
+Task when this model feeds that key’s define→ship path; otherwise create one
+**To Do**. On a **supportive-only** explore route Task, prefer tracker /
+external persistence or the downstream delivery head — do not leave an open PR
+for this key; at handoff mark the Task **Done** and close any charting PR
+without merge ([charting vs delivery](../workflow/delivery.md#charting-vs-delivery)).
+Record `MODEL.md`, branch/PR (delivery only), and **Next**; update ROADMAP /
+PLAN Inputs / RESEARCH Tracker and the enabled mirror. External artifacts are
+pushed into the Task.
 
 ## Handoff
 

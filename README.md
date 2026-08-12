@@ -246,7 +246,7 @@ Only the code change itself lands in the repo, on the Task's delivery branch/PR.
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths), repository or global scope |
-| **explore** | user | Clear fog on vague/large work → `ROADMAP.md` map + Story + sequenced route Tasks (usually define) |
+| **explore** | user | Clear fog on vague/large work → `ROADMAP.md` map + Story + sequenced route Tasks (one delivery unit by default; no hanging charting PRs) |
 | **define** | user | **Front door** for concrete work → align, **classify**, **bind workflow** → `PLAN.md` + Sub-tasks + delivery branch/PR |
 | **bug** / **tweak** / **refine** / **rework** | user | Manual overrides (class-specific artifacts); prefer `/define` for new work |
 | **research** | user | Multi-axis research brief → `RESEARCH.md` (supportive; often via define `side_paths`) |

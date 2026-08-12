@@ -36,7 +36,7 @@ from this skill; do not load every pipeline skill.
 | If you… | Run | What happens |
 |---------|-----|----------------|
 | Have no workspace yet | `/setup` | `WORKSPACE.md` |
-| Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks → later `/define` |
+| Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks (one delivery unit by default) → later `/define` |
 | Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Align → agent **classifies** → binds **workflow** → `PLAN.md` + **Next** |
 | Want this map | `/help` | overview only |
 

@@ -2,8 +2,9 @@
 name: explore
 description: >-
   Exploration through foggy or oversized work. Charts ROADMAP.md plus a Story
-  of sequenced route Tasks, then hands off the frontier. Use when the
-  destination is felt but the route is not yet visible.
+  of sequenced route Tasks (one delivery unit by default), then hands off the
+  frontier without map-only or hanging brief PRs. Use when the destination is
+  felt but the route is not yet visible.
 disable-model-invocation: true
 ---
 
@@ -14,6 +15,7 @@ charting a course through foggy work. Explore charts; downstream skills walk.
 
 **On invoke:** read [../concepts/CONCEPT_ALIGNMENT.md](../concepts/CONCEPT_ALIGNMENT.md),
 [../workflow/reference.md](../workflow/reference.md),
+[../workflow/delivery.md](../workflow/delivery.md),
 [../workflow/tracker-sync.md](../workflow/tracker-sync.md),
 [../workflow/handoff.md](../workflow/handoff.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
@@ -24,6 +26,8 @@ charting a course through foggy work. Explore charts; downstream skills walk.
 - **fog** — in-scope work felt but not yet ticketable
 - **route** — sequenced Tasks that clear fog
 - **frontier** — open, unblocked route Tasks
+- **delivery unit** — one define-typed Task (and its PR) that owns research/model/define through ship when they share a build
+- **supportive-only** — explore route Task whose Next advances a different key; no implement/ship on itself
 
 **Chart the route.** Creating a research/model/define Task completes a map step;
 the frontier's Handoff starts execution.
@@ -38,7 +42,7 @@ the frontier's Handoff starts execution.
 | **Alignment artifact** | `ROADMAP.md` (path from WORKSPACE) — the map |
 | **Readiness prompt** | "Does this map capture the destination and the next steps through the fog?" |
 | **Opening** | Thin: "What are we trying to find our way to?" Rich: highest-leverage fog (destination, framing, or first takeable step). Existing map → [Continue the map](#continue-the-map) |
-| **Scope guard** | Chart only — no destination implementation; no fake-settled requirements for later skills; tracker writes after approval are charting, not walking |
+| **Scope guard** | Chart only — no destination implementation; no fake-settled requirements for later skills; tracker writes after approval are charting, not walking; no map-only open PR |
 
 **Divergence here** changes destination, route shape, or Task existence/deps.
 Choices that only change how a later skill answers belong on that Task — park a
@@ -67,13 +71,21 @@ what is now sharp into fresh Tasks.
 | **define** | User-agent alignment on particulars for a buildable slice | `/define <KEY>` |
 | **task** | Other unblocker that earns its place by unblocking a later decision | Checklist on the Task |
 
-Prefer **separate route Tasks with dependencies** when sequence matters; prefer
-**one define Task** sharing a delivery unit only when research/model clearly belong
-to the same unit.
+**One delivery unit by default.** Prefer a **single define-typed route Task**
+when research / model / define feed the same eventual build — run research and
+model on that Task (same branch/PR through ship). Prefer **separate route Tasks
+with dependencies** only when sequence truly needs independent tickets (parallel
+owners, research that may kill the destination, or blockers owned elsewhere).
 
 Wire **Blocked by** after Tasks have keys. A Task is **unblocked** when every
 blocker is **Done** (or waived). **Next** = first frontier Task's skill (respect
 Order).
+
+**No hanging PRs.** Charting the map and walking supportive steps must leave
+**zero** open PRs except the active delivery PR of an in-flight define→ship
+Task. Explore does not open a map-only delivery PR. Completed supportive-only
+route Tasks close any PR they opened (content durable on tracker or folded onto
+the downstream delivery head) and go **Done** so dependents unblock.
 
 ## Artifact
 
@@ -121,13 +133,13 @@ Keep Destination short. **Not yet specified** stays non-empty whenever honest fo
 2. **Classify the route** — Map the visible frontier breadth-first into typed Tasks, fog, and out of scope. Done when every visible item has exactly one classification and dependencies are known.
 3. **Handle a clear direct path** — If the work is already small and fog-free, select the direct handoff instead of manufacturing route Tasks. Done when `/define` (preferred front door) or the concrete action is identified.
 4. **Approve the map** — Present `ROADMAP.md` with the readiness prompt. Done when the user approves it or names the next divergence.
-5. **Persist and hand off** — Apply the explore tracker row and choose the first frontier skill by Order. Done when Story, Tasks, dependencies, artifact, mirror, and **Next** agree.
+5. **Persist and hand off** — Apply the explore tracker row and choose the first frontier skill by Order; leave no map-only open PR. Done when Story, Tasks, dependencies, artifact, mirror, and **Next** agree.
 
 ### Continue the map
 
 1. **Load and orient** — Read Destination, Route, Cleared, and fog; compare them with tracker state. Done when cleared work and the current frontier are identified.
 2. **Rechart** — Graduate sharp fog into Tasks, wire dependencies, and move work beyond the destination to Out of scope. Done when each changed item is classified and every new Task has enough context for its declared skill.
-3. **Persist and hand off** — Update ROADMAP, Story, tracker, and ISSUES; choose the new frontier by Order. Done when all durable surfaces carry the same route and **Next**.
+3. **Persist and hand off** — Update ROADMAP, Story, tracker, and ISSUES; choose the new frontier by Order; close any completed supportive-only or explore-only open PR. Done when all durable surfaces carry the same route and **Next**, with no hanging charting PRs.
 
 ## Tracker (after approval)
 
@@ -135,7 +147,9 @@ Follow the [explore tracker row](../workflow/tracker-sync.md#matrix) using the
 configured provider operations. The Story carries Destination + Notes; each
 route Task carries Type, question/step, blockers, fog pointers, and skill.
 Create dependencies in a second pass after keys exist. New issues stay **To
-Do**; close only Tasks newly ruled beyond the destination.
+Do**; close only Tasks newly ruled beyond the destination. Persist `ROADMAP.md`
+per [delivery continuity](../workflow/delivery.md) — charting only; no map-only
+open PR.
 
 ## Handoff
 
@@ -146,6 +160,9 @@ Prefer the frontier's declared type; if several unblocked, lowest **Order** (or 
 | research | `/research <TASK-KEY>` |
 | model | `/model <TASK-KEY>` |
 | define | `/define <TASK-KEY>` |
+
+Before handing off, confirm no explore-only or completed-supportive open PR
+remains ([delivery](../workflow/delivery.md#charting-vs-delivery)).
 
 ```markdown
 ## Next
