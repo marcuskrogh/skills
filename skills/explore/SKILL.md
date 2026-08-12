@@ -2,9 +2,9 @@
 name: explore
 description: >-
   Exploration through foggy or oversized work. Charts ROADMAP.md plus a Story
-  of sequenced route Tasks (one delivery unit by default), then hands off the
-  frontier without map-only or hanging brief PRs. Use when the destination is
-  felt but the route is not yet visible.
+  of sequenced route Tasks (one delivery unit by default). Research/model leave
+  finding docs on that branch for Next — no separate PRs. Use when the
+  destination is felt but the route is not yet visible.
 disable-model-invocation: true
 ---
 
@@ -26,7 +26,8 @@ charting a course through foggy work. Explore charts; downstream skills walk.
 - **fog** — in-scope work felt but not yet ticketable
 - **route** — sequenced Tasks that clear fog
 - **frontier** — open, unblocked route Tasks
-- **delivery unit** — one define-typed Task (and its PR) that owns research/model/define through ship when they share a build
+- **delivery unit** — one define-typed Task (and its PR) that owns research/model finding docs through ship when they share a build
+- **finding docs** — `RESEARCH.md` / `MODEL.md` committed on the delivery branch for later skills; never their own PR
 - **supportive-only** — explore route Task whose Next advances a different key; no implement/ship on itself
 
 **Chart the route.** Creating a research/model/define Task completes a map step;
@@ -66,26 +67,28 @@ what is now sharp into fresh Tasks.
 
 | Type | Role | Typical Next on frontier |
 |------|------|--------------------------|
-| **research** | Evidence the route waits on | `/research <KEY>` |
-| **model** | Math / formal formulation before (or with) definition | `/model <KEY>` |
+| **research** | Evidence finding docs the route waits on | `/research <KEY>` |
+| **model** | Math finding docs before (or with) definition | `/model <KEY>` |
 | **define** | User-agent alignment on particulars for a buildable slice | `/define <KEY>` |
 | **task** | Other unblocker that earns its place by unblocking a later decision | Checklist on the Task |
 
 **One delivery unit by default.** Prefer a **single define-typed route Task**
 when research / model / define feed the same eventual build — run research and
-model on that Task (same branch/PR through ship). Prefer **separate route Tasks
-with dependencies** only when sequence truly needs independent tickets (parallel
-owners, research that may kill the destination, or blockers owned elsewhere).
+model on that Task so `RESEARCH.md` / `MODEL.md` land on the same branch define
+and implement will use. Prefer **separate route Tasks with dependencies** only
+when sequence truly needs independent tickets (parallel owners, research that
+may kill the destination, or blockers owned elsewhere).
 
 Wire **Blocked by** after Tasks have keys. A Task is **unblocked** when every
 blocker is **Done** (or waived). **Next** = first frontier Task's skill (respect
 Order).
 
-**No hanging PRs.** Charting the map and walking supportive steps must leave
-**zero** open PRs except the active delivery PR of an in-flight define→ship
-Task. Explore does not open a map-only delivery PR. Completed supportive-only
-route Tasks close any PR they opened (content durable on tracker or folded onto
-the downstream delivery head) and go **Done** so dependents unblock.
+**Finding docs, not separate PRs.** Research and model only produce finding
+documentation on the delivery branch for whatever follows in **Next** (define,
+implement, …). They never open their own PRs. Explore does not open a map-only
+PR. The only open delivery PR is the define→ship head once define (or a
+bug/tweak/refine/rework entry) opens it. Supportive-only route Tasks go **Done**
+at handoff after their docs are on the downstream delivery branch.
 
 ## Artifact
 
@@ -139,7 +142,7 @@ Keep Destination short. **Not yet specified** stays non-empty whenever honest fo
 
 1. **Load and orient** — Read Destination, Route, Cleared, and fog; compare them with tracker state. Done when cleared work and the current frontier are identified.
 2. **Rechart** — Graduate sharp fog into Tasks, wire dependencies, and move work beyond the destination to Out of scope. Done when each changed item is classified and every new Task has enough context for its declared skill.
-3. **Persist and hand off** — Update ROADMAP, Story, tracker, and ISSUES; choose the new frontier by Order; close any completed supportive-only or explore-only open PR. Done when all durable surfaces carry the same route and **Next**, with no hanging charting PRs.
+3. **Persist and hand off** — Update ROADMAP, Story, tracker, and ISSUES; choose the new frontier by Order; ensure research/model finding docs sit on the delivery branch with no research/model PRs. Done when all durable surfaces carry the same route and **Next**, with no hanging charting PRs.
 
 ## Tracker (after approval)
 
@@ -161,8 +164,9 @@ Prefer the frontier's declared type; if several unblocked, lowest **Order** (or 
 | model | `/model <TASK-KEY>` |
 | define | `/define <TASK-KEY>` |
 
-Before handing off, confirm no explore-only or completed-supportive open PR
-remains ([delivery](../workflow/delivery.md#charting-vs-delivery)).
+Before handing off, confirm research/model left finding docs on the delivery
+branch only — no research/model or explore-only open PRs
+([delivery](../workflow/delivery.md#charting-vs-delivery)).
 
 ```markdown
 ## Next

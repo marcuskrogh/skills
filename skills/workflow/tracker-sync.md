@@ -22,8 +22,8 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 | **refine** | Task (+ optional Sub-tasks); link REFINE.md; start delivery branch/PR | Leave **To Do** | Task: REFINE.md + branch/PR + **Next**; ISSUES | — |
 | **rework** | Task (+ optional Sub-tasks); link REWORK.md; start delivery branch/PR | Leave **To Do** | Task: REWORK.md + branch/PR + **Next**; ISSUES | — |
 | **iterate** | **New** Task; link ITERATE.md; Relates → prior | In Progress → **In Review** when PR ready | Prior + new Task comments; **Next** `/review-fix`; ISSUES | — (ship closes) |
-| **research** | Enrich **delivery** Task (preferred); reuse/start delivery when committing on that key | Unchanged on delivery Task; **Done** when supportive-only route Task completes | RESEARCH.md + branch/PR + **Next**; ROADMAP/PLAN/ISSUES; close supportive-only PR without merge | Supportive-only Task after durable handoff |
-| **model** | Enrich **delivery** Task (preferred); else create; reuse/start delivery when committing on that key | Leave **To Do** on delivery Task unless further along; **Done** when supportive-only route Task completes | MODEL.md + branch/PR + **Next**; links + ISSUES; close supportive-only PR without merge | Supportive-only Task after durable handoff |
+| **research** | Enrich **delivery** Task; commit `RESEARCH.md` on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | RESEARCH.md path + branch + **Next**; ROADMAP/PLAN/ISSUES | Supportive-only Task after docs are on the delivery branch |
+| **model** | Enrich **delivery** Task; commit `MODEL.md` on delivery branch (**no PR**) | Leave **To Do** on delivery Task unless further along; **Done** when supportive-only route Task completes | MODEL.md path + branch + **Next**; links + ISSUES | Supportive-only Task after docs are on the delivery branch |
 | **define** | Enrich Task; Sub-tasks per package; start/reuse delivery + draft PR; record Classification + Workflow binding | Stay **To Do** | PLAN.md, class, template/params/chain, branch, PR, Sub-task keys, **Next**; ISSUES | — |
 | **implement** | May add missing Sub-tasks (incl. Testing); **reuse** delivery | Task → In Progress; Sub-tasks → Done as finished; Task → **In Review** | Session + packages + **same** PR + **Next**; ISSUES | Sub-tasks only — not parent |
 | **implement** (fix-forward) | — | In Progress if needed → **In Review** | Threads addressed + **Next**; ISSUES | — |
@@ -39,7 +39,8 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 3. Provider backends implement `transition` / close natively.
 4. **Delivery** Tasks reach **Done** only via **ship**. **Supportive-only** explore
    route Tasks (research/model/task that advance a different key) reach **Done**
-   at their skill handoff after any charting PR is closed without merge.
+   at their skill handoff once finding docs are on the downstream delivery branch
+   (research/model never open a PR).
 5. Leave no Sub-tasks open after **ship**.
-6. Leave no hanging charting / supportive-only open PRs after explore or
-   supportive handoff ([delivery.md](delivery.md#charting-vs-delivery)).
+6. Research / model / explore charting leave **no** open PRs of their own
+   ([delivery.md](delivery.md#charting-vs-delivery)).

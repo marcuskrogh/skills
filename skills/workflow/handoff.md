@@ -20,7 +20,7 @@ enough.
 | After | Next (default) |
 |-------|----------------|
 | setup | `/explore` or `/define` (front doors); `/help` for the map |
-| explore | Frontier route Task skill — usually `/define` on a delivery Task; supportive steps leave no hanging PR |
+| explore | Frontier route Task skill — usually `/define` on a delivery Task; research/model leave finding docs on that branch (no separate PR) |
 | bug | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | tweak | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | refine | `/implement <Task>` (or `/ship <Task>` for remaining) |
@@ -49,7 +49,7 @@ enough.
 | iterate | Prior shipped Task + merged PR + PLAN/BUG/TWEAK/REFINE/REWORK/prior ITERATE |
 | research / model | Task (+ Story), ROADMAP, sibling artifacts — research is supportive |
 | define | Task (+ Story), ROADMAP, RESEARCH/MODEL as **supportive** — still probe the user; then classify + bind workflow |
-| implement | Task + Sub-tasks, PLAN / BUG / TWEAK / REFINE / REWORK, **existing delivery branch/PR**, test/lint commands (rework → comparative eval) |
+| implement | Task + Sub-tasks, PLAN / BUG / TWEAK / REFINE / REWORK, `RESEARCH.md` / `MODEL.md` when present (esp. docs packages), **existing delivery branch/PR**, test/lint commands (rework → comparative eval) |
 | review / review-fix | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE |
 | ship | Task + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + delivery branch/PR; detect stage |
 | summarise | Task + artifacts needed for stage inference |

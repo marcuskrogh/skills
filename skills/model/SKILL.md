@@ -1,8 +1,8 @@
 ---
 name: model
 description: >-
-  Mathematical alignment through LaTeX-only questions. Produces MODEL.md for
-  math foundations and links it to a pipeline Task when present. Use for
+  Mathematical alignment through LaTeX-only questions. Produces MODEL.md finding
+  docs on the delivery branch (no separate PR) for define and implement. Use for
   dynamical models, OCP, estimators, or applied math.
 disable-model-invocation: true
 ---
@@ -11,7 +11,8 @@ disable-model-invocation: true
 
 Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) to **applied
 mathematics**. Optional pipeline side path — usually after **research** /
-**explore**, before or alongside **define**.
+**explore**, before or alongside **define**. Produces **finding docs** on the
+delivery branch for later skills.
 
 **On invoke:** read [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md),
 [format.md](format.md), [reference.md](reference.md), and
@@ -42,7 +43,7 @@ questions; it does not choose the model for the user.
 
 1. **Resolve context** — Load the Task, Story, ROADMAP, and RESEARCH when present, then identify the first unresolved mathematical divergence. Done when the subject and supportive inputs are known.
 2. **Align** — Follow the CONCEPT_ALIGNMENT flow using the extensions and LaTeX format above. Done when the mathematical stop condition holds and the user approves `MODEL.md`.
-3. **Persist and continue** — Write the artifact; when linked, apply delivery continuity and the model tracker row; persist the Handoff. Done when the artifact, Task, mirrors, and **Next** agree — with no hanging supportive-only PR.
+3. **Persist and continue** — Write `MODEL.md` onto the delivery branch (no PR); when linked, apply the model tracker row and persist the Handoff. Done when the artifact is on the delivery head with Task, mirrors, and **Next** agreed.
 
 ## Artifact
 
@@ -61,11 +62,14 @@ Use the definition hierarchy from [format.md](format.md):
 …
 
 ## Role in pipeline
-Math alignment input for `/define`.
+Finding docs for `/define` and `/implement` (including product docs that need
+the formulation). Math alignment input — not product scope/UX.
 
 ## Tracker
 - Task: <KEY>
 - Research: RESEARCH.md (if any) — supportive literature only
+- Branch: <delivery-branch>
+- PR: — (model never opens a PR)
 
 ## Next
 `/<skill> <KEY>` — <why>
@@ -73,16 +77,14 @@ Math alignment input for `/define`.
 
 ## Tracker (after approval)
 
-Follow [delivery continuity](../workflow/delivery.md) when committing and the
-[model tracker row](../workflow/tracker-sync.md#matrix). Enrich the **delivery**
-Task when this model feeds that key’s define→ship path; otherwise create one
-**To Do**. On a **supportive-only** explore route Task, prefer tracker /
-external persistence or the downstream delivery head — do not leave an open PR
-for this key; at handoff mark the Task **Done** and close any charting PR
-without merge ([charting vs delivery](../workflow/delivery.md#charting-vs-delivery)).
-Record `MODEL.md`, branch/PR (delivery only), and **Next**; update ROADMAP /
-PLAN Inputs / RESEARCH Tracker and the enabled mirror. External artifacts are
-pushed into the Task.
+Follow [finding-docs continuity](../workflow/delivery.md#rules) and the
+[model tracker row](../workflow/tracker-sync.md#matrix). Commit `MODEL.md` onto
+the **delivery** Task’s branch (create the branch if needed; reuse the
+downstream delivery head when this is a supportive-only route Task). **Never
+open a PR.** Leave delivery-Task status **To Do** unless further along; mark a
+supportive-only route Task **Done** at handoff. Record `MODEL.md`, branch, and
+**Next**; update ROADMAP / PLAN Inputs / RESEARCH Tracker and the enabled
+mirror. External artifacts are pushed into the Task.
 
 ## Handoff
 

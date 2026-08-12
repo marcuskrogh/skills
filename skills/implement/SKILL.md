@@ -32,10 +32,10 @@ as directed there.
 
 | Slot | This skill |
 |------|------------|
-| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs |
+| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs; load `RESEARCH.md` / `MODEL.md` from PLAN Inputs or delivery branch when present |
 | **Workflow binding** | `PLAN.md` `## Workflow` when present; else legacy fallback in [CLASSIFICATION-CATALOG.md](../concepts/CLASSIFICATION-CATALOG.md#legacy-fallback) |
 | **Branch naming** | WORKSPACE pattern — **reuse** Task delivery branch if it exists |
-| **Delivery** | **Same** PR as define/bug/tweak/refine/rework/research when one exists (or branch-only per WORKSPACE) |
+| **Delivery** | **Same** PR as define/bug/tweak/refine/rework when one exists (or branch-only per WORKSPACE); research/model may have started the branch with finding docs only |
 | **Verification** | Per binding `implement.verify`: `tests` → [testing.md](testing.md); `non-regression` → behaviour unchanged + testing.md; `comparative` → [rework.md](rework.md) + testing.md. Plus lint, plan checklist, sub-task completion |
 | **Testing checklist** | [testing.md](testing.md); comparative adds [rework.md](rework.md) |
 | **Model routing** | CONCEPT_DELEGATION when `implement.mode=multiagent` or workers are spawned; `single` → manager may implement localized packages without workers when Routine |
@@ -56,7 +56,8 @@ as directed there.
 3. Sub-task descriptions
 4. Task description
 5. `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs
-6. User paste
+6. `RESEARCH.md` / `MODEL.md` on the delivery branch (PLAN Inputs) — supportive finding docs; use when formulating product docs, rationale, or domain-facing copy
+7. User paste
 
 Resolve issue: user key/URL, or ask once "Which issue should this implementation track?"
 
@@ -70,9 +71,9 @@ open for ship closeout.
 
 Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 
-1. **Resolve work and status** — Resolve the Task, spec, Workflow binding (or legacy fallback), Sub-tasks or review threads, then apply the implementation start transition. Done when the usable spec, binding params, and active packages are known and the Task is **In Progress**.
+1. **Resolve work and status** — Resolve the Task, spec, Workflow binding (or legacy fallback), Sub-tasks or review threads, and any `RESEARCH.md` / `MODEL.md` on the delivery branch (PLAN Inputs); then apply the implementation start transition. Done when the usable spec, binding params, finding-doc inputs, and active packages are known and the Task is **In Progress**.
 2. **Resolve delivery and commands** — Follow [delivery continuity](../workflow/delivery.md) and inspect repository-owned test/lint commands. Done when the Task's one delivery head is checked out and verification commands are recorded.
-3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md) in briefs. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, Sub-task criteria, and binding.
+3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md) in briefs. When packages write product docs or domain-facing copy, pass `RESEARCH.md` / `MODEL.md` paths as brief inputs. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, Sub-task criteria, and binding.
 4. **Verify and deliver** — Run the recorded checks, update the same PR (include binding summary), apply the implementation tracker row, and persist **Next** from the bound **Chain** (usually `/review-fix`). Done when checks pass, the Task is **In Review**, the PR and mirrors are current, and **Next** is recorded.
 
 ## Work packages

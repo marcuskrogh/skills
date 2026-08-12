@@ -131,8 +131,8 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── tweak/                      ← manual override → TWEAK.md
 ├── refine/                     ← manual override → REFINE.md
 ├── rework/                     ← manual override → REWORK.md (comparative eval)
-├── research/                   ← multi-axis research brief → RESEARCH.md
-├── model/                      ← mathematical alignment → MODEL.md
+├── research/                   ← finding docs → RESEARCH.md on delivery branch (no PR)
+├── model/                      ← math finding docs → MODEL.md on delivery branch (no PR)
 ├── implement/                  ← honors PLAN Workflow binding
 ├── iterate/                    ← post-ship fix → review-fix
 ├── review/                     ← adaptive-depth; honors bound review.mode/depth
@@ -174,11 +174,13 @@ setup → explore? → define (classify + bind) → [bound chain, often implemen
 ```
 
 Explore charts a **map** of foggy work into sequenced, dependent route Tasks
-(usually define, optionally research/model). Each define Task → **one delivery
-branch + one PR** from the first repo-writing skill on that Task through ship.
-Continuing via **Next** reuses that branch/PR. **`/ship`** may be invoked after
-define (or after a bound implement/review stage) to run any **remaining** steps,
-then merge and leave no leftover open PR.
+(usually define, optionally research/model). Research / model commit **finding
+docs** (`RESEARCH.md` / `MODEL.md`) onto the delivery branch and **never open
+their own PRs** — define opens the single delivery PR. Each define Task → **one
+delivery branch + one PR** through ship. Continuing via **Next** reuses that
+branch/PR (implement reads research/model docs when writing product docs).
+**`/ship`** may be invoked after define (or after a bound implement/review stage)
+to run any **remaining** steps, then merge and leave no leftover open PR.
 
 **Manual overrides** (`/bug`, `/tweak`, `/refine`, `/rework`, …) remain
 user-invokable when you want to skip define’s classifier; prefer `/define` for
@@ -246,12 +248,12 @@ Only the code change itself lands in the repo, on the Task's delivery branch/PR.
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | **setup** | user | Workspace alignment → `WORKSPACE.md` (tracker + paths), repository or global scope |
-| **explore** | user | Clear fog on vague/large work → `ROADMAP.md` map + Story + sequenced route Tasks (one delivery unit by default; no hanging charting PRs) |
+| **explore** | user | Clear fog on vague/large work → `ROADMAP.md` map + Story + sequenced route Tasks (one delivery unit; research/model = finding docs on the branch, no separate PRs) |
 | **define** | user | **Front door** for concrete work → align, **classify**, **bind workflow** → `PLAN.md` + Sub-tasks + delivery branch/PR |
 | **bug** / **tweak** / **refine** / **rework** | user | Manual overrides (class-specific artifacts); prefer `/define` for new work |
-| **research** | user | Multi-axis research brief → `RESEARCH.md` (supportive; often via define `side_paths`) |
-| **model** | user | Math alignment → `MODEL.md` (math only; often via define `side_paths`) |
-| **implement** | user | Build on the **same** delivery branch/PR; honors PLAN Workflow binding (verify mode, multiagent) |
+| **research** | user | Multi-axis finding docs → `RESEARCH.md` on delivery branch (no PR; often via define `side_paths`) |
+| **model** | user | Math finding docs → `MODEL.md` on delivery branch (no PR; often via define `side_paths`) |
+| **implement** | user | Build on the **same** delivery branch/PR; honors PLAN Workflow binding; uses RESEARCH/MODEL when formulating docs |
 | **iterate** | user | Post-ship fix → `ITERATE.md` + new Task/branch/PR → review-fix |
 | **review** | user | Adaptive-depth PR review — honors bound `review.depth` / `review.mode` when present |
 | **review-fix** | user | One review → auto fix-forward → CLEAN → ship |
