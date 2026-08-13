@@ -21,7 +21,7 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 - **Isolated packages.** Each delegation is self-contained: objective, inputs, constraints, deliverables, branch, difficulty/model.
 - **Iterative plan.** Re-evaluate after each report; revise remaining packages when findings change assumptions.
 - **Branch discipline.** Resolve the skill's delivery branch before first delegation; prefer an existing open branch/PR for the Task; workers commit only there.
-- **Dev-surface keys.** Issue keys live only on **dev-surfaces**. **Product surfaces** carry product language exclusively.
+- **Dev-surface keys.** Issue keys live only on **dev-surfaces**. **Product surfaces** carry product language exclusively. Product-surface UI also applies [CONCEPT_FRONTEND](CONCEPT_FRONTEND.md).
 - **Named-gap re-delegate.** Insufficient report → re-delegate with named gaps (escalate one tier).
 - **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); honor PLAN Workflow `implement.verify` when bound (`tests` / `non-regression` / `comparative`); bug fixes and behaviour-changing tweaks include regression coverage; refinements verify behaviour is unchanged (non-regression); reworks / comparative verify use baseline vs candidate evaluation before accept; injectable seams; touched-area suite stays honest and green.
 - **Honor binding.** When Classification / Workflow are persisted on the spec, do not reclassify; execute to the bound params.

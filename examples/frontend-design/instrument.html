@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#141910">
+  <title>Quay — Kittiwake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --hull: #141910;
+      --panel: #1c2318;
+      --brass: #c4a35a;
+      --foam: #d8d3c4;
+      --kelp: #5e8a74;
+      --rule: #2a3324;
+      --mute: #8b927f;
+      --focus: #c4a35a;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: dark; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font: 15px/1.4 "IBM Plex Sans", ui-sans-serif, sans-serif;
+      color: var(--foam);
+      background:
+        radial-gradient(1200px 400px at 50% -10%, #1e281c, transparent),
+        var(--hull);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    a, button, textarea { touch-action: manipulation; }
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .skip {
+      position: absolute;
+      left: 0.75rem;
+      top: -3rem;
+      background: var(--brass);
+      color: var(--hull);
+      padding: 0.4rem 0.7rem;
+      text-decoration: none;
+    }
+    .skip:focus { top: 0.75rem; }
+    .wrap {
+      width: min(44rem, calc(100% - 1.75rem));
+      margin: 0 auto;
+      padding: 1.4rem 0 3rem;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem 1rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 1.1rem;
+    }
+    .brand {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      color: var(--brass);
+    }
+    .vessel {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.78rem;
+      color: var(--mute);
+      font-variant-numeric: tabular-nums;
+    }
+    .gauge {
+      background: var(--panel);
+      border: 1px solid var(--rule);
+      padding: 0.85rem 1rem 0.7rem;
+      margin-bottom: 1.15rem;
+    }
+    .gauge-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mute);
+      margin-bottom: 0.55rem;
+    }
+    .tide {
+      display: block;
+      width: 100%;
+      height: 4.5rem;
+    }
+    .now {
+      fill: var(--brass);
+    }
+    .curve {
+      fill: none;
+      stroke: var(--kelp);
+      stroke-width: 2;
+    }
+    .baseline {
+      stroke: var(--rule);
+      stroke-width: 1;
+    }
+    .readouts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin: 0.75rem 0 0;
+    }
+    .readouts div {
+      min-width: 0;
+    }
+    .readouts dt {
+      margin: 0;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .readouts dd {
+      margin: 0.2rem 0 0;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 1.05rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--foam);
+    }
+    h1 {
+      margin: 0 0 0.55rem;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brass);
+    }
+    .log {
+      list-style: none;
+      margin: 0 0 1.2rem;
+      padding: 0;
+    }
+    .log li {
+      display: grid;
+      grid-template-columns: 4.25rem 1fr;
+      gap: 0.8rem;
+      padding: 0.7rem 0;
+      border-top: 1px solid var(--rule);
+    }
+    time {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-variant-numeric: tabular-nums;
+      color: var(--kelp);
+      font-size: 0.85rem;
+    }
+    .log p { margin: 0; color: var(--foam); }
+    form {
+      display: grid;
+      gap: 0.45rem;
+      background: var(--panel);
+      border: 1px solid var(--rule);
+      padding: 0.85rem;
+    }
+    label {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    textarea {
+      width: 100%;
+      min-height: 4.75rem;
+      resize: vertical;
+      font: inherit;
+      padding: 0.6rem 0.7rem;
+      border: 1px solid var(--rule);
+      background: var(--hull);
+      color: var(--foam);
+      border-radius: 0;
+    }
+    button {
+      justify-self: start;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--hull);
+      background: var(--brass);
+      border: 0;
+      padding: 0.5rem 0.85rem;
+      cursor: pointer;
+    }
+    button:hover { filter: brightness(1.08); }
+    .status {
+      min-height: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--kelp);
+      margin: 0;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .now { animation: pulse 2.8s ease-in-out infinite; }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.45; }
+      }
+      .log li[data-new] { animation: in 240ms ease-out; }
+      @keyframes in {
+        from { opacity: 0; transform: translateY(-3px); }
+        to { opacity: 1; transform: none; }
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to log</a>
+  <div class="wrap">
+    <header>
+      <div class="brand">Quay</div>
+      <div class="vessel">Kittiwake · Hale · 13&nbsp;Aug</div>
+    </header>
+    <section class="gauge" aria-label="Tide gauge">
+      <div class="gauge-meta">
+        <span>Harbour bar</span>
+        <span>Now 12:58</span>
+      </div>
+      <svg class="tide" viewBox="0 0 400 72" role="img" aria-label="Falling tide, 1.8 metres, next slack at 14:22">
+        <line class="baseline" x1="0" y1="48" x2="400" y2="48" />
+        <path class="curve" d="M0 52 C 60 64, 110 66, 160 40 S 260 8, 320 22 S 380 48, 400 50" />
+        <circle class="now" cx="228" cy="24" r="4.5" />
+      </svg>
+      <dl class="readouts">
+        <div>
+          <dt>Tide</dt>
+          <dd>Fall 1.8&nbsp;m</dd>
+        </div>
+        <div>
+          <dt>Slack</dt>
+          <dd>14:22</dd>
+        </div>
+        <div>
+          <dt>Wind</dt>
+          <dd>SW 12&nbsp;kn</dd>
+        </div>
+      </dl>
+    </section>
+    <main id="main">
+      <h1>Deck log</h1>
+      <ol class="log" reversed>
+        <li>
+          <time datetime="2026-08-13T12:41">12:41</time>
+          <p>Cleared the bar on a rising tide. Slight chop on the starboard bow.</p>
+        </li>
+        <li>
+          <time datetime="2026-08-13T11:05">11:05</time>
+          <p>Fuel three-quarters. Picked up the red can off Black Rock.</p>
+        </li>
+        <li>
+          <time datetime="2026-08-13T09:18">09:18</time>
+          <p>Left the mooring. Fog thinning to the west.</p>
+        </li>
+      </ol>
+      <form id="entry">
+        <label for="note">Note</label>
+        <textarea id="note" name="note" autocomplete="off" maxlength="280" required placeholder="Bar was clean, 1.6 m under the keel…"></textarea>
+        <button type="submit">Add to log</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </main>
+  </div>
+  <script>
+    const form = document.getElementById("entry");
+    const log = document.querySelector(".log");
+    const note = document.getElementById("note");
+    const status = document.querySelector(".status");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = note.value.trim();
+      if (!text) return;
+      const now = new Date();
+      const stamp = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
+      const item = document.createElement("li");
+      item.dataset.new = "true";
+      item.innerHTML = "<time datetime=\"" + now.toISOString() + "\">" + stamp + "</time><p></p>";
+      item.querySelector("p").textContent = text;
+      log.prepend(item);
+      note.value = "";
+      note.focus();
+      status.textContent = "Added to log.";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f3f3f1">
+  <title>Quay — Kittiwake</title>
+  <style>
+    :root {
+      --paper: #f3f3f1;
+      --ink: #1c1b19;
+      --mute: #5c5a55;
+      --line: #dcdcd6;
+      --fill: #ffffff;
+      --accent: #2c4a3e;
+      --accent-hover: #1f362d;
+      --focus: #2c4a3e;
+      --space: 8px;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font: 16px/1.45 ui-sans-serif, system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    a, button, textarea { touch-action: manipulation; }
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .skip {
+      position: absolute;
+      left: var(--space);
+      top: -3rem;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.4rem 0.7rem;
+      text-decoration: none;
+    }
+    .skip:focus { top: var(--space); }
+    .wrap {
+      width: min(40rem, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1.5rem 0 3rem;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.35rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .brand {
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      font-size: 1.25rem;
+    }
+    .vessel {
+      color: var(--mute);
+      font-size: 0.95rem;
+    }
+    .conditions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin: 0 0 1.75rem;
+      background: var(--fill);
+      border: 1px solid var(--line);
+    }
+    @media (min-width: 36rem) {
+      .conditions { grid-template-columns: repeat(3, 1fr); }
+    }
+    .conditions div {
+      padding: 0.9rem 1rem;
+    }
+    @media (min-width: 36rem) {
+      .conditions div + div { border-left: 1px solid var(--line); }
+    }
+    @media (max-width: 35.99rem) {
+      .conditions div + div { border-top: 1px solid var(--line); }
+    }
+    .conditions dt {
+      margin: 0;
+      font-size: 0.75rem;
+      color: var(--mute);
+    }
+    .conditions dd {
+      margin: 0.15rem 0 0;
+      font-size: 1.05rem;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .log {
+      list-style: none;
+      margin: 0 0 1.75rem;
+      padding: 0;
+      border-top: 1px solid var(--line);
+    }
+    .log li {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 0.75rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    time {
+      font-variant-numeric: tabular-nums;
+      color: var(--mute);
+      font-size: 0.9rem;
+    }
+    .log p { margin: 0; }
+    form {
+      display: grid;
+      gap: 0.5rem;
+    }
+    label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    textarea {
+      width: 100%;
+      min-height: 5.5rem;
+      resize: vertical;
+      font: inherit;
+      padding: 0.7rem 0.8rem;
+      border: 1px solid var(--line);
+      background: var(--fill);
+      color: var(--ink);
+      border-radius: 0;
+    }
+    button {
+      justify-self: start;
+      font: inherit;
+      font-weight: 600;
+      color: var(--paper);
+      background: var(--accent);
+      border: 0;
+      padding: 0.55rem 0.95rem;
+      cursor: pointer;
+    }
+    button:hover { background: var(--accent-hover); }
+    .status {
+      min-height: 1.4rem;
+      font-size: 0.9rem;
+      color: var(--mute);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .log li[data-new] { animation: in 220ms ease-out; }
+      @keyframes in {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: none; }
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to log</a>
+  <div class="wrap">
+    <header>
+      <div class="brand">Quay</div>
+      <div class="vessel">Kittiwake · M. Hale</div>
+    </header>
+    <section aria-label="Conditions">
+      <dl class="conditions">
+        <div>
+          <dt>Tide</dt>
+          <dd>Falling, 1.8&nbsp;m</dd>
+        </div>
+        <div>
+          <dt>Next slack</dt>
+          <dd>14:22</dd>
+        </div>
+        <div>
+          <dt>Wind</dt>
+          <dd>SW 12&nbsp;kn</dd>
+        </div>
+      </dl>
+    </section>
+    <main id="main">
+      <h1>Today’s log</h1>
+      <ol class="log" reversed>
+        <li>
+          <time datetime="2026-08-13T12:41">12:41</time>
+          <p>Cleared the bar on a rising tide. Slight chop on the starboard bow.</p>
+        </li>
+        <li>
+          <time datetime="2026-08-13T11:05">11:05</time>
+          <p>Fuel three-quarters. Picked up the red can off Black Rock.</p>
+        </li>
+        <li>
+          <time datetime="2026-08-13T09:18">09:18</time>
+          <p>Left the mooring. Fog thinning to the west.</p>
+        </li>
+      </ol>
+      <form id="entry">
+        <label for="note">Note</label>
+        <textarea id="note" name="note" autocomplete="off" maxlength="280" required placeholder="Bar was clean, 1.6 m under the keel…"></textarea>
+        <button type="submit">Add to log</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </main>
+  </div>
+  <script>
+    const form = document.getElementById("entry");
+    const log = document.querySelector(".log");
+    const note = document.getElementById("note");
+    const status = document.querySelector(".status");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = note.value.trim();
+      if (!text) return;
+      const now = new Date();
+      const stamp = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
+      const item = document.createElement("li");
+      item.dataset.new = "true";
+      item.innerHTML = "<time datetime=\"" + now.toISOString() + "\">" + stamp + "</time><p></p>";
+      item.querySelector("p").textContent = text;
+      log.prepend(item);
+      note.value = "";
+      note.focus();
+      status.textContent = "Added to log.";
+    });
+  </script>
+</body>
+</html>

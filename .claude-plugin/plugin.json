@@ -27,12 +27,14 @@
     "review",
     "review-fix",
     "implementation",
+    "frontend-design",
     "workflow"
   ],
   "skills": [
     "./skills/bug",
     "./skills/define",
     "./skills/explore",
+    "./skills/frontend-design",
     "./skills/help",
     "./skills/implement",
     "./skills/iterate",

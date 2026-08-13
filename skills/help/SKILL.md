@@ -74,6 +74,7 @@ or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
 | **help** | Explains; does not run delivery |
 | **manage-skills** | Install/sync this repo |
 | **writing-for-agents** | Author skills/concepts |
+| **frontend-design** | Product-surface UI: **direction**, **signature**, **craft** |
 
 User-facing replies follow [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 `/setup` can persist `Agent language: general` for all operator-directed agent

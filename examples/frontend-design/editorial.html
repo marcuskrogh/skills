@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#d5dee3">
+  <title>Quay — Kittiwake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fog: #d5dee3;
+      --deep: #0c191c;
+      --tide: #1a5c63;
+      --foam: #eef2f4;
+      --mute: #4a5c61;
+      --focus: #1a5c63;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font: 17px/1.5 "Source Sans 3", ui-sans-serif, sans-serif;
+      color: var(--deep);
+      background: var(--fog);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    a, button, textarea { touch-action: manipulation; }
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .skip {
+      position: absolute;
+      left: 0.75rem;
+      top: -3rem;
+      background: var(--deep);
+      color: var(--foam);
+      padding: 0.4rem 0.7rem;
+      text-decoration: none;
+    }
+    .skip:focus { top: 0.75rem; }
+    .wrap {
+      width: min(42rem, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1.75rem 0 3.25rem;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.4rem;
+    }
+    .brand {
+      font-family: "Fraunces", ui-serif, serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+    .vessel {
+      color: var(--mute);
+      font-size: 0.95rem;
+    }
+    .hero {
+      margin: 0 0 1.75rem;
+    }
+    .hero .reading {
+      font-family: "Fraunces", ui-serif, serif;
+      font-optical-sizing: auto;
+      font-size: clamp(4.2rem, 16vw, 7.5rem);
+      font-weight: 500;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      text-wrap: balance;
+      margin: 0;
+      color: var(--tide);
+    }
+    .hero .unit {
+      font-size: 0.38em;
+      letter-spacing: 0;
+      color: var(--deep);
+    }
+    .hero p {
+      margin: 0.7rem 0 0;
+      max-width: 22rem;
+      color: var(--mute);
+    }
+    .facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.25rem;
+      margin: 0.9rem 0 0;
+      padding: 0;
+      color: var(--deep);
+    }
+    .facts li {
+      list-style: none;
+      font-variant-numeric: tabular-nums;
+    }
+    .facts span {
+      color: var(--mute);
+      margin-right: 0.35rem;
+    }
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tide);
+    }
+    .log {
+      list-style: none;
+      margin: 0 0 1.75rem;
+      padding: 0;
+    }
+    .log li {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 1rem;
+      padding: 0.95rem 0;
+      border-top: 1px solid color-mix(in srgb, var(--deep) 14%, transparent);
+    }
+    time {
+      font-variant-numeric: tabular-nums;
+      color: var(--tide);
+    }
+    .log p { margin: 0; }
+    form {
+      display: grid;
+      gap: 0.45rem;
+    }
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    textarea {
+      width: 100%;
+      min-height: 5.25rem;
+      resize: vertical;
+      font: inherit;
+      padding: 0.75rem 0.85rem;
+      border: 0;
+      background: var(--foam);
+      color: var(--deep);
+    }
+    button {
+      justify-self: start;
+      font: inherit;
+      font-weight: 600;
+      color: var(--foam);
+      background: var(--deep);
+      border: 0;
+      padding: 0.55rem 1rem;
+      cursor: pointer;
+    }
+    button:hover { background: var(--tide); }
+    .status {
+      min-height: 1.35rem;
+      font-size: 0.95rem;
+      color: var(--mute);
+      margin: 0;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .log li[data-new] { animation: in 260ms ease-out; }
+      @keyframes in {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: none; }
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to log</a>
+  <div class="wrap">
+    <header>
+      <div class="brand">Quay</div>
+      <div class="vessel">Kittiwake · M. Hale</div>
+    </header>
+    <section class="hero" aria-label="Tide">
+      <p class="reading">1.8 <span class="unit">m</span></p>
+      <p>Falling toward slack at 14:22. The bar still has water enough to leave.</p>
+      <ul class="facts">
+        <li><span>Slack</span>14:22</li>
+        <li><span>Wind</span>SW 12&nbsp;kn</li>
+      </ul>
+    </section>
+    <main id="main">
+      <h1>Log</h1>
+      <ol class="log" reversed>
+        <li>
+          <time datetime="2026-08-13T12:41">12:41</time>
+          <p>Cleared the bar on a rising tide. Slight chop on the starboard bow.</p>
+        </li>
+        <li>
+          <time datetime="2026-08-13T11:05">11:05</time>
+          <p>Fuel three-quarters. Picked up the red can off Black Rock.</p>
+        </li>
+        <li>
+          <time datetime="2026-08-13T09:18">09:18</time>
+          <p>Left the mooring. Fog thinning to the west.</p>
+        </li>
+      </ol>
+      <form id="entry">
+        <label for="note">Note</label>
+        <textarea id="note" name="note" autocomplete="off" maxlength="280" required placeholder="Bar was clean, 1.6 m under the keel…"></textarea>
+        <button type="submit">Add to log</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </main>
+  </div>
+  <script>
+    const form = document.getElementById("entry");
+    const log = document.querySelector(".log");
+    const note = document.getElementById("note");
+    const status = document.querySelector(".status");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = note.value.trim();
+      if (!text) return;
+      const now = new Date();
+      const stamp = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
+      const item = document.createElement("li");
+      item.dataset.new = "true";
+      item.innerHTML = "<time datetime=\"" + now.toISOString() + "\">" + stamp + "</time><p></p>";
+      item.querySelector("p").textContent = text;
+      log.prepend(item);
+      note.value = "";
+      note.focus();
+      status.textContent = "Added to log.";
+    });
+  </script>
+</body>
+</html>

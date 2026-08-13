@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f3f1ec">
+  <title>Quay — three directions</title>
+  <style>
+    :root {
+      --paper: #f3f1ec;
+      --ink: #1c1b19;
+      --mute: #5e5c57;
+      --line: #d8d4cb;
+      --focus: #2c4a3e;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      font: 16px/1.5 ui-sans-serif, system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .skip {
+      position: absolute;
+      left: 0.75rem;
+      top: -3rem;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.4rem 0.7rem;
+    }
+    .skip:focus { top: 0.75rem; }
+    header, main {
+      width: min(72rem, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+    header { padding: 2rem 0 1.25rem; }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+      margin: 0 0 0.5rem;
+    }
+    .lede {
+      margin: 0;
+      max-width: 40rem;
+      color: var(--mute);
+    }
+    .brief {
+      margin: 1.25rem 0 0;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .brief dt {
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .brief dd {
+      margin: 0 0 0.65rem;
+    }
+    .brief dd:last-child { margin-bottom: 0; }
+    h2 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mute);
+      margin: 2rem 0 0.75rem;
+    }
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 72rem) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    article {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+    article h3 {
+      margin: 0;
+      padding: 0.9rem 1rem 0.15rem;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+    article p {
+      margin: 0;
+      padding: 0.35rem 1rem 0.85rem;
+      color: var(--mute);
+      font-size: 0.95rem;
+    }
+    iframe {
+      display: block;
+      width: 100%;
+      height: 36rem;
+      border: 0;
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+    .open {
+      padding: 0.7rem 1rem 0.9rem;
+      border-top: 1px solid var(--line);
+    }
+    .open a { color: var(--focus); }
+    footer {
+      width: min(72rem, calc(100% - 2rem));
+      margin: 2rem auto 2.5rem;
+      color: var(--mute);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <h1>Quay — three directions</h1>
+    <p class="lede">Same harbour log, three stances. Critique which direction the frontend concept should weight.</p>
+    <dl class="brief">
+      <dt>Subject</dt>
+      <dd>Quay, a harbour log for a small-boat skipper</dd>
+      <dt>Audience</dt>
+      <dd>The person on the boat, checking conditions and writing a line</dd>
+      <dt>Job</dt>
+      <dd>Show next slack, tide, and wind, then take a short log note</dd>
+    </dl>
+  </header>
+  <main id="main">
+    <h2>Stances</h2>
+    <div class="grid">
+      <article>
+        <h3>Quiet craft</h3>
+        <p>The floor is the look: system type, even space, a functional accent. No signature spectacle.</p>
+        <iframe title="Quiet craft preview" src="quiet.html" loading="lazy"></iframe>
+        <p class="open"><a href="quiet.html">Open quiet.html</a></p>
+      </article>
+      <article>
+        <h3>Instrument</h3>
+        <p>Subject vernacular: chart-table density, brass on olive hull, a tide strip as the signature.</p>
+        <iframe title="Instrument preview" src="instrument.html" loading="lazy"></iframe>
+        <p class="open"><a href="instrument.html">Open instrument.html</a></p>
+      </article>
+      <article>
+        <h3>Editorial</h3>
+        <p>Type as signature: the tide height is the display. Fog field, not cream paper.</p>
+        <iframe title="Editorial preview" src="editorial.html" loading="lazy"></iframe>
+        <p class="open"><a href="editorial.html">Open editorial.html</a></p>
+      </article>
+    </div>
+  </main>
+  <footer>
+    Calibration for CONCEPT_FRONTEND. Not templates.
+  </footer>
+</body>
+</html>
