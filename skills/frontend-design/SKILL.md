@@ -51,8 +51,8 @@ Source-repo pages under `examples/frontend-design/`:
 | File | Subject |
 |------|---------|
 | `index.html` | Quay pavilion (Archivo) |
-| `heating-overview.html` | Heating Assistant overview: house dial, Start, room tiles |
-| `heating-room.html` | Living room climate card |
+| `heating-overview.html` | Heating Assistant dummy overview: nav, gauges, Next Control well, climate tiles |
+| `heating-room.html` | Dummy living-room climate card (analog current dial) |
 
 Calibration only — not a product template.
 

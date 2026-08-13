@@ -1,18 +1,38 @@
 # Frontend design sample
 
-Calibration page for the **retro-futuristic** default on
+Calibration pages for the **retro-futuristic** default on
 [CONCEPT_FRONTEND](../../skills/concepts/CONCEPT_FRONTEND.md).
 
-**Brief.** Quay is a harbour log for a small-boat skipper. Audience: the person
-on the boat. Job of the page: see the next slack, wind, and tide, then add a
-short log line.
+## Quay
+
+**Brief.** Harbour log for a small-boat skipper. Audience: the person on the
+boat. Job: see the next slack, wind, and tide, then add a short log line.
 
 **Era.** 1960s World’s Fair marine pavilion — white, dusty yellow, red.
-Fantastic Four: First Steps / the Institute, not a phosphor cockpit.
 
 **Signature.** Analog tide dial with a red needle in a mustard well.
 
 **Type.** Archivo.
 
-Open [index.html](index.html) (Quay), [heating-overview.html](heating-overview.html),
-and [heating-room.html](heating-room.html). Calibration only — not a product template.
+Open [index.html](index.html).
+
+## Heating Assistant (dummy panel)
+
+Same dummy as the Heating Assistant ingress panel, restyled with this
+**direction**. Audience: the person running house heating. Job: see system
+health and room climate, start or stop, set targets and comfort bands.
+
+**Era.** 1960s pavilion lab — white hull, mustard well, red instrument.
+
+**Tokens.** White `#fffcf7`, ink `#1c1612`, mute `#6a6158`, yellow `#d2b15c` /
+`#c49a3a`, red `#c5261e`. Yellow is architecture; red is the instrument.
+
+**Signature.** Overview: Next Control analog ring in a mustard well. Living
+room: current-temperature dial in a mustard well. Room tiles keep the dummy’s
+numeric current so the overview is not a row of dials.
+
+**Type.** Archivo.
+
+Open [heating-overview.html](heating-overview.html) and
+[heating-room.html](heating-room.html). Calibration only — not a product
+template.
