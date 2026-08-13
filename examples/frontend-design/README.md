@@ -7,8 +7,9 @@ Calibration page for the **retro-futuristic** default on
 on the boat. Job of the page: see the next slack, wind, and tide, then add a
 short log line.
 
-**Era.** 1978 vacuum-fluorescent deck plotter.
+**Era.** 1960s World’s Fair marine pavilion — white, dusty yellow, red.
+Fantastic Four: First Steps / the Institute, not a phosphor cockpit.
 
-**Signature.** CRT tide scope with a live pip.
+**Signature.** Analog tide dial with a red needle in a mustard well.
 
 Open [index.html](index.html). Calibration only — not a product template.

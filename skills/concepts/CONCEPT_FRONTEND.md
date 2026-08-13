@@ -34,16 +34,16 @@ short plan and checked against that plan.
   more type roles (display with restraint, body, utility when data needs it), a
   layout idea, and the **signature**. Every color and face in the build traces to
   that system.
-- **One signature.** Spend boldness in one place — usually one analog or CRT
-  device. Surrounding chrome stays one family. Decoration earns its keep by
-  serving the brief.
+- **One signature.** Spend boldness in one place — usually one analog
+  instrument. Surrounding architecture stays one family. Decoration earns its
+  keep by serving the brief.
 - **Structure informs.** Numbering, eyebrows, dividers, and labels encode a real
   property of the content (sequence, hierarchy, status). They do not decorate.
 - **Type as voice.** Display and body are a deliberate pair for this brief. The
   scale, weight, and spacing are part of the design, not a default stack.
 - **Motion serves.** One orchestrated moment, or none. Animate `transform` and
   `opacity` only. Honor `prefers-reduced-motion`.
-- **Match intensity.** This default **direction** is maximal: execute the console
+- **Match intensity.** This default **direction** is maximal: execute the room
   fully. When the brief names a quieter look, precision in space and type is the
   equivalent of elaboration.
 - **Brief wins.** When the brief names a look, follow those words — including a
@@ -79,15 +79,16 @@ short plan and checked against that plan.
    named a cluster).
 4. **Build** — Derive CSS and markup from the plan; apply **craft**. Done when
    the UI matches the tokens and the floor checklist.
-5. **Critique** — Confirm one **signature**, even surrounding chrome, and craft.
-   Remove one extra. Done when a pass would not change **direction**.
+5. **Critique** — Confirm one **signature**, even surrounding architecture, and
+   craft. Remove one extra. Done when a pass would not change **direction**.
 
 ## Reference
 
 ### Default clusters
 
 Legitimate when the brief asks for them. Otherwise they are the unchosen look.
-**Retro-futuristic** is not the terminal cluster — see [FRONTEND-RETRO.md](FRONTEND-RETRO.md).
+**Retro-futuristic** is not the terminal cluster and not the editorial cluster —
+see [FRONTEND-RETRO.md](FRONTEND-RETRO.md).
 
 | Cluster | Tells |
 |---------|--------|

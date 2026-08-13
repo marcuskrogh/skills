@@ -46,9 +46,9 @@ surfaces). User-facing replies follow
 
 ## Calibration
 
-Source-repo page: `examples/frontend-design/index.html` (Quay harbour console).
-Open to critique the **retro-futuristic** default. Calibration only — not a
-product template.
+Source-repo page: `examples/frontend-design/index.html` (Quay harbour pavilion).
+Open to critique the **retro-futuristic** default (white, red, dusty yellow).
+Calibration only — not a product template.
 
 ## Handoff
 
