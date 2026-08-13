@@ -218,6 +218,8 @@
       color: var(--mute);
       font-size: 0.95rem;
     }
+    .more { margin: 1.5rem 0 0; font-size: 0.9rem; }
+    .more a { color: var(--red); }
     @media (prefers-reduced-motion: no-preference) {
       .needle { animation: settle 1.1s cubic-bezier(0.22, 1, 0.36, 1) both; }
       .log li[data-new] { animation: in 280ms ease-out; }
@@ -297,6 +299,7 @@
         <p class="status" role="status" aria-live="polite"></p>
       </form>
     </main>
+    <p class="more"><a href="heating-overview.html">Heating Assistant overview</a></p>
   </div>
   <script>
     const form = document.getElementById("entry");

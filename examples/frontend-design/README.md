@@ -14,4 +14,5 @@ Fantastic Four: First Steps / the Institute, not a phosphor cockpit.
 
 **Type.** Archivo.
 
-Open [index.html](index.html). Calibration only — not a product template.
+Open [index.html](index.html) (Quay), [heating-overview.html](heating-overview.html),
+and [heating-room.html](heating-room.html). Calibration only — not a product template.

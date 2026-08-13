@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#fffcf7">
+  <title>Heating Assistant — Living room</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fffcf7;
+      --ink: #1c1612;
+      --mute: #6a6158;
+      --yellow: #d2b15c;
+      --yellow-deep: #c49a3a;
+      --red: #c5261e;
+      --red-hover: #a81e18;
+      --line: #eadfca;
+      --focus: #c5261e;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font: 16px/1.45 Archivo, ui-sans-serif, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 50% -10%, color-mix(in srgb, var(--yellow) 28%, var(--white)), var(--white) 72%);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    a, button { touch-action: manipulation; }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+    .skip {
+      position: absolute; left: 0.75rem; top: -3rem;
+      background: var(--red); color: var(--white);
+      padding: 0.4rem 0.7rem; text-decoration: none; font-weight: 600;
+    }
+    .skip:focus { top: 0.75rem; }
+    .nav {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem;
+      width: min(42rem, calc(100% - 1.75rem)); margin: 0 auto; padding: 1.15rem 0 0.5rem;
+    }
+    .brand { font-weight: 700; letter-spacing: -0.03em; font-size: 1.15rem; margin-right: auto; }
+    .nav a {
+      color: var(--mute); text-decoration: none; font-size: 0.8rem;
+      font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .nav a[aria-current="page"] { color: var(--ink); }
+    .room {
+      width: min(42rem, calc(100% - 1.75rem));
+      margin: 0 auto;
+      padding: 0.75rem 0 3rem;
+    }
+    .head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 0.75rem; margin-bottom: 1.1rem;
+    }
+    h1 { margin: 0; font-size: 1.6rem; letter-spacing: -0.03em; }
+    .status { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); }
+    .well {
+      width: min(22rem, 100%);
+      aspect-ratio: 1;
+      margin: 0 auto 1.35rem;
+      display: grid; place-items: center;
+      background: radial-gradient(circle at 50% 42%, #e3c56e, var(--yellow) 62%, var(--yellow-deep));
+      border-radius: 50%;
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, white 55%, var(--yellow)),
+        0 28px 50px color-mix(in srgb, var(--yellow-deep) 28%, transparent);
+    }
+    .dial {
+      width: 78%; aspect-ratio: 1; background: var(--white); border-radius: 50%; position: relative;
+      box-shadow: 0 10px 24px color-mix(in srgb, var(--ink) 12%, transparent);
+    }
+    .dial svg { display: block; width: 100%; height: 100%; }
+    .tick { stroke: var(--yellow-deep); stroke-width: 2; }
+    .tick-major { stroke: var(--ink); stroke-width: 2.2; }
+    .arc { fill: none; stroke: var(--yellow); stroke-width: 6; }
+    .needle {
+      fill: var(--red); transform-origin: 100px 100px; transform-box: view-box; transform: rotate(36deg);
+    }
+    .hub { fill: var(--red); }
+    .reading {
+      position: absolute; inset: auto 0 16%; display: grid; place-content: center;
+      text-align: center; pointer-events: none;
+    }
+    .reading strong {
+      font-weight: 700; font-size: clamp(2.4rem, 12vw, 3.2rem);
+      letter-spacing: -0.05em; line-height: 0.9; font-variant-numeric: tabular-nums;
+    }
+    .reading span {
+      display: block; margin-top: 0.35rem; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--red);
+    }
+    .control {
+      display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.25rem;
+    }
+    .control button {
+      width: 2.4rem; height: 2.4rem; border-radius: 50%; font: inherit; font-weight: 700;
+      background: var(--white); border: 1px solid var(--line); cursor: pointer;
+    }
+    .control button:hover { border-color: var(--red); color: var(--red); }
+    .target { text-align: center; }
+    .target strong {
+      display: block; font-size: 1.8rem; font-weight: 700; letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums; line-height: 1;
+    }
+    .target span {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute);
+    }
+    .comfort {
+      display: flex; align-items: center; gap: 0.5rem; justify-content: space-between; margin-bottom: 0.45rem;
+    }
+    .comfort p {
+      margin: 0; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute);
+    }
+    .comfort button {
+      width: 1.85rem; height: 1.85rem; border-radius: 50%; font: inherit; font-weight: 700;
+      background: var(--white); border: 1px solid var(--line); cursor: pointer;
+    }
+    .track {
+      position: relative; height: 0.6rem;
+      background: color-mix(in srgb, var(--line) 80%, var(--white));
+      border-radius: 999px; margin-bottom: 0.35rem;
+    }
+    .band {
+      position: absolute; top: 0; bottom: 0; left: 42%; width: 16%;
+      background: color-mix(in srgb, var(--yellow) 75%, white); border-radius: 999px;
+    }
+    .set { position: absolute; left: 50%; top: -3px; width: 4px; height: calc(100% + 6px); background: var(--ink); border-radius: 2px; }
+    .mark { position: absolute; left: 57%; top: -3px; width: 6px; height: calc(100% + 6px); background: var(--red); border-radius: 2px; }
+    .scale { display: flex; justify-content: space-between; color: var(--mute); font-size: 0.8rem; margin-bottom: 1.5rem; }
+    h2 {
+      margin: 0 0 0.5rem; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--yellow-deep);
+    }
+    .periods { list-style: none; margin: 0 0 1.5rem; padding: 0; border-top: 1px solid var(--line); }
+    .periods li {
+      display: grid; grid-template-columns: 7.5rem 1fr auto;
+      gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--line);
+    }
+    .periods time { font-variant-numeric: tabular-nums; font-weight: 600; }
+    .now { color: var(--red); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .more { font-size: 0.9rem; }
+    .more a { color: var(--red); }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to living room</a>
+  <nav class="nav" aria-label="Panel">
+    <div class="brand">Heating Assistant</div>
+    <a href="heating-overview.html">Overview</a>
+    <a href="heating-room.html" aria-current="page">Living room</a>
+  </nav>
+  <main id="main" class="room">
+    <div class="head">
+      <h1>Living room</h1>
+      <span class="status">Heating</span>
+    </div>
+    <section class="well" aria-label="Room thermostat">
+      <div class="dial">
+        <svg viewBox="0 0 200 200" role="img" aria-label="Living room 21.4 degrees, target 21.0, heating.">
+          <circle cx="100" cy="100" r="86" fill="none" stroke="#eadfca" stroke-width="1" />
+          <path class="arc" d="M100 22 A78 78 0 1 1 44 155" stroke-linecap="round" />
+          <g>
+            <line class="tick-major" x1="100" y1="16" x2="100" y2="28" />
+            <line class="tick-major" x1="173" y1="59" x2="164" y2="64" />
+            <line class="tick-major" x1="184" y1="100" x2="172" y2="100" />
+            <line class="tick-major" x1="173" y1="141" x2="164" y2="136" />
+            <line class="tick-major" x1="100" y1="184" x2="100" y2="172" />
+            <line class="tick-major" x1="27" y1="141" x2="36" y2="136" />
+            <line class="tick-major" x1="16" y1="100" x2="28" y2="100" />
+            <line class="tick-major" x1="27" y1="59" x2="36" y2="64" />
+          </g>
+          <polygon class="needle" points="100,34 106,108 100,116 94,108" />
+          <circle class="hub" cx="100" cy="100" r="7" />
+        </svg>
+        <p class="reading"><strong>21.4°</strong><span>Current</span></p>
+      </div>
+    </section>
+    <div class="control">
+      <button type="button" id="down" aria-label="Lower target">−</button>
+      <div class="target"><strong id="target">21.0°</strong><span>Target</span></div>
+      <button type="button" id="up" aria-label="Raise target">+</button>
+    </div>
+    <div class="comfort">
+      <p>Comfort band</p>
+      <span>
+        <button type="button" aria-label="Narrow comfort band">−</button>
+        <span id="band">±0.5°</span>
+        <button type="button" aria-label="Widen comfort band">+</button>
+      </span>
+    </div>
+    <div class="track" role="img" aria-label="Comfort band 20.5 to 21.5 degrees. Current 21.4, target 21.0.">
+      <span class="band"></span><span class="set"></span><span class="mark"></span>
+    </div>
+    <div class="scale"><span>20.5°</span><span>Target 21.0°</span><span>21.5°</span></div>
+    <h2>Comfort periods</h2>
+    <ol class="periods">
+      <li><time>06:00–09:00</time><span>Comfort</span><span class="now">Now</span></li>
+      <li><time>09:00–16:00</time><span>Setback</span><span></span></li>
+      <li><time>16:00–22:00</time><span>Comfort</span><span></span></li>
+    </ol>
+    <p class="more"><a href="heating-overview.html">Overview</a> · <a href="index.html">Quay pavilion</a></p>
+  </main>
+  <script>
+    let target = 21;
+    const el = document.getElementById("target");
+    const clamp = (n) => Math.min(30, Math.max(5, Math.round(n * 2) / 2));
+    const paint = () => { el.textContent = target.toFixed(1) + "°"; };
+    document.getElementById("down").onclick = () => { target = clamp(target - 0.5); paint(); };
+    document.getElementById("up").onclick = () => { target = clamp(target + 0.5); paint(); };
+  </script>
+</body>
+</html>

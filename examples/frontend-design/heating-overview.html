@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#fffcf7">
+  <title>Heating Assistant — Overview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fffcf7;
+      --ink: #1c1612;
+      --mute: #6a6158;
+      --yellow: #d2b15c;
+      --yellow-deep: #c49a3a;
+      --red: #c5261e;
+      --red-hover: #a81e18;
+      --line: #eadfca;
+      --focus: #c5261e;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font: 16px/1.45 Archivo, ui-sans-serif, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 50% -10%, color-mix(in srgb, var(--yellow) 28%, var(--white)), var(--white) 72%);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    a, button { touch-action: manipulation; }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+    .skip {
+      position: absolute; left: 0.75rem; top: -3rem;
+      background: var(--red); color: var(--white);
+      padding: 0.4rem 0.7rem; text-decoration: none; font-weight: 600;
+    }
+    .skip:focus { top: 0.75rem; }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+      width: min(64rem, calc(100% - 1.75rem));
+      margin: 0 auto;
+      padding: 1.15rem 0 0.5rem;
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-size: 1.15rem;
+      margin-right: auto;
+    }
+    .nav a {
+      color: var(--mute);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav a[aria-current="page"] { color: var(--ink); }
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--yellow-deep);
+    }
+    .live i {
+      width: 0.55rem; height: 0.55rem; border-radius: 50%;
+      background: var(--yellow); box-shadow: 0 0 0 4px color-mix(in srgb, var(--yellow) 28%, transparent);
+    }
+    .start {
+      font: 0.8rem/1 Archivo, ui-sans-serif, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--red);
+      border: 0;
+      border-radius: 999px;
+      padding: 0.55rem 0.95rem 0.5rem;
+      cursor: pointer;
+    }
+    .start:hover { background: var(--red-hover); }
+    .start[aria-pressed="true"] {
+      background: var(--white);
+      color: var(--red);
+      box-shadow: inset 0 0 0 2px var(--red);
+    }
+    .shell {
+      width: min(64rem, calc(100% - 1.75rem));
+      margin: 0 auto;
+      padding: 0.75rem 0 3rem;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 18rem) 1fr;
+      gap: 1.5rem 2rem;
+      align-items: center;
+      margin-bottom: 1.75rem;
+    }
+    @media (max-width: 48rem) { .hero { grid-template-columns: 1fr; } }
+    .well {
+      width: min(18rem, 100%);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 42%, #e3c56e, var(--yellow) 62%, var(--yellow-deep));
+      border-radius: 50%;
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, white 55%, var(--yellow)),
+        0 28px 50px color-mix(in srgb, var(--yellow-deep) 28%, transparent);
+    }
+    .dial {
+      width: 78%;
+      aspect-ratio: 1;
+      background: var(--white);
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 10px 24px color-mix(in srgb, var(--ink) 12%, transparent);
+    }
+    .dial svg { display: block; width: 100%; height: 100%; }
+    .tick { stroke: var(--yellow-deep); stroke-width: 2; }
+    .tick-major { stroke: var(--ink); stroke-width: 2.2; }
+    .arc { fill: none; stroke: var(--yellow); stroke-width: 6; }
+    .needle {
+      fill: var(--red);
+      transform-origin: 100px 100px;
+      transform-box: view-box;
+      transform: rotate(36deg);
+    }
+    .hub { fill: var(--red); }
+    .reading {
+      position: absolute;
+      inset: auto 0 16%;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      pointer-events: none;
+    }
+    .reading strong {
+      font-weight: 700;
+      font-size: clamp(2rem, 8vw, 2.6rem);
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      font-variant-numeric: tabular-nums;
+    }
+    .reading span {
+      display: block;
+      margin-top: 0.3rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+    .kpis {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem 1.5rem;
+      margin: 0;
+    }
+    .kpis dt {
+      margin: 0;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .kpis dd {
+      margin: 0.15rem 0 0;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--yellow-deep);
+    }
+    .rooms {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 56rem) { .rooms { grid-template-columns: repeat(3, 1fr); } }
+    .tile {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 1.25rem;
+      padding: 1rem 1.05rem 1.1rem;
+      display: grid;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .tile.is-heating { box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 35%, transparent); }
+    .tile.is-off { opacity: 0.72; }
+    .tile-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .tile-head h2 { margin: 0; font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; }
+    .tile-head h2 a { color: inherit; text-decoration: none; }
+    .tile-head h2 a:hover { color: var(--red); }
+    .status {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .tile.is-heating .status { color: var(--red); }
+    .temps {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .current strong, .target strong {
+      display: block;
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .temps span {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .stepper button, .power {
+      font: inherit;
+      cursor: pointer;
+      background: var(--white);
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+    .stepper button {
+      width: 2rem; height: 2rem;
+      border-radius: 50%;
+      font-weight: 700;
+    }
+    .stepper button:hover { border-color: var(--red); color: var(--red); }
+    .power {
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .tile.is-off .power { color: var(--mute); }
+    .track {
+      position: relative;
+      height: 0.55rem;
+      background: color-mix(in srgb, var(--line) 80%, var(--white));
+      border-radius: 999px;
+    }
+    .band {
+      position: absolute; top: 0; bottom: 0;
+      background: color-mix(in srgb, var(--yellow) 75%, white);
+      border-radius: 999px;
+    }
+    .mark, .set {
+      position: absolute; top: -3px;
+      width: 4px; height: calc(100% + 6px);
+      border-radius: 2px;
+    }
+    .set { background: var(--ink); }
+    .mark { background: var(--red); width: 6px; }
+    .band-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--mute);
+    }
+    .period {
+      font-size: 0.85rem;
+      color: var(--mute);
+    }
+    .period b { color: var(--red); font-weight: 600; }
+    .off-note {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .tile.is-off .temps, .tile.is-off .track, .tile.is-off .band-meta { display: none; }
+    .more { margin-top: 1.5rem; font-size: 0.9rem; }
+    .more a { color: var(--red); }
+    @media (prefers-reduced-motion: no-preference) {
+      .live i { animation: pip 1.8s ease-in-out infinite; }
+      @keyframes pip { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#rooms">Skip to rooms</a>
+  <nav class="nav" aria-label="Panel">
+    <div class="brand">Heating Assistant</div>
+    <a href="heating-overview.html" aria-current="page">Overview</a>
+    <a href="heating-room.html">Living room</a>
+    <a href="#schedules">Schedules</a>
+    <a href="#tuning">Tuning</a>
+    <span class="live"><i></i> Live</span>
+    <button class="start" type="button" aria-pressed="true">Start</button>
+  </nav>
+  <div class="shell">
+    <section class="hero" aria-label="House thermostat">
+      <div class="well">
+        <div class="dial">
+          <svg viewBox="0 0 200 200" role="img" aria-label="House indoor temperature 21.4 degrees. Comfort 94 percent.">
+            <circle cx="100" cy="100" r="86" fill="none" stroke="#eadfca" stroke-width="1" />
+            <path class="arc" d="M100 22 A78 78 0 1 1 44 155" stroke-linecap="round" />
+            <g>
+              <line class="tick-major" x1="100" y1="16" x2="100" y2="28" />
+              <line class="tick-major" x1="173" y1="59" x2="164" y2="64" />
+              <line class="tick-major" x1="184" y1="100" x2="172" y2="100" />
+              <line class="tick-major" x1="173" y1="141" x2="164" y2="136" />
+              <line class="tick-major" x1="100" y1="184" x2="100" y2="172" />
+              <line class="tick-major" x1="27" y1="141" x2="36" y2="136" />
+              <line class="tick-major" x1="16" y1="100" x2="28" y2="100" />
+              <line class="tick-major" x1="27" y1="59" x2="36" y2="64" />
+            </g>
+            <polygon class="needle" points="100,34 106,108 100,116 94,108" />
+            <circle class="hub" cx="100" cy="100" r="7" />
+          </svg>
+          <p class="reading"><strong>21.4°</strong><span>House</span></p>
+        </div>
+      </div>
+      <dl class="kpis">
+        <div><dt>Health</dt><dd>Healthy</dd></div>
+        <div><dt>Comfort</dt><dd>94%</dd></div>
+        <div><dt>Heating power</dt><dd>2.1&nbsp;kW</dd></div>
+        <div><dt>Next plan</dt><dd>11&nbsp;min</dd></div>
+      </dl>
+    </section>
+    <h1>Rooms</h1>
+    <div class="rooms" id="rooms">
+      <article class="tile is-heating" data-room="living" data-target="21.0" data-current="21.4">
+        <div class="tile-head">
+          <h2><a href="heating-room.html">Living room</a></h2>
+          <span class="status">Heating</span>
+        </div>
+        <div class="temps">
+          <div class="current"><strong>21.4°</strong><span>Current</span></div>
+          <div class="stepper">
+            <button type="button" class="down" aria-label="Lower living room target">−</button>
+            <div class="target"><strong>21.0°</strong><span>Target</span></div>
+            <button type="button" class="up" aria-label="Raise living room target">+</button>
+          </div>
+        </div>
+        <div class="track" role="img" aria-label="Comfort band 20.5 to 21.5 degrees. Current 21.4, target 21.0.">
+          <span class="band" style="left:42%;width:16%"></span>
+          <span class="set" style="left:50%"></span>
+          <span class="mark" style="left:57%"></span>
+        </div>
+        <div class="band-meta"><span>Comfort band ±0.5°</span><span>18°–24°</span></div>
+        <p class="period"><b>Now</b> Comfort 06:00–09:00</p>
+      </article>
+      <article class="tile" data-room="bedroom" data-target="19.0" data-current="18.9">
+        <div class="tile-head">
+          <h2>Bedroom</h2>
+          <span class="status">Idle</span>
+        </div>
+        <div class="temps">
+          <div class="current"><strong>18.9°</strong><span>Current</span></div>
+          <div class="stepper">
+            <button type="button" class="down" aria-label="Lower bedroom target">−</button>
+            <div class="target"><strong>19.0°</strong><span>Target</span></div>
+            <button type="button" class="up" aria-label="Raise bedroom target">+</button>
+          </div>
+        </div>
+        <div class="track" role="img" aria-label="Comfort band 18.2 to 19.8 degrees. Current 18.9, target 19.0.">
+          <span class="band" style="left:3%;width:27%"></span>
+          <span class="set" style="left:17%"></span>
+          <span class="mark" style="left:15%"></span>
+        </div>
+        <div class="band-meta"><span>Comfort band ±0.8°</span><span>18°–24°</span></div>
+        <p class="period">Setback 09:00–16:00</p>
+      </article>
+      <article class="tile is-off" data-room="kitchen" data-off="true">
+        <div class="tile-head">
+          <h2>Kitchen</h2>
+          <button class="power" type="button" aria-pressed="true">Off</button>
+        </div>
+        <p class="off-note">Heating off</p>
+        <p class="period">Off period until 17:00</p>
+      </article>
+    </div>
+    <p class="more"><a href="index.html">Quay pavilion</a> · <a href="heating-room.html">Living room card</a></p>
+  </div>
+  <script>
+    const start = document.querySelector(".start");
+    const live = document.querySelector(".live");
+    start.addEventListener("click", () => {
+      const on = start.getAttribute("aria-pressed") === "true";
+      start.setAttribute("aria-pressed", on ? "false" : "true");
+      live.hidden = on;
+    });
+    document.querySelectorAll(".tile[data-target]").forEach((tile) => {
+      const targetEl = tile.querySelector(".target strong");
+      const step = 0.5;
+      const clamp = (n) => Math.min(30, Math.max(5, Math.round(n * 2) / 2));
+      const paint = (n) => { targetEl.textContent = n.toFixed(1) + "°"; };
+      tile.querySelector(".down").addEventListener("click", () => {
+        const n = clamp(parseFloat(tile.dataset.target) - step);
+        tile.dataset.target = String(n);
+        paint(n);
+      });
+      tile.querySelector(".up").addEventListener("click", () => {
+        const n = clamp(parseFloat(tile.dataset.target) + step);
+        tile.dataset.target = String(n);
+        paint(n);
+      });
+    });
+  </script>
+</body>
+</html>

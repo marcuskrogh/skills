@@ -46,9 +46,15 @@ surfaces). User-facing replies follow
 
 ## Calibration
 
-Source-repo page: `examples/frontend-design/index.html` (Quay harbour pavilion,
-Archivo). Open to critique the **retro-futuristic** default (white, red, dusty
-yellow). Calibration only — not a product template.
+Source-repo pages under `examples/frontend-design/`:
+
+| File | Subject |
+|------|---------|
+| `index.html` | Quay pavilion (Archivo) |
+| `heating-overview.html` | Heating Assistant overview: house dial, Start, room tiles |
+| `heating-room.html` | Living room climate card |
+
+Calibration only — not a product template.
 
 ## Handoff
 
