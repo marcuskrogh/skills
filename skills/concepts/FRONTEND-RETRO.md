@@ -20,11 +20,10 @@ world.
 - **Color.** White (or warm white) hull. Dusty yellow / mustard as the field.
   Red for the **signature** and the primary action. Ink is near-black, warm.
   Four to six named values. Yellow is architecture; red is the instrument.
-- **Type.** Geometric grotesk in the Futura, Franklin Gothic, or condensed
-  signage family. Same family for body when it reads well; otherwise a plain
-  grotesk companion. Tracked labels. Tabular numerals on readings. Skip
-  novelty display faces. High-contrast serif on cream is the editorial cluster,
-  not this stance.
+- **Type.** **Archivo** for display and body (a close square grotesk if Archivo
+  is unavailable). Tracked labels. Tabular numerals on readings. Skip novelty
+  display faces. High-contrast serif on cream is the editorial cluster, not
+  this stance.
 - **Layout.** A room: white planes, one yellow well or circle, soft radii.
   The **signature** is one analog instrument (dial, needle, sunburst, drum) —
   not a CRT scope and not a row of cards.

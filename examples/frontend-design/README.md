@@ -12,5 +12,6 @@ Fantastic Four: First Steps / the Institute, not a phosphor cockpit.
 
 **Signature.** Analog tide dial with a red needle in a mustard well.
 
-Open [index.html](index.html) for four type options of the same page.
-Calibration only — not a product template.
+**Type.** Archivo.
+
+Open [index.html](index.html). Calibration only — not a product template.
