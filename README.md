@@ -141,7 +141,8 @@ Concepts own **invariants**; skills fill **extensions** only — see
 [`writing-for-agents`](skills/writing-for-agents/SKILL.md). Example: `define`
 applies alignment + definition + **classification** for concrete work; `bug` /
 `tweak` / `refine` / `rework` are manual overrides with the same class
-semantics.
+semantics. User-facing agent prose follows
+[`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md).
 
 **Sub-agent value routing:** skills that delegate (`implement`, `review`,
 `review-fix`, and composers like `ship` / `iterate` / `research` axes) apply
@@ -168,6 +169,7 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── platforms/              ← cursor, claude-code, codex, github-copilot, general
 │   ├── CONCEPT_IMPLEMENTATION.md
 │   ├── CONCEPT_ITERATION.md
+│   ├── CONCEPT_LANGUAGE.md     ← user-facing prose: short, precise, standard terms
 │   ├── CONCEPT_DEFINITION.md
 │   ├── CONCEPT_RESEARCH.md
 │   └── CONCEPT_REVIEW.md

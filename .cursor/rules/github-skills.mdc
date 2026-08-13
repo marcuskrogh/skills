@@ -13,4 +13,6 @@ On Cursor, sub-agent / Task `model` values are catalog-closed: only
 No `*-fast` variants. Third-party models bill the API budget. Load
 CONCEPT_DELEGATION and `concepts/platforms/cursor.md` before spawning workers.
 
+User-facing messages: load CONCEPT_LANGUAGE.
+
 Repo skills: https://github.com/marcuskrogh/skills

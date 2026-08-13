@@ -14,7 +14,8 @@ issues, write specs, or advance a Task. For autonomous routing, the agent uses
 [workflows](../workflows/SKILL.md); for status of an in-flight Task, use
 [summarise](../summarise/SKILL.md).
 
-**On invoke:** read [../workflows/SKILL.md](../workflows/SKILL.md) (catalog only)
+**On invoke:** read [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md),
+[../workflows/SKILL.md](../workflows/SKILL.md) (catalog only)
 and [../workflow/reference.md](../workflow/reference.md) (stage ownership). Reply
 from this skill; do not load every pipeline skill.
 
@@ -73,6 +74,8 @@ or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
 | **help** | Explains; does not run delivery |
 | **manage-skills** | Install/sync this repo |
 | **writing-for-agents** | Author skills/concepts |
+
+User-facing replies follow [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 
 ## Choose-one reply shape
 
