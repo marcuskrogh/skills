@@ -13,96 +13,62 @@
 </head>
 <body>
   <a class="skip" href="#rooms">Skip to rooms</a>
-  <nav class="panel-nav is-live" aria-label="Panel">
-    <div class="brand">
-      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-        <circle cx="11" cy="11" r="10" fill="#d2b15c"/>
-        <circle cx="11" cy="11" r="7" fill="#fffcf7"/>
-        <polygon points="11,3.5 12.1,12 11,13.2 9.9,12" fill="#c5261e"/>
-        <circle cx="11" cy="11" r="1.4" fill="#c5261e"/>
-      </svg>
-      Heating Assistant
-    </div>
-    <div class="links">
-      <a href="heating-overview.html" aria-current="page">Overview</a>
-      <a href="heating-room.html">Living room</a>
-      <a href="#schedules" aria-disabled="true">Schedules</a>
-      <a href="#tuning" aria-disabled="true">Tuning</a>
-      <a href="#configuration" aria-disabled="true">Configuration</a>
-    </div>
-    <div class="fill"></div>
-    <div class="controls">
-      <span class="live" id="live"><i></i> Live</span>
-      <button class="start" type="button" aria-pressed="true" aria-label="Stop heating" title="Stop">
-        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="2" width="8" height="8" rx="1" fill="currentColor"/></svg>
-      </button>
-    </div>
-  </nav>
-  <div class="shell" id="shell">
-    <h1 class="section-header">System status</h1>
-    <div class="grid-kpi">
-      <div class="card gauge">
-        <span class="gauge__label">Overall health</span>
-        <span class="gauge__value">Healthy</span>
-        <div class="gauge__bar-track"><div class="gauge__bar-fill" style="width:100%"></div></div>
+  <div class="board" id="board">
+    <nav class="panel-nav is-live" aria-label="Panel">
+      <div class="brand">
+        <svg width="18" height="18" viewBox="0 0 22 22" aria-hidden="true">
+          <circle cx="11" cy="11" r="10" fill="#d2b15c"/>
+          <circle cx="11" cy="11" r="7" fill="#fffcf7"/>
+          <polygon points="11,3.5 12.1,12 11,13.2 9.9,12" fill="#c5261e"/>
+          <circle cx="11" cy="11" r="1.4" fill="#c5261e"/>
+        </svg>
+        Heating Assistant
       </div>
-      <div class="card gauge">
-        <span class="gauge__label">MPC load</span>
-        <span class="gauge__value">18%</span>
-        <div class="gauge__bar-track"><div class="gauge__bar-fill" style="width:18%"></div></div>
+      <div class="links">
+        <a href="heating-overview.html" aria-current="page">Overview</a>
+        <a href="heating-room.html">Living room</a>
+        <a href="#schedules" aria-disabled="true">Schedules</a>
+        <a href="#tuning" aria-disabled="true">Tuning</a>
+        <a href="#configuration" aria-disabled="true">Configuration</a>
       </div>
-    </div>
+      <div class="fill"></div>
+      <div class="controls">
+        <span class="live" id="live"><i></i> Live</span>
+        <button class="start" type="button" aria-pressed="true" aria-label="Stop heating" title="Stop">
+          <svg width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="2" width="8" height="8" rx="1" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </nav>
 
-    <h2 class="section-header">Controller KPIs</h2>
-    <div class="grid-kpi">
-      <div class="card gauge">
-        <span class="gauge__label">Comfort</span>
-        <span class="gauge__value">94%</span>
-        <div class="gauge__bar-track"><div class="gauge__bar-fill" style="width:94%"></div></div>
-      </div>
-      <div class="card gauge is-heat">
-        <span class="gauge__label">Heating power</span>
-        <span class="gauge__value">2.1&nbsp;kW</span>
-        <div class="gauge__bar-track"><div class="gauge__bar-fill" style="width:42%"></div></div>
-      </div>
-      <div class="card gauge">
-        <span class="gauge__label">System COP</span>
-        <span class="gauge__value">3.41</span>
-        <div class="gauge__bar-track"><div class="gauge__bar-fill" style="width:68%"></div></div>
-      </div>
-      <div class="card gauge">
-        <span class="gauge__label">Daily energy</span>
-        <span class="gauge__value">18.4&nbsp;kWh</span>
-        <div class="gauge__bar-track"><div class="gauge__bar-fill" style="width:37%"></div></div>
-      </div>
-      <div class="card gauge">
-        <span class="gauge__label">Tracking error</span>
-        <span class="gauge__value">0.18°</span>
-        <div class="gauge__bar-track"><div class="gauge__bar-fill" style="width:18%"></div></div>
-      </div>
-      <div class="card gauge">
-        <span class="gauge__label">Model fit</span>
-        <span class="gauge__value">Good</span>
-        <div class="gauge__bar-track"><div class="gauge__bar-fill" style="width:88%"></div></div>
-      </div>
-      <div class="card countdown" aria-label="Next control in 11 minutes">
+    <section class="fascia" aria-label="House status">
+      <dl class="readings">
+        <div><dt>Health</dt><dd>Healthy</dd></div>
+        <div><dt>MPC load</dt><dd>18%</dd></div>
+        <div><dt>Comfort</dt><dd>94%</dd></div>
+        <div class="is-heat"><dt>Heating power</dt><dd>2.1&nbsp;kW</dd></div>
+        <div><dt>System COP</dt><dd>3.41</dd></div>
+        <div><dt>Daily energy</dt><dd>18.4&nbsp;kWh</dd></div>
+        <div><dt>Tracking error</dt><dd>0.18°</dd></div>
+        <div><dt>Model fit</dt><dd>Good</dd></div>
+      </dl>
+      <div class="countdown" aria-label="Next control in 11 minutes">
         <div class="countdown__well">
-          <div class="countdown__dial">
-            <svg viewBox="0 0 80 80" aria-hidden="true">
-              <circle cx="40" cy="40" r="34" fill="none" stroke="#eadfca" stroke-width="4"/>
-              <circle cx="40" cy="40" r="34" fill="none" stroke="#c5261e" stroke-width="4" stroke-linecap="round"
-                stroke-dasharray="213.6" stroke-dashoffset="78" transform="rotate(-90 40 40)"/>
-            </svg>
-          </div>
+          <svg viewBox="0 0 80 80" aria-hidden="true">
+            <circle cx="40" cy="40" r="34" fill="none" stroke="#eadfca" stroke-width="8"/>
+            <circle cx="40" cy="40" r="34" fill="none" stroke="#c5261e" stroke-width="8" stroke-linecap="round"
+              stroke-dasharray="213.6" stroke-dashoffset="78" transform="rotate(-90 40 40)"/>
+          </svg>
         </div>
-        <span class="countdown__value" id="next-control">11:02</span>
-        <span class="countdown__label" id="next-label">Next control</span>
+        <div class="countdown__meta">
+          <span class="countdown__value" id="next-control">11:02</span>
+          <span class="countdown__label" id="next-label">Next control</span>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <h2 class="section-header" id="rooms">Rooms</h2>
+    <h1 class="rooms-label" id="rooms">Rooms</h1>
     <div class="grid-rooms">
-      <article class="card climate-card room-climate-tile is-heating" data-room="living" data-current="21.4" data-target="21.0" data-offset="0.5">
+      <article class="climate-card is-heating" data-room="living" data-current="21.4" data-target="21.0" data-offset="0.5">
         <div class="climate-card__header">
           <a class="room-climate-tile__name" href="heating-room.html">Living room</a>
           <div class="climate-card__header-right">
@@ -110,26 +76,24 @@
             <button class="climate-card__power" type="button" aria-pressed="false" aria-label="Turn living room heating off">⏻</button>
           </div>
         </div>
-        <div class="climate-card__body">
-          <div class="climate-card__current">
+        <div class="climate-card__instrument">
+          <div>
             <span class="climate-card__current-value"><span class="climate-card__current-num">21.4</span><span class="climate-card__current-unit">°C</span></span>
             <span class="climate-card__current-label">Current</span>
           </div>
           <div class="climate-card__control">
             <button class="climate-card__step climate-card__step--down" type="button" aria-label="Lower living room target">−</button>
-            <div class="climate-card__target">
-              <span class="climate-card__target-value">21.0°</span>
-              <span class="climate-card__target-label">Target</span>
-            </div>
+            <span class="climate-card__target-value">21.0°</span>
             <button class="climate-card__step climate-card__step--up" type="button" aria-label="Raise living room target">+</button>
+            <span class="climate-card__target-label">Target</span>
           </div>
-          <div class="climate-card__off-note">Heating off</div>
-        </div>
-        <div class="climate-card__comfort">
-          <span class="climate-card__comfort-title">Comfort band</span>
-          <button class="climate-card__offset-step climate-card__offset-step--down" type="button" aria-label="Narrow living room comfort band">−</button>
-          <span class="climate-card__offset-value">±0.5°</span>
-          <button class="climate-card__offset-step climate-card__offset-step--up" type="button" aria-label="Widen living room comfort band">+</button>
+          <div class="climate-card__comfort">
+            <button class="climate-card__offset-step climate-card__offset-step--down" type="button" aria-label="Narrow living room comfort band">−</button>
+            <span class="climate-card__offset-value">±0.5°</span>
+            <button class="climate-card__offset-step climate-card__offset-step--up" type="button" aria-label="Widen living room comfort band">+</button>
+            <span class="climate-card__comfort-title">Band</span>
+          </div>
+          <span class="climate-card__off-note">Heating off</span>
         </div>
         <div class="climate-card__track" role="img" aria-label="Comfort band 20.5 to 21.5 degrees. Current 21.4, target 21.0.">
           <span class="climate-card__track-comfort"></span>
@@ -142,30 +106,13 @@
           <span class="climate-card__track-max"></span>
         </div>
         <div class="sched-section">
-          <div class="sched-section__header">
-            <span class="sched-section__title">Comfort periods</span>
-            <span class="sched-index-card__badge">Enabled</span>
-          </div>
-          <div class="sched-row">
-            <span class="sched-row__now-badge">Now</span>
-            <span class="sched-row__time">06:00–09:00</span>
-            <span class="sched-row__name">Morning</span>
-            <span class="sched-row__mode sched-row__mode--comfort">Comfort</span>
-          </div>
-          <div class="sched-row">
-            <span class="sched-row__time">09:00–16:00</span>
-            <span class="sched-row__name">Day</span>
-            <span class="sched-row__mode">Setback</span>
-          </div>
-          <div class="sched-row">
-            <span class="sched-row__time">16:00–22:00</span>
-            <span class="sched-row__name">Evening</span>
-            <span class="sched-row__mode sched-row__mode--comfort">Comfort</span>
-          </div>
+          <div class="sched-row"><span class="sched-row__now-badge">Now</span><span class="sched-row__time">06:00–09:00</span> <span class="sched-row__mode sched-row__mode--comfort">Comfort</span></div>
+          <div class="sched-row"><span class="sched-row__time">09:00–16:00</span> <span class="sched-row__mode">Setback</span></div>
+          <div class="sched-row"><span class="sched-row__time">16:00–22:00</span> <span class="sched-row__mode sched-row__mode--comfort">Comfort</span></div>
         </div>
       </article>
 
-      <article class="card climate-card room-climate-tile" data-room="bedroom" data-current="18.9" data-target="19.0" data-offset="0.8">
+      <article class="climate-card" data-room="bedroom" data-current="18.9" data-target="19.0" data-offset="0.8">
         <div class="climate-card__header">
           <span class="room-climate-tile__name">Bedroom</span>
           <div class="climate-card__header-right">
@@ -173,26 +120,24 @@
             <button class="climate-card__power" type="button" aria-pressed="false" aria-label="Turn bedroom heating off">⏻</button>
           </div>
         </div>
-        <div class="climate-card__body">
-          <div class="climate-card__current">
+        <div class="climate-card__instrument">
+          <div>
             <span class="climate-card__current-value"><span class="climate-card__current-num">18.9</span><span class="climate-card__current-unit">°C</span></span>
             <span class="climate-card__current-label">Current</span>
           </div>
           <div class="climate-card__control">
             <button class="climate-card__step climate-card__step--down" type="button" aria-label="Lower bedroom target">−</button>
-            <div class="climate-card__target">
-              <span class="climate-card__target-value">19.0°</span>
-              <span class="climate-card__target-label">Target</span>
-            </div>
+            <span class="climate-card__target-value">19.0°</span>
             <button class="climate-card__step climate-card__step--up" type="button" aria-label="Raise bedroom target">+</button>
+            <span class="climate-card__target-label">Target</span>
           </div>
-          <div class="climate-card__off-note">Heating off</div>
-        </div>
-        <div class="climate-card__comfort">
-          <span class="climate-card__comfort-title">Comfort band</span>
-          <button class="climate-card__offset-step climate-card__offset-step--down" type="button" aria-label="Narrow bedroom comfort band">−</button>
-          <span class="climate-card__offset-value">±0.8°</span>
-          <button class="climate-card__offset-step climate-card__offset-step--up" type="button" aria-label="Widen bedroom comfort band">+</button>
+          <div class="climate-card__comfort">
+            <button class="climate-card__offset-step climate-card__offset-step--down" type="button" aria-label="Narrow bedroom comfort band">−</button>
+            <span class="climate-card__offset-value">±0.8°</span>
+            <button class="climate-card__offset-step climate-card__offset-step--up" type="button" aria-label="Widen bedroom comfort band">+</button>
+            <span class="climate-card__comfort-title">Band</span>
+          </div>
+          <span class="climate-card__off-note">Heating off</span>
         </div>
         <div class="climate-card__track" role="img" aria-label="Comfort band 18.2 to 19.8 degrees. Current 18.9, target 19.0.">
           <span class="climate-card__track-comfort"></span>
@@ -205,19 +150,11 @@
           <span class="climate-card__track-max"></span>
         </div>
         <div class="sched-section">
-          <div class="sched-section__header">
-            <span class="sched-section__title">Comfort periods</span>
-            <span class="sched-index-card__badge">Enabled</span>
-          </div>
-          <div class="sched-row">
-            <span class="sched-row__time">09:00–16:00</span>
-            <span class="sched-row__name">Day</span>
-            <span class="sched-row__mode">Setback</span>
-          </div>
+          <div class="sched-row"><span class="sched-row__time">09:00–16:00</span> <span class="sched-row__mode">Setback</span></div>
         </div>
       </article>
 
-      <article class="card climate-card room-climate-tile is-off" data-room="kitchen" data-off="true" data-current="17.2" data-target="20.0" data-offset="1.0">
+      <article class="climate-card is-off" data-room="kitchen" data-off="true" data-current="17.2" data-target="20.0" data-offset="1.0">
         <div class="climate-card__header">
           <span class="room-climate-tile__name">Kitchen</span>
           <div class="climate-card__header-right">
@@ -225,26 +162,24 @@
             <button class="climate-card__power" type="button" aria-pressed="true" aria-label="Turn kitchen heating on">⏻</button>
           </div>
         </div>
-        <div class="climate-card__body">
-          <div class="climate-card__current">
+        <div class="climate-card__instrument">
+          <div>
             <span class="climate-card__current-value"><span class="climate-card__current-num">17.2</span><span class="climate-card__current-unit">°C</span></span>
             <span class="climate-card__current-label">Current</span>
           </div>
           <div class="climate-card__control">
             <button class="climate-card__step climate-card__step--down" type="button" aria-label="Lower kitchen target">−</button>
-            <div class="climate-card__target">
-              <span class="climate-card__target-value">20.0°</span>
-              <span class="climate-card__target-label">Target</span>
-            </div>
+            <span class="climate-card__target-value">20.0°</span>
             <button class="climate-card__step climate-card__step--up" type="button" aria-label="Raise kitchen target">+</button>
+            <span class="climate-card__target-label">Target</span>
           </div>
-          <div class="climate-card__off-note">Heating off</div>
-        </div>
-        <div class="climate-card__comfort">
-          <span class="climate-card__comfort-title">Comfort band</span>
-          <button class="climate-card__offset-step climate-card__offset-step--down" type="button" aria-label="Narrow kitchen comfort band">−</button>
-          <span class="climate-card__offset-value">±1.0°</span>
-          <button class="climate-card__offset-step climate-card__offset-step--up" type="button" aria-label="Widen kitchen comfort band">+</button>
+          <div class="climate-card__comfort">
+            <button class="climate-card__offset-step climate-card__offset-step--down" type="button" aria-label="Narrow kitchen comfort band">−</button>
+            <span class="climate-card__offset-value">±1.0°</span>
+            <button class="climate-card__offset-step climate-card__offset-step--up" type="button" aria-label="Widen kitchen comfort band">+</button>
+            <span class="climate-card__comfort-title">Band</span>
+          </div>
+          <span class="climate-card__off-note">Heating off</span>
         </div>
         <div class="climate-card__track" role="img" aria-label="Kitchen heating off.">
           <span class="climate-card__track-comfort"></span>
@@ -257,52 +192,31 @@
           <span class="climate-card__track-max"></span>
         </div>
         <div class="sched-section">
-          <div class="sched-section__header">
-            <span class="sched-section__title">Comfort periods</span>
-            <span class="sched-index-card__badge">Enabled</span>
-          </div>
-          <div class="sched-row">
-            <span class="sched-row__now-badge">Now</span>
-            <span class="sched-row__time">until 17:00</span>
-            <span class="sched-row__name">Off period</span>
-            <span class="sched-row__mode sched-row__mode--off">Off</span>
-          </div>
+          <div class="sched-row"><span class="sched-row__now-badge">Now</span><span class="sched-row__time">until 17:00</span> <span class="sched-row__mode sched-row__mode--off">Off</span></div>
         </div>
       </article>
 
-      <article class="card climate-card room-climate-tile is-experiment" data-room="study" data-current="20.1">
+      <article class="climate-card is-experiment" data-room="study" data-current="20.1">
         <div class="climate-card__header">
           <span class="room-climate-tile__name">Study</span>
           <div class="climate-card__header-right">
             <span class="climate-card__status">Experiment</span>
           </div>
         </div>
-        <div class="climate-card__body">
-          <div class="climate-card__current">
+        <div class="climate-card__instrument">
+          <div>
             <span class="climate-card__current-value"><span class="climate-card__current-num">20.1</span><span class="climate-card__current-unit">°C</span></span>
             <span class="climate-card__current-label">Current</span>
           </div>
         </div>
         <div class="climate-card__experiment">
-          <div class="climate-card__exp-head">
-            <span class="climate-card__exp-name">PRBS heat-loss</span>
-            <span class="climate-card__exp-signal">PRBS</span>
-          </div>
+          <span class="climate-card__exp-name">PRBS heat-loss</span>
+          <span class="climate-card__exp-signal">PRBS</span>
+          <span class="climate-card__exp-pct">62%</span>
           <div class="climate-card__exp-bar"><span class="climate-card__exp-bar-fill" style="width:62%"></span></div>
-          <div class="climate-card__exp-meta">
-            <span class="climate-card__exp-pct">62%</span>
-            <span class="climate-card__exp-remaining">38 min left</span>
-          </div>
-          <div class="climate-card__exp-facts">
-            <div class="climate-card__exp-fact">
-              <span class="climate-card__exp-fact-label">Window</span>
-              <span class="climate-card__exp-fact-value">14:00–16:40</span>
-            </div>
-            <div class="climate-card__exp-fact">
-              <span class="climate-card__exp-fact-label">Safe band</span>
-              <span class="climate-card__exp-fact-value">18.0–22.0°</span>
-            </div>
-          </div>
+          <span class="climate-card__exp-remaining">38 min left</span>
+          <span class="climate-card__exp-fact-value">14:00–16:40</span>
+          <span class="climate-card__exp-fact-value">18.0–22.0°</span>
         </div>
       </article>
     </div>

@@ -27,9 +27,10 @@ health and room climate, start or stop, set targets and comfort bands.
 **Tokens.** White `#fffcf7`, ink `#1c1612`, mute `#6a6158`, yellow `#d2b15c` /
 `#c49a3a`, red `#c5261e`. Yellow is architecture; red is the instrument.
 
-**Signature.** Overview: Next Control analog ring in a mustard well. Living
-room: current-temperature dial in a mustard well. Room tiles keep the dummy’s
-numeric current so the overview is not a row of dials.
+**Signature.** Overview: Next Control ring on a yellow house fascia. Living
+room: compact analog dial beside the climate controls. House KPIs sit in the
+fascia, not a card grid. Room tiles are instrument rows (current, target,
+band, track, periods on one module).
 
 **Type.** Archivo.
 

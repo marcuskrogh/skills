@@ -115,7 +115,7 @@ function bindStart() {
   const start = document.querySelector(".start");
   const nav = document.querySelector(".panel-nav");
   const live = document.getElementById("live");
-  const shell = document.getElementById("shell") || document.querySelector(".shell");
+  const shell = document.getElementById("board") || document.querySelector(".board");
   const next = document.getElementById("next-control");
   const nextLabel = document.getElementById("next-label");
   if (!start) return;
