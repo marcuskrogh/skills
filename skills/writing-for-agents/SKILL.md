@@ -34,6 +34,10 @@ fill the extension table; write skill-only steps (artifact shape, tracker,
 handoff). Restating an invariant is **duplication** — it inflates prominence
 and drifts.
 
+**User-facing prose** is not this skill. Messages the operator reads follow
+[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md). This skill's leading words
+and compact tokens are for skill and concept files only.
+
 ## Context pointers
 
 A **context pointer** names out-of-context material and encodes when to reach
@@ -107,6 +111,7 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **depth** | Proportional intensity preset (review: `full` vs `focused`; define/bug/tweak/refine/rework: Full vs Lightweight) |
 | **dev-surface** | (pl. **dev-surfaces**) Development linking surface where issue keys belong — full list: CONCEPT_IMPLEMENTATION Leading words |
 | **product surface** | (pl. **product surfaces**) End-user facing shipped source and copy — product language exclusively; full list: CONCEPT_IMPLEMENTATION Leading words |
+| **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md); workspace `Agent language: general` widens the same rules |
 
 Hunt restatements that a leading word retires. Prefer an existing pretrained
 word over a coined one when the prior is strong enough.
@@ -233,7 +238,8 @@ for routers and authoring aids the agent must discover (`workflows`,
 
 When touching a concept or skill:
 
-1. **Whose meaning is this?** Concept, skill, disclosed ref, or environment?
+1. **Whose meaning is this?** Concept, skill, disclosed ref, environment, or
+   **user-facing** prose ([CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md))?
 2. **Already said?** Delete the restatement; link the source.
 3. **Negation → positive?** Convert anti-patterns into invariants or delete.
 4. **Leading word available?** Collapse the triad into the token.

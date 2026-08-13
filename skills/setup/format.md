@@ -150,6 +150,12 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 | Require `gh` for review/ship | true |
 | One delivery PR per Task | true (define→ship closed-loop; reuse branch/PR on Next) |
 
+## Language
+
+| Field | Value |
+|-------|-------|
+| Agent language | user-facing \| general |
+
 ## Pipeline
 
 | Field | Value |
@@ -163,6 +169,11 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 
 - …
 ```
+
+`Agent language` is `user-facing` (default when unset) or `general`. Surfaces:
+[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md). `/setup` asks; persist
+`general` only when the operator wants the contract on all operator-directed
+agent language in this workspace.
 
 ## Defaults (only if user opts out of full setup)
 
@@ -181,6 +192,7 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 | Open PR | `true` |
 | One delivery PR per Task | `true` |
 | Merge | `squash` if repo uses squash; else `merge` |
+| Agent language | `user-facing` |
 
 ## Continuity rule
 

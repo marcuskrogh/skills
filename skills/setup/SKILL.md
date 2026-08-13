@@ -2,8 +2,9 @@
 name: setup
 description: >-
   Workspace alignment at repository or global (user-level) scope: choose issue
-  tracker (markdown, Jira, GitHub, or Linear), artifact location, and delivery
-  conventions. Writes docs/agents/WORKSPACE.md, or ~/.agents/WORKSPACE.md for
+  tracker (markdown, Jira, GitHub, or Linear), artifact location, delivery
+  conventions, and optional Agent language (CONCEPT_LANGUAGE user-facing vs
+  general). Writes docs/agents/WORKSPACE.md, or ~/.agents/WORKSPACE.md for
   machine-wide defaults that apply to every repo without adding files to it.
   Use when onboarding a repo, setting global defaults, changing tracker, or
   before first explore/define/bug/tweak/refine/rework.
@@ -22,7 +23,8 @@ configuration**. Produces a `WORKSPACE.md` all pipeline skills read first:
 
 Repository fields override global field-by-field — [format.md](format.md) → **Resolution order**.
 
-**On invoke:** read CONCEPT_ALIGNMENT, [format.md](format.md), and
+**On invoke:** read CONCEPT_ALIGNMENT,
+[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md), [format.md](format.md), and
 [../tracker/reference.md](../tracker/reference.md).
 
 ## Extensions
@@ -30,8 +32,8 @@ Repository fields override global field-by-field — [format.md](format.md) → 
 | Slot | This skill |
 |------|------------|
 | **Subject** | How the agent pipeline runs — this repo, or every repo (global) |
-| **Probes** | Scope; tracker provider + provider settings; markdown mirror; artifact location (repo vs external); artifact roots; base branch / naming / PR default / merge; confirm one delivery PR per Task; invent-defaults policy (recommend: no — run setup) |
-| **Stop condition** | Scope, tracker, artifact location/paths, and delivery defaults are unambiguous |
+| **Probes** | Scope; tracker provider + provider settings; markdown mirror; artifact location (repo vs external); artifact roots; base branch / naming / PR default / merge; confirm one delivery PR per Task; invent-defaults policy (recommend: no — run setup); **Agent language** (`user-facing` vs `general` — CONCEPT_LANGUAGE; recommend `general` when the operator wants the same language contract on all agent prose) |
+| **Stop condition** | Scope, tracker, artifact location/paths, delivery defaults, and Agent language are unambiguous |
 | **Alignment artifact** | `docs/agents/WORKSPACE.md` or `~/.agents/WORKSPACE.md` ([format.md](format.md)) |
 | **Readiness prompt** | "Does this workspace setup look right to commit?" (repo) / "…to save as your global default?" (global) |
 | **Opening** | Thin: scope then tracker. Rich / existing file: load effective workspace; ask highest-impact divergence. Global exists, repo does not: show inherited; ask only what this repo must differ |
