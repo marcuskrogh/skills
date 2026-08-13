@@ -111,7 +111,7 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **depth** | Proportional intensity preset (review: `full` vs `focused`; define/bug/tweak/refine/rework: Full vs Lightweight) |
 | **dev-surface** | (pl. **dev-surfaces**) Development linking surface where issue keys belong — full list: CONCEPT_IMPLEMENTATION Leading words |
 | **product surface** | (pl. **product surfaces**) End-user facing shipped source and copy — product language exclusively; full list: CONCEPT_IMPLEMENTATION Leading words |
-| **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md); not this skill's compact tokens |
+| **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md); workspace `Agent language: general` widens the same rules |
 
 Hunt restatements that a leading word retires. Prefer an existing pretrained
 word over a coined one when the prior is strong enough.

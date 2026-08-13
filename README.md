@@ -169,7 +169,7 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── platforms/              ← cursor, claude-code, codex, github-copilot, general
 │   ├── CONCEPT_IMPLEMENTATION.md
 │   ├── CONCEPT_ITERATION.md
-│   ├── CONCEPT_LANGUAGE.md     ← user-facing prose: short, precise, standard terms
+│   ├── CONCEPT_LANGUAGE.md     ← user-facing prose; setup can persist general
 │   ├── CONCEPT_DEFINITION.md
 │   ├── CONCEPT_RESEARCH.md
 │   └── CONCEPT_REVIEW.md
@@ -360,6 +360,11 @@ Resolution order, evaluated before any tracker or artifact operation:
 Repository fields **override global fields one by one**, so a repo can change
 just the tracker and inherit everything else. Set `Extends global: false` in a
 repo file to opt out of inheritance entirely.
+
+`/setup` also asks **Agent language**: `user-facing` (default; skill replies)
+or `general` (the same [CONCEPT_LANGUAGE](skills/concepts/CONCEPT_LANGUAGE.md)
+contract on all operator-directed agent prose in that workspace). A global
+file can set it for every repo; a repo field overrides.
 
 ### Keeping repos clean
 

@@ -76,6 +76,8 @@ or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
 | **writing-for-agents** | Author skills/concepts |
 
 User-facing replies follow [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
+`/setup` can persist `Agent language: general` for all operator-directed agent
+prose in the workspace.
 
 ## Choose-one reply shape
 
