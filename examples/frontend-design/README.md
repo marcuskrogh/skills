@@ -1,18 +1,14 @@
-# Frontend design samples
+# Frontend design sample
 
-Three stances of the same product surface, for critiquing
+Calibration page for the **retro-futuristic** default on
 [CONCEPT_FRONTEND](../../skills/concepts/CONCEPT_FRONTEND.md).
 
 **Brief.** Quay is a harbour log for a small-boat skipper. Audience: the person
 on the boat. Job of the page: see the next slack, wind, and tide, then add a
 short log line.
 
-Open [index.html](index.html) in a browser, or each file alone.
+**Era.** 1978 vacuum-fluorescent deck plotter.
 
-| File | Stance | What to judge |
-|------|--------|----------------|
-| `quiet.html` | Craft as the look | Is a precise, undecorated product UI enough? |
-| `instrument.html` | Subject vernacular | Should the UI borrow the chart table’s materials? |
-| `editorial.html` | Type as signature | Should the reading itself be the display? |
+**Signature.** CRT tide scope with a live pip.
 
-These are calibration pages, not templates to copy into a product.
+Open [index.html](index.html). Calibration only — not a product template.

@@ -28,7 +28,8 @@ When `implement.mode` is `multiagent` (or spawning workers otherwise), also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
 as directed there.
 When packages touch **product surfaces** (UI / frontend), also read
-[CONCEPT_FRONTEND](../concepts/CONCEPT_FRONTEND.md) and
+[CONCEPT_FRONTEND](../concepts/CONCEPT_FRONTEND.md),
+[FRONTEND-RETRO.md](../concepts/FRONTEND-RETRO.md), and
 [FRONTEND-CRAFT.md](../concepts/FRONTEND-CRAFT.md).
 
 ## Extensions
@@ -76,7 +77,7 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 
 1. **Resolve work and status** — Resolve the Task, spec, Workflow binding (or legacy fallback), Sub-tasks or review threads, and any `RESEARCH.md` / `MODEL.md` on the delivery branch (PLAN Inputs); then apply the implementation start transition. Done when the usable spec, binding params, finding-doc inputs, and active packages are known and the Task is **In Progress**.
 2. **Resolve delivery and commands** — Follow [delivery continuity](../workflow/delivery.md) and inspect repository-owned test/lint commands. Done when the Task's one delivery head is checked out and verification commands are recorded.
-3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md) in briefs. When packages write product docs or domain-facing copy, pass `RESEARCH.md` / `MODEL.md` paths as brief inputs. When packages write **product-surface** UI, include [CONCEPT_FRONTEND](../concepts/CONCEPT_FRONTEND.md) and [FRONTEND-CRAFT.md](../concepts/FRONTEND-CRAFT.md) in the brief. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, Sub-task criteria, and binding.
+3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md) in briefs. When packages write product docs or domain-facing copy, pass `RESEARCH.md` / `MODEL.md` paths as brief inputs. When packages write **product-surface** UI, include [CONCEPT_FRONTEND](../concepts/CONCEPT_FRONTEND.md), [FRONTEND-RETRO.md](../concepts/FRONTEND-RETRO.md), and [FRONTEND-CRAFT.md](../concepts/FRONTEND-CRAFT.md) in the brief. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, Sub-task criteria, and binding.
 4. **Verify and deliver** — Run the recorded checks, update the same PR (include binding summary), apply the implementation tracker row, and persist **Next** from the bound **Chain** (usually `/review-fix`). Done when checks pass, the Task is **In Review**, the PR and mirrors are current, and **Next** is recorded.
 
 ## Work packages

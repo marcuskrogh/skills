@@ -3,26 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#f3f1ec">
-  <title>Quay — three directions</title>
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#070b10">
+  <title>Quay — Kittiwake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper: #f3f1ec;
-      --ink: #1c1b19;
-      --mute: #5e5c57;
-      --line: #d8d4cb;
-      --focus: #2c4a3e;
+      --hull: #070b10;
+      --panel: #101820;
+      --bevel-hi: #3a4c5e;
+      --bevel-lo: #05070a;
+      --vfd: #5cffc9;
+      --vfd-dim: #1a4a3c;
+      --amber: #ffb347;
+      --aluminum: #8a9aaa;
+      --glass: #061018;
+      --focus: #ffb347;
     }
     * { box-sizing: border-box; }
-    html { color-scheme: light; }
+    html { color-scheme: dark; }
     body {
       margin: 0;
-      font: 16px/1.5 ui-sans-serif, system-ui, sans-serif;
-      color: var(--ink);
-      background: var(--paper);
+      min-height: 100dvh;
+      font: 16px/1.4 "Oxanium", ui-sans-serif, sans-serif;
+      color: var(--aluminum);
+      background:
+        radial-gradient(900px 420px at 50% -8%, #14202c, transparent 70%),
+        var(--hull);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
-    a:focus-visible, button:focus-visible {
+    a, button, textarea { touch-action: manipulation; }
+    :focus-visible {
       outline: 2px solid var(--focus);
       outline-offset: 3px;
     }
@@ -30,139 +43,381 @@
       position: absolute;
       left: 0.75rem;
       top: -3rem;
-      background: var(--ink);
-      color: var(--paper);
+      background: var(--amber);
+      color: var(--hull);
       padding: 0.4rem 0.7rem;
+      text-decoration: none;
+      font-weight: 600;
     }
     .skip:focus { top: 0.75rem; }
-    header, main {
-      width: min(72rem, calc(100% - 2rem));
-      margin-inline: auto;
+    .hull {
+      width: min(52rem, calc(100% - 1.5rem));
+      margin: 0 auto;
+      padding: 1.25rem 0 2.75rem;
     }
-    header { padding: 2rem 0 1.25rem; }
-    h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      text-wrap: balance;
-      margin: 0 0 0.5rem;
-    }
-    .lede {
-      margin: 0;
-      max-width: 40rem;
-      color: var(--mute);
-    }
-    .brief {
-      margin: 1.25rem 0 0;
-      padding: 0.9rem 1rem;
-      border: 1px solid var(--line);
-      background: #fff;
-    }
-    .brief dt {
-      font-size: 0.75rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--mute);
-    }
-    .brief dd {
-      margin: 0 0 0.65rem;
-    }
-    .brief dd:last-child { margin-bottom: 0; }
-    h2 {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--mute);
-      margin: 2rem 0 0.75rem;
-    }
-    .grid {
-      display: grid;
-      gap: 1rem;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 72rem) {
-      .grid { grid-template-columns: repeat(3, 1fr); }
-    }
-    article {
+    .legend {
       display: flex;
-      flex-direction: column;
-      min-width: 0;
-      background: #fff;
-      border: 1px solid var(--line);
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.4rem 1rem;
+      margin-bottom: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--aluminum);
     }
-    article h3 {
+    .brand {
+      color: var(--vfd);
+      letter-spacing: 0.34em;
+      text-shadow: 0 0 10px color-mix(in srgb, var(--vfd) 55%, transparent);
+    }
+    .console {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+    @media (max-width: 40rem) {
+      .console { grid-template-columns: 1fr; }
+    }
+    .bay {
+      background: linear-gradient(180deg, #161e28 0%, var(--panel) 42%, #0c1218 100%);
+      border: 1px solid var(--bevel-hi);
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--bevel-hi) 70%, white),
+        inset 0 -2px 0 var(--bevel-lo),
+        0 10px 28px rgba(0, 0, 0, 0.4);
+      padding: 0.85rem;
+    }
+    .bay h1, .bay h2 {
+      margin: 0 0 0.55rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--aluminum);
+    }
+    .scope-frame {
+      position: relative;
+      aspect-ratio: 1;
+      max-width: 22rem;
+      margin: 0 auto;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, #0a1820 52%, #0a0e12 68%, #2a3542 76%, #121820 86%, #6a7888 92%, #1a222c 100%);
+      box-shadow:
+        inset 0 0 0 10px #1b242e,
+        inset 0 0 40px rgba(0, 0, 0, 0.85),
+        0 0 0 1px #4a5a6a;
+    }
+    .scope-frame svg {
+      position: absolute;
+      inset: 14%;
+      width: 72%;
+      height: 72%;
+      margin: auto;
+      overflow: visible;
+    }
+    .glass {
+      fill: var(--glass);
+    }
+    .ring {
+      fill: none;
+      stroke: color-mix(in srgb, var(--vfd) 28%, transparent);
+      stroke-width: 1;
+    }
+    .cross {
+      stroke: color-mix(in srgb, var(--vfd) 22%, transparent);
+      stroke-width: 1;
+    }
+    .trace {
+      fill: none;
+      stroke: var(--vfd);
+      stroke-width: 2;
+      filter: drop-shadow(0 0 4px var(--vfd));
+    }
+    .pip {
+      fill: var(--amber);
+      filter: drop-shadow(0 0 5px var(--amber));
+    }
+    .sweep {
+      fill: url(#sweep);
+      transform-origin: 100px 100px;
+      transform-box: view-box;
+    }
+    .scan {
+      pointer-events: none;
+      position: absolute;
+      inset: 14%;
+      border-radius: 50%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0 2px,
+        rgba(0, 0, 0, 0.18) 2px 3px
+      );
+      mix-blend-mode: multiply;
+    }
+    .caption {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.65rem;
+      font-family: "Share Tech Mono", ui-monospace, monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--vfd-dim);
+    }
+    .leds {
+      display: flex;
+      gap: 0.65rem;
+      margin-bottom: 0.7rem;
+    }
+    .led {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .led i {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: #1a2228;
+      box-shadow: inset 0 1px 2px #000;
+    }
+    .led.on i {
+      background: var(--vfd);
+      box-shadow: 0 0 8px var(--vfd);
+    }
+    .led.warn i {
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
+    }
+    .readouts {
+      display: grid;
+      gap: 0.55rem;
       margin: 0;
-      padding: 0.9rem 1rem 0.15rem;
-      font-size: 1.05rem;
-      letter-spacing: -0.02em;
     }
-    article p {
+    .readouts div {
+      padding: 0.55rem 0.65rem 0.45rem;
+      background: var(--glass);
+      box-shadow: inset 0 0 0 1px #0d1a22, inset 0 8px 16px rgba(0, 0, 0, 0.35);
+    }
+    .readouts dt {
       margin: 0;
-      padding: 0.35rem 1rem 0.85rem;
-      color: var(--mute);
-      font-size: 0.95rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, var(--aluminum) 80%, transparent);
     }
-    iframe {
-      display: block;
+    .readouts dd {
+      margin: 0.15rem 0 0;
+      font-family: "Share Tech Mono", ui-monospace, monospace;
+      font-size: clamp(1.35rem, 4vw, 1.85rem);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.06em;
+      color: var(--vfd);
+      text-shadow: 0 0 10px color-mix(in srgb, var(--vfd) 65%, transparent);
+      text-wrap: balance;
+    }
+    .log-bay { margin-bottom: 0.85rem; }
+    .log {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .log li {
+      display: grid;
+      grid-template-columns: 4.6rem 1fr;
+      gap: 0.85rem;
+      padding: 0.65rem 0.15rem;
+      border-top: 1px solid color-mix(in srgb, var(--bevel-hi) 45%, transparent);
+    }
+    time {
+      font-family: "Share Tech Mono", ui-monospace, monospace;
+      font-variant-numeric: tabular-nums;
+      color: var(--vfd);
+      text-shadow: 0 0 6px color-mix(in srgb, var(--vfd) 40%, transparent);
+    }
+    .log p { margin: 0; color: var(--aluminum); }
+    form {
+      display: grid;
+      gap: 0.45rem;
+    }
+    label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    textarea {
       width: 100%;
-      height: 36rem;
+      min-height: 4.8rem;
+      resize: vertical;
+      font: 1rem/1.4 "Share Tech Mono", ui-monospace, monospace;
+      padding: 0.65rem 0.7rem;
       border: 0;
-      border-top: 1px solid var(--line);
-      background: #fff;
+      background: var(--glass);
+      color: var(--vfd);
+      box-shadow: inset 0 0 0 1px #0d1a22, inset 0 8px 16px rgba(0, 0, 0, 0.35);
+      caret-color: var(--amber);
     }
-    .open {
-      padding: 0.7rem 1rem 0.9rem;
-      border-top: 1px solid var(--line);
+    textarea::placeholder {
+      color: var(--vfd-dim);
     }
-    .open a { color: var(--focus); }
-    footer {
-      width: min(72rem, calc(100% - 2rem));
-      margin: 2rem auto 2.5rem;
-      color: var(--mute);
-      font-size: 0.9rem;
+    button {
+      justify-self: start;
+      font: 0.72rem/1 "Oxanium", ui-sans-serif, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--hull);
+      background: linear-gradient(180deg, #ffd08a, var(--amber) 45%, #c98420);
+      border: 1px solid #ffe1a8;
+      box-shadow: inset 0 1px 0 #ffe9c2, 0 2px 0 #7a4c10;
+      padding: 0.62rem 1rem 0.5rem;
+      cursor: pointer;
+    }
+    button:hover {
+      filter: brightness(1.06);
+    }
+    .status {
+      min-height: 1.25rem;
+      margin: 0;
+      font-family: "Share Tech Mono", ui-monospace, monospace;
+      font-size: 0.85rem;
+      color: var(--vfd);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .sweep { animation: sweep 7.5s linear infinite; }
+      .pip { animation: pip 1.8s ease-in-out infinite; }
+      .led.on i { animation: pip 2.2s ease-in-out infinite; }
+      .log li[data-new] { animation: in 280ms ease-out; }
+      @keyframes sweep {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes pip {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.45; }
+      }
+      @keyframes in {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: none; }
+      }
     }
   </style>
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
-  <header>
-    <h1>Quay — three directions</h1>
-    <p class="lede">Same harbour log, three stances. Critique which direction the frontend concept should weight.</p>
-    <dl class="brief">
-      <dt>Subject</dt>
-      <dd>Quay, a harbour log for a small-boat skipper</dd>
-      <dt>Audience</dt>
-      <dd>The person on the boat, checking conditions and writing a line</dd>
-      <dt>Job</dt>
-      <dd>Show next slack, tide, and wind, then take a short log note</dd>
-    </dl>
-  </header>
-  <main id="main">
-    <h2>Stances</h2>
-    <div class="grid">
-      <article>
-        <h3>Quiet craft</h3>
-        <p>The floor is the look: system type, even space, a functional accent. No signature spectacle.</p>
-        <iframe title="Quiet craft preview" src="quiet.html" loading="lazy"></iframe>
-        <p class="open"><a href="quiet.html">Open quiet.html</a></p>
-      </article>
-      <article>
-        <h3>Instrument</h3>
-        <p>Subject vernacular: chart-table density, brass on olive hull, a tide strip as the signature.</p>
-        <iframe title="Instrument preview" src="instrument.html" loading="lazy"></iframe>
-        <p class="open"><a href="instrument.html">Open instrument.html</a></p>
-      </article>
-      <article>
-        <h3>Editorial</h3>
-        <p>Type as signature: the tide height is the display. Fog field, not cream paper.</p>
-        <iframe title="Editorial preview" src="editorial.html" loading="lazy"></iframe>
-        <p class="open"><a href="editorial.html">Open editorial.html</a></p>
-      </article>
+  <a class="skip" href="#main">Skip to log</a>
+  <div class="hull">
+    <header class="legend">
+      <div class="brand">Quay</div>
+      <div>Unit 04 · Kittiwake · Hale</div>
+    </header>
+    <div class="console">
+      <section class="bay" aria-label="Tide scope">
+        <h1>Scope · harbour bar</h1>
+        <div class="scope-frame">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Falling tide, 1.8 metres, next slack at 14:22. Oscilloscope of the day’s tide with a live pip.">
+            <defs>
+              <radialGradient id="sweep" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5cffc9" stop-opacity="0.18" />
+                <stop offset="100%" stop-color="#5cffc9" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <circle class="glass" cx="100" cy="100" r="96" />
+            <g class="sweep" aria-hidden="true">
+              <path d="M100 100 L100 6 A94 94 0 0 1 168 36 Z" />
+            </g>
+            <circle class="ring" cx="100" cy="100" r="88" />
+            <circle class="ring" cx="100" cy="100" r="58" />
+            <circle class="ring" cx="100" cy="100" r="28" />
+            <line class="cross" x1="100" y1="10" x2="100" y2="190" />
+            <line class="cross" x1="10" y1="100" x2="190" y2="100" />
+            <path class="trace" d="M18 118 C 48 142, 72 146, 96 92 S 138 38, 162 58 S 186 110, 190 118" />
+            <circle class="pip" cx="128" cy="52" r="4" />
+          </svg>
+          <div class="scan" aria-hidden="true"></div>
+        </div>
+        <div class="caption">
+          <span>CRT 12:58</span>
+          <span>Falling</span>
+        </div>
+      </section>
+      <section class="bay" aria-label="Readouts">
+        <h2>Readout</h2>
+        <div class="leds" aria-hidden="true">
+          <span class="led on"><i></i> Pwr</span>
+          <span class="led on"><i></i> Rx</span>
+          <span class="led warn"><i></i> Bar</span>
+        </div>
+        <dl class="readouts">
+          <div>
+            <dt>Tide</dt>
+            <dd>Fall 1.8&nbsp;m</dd>
+          </div>
+          <div>
+            <dt>Next slack</dt>
+            <dd>14:22</dd>
+          </div>
+          <div>
+            <dt>Wind</dt>
+            <dd>SW 12&nbsp;kn</dd>
+          </div>
+        </dl>
+      </section>
     </div>
-  </main>
-  <footer>
-    Calibration for CONCEPT_FRONTEND. Not templates.
-  </footer>
+    <main id="main" class="bay log-bay">
+      <h2>Deck log</h2>
+      <ol class="log" reversed>
+        <li>
+          <time datetime="2026-08-13T12:41">12:41</time>
+          <p>Cleared the bar on a rising tide. Slight chop on the starboard bow.</p>
+        </li>
+        <li>
+          <time datetime="2026-08-13T11:05">11:05</time>
+          <p>Fuel three-quarters. Picked up the red can off Black Rock.</p>
+        </li>
+        <li>
+          <time datetime="2026-08-13T09:18">09:18</time>
+          <p>Left the mooring. Fog thinning to the west.</p>
+        </li>
+      </ol>
+    </main>
+    <section class="bay">
+      <form id="entry">
+        <label for="note">Note</label>
+        <textarea id="note" name="note" autocomplete="off" maxlength="280" required placeholder="Bar was clean, 1.6 m under the keel…"></textarea>
+        <button type="submit">Add to log</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
+  <script>
+    const form = document.getElementById("entry");
+    const log = document.querySelector(".log");
+    const note = document.getElementById("note");
+    const status = document.querySelector(".status");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = note.value.trim();
+      if (!text) return;
+      const now = new Date();
+      const stamp = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
+      const item = document.createElement("li");
+      item.dataset.new = "true";
+      item.innerHTML = "<time datetime=\"" + now.toISOString() + "\">" + stamp + "</time><p></p>";
+      item.querySelector("p").textContent = text;
+      log.prepend(item);
+      note.value = "";
+      note.focus();
+      status.textContent = "Added to log.";
+    });
+  </script>
 </body>
 </html>

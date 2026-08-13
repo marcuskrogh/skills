@@ -168,8 +168,9 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── PLATFORM-CATALOGS.md
 │   ├── platforms/              ← cursor, claude-code, codex, github-copilot, general
 │   ├── CONCEPT_IMPLEMENTATION.md
-│   ├── CONCEPT_FRONTEND.md     ← product-surface UI: direction, signature, craft
+│   ├── CONCEPT_FRONTEND.md     ← product-surface UI: retro-futuristic default
 │   ├── FRONTEND-CRAFT.md
+│   ├── FRONTEND-RETRO.md
 │   ├── CONCEPT_ITERATION.md
 │   ├── CONCEPT_LANGUAGE.md     ← user-facing prose; setup can persist general
 │   ├── CONCEPT_DEFINITION.md
@@ -229,7 +230,7 @@ templates/project-sync/         ← startup sync script template
 |-------|--------|---------|
 | **workflows** | model | Infer which pipeline fits, then load and run that skill |
 | **manage-skills** | user | Maintain and sync this repository |
-| **frontend-design** | user | Product-surface UI: subject, tokens, signature, craft floor |
+| **frontend-design** | user | Product-surface UI: retro-futuristic default, signature, craft floor |
 | **writing-for-agents** | model | Lean shapes + vocabulary when authoring skills/concepts |
 | **tracker** | composed | Issue tracker contract + backends |
 | **jira** | composed | Jira REST details for the jira backend |
