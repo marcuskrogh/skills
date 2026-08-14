@@ -15,17 +15,17 @@
       --ink: #1a1916;
       --mute: #6a6660;
       --steel: #c4c9ce;
-      --steel-deep: #8e959c;
       --accent: #ef5a11;
       --accent-hover: #d44e0e;
       --focus: #ef5a11;
+      --panel: color-mix(in srgb, #fff 42%, var(--hull));
     }
     * { box-sizing: border-box; }
     html { color-scheme: light; }
     body {
       margin: 0;
       min-height: 100dvh;
-      font: 16px/1.4 Archivo, ui-sans-serif, sans-serif;
+      font: 16px/1.45 Archivo, ui-sans-serif, sans-serif;
       color: var(--ink);
       background: var(--hull);
       padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -40,113 +40,91 @@
     }
     .skip:focus { top: 0.5rem; }
     .room {
-      width: min(36rem, calc(100% - 1.5rem));
+      width: min(34rem, calc(100% - 1.75rem));
       margin: 0 auto;
-      padding: 1.15rem 0 2rem;
+      padding: 1.25rem 0 2.5rem;
     }
     header {
       display: flex; flex-wrap: wrap; justify-content: space-between;
-      align-items: baseline; gap: 0.25rem 1rem; margin-bottom: 0.95rem;
-      padding-bottom: 0.55rem; border-bottom: 1px solid var(--steel);
+      align-items: baseline; gap: 0.25rem 1rem; margin-bottom: 1.35rem;
+      padding-bottom: 0.7rem; border-bottom: 1px solid var(--steel);
     }
     .brand { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.03em; }
     .vessel { color: var(--mute); font-size: 0.9rem; }
-    .hero {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.95rem 1.1rem;
-      align-items: center;
-      margin-bottom: 1.15rem;
-      padding: 0.85rem 1rem;
-      background: color-mix(in srgb, #fff 40%, var(--hull));
-      border-radius: 1.5rem;
+    .stack { display: grid; gap: 1.15rem; margin-bottom: 1.6rem; }
+    .panel {
+      background: var(--panel);
+      border-radius: 1.4rem;
       box-shadow: inset 0 0 0 1px var(--steel);
+      padding: 1.15rem 1.3rem 1.25rem;
     }
-    .well {
-      width: 7.5rem; height: 7.5rem;
-      display: grid; place-items: center;
-      background: var(--hull); border-radius: 50%;
-      box-shadow: 0 0 0 4px var(--steel), 0 0 0 5px var(--steel-deep);
+    .tide {
+      display: grid;
+      gap: 0.3rem;
     }
-    .dial {
-      width: 82%; aspect-ratio: 1;
-      background: color-mix(in srgb, #fff 55%, var(--hull));
-      border-radius: 50%; position: relative;
+    .tide .label {
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--mute);
     }
-    .dial svg { display: block; width: 100%; height: 100%; }
-    .tick { stroke: var(--steel); stroke-width: 1.6; }
-    .tick-major { stroke: var(--ink); stroke-width: 1.8; }
-    .arc { fill: none; stroke: var(--steel); stroke-width: 4; }
-    .needle {
-      fill: var(--accent);
-      transform-origin: 100px 100px; transform-box: view-box; transform: rotate(48deg);
+    .tide strong {
+      font-weight: 700; font-size: 2.15rem; letter-spacing: -0.04em;
+      line-height: 1; font-variant-numeric: tabular-nums;
     }
-    .hub { fill: var(--accent); }
-    .reading {
-      position: absolute; inset: auto 0 14%;
-      text-align: center; pointer-events: none;
-    }
-    .reading strong {
-      font-weight: 700; font-size: 1.35rem; letter-spacing: -0.04em;
-      line-height: 0.9; font-variant-numeric: tabular-nums;
-    }
-    .reading span {
-      display: block; margin-top: 0.2rem;
-      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em;
+    .tide .state {
+      margin-top: 0.2rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--accent);
     }
     .facts {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0.35rem 1rem; margin: 0;
+      gap: 1rem 1.4rem; margin: 0;
     }
     .facts dt {
       margin: 0; font-size: 0.62rem; font-weight: 600;
       letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute);
     }
     .facts dd {
-      margin: 0.1rem 0 0; font-weight: 700; font-size: 1.2rem;
+      margin: 0.28rem 0 0; font-weight: 700; font-size: 1.25rem;
       letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
     }
     h1 {
-      margin: 0 0 0.25rem; font-size: 0.62rem; font-weight: 600;
+      margin: 0 0 0.55rem; font-size: 0.62rem; font-weight: 600;
       letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute);
     }
     .log {
-      list-style: none; margin: 0 0 1rem; padding: 0;
-      border-top: 1px solid var(--steel);
+      list-style: none; margin: 0 0 1.35rem; padding: 0;
     }
     .log li {
-      display: grid; grid-template-columns: 3.75rem 1fr; gap: 0.7rem;
-      padding: 0.55rem 0; border-bottom: 1px solid var(--steel);
+      display: grid; grid-template-columns: 3.75rem 1fr; gap: 0.85rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--steel);
     }
+    .log li:first-child { padding-top: 0; }
     time { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--accent); }
     .log p { margin: 0; }
-    form { display: grid; gap: 0.4rem; }
+    form { display: grid; gap: 0.45rem; }
     label {
       font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--mute);
     }
     textarea {
-      width: 100%; min-height: 4.5rem; resize: vertical; font: inherit;
-      padding: 0.7rem 0.85rem; border: 0;
-      background: color-mix(in srgb, #fff 40%, var(--hull)); color: var(--ink);
-      border-radius: 1.1rem; box-shadow: inset 0 0 0 1px var(--steel);
+      width: 100%; min-height: 5rem; resize: vertical; font: inherit;
+      padding: 0.85rem 1rem; border: 0;
+      background: var(--panel); color: var(--ink);
+      border-radius: 1.15rem; box-shadow: inset 0 0 0 1px var(--steel);
     }
     button {
       justify-self: start; font: 0.8rem/1 Archivo, ui-sans-serif, sans-serif;
       font-weight: 600; color: #fff; background: var(--accent);
-      border: 0; border-radius: 999px; padding: 0.6rem 1.05rem; cursor: pointer;
+      border: 0; border-radius: 999px; padding: 0.65rem 1.15rem; cursor: pointer;
       box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.12);
     }
     button:hover { background: var(--accent-hover); }
     .status { min-height: 1.2rem; margin: 0; color: var(--mute); font-size: 0.9rem; }
-    .more { margin: 1rem 0 0; font-size: 0.85rem; }
+    .more { margin: 1.35rem 0 0; font-size: 0.85rem; }
     .more a { color: var(--accent); }
-    @media (max-width: 28rem) { .hero { grid-template-columns: 1fr; } }
     @media (prefers-reduced-motion: no-preference) {
-      .needle { animation: settle 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
       .log li[data-new] { animation: in 220ms ease-out; }
-      @keyframes settle { from { transform: rotate(12deg); } to { transform: rotate(48deg); } }
       @keyframes in { from { opacity: 0; } to { opacity: 1; } }
     }
   </style>
@@ -158,33 +136,13 @@
       <div class="brand">Quay</div>
       <div class="vessel">Kittiwake · M. Hale</div>
     </header>
-    <div class="hero">
-      <section class="well" aria-label="Tide meter">
-        <div class="dial">
-          <svg viewBox="0 0 200 200" role="img" aria-label="Falling tide, 1.8 metres. Analog meter with the needle on the falling limb, next slack at 14:22.">
-            <circle cx="100" cy="100" r="86" fill="none" stroke="#c4c9ce" stroke-width="1" />
-            <path class="arc" d="M100 22 A78 78 0 1 1 44 155" stroke-linecap="round" />
-            <g>
-              <line class="tick-major" x1="100" y1="16" x2="100" y2="28" />
-              <line class="tick" x1="141" y1="27" x2="136" y2="36" />
-              <line class="tick-major" x1="173" y1="59" x2="164" y2="64" />
-              <line class="tick" x1="184" y1="100" x2="172" y2="100" />
-              <line class="tick-major" x1="173" y1="141" x2="164" y2="136" />
-              <line class="tick" x1="141" y1="173" x2="136" y2="164" />
-              <line class="tick-major" x1="100" y1="184" x2="100" y2="172" />
-              <line class="tick" x1="59" y1="173" x2="64" y2="164" />
-              <line class="tick-major" x1="27" y1="141" x2="36" y2="136" />
-              <line class="tick" x1="16" y1="100" x2="28" y2="100" />
-              <line class="tick-major" x1="27" y1="59" x2="36" y2="64" />
-              <line class="tick" x1="59" y1="27" x2="64" y2="36" />
-            </g>
-            <polygon class="needle" points="100,34 105,108 100,116 95,108" />
-            <circle class="hub" cx="100" cy="100" r="5" />
-          </svg>
-          <p class="reading"><strong>1.8&nbsp;m</strong><span>Falling</span></p>
-        </div>
+    <div class="stack">
+      <section class="panel tide" aria-label="Tide">
+        <span class="label">Tide</span>
+        <strong>1.8&nbsp;m</strong>
+        <span class="state">Falling</span>
       </section>
-      <dl class="facts">
+      <dl class="panel facts">
         <div>
           <dt>Next slack</dt>
           <dd>14:22</dd>

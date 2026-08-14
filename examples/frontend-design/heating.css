@@ -10,7 +10,8 @@
   --accent-hover: #d44e0e;
   --focus: #ef5a11;
   --font: Archivo, ui-sans-serif, sans-serif;
-  --radius: 1.35rem;
+  --radius: 1.4rem;
+  --panel: color-mix(in srgb, #fff 42%, var(--hull));
 }
 
 * { box-sizing: border-box; }
@@ -19,7 +20,7 @@ html { color-scheme: light; }
 body {
   margin: 0;
   min-height: 100dvh;
-  font: 15px/1.35 var(--font);
+  font: 15px/1.4 var(--font);
   color: var(--ink);
   background: var(--hull);
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -46,9 +47,9 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .skip:focus { top: 0.5rem; }
 
 .board {
-  width: min(72rem, calc(100% - 1.25rem));
+  width: min(68rem, calc(100% - 1.5rem));
   margin: 0 auto;
-  padding: 0 0 1.25rem;
+  padding: 0 0 2rem;
 }
 
 /* ── Nav ────────────────────────────────────────────────────────────────── */
@@ -57,8 +58,8 @@ a, button { touch-action: manipulation; font-family: inherit; }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.25rem 0.45rem;
-  padding: 0.7rem 0 0.55rem;
+  gap: 0.35rem 0.5rem;
+  padding: 0.9rem 0 0.75rem;
   border-bottom: 1px solid var(--steel);
 }
 
@@ -67,11 +68,11 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   font-weight: 700;
   letter-spacing: -0.03em;
   font-size: 0.95rem;
-  margin-right: 0.35rem;
+  margin-right: 0.4rem;
 }
 .brand svg { display: block; }
 
@@ -79,7 +80,7 @@ a, button { touch-action: manipulation; font-family: inherit; }
   display: flex;
   flex-wrap: wrap;
   min-width: 0;
-  gap: 0;
+  gap: 0.1rem;
 }
 .links a {
   color: var(--mute);
@@ -88,7 +89,7 @@ a, button { touch-action: manipulation; font-family: inherit; }
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.32rem 0.5rem;
+  padding: 0.35rem 0.55rem;
   border-radius: 999px;
 }
 .links a[aria-current="page"],
@@ -100,13 +101,13 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .controls {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.65rem;
 }
 
 .live {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.35rem;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -125,8 +126,8 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .panel-nav:not(.is-live) .live i { color: var(--accent); background: var(--accent); }
 
 .start {
-  min-width: 2.45rem;
-  height: 1.45rem;
+  min-width: 2.6rem;
+  height: 1.5rem;
   border: 0;
   border-radius: 999px;
   background: var(--accent);
@@ -134,7 +135,7 @@ a, button { touch-action: manipulation; font-family: inherit; }
   cursor: pointer;
   display: grid;
   place-items: center;
-  padding: 0 0.55rem;
+  padding: 0 0.65rem;
   box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.12);
 }
 .start:hover { background: var(--accent-hover); }
@@ -145,39 +146,66 @@ a, button { touch-action: manipulation; font-family: inherit; }
 }
 .start svg { display: block; }
 
-/* ── House readings + meter ─────────────────────────────────────────────── */
+/* ── House: next control + KPIs as separate modules ─────────────────────── */
 
-.fascia {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.55rem 0;
-  margin: 0.75rem 0 0.85rem;
-  padding: 0.65rem 0.85rem;
-  background: color-mix(in srgb, #fff 45%, var(--hull));
+.house {
+  display: grid;
+  gap: 1.1rem;
+  margin: 1.25rem 0 1.6rem;
+}
+
+.countdown,
+.readings,
+.climate-card,
+.panel {
+  background: var(--panel);
   border-radius: var(--radius);
   box-shadow: inset 0 0 0 1px var(--steel);
 }
 
+.countdown {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1.15rem 1.35rem 1.2rem;
+}
+.countdown__label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.countdown__value {
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  line-height: 1;
+}
+.board.is-stopped .countdown__value { color: var(--ink); }
+.board.is-stopped .countdown__label { color: var(--accent); }
+
 .readings {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.15rem 1.5rem;
   margin: 0;
-  flex: 1;
-  min-width: 0;
+  padding: 1.15rem 1.35rem 1.25rem;
+}
+@media (min-width: 44rem) {
+  .readings { grid-template-columns: repeat(4, 1fr); }
 }
 .readings > div {
   display: grid;
-  gap: 0.05rem;
-  padding: 0.1rem 0.85rem 0.15rem 0;
-  border-right: 1px solid var(--steel);
-  min-width: 4.4rem;
+  gap: 0.28rem;
+  min-width: 0;
+  padding: 0;
+  border: 0;
 }
-.readings > div:last-of-type { border-right: 0; }
 .readings dt {
   margin: 0;
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -186,54 +214,18 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .readings dd {
   margin: 0;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
   line-height: 1.15;
 }
 .readings .is-heat dd { color: var(--accent); }
 
-.countdown {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: auto;
-  padding-left: 0.65rem;
-}
-.countdown__well {
-  width: 2.65rem;
-  height: 2.65rem;
-  display: grid;
-  place-items: center;
-  background: var(--hull);
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px var(--steel), 0 0 0 4px var(--steel-deep);
-}
-.countdown__well svg { display: block; width: 78%; height: 78%; }
-.countdown__meta { display: grid; gap: 0.02rem; }
-.countdown__value {
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-  color: var(--accent);
-  line-height: 1;
-}
-.countdown__label {
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--mute);
-}
-.board.is-stopped .countdown__value { color: var(--ink); }
-.board.is-stopped .countdown__label { color: var(--accent); }
-
-/* ── Rooms as capsule appliances ────────────────────────────────────────── */
+/* ── Rooms ──────────────────────────────────────────────────────────────── */
 
 .rooms-label {
-  margin: 0 0 0.45rem;
-  font-size: 0.65rem;
+  margin: 0 0 0.65rem;
+  font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -243,7 +235,7 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .grid-rooms {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.7rem;
+  gap: 1.15rem;
 }
 @media (min-width: 52rem) {
   .grid-rooms { grid-template-columns: 1fr 1fr; }
@@ -251,26 +243,25 @@ a, button { touch-action: manipulation; font-family: inherit; }
 
 .climate-card {
   display: grid;
-  gap: 0.45rem;
-  padding: 0.8rem 0.95rem 0.7rem;
-  background: color-mix(in srgb, #fff 40%, var(--hull));
+  gap: 0;
+  padding: 0;
   min-width: 0;
-  border-radius: var(--radius);
-  box-shadow: inset 0 0 0 1px var(--steel);
+  overflow: hidden;
 }
 
 .climate-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.4rem;
+  gap: 0.5rem;
+  padding: 1.05rem 1.25rem 0.2rem;
 }
 
 .room-climate-tile__name,
 .climate-card__title,
 .room-header__title {
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   letter-spacing: -0.02em;
   color: var(--ink);
   text-decoration: none;
@@ -280,7 +271,7 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 .climate-card__header-right {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .climate-card__status {
@@ -298,7 +289,7 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 .climate-card__step,
 .climate-card__offset-step {
   cursor: pointer;
-  background: var(--steel);
+  background: color-mix(in srgb, var(--steel) 55%, var(--hull));
   border: 0;
   color: var(--ink);
   padding: 0;
@@ -310,8 +301,8 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   line-height: 1;
 }
 .climate-card__power {
-  width: 1.55rem;
-  height: 1.55rem;
+  width: 1.6rem;
+  height: 1.6rem;
   background: var(--accent);
   color: #fff;
 }
@@ -322,50 +313,70 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   box-shadow: inset 0 0 0 2px var(--accent);
 }
 
-.climate-card__instrument {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.3rem 0.75rem;
+.climate-card__reading {
+  padding: 0.55rem 1.25rem 1.15rem;
 }
-
+.climate-card__current-label,
+.climate-card__target-label,
+.climate-card__comfort-title {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin: 0 0 0.3rem;
+}
 .climate-card__current-value {
   font-weight: 700;
-  font-size: 1.45rem;
+  font-size: 1.85rem;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
   line-height: 1;
 }
 .climate-card__current-unit {
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--mute);
-  margin-left: 0.05rem;
+  margin-left: 0.1rem;
 }
-.climate-card__current-label,
-.climate-card__target-label,
-.climate-card__comfort-title {
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+.climate-card__off-note {
+  display: none;
+  margin-top: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--mute);
-  margin-left: 0.25rem;
+  color: var(--accent);
+}
+
+.climate-card__instrument {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.25rem;
+  padding: 1.05rem 1.25rem 1.15rem;
+  border-top: 1px solid var(--steel);
 }
 
 .climate-card__control,
 .climate-card__comfort {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.climate-card__stepper {
   display: flex;
   align-items: center;
-  gap: 0.22rem;
+  gap: 0.3rem;
 }
 
 .climate-card__step,
 .climate-card__offset-step {
-  width: 1.55rem;
-  height: 1.55rem;
-  font-size: 0.95rem;
-  background: color-mix(in srgb, var(--steel) 55%, var(--hull));
+  width: 1.7rem;
+  height: 1.7rem;
+  font-size: 1rem;
+  flex: 0 0 auto;
 }
 .climate-card__step:hover:not(:disabled),
 .climate-card__offset-step:hover:not(:disabled) {
@@ -381,32 +392,29 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 .climate-card__offset-value {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  font-size: 1rem;
+  font-size: 1.15rem;
   letter-spacing: -0.03em;
-  min-width: 2.5rem;
+  min-width: 2.8rem;
   text-align: center;
 }
 
-.climate-card__off-note {
-  display: none;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
+.climate-card__band {
+  padding: 1.05rem 1.25rem 1.15rem;
+  border-top: 1px solid var(--steel);
 }
 
 .climate-card__track {
   position: relative;
-  height: 0.42rem;
+  height: 0.38rem;
   background: var(--steel);
   border-radius: 999px;
+  margin-top: 0.15rem;
 }
 .climate-card__track-comfort {
   position: absolute;
   top: 0;
   bottom: 0;
-  background: color-mix(in srgb, var(--accent) 55%, var(--steel));
+  background: color-mix(in srgb, var(--accent) 50%, var(--steel));
   border-radius: 999px;
 }
 .climate-card__track-setpoint {
@@ -427,59 +435,54 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   border-radius: 50%;
   transform: translate(-50%, -50%);
   background: var(--accent);
-  box-shadow: 0 0 0 2px var(--hull);
+  box-shadow: 0 0 0 2px var(--panel);
   z-index: 1;
 }
 .climate-card__track-scale {
   display: flex;
   justify-content: space-between;
-  font-size: 0.65rem;
+  margin-top: 0.45rem;
+  font-size: 0.7rem;
   font-variant-numeric: tabular-nums;
   color: var(--mute);
 }
 .climate-card__track-comfort-label {
   color: var(--ink);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.climate-card.is-off .climate-card__control,
-.climate-card.is-off .climate-card__comfort,
-.climate-card.is-off .climate-card__track,
-.climate-card.is-off .climate-card__track-scale,
-.climate-card.is-experiment .climate-card__control,
-.climate-card.is-experiment .climate-card__comfort,
-.climate-card.is-experiment .climate-card__track,
-.climate-card.is-experiment .climate-card__track-scale,
+.climate-card.is-off .climate-card__instrument,
+.climate-card.is-off .climate-card__band,
+.climate-card.is-experiment .climate-card__instrument,
+.climate-card.is-experiment .climate-card__band,
 .climate-card.is-experiment .climate-card__power {
   display: none;
 }
-.climate-card.is-off .climate-card__off-note { display: inline; }
+.climate-card.is-off .climate-card__off-note { display: block; }
 .climate-card.is-off .climate-card__current-value { color: var(--mute); }
 
 .climate-card__experiment { display: none; }
 .climate-card.is-experiment .climate-card__experiment {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.3rem 0.65rem;
+  display: grid;
+  gap: 0.55rem;
+  padding: 1.05rem 1.25rem 1.2rem;
+  border-top: 1px solid var(--steel);
 }
 
 .climate-card__exp-name,
 .climate-card__exp-signal,
 .climate-card__exp-fact-label {
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mute);
 }
 .climate-card__exp-bar {
-  flex: 1;
-  min-width: 4.5rem;
-  height: 0.42rem;
+  height: 0.38rem;
   background: var(--steel);
   border-radius: 999px;
   overflow: hidden;
@@ -493,33 +496,40 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 .climate-card__exp-pct {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+  font-size: 1.15rem;
+}
+.climate-card__exp-facts {
+  display: grid;
+  gap: 0.2rem;
+  color: var(--mute);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
 }
 .climate-card__exp-remaining,
-.climate-card__exp-fact-value {
-  font-variant-numeric: tabular-nums;
-  font-size: 0.8rem;
-  color: var(--mute);
-}
+.climate-card__exp-fact-value { color: var(--mute); }
 
-.sched-section { min-width: 0; }
+.sched-section {
+  min-width: 0;
+  padding: 0.95rem 1.25rem 1.15rem;
+  border-top: 1px solid var(--steel);
+}
 .sched-section__header { display: none; }
 .sched-row {
-  display: inline;
-  font-size: 0.78rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.55rem;
+  padding: 0.28rem 0;
+  font-size: 0.85rem;
   color: var(--mute);
 }
-.sched-row + .sched-row::before {
-  content: "·";
-  margin: 0 0.35rem;
-  color: var(--steel-deep);
-}
+.sched-row + .sched-row::before { content: none; }
 .sched-row__now-badge {
   color: var(--accent);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-right: 0.25rem;
 }
 .sched-row__time { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); }
 .sched-row__name { display: none; }
@@ -530,112 +540,70 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 
 .nav-back { display: none; }
 
+.room-stack {
+  display: grid;
+  gap: 1.1rem;
+  margin: 1.25rem 0 0;
+}
+
 .room-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  margin: 0.75rem 0 0.5rem;
+  margin: 0;
 }
 .room-header__title {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
 }
 
 .climate-card--room {
   display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  column-gap: 1.15rem;
-  row-gap: 0.5rem;
+  grid-template-columns: 1fr;
 }
-.climate-card--room .climate-card__header { grid-column: 1 / -1; }
-.climate-card--room .climate-card__track,
-.climate-card--room .climate-card__track-scale,
-.climate-card--room .room-kpis,
-.climate-card--room .sched-section { grid-column: 1 / -1; }
 
-.climate-dial {
-  width: 7.25rem;
-  height: 7.25rem;
-  display: grid;
-  place-items: center;
+.climate-card--room .climate-card__reading {
+  margin: 0.55rem 1.25rem 1.2rem;
+  padding: 1.15rem 1.25rem 1.2rem;
+  border-radius: 1.1rem;
   background: var(--hull);
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px var(--steel), 0 0 0 5px var(--steel-deep);
+  box-shadow: inset 0 0 0 1px var(--steel);
 }
-.climate-dial__face {
-  width: 82%;
-  aspect-ratio: 1;
-  background: color-mix(in srgb, #fff 55%, var(--hull));
-  border-radius: 50%;
-  position: relative;
-}
-.climate-dial__face svg { display: block; width: 100%; height: 100%; }
-.tick { stroke: var(--steel); stroke-width: 1.6; }
-.tick-major { stroke: var(--ink); stroke-width: 1.8; }
-.arc { fill: none; stroke: var(--steel); stroke-width: 4; }
-.needle {
-  fill: var(--accent);
-  transform-origin: 100px 100px;
-  transform-box: view-box;
-  transform: rotate(36deg);
-}
-.hub { fill: var(--accent); }
-.climate-dial__reading {
-  position: absolute;
-  inset: auto 0 12%;
-  text-align: center;
-  pointer-events: none;
-  font-size: 0.52rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.climate-dial__reading strong {
-  display: block;
-  font-size: 1.05rem;
-  letter-spacing: -0.04em;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
+.climate-card--room .climate-card__current-value { font-size: 2.35rem; }
 
 .room-kpis {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.15rem 1rem;
-  padding-top: 0.4rem;
-  border-top: 1px solid var(--steel);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem 1rem;
+  padding: 1.1rem 1.35rem 1.2rem;
   font-variant-numeric: tabular-nums;
 }
 .room-kpis span {
+  display: block;
   color: var(--mute);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  margin-bottom: 0.28rem;
 }
 .room-kpis b {
-  font-size: 0.88rem;
-  margin-left: 0.3rem;
+  font-size: 1.1rem;
   color: var(--ink);
   letter-spacing: -0.02em;
+  font-weight: 700;
 }
 .room-kpis .is-heat b { color: var(--accent); }
 
-.more { margin: 0.85rem 0 0; font-size: 0.8rem; }
+.more { margin: 1.15rem 0 0; font-size: 0.85rem; }
 .more a { color: var(--accent); }
 
 @media (max-width: 40rem) {
-  .climate-card--room { grid-template-columns: 1fr; }
-  .countdown { margin-left: 0; padding-left: 0; }
-  .fascia { padding: 0.7rem 0.75rem; }
+  .room-kpis { grid-template-columns: 1fr; }
+  .climate-card__instrument { grid-template-columns: 1fr; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .needle { animation: settle 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
 }
-@keyframes settle { from { transform: rotate(12deg); } to { transform: rotate(36deg); } }
-@media (prefers-reduced-motion: reduce) { .needle { animation: none; } }

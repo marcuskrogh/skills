@@ -16,12 +16,10 @@
   <div class="board" id="board">
     <nav class="panel-nav is-live" aria-label="Panel">
       <div class="brand">
-        <svg width="20" height="20" viewBox="0 0 22 22" aria-hidden="true">
-          <rect width="22" height="22" rx="11" fill="#f0ece4"/>
-          <circle cx="11" cy="11" r="9" fill="#c4c9ce"/>
-          <circle cx="11" cy="11" r="7" fill="#f0ece4"/>
-          <polygon points="11,4 11.8,12 11,13 10.2,12" fill="#ef5a11"/>
-          <circle cx="11" cy="11" r="1.2" fill="#ef5a11"/>
+        <svg width="22" height="14" viewBox="0 0 22 14" aria-hidden="true">
+          <rect width="22" height="14" rx="7" fill="#c4c9ce"/>
+          <rect x="1" y="1" width="20" height="12" rx="6" fill="#f0ece4"/>
+          <rect x="3" y="3.5" width="9" height="7" rx="3.5" fill="#ef5a11"/>
         </svg>
         Heating Assistant
       </div>
@@ -41,7 +39,7 @@
       </div>
     </nav>
 
-    <main id="main">
+    <main id="main" class="room-stack">
       <div class="room-header">
         <h1 class="room-header__title">Living room</h1>
       </div>
@@ -53,56 +51,40 @@
             <button class="climate-card__power" type="button" aria-pressed="false" aria-label="Turn living room heating off">⏻</button>
           </div>
         </div>
-        <div class="climate-dial" aria-label="Living room thermostat">
-          <div class="climate-dial__face">
-            <svg viewBox="0 0 200 200" role="img" aria-label="Living room 21.4 degrees, target 21.0, heating.">
-              <circle cx="100" cy="100" r="86" fill="none" stroke="#c4c9ce" stroke-width="1"/>
-              <path class="arc" d="M100 22 A78 78 0 1 1 44 155" stroke-linecap="round"/>
-              <g>
-                <line class="tick-major" x1="100" y1="16" x2="100" y2="28"/>
-                <line class="tick-major" x1="173" y1="59" x2="164" y2="64"/>
-                <line class="tick-major" x1="184" y1="100" x2="172" y2="100"/>
-                <line class="tick-major" x1="173" y1="141" x2="164" y2="136"/>
-                <line class="tick-major" x1="100" y1="184" x2="100" y2="172"/>
-                <line class="tick-major" x1="27" y1="141" x2="36" y2="136"/>
-                <line class="tick-major" x1="16" y1="100" x2="28" y2="100"/>
-                <line class="tick-major" x1="27" y1="59" x2="36" y2="64"/>
-              </g>
-              <polygon class="needle" points="100,34 106,108 100,116 94,108"/>
-              <circle class="hub" cx="100" cy="100" r="7"/>
-            </svg>
-            <p class="climate-dial__reading"><strong>21.4°</strong>Current</p>
-          </div>
+        <div class="climate-card__reading">
+          <span class="climate-card__current-label">Current</span>
+          <span class="climate-card__current-value"><span class="climate-card__current-num">21.4</span><span class="climate-card__current-unit">°C</span></span>
+          <span class="climate-card__off-note">Heating off</span>
         </div>
         <div class="climate-card__instrument">
           <div class="climate-card__control">
-            <button class="climate-card__step climate-card__step--down" type="button" aria-label="Lower target">−</button>
-            <span class="climate-card__target-value">21.0°</span>
-            <button class="climate-card__step climate-card__step--up" type="button" aria-label="Raise target">+</button>
             <span class="climate-card__target-label">Target</span>
+            <div class="climate-card__stepper">
+              <button class="climate-card__step climate-card__step--down" type="button" aria-label="Lower target">−</button>
+              <span class="climate-card__target-value">21.0°</span>
+              <button class="climate-card__step climate-card__step--up" type="button" aria-label="Raise target">+</button>
+            </div>
           </div>
           <div class="climate-card__comfort">
-            <button class="climate-card__offset-step climate-card__offset-step--down" type="button" aria-label="Narrow comfort band">−</button>
-            <span class="climate-card__offset-value">±0.5°</span>
-            <button class="climate-card__offset-step climate-card__offset-step--up" type="button" aria-label="Widen comfort band">+</button>
             <span class="climate-card__comfort-title">Band</span>
+            <div class="climate-card__stepper">
+              <button class="climate-card__offset-step climate-card__offset-step--down" type="button" aria-label="Narrow comfort band">−</button>
+              <span class="climate-card__offset-value">±0.5°</span>
+              <button class="climate-card__offset-step climate-card__offset-step--up" type="button" aria-label="Widen comfort band">+</button>
+            </div>
           </div>
-          <span class="climate-card__off-note">Heating off</span>
         </div>
-        <div class="climate-card__track" role="img" aria-label="Comfort band 20.5 to 21.5 degrees. Current 21.4, target 21.0.">
-          <span class="climate-card__track-comfort"></span>
-          <span class="climate-card__track-setpoint"></span>
-          <span class="climate-card__track-marker"></span>
-        </div>
-        <div class="climate-card__track-scale">
-          <span class="climate-card__track-min"></span>
-          <span class="climate-card__track-comfort-label"></span>
-          <span class="climate-card__track-max"></span>
-        </div>
-        <div class="room-kpis">
-          <div class="is-heat"><span>Heating power</span><b>0.84&nbsp;kW</b></div>
-          <div><span>Time in range</span><b>96%</b></div>
-          <div><span>Heat loss</span><b>48&nbsp;W/K</b></div>
+        <div class="climate-card__band">
+          <div class="climate-card__track" role="img" aria-label="Comfort band 20.5 to 21.5 degrees. Current 21.4, target 21.0.">
+            <span class="climate-card__track-comfort"></span>
+            <span class="climate-card__track-setpoint"></span>
+            <span class="climate-card__track-marker"></span>
+          </div>
+          <div class="climate-card__track-scale">
+            <span class="climate-card__track-min"></span>
+            <span class="climate-card__track-comfort-label"></span>
+            <span class="climate-card__track-max"></span>
+          </div>
         </div>
         <div class="sched-section">
           <div class="sched-row"><span class="sched-row__now-badge">Now</span><span class="sched-row__time">06:00–09:00</span> <span class="sched-row__mode sched-row__mode--comfort">Comfort</span></div>
@@ -110,6 +92,13 @@
           <div class="sched-row"><span class="sched-row__time">16:00–22:00</span> <span class="sched-row__mode sched-row__mode--comfort">Comfort</span></div>
         </div>
       </article>
+      <section class="panel" aria-label="Room readings">
+        <div class="room-kpis">
+          <div class="is-heat"><span>Heating power</span><b>0.84&nbsp;kW</b></div>
+          <div><span>Time in range</span><b>96%</b></div>
+          <div><span>Heat loss</span><b>48&nbsp;W/K</b></div>
+        </div>
+      </section>
       <p class="more"><a href="heating-overview.html">Overview</a> · <a href="index.html">Quay</a></p>
     </main>
   </div>

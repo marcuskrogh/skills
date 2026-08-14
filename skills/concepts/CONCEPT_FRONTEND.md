@@ -34,8 +34,8 @@ short plan and checked against that plan.
   more type roles (display with restraint, body, utility when data needs it), a
   layout idea, and the **signature**. Every color and face in the build traces to
   that system.
-- **One signature.** Spend boldness in one place — usually one analog
-  instrument. Surrounding architecture stays one family. Decoration earns its
+- **One signature.** Spend boldness in one place — usually one control or
+  one readout. Surrounding architecture stays one family. Decoration earns its
   keep by serving the brief.
 - **Structure informs.** Numbering, eyebrows, dividers, and labels encode a real
   property of the content (sequence, hierarchy, status). They do not decorate.

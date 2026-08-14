@@ -50,9 +50,9 @@ Source-repo pages under `examples/frontend-design/`:
 
 | File | Subject |
 |------|---------|
-| `index.html` | Quay instrument (Archivo, Rams shaver / Aromaster) |
-| `heating-overview.html` | Heating Assistant dummy: off-white capsules, steel heads, orange switch |
-| `heating-room.html` | Dummy living-room climate row with steel-rim analog meter |
+| `index.html` | Quay (Archivo, Rams shaver / Aromaster, steel-window readout) |
+| `heating-overview.html` | Heating Assistant dummy: spaced capsules, no dial |
+| `heating-room.html` | Dummy living-room climate with steel-window reading |
 
 Calibration only — not a product template.
 
