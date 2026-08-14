@@ -50,9 +50,9 @@ Source-repo pages under `examples/frontend-design/`:
 
 | File | Subject |
 |------|---------|
-| `index.html` | Quay instrument (Archivo, Rams) |
-| `heating-overview.html` | Heating Assistant dummy: 606 modules, house strip, analog meter |
-| `heating-room.html` | Dummy living-room climate row with compact analog meter |
+| `index.html` | Quay instrument (Archivo, Rams shaver / Aromaster) |
+| `heating-overview.html` | Heating Assistant dummy: off-white capsules, steel heads, orange switch |
+| `heating-room.html` | Dummy living-room climate row with steel-rim analog meter |
 
 Calibration only — not a product template.
 

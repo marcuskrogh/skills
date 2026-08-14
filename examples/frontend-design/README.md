@@ -8,10 +8,11 @@ Calibration pages for the **retro-futuristic** default on
 **Brief.** Harbour log for a small-boat skipper. Audience: the person on the
 boat. Job: see the next slack, wind, and tide, then add a short log line.
 
-**Era.** 1962 marine instrument — pale housing, modular grid, orange needle
-(Rams / Braun).
+**Era.** 1972 marine instrument — off-white hull, steel tide head, orange
+switch (Rams / Braun Sixtant and Aromaster).
 
-**Signature.** Analog tide meter: circular face in a square housing.
+**Signature.** Analog tide meter: circular steel-rimmed face in a rounded
+off-white body.
 
 **Type.** Archivo.
 
@@ -23,14 +24,15 @@ Same dummy as the Heating Assistant ingress panel. Audience: the person running
 house heating. Job: see system health and room climate, start or stop, set
 targets and comfort bands.
 
-**Era.** 1962 climate instrument — pale hull, 606 modules, orange needle.
+**Era.** 1972 climate instrument — off-white capsules, steel heads, orange
+switch.
 
-**Tokens.** Hull `#f3f0e8`, ink `#1a1917`, mute `#6e6a63`, sand `#e6e1d6`,
-line `#d2cdc2`, accent `#c45c26`. Sand is architecture; orange is the
-instrument.
+**Tokens.** Hull `#f0ece4`, ink `#1a1916`, mute `#6a6660`, steel `#c4c9ce`,
+steel-deep `#8e959c`, accent `#ef5a11`. Off-white is the body; steel is the
+working head; orange is the control.
 
-**Signature.** Overview: Next Control meter on the house reading strip. Living
-room: compact analog meter beside the climate controls.
+**Signature.** Overview: Next Control steel ring on the house strip. Living
+room: compact analog meter with a steel rim beside the climate controls.
 
 **Type.** Archivo.
 

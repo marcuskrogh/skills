@@ -1,15 +1,16 @@
-/* Heating Assistant dummy — Rams / Braun board. Calibration only. */
+/* Heating Assistant dummy — Rams shaver / Aromaster. Calibration only. */
 
 :root {
-  --hull: #f3f0e8;
-  --ink: #1a1917;
-  --mute: #6e6a63;
-  --sand: #e6e1d6;
-  --line: #d2cdc2;
-  --accent: #c45c26;
-  --accent-hover: #a84c1e;
-  --focus: #c45c26;
+  --hull: #f0ece4;
+  --ink: #1a1916;
+  --mute: #6a6660;
+  --steel: #c4c9ce;
+  --steel-deep: #8e959c;
+  --accent: #ef5a11;
+  --accent-hover: #d44e0e;
+  --focus: #ef5a11;
   --font: Archivo, ui-sans-serif, sans-serif;
+  --radius: 1.35rem;
 }
 
 * { box-sizing: border-box; }
@@ -36,10 +37,11 @@ a, button { touch-action: manipulation; font-family: inherit; }
   left: 0.5rem;
   top: -3rem;
   background: var(--accent);
-  color: var(--hull);
-  padding: 0.3rem 0.55rem;
+  color: #fff;
+  padding: 0.3rem 0.7rem;
   text-decoration: none;
   font-weight: 600;
+  border-radius: 999px;
 }
 .skip:focus { top: 0.5rem; }
 
@@ -55,9 +57,9 @@ a, button { touch-action: manipulation; font-family: inherit; }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.2rem 0.4rem;
-  padding: 0.65rem 0 0.5rem;
-  border-bottom: 1px solid var(--ink);
+  gap: 0.25rem 0.45rem;
+  padding: 0.7rem 0 0.55rem;
+  border-bottom: 1px solid var(--steel);
 }
 
 .panel-nav:not(.is-live) { border-bottom-color: var(--accent); }
@@ -65,11 +67,11 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   font-weight: 700;
   letter-spacing: -0.03em;
   font-size: 0.95rem;
-  margin-right: 0.4rem;
+  margin-right: 0.35rem;
 }
 .brand svg { display: block; }
 
@@ -86,10 +88,11 @@ a, button { touch-action: manipulation; font-family: inherit; }
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.28rem 0.45rem;
+  padding: 0.32rem 0.5rem;
+  border-radius: 999px;
 }
 .links a[aria-current="page"],
-.links a:hover { color: var(--ink); }
+.links a:hover { color: var(--ink); background: color-mix(in srgb, var(--steel) 35%, var(--hull)); }
 .links a[aria-disabled="true"] { pointer-events: none; opacity: 0.4; }
 
 .fill { flex: 1; min-width: 0.25rem; }
@@ -111,32 +114,34 @@ a, button { touch-action: manipulation; font-family: inherit; }
   color: var(--mute);
 }
 .live i {
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 0.42rem;
+  height: 0.42rem;
   border-radius: 50%;
   background: var(--ink);
 }
 .panel-nav.is-live .live { color: var(--ink); }
+.panel-nav.is-live .live i { background: var(--accent); }
 .panel-nav:not(.is-live) .live,
 .panel-nav:not(.is-live) .live i { color: var(--accent); background: var(--accent); }
 
 .start {
-  width: 1.7rem;
-  height: 1.7rem;
+  min-width: 2.45rem;
+  height: 1.45rem;
   border: 0;
-  border-radius: 2px;
+  border-radius: 999px;
   background: var(--accent);
-  color: var(--hull);
+  color: #fff;
   cursor: pointer;
   display: grid;
   place-items: center;
-  padding: 0;
+  padding: 0 0.55rem;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.12);
 }
 .start:hover { background: var(--accent-hover); }
 .start[aria-pressed="false"] {
-  background: var(--sand);
+  background: var(--hull);
   color: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: inset 0 0 0 2px var(--accent);
 }
 .start svg { display: block; }
 
@@ -146,10 +151,12 @@ a, button { touch-action: manipulation; font-family: inherit; }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 0;
-  margin: 0.65rem 0 0.7rem;
-  padding: 0.35rem 0;
-  border-bottom: 1px solid var(--line);
+  gap: 0.55rem 0;
+  margin: 0.75rem 0 0.85rem;
+  padding: 0.65rem 0.85rem;
+  background: color-mix(in srgb, #fff 45%, var(--hull));
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px var(--steel);
 }
 
 .readings {
@@ -164,7 +171,7 @@ a, button { touch-action: manipulation; font-family: inherit; }
   display: grid;
   gap: 0.05rem;
   padding: 0.1rem 0.85rem 0.15rem 0;
-  border-right: 1px solid var(--line);
+  border-right: 1px solid var(--steel);
   min-width: 4.4rem;
 }
 .readings > div:last-of-type { border-right: 0; }
@@ -189,17 +196,18 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .countdown {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   margin-left: auto;
   padding-left: 0.65rem;
 }
 .countdown__well {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.65rem;
+  height: 2.65rem;
   display: grid;
   place-items: center;
-  background: var(--sand);
-  border-radius: 2px;
+  background: var(--hull);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--steel), 0 0 0 4px var(--steel-deep);
 }
 .countdown__well svg { display: block; width: 78%; height: 78%; }
 .countdown__meta { display: grid; gap: 0.02rem; }
@@ -221,10 +229,10 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .board.is-stopped .countdown__value { color: var(--ink); }
 .board.is-stopped .countdown__label { color: var(--accent); }
 
-/* ── Rooms as 606 modules ───────────────────────────────────────────────── */
+/* ── Rooms as capsule appliances ────────────────────────────────────────── */
 
 .rooms-label {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.45rem;
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -235,24 +243,20 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .grid-rooms {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
-  border: 1px solid var(--line);
+  gap: 0.7rem;
 }
 @media (min-width: 52rem) {
   .grid-rooms { grid-template-columns: 1fr 1fr; }
-  .grid-rooms .climate-card:nth-child(odd) { border-right: 1px solid var(--line); }
-  .grid-rooms .climate-card:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
 }
 
 .climate-card {
   display: grid;
-  gap: 0.4rem;
-  padding: 0.65rem 0.75rem 0.55rem;
-  background: var(--hull);
+  gap: 0.45rem;
+  padding: 0.8rem 0.95rem 0.7rem;
+  background: color-mix(in srgb, #fff 40%, var(--hull));
   min-width: 0;
-}
-@media (max-width: 51.99rem) {
-  .grid-rooms .climate-card + .climate-card { border-top: 1px solid var(--line); }
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px var(--steel);
 }
 
 .climate-card__header {
@@ -294,26 +298,28 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 .climate-card__step,
 .climate-card__offset-step {
   cursor: pointer;
-  background: var(--sand);
+  background: var(--steel);
   border: 0;
   color: var(--ink);
   padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
+  border-radius: 50%;
   font-weight: 700;
   line-height: 1;
 }
 .climate-card__power {
   width: 1.55rem;
   height: 1.55rem;
-  color: var(--accent);
-}
-.climate-card__power:hover { background: var(--line); }
-.climate-card.is-off .climate-card__power {
   background: var(--accent);
-  color: var(--hull);
+  color: #fff;
+}
+.climate-card__power:hover { background: var(--accent-hover); }
+.climate-card.is-off .climate-card__power {
+  background: var(--hull);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 2px var(--accent);
 }
 
 .climate-card__instrument {
@@ -359,10 +365,11 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   width: 1.55rem;
   height: 1.55rem;
   font-size: 0.95rem;
+  background: color-mix(in srgb, var(--steel) 55%, var(--hull));
 }
 .climate-card__step:hover:not(:disabled),
 .climate-card__offset-step:hover:not(:disabled) {
-  background: var(--line);
+  background: var(--steel);
 }
 .climate-card__step:disabled,
 .climate-card__offset-step:disabled {
@@ -391,14 +398,16 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 
 .climate-card__track {
   position: relative;
-  height: 0.28rem;
-  background: var(--sand);
+  height: 0.42rem;
+  background: var(--steel);
+  border-radius: 999px;
 }
 .climate-card__track-comfort {
   position: absolute;
   top: 0;
   bottom: 0;
-  background: color-mix(in srgb, var(--accent) 35%, var(--sand));
+  background: color-mix(in srgb, var(--accent) 55%, var(--steel));
+  border-radius: 999px;
 }
 .climate-card__track-setpoint {
   position: absolute;
@@ -408,15 +417,17 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   height: calc(100% + 6px);
   transform: translateX(-50%);
   background: var(--ink);
+  border-radius: 1px;
 }
 .climate-card__track-marker {
   position: absolute;
   top: 50%;
-  width: 0.45rem;
-  height: 0.45rem;
+  width: 0.55rem;
+  height: 0.55rem;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   background: var(--accent);
+  box-shadow: 0 0 0 2px var(--hull);
   z-index: 1;
 }
 .climate-card__track-scale {
@@ -468,13 +479,16 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 .climate-card__exp-bar {
   flex: 1;
   min-width: 4.5rem;
-  height: 0.28rem;
-  background: var(--sand);
+  height: 0.42rem;
+  background: var(--steel);
+  border-radius: 999px;
+  overflow: hidden;
 }
 .climate-card__exp-bar-fill {
   display: block;
   height: 100%;
   background: var(--ink);
+  border-radius: 999px;
 }
 .climate-card__exp-pct {
   font-weight: 700;
@@ -497,7 +511,7 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 .sched-row + .sched-row::before {
   content: "·";
   margin: 0 0.35rem;
-  color: var(--line);
+  color: var(--steel-deep);
 }
 .sched-row__now-badge {
   color: var(--accent);
@@ -521,7 +535,7 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  margin: 0.7rem 0 0.4rem;
+  margin: 0.75rem 0 0.5rem;
 }
 .room-header__title {
   margin: 0;
@@ -533,9 +547,7 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   grid-template-columns: auto 1fr;
   align-items: center;
   column-gap: 1.15rem;
-  row-gap: 0.45rem;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  row-gap: 0.5rem;
 }
 .climate-card--room .climate-card__header { grid-column: 1 / -1; }
 .climate-card--room .climate-card__track,
@@ -544,24 +556,25 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 .climate-card--room .sched-section { grid-column: 1 / -1; }
 
 .climate-dial {
-  width: 7rem;
-  height: 7rem;
+  width: 7.25rem;
+  height: 7.25rem;
   display: grid;
   place-items: center;
-  background: var(--sand);
-  border-radius: 2px;
+  background: var(--hull);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--steel), 0 0 0 5px var(--steel-deep);
 }
 .climate-dial__face {
-  width: 78%;
+  width: 82%;
   aspect-ratio: 1;
-  background: var(--hull);
+  background: color-mix(in srgb, #fff 55%, var(--hull));
   border-radius: 50%;
   position: relative;
 }
 .climate-dial__face svg { display: block; width: 100%; height: 100%; }
-.tick { stroke: var(--line); stroke-width: 1.6; }
+.tick { stroke: var(--steel); stroke-width: 1.6; }
 .tick-major { stroke: var(--ink); stroke-width: 1.8; }
-.arc { fill: none; stroke: var(--sand); stroke-width: 4; }
+.arc { fill: none; stroke: var(--steel); stroke-width: 4; }
 .needle {
   fill: var(--accent);
   transform-origin: 100px 100px;
@@ -593,8 +606,8 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   display: flex;
   flex-wrap: wrap;
   gap: 0.15rem 1rem;
-  padding-top: 0.35rem;
-  border-top: 1px solid var(--line);
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--steel);
   font-variant-numeric: tabular-nums;
 }
 .room-kpis span {
@@ -612,12 +625,13 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 }
 .room-kpis .is-heat b { color: var(--accent); }
 
-.more { margin: 0.7rem 0 0; font-size: 0.8rem; }
+.more { margin: 0.85rem 0 0; font-size: 0.8rem; }
 .more a { color: var(--accent); }
 
 @media (max-width: 40rem) {
   .climate-card--room { grid-template-columns: 1fr; }
   .countdown { margin-left: 0; padding-left: 0; }
+  .fascia { padding: 0.7rem 0.75rem; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
