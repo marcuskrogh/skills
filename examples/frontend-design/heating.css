@@ -532,10 +532,10 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  column-gap: 0.85rem;
-  row-gap: 0.4rem;
-  max-width: 42rem;
-  border: 1px solid var(--line);
+  column-gap: 1.15rem;
+  row-gap: 0.45rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 .climate-card--room .climate-card__header { grid-column: 1 / -1; }
 .climate-card--room .climate-card__track,
@@ -544,8 +544,8 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 .climate-card--room .sched-section { grid-column: 1 / -1; }
 
 .climate-dial {
-  width: 5.75rem;
-  height: 5.75rem;
+  width: 7rem;
+  height: 7rem;
   display: grid;
   place-items: center;
   background: var(--sand);
