@@ -21,8 +21,6 @@ function paintTrack(card) {
   const maxEl = card.querySelector(".climate-card__track-max");
   const label = card.querySelector(".climate-card__track-comfort-label");
   const track = card.querySelector(".climate-card__track");
-  if (!comfort || !marker) return;
-
   const half = Math.max(TRACK_HALF, offset + 0.75);
   const lo = target - half;
   const hi = target + half;
@@ -30,12 +28,14 @@ function paintTrack(card) {
   const lower = target - offset;
   const upper = target + offset;
 
+  if (label) label.textContent = "Comfort " + lower.toFixed(1) + "–" + upper.toFixed(1) + "°";
+  if (minEl) minEl.textContent = lo.toFixed(0) + "°";
+  if (maxEl) maxEl.textContent = hi.toFixed(0) + "°";
+  if (!comfort || !marker) return;
+
   comfort.style.left = pct(lower) + "%";
   comfort.style.width = Math.max(0, pct(upper) - pct(lower)) + "%";
   marker.style.left = pct(current) + "%";
-  if (minEl) minEl.textContent = lo.toFixed(0) + "°";
-  if (maxEl) maxEl.textContent = hi.toFixed(0) + "°";
-  if (label) label.textContent = "Comfort " + lower.toFixed(1) + "–" + upper.toFixed(1) + "°";
   if (track) {
     track.setAttribute(
       "aria-label",

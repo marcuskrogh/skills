@@ -399,59 +399,26 @@ a.room-climate-tile__name:hover { color: var(--accent); }
 }
 
 .climate-card__band {
-  padding: 1.05rem 1.25rem 1.15rem;
+  padding: 0.95rem 1.25rem 1.1rem;
   border-top: 1px solid var(--steel);
 }
 
-.climate-card__track {
-  position: relative;
-  height: 0.38rem;
-  background: var(--steel);
-  border-radius: 999px;
-  margin-top: 0.15rem;
+.climate-card__track,
+.climate-card__track-comfort,
+.climate-card__track-setpoint,
+.climate-card__track-marker,
+.climate-card__track-min,
+.climate-card__track-max {
+  display: none;
 }
-.climate-card__track-comfort {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background: color-mix(in srgb, var(--accent) 50%, var(--steel));
-  border-radius: 999px;
-}
-.climate-card__track-setpoint {
-  position: absolute;
-  left: 50%;
-  top: -3px;
-  width: 2px;
-  height: calc(100% + 6px);
-  transform: translateX(-50%);
-  background: var(--ink);
-  border-radius: 1px;
-}
-.climate-card__track-marker {
-  position: absolute;
-  top: 50%;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--accent);
-  box-shadow: 0 0 0 2px var(--panel);
-  z-index: 1;
-}
-.climate-card__track-scale {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.45rem;
-  font-size: 0.7rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--mute);
-}
+.climate-card__track-scale { margin: 0; }
 .climate-card__track-comfort-label {
-  color: var(--ink);
-  font-size: 0.62rem;
+  display: block;
+  color: var(--mute);
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
 }
 
 .climate-card.is-off .climate-card__instrument,
@@ -512,6 +479,10 @@ a.room-climate-tile__name:hover { color: var(--accent); }
   min-width: 0;
   padding: 0.95rem 1.25rem 1.15rem;
   border-top: 1px solid var(--steel);
+}
+.panel .sched-section {
+  border-top: 0;
+  padding: 1.05rem 1.35rem 1.2rem;
 }
 .sched-section__header { display: none; }
 .sched-row {
