@@ -1,15 +1,14 @@
-/* Heating Assistant dummy — packed pavilion board. Calibration only. */
+/* Heating Assistant dummy — Rams / Braun board. Calibration only. */
 
 :root {
-  --white: #fffcf7;
-  --ink: #1c1612;
-  --mute: #6a6158;
-  --yellow: #d2b15c;
-  --yellow-deep: #c49a3a;
-  --red: #c5261e;
-  --red-hover: #a81e18;
-  --line: #eadfca;
-  --focus: #c5261e;
+  --hull: #f3f0e8;
+  --ink: #1a1917;
+  --mute: #6e6a63;
+  --sand: #e6e1d6;
+  --line: #d2cdc2;
+  --accent: #c45c26;
+  --accent-hover: #a84c1e;
+  --focus: #c45c26;
   --font: Archivo, ui-sans-serif, sans-serif;
 }
 
@@ -19,9 +18,9 @@ html { color-scheme: light; }
 body {
   margin: 0;
   min-height: 100dvh;
-  font: 15px/1.3 var(--font);
+  font: 15px/1.35 var(--font);
   color: var(--ink);
-  background: var(--white);
+  background: var(--hull);
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
@@ -36,8 +35,8 @@ a, button { touch-action: manipulation; font-family: inherit; }
   position: absolute;
   left: 0.5rem;
   top: -3rem;
-  background: var(--red);
-  color: var(--white);
+  background: var(--accent);
+  color: var(--hull);
   padding: 0.3rem 0.55rem;
   text-decoration: none;
   font-weight: 600;
@@ -45,9 +44,9 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .skip:focus { top: 0.5rem; }
 
 .board {
-  width: min(76rem, calc(100% - 1.25rem));
+  width: min(72rem, calc(100% - 1.25rem));
   margin: 0 auto;
-  padding: 0 0 1.5rem;
+  padding: 0 0 1.25rem;
 }
 
 /* ── Nav ────────────────────────────────────────────────────────────────── */
@@ -56,12 +55,12 @@ a, button { touch-action: manipulation; font-family: inherit; }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.25rem 0.5rem;
-  padding: 0.55rem 0 0.45rem;
-  border-bottom: 2px solid var(--yellow);
+  gap: 0.2rem 0.4rem;
+  padding: 0.65rem 0 0.5rem;
+  border-bottom: 1px solid var(--ink);
 }
 
-.panel-nav:not(.is-live) { border-bottom-color: var(--red); }
+.panel-nav:not(.is-live) { border-bottom-color: var(--accent); }
 
 .brand {
   display: flex;
@@ -70,7 +69,7 @@ a, button { touch-action: manipulation; font-family: inherit; }
   font-weight: 700;
   letter-spacing: -0.03em;
   font-size: 0.95rem;
-  margin-right: 0.35rem;
+  margin-right: 0.4rem;
 }
 .brand svg { display: block; }
 
@@ -83,15 +82,15 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .links a {
   color: var(--mute);
   text-decoration: none;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.3rem 0.5rem;
+  padding: 0.28rem 0.45rem;
 }
 .links a[aria-current="page"],
 .links a:hover { color: var(--ink); }
-.links a[aria-disabled="true"] { pointer-events: none; opacity: 0.45; }
+.links a[aria-disabled="true"] { pointer-events: none; opacity: 0.4; }
 
 .fill { flex: 1; min-width: 0.25rem; }
 
@@ -107,53 +106,56 @@ a, button { touch-action: manipulation; font-family: inherit; }
   gap: 0.3rem;
   font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--yellow-deep);
+  color: var(--mute);
 }
 .live i {
-  width: 0.45rem;
-  height: 0.45rem;
+  width: 0.4rem;
+  height: 0.4rem;
   border-radius: 50%;
-  background: var(--yellow);
+  background: var(--ink);
 }
-.panel-nav:not(.is-live) .live { color: var(--red); }
-.panel-nav:not(.is-live) .live i { background: var(--red); }
+.panel-nav.is-live .live { color: var(--ink); }
+.panel-nav:not(.is-live) .live,
+.panel-nav:not(.is-live) .live i { color: var(--accent); background: var(--accent); }
 
 .start {
-  width: 1.85rem;
-  height: 1.85rem;
-  border-radius: 50%;
-  border: 2px solid var(--red);
-  background: var(--red);
-  color: var(--white);
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 0;
+  border-radius: 2px;
+  background: var(--accent);
+  color: var(--hull);
   cursor: pointer;
   display: grid;
   place-items: center;
   padding: 0;
 }
-.start:hover { background: var(--red-hover); border-color: var(--red-hover); }
-.start[aria-pressed="false"] { background: var(--white); color: var(--red); }
+.start:hover { background: var(--accent-hover); }
+.start[aria-pressed="false"] {
+  background: var(--sand);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
 .start svg { display: block; }
 
-/* ── House fascia: yellow field, compact readings ───────────────────────── */
+/* ── House readings + meter ─────────────────────────────────────────────── */
 
 .fascia {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.65rem 0.25rem;
-  margin: 0.7rem 0 0.85rem;
-  padding: 0.55rem 0.7rem 0.5rem;
-  background: linear-gradient(180deg, #e3c56e, var(--yellow) 55%, var(--yellow-deep));
-  border-radius: 0.85rem;
-  color: var(--ink);
+  gap: 0.5rem 0;
+  margin: 0.65rem 0 0.7rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--line);
 }
 
 .readings {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.15rem 0;
+  gap: 0;
   margin: 0;
   flex: 1;
   min-width: 0;
@@ -161,95 +163,97 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .readings > div {
   display: grid;
   gap: 0.05rem;
-  padding: 0.1rem 0.7rem 0.15rem 0;
-  border-right: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
-  min-width: 4.6rem;
+  padding: 0.1rem 0.85rem 0.15rem 0;
+  border-right: 1px solid var(--line);
+  min-width: 4.4rem;
 }
 .readings > div:last-of-type { border-right: 0; }
 .readings dt {
   margin: 0;
   font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--ink) 62%, var(--yellow-deep));
+  color: var(--mute);
 }
 .readings dd {
   margin: 0;
   font-weight: 700;
-  font-size: 0.98rem;
+  font-size: 0.95rem;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
-  line-height: 1.1;
+  line-height: 1.15;
 }
-.readings .is-heat dd { color: var(--red); }
+.readings .is-heat dd { color: var(--accent); }
 
 .countdown {
   display: flex;
   align-items: center;
   gap: 0.45rem;
   margin-left: auto;
-  padding-left: 0.55rem;
+  padding-left: 0.65rem;
 }
 .countdown__well {
-  width: 2.6rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
+  width: 2.4rem;
+  height: 2.4rem;
   display: grid;
   place-items: center;
-  background: var(--white);
-  box-shadow: inset 0 0 0 3px var(--ink);
+  background: var(--sand);
+  border-radius: 2px;
 }
-.countdown__well svg { display: block; width: 86%; height: 86%; }
-.countdown__meta { display: grid; gap: 0.05rem; }
+.countdown__well svg { display: block; width: 78%; height: 78%; }
+.countdown__meta { display: grid; gap: 0.02rem; }
 .countdown__value {
-  font-weight: 800;
-  font-size: 1.05rem;
+  font-weight: 700;
+  font-size: 1rem;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
-  color: var(--red);
+  color: var(--accent);
   line-height: 1;
 }
 .countdown__label {
   font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--ink) 62%, var(--yellow-deep));
+  color: var(--mute);
 }
 .board.is-stopped .countdown__value { color: var(--ink); }
-.board.is-stopped .countdown__label { color: var(--red); }
+.board.is-stopped .countdown__label { color: var(--accent); }
 
-/* ── Rooms ──────────────────────────────────────────────────────────────── */
+/* ── Rooms as 606 modules ───────────────────────────────────────────────── */
 
 .rooms-label {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.35rem;
   font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--yellow-deep);
+  color: var(--mute);
 }
 
 .grid-rooms {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.45rem;
+  gap: 0;
+  border: 1px solid var(--line);
 }
 @media (min-width: 52rem) {
   .grid-rooms { grid-template-columns: 1fr 1fr; }
+  .grid-rooms .climate-card:nth-child(odd) { border-right: 1px solid var(--line); }
+  .grid-rooms .climate-card:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
 }
 
 .climate-card {
   display: grid;
   gap: 0.4rem;
-  padding: 0.55rem 0.7rem 0.5rem;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 0.7rem;
+  padding: 0.65rem 0.75rem 0.55rem;
+  background: var(--hull);
   min-width: 0;
 }
-.climate-card.is-heating { border-color: color-mix(in srgb, var(--red) 55%, var(--line)); }
+@media (max-width: 51.99rem) {
+  .grid-rooms .climate-card + .climate-card { border-top: 1px solid var(--line); }
+}
 
 .climate-card__header {
   display: flex;
@@ -262,13 +266,12 @@ a, button { touch-action: manipulation; font-family: inherit; }
 .climate-card__title,
 .room-header__title {
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  font-size: 0.72rem;
+  font-size: 0.85rem;
+  letter-spacing: -0.02em;
   color: var(--ink);
   text-decoration: none;
 }
-a.room-climate-tile__name:hover { color: var(--red); }
+a.room-climate-tile__name:hover { color: var(--accent); }
 
 .climate-card__header-right {
   display: flex;
@@ -279,56 +282,56 @@ a.room-climate-tile__name:hover { color: var(--red); }
 .climate-card__status {
   font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mute);
 }
 .climate-card.is-heating .climate-card__status,
-.climate-card.is-off .climate-card__status { color: var(--red); }
-.climate-card.is-experiment .climate-card__status { color: var(--yellow-deep); }
+.climate-card.is-off .climate-card__status { color: var(--accent); }
+.climate-card.is-experiment .climate-card__status { color: var(--ink); }
 
 .climate-card__power,
 .climate-card__step,
 .climate-card__offset-step {
   cursor: pointer;
-  background: var(--white);
-  border: 1px solid var(--line);
+  background: var(--sand);
+  border: 0;
   color: var(--ink);
   padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 2px;
   font-weight: 700;
   line-height: 1;
 }
 .climate-card__power {
-  width: 1.6rem;
-  height: 1.6rem;
-  color: var(--red);
+  width: 1.55rem;
+  height: 1.55rem;
+  color: var(--accent);
 }
-.climate-card__power:hover { border-color: var(--red); }
+.climate-card__power:hover { background: var(--line); }
 .climate-card.is-off .climate-card__power {
-  background: color-mix(in srgb, var(--red) 10%, var(--white));
-  border-color: color-mix(in srgb, var(--red) 45%, var(--line));
+  background: var(--accent);
+  color: var(--hull);
 }
 
 .climate-card__instrument {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.35rem 0.85rem;
+  gap: 0.3rem 0.75rem;
 }
 
 .climate-card__current-value {
-  font-weight: 800;
-  font-size: 1.55rem;
+  font-weight: 700;
+  font-size: 1.45rem;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
   line-height: 1;
 }
 .climate-card__current-unit {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   color: var(--mute);
   margin-left: 0.05rem;
@@ -337,7 +340,7 @@ a.room-climate-tile__name:hover { color: var(--red); }
 .climate-card__target-label,
 .climate-card__comfort-title {
   font-size: 0.58rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mute);
@@ -348,19 +351,18 @@ a.room-climate-tile__name:hover { color: var(--red); }
 .climate-card__comfort {
   display: flex;
   align-items: center;
-  gap: 0.28rem;
+  gap: 0.22rem;
 }
 
 .climate-card__step,
 .climate-card__offset-step {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1.55rem;
+  height: 1.55rem;
   font-size: 0.95rem;
 }
 .climate-card__step:hover:not(:disabled),
 .climate-card__offset-step:hover:not(:disabled) {
-  border-color: var(--red);
-  color: var(--red);
+  background: var(--line);
 }
 .climate-card__step:disabled,
 .climate-card__offset-step:disabled {
@@ -372,9 +374,9 @@ a.room-climate-tile__name:hover { color: var(--red); }
 .climate-card__offset-value {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  font-size: 1.05rem;
+  font-size: 1rem;
   letter-spacing: -0.03em;
-  min-width: 2.6rem;
+  min-width: 2.5rem;
   text-align: center;
 }
 
@@ -382,57 +384,52 @@ a.room-climate-tile__name:hover { color: var(--red); }
   display: none;
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--accent);
 }
 
 .climate-card__track {
   position: relative;
-  height: 0.45rem;
-  border-radius: 999px;
-  background: var(--line);
+  height: 0.28rem;
+  background: var(--sand);
 }
 .climate-card__track-comfort {
   position: absolute;
   top: 0;
   bottom: 0;
-  background: var(--yellow);
-  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 35%, var(--sand));
 }
 .climate-card__track-setpoint {
   position: absolute;
   left: 50%;
-  top: -2px;
-  width: 3px;
-  height: calc(100% + 4px);
+  top: -3px;
+  width: 2px;
+  height: calc(100% + 6px);
   transform: translateX(-50%);
   background: var(--ink);
-  border-radius: 1px;
 }
 .climate-card__track-marker {
   position: absolute;
   top: 50%;
-  width: 0.55rem;
-  height: 0.55rem;
+  width: 0.45rem;
+  height: 0.45rem;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  background: var(--red);
-  box-shadow: 0 0 0 2px var(--white);
+  background: var(--accent);
   z-index: 1;
 }
 .climate-card__track-scale {
   display: flex;
   justify-content: space-between;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-variant-numeric: tabular-nums;
   color: var(--mute);
-  margin-top: -0.05rem;
 }
 .climate-card__track-comfort-label {
-  color: var(--yellow-deep);
+  color: var(--ink);
   font-size: 0.58rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -451,16 +448,13 @@ a.room-climate-tile__name:hover { color: var(--red); }
 .climate-card.is-off .climate-card__off-note { display: inline; }
 .climate-card.is-off .climate-card__current-value { color: var(--mute); }
 
-/* Experiment — one line on the yellow field language */
-
 .climate-card__experiment { display: none; }
 .climate-card.is-experiment .climate-card__experiment {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.35rem 0.7rem;
+  gap: 0.3rem 0.65rem;
 }
-.climate-card.is-experiment .climate-card__current-value { color: var(--yellow-deep); }
 
 .climate-card__exp-name,
 .climate-card__exp-signal,
@@ -469,25 +463,22 @@ a.room-climate-tile__name:hover { color: var(--red); }
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--yellow-deep);
+  color: var(--mute);
 }
 .climate-card__exp-bar {
   flex: 1;
-  min-width: 5rem;
-  height: 0.4rem;
-  background: var(--line);
-  border-radius: 999px;
-  overflow: hidden;
+  min-width: 4.5rem;
+  height: 0.28rem;
+  background: var(--sand);
 }
 .climate-card__exp-bar-fill {
   display: block;
   height: 100%;
-  background: var(--yellow-deep);
+  background: var(--ink);
 }
 .climate-card__exp-pct {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: var(--yellow-deep);
 }
 .climate-card__exp-remaining,
 .climate-card__exp-fact-value {
@@ -495,8 +486,6 @@ a.room-climate-tile__name:hover { color: var(--red); }
   font-size: 0.8rem;
   color: var(--mute);
 }
-
-/* Periods as a single compact line */
 
 .sched-section { min-width: 0; }
 .sched-section__header { display: none; }
@@ -507,11 +496,11 @@ a.room-climate-tile__name:hover { color: var(--red); }
 }
 .sched-row + .sched-row::before {
   content: "·";
-  margin: 0 0.4rem;
+  margin: 0 0.35rem;
   color: var(--line);
 }
 .sched-row__now-badge {
-  color: var(--red);
+  color: var(--accent);
   font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -521,34 +510,32 @@ a.room-climate-tile__name:hover { color: var(--red); }
 .sched-row__time { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); }
 .sched-row__name { display: none; }
 .sched-row__mode--comfort { color: var(--ink); }
-.sched-row__mode--off { color: var(--red); }
+.sched-row__mode--off { color: var(--accent); }
 
-/* ── Room detail: compact dial in the instrument row ────────────────────── */
+/* ── Room detail ────────────────────────────────────────────────────────── */
 
-.nav-back {
-  display: none;
-}
+.nav-back { display: none; }
 
 .room-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  margin: 0.7rem 0 0.45rem;
+  margin: 0.7rem 0 0.4rem;
 }
 .room-header__title {
   margin: 0;
-  font-size: 0.95rem;
-  letter-spacing: -0.02em;
-  text-transform: none;
+  font-size: 1.05rem;
 }
 
 .climate-card--room {
+  display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
   column-gap: 0.85rem;
   row-gap: 0.4rem;
-  max-width: 44rem;
+  max-width: 42rem;
+  border: 1px solid var(--line);
 }
 .climate-card--room .climate-card__header { grid-column: 1 / -1; }
 .climate-card--room .climate-card__track,
@@ -557,45 +544,45 @@ a.room-climate-tile__name:hover { color: var(--red); }
 .climate-card--room .sched-section { grid-column: 1 / -1; }
 
 .climate-dial {
-  width: 6.5rem;
-  aspect-ratio: 1;
+  width: 5.75rem;
+  height: 5.75rem;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 50% 42%, #e3c56e, var(--yellow) 62%, var(--yellow-deep));
-  border-radius: 50%;
+  background: var(--sand);
+  border-radius: 2px;
 }
 .climate-dial__face {
   width: 78%;
   aspect-ratio: 1;
-  background: var(--white);
+  background: var(--hull);
   border-radius: 50%;
   position: relative;
 }
 .climate-dial__face svg { display: block; width: 100%; height: 100%; }
-.tick { stroke: var(--yellow-deep); stroke-width: 2; }
-.tick-major { stroke: var(--ink); stroke-width: 2.2; }
-.arc { fill: none; stroke: var(--yellow); stroke-width: 6; }
+.tick { stroke: var(--line); stroke-width: 1.6; }
+.tick-major { stroke: var(--ink); stroke-width: 1.8; }
+.arc { fill: none; stroke: var(--sand); stroke-width: 4; }
 .needle {
-  fill: var(--red);
+  fill: var(--accent);
   transform-origin: 100px 100px;
   transform-box: view-box;
   transform: rotate(36deg);
 }
-.hub { fill: var(--red); }
+.hub { fill: var(--accent); }
 .climate-dial__reading {
   position: absolute;
-  inset: auto 0 14%;
+  inset: auto 0 12%;
   text-align: center;
   pointer-events: none;
-  font-size: 0.58rem;
+  font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--accent);
 }
 .climate-dial__reading strong {
   display: block;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   letter-spacing: -0.04em;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
@@ -606,30 +593,35 @@ a.room-climate-tile__name:hover { color: var(--red); }
   display: flex;
   flex-wrap: wrap;
   gap: 0.15rem 1rem;
-  padding-top: 0.15rem;
+  padding-top: 0.35rem;
   border-top: 1px solid var(--line);
   font-variant-numeric: tabular-nums;
 }
-.room-kpis span { color: var(--mute); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-.room-kpis b { font-size: 0.9rem; margin-left: 0.3rem; color: var(--ink); letter-spacing: -0.02em; }
-.room-kpis .is-heat b { color: var(--red); }
+.room-kpis span {
+  color: var(--mute);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.room-kpis b {
+  font-size: 0.88rem;
+  margin-left: 0.3rem;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.room-kpis .is-heat b { color: var(--accent); }
 
-.climate-card--room .sched-section { display: flex; flex-wrap: wrap; gap: 0.2rem 0; }
-.climate-card--room .sched-row { display: inline; }
-
-.more { margin: 0.75rem 0 0; font-size: 0.8rem; }
-.more a { color: var(--red); }
+.more { margin: 0.7rem 0 0; font-size: 0.8rem; }
+.more a { color: var(--accent); }
 
 @media (max-width: 40rem) {
   .climate-card--room { grid-template-columns: 1fr; }
-  .climate-dial { width: 5.5rem; }
   .countdown { margin-left: 0; padding-left: 0; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .panel-nav.is-live .live i { animation: pip 1.8s ease-in-out infinite; }
-  .needle { animation: settle 1.1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .needle { animation: settle 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
 }
-@keyframes pip { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 @keyframes settle { from { transform: rotate(12deg); } to { transform: rotate(36deg); } }
 @media (prefers-reduced-motion: reduce) { .needle { animation: none; } }

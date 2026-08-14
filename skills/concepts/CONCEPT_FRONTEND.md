@@ -43,9 +43,10 @@ short plan and checked against that plan.
   scale, weight, and spacing are part of the design, not a default stack.
 - **Motion serves.** One orchestrated moment, or none. Animate `transform` and
   `opacity` only. Honor `prefers-reduced-motion`.
-- **Match intensity.** This default **direction** is maximal: execute the room
-  fully. When the brief names a quieter look, precision in space and type is the
-  equivalent of elaboration.
+- **Match intensity.** Execute the **direction** fully. The retro-futuristic
+  catalog is quiet and thorough ([FRONTEND-RETRO.md](FRONTEND-RETRO.md)): as
+  little design as possible, every remaining part resolved. When the brief names
+  a louder look, that look is the equivalent of elaboration.
 - **Brief wins.** When the brief names a look, follow those words — including a
   **default cluster** or a non-retro stance. When an axis is free, spend that
   freedom on **retro-futuristic** for this **subject**.
