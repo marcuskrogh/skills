@@ -122,4 +122,5 @@ When the Task has no `## Workflow` section:
 | `TWEAK.md` | tweak | tests | focused |
 | `REFINE.md` | refine | non-regression | focused |
 | `REWORK.md` | rework | comparative | focused |
+| `SANDBOX.md` without PLAN | feature / post-merge sandbox | measure kind → comparative; else tests | focused |
 | `PLAN.md` without Classification | feature | tests | per [../review/depth.md](../review/depth.md) |

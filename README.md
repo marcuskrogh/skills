@@ -114,12 +114,12 @@ Pick the **first matching** row (same order as
 | **continue** | Bare **next** / persisted Next on an active Task | Run persisted Next once |
 | **ship** | Bare **ship** / finish remaining through Done | [ship](skills/ship/SKILL.md) |
 | **help** | Which skill / navigation overview — explain only | [help](skills/help/SKILL.md) |
+| **sandbox** | Explicit isolated inspect-loop; or post-merge instead of iterate when each turn needs inspection | [sandbox](skills/sandbox/SKILL.md) |
 | **iterate** | Prior Task/PR **already merged**; still broken — straightforward production fix | [iterate](skills/iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](skills/review-fix/SKILL.md) |
 | **explore** | Vague, oversized, or foggy initiative | [explore](skills/explore/SKILL.md) |
 | **research** / **model** | Explicit multi-axis evidence or math now | [research](skills/research/SKILL.md) / [model](skills/model/SKILL.md) |
-| **sandbox** | Explicit isolated inspect-loop; or post-merge instead of iterate when each turn needs inspection | [sandbox](skills/sandbox/SKILL.md) |
-| **implement** | Ready-to-build PLAN (or legacy artifact) exists | [implement](skills/implement/SKILL.md) |
+| **implement** | Ready-to-build PLAN (or legacy artifact / SANDBOX.md) exists | [implement](skills/implement/SKILL.md) |
 | **review** / **review-fix** | Findings only, or one review→fix→CLEAN | [review](skills/review/SKILL.md) / [review-fix](skills/review-fix/SKILL.md) |
 | **summarise** | Status reported, not advanced | [summarise](skills/summarise/SKILL.md) |
 | **define** | Concrete work to pin down — **default front door** | [define](skills/define/SKILL.md) |
