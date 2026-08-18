@@ -9,7 +9,7 @@ binds an efficient workflow). Follow persisted **Next**. Do not freestyle past a
 supported workflow. For a navigation overview only, prefer **help**.
 
 On Cursor, sub-agent / Task `model` values are catalog-closed: only
-`composer-2.5` (Routine/Moderate) or `cursor-grok-4.5-high` (Demanding/manager).
+`composer-2.5` (Routine/Moderate) or `cursor-grok-4.6-high` (Demanding/manager).
 No `*-fast` variants. Third-party models bill the API budget. Load
 CONCEPT_DELEGATION and `concepts/platforms/cursor.md` before spawning workers.
 

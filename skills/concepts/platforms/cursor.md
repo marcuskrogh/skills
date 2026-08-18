@@ -24,7 +24,7 @@ is preferred for the manager.
 
 | Role | Slug |
 |------|------|
-| High / manager / Demanding worker | `cursor-grok-4.5-high` |
+| High / manager / Demanding worker | `cursor-grok-4.6-high` |
 | Mid / Moderate worker | `composer-2.5` |
 | Low / Routine worker | `composer-2.5` |
 
@@ -35,7 +35,7 @@ remap to the row for the scored category, then spawn.
 
 | Rank | Provider | Model | Slug |
 |------|----------|-------|------|
-| 1 | Cursor / xAI | Cursor Grok 4.5 | `cursor-grok-4.5-high` |
+| 1 | Cursor / xAI | Cursor Grok 4.6 | `cursor-grok-4.6-high` |
 
 ## Mid-capability (ranked)
 

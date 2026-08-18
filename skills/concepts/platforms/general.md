@@ -15,7 +15,7 @@ live in the catalog index.
 | 2 | Z.ai | GLM-5.2 | `glm-5.2`, `glm-5` latest coding |
 | 3 | Anthropic | Claude Opus 5 | `opus`, `claude-opus-5` |
 | 4 | Moonshot | Kimi K3 | `kimi-k3`, `kimi-k3-high`, K2.6 if K3 unavailable |
-| 5 | xAI | Grok 4.5 | `grok-4.5`, `cursor-grok-4.5-high` |
+| 5 | xAI | Grok 4.6 | `grok-4.6`, `cursor-grok-4.6-high` |
 | 6 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol` |
 
 ## Mid-capability (ranked)
