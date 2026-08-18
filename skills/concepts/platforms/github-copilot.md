@@ -14,7 +14,7 @@ only for Demanding.
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
 | 1 | Anthropic | Claude Opus 5 | elevated coding agent |
-| 2 | xAI | Grok 4.5 | when the Copilot catalog exposes it |
+| 2 | xAI | Grok 4.6 | when the Copilot catalog exposes it |
 | 3 | OpenAI | GPT-5.6 Sol | OpenAI frontier alternative |
 
 ## Mid-capability (ranked)

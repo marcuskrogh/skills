@@ -165,7 +165,7 @@ high-capability, escalate one tier at a time, and pick **catalog-closed** from
 [`PLATFORM-CATALOGS.md`](skills/concepts/PLATFORM-CATALOGS.md) (then only the
 detected harness file under `concepts/platforms/`). On **Cursor**, that file is
 a closed allowlist of **Composer** + **Grok** only (`composer-2.5` for Routine /
-Moderate; `cursor-grok-4.5-high` for Demanding / manager). No `*-fast` variants;
+Moderate; `cursor-grok-4.6-high` for Demanding / manager). No `*-fast` variants;
 third-party picker models bill the API budget — see
 [`platforms/cursor.md`](skills/concepts/platforms/cursor.md).
 
