@@ -2,7 +2,8 @@
 
 One **delivery** Task → **one open delivery branch and PR** from first
 **PR-opening** writer through ship. Research / model commit finding docs onto
-that branch **without** opening a PR. Charting / explore map work follows
+that branch **without** opening a PR. Sandbox commits `SANDBOX.md` plus the
+isolation tree the same way. Charting / explore map work follows
 [charting vs delivery](#charting-vs-delivery). Load when creating, resolving,
 or pushing to a delivery head.
 
@@ -19,30 +20,35 @@ or pushing to a delivery head.
    `MODEL.md` onto the delivery Task’s branch (create the branch if missing).
    **Never open a PR** from research or model. Record the branch; leave PR empty
    until a PR-opening skill runs. Done when the artifact is on the delivery head.
-4. **First PR-opening writer.** First of define / bug / tweak / refine / rework
+4. **Sandbox tree on the branch.** Commit `SANDBOX.md` and the isolation tree
+   onto the delivery Task’s branch (create the branch if missing). **Never open
+   a PR** from sandbox. Reuse the head when define already opened the PR. Done
+   when the harness and artifact are on the delivery head.
+5. **First PR-opening writer.** First of define / bug / tweak / refine / rework
    that commits for a **delivery** Task opens the draft PR when `Open PR by
-   default` (reusing the branch if research/model already started it). Later
+   default` (reusing the branch if research/model/sandbox already started it). Later
    skills only push to that head. Done when the delivery PR exists and is recorded.
-5. **Same PR through ship.** Implement, review-fix, and ship continue on that
+6. **Same PR through ship.** Implement, review-fix, and ship continue on that
    head — update the PR body; do not open a parallel `…-implement-…` or
    ship-only PR.
-6. **Explore charts; it does not open a map-only PR.** Write `ROADMAP.md` on the
+7. **Explore charts; it does not open a map-only PR.** Write `ROADMAP.md` on the
    frontier delivery Task’s branch when that head exists; otherwise persist via
    tracker / external location or a local commit **without** opening a PR. Once a
    route Task has a delivery branch, further ROADMAP updates for that Task go on
    **that** branch when practical.
-7. **Iterate** (post-merge only) always starts a **new** Task + branch + PR.
+8. **Iterate** (post-merge only) always starts a **new** Task + branch + PR.
 
 ## Charting vs delivery
 
 | Kind | What | Branch / PR |
 |------|------|-------------|
-| **Delivery Task** | Will (or may) reach implement → ship — including a define-typed explore route Task that also runs research/model | One delivery branch; research/model add finding docs only; define (or bug/tweak/refine/rework) opens the single PR through ship |
-| **Supportive-only route Task** | Explore-typed research/model/task whose **Next** advances a *different* key; no implement/ship on this key | Commit finding docs onto the **downstream delivery Task’s** branch (or tracker/external). **Never** open a PR for this key. Mark **Done** at handoff |
+| **Delivery Task** | Will (or may) reach implement → ship — including a define-typed explore route Task that also runs research/model/sandbox | One delivery branch; research/model add finding docs; sandbox adds harness + `SANDBOX.md`; define (or bug/tweak/refine/rework) opens the single PR through ship |
+| **Supportive-only route Task** | Explore-typed research/model/sandbox/task whose **Next** advances a *different* key; no implement/ship on this key | Commit finding docs or sandbox tree onto the **downstream delivery Task’s** branch (or tracker/external). **Never** open a PR for this key. Mark **Done** at handoff |
 | **Explore map (Story)** | `ROADMAP.md` + Story + route tickets | Charting only — never leave an explore-only open PR |
 
 **Invariant:** research and model produce documentation of findings on the
-delivery branch for define / implement / later Next — **no separate PRs**. After
+delivery branch for define / implement / later Next — **no separate PRs**.
+Sandbox produces a harness and `SANDBOX.md` the same way. After
 explore or supportive handoff, the only allowed open delivery PR for that Story
 is the active define→ship head (if any).
 
@@ -54,6 +60,7 @@ is the active define→ship head (if any).
 | `/tweak` | Create Task; start delivery branch when committing `TWEAK.md`; Next `/implement` |
 | `/refine` | Create Task; start delivery branch when committing `REFINE.md`; Next `/implement` |
 | `/rework` | Create Task; start delivery branch when committing `REWORK.md`; Next `/implement` (comparative) |
+| `/sandbox` | Commit `SANDBOX.md` + isolation tree on delivery branch; **never** open a PR; Next `/sandbox` (delta) or `/implement` (promote) |
 | `/iterate` | New Task + branch + PR from base; Next `/review-fix` |
 | `/define` with no explore Task | Create Task (+ Sub-tasks) as pipeline owner |
 | `/implement` with existing PLAN / BUG / TWEAK / REFINE / REWORK | Allowed; reuse delivery head |
@@ -64,8 +71,9 @@ is the active define→ship head (if any).
 
 - Explore route Tasks → parent Story; record **Blocked by** on dependents.
   Prefer one define-typed **delivery unit** per shared build. Research / model
-  steps write finding docs onto that unit’s branch (no separate PR) and mark
-  supportive-only children **Done** at handoff.
+  steps write finding docs onto that unit’s branch (no separate PR); sandbox
+  writes the harness the same way; mark supportive-only children **Done** at
+  handoff.
 - Bug Tasks are usually standalone; may Relates to a Story/Task.
 - Tweak Tasks are usually standalone; may Relates to a Story/Task.
 - Refine Tasks are usually standalone; may Relates to a Story/Task.

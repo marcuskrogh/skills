@@ -48,7 +48,7 @@ Catalogs (classes, templates, discriminators, default params):
 ## Flow
 
 1. **Gather signals** — From the aligned description (and supportive RESEARCH /
-   MODEL / ROADMAP). Done when discriminators can be applied.
+   MODEL / SANDBOX / ROADMAP). Done when discriminators can be applied.
 2. **Classify** — Ordered discriminators → **class** + confidence + one-line
    why. Done when exactly one class is selected or a costly ambiguity is named.
 3. **Bind** — Map class → template; apply override rules for blast radius /

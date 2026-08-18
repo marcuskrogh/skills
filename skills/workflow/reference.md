@@ -19,10 +19,11 @@ Load [disclosed refs](#disclosed-refs) only when a step needs them.
 - **One Task** owns work from ready-to-build through ship (provider-native key).
 - **One open delivery branch + PR** per **delivery** Task through ship.
 - **Research / model** commit finding docs (`RESEARCH.md` / `MODEL.md`) onto that
-  branch and **never open a PR**. **First PR-opening writer** is define / bug /
+  branch and **never open a PR**. **sandbox** commits `SANDBOX.md` plus the
+  isolation tree the same way. **First PR-opening writer** is define / bug /
   tweak / refine / rework; later skills **reuse** the recorded head.
 - **Explore** charts the map; it does not open a map-only PR. Prefer one
-  define-typed delivery Task for research/model/define that share a build
+  define-typed delivery Task for research/model/sandbox/define that share a build
   ([delivery.md](delivery.md#charting-vs-delivery)).
 - **Iterate** (post-merge only) opens a **new** Task + branch + PR.
 
@@ -39,6 +40,7 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **rework** | Intentional implementation change; no measured degradation | `REWORK.md` + Task + delivery branch/PR | `/implement` (comparative) |
 | **research** | Multi-axis question | `RESEARCH.md` finding docs on delivery branch (no PR) | `/model` or `/define` |
 | **model** | Math alignment with user | `MODEL.md` finding docs on delivery branch (no PR) | `/define` |
+| **sandbox** | Isolated inspect-loop for a contained element | `SANDBOX.md` + harness on delivery branch (no PR) | `/sandbox` (delta) or `/implement` (promote) |
 | **define** | Route or standalone Task (front door for concrete work) | `PLAN.md` + Classification + Workflow binding + Sub-tasks + branch/PR | First skill in bound Chain (usually `/implement`) |
 | **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE ready | Code on **same** PR; Task → In Review | `/review-fix` |
 | **iterate** | Shipped work still wrong | `ITERATE.md` + **new** Task/PR; In Review | `/review-fix` |
@@ -48,7 +50,8 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **summarise** | Anytime | Status only (About / Stage / Next) | *(reports; does not advance)* |
 
 Side paths **research** / **model** enrich the **same** Task; they do not replace
-user answers in **define**.
+user answers in **define**. **sandbox** likewise enriches the same Task with a
+harness and inspectables; it does not replace implement.
 
 ## Continuation keywords
 
@@ -72,6 +75,7 @@ the user’s word. Full Next table and persistence targets: [handoff.md](handoff
 | `PLAN.md` | define | Spec + Classification + Workflow binding + keys + **Next** |
 | `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` | bug / tweak / refine / rework / iterate (manual override) | Spec + keys + **Next** |
 | `RESEARCH.md` / `MODEL.md` | research / model | Finding docs on the delivery branch for define / implement (+ **Next**); never their own PR |
+| `SANDBOX.md` + isolation tree | sandbox | Promotion input on the delivery branch for implement (+ **Next**); never its own PR |
 | Branch + PR | Define / bug / tweak / refine / rework → ship | One delivery vehicle per Task (research/model may start the branch only) |
 | Merge + Done | ship | Closed-loop closeout on that PR |
 

@@ -28,11 +28,12 @@ the map; does not start delivery.
 | If you… | Run | What happens |
 |---------|-----|----------------|
 | Have no usable workspace yet | `/setup` | `WORKSPACE.md` (tracker + paths) |
-| Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks; research/model = finding docs on the delivery branch → `/define` |
+| Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks; research/model/sandbox = artifacts on the delivery branch → `/define` |
 | Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Align → **classify** → **bind workflow** → `PLAN.md` + **Next** |
 
 Without an explicit override or continuation: **foggy → explore**, **concrete →
-define**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework`.
+define**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework`
+`/sandbox`.
 
 ### Define: classify + bind
 
@@ -42,7 +43,7 @@ After user alignment it:
 1. Infers a closed **class** (bug / tweak / refine / rework / feature / …)
 2. Binds an efficient **template** + **parameters** (e.g. fix-fast,
    parity-iterative, feature-heavy; single vs multiagent; verify mode; review
-   depth; optional research/model side paths)
+   depth; optional research/model side paths; optional sandbox inspect-loop)
 3. Writes Classification + Workflow onto `PLAN.md` and the tracker
 4. Sets **Next** to the first step of the bound **Chain**
 
@@ -68,15 +69,17 @@ continue or ship, not a new map. Details:
 ### Typical chain
 
 ```text
-setup → explore? → define (classify + bind) → [bound chain, often implement → review-fix → ship]
+setup → explore? → define (classify + bind) → [sandbox?] → [bound chain, often implement → review-fix → ship]
 ```
 
 Explore charts a **map**; research / model commit **finding docs**
 (`RESEARCH.md` / `MODEL.md`) onto the delivery branch and **never open their
-own PRs** — define opens the single delivery PR. Each define Task owns **one
+own PRs**. Sandbox commits `SANDBOX.md` plus an isolation tree the same way —
+inspect each iteration without shipping production. Define opens the single
+delivery PR. Each define Task owns **one
 delivery branch + one PR** through ship. Continuing via **Next** reuses that
-branch/PR (implement reads research/model docs when writing product docs).
-**`/ship`** may run after define (or mid-chain) to finish any **remaining**
+branch/PR (implement reads research/model docs when writing product docs, and
+promotes an accepted sandbox). **`/ship`** may run after define (or mid-chain) to finish any **remaining**
 steps, then merge and close out.
 
 ### Post-ship iterate
@@ -110,6 +113,7 @@ Pick the **first matching** row (same order as
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](skills/review-fix/SKILL.md) |
 | **explore** | Vague, oversized, or foggy initiative | [explore](skills/explore/SKILL.md) |
 | **research** / **model** | Explicit multi-axis evidence or math now | [research](skills/research/SKILL.md) / [model](skills/model/SKILL.md) |
+| **sandbox** | Explicit isolated inspect-loop for a contained UI/method/bench | [sandbox](skills/sandbox/SKILL.md) |
 | **implement** | Ready-to-build PLAN (or legacy artifact) exists | [implement](skills/implement/SKILL.md) |
 | **review** / **review-fix** | Findings only, or one review→fix→CLEAN | [review](skills/review/SKILL.md) / [review-fix](skills/review-fix/SKILL.md) |
 | **summarise** | Status reported, not advanced | [summarise](skills/summarise/SKILL.md) |
@@ -117,13 +121,15 @@ Pick the **first matching** row (same order as
 | **bug** / **tweak** / **refine** / **rework** | User **explicitly** named that skill | matching skill |
 
 Side paths **research** / **model** usually appear via define’s bound
-`side_paths` or an explicit ask. Maintaining this skills repo →
+`side_paths` or an explicit ask. **sandbox** is a separate bound step
+(`sandbox: inject`) or an explicit `/sandbox`. Maintaining this skills repo →
 [`manage-skills`](skills/manage-skills/SKILL.md).
 
 ### Delivery contract (one line)
 
 One Task → one open delivery branch/PR through ship; research / model add finding
-docs on that branch only (no separate PR); explore maps without owning a route
+docs on that branch only (no separate PR); sandbox adds a harness the same way;
+explore maps without owning a route
 PR; iterate (post-merge only) opens a new Task + PR. Continuity (keys, status,
 Next, artifacts, branch/PR) mirrors to markdown when enabled — see
 [`skills/workflow/`](skills/workflow/SKILL.md).
@@ -172,7 +178,8 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── CONCEPT_LANGUAGE.md     ← user-facing prose; setup can persist general
 │   ├── CONCEPT_DEFINITION.md
 │   ├── CONCEPT_RESEARCH.md
-│   └── CONCEPT_REVIEW.md
+│   ├── CONCEPT_REVIEW.md
+│   └── CONCEPT_SANDBOX.md
 ├── workflow/                   ← lean delivery contract + disclosed refs
 ├── workflows/                  ← model-invoked router (explore/define front doors)
 ├── setup/                      ← workspace alignment → WORKSPACE.md
@@ -184,6 +191,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── rework/                     ← manual override → REWORK.md (comparative eval)
 ├── research/                   ← finding docs → RESEARCH.md on delivery branch (no PR)
 ├── model/                      ← math finding docs → MODEL.md on delivery branch (no PR)
+├── sandbox/                    ← isolated inspect-loop → SANDBOX.md + harness (no PR)
 ├── implement/                  ← honors PLAN Workflow binding
 ├── iterate/                    ← post-ship fix → review-fix
 ├── review/                     ← adaptive-depth; honors bound review.mode/depth
@@ -211,7 +219,8 @@ templates/project-sync/         ← startup sync script template
 | **define** | user | **Front door** for concrete work → align, classify, bind → `PLAN.md` |
 | **bug** / **tweak** / **refine** / **rework** | user | Manual overrides; prefer `/define` for new work |
 | **research** / **model** | user | Finding docs on delivery branch (no PR; often via define `side_paths`) |
-| **implement** | user | Build on the **same** delivery branch/PR; uses RESEARCH/MODEL when formulating docs |
+| **sandbox** | user | Isolated inspect-loop on delivery branch (no PR; often via `sandbox: inject`) |
+| **implement** | user | Build on the **same** delivery branch/PR; uses RESEARCH/MODEL when formulating docs; promotes SANDBOX |
 | **iterate** | user | Post-ship fix → new Task/branch/PR → review-fix |
 | **review** | user | Adaptive-depth findings only |
 | **review-fix** | user | One review → fix-forward → CLEAN → ship |
@@ -373,7 +382,7 @@ adding a single file to a consuming repo:
 
 - `WORKSPACE.md` lives in `~/.agents/`
 - `PLAN.md` / `ROADMAP.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` /
-  `MODEL.md` / `RESEARCH.md` / `ITERATE.md` are written under
+  `MODEL.md` / `RESEARCH.md` / `SANDBOX.md` / `ITERATE.md` are written under
   `~/.agents/artifacts/<repo>/` and their **full content is pushed into the
   tracker issue**, which becomes the durable, shareable copy
 - Disable the markdown mirror so the remote tracker is the sole source of truth

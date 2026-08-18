@@ -47,6 +47,7 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **explore** | Vague, oversized, or foggy initiative — destination felt, way unclear | [explore](../explore/SKILL.md) |
 | **research** | User explicitly wants multi-axis literature/evidence now (not product alignment) | [research](../research/SKILL.md) |
 | **model** | User explicitly wants math formulation now (not product scope/UX) | [model](../model/SKILL.md) |
+| **sandbox** | User explicitly wants isolated inspect-loop development of a contained UI/method/bench now (not production implement) | [sandbox](../sandbox/SKILL.md) |
 | **implement** | Ready-to-build PLAN (or legacy BUG/TWEAK/REFINE/REWORK/ITERATE) exists; build or resume | [implement](../implement/SKILL.md) |
 | **review** | Want findings only on an In Review PR (no auto-fix) | [review](../review/SKILL.md) |
 | **review-fix** | Want one review → fix → CLEAN on the delivery PR | [review-fix](../review-fix/SKILL.md) |
@@ -56,6 +57,9 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 
 Side paths **research** / **model** usually appear via define’s bound `side_paths`
 or an explicit user ask; they do not replace define probes with the user.
+**sandbox** is a separate bound step (`sandbox: inject`) — before implement, or
+mid-implement when a package needs inspect-each-turn — and may also be invoked
+explicitly.
 
 ## Steps
 
@@ -69,7 +73,7 @@ or an explicit user ask; they do not replace define probes with the user.
 ## Invariants
 
 - **Prefer workflow.** If any catalog row fits the ask, route through it. Do not freestyle implement, invent a parallel plan format, or run unstructured intake when a supported path exists.
-- **Front doors.** Without an explicit override or continuation, concrete delivery asks → **define**; foggy asks → **explore**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework`.
+- **Front doors.** Without an explicit override or continuation, concrete delivery asks → **define**; foggy asks → **explore**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework` `/sandbox`.
 - **Router, not executor.** This skill chooses and discloses; the target skill owns behaviour.
 - **One path.** Do not start explore and define in parallel for the same ask.
 - **Help explains.** If the user only wants a map or which-skill guidance, prefer **help** over starting a delivery skill.

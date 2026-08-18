@@ -31,7 +31,8 @@ intentional change vs structure-only vs measured swap).
 | **feature-heavy** | Cross-cutting / high-risk feature | implement (multiagent OK) → review-fix (full) → ship |
 
 Optional prefix steps (only when bound): `/research`, `/model` before
-implement — recorded in `side_paths`.
+implement — recorded in `side_paths`. Optional `/sandbox` before implement —
+recorded in `sandbox` (`none` \| `inject`).
 
 ## Default binding (class → template)
 
@@ -56,17 +57,18 @@ Every binding records these keys (use exactly these names):
 | `review.mode` | `single` \| `multiagent` | Focused worker set vs full multi-axis workers |
 | `review.depth` | `focused` \| `full` | See [../review/depth.md](../review/depth.md) |
 | `side_paths` | `none` \| `research` \| `model` \| `research+model` | Supportive passes before implement |
+| `sandbox` | `none` \| `inject` | Isolated inspect-loop for a contained element before (or instead of jumping into) production implement |
 
 ### Default params by template
 
-| Template | implement.mode | implement.verify | implement.iteration | review.mode | review.depth | side_paths |
-|----------|----------------|------------------|---------------------|-------------|--------------|------------|
-| fix-fast | single | tests | one-shot | single | focused | none |
-| delta-fast | single | tests | one-shot | single | focused | none |
-| structure-safe | single | non-regression | one-shot | single | focused | none |
-| parity-iterative | single | comparative | until-bar | single | focused | none |
-| feature-standard | single | tests | one-shot | single | focused | none |
-| feature-heavy | multiagent | tests | one-shot | multiagent | full | none |
+| Template | implement.mode | implement.verify | implement.iteration | review.mode | review.depth | side_paths | sandbox |
+|----------|----------------|------------------|---------------------|-------------|--------------|------------|---------|
+| fix-fast | single | tests | one-shot | single | focused | none | none |
+| delta-fast | single | tests | one-shot | single | focused | none | none |
+| structure-safe | single | non-regression | one-shot | single | focused | none | none |
+| parity-iterative | single | comparative | until-bar | single | focused | none | none |
+| feature-standard | single | tests | one-shot | single | focused | none | none |
+| feature-heavy | multiagent | tests | one-shot | multiagent | full | none | none |
 
 ### Override rules (apply after defaults; efficiency-first)
 
@@ -76,6 +78,7 @@ Every binding records these keys (use exactly these names):
 | Localized one-concern diff, no new layers | keep `focused` / `single` even on feature-standard |
 | Math/formulation unclear and blocks acceptance | `side_paths=model` (and/or research) before implement |
 | Literature/evidence needed before locking approach | `side_paths=research` |
+| Contained UI/UX slice or isolated method/perf comparison that needs inspect-each-turn before production wiring | `sandbox=inject` |
 | Rework / comparative verify | force `implement.verify=comparative`, `implement.iteration=until-bar` |
 | User asks for thorough/full review | `review.depth=full`, `review.mode=multiagent` |
 | User asks to skip multiagent / save tokens | prefer `single` + `focused` unless override risk rows apply |
@@ -100,11 +103,14 @@ feature-heavy or full multiagent review without a matching override row.
   - review.mode: single | multiagent
   - review.depth: focused | full
   - side_paths: none | research | model | research+model
+  - sandbox: none | inject
 - Chain: implement → review-fix → ship
 - Rationale: <one line efficiency + risk>
 ```
 
-Adjust **Chain** when `side_paths` ≠ none (e.g. `research → implement → …`).
+Adjust **Chain** when `side_paths` ≠ none (e.g. `research → implement → …`) or
+`sandbox=inject` (e.g. `sandbox → implement → review-fix → ship`). Prefix
+order: side_paths, then sandbox, then implement.
 
 ## Legacy fallback
 

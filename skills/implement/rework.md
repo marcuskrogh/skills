@@ -34,6 +34,9 @@ verify briefs for rework Tasks. Complements [testing.md](testing.md).
       green”
 - [ ] Suite/lint non-degradation per [testing.md](testing.md)
 - [ ] PR test plan links or embeds comparative evidence
+- [ ] When `SANDBOX.md` already holds baseline vs candidate for the same bar,
+      reuse it; re-measure in production only when the Promote map says the
+      production path can differ
 
 ## Package report (rework extras)
 

@@ -26,11 +26,12 @@ charting a course through foggy work. Explore charts; downstream skills walk.
 - **fog** — in-scope work felt but not yet ticketable
 - **route** — sequenced Tasks that clear fog
 - **frontier** — open, unblocked route Tasks
-- **delivery unit** — one define-typed Task (and its PR) that owns research/model finding docs through ship when they share a build
+- **delivery unit** — one define-typed Task (and its PR) that owns research/model/sandbox artifacts through ship when they share a build
 - **finding docs** — `RESEARCH.md` / `MODEL.md` committed on the delivery branch for later skills; never their own PR
+- **sandbox** — isolated harness + `SANDBOX.md` on the delivery branch; never its own PR
 - **supportive-only** — explore route Task whose Next advances a different key; no implement/ship on itself
 
-**Chart the route.** Creating a research/model/define Task completes a map step;
+**Chart the route.** Creating a research/model/sandbox/define Task completes a map step;
 the frontier's Handoff starts execution.
 
 ## Extensions
@@ -56,7 +57,7 @@ whether you can answer it now.
 
 | Put it here | When |
 |-------------|------|
-| **Route Task** | Sharp enough to hand to `/define` (preferred), `/research`, `/model`, or a concrete unblocker — even if blocked |
+| **Route Task** | Sharp enough to hand to `/define` (preferred), `/research`, `/model`, `/sandbox`, or a concrete unblocker — even if blocked |
 | **Not yet specified** (fog) | Sensed but not ticket-sized — do not pre-slice into fake Tasks |
 | **Out of scope** | Beyond this destination — never graduates unless destination is redrawn |
 
@@ -69,13 +70,14 @@ what is now sharp into fresh Tasks.
 |------|------|--------------------------|
 | **research** | Evidence finding docs the route waits on | `/research <KEY>` |
 | **model** | Math finding docs before (or with) definition | `/model <KEY>` |
+| **sandbox** | Isolated inspect-loop for a contained element before production implement | `/sandbox <KEY>` |
 | **define** | User-agent alignment on particulars for a buildable slice | `/define <KEY>` |
 | **task** | Other unblocker that earns its place by unblocking a later decision | Checklist on the Task |
 
 **One delivery unit by default.** Prefer a **single define-typed route Task**
-when research / model / define feed the same eventual build — run research and
-model on that Task so `RESEARCH.md` / `MODEL.md` land on the same branch define
-and implement will use. Prefer **separate route Tasks with dependencies** only
+when research / model / sandbox / define feed the same eventual build — run those
+steps on that Task so artifacts land on the same branch define and implement
+will use. Prefer **separate route Tasks with dependencies** only
 when sequence truly needs independent tickets (parallel owners, research that
 may kill the destination, or blockers owned elsewhere).
 
@@ -85,10 +87,11 @@ Order).
 
 **Finding docs, not separate PRs.** Research and model only produce finding
 documentation on the delivery branch for whatever follows in **Next** (define,
-implement, …). They never open their own PRs. Explore does not open a map-only
+implement, …). Sandbox produces a harness and `SANDBOX.md` the same way. They
+never open their own PRs. Explore does not open a map-only
 PR. The only open delivery PR is the define→ship head once define (or a
 bug/tweak/refine/rework entry) opens it. Supportive-only route Tasks go **Done**
-at handoff after their docs are on the downstream delivery branch.
+at handoff after their docs (or harness) are on the downstream delivery branch.
 
 ## Artifact
 
@@ -106,7 +109,7 @@ at handoff after their docs are on the downstream delivery branch.
 ## Route
 | Order | Task | Type | Blocked by | Status | Issue |
 |-------|------|------|------------|--------|-------|
-| 1 | <title> | research / model / define / task | — | To Do | <KEY> |
+| 1 | <title> | research / model / sandbox / define / task | — | To Do | <KEY> |
 
 ## Cleared so far
 - [<title>](link) — <one-line gist>
@@ -142,7 +145,7 @@ Keep Destination short. **Not yet specified** stays non-empty whenever honest fo
 
 1. **Load and orient** — Read Destination, Route, Cleared, and fog; compare them with tracker state. Done when cleared work and the current frontier are identified.
 2. **Rechart** — Graduate sharp fog into Tasks, wire dependencies, and move work beyond the destination to Out of scope. Done when each changed item is classified and every new Task has enough context for its declared skill.
-3. **Persist and hand off** — Update ROADMAP, Story, tracker, and ISSUES; choose the new frontier by Order; ensure research/model finding docs sit on the delivery branch with no research/model PRs. Done when all durable surfaces carry the same route and **Next**, with no hanging charting PRs.
+3. **Persist and hand off** — Update ROADMAP, Story, tracker, and ISSUES; choose the new frontier by Order; ensure research/model/sandbox artifacts sit on the delivery branch with no research/model/sandbox PRs. Done when all durable surfaces carry the same route and **Next**, with no hanging charting PRs.
 
 ## Tracker (after approval)
 
@@ -162,10 +165,11 @@ Prefer the frontier's declared type; if several unblocked, lowest **Order** (or 
 |---------------|--------|
 | research | `/research <TASK-KEY>` |
 | model | `/model <TASK-KEY>` |
+| sandbox | `/sandbox <TASK-KEY>` |
 | define | `/define <TASK-KEY>` |
 
-Before handing off, confirm research/model left finding docs on the delivery
-branch only — no research/model or explore-only open PRs
+Before handing off, confirm research/model/sandbox left artifacts on the delivery
+branch only — no research/model/sandbox or explore-only open PRs
 ([delivery](../workflow/delivery.md#charting-vs-delivery)).
 
 ```markdown
