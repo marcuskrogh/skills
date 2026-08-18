@@ -21,11 +21,14 @@ Load [disclosed refs](#disclosed-refs) only when a step needs them.
 - **Research / model** commit finding docs (`RESEARCH.md` / `MODEL.md`) onto that
   branch and **never open a PR**. **sandbox** commits `SANDBOX.md` plus the
   isolation tree the same way. **First PR-opening writer** is define / bug /
-  tweak / refine / rework; later skills **reuse** the recorded head.
+  tweak / refine / rework, or **implement** after a post-merge sandbox; later
+  skills **reuse** the recorded head.
 - **Explore** charts the map; it does not open a map-only PR. Prefer one
   define-typed delivery Task for research/model/sandbox/define that share a build
   ([delivery.md](delivery.md#charting-vs-delivery)).
-- **Iterate** (post-merge only) opens a **new** Task + branch + PR.
+- **Iterate** (post-merge only) opens a **new** Task + branch + PR when the delta
+  is a straightforward production fix. **Sandbox post-merge** opens a **new**
+  Task + branch from base **without** a PR; implement opens the PR after promote.
 
 Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 
@@ -40,18 +43,19 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **rework** | Intentional implementation change; no measured degradation | `REWORK.md` + Task + delivery branch/PR | `/implement` (comparative) |
 | **research** | Multi-axis question | `RESEARCH.md` finding docs on delivery branch (no PR) | `/model` or `/define` |
 | **model** | Math alignment with user | `MODEL.md` finding docs on delivery branch (no PR) | `/define` |
-| **sandbox** | Isolated inspect-loop for a contained element | `SANDBOX.md` + harness on delivery branch (no PR) | `/sandbox` (delta) or `/implement` (promote) |
+| **sandbox** | Isolated inspect-loop for a contained element (incl. post-merge instead of iterate) | `SANDBOX.md` + harness on delivery branch (no PR) | `/sandbox` (delta) or `/implement` (promote) |
 | **define** | Route or standalone Task (front door for concrete work) | `PLAN.md` + Classification + Workflow binding + Sub-tasks + branch/PR | First skill in bound Chain (usually `/implement`) |
-| **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE ready | Code on **same** PR; Task → In Review | `/review-fix` |
-| **iterate** | Shipped work still wrong | `ITERATE.md` + **new** Task/PR; In Review | `/review-fix` |
+| **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX ready | Code on **same** PR (opens PR after post-merge sandbox); Task → In Review | `/review-fix` |
+| **iterate** | Shipped work still wrong; straightforward production fix | `ITERATE.md` + **new** Task/PR; In Review | `/review-fix` |
 | **review** | Task In Review | Findings on the **same** PR | `/review-fix` or `/ship` |
 | **review-fix** | Task In Review | One review → fix-forward → CLEAN | `/ship` |
-| **ship** | After ready-to-build | Remaining work + merge + Done | Done (or `/iterate`) |
+| **ship** | After ready-to-build | Remaining work + merge + Done | Done (or `/iterate` / `/sandbox`) |
 | **summarise** | Anytime | Status only (About / Stage / Next) | *(reports; does not advance)* |
 
 Side paths **research** / **model** enrich the **same** Task; they do not replace
 user answers in **define**. **sandbox** likewise enriches the same Task with a
-harness and inspectables; it does not replace implement.
+representative harness and inspectables; it does not replace implement. Post-merge
+sandbox starts a **new** Task (instead of iterate) when each turn needs inspection.
 
 ## Continuation keywords
 

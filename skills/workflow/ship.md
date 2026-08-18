@@ -10,7 +10,7 @@ It is not limited to “clean review → merge”.
 
 ```text
 detect stage
-  → not ready-to-build → stop; tell user /define|/bug|/tweak|/refine|/rework|/iterate
+  → not ready-to-build → stop; tell user /define|/bug|/tweak|/refine|/rework|/iterate|/sandbox
   → sandbox outstanding (`sandbox=inject`, SANDBOX.md not promotion-ready) → /sandbox
   → implementation outstanding → /implement on delivery branch/PR
   → review not CLEAN → /review-fix on same PR

@@ -14,7 +14,7 @@ Apply **discriminators in order**; **first match wins**.
 | 3 | **refine** | Structure, naming, layering, comments, or docs only; **executable behaviour unchanged** |
 | 4 | **tweak** | Small intentional behaviour delta; not a defect; too light for a full feature slice |
 | 5 | **feature** | Buildable product/system slice that needs scope/behaviour/acceptance as a unit |
-| 6 | **iterate** | Prior Task already **merged**; shipped work still wrong or incomplete (post-ship only) |
+| 6 | **iterate** | Prior Task already **merged**; shipped work still wrong or incomplete (post-ship only); straightforward production fix — inspect-each-turn post-merge is sandbox |
 
 If nothing matches cleanly → ask one discriminator question (usually: defect vs
 intentional change vs structure-only vs measured swap).

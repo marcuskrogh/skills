@@ -86,10 +86,15 @@ steps, then merge and close out.
 
 ```text
 ship → iterate → review-fix → ship → (optional) iterate …
+ship → sandbox → implement → review-fix → ship   # inspect-loop instead of iterate
 ```
 
 `/iterate` opens a **new** Task/branch/PR after merge (not fix-forward on an
-open PR). `/review` is findings-only; `/review-fix` runs one review →
+open PR) when the delta is a straightforward production fix. Prefer
+[`/sandbox`](skills/sandbox/SKILL.md) when each turn needs visual, plot, or
+report inspection of a contained element — the sandbox must be
+**representative** of production in every area that would change the
+inspectable or comparison, then implement promotes. `/review` is findings-only; `/review-fix` runs one review →
 fix-forward → CLEAN. `/summarise` reports status anytime without advancing.
 
 ### Manual overrides vs define
@@ -109,11 +114,11 @@ Pick the **first matching** row (same order as
 | **continue** | Bare **next** / persisted Next on an active Task | Run persisted Next once |
 | **ship** | Bare **ship** / finish remaining through Done | [ship](skills/ship/SKILL.md) |
 | **help** | Which skill / navigation overview — explain only | [help](skills/help/SKILL.md) |
-| **iterate** | Prior Task/PR **already merged**; still broken | [iterate](skills/iterate/SKILL.md) |
+| **iterate** | Prior Task/PR **already merged**; still broken — straightforward production fix | [iterate](skills/iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](skills/review-fix/SKILL.md) |
 | **explore** | Vague, oversized, or foggy initiative | [explore](skills/explore/SKILL.md) |
 | **research** / **model** | Explicit multi-axis evidence or math now | [research](skills/research/SKILL.md) / [model](skills/model/SKILL.md) |
-| **sandbox** | Explicit isolated inspect-loop for a contained UI/method/bench | [sandbox](skills/sandbox/SKILL.md) |
+| **sandbox** | Explicit isolated inspect-loop; or post-merge instead of iterate when each turn needs inspection | [sandbox](skills/sandbox/SKILL.md) |
 | **implement** | Ready-to-build PLAN (or legacy artifact) exists | [implement](skills/implement/SKILL.md) |
 | **review** / **review-fix** | Findings only, or one review→fix→CLEAN | [review](skills/review/SKILL.md) / [review-fix](skills/review-fix/SKILL.md) |
 | **summarise** | Status reported, not advanced | [summarise](skills/summarise/SKILL.md) |
@@ -122,15 +127,17 @@ Pick the **first matching** row (same order as
 
 Side paths **research** / **model** usually appear via define’s bound
 `side_paths` or an explicit ask. **sandbox** is a separate bound step
-(`sandbox: inject`) or an explicit `/sandbox`. Maintaining this skills repo →
+(`sandbox: inject`), an explicit `/sandbox`, or the post-merge inspect-loop
+instead of iterate. Maintaining this skills repo →
 [`manage-skills`](skills/manage-skills/SKILL.md).
 
 ### Delivery contract (one line)
 
 One Task → one open delivery branch/PR through ship; research / model add finding
-docs on that branch only (no separate PR); sandbox adds a harness the same way;
-explore maps without owning a route
-PR; iterate (post-merge only) opens a new Task + PR. Continuity (keys, status,
+docs on that branch only (no separate PR); sandbox adds a representative harness
+the same way; explore maps without owning a route
+PR; iterate (post-merge only) opens a new Task + PR; sandbox post-merge opens a
+new Task + branch without a PR. Continuity (keys, status,
 Next, artifacts, branch/PR) mirrors to markdown when enabled — see
 [`skills/workflow/`](skills/workflow/SKILL.md).
 
@@ -219,9 +226,9 @@ templates/project-sync/         ← startup sync script template
 | **define** | user | **Front door** for concrete work → align, classify, bind → `PLAN.md` |
 | **bug** / **tweak** / **refine** / **rework** | user | Manual overrides; prefer `/define` for new work |
 | **research** / **model** | user | Finding docs on delivery branch (no PR; often via define `side_paths`) |
-| **sandbox** | user | Isolated inspect-loop on delivery branch (no PR; often via `sandbox: inject`) |
+| **sandbox** | user | Isolated, representative inspect-loop on delivery branch (no PR; inject, mid-implement, or post-merge instead of iterate) |
 | **implement** | user | Build on the **same** delivery branch/PR; uses RESEARCH/MODEL when formulating docs; promotes SANDBOX |
-| **iterate** | user | Post-ship fix → new Task/branch/PR → review-fix |
+| **iterate** | user | Post-ship straightforward fix → new Task/branch/PR → review-fix |
 | **review** | user | Adaptive-depth findings only |
 | **review-fix** | user | One review → fix-forward → CLEAN → ship |
 | **ship** | user | Finish remaining along the bound chain, then merge + Done |

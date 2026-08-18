@@ -48,5 +48,6 @@ Requires authenticated `gh` + tracker auth.
 
 Task Done (or stop reason); stage detected + steps run; Sub-tasks closed; Story status;
 PR URL; closed-loop confirmation when merged; changelog path + entry when updated (or
-skip reason when omitted); Next hint for next phase or `/iterate` when post-ship
-follow-up needed. No skill handoff when Task is Done.
+skip reason when omitted); Next hint for next phase, `/iterate` when post-ship
+straightforward, or `/sandbox` when each turn needs inspectables. No skill
+handoff when Task is Done.

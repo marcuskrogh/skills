@@ -42,12 +42,12 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **continue** | Bare **next** / persisted **Next** / “continue” on an active Task | Run persisted Next once ([continuation keywords](../workflow/reference.md#continuation-keywords); [entry context](../workflow/handoff.md#entry-context)) |
 | **ship** | Bare **ship** / “finish” / “close it out” / finish remaining through Done | [ship](../ship/SKILL.md) |
 | **help** | Which skill / how workflows relate / navigation overview — explain only | [help](../help/SKILL.md) |
-| **iterate** | Prior Task/PR **already merged**; still broken or incomplete | [iterate](../iterate/SKILL.md) |
+| **iterate** | Prior Task/PR **already merged**; still broken or incomplete — straightforward production fix (tests/review on the new PR suffice) | [iterate](../iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](../review-fix/SKILL.md) (or implement fix-forward) |
 | **explore** | Vague, oversized, or foggy initiative — destination felt, way unclear | [explore](../explore/SKILL.md) |
 | **research** | User explicitly wants multi-axis literature/evidence now (not product alignment) | [research](../research/SKILL.md) |
 | **model** | User explicitly wants math formulation now (not product scope/UX) | [model](../model/SKILL.md) |
-| **sandbox** | User explicitly wants isolated inspect-loop development of a contained UI/method/bench now (not production implement) | [sandbox](../sandbox/SKILL.md) |
+| **sandbox** | Explicit isolated inspect-loop of a contained UI/method/bench; bound `sandbox: inject`; mid-implement inspect-loop; or **post-merge instead of iterate** when each turn needs visual/plot/report inspection | [sandbox](../sandbox/SKILL.md) |
 | **implement** | Ready-to-build PLAN (or legacy BUG/TWEAK/REFINE/REWORK/ITERATE) exists; build or resume | [implement](../implement/SKILL.md) |
 | **review** | Want findings only on an In Review PR (no auto-fix) | [review](../review/SKILL.md) |
 | **review-fix** | Want one review → fix → CLEAN on the delivery PR | [review-fix](../review-fix/SKILL.md) |
@@ -59,7 +59,8 @@ Side paths **research** / **model** usually appear via define’s bound `side_pa
 or an explicit user ask; they do not replace define probes with the user.
 **sandbox** is a separate bound step (`sandbox: inject`) — before implement, or
 mid-implement when a package needs inspect-each-turn — and may also be invoked
-explicitly.
+explicitly. Post-merge, prefer sandbox over iterate when each turn needs
+inspectables.
 
 ## Steps
 

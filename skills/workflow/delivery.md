@@ -22,11 +22,13 @@ or pushing to a delivery head.
    until a PR-opening skill runs. Done when the artifact is on the delivery head.
 4. **Sandbox tree on the branch.** Commit `SANDBOX.md` and the isolation tree
    onto the delivery Task’s branch (create the branch if missing). **Never open
-   a PR** from sandbox. Reuse the head when define already opened the PR. Done
+   a PR** from sandbox. Reuse the head when define already opened the PR.
+   Post-merge: **new** branch from WORKSPACE base for the new Task. Done
    when the harness and artifact are on the delivery head.
 5. **First PR-opening writer.** First of define / bug / tweak / refine / rework
    that commits for a **delivery** Task opens the draft PR when `Open PR by
-   default` (reusing the branch if research/model/sandbox already started it). Later
+   default` (reusing the branch if research/model/sandbox already started it).
+   After **post-merge sandbox**, **implement** opens that PR. Later
    skills only push to that head. Done when the delivery PR exists and is recorded.
 6. **Same PR through ship.** Implement, review-fix, and ship continue on that
    head — update the PR body; do not open a parallel `…-implement-…` or
@@ -36,13 +38,15 @@ or pushing to a delivery head.
    tracker / external location or a local commit **without** opening a PR. Once a
    route Task has a delivery branch, further ROADMAP updates for that Task go on
    **that** branch when practical.
-8. **Iterate** (post-merge only) always starts a **new** Task + branch + PR.
+8. **Iterate** (post-merge only) starts a **new** Task + branch + PR when the
+   delta is a straightforward production fix. **Sandbox post-merge** starts a
+   **new** Task + branch from base and **never** opens a PR.
 
 ## Charting vs delivery
 
 | Kind | What | Branch / PR |
 |------|------|-------------|
-| **Delivery Task** | Will (or may) reach implement → ship — including a define-typed explore route Task that also runs research/model/sandbox | One delivery branch; research/model add finding docs; sandbox adds harness + `SANDBOX.md`; define (or bug/tweak/refine/rework) opens the single PR through ship |
+| **Delivery Task** | Will (or may) reach implement → ship — including a define-typed explore route Task that also runs research/model/sandbox, or a post-merge sandbox Task | One delivery branch; research/model add finding docs; sandbox adds a **representative** harness + `SANDBOX.md`; define (or bug/tweak/refine/rework) opens the single PR — **implement** opens it after post-merge sandbox |
 | **Supportive-only route Task** | Explore-typed research/model/sandbox/task whose **Next** advances a *different* key; no implement/ship on this key | Commit finding docs or sandbox tree onto the **downstream delivery Task’s** branch (or tracker/external). **Never** open a PR for this key. Mark **Done** at handoff |
 | **Explore map (Story)** | `ROADMAP.md` + Story + route tickets | Charting only — never leave an explore-only open PR |
 
@@ -60,8 +64,8 @@ is the active define→ship head (if any).
 | `/tweak` | Create Task; start delivery branch when committing `TWEAK.md`; Next `/implement` |
 | `/refine` | Create Task; start delivery branch when committing `REFINE.md`; Next `/implement` |
 | `/rework` | Create Task; start delivery branch when committing `REWORK.md`; Next `/implement` (comparative) |
-| `/sandbox` | Commit `SANDBOX.md` + isolation tree on delivery branch; **never** open a PR; Next `/sandbox` (delta) or `/implement` (promote) |
-| `/iterate` | New Task + branch + PR from base; Next `/review-fix` |
+| `/sandbox` | Commit `SANDBOX.md` + isolation tree on delivery branch; **never** open a PR; Next `/sandbox` (delta) or `/implement` (promote). Post-merge: new Task + branch from base, Relates → prior |
+| `/iterate` | New Task + branch + PR from base; Next `/review-fix`. If the delta needs inspect-each-turn, compose `/sandbox` instead |
 | `/define` with no explore Task | Create Task (+ Sub-tasks) as pipeline owner |
 | `/implement` with existing PLAN / BUG / TWEAK / REFINE / REWORK | Allowed; reuse delivery head |
 | Skip define on features | Only when already implementation-ready |
@@ -79,6 +83,7 @@ is the active define→ship head (if any).
 - Refine Tasks are usually standalone; may Relates to a Story/Task.
 - Rework Tasks are usually standalone; may Relates to a Story/Task.
 - Iterate Tasks Relates to the shipped prior Task.
+- Sandbox post-merge Tasks Relates to the shipped prior Task (comment the prior).
 - Define / implement / review / ship comments stay on the **same** Task.
 - Comment on the parent Story at define completion and at ship (phase Done).
 - Comment on the prior Task when an iterate follow-up is created.

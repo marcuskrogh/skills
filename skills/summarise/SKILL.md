@@ -64,4 +64,4 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 ```
 
 If Done: **Next** = following ROADMAP phase Task, another bug / tweak / refine / rework, `/iterate` when merged
-work still needs a fix, or "No further work on this Task."
+work still needs a straightforward fix, `/sandbox` when each turn needs inspectables, or "No further work on this Task."

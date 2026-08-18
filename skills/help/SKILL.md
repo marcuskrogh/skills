@@ -58,7 +58,12 @@ that chain almost deterministically.
 ```text
 setup → explore? → define (classify + bind) → [sandbox?] → [bound chain: often implement → review-fix → ship]
 post-merge fix:  ship → iterate → review-fix → ship
+post-merge inspect-loop:  ship → sandbox → implement → review-fix → ship
 ```
+
+After ship, `/iterate` when tests/review on a new PR suffice; `/sandbox` when
+each turn needs visual, plot, or report inspection. The sandbox must match
+production in every area that would change that inspection.
 
 ### Manual overrides (optional)
 
