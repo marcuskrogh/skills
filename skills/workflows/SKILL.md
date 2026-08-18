@@ -42,12 +42,13 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **continue** | Bare **next** / persisted **Next** / “continue” on an active Task | Run persisted Next once ([continuation keywords](../workflow/reference.md#continuation-keywords); [entry context](../workflow/handoff.md#entry-context)) |
 | **ship** | Bare **ship** / “finish” / “close it out” / finish remaining through Done | [ship](../ship/SKILL.md) |
 | **help** | Which skill / how workflows relate / navigation overview — explain only | [help](../help/SKILL.md) |
-| **iterate** | Prior Task/PR **already merged**; still broken or incomplete | [iterate](../iterate/SKILL.md) |
+| **sandbox** | Explicit isolated inspect-loop of a contained UI/method/bench; bound `sandbox: inject`; mid-implement inspect-loop; or **post-merge instead of iterate** when each turn needs visual/plot/report inspection | [sandbox](../sandbox/SKILL.md) |
+| **iterate** | Prior Task/PR **already merged**; still broken or incomplete — straightforward production fix (tests/review on the new PR suffice) | [iterate](../iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](../review-fix/SKILL.md) (or implement fix-forward) |
 | **explore** | Vague, oversized, or foggy initiative — destination felt, way unclear | [explore](../explore/SKILL.md) |
 | **research** | User explicitly wants multi-axis literature/evidence now (not product alignment) | [research](../research/SKILL.md) |
 | **model** | User explicitly wants math formulation now (not product scope/UX) | [model](../model/SKILL.md) |
-| **implement** | Ready-to-build PLAN (or legacy BUG/TWEAK/REFINE/REWORK/ITERATE) exists; build or resume | [implement](../implement/SKILL.md) |
+| **implement** | Ready-to-build PLAN (or legacy BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX) exists; build or resume | [implement](../implement/SKILL.md) |
 | **review** | Want findings only on an In Review PR (no auto-fix) | [review](../review/SKILL.md) |
 | **review-fix** | Want one review → fix → CLEAN on the delivery PR | [review-fix](../review-fix/SKILL.md) |
 | **summarise** | Status / “where am I” / “what next” *reported*, not advanced | [summarise](../summarise/SKILL.md) |
@@ -56,6 +57,10 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 
 Side paths **research** / **model** usually appear via define’s bound `side_paths`
 or an explicit user ask; they do not replace define probes with the user.
+**sandbox** is a separate bound step (`sandbox: inject`) — before implement, or
+mid-implement when a package needs inspect-each-turn — and may also be invoked
+explicitly. Post-merge, prefer sandbox over iterate when each turn needs
+inspectables.
 
 ## Steps
 
@@ -69,7 +74,7 @@ or an explicit user ask; they do not replace define probes with the user.
 ## Invariants
 
 - **Prefer workflow.** If any catalog row fits the ask, route through it. Do not freestyle implement, invent a parallel plan format, or run unstructured intake when a supported path exists.
-- **Front doors.** Without an explicit override or continuation, concrete delivery asks → **define**; foggy asks → **explore**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework`.
+- **Front doors.** Without an explicit override or continuation, concrete delivery asks → **define**; foggy asks → **explore**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework` `/sandbox`.
 - **Router, not executor.** This skill chooses and discloses; the target skill owns behaviour.
 - **One path.** Do not start explore and define in parallel for the same ask.
 - **Help explains.** If the user only wants a map or which-skill guidance, prefer **help** over starting a delivery skill.

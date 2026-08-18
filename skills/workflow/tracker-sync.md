@@ -9,6 +9,7 @@ enabled). Load when creating issues, transitioning status, commenting, or closin
 To Do / Backlog  →  In Progress  →  In Review  →  Done
   explore/define      implement         implement      ship
   research/model      iterate           iterate
+  sandbox
   bug / tweak / refine / rework         review
 ```
 
@@ -24,12 +25,14 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 | **iterate** | **New** Task; link ITERATE.md; Relates → prior | In Progress → **In Review** when PR ready | Prior + new Task comments; **Next** `/review-fix`; ISSUES | — (ship closes) |
 | **research** | Enrich **delivery** Task; commit `RESEARCH.md` on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | RESEARCH.md path + branch + **Next**; ROADMAP/PLAN/ISSUES | Supportive-only Task after docs are on the delivery branch |
 | **model** | Enrich **delivery** Task; commit `MODEL.md` on delivery branch (**no PR**) | Leave **To Do** on delivery Task unless further along; **Done** when supportive-only route Task completes | MODEL.md path + branch + **Next**; links + ISSUES | Supportive-only Task after docs are on the delivery branch |
+| **sandbox** | Enrich **delivery** Task; commit `SANDBOX.md` + isolation tree on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | SANDBOX.md path + isolation path + branch + **Next**; PLAN/ISSUES | Supportive-only Task after harness is on the delivery branch |
+| **sandbox** (post-merge) | **New** Task; link SANDBOX.md; Relates → prior; branch from base (**no PR**) | Leave **To Do** until implement | Prior + new Task comments; **Next** `/sandbox` or `/implement`; ISSUES | — (ship closes after implement) |
 | **define** | Enrich Task; Sub-tasks per package; start/reuse delivery + draft PR; record Classification + Workflow binding | Stay **To Do** | PLAN.md, class, template/params/chain, branch, PR, Sub-task keys, **Next**; ISSUES | — |
 | **implement** | May add missing Sub-tasks (incl. Testing); **reuse** delivery | Task → In Progress; Sub-tasks → Done as finished; Task → **In Review** | Session + packages + **same** PR + **Next**; ISSUES | Sub-tasks only — not parent |
 | **implement** (fix-forward) | — | In Progress if needed → **In Review** | Threads addressed + **Next**; ISSUES | — |
 | **review** | — | Must already be **In Review**; do not Done | Depth + summary + **Next**; ISSUES | — |
 | **review-fix** | — | Review publish + fix-forward status (single pass) | After review and after fix-forward; ISSUES | — (ship closes) |
-| **ship** | May compose implement / review-fix first | See [ship.md](ship.md) | Task + Story; pre-merge continuity on delivery branch | **Yes** after CLEAN — merge **that** PR; close Task / Sub-tasks / Story when complete |
+| **ship** | May compose sandbox / implement / review-fix first | See [ship.md](ship.md) | Task + Story; pre-merge continuity on delivery branch | **Yes** after CLEAN — merge **that** PR; close Task / Sub-tasks / Story when complete |
 | **summarise** | — | Read-only (may fix stale mirror **Next** text) | — | — |
 
 ## Rules
@@ -38,9 +41,9 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 2. **Always** upsert `docs/agents/ISSUES.md` when mirror is enabled — same status as the tracker.
 3. Provider backends implement `transition` / close natively.
 4. **Delivery** Tasks reach **Done** only via **ship**. **Supportive-only** explore
-   route Tasks (research/model/task that advance a different key) reach **Done**
-   at their skill handoff once finding docs are on the downstream delivery branch
-   (research/model never open a PR).
+   route Tasks (research/model/sandbox/task that advance a different key) reach **Done**
+   at their skill handoff once finding docs (or the sandbox harness) are on the
+   downstream delivery branch (research/model/sandbox never open a PR).
 5. Leave no Sub-tasks open after **ship**.
-6. Research / model / explore charting leave **no** open PRs of their own
+6. Research / model / sandbox / explore charting leave **no** open PRs of their own
    ([delivery.md](delivery.md#charting-vs-delivery)).

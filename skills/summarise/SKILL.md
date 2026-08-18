@@ -33,6 +33,7 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 | **iterate** | `ITERATE.md` (or Relates Done prior); building or about to |
 | **research** | `RESEARCH.md`; define not done — Next usually `/define` or `/model` |
 | **model** | `MODEL.md`; define not done — math aligned; particulars need `/define` |
+| **sandbox** | `SANDBOX.md` present; not promotion-ready — Next `/sandbox`; promotion-ready — `/implement` |
 | **define** | Feature Task enriched / PLAN exists, not started |
 | **implement** | In Progress, or branch/PR WIP |
 | **review** | In Review; PR open (one-shot) |
@@ -53,7 +54,7 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 **Stage:** <stage> — <one line why>
 
 **Artifacts:**
-- ROADMAP / PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / MODEL / RESEARCH / PR — present or missing
+- ROADMAP / PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / MODEL / RESEARCH / SANDBOX / PR — present or missing
 - Workflow binding: <template + key params, or "none (legacy)">
 
 **Status:** <To Do | In Progress | In Review | Done>
@@ -63,4 +64,4 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 ```
 
 If Done: **Next** = following ROADMAP phase Task, another bug / tweak / refine / rework, `/iterate` when merged
-work still needs a fix, or "No further work on this Task."
+work still needs a straightforward fix, `/sandbox` when each turn needs inspectables, or "No further work on this Task."

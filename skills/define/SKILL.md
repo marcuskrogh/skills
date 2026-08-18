@@ -39,11 +39,11 @@ After bind, later skills follow the chain **deterministically** via **Next**.
 | Slot | This skill |
 |------|------------|
 | **Subject** | Concrete work: defect, small delta, structure-only, measured impl swap, or feature slice (explore route Task when present) |
-| **Probes** | Thin description; scope in/out; behaviour divergences (or preserve-behaviour / parity bar as class requires); constraints; acceptance; work packages; fog pointers on this route Task; Task key; how to apply RESEARCH/MODEL — same definition probe set as classic define, proportional depth |
+| **Probes** | Thin description; scope in/out; behaviour divergences (or preserve-behaviour / parity bar as class requires); constraints; acceptance; work packages; fog pointers on this route Task; Task key; how to apply RESEARCH/MODEL/SANDBOX — same definition probe set as classic define, proportional depth |
 | **Stop condition** | No obvious divergences remain for scope, behaviour (or parity/preserve-behaviour), constraints, and acceptance — resolved **with the user**; then class + workflow binding are persisted |
 | **Alignment / definition artifact** | `PLAN.md` (path from WORKSPACE) — always; class lives in Classification, not a separate BUG/TWEAK file |
 | **Readiness prompt** | "Does this plan and workflow binding look right?" |
-| **Opening** | Thin description **required**. Missing → "What should we define?" Rich / key given: load Task (+ Story, ROADMAP, RESEARCH, MODEL); first **definition** divergence with the user |
+| **Opening** | Thin description **required**. Missing → "What should we define?" Rich / key given: load Task (+ Story, ROADMAP, RESEARCH, MODEL, SANDBOX); first **definition** divergence with the user |
 | **Scope guard** | Stay on this Task; no foggy destination mapping (`/explore`); write approved `PLAN.md` on the delivery branch; **do not skip alignment** to rush classify/bind |
 | **Depth** | **Proportional:** lightweight for clear bug/tweak/refine/rework once class is evident; **full** CONCEPT_ALIGNMENT for feature, ambiguous class, or any remaining definition divergences |
 | **Work packages** | Sub-tasks per package when more than one unit; single package OK for small classes |
@@ -85,12 +85,14 @@ After bind, later skills follow the chain **deterministically** via **Next**.
   - review.mode: single | multiagent
   - review.depth: focused | full
   - side_paths: none | research | model | research+model
+  - sandbox: none | inject
 - Chain: implement → review-fix → ship
 - Rationale: …
 
 ## Inputs
 - Research: RESEARCH.md (if any)
 - Model: MODEL.md (if any)
+- Sandbox: SANDBOX.md (if any)
 
 ## Acceptance criteria
 - …   # include parity bar metrics when Class is rework
@@ -129,7 +131,8 @@ on the Task, parent Story, and enabled mirror.
 ## Handoff
 
 Set **Next** to the first skill in the bound **Chain** (usually `/implement`;
-`/research` or `/model` when `side_paths` requires it):
+`/research` or `/model` when `side_paths` requires it; `/sandbox` when
+`sandbox=inject` and no prefix side path remains):
 
 ```markdown
 ## Next

@@ -22,6 +22,7 @@ so the loop can repeat after ship. Open-PR review findings route to
 - **Session continuity.** Load prior Task, merged PR, and artifacts before guessing.
 - **Chainable.** After this PR ships, another iterate on the same lineage is valid.
 - **Ends at In Review.** Merge/Done remain `/ship`.
+- **Straightforward delta.** This loop implements a production fix on a new PR. Inspect-each-turn development of a contained element (visuals, plots, representative comparative reports) is [CONCEPT_SANDBOX](CONCEPT_SANDBOX.md).
 
 ## Extensions
 
@@ -35,11 +36,12 @@ so the loop can repeat after ship. Open-PR review findings route to
 | **Handoff** | must | Default Next (usually `/review-fix`) |
 | **Chain policy** | may | How a later iterate relates to a previous iterate Task |
 | **Spec for review** | may | How review discovers the delta |
+| **Inspect-loop fork** | may | When to compose sandbox instead of implement |
 
 ## Flow
 
 1. **Resolve prior context** — Task, merged PR, artifacts. Done when lineage is identified.
-2. **Capture delta** — wrong/missing behaviour, acceptance, explicit out of scope. Done when implementable (after brief alignment if needed).
-3. **Persist + track** — write artifact; create linked Task. Done when Task exists and artifact is attached.
+2. **Capture delta** — wrong/missing behaviour, acceptance, explicit out of scope. Done when implementable (after brief alignment if needed) **or** the work is an inspect-loop (sandbox owns it).
+3. **Persist + track** — write artifact; create linked Task. Done when Task exists and artifact is attached — skipped when sandbox takes the post-merge path.
 4. **Implement** — CONCEPT_IMPLEMENTATION on new branch; new PR; Task → In Review. Done when PR is ready for review.
 5. **Hand off** — **Next** → `/review-fix` on the new Task/PR.

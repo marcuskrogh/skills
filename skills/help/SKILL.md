@@ -37,7 +37,7 @@ from this skill; do not load every pipeline skill.
 | If you… | Run | What happens |
 |---------|-----|----------------|
 | Have no workspace yet | `/setup` | `WORKSPACE.md` |
-| Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks; research/model = finding docs on the delivery branch → `/define` |
+| Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks; research/model/sandbox = artifacts on the delivery branch → `/define` |
 | Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Align → agent **classifies** → binds **workflow** → `PLAN.md` + **Next** |
 | Want this map | `/help` | overview only |
 
@@ -49,22 +49,28 @@ After define, follow persisted **Next** (or bare **next** / **ship**). You do
 Define applies [CONCEPT_CLASSIFICATION](../concepts/CONCEPT_CLASSIFICATION.md):
 infers **class** (bug / tweak / refine / rework / feature / …), selects a
 **template** (fix-fast, parity-iterative, feature-heavy, …) and **parameters**
-(single vs multiagent implement/review, verify mode, review depth), then walks
+(single vs multiagent implement/review, verify mode, review depth, optional
+research/model side paths, optional sandbox inspect-loop), then walks
 that chain almost deterministically.
 
 ### Closed-loop shape
 
 ```text
-setup → explore? → define (classify + bind) → [bound chain: often implement → review-fix → ship]
+setup → explore? → define (classify + bind) → [sandbox?] → [bound chain: often implement → review-fix → ship]
 post-merge fix:  ship → iterate → review-fix → ship
+post-merge inspect-loop:  ship → sandbox → implement → review-fix → ship
 ```
+
+After ship, `/iterate` when tests/review on a new PR suffice; `/sandbox` when
+each turn needs visual, plot, or report inspection. The sandbox must match
+production in every area that would change that inspection.
 
 ### Manual overrides (optional)
 
 All pipeline skills stay **user-invokable** when you want to deviate from Next
 or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
-`/implement`, `/review`, `/review-fix`, `/ship`, `/research`, `/model`,
-`/summarise`, …
+`/sandbox`, `/implement`, `/review`, `/review-fix`, `/ship`, `/research`,
+`/model`, `/summarise`, …
 
 ### Meta
 

@@ -64,4 +64,4 @@ Done when entry is compact and product-facing.
 
 Runs inside ship closeout **pre-merge continuity** (open PR) or direct base
 commit when the PR was already merged — same rules as other continuity files.
-Commit on the delivery branch with PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE continuity.
+Commit on the delivery branch with PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX continuity.
