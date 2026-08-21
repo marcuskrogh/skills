@@ -26,8 +26,9 @@ linked to a Task, also read [../workflow/delivery.md](../workflow/delivery.md),
 [../workflow/tracker-sync.md](../workflow/tracker-sync.md),
 and [../tracker/SKILL.md](../tracker/SKILL.md). When a relevant-area gap needs
 operator agreement, also read
-[CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md). When spawning workers,
-also read [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md).
+[CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md). When spawning Task /
+sub-agents of any type, also read
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md).
 
 User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 
@@ -45,7 +46,7 @@ User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 | **Promote map** | Production target paths + what to copy |
 | **Pipeline continuity** | Commit harness + `SANDBOX.md` onto the delivery branch; never open a PR. Post-merge: new Task + branch from base (Relates → prior), same as iterate lineage without a sandbox PR |
 | **Handoff defaults** | `/sandbox` (delta) / `/implement` (accept) / none |
-| **Model routing** | CONCEPT_DELEGATION when packages are workers; inspect presentation stays on manager |
+| **Model routing** | CONCEPT_DELEGATION for every Task spawn (`computerUse`, `videoReview`, packages) |
 
 ## Steps
 
@@ -54,7 +55,7 @@ Follow CONCEPT_SANDBOX flow. Specialisations:
 1. **Resolve** — Load Task, PLAN/REWORK, existing `SANDBOX.md`, and the named element. Post-merge: resolve prior shipped Task + merged PR (same Prior context as [iterate](../iterate/SKILL.md)). Infer kind; require a thin element description or ask once. For measure, require or record the bar. Done when element, kind, isolation path, bar-if-measure, and lineage (if post-merge) are known.
 2. **Represent** — Build the relevant-area map per [kinds.md](kinds.md). One CONCEPT_ALIGNMENT question when completeness of that map is a divergence. Do not start the inspect-loop while a relevant area is missing and unwaived. Done when `## Representativeness` is complete and the harness can demonstrate each reproduced area.
 3. **Isolate** — Create or resume the harness at the isolation path; do not edit production source for the element. Done when the recorded command yields an inspectable from the representative scenario.
-4. **Iterate one turn** — Apply the operator's latest delta (or the initial extract); run the harness; present the inspectable; ask one question: accept and promote, name a delta, or end sandbox-only. Done when the inspectable is shown and that question is asked.
+4. **Iterate one turn** — Apply the operator's latest delta (or the initial extract); run the harness; follow **Manager inspect**; present the inspectable; ask one question: accept and promote, name a delta, or end sandbox-only. Done when the inspectable is shown and that question is asked.
 5. **Persist and continue** — Append the iteration row; commit `SANDBOX.md`, harness, and inspectables onto the delivery branch (no PR); when linked, apply the sandbox tracker row (post-merge: new-Task variant) and persist **Next** from the verdict. Done when the head, Task, mirrors, and **Next** agree.
 
 A delta on a later **next** / `/sandbox` resumes at step 4 on the same tree.

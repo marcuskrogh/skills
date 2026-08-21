@@ -134,6 +134,46 @@ if (-not (Test-Path $ConceptsDir)) {
                 $script:errors++
             }
         }
+        $missingTypes = @()
+        foreach ($needType in @('computerUse', 'videoReview')) {
+            if ($cursorText.IndexOf($needType) -lt 0) {
+                $missingTypes += $needType
+                Write-Host "FAIL: Cursor platform catalog must name Task type $needType (catalog-closed for specialized spawns)"
+                $script:errors++
+            }
+        }
+        if ($missingTypes.Count -eq 0) {
+            Write-Host "OK: Cursor platform names computerUse and videoReview"
+        }
+    }
+}
+
+# Always-on Cursor pointers must name computerUse / videoReview so sandbox
+# inspect spawns stay catalog-closed even before skills load.
+$pointerFiles = @(
+    (Join-Path $RepoRoot "AGENTS.md"),
+    (Join-Path $RepoRoot (Join-Path ".cursor" (Join-Path "rules" "github-skills.mdc"))),
+    (Join-Path $RepoRoot (Join-Path "templates" (Join-Path "agent-install" "AGENTS.md"))),
+    (Join-Path $RepoRoot (Join-Path "templates" (Join-Path "agent-install" "AGENTS.block.md"))),
+    (Join-Path $RepoRoot (Join-Path "templates" (Join-Path "agent-install" "github-skills.mdc")))
+)
+foreach ($pf in $pointerFiles) {
+    if (-not (Test-Path $pf)) {
+        Write-Host "FAIL: Missing always-on Cursor pointer file: $pf"
+        $script:errors++
+        continue
+    }
+    $pointerText = Get-Content -Path $pf -Raw
+    $pointerOk = $true
+    foreach ($needType in @('computerUse', 'videoReview')) {
+        if ($pointerText.IndexOf($needType) -lt 0) {
+            Write-Host "FAIL: $pf must name Task type $needType"
+            $script:errors++
+            $pointerOk = $false
+        }
+    }
+    if ($pointerOk) {
+        Write-Host "OK: $pf names computerUse and videoReview"
     }
 }
 

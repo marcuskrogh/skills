@@ -12,11 +12,12 @@ Continuation cues: bare **next** / **ship** still apply (see
 (manual overrides remain available). Lost on which skill to use →
 [`help`](skills/help/SKILL.md).
 
-**Cursor models (catalog-closed).** On Cursor, every sub-agent / `Task` `model`
-must be `composer-2.5` (Routine / Moderate) or `cursor-grok-4.6-high` (Demanding /
-manager). No `*-fast` variants. Third-party picker models bill the API budget.
-Before spawning workers, load [`CONCEPT_DELEGATION`](skills/concepts/CONCEPT_DELEGATION.md)
-and [`platforms/cursor.md`](skills/concepts/platforms/cursor.md).
+**Cursor models (catalog-closed).** On Cursor, every `Task` spawn of any type —
+including `computerUse` and `videoReview` — passes `model` `composer-2.5`
+(Routine / Moderate) or `cursor-grok-4.6-high` (Demanding / manager). No
+`*-fast` variants. Third-party picker models bill the API budget. Load
+[`CONCEPT_DELEGATION`](skills/concepts/CONCEPT_DELEGATION.md) and
+[`platforms/cursor.md`](skills/concepts/platforms/cursor.md) before every spawn.
 
 **User language.** Messages the operator reads: load
 [`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md).
