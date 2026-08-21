@@ -30,6 +30,7 @@ this concept when each turn needs visual, plot, or report inspection.
 - **Isolation.** Sandbox tree lives outside production source paths; production stays runnable without it. Isolation is the tree's location; every relevant area still appears in the harness.
 - **One element.** One sandbox per contained unit.
 - **Inspect each turn.** Every iteration produces inspectables and stops for the operator before the next change.
+- **Manager inspect.** The manager captures and presents inspectables each turn (harness files, RecordScreen, Read).
 - **No production ship.** Sandbox does not merge, close out the Task, or open a PR.
 - **Human gate.** Continue only after the operator accepts, names a delta, or ends sandbox-only.
 - **Bar when measure.** Measure sandboxes record a bar and compare against current (or a named baseline) each iteration, under the representative scenario.
@@ -50,7 +51,7 @@ this concept when each turn needs visual, plot, or report inspection.
 | **Promote map** | may | Production target paths and copy notes |
 | **Pipeline continuity** | may | Delivery branch; never a sandbox PR; post-merge new Task from base |
 | **Handoff defaults** | may | Next after accept vs another iteration |
-| **Model routing** | may | Workers for sandbox packages — CONCEPT_DELEGATION |
+| **Model routing** | may | CONCEPT_DELEGATION for any Task spawn |
 
 ## Flow
 

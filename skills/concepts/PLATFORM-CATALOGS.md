@@ -30,10 +30,13 @@ platform file below (use General when unknown or incomplete).
    **directly to high**.
 8. **Cursor first-party** — on Cursor (Desktop, Cloud, CLI), the platform file
    is a closed allowlist of **Composer** and **Grok** standard slugs only
-   (`composer-2.5`, `cursor-grok-4.6-high`). No `*-fast` variants. Third-party
-   models in the Cursor picker (Claude, GPT, Kimi, …) bill the **API budget**;
-   Composer and Grok bill the **internal** budget. Never pass a third-party or
-   fast slug on Cursor — remap to the category's catalog slug.
+   (`composer-2.5`, `cursor-grok-4.6-high`). No `*-fast` variants. The
+   allowlist covers every `Task` type (`computerUse`, `videoReview`, …).
+   Third-party models in the Cursor picker (Claude, GPT, Gemini, Kimi, …)
+   bill the **API budget**; Composer and Grok bill the **internal** budget.
+   Never pass a third-party or fast slug on Cursor — remap to the category's
+   catalog slug. When a type would still run a third-party default, keep the
+   work on the manager.
 
 ## Platforms
 

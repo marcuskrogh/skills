@@ -31,7 +31,7 @@ demo that would look or behave differently in product.
 | Step | Done when |
 |------|-----------|
 | Host | One command opens or serves the element in the representative layout, theme, density, and data/states |
-| Capture | Screenshot, exported still, or live preview the operator can see |
+| Capture | Screenshot, exported still, or live preview the operator can see — manager RecordScreen / Read or harness export |
 | Present | The inspectable is in the user-facing reply (image path or preview) |
 
 Prefer a snapshot of the rendered element over describing it in prose.
@@ -50,7 +50,7 @@ a comparison.
 | Baseline | Current production method on those scenarios; numbers stored |
 | Candidate | Runnable on **those same** scenarios |
 | Report | Table and/or plot: metric → baseline → candidate → delta → within bar? |
-| Present | The report/plot is in the user-facing reply each iteration |
+| Present | The report/plot is in the user-facing reply each iteration (manager Read of harness output) |
 
 Suite green on production is not the bar. The sandbox report under the
 representative scenario is.

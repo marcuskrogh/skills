@@ -8,10 +8,11 @@ skill. Front doors: foggy → **explore**; concrete → **define** (classifies a
 binds an efficient workflow). Follow persisted **Next**. Do not freestyle past a
 supported workflow. For a navigation overview only, prefer **help**.
 
-On Cursor, sub-agent / Task `model` values are catalog-closed: only
-`composer-2.5` (Routine/Moderate) or `cursor-grok-4.6-high` (Demanding/manager).
-No `*-fast` variants. Third-party models bill the API budget. Load
-CONCEPT_DELEGATION and `concepts/platforms/cursor.md` before spawning workers.
+On Cursor, every Task spawn of any type — including computerUse and
+videoReview — is catalog-closed: only `composer-2.5` (Routine/Moderate) or
+`cursor-grok-4.6-high` (Demanding/manager). No `*-fast` variants. Third-party
+models bill the API budget. Load CONCEPT_DELEGATION and
+`concepts/platforms/cursor.md` before every spawn.
 
 User-facing messages: load CONCEPT_LANGUAGE.
 

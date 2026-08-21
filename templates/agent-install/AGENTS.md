@@ -9,11 +9,13 @@ Continuation cues: bare **next** / **ship** still apply (see
 `.agents/skills/workflow/reference.md`). Explicit `/skill` names win over
 re-routing. Lost on which skill to use → [`.agents/skills/help/SKILL.md`](.agents/skills/help/SKILL.md).
 
-**Cursor models (catalog-closed).** On Cursor, every sub-agent / `Task` `model`
-must be `composer-2.5` (Routine / Moderate) or `cursor-grok-4.6-high` (Demanding /
-manager). No `*-fast` variants. Third-party picker models bill the API budget.
-Before spawning workers, load [`.agents/skills/concepts/CONCEPT_DELEGATION.md`](.agents/skills/concepts/CONCEPT_DELEGATION.md)
-and [`.agents/skills/concepts/platforms/cursor.md`](.agents/skills/concepts/platforms/cursor.md).
+**Cursor models (catalog-closed).** On Cursor, every `Task` spawn of any type —
+including `computerUse` and `videoReview` — passes `model` `composer-2.5`
+(Routine / Moderate) or `cursor-grok-4.6-high` (Demanding / manager). No
+`*-fast` variants. Third-party picker models bill the API budget. Load
+[`.agents/skills/concepts/CONCEPT_DELEGATION.md`](.agents/skills/concepts/CONCEPT_DELEGATION.md)
+and [`.agents/skills/concepts/platforms/cursor.md`](.agents/skills/concepts/platforms/cursor.md)
+before every spawn.
 
 **User language.** Messages the operator reads: load
 [`.agents/skills/concepts/CONCEPT_LANGUAGE.md`](.agents/skills/concepts/CONCEPT_LANGUAGE.md).

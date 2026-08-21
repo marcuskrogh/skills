@@ -158,16 +158,18 @@ semantics. User-facing agent prose follows
 [`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md).
 
 **Sub-agent value routing:** skills that delegate (`implement`, `review`,
-`review-fix`, and composers like `ship` / `iterate` / `research` axes) apply
-[`CONCEPT_DELEGATION`](skills/concepts/CONCEPT_DELEGATION.md) — score difficulty
-(Routine → low, Moderate → mid, Demanding → high), keep the manager on
-high-capability, escalate one tier at a time, and pick **catalog-closed** from
-[`PLATFORM-CATALOGS.md`](skills/concepts/PLATFORM-CATALOGS.md) (then only the
-detected harness file under `concepts/platforms/`). On **Cursor**, that file is
-a closed allowlist of **Composer** + **Grok** only (`composer-2.5` for Routine /
+`review-fix`, `sandbox`, and composers like `ship` / `iterate` / `research` axes)
+apply [`CONCEPT_DELEGATION`](skills/concepts/CONCEPT_DELEGATION.md) — score
+difficulty (Routine → low, Moderate → mid, Demanding → high), keep the manager
+on high-capability, escalate one tier at a time, and pick **catalog-closed**
+from [`PLATFORM-CATALOGS.md`](skills/concepts/PLATFORM-CATALOGS.md) (then only
+the detected harness file under `concepts/platforms/`) for **every** `Task`
+type (`computerUse`, `videoReview`, …). On **Cursor**, that file is a closed
+allowlist of **Composer** + **Grok** only (`composer-2.5` for Routine /
 Moderate; `cursor-grok-4.6-high` for Demanding / manager). No `*-fast` variants;
 third-party picker models bill the API budget — see
-[`platforms/cursor.md`](skills/concepts/platforms/cursor.md).
+[`platforms/cursor.md`](skills/concepts/platforms/cursor.md). Sandbox inspect
+capture stays on the manager.
 
 ## Architecture
 
