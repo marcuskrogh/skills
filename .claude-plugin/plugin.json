@@ -1,7 +1,7 @@
 {
   "name": "marcus-skills",
   "version": "1.0.0",
-  "description": "Agent skills for workspace setup, features, bugs, tweaks, refinements, reworks, research, definition, implementation, sandbox, iterate, review-fix, ship, help, and summarise (Agent Skills standard; also installable as a Claude Code plugin).",
+  "description": "Agent skills for workspace setup, features, bugs, tweaks, refinements, reworks, research, definition, implementation, sandbox, iterate, review-fix, ship, help, explain, guide, and summarise (Agent Skills standard; also installable as a Claude Code plugin).",
   "author": {
     "name": "Marcus Krogh",
     "url": "https://github.com/marcuskrogh"
@@ -20,6 +20,8 @@
     "rework",
     "sandbox",
     "help",
+    "explain",
+    "guide",
     "tracker",
     "define",
     "research",
@@ -34,6 +36,8 @@
     "./skills/bug",
     "./skills/define",
     "./skills/explore",
+    "./skills/explain",
+    "./skills/guide",
     "./skills/help",
     "./skills/implement",
     "./skills/iterate",

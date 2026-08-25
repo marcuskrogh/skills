@@ -57,4 +57,6 @@ discovery job. Hint-only routers belong where the human must stay the index.
 This repo’s router: [`workflows`](../workflows/SKILL.md). Continuity contract
 (not a router): [`workflow`](../workflow/SKILL.md) + `reference.md`. Status
 report without advancing work: [`summarise`](../summarise/SKILL.md). Human
-navigation map without starting delivery: [`help`](../help/SKILL.md).
+navigation map without starting delivery: [`help`](../help/SKILL.md). Paced
+walkthrough of a manual task: [`guide`](../guide/SKILL.md). Paced teaching of
+the current step and decisions: [`explain`](../explain/SKILL.md).

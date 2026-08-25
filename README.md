@@ -20,8 +20,10 @@ only that skill. Pipeline skills stay user-invoked
 (`disable-model-invocation`); `workflows` is the always-loaded pointer that
 keeps delivery discoverable without dumping every skill into context.
 
-Lost on which skill to use? Ask for [`/help`](skills/help/SKILL.md) — explains
-the map; does not start delivery.
+Lost on which skill to use? Ask for [`/help`](skills/help/SKILL.md) — maps
+the set; does not start delivery. Want the current step taught?
+[`/explain`](skills/explain/SKILL.md). Want to be walked through a task?
+[`/guide`](skills/guide/SKILL.md).
 
 ### Front doors
 
@@ -62,7 +64,9 @@ tracker, mirror). Continuations:
 | **ship** / finish / close it out | Finish **remaining** work through Done |
 
 Explicit `/skill` names win over re-routing. In-flight Task + valid Next →
-continue or ship, not a new map. Details:
+continue or ship, not a new map — unless they asked for a walkthrough
+([`/guide`](skills/guide/SKILL.md)) or teaching
+([`/explain`](skills/explain/SKILL.md)). Details:
 [`workflow/reference.md`](skills/workflow/reference.md),
 [`workflow/handoff.md`](skills/workflow/handoff.md).
 
@@ -110,10 +114,12 @@ Pick the **first matching** row (same order as
 
 | Workflow | When | First skill |
 |----------|------|-------------|
-| **setup** | No usable `WORKSPACE.md`, or change tracker/paths | [setup](skills/setup/SKILL.md) |
+| **setup** | Delivery work with no usable `WORKSPACE.md`, or change tracker/paths | [setup](skills/setup/SKILL.md) |
 | **continue** | Bare **next** / persisted Next on an active Task | Run persisted Next once |
 | **ship** | Bare **ship** / finish remaining through Done | [ship](skills/ship/SKILL.md) |
-| **help** | Which skill / navigation overview — explain only | [help](skills/help/SKILL.md) |
+| **help** | Which skill / navigation overview | [help](skills/help/SKILL.md) |
+| **explain** | Current step or decision taught in simple terms | [explain](skills/explain/SKILL.md) |
+| **guide** | Walk through a manual task one step at a time | [guide](skills/guide/SKILL.md) |
 | **sandbox** | Explicit isolated inspect-loop; or post-merge instead of iterate when each turn needs inspection | [sandbox](skills/sandbox/SKILL.md) |
 | **iterate** | Prior Task/PR **already merged**; still broken — straightforward production fix | [iterate](skills/iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](skills/review-fix/SKILL.md) |
@@ -128,7 +134,8 @@ Pick the **first matching** row (same order as
 Side paths **research** / **model** usually appear via define’s bound
 `side_paths` or an explicit ask. **sandbox** is a separate bound step
 (`sandbox: inject`), an explicit `/sandbox`, or the post-merge inspect-loop
-instead of iterate. Maintaining this skills repo →
+instead of iterate. **guide** and **explain** interrupt to walk or teach
+without opening a Task. Maintaining this skills repo →
 [`manage-skills`](skills/manage-skills/SKILL.md).
 
 ### Delivery contract (one line)
@@ -186,6 +193,8 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── CONCEPT_ITERATION.md
 │   ├── CONCEPT_LANGUAGE.md     ← user-facing prose; setup can persist general
 │   ├── CONCEPT_DEFINITION.md
+│   ├── CONCEPT_GUIDANCE.md
+│   ├── CONCEPT_EXPLANATION.md
 │   ├── CONCEPT_RESEARCH.md
 │   ├── CONCEPT_REVIEW.md
 │   └── CONCEPT_SANDBOX.md
@@ -207,7 +216,9 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── review-fix/                ← one review → fix-forward → CLEAN
 ├── ship/                       ← remaining-workflow orchestrator → Done
 ├── summarise/                  ← status: about / stage / Next
-├── help/                       ← front-door map (explain only)
+├── help/                       ← front-door map (does not start delivery)
+├── explain/                    ← paced teaching of current step and decisions
+├── guide/                      ← paced walkthrough of a manual task
 ├── tracker/                    ← pluggable issue tracker
 ├── jira/                       ← Jira REST details
 ├── manage-skills/              ← meta: maintain this repo
@@ -235,7 +246,9 @@ templates/project-sync/         ← startup sync script template
 | **review-fix** | user | One review → fix-forward → CLEAN → ship |
 | **ship** | user | Finish remaining along the bound chain, then merge + Done |
 | **summarise** | user | About / stage / what to run Next (does not advance) |
-| **help** | model | Front-door map — explains; does not start delivery |
+| **help** | model | Front-door map — maps skills; does not start delivery |
+| **explain** | user | Paced teaching of the current step and decisions |
+| **guide** | user | Paced walkthrough of a manual task; does not start delivery |
 
 ### Other skills
 

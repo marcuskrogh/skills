@@ -34,10 +34,12 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 | **review-fix** | — | Review publish + fix-forward status (single pass) | After review and after fix-forward; ISSUES | — (ship closes) |
 | **ship** | May compose sandbox / implement / review-fix first | See [ship.md](ship.md) | Task + Story; pre-merge continuity on delivery branch | **Yes** after CLEAN — merge **that** PR; close Task / Sub-tasks / Story when complete |
 | **summarise** | — | Read-only (may fix stale mirror **Next** text) | — | — |
+| **guide** | — | — | Chat Next only (resume in-flight) | — |
+| **explain** | — | — | Chat Next only (resume in-flight) | — |
 
 ## Rules
 
-1. **Always** comment (or markdown Comments) with **Next** when a skill finishes.
+1. **Always** comment (or markdown Comments) with **Next** when a skill finishes — except **guide** and **explain** (chat Next only).
 2. **Always** upsert `docs/agents/ISSUES.md` when mirror is enabled — same status as the tracker.
 3. Provider backends implement `transition` / close natively.
 4. **Delivery** Tasks reach **Done** only via **ship**. **Supportive-only** explore

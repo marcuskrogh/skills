@@ -51,6 +51,8 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **review-fix** | Task In Review | One review → fix-forward → CLEAN | `/ship` |
 | **ship** | After ready-to-build | Remaining work + merge + Done | Done (or `/iterate` / `/sandbox`) |
 | **summarise** | Anytime | Status only (About / Stage / Next) | *(reports; does not advance)* |
+| **guide** | User wants a walkthrough | Paced steps (no artifact) | Resume persisted Next or none |
+| **explain** | User wants current step/decisions taught | Paced beats (no artifact) | Resume persisted Next or none |
 
 Side paths **research** / **model** enrich the **same** Task; they do not replace
 user answers in **define**. **sandbox** likewise enriches the same Task with a
@@ -66,6 +68,11 @@ Bare (or near-bare) cues resolve the active Task the same way
 |-----|---------|--------|
 | **next**, continue, go | Advance **one** step | Run the persisted `## Next` skill for that Task |
 | **ship**, finish, close it out | Finish **remaining** through Done | Run [ship](../ship/SKILL.md) |
+
+While a **pace** is open (**guidance** or **explanation**), yes / okay / move on
+and similarly approving replies are **advance**, and problem reports are
+**block** — they do not fire continue or ship. Explicit `/skill` and bare
+**ship** still override.
 
 Prefer an explicit key when present (`ship MD-5`). When both could apply, follow
 the user’s word. Full Next table and persistence targets: [handoff.md](handoff.md).
