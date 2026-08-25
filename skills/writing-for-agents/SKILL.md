@@ -113,6 +113,11 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **dev-surface** | (pl. **dev-surfaces**) Development linking surface where issue keys belong — full list: CONCEPT_IMPLEMENTATION Leading words |
 | **product surface** | (pl. **product surfaces**) End-user facing shipped source and copy — product language exclusively; full list: CONCEPT_IMPLEMENTATION Leading words |
 | **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md); workspace `Agent language: general` widens the same rules |
+| **pace** | One unit per user turn; wait for **advance** or **block** before the next; each waited message ends on a short continue cue |
+| **advance** | Approving reply that continues a paced sequence (yes, okay, move on, and similar; a successful result counts) |
+| **block** | Reply that the current unit failed, is unclear, or does not fit the environment; reevaluate the remaining sequence |
+| **guidance** | Paced walkthrough of a task the user wants walked — [CONCEPT_GUIDANCE](../concepts/CONCEPT_GUIDANCE.md) |
+| **explanation** | Paced teaching of the current step and its decisions — [CONCEPT_EXPLANATION](../concepts/CONCEPT_EXPLANATION.md) |
 
 Hunt restatements that a leading word retires. Prefer an existing pretrained
 word over a coined one when the prior is strong enough.

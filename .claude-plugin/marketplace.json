@@ -4,12 +4,12 @@
     "name": "Marcus Krogh",
     "url": "https://github.com/marcuskrogh"
   },
-  "description": "Agent skills for workspace setup, features, bugs, tweaks, refinements, reworks, research, define, sandbox, implementation, iterate, review-fix, ship, help, and summarise.",
+  "description": "Agent skills for workspace setup, features, bugs, tweaks, refinements, reworks, research, define, sandbox, implementation, iterate, review-fix, ship, help, explain, guide, and summarise.",
   "plugins": [
     {
       "name": "marcus-skills",
       "source": "./",
-      "description": "Feature, bug, tweak, refine, and rework pipelines with sandbox, iterate, review-fix, pluggable trackers, help, and summarise.",
+      "description": "Feature, bug, tweak, refine, and rework pipelines with sandbox, iterate, review-fix, pluggable trackers, help, explain, guide, and summarise.",
       "category": "engineering",
       "keywords": [
         "engineering",
@@ -22,6 +22,8 @@
         "rework",
         "sandbox",
         "help",
+        "explain",
+        "guide",
         "research",
         "iterate",
         "review-fix"

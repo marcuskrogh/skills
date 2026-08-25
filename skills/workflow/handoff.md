@@ -13,7 +13,8 @@ continuation.
 
 Also write **Next** into: the issue comment (or markdown Comments section), the
 alignment artifact, and the ISSUES mirror when enabled. Chat-only Next is not
-enough.
+enough — except **guide** and **explain**, which use chat Next only (resume
+in-flight or none) and do not write tracker or artifact Next.
 
 ## Default Next by stage
 
@@ -38,6 +39,8 @@ enough.
 | ship (Done) | Done — or `/iterate` if merged work still wrong; `/sandbox` when each turn needs inspectables |
 | ship (stopped) | `/ship <Task>` or the skill that unblocks |
 | summarise | *(reports Next; does not advance)* |
+| guide | Resume persisted Next of in-flight Task, or none |
+| explain | Resume persisted Next of in-flight Task, or none |
 
 ## Entry context
 
@@ -56,3 +59,5 @@ enough.
 | ship | Task + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + `SANDBOX.md` when present + delivery branch/PR; detect stage |
 | summarise | Task + artifacts needed for stage inference |
 | help | None required — catalog overview; no Task advance |
+| guide | Named task; in-flight Task artifacts only when that work is being walked; no Task advance |
+| explain | Current step: in-flight Task + last agent output + named subject; no Task advance |
