@@ -19,6 +19,9 @@ Repo docs and neighbour **patterns** win over generic catalog rows. Neighbour
       the concepts only rhyme
 - [ ] Error paths are handled, not swallowed; comments (if any) say why
 - [ ] Named smells in **changed** code are fixed in-package — not left for review
+- [ ] **CRAP** used as a guide on changed functions (target below 8): nested
+      conditionals extracted; a flat switch/case over a closed set of types
+      may stay
 
 ## Package report (required)
 
@@ -26,6 +29,7 @@ Each Implementation (and Harden) sub-agent report must include:
 
 ```text
 structure_notes: <catalog rows checked + meets | breaches + concrete moves made>
+crap: <target | nested extracted | justified dispatch: <shape> | report path>
 smells_fixed: <named smells addressed or "none">
 seams: <injectable boundaries used or deliberately not introduced>
 exceptions: <documented catalog exceptions or "none">
@@ -41,8 +45,11 @@ last one):
 
 - [ ] Every write-time bar item holds, or has a documented exception on the PR
 - [ ] Every Implementation package report includes `structure_notes` that cite
-      catalog rows
+      catalog rows and a `crap` line
 - [ ] No remaining named smell in **changed** hunks
+- [ ] Nested-conditional **CRAP** above the target is extracted; justified
+      flat dispatch is recorded on the `crap` line (the score alone does not
+      fail the gate)
 - [ ] New code does not copy a neighbour smell
 - [ ] Seams required by [testing.md](testing.md) exist before `/test`
 

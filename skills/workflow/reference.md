@@ -21,7 +21,7 @@ Load [disclosed refs](#disclosed-refs) only when a step needs them.
 - **Research / model** commit finding docs (`RESEARCH.md` / `MODEL.md`) onto that
   branch and **never open a PR**. **sandbox** commits `SANDBOX.md` plus the
   isolation tree the same way. **First PR-opening writer** is define / bug /
-  tweak / refine / rework, or **implement** after a post-merge sandbox; later
+  tweak / refine / rework / adopt, or **implement** after a post-merge sandbox; later
   skills **reuse** the recorded head.
 - **Explore** charts the map; it does not open a map-only PR. Prefer one
   define-typed delivery Task for research/model/sandbox/define that share a build
@@ -37,6 +37,7 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | Skill | Entry | Produces | Default Next |
 |-------|-------|----------|--------------|
 | **explore** | Foggy initiative | `ROADMAP.md` + Story + typed route Tasks | Frontier skill by Order |
+| **adopt** | Brownfield tree not built to the structure bar | `ADOPT.md` + Task (or Story + area Tasks); delegated inventory; characterize then unit chain per area until the route is Done; prove behaviour before each advance | none (or the blocking skill on a hard stop) |
 | **bug** | Defect; fix is the work | `BUG.md` + Task + delivery branch/PR | `/implement` |
 | **tweak** | Small intentional change to existing behaviour | `TWEAK.md` + Task + delivery branch/PR | `/implement` |
 | **refine** | Bounded structural/descriptive improvement; behaviour unchanged | `REFINE.md` + Task + delivery branch/PR | `/implement` |
@@ -86,10 +87,10 @@ the user’s word. Full Next table and persistence targets: [handoff.md](handoff
 | `WORKSPACE.md` | setup | Tracker + path + delivery decisions |
 | `ROADMAP.md` | explore | Map + route + **Next** |
 | `PLAN.md` | define | Spec + Classification + Workflow binding + keys + **Next** |
-| `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` | bug / tweak / refine / rework / iterate (manual override) | Spec + keys + **Next** |
+| `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `ADOPT.md` | bug / tweak / refine / rework / iterate / adopt | Spec + keys + **Next** |
 | `RESEARCH.md` / `MODEL.md` | research / model | Finding docs on the delivery branch for define / implement (+ **Next**); never their own PR |
 | `SANDBOX.md` + isolation tree | sandbox | Promotion input on the delivery branch for implement (+ **Next**); never its own PR |
-| Branch + PR | Define / bug / tweak / refine / rework → ship | One delivery vehicle per Task (research/model may start the branch only) |
+| Branch + PR | Define / bug / tweak / refine / rework / adopt → ship | One delivery vehicle per Task (research/model may start the branch only) |
 | Merge + Done | ship | Closed-loop closeout on that PR |
 
 Paths follow WORKSPACE. Record path + commit SHA on the Task when location is

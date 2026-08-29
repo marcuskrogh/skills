@@ -7,7 +7,8 @@ description: >-
   delivery branch/PR. Use for bugs, tweaks, refinements, reworks, and features —
   the agent infers class and binds an efficient workflow after alignment.
   Prefer /explore when the destination is foggy; prefer explicit /bug /tweak
-  /refine /rework only as manual overrides.
+  /refine /rework only as manual overrides. Prefer /adopt when the whole
+  existing tree should meet the structure catalog.
 disable-model-invocation: true
 ---
 
@@ -38,14 +39,14 @@ After bind, later skills follow the chain **deterministically** via **Next**.
 
 | Slot | This skill |
 |------|------------|
-| **Subject** | Concrete work: defect, small delta, structure-only, measured impl swap, or feature slice (explore route Task when present) |
+| **Subject** | Concrete work: defect, small delta, brownfield whole-tree structure, bounded structure-only, measured impl swap, or feature slice (explore route Task when present) |
 | **Probes** | Thin description; scope in/out; behaviour divergences (or preserve-behaviour / parity bar as class requires); constraints; acceptance; work packages; fog pointers on this route Task; Task key; how to apply RESEARCH/MODEL/SANDBOX — same definition probe set as classic define, proportional depth |
 | **Stop condition** | No obvious divergences remain for scope, behaviour (or parity/preserve-behaviour), constraints, and acceptance — resolved **with the user**; then class + workflow binding are persisted |
 | **Alignment / definition artifact** | `PLAN.md` (path from WORKSPACE) — always; class lives in Classification, not a separate BUG/TWEAK file |
 | **Readiness prompt** | "Does this plan and workflow binding look right?" |
 | **Opening** | Thin description **required**. Missing → "What should we define?" Rich / key given: load Task (+ Story, ROADMAP, RESEARCH, MODEL, SANDBOX); first **definition** divergence with the user |
 | **Scope guard** | Stay on this Task; no foggy destination mapping (`/explore`); write approved `PLAN.md` on the delivery branch; **do not skip alignment** to rush classify/bind |
-| **Depth** | **Proportional:** lightweight for clear bug/tweak/refine/rework once class is evident; **full** CONCEPT_ALIGNMENT for feature, ambiguous class, or any remaining definition divergences |
+| **Depth** | **Proportional:** lightweight for clear bug/tweak/adopt/refine/rework once class is evident; **full** CONCEPT_ALIGNMENT for feature, ambiguous class, or any remaining definition divergences |
 | **Work packages** | Sub-tasks per package when more than one unit; single package OK for small classes |
 | **Class catalog** | [CLASSIFICATION-CATALOG.md](../concepts/CLASSIFICATION-CATALOG.md) |
 | **Template catalog** | same |
@@ -56,7 +57,7 @@ After bind, later skills follow the chain **deterministically** via **Next**.
 ## Steps
 
 1. **Resolve entry** — Require a thin description or ask once; fetch route Task + Story when present; load ROADMAP / RESEARCH / MODEL as supportive. Form a *provisional* class signal only to choose alignment depth (not a final binding). Done when the subject and unresolved definition divergences are known.
-2. **Align and define** — Follow CONCEPT_ALIGNMENT + CONCEPT_DEFINITION relentlessly until the stop condition holds. Use **full** depth when provisional class is feature, class is ambiguous, or definition divergences remain; use lightweight depth only for clear bug/tweak/refine/rework with no remaining definition forks. Done when scope, behaviour/parity/preserve-behaviour, constraints, and acceptance are user-aligned and the plan body is ready.
+2. **Align and define** — Follow CONCEPT_ALIGNMENT + CONCEPT_DEFINITION relentlessly until the stop condition holds. Use **full** depth when provisional class is feature, class is ambiguous, or definition divergences remain; use lightweight depth only for clear bug/tweak/adopt/refine/rework with no remaining definition forks. Done when scope, behaviour/parity/preserve-behaviour, constraints, and acceptance are user-aligned and the plan body is ready.
 3. **Classify and bind** — Apply CONCEPT_CLASSIFICATION + the catalog on the *aligned* description: final **class**, **template** + **parameters** (efficiency-first), confirm only on costly ambiguity. Done when Classification + Workflow are complete and accepted — without reopening settled definition decisions unless the binding exposes a new divergence.
 4. **Persist and track** — Write `PLAN.md`, follow delivery continuity, apply the define tracker row, mirror binding fields on the tracker, and set **Next** to the first step of the bound **Chain**. Done when artifact, Sub-tasks, branch/PR, comments, mirrors, and **Next** agree.
 
@@ -72,7 +73,7 @@ After bind, later skills follow the chain **deterministically** via **Next**.
 - … (user-aligned in this define session — deep alignment when Depth is full)
 
 ## Classification
-- Class: bug | tweak | refine | rework | feature | iterate
+- Class: bug | tweak | adopt | refine | rework | feature | iterate
 - Confidence: high | medium
 - Why: …
 
@@ -89,7 +90,7 @@ After bind, later skills follow the chain **deterministically** via **Next**.
   - review.lasers: bundled | sequential
   - side_paths: none | research | model | research+model
   - sandbox: none | inject
-- Chain: implement → test → harden → review-fix → ship
+- Chain: implement → test → harden → review-fix → ship   # adopt: characterize → implement → test → harden → review-fix → ship
 - Rationale: …
 
 ## Inputs
@@ -134,8 +135,8 @@ on the Task, parent Story, and enabled mirror.
 ## Handoff
 
 Set **Next** to the first skill in the bound **Chain** (usually `/implement`;
-`/research` or `/model` when `side_paths` requires it; `/sandbox` when
-`sandbox=inject` and no prefix side path remains):
+`/adopt` when class is adopt; `/research` or `/model` when `side_paths` requires
+it; `/sandbox` when `sandbox=inject` and no prefix side path remains):
 
 ```markdown
 ## Next

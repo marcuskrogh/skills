@@ -36,8 +36,9 @@ Requires authenticated `gh` + tracker auth.
 
 | Evidence | Remaining |
 |----------|-----------|
-| No ready-to-build artifact | **Stop** — `/define` (or `/iterate`) first; manual `/bug`/`/tweak`/`/refine`/`/rework` also ready-to-build |
+| No ready-to-build artifact | **Stop** — `/define` (or `/iterate`) first; manual `/bug`/`/tweak`/`/refine`/`/rework`/`/adopt` also ready-to-build |
 | Defined; To Do; no meaningful impl on delivery PR | implement → test → harden → review-fix → closeout |
+| `ADOPT.md`; route not Done | `/adopt` — resume the route |
 | In Progress; impl incomplete | finish implement → test → harden → review-fix → closeout |
 | In Progress; impl complete; testing phase not done | test → harden → review-fix → closeout |
 | In Progress; testing done; harden not done | harden → review-fix → closeout |
@@ -46,7 +47,7 @@ Requires authenticated `gh` + tracker auth.
 | PR merged; Task not Done | closeout |
 
    Done when exactly one remaining path is selected.
-3. **Run remaining** — Run each selected skill's full contract in order, preserving its delegation and verification rules. Drop `/test` or `/harden` only when the user explicitly skipped that phase (or docs-only for test). Done when the tail reaches CLEAN or a named implement/test/harden/review-fix hard stop.
+3. **Run remaining** — Run each selected skill's full contract in order, preserving its delegation and verification rules. Drop `/test` or `/harden` only when the user explicitly skipped that phase (or docs-only for test). Class **adopt** / `ADOPT.md`: do not drop characterize or `/test`. Done when the tail reaches CLEAN or a named implement/test/harden/review-fix hard stop.
 4. **Close out** — Run the [closed-loop closeout](../workflow/ship.md#closeout) on the recorded delivery PR, including [changelog](../workflow/changelog.md) detection and entry when the repo maintains one. Done when its closeout criterion holds or merge failure is reported without closing tracker work.
 
 ## Tell the user

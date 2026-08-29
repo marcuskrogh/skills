@@ -200,7 +200,7 @@ if (Test-Path $pluginJson) {
     foreach ($path in $onDisk) {
         if ($path -notin $declared) {
             $msg = "skill on disk not declared in plugin.json: $path"
-            if ($path -in @('./skills/test', './skills/harden')) {
+            if ($path -in @('./skills/test', './skills/harden', './skills/adopt')) {
                 Write-Host "FAIL: $msg"
                 $script:errors++
             } else {

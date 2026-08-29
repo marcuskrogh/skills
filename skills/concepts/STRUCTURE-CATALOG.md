@@ -1,8 +1,8 @@
 # Structure catalog
 
 Disclosed from [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md). Load when implementing,
-hardening, or reviewing Architecture / Standards. **Repo docs win.** Change size
-does not relax these rows.
+hardening, adopting, or reviewing Architecture / Standards. **Repo docs win.**
+Change size does not relax these rows.
 
 Each row is a checkable bar. A breach in **changed** code with a concrete in-PR
 move is `should-fix`. A documented layering/ADR breach is `blocker`. Optional
@@ -18,6 +18,21 @@ smell into a new hunk.
 | **Small type** | One reason to change; split when unrelated responsibilities share a type or file |
 | **Short parameter lists** | Prefer two or fewer arguments; clump related values into a type rather than growing arity |
 | **One level per function** | Mix of high-level orchestration and low-level detail in the same body → extract |
+
+## Change risk
+
+Per **function** (the unit Change Risk Anti-Patterns (**CRAP**) score is
+computed on). **Guide, not a package fail.** Target **below 8** (Uncle Bob's
+recent Clean Code recommendation) unless repo docs set another threshold. A
+score at or above the target is a prompt to inspect the shape of the
+complexity. Prefer the repo's CRAP or complexity+coverage report; otherwise
+compute from cyclomatic complexity `C` and coverage fraction `cov` (0–1):
+
+`CRAP = C² × (1 − cov)³ + C`
+
+| Bar | Check |
+|-----|--------|
+| **CRAP as guide** | Nested conditionals (long if/else chains, nested ifs) at or above the target → extract. A flat switch/case, match, or lookup over a closed set of types may stay even when the score is high. The score alone is not `should-fix` and does not fail a package. Coverage counts only tests that assert the executed paths. A low score does not skip lock tests or behaviour coverage |
 
 ## Cohesion and coupling
 

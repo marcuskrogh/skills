@@ -42,6 +42,8 @@ Repo docs and existing test patterns win over generic advice.
       equivalent coverage
 - [ ] If the repo reports coverage: do not regress coverage on touched packages
       without an explicit, documented reason in the PR test plan
+- [ ] Coverage that lowers **CRAP** comes from tests that assert the executed
+      paths; a call that ignores the result does not count
 - [ ] Flaky or environment-bound tests are not introduced; prefer deterministic fakes
 
 ## Repo norms

@@ -5,7 +5,7 @@ description: >-
   packages. Reuses the Task's delivery branch/PR, honors PLAN.md Workflow
   binding when present, enforces tests and structure as-you-go, and hands
   off to the bound testing phase. Use for an approved PLAN.md, BUG.md,
-  TWEAK.md, REFINE.md, REWORK.md, ITERATE.md, or review fix-forward.
+  TWEAK.md, REFINE.md, REWORK.md, ITERATE.md, ADOPT.md, or review fix-forward.
 disable-model-invocation: true
 ---
 
@@ -37,10 +37,10 @@ as directed there.
 
 | Slot | This skill |
 |------|------------|
-| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs; load `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` from PLAN Inputs or delivery branch when present |
+| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `ADOPT.md` / linked specs; load `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` from PLAN Inputs or delivery branch when present |
 | **Workflow binding** | `PLAN.md` `## Workflow` when present; else legacy fallback in [CLASSIFICATION-CATALOG.md](../concepts/CLASSIFICATION-CATALOG.md#legacy-fallback) |
 | **Branch naming** | WORKSPACE pattern — **reuse** Task delivery branch if it exists |
-| **Delivery** | **Same** PR as define/bug/tweak/refine/rework when one exists (or branch-only per WORKSPACE); research/model/sandbox may have started the branch without a PR |
+| **Delivery** | **Same** PR as define/bug/tweak/refine/rework/adopt when one exists (or branch-only per WORKSPACE); research/model/sandbox may have started the branch without a PR |
 | **Verification** | Per binding `implement.verify`: `tests` → [testing.md](testing.md); `non-regression` → behaviour unchanged + testing.md; `comparative` → [rework.md](rework.md) + testing.md. Plus [structure.md](structure.md) **manager gate**, lint, plan checklist, sub-task completion |
 | **Testing checklist** | [testing.md](testing.md); comparative adds [rework.md](rework.md) |
 | **Structure checklist** | [structure.md](structure.md) + [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md) |
@@ -62,7 +62,7 @@ as directed there.
 2. `PLAN.md` **Workflow** / **Classification** binding (do not override without user ask)
 3. Sub-task descriptions
 4. Task description
-5. `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs
+5. `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `ADOPT.md` / linked specs
 6. `RESEARCH.md` / `MODEL.md` on the delivery branch (PLAN Inputs) — supportive finding docs; use when formulating product docs, rationale, or domain-facing copy
 7. `SANDBOX.md` on the delivery branch — promotion input for the sandboxed element; production paths follow its Promote map
 8. User paste
@@ -79,9 +79,9 @@ open for ship closeout.
 
 Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 
-1. **Resolve work and status** — Resolve the Task, spec, Workflow binding (or legacy fallback), Sub-tasks or review threads, and any `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` on the delivery branch (PLAN Inputs); then apply the implementation start transition. If `sandbox=inject` (or post-merge sandbox) and `SANDBOX.md` is not promotion-ready (`## Representativeness` incomplete or last verdict is not accept), hand off `/sandbox` instead of implementing that element in production. Done when the usable spec, binding params, finding-doc/sandbox inputs, and active packages are known and the Task is **In Progress** (or Next is `/sandbox`).
+1. **Resolve work and status** — Resolve the Task, spec, Workflow binding (or legacy fallback), Sub-tasks or review threads, and any `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` on the delivery branch (PLAN Inputs); then apply the implementation start transition. If `sandbox=inject` (or post-merge sandbox) and `SANDBOX.md` is not promotion-ready (`## Representativeness` incomplete or last verdict is not accept), hand off `/sandbox` instead of implementing that element in production. If spec is `ADOPT.md` and the Behaviour map is missing or still has `gap` rows, persist Next `/adopt` (characterize) and stop. Done when the usable spec, binding params, finding-doc/sandbox inputs, and active packages are known and the Task is **In Progress** (or Next is `/sandbox` or `/adopt`).
 2. **Resolve delivery and commands** — Follow [delivery continuity](../workflow/delivery.md) and inspect repository-owned test/lint commands. Done when the Task's one delivery head is checked out and verification commands are recorded.
-3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md), [structure.md](structure.md), and [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md) in briefs. Fail a package that still breaches the structure catalog, that omits the structure/testing report, or that defers catalog work to harden or lasers. Change size does not relax the briefs. When packages write product docs or domain-facing copy, pass `RESEARCH.md` / `MODEL.md` paths as brief inputs. When promoting a sandbox, follow `SANDBOX.md` Promote map into production paths. When a remaining package is a contained element that needs inspect-each-turn, hand off `/sandbox` rather than iterating on production. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, structure catalog, Sub-task criteria, and binding.
+3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md), [structure.md](structure.md), and [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md) in briefs. When spec is `ADOPT.md`, also include the Behaviour map and lock-suite commands; fail a package that rewrites lock-test expectations. Fail a package that still breaches the structure catalog, that omits the structure/testing report, or that defers catalog work to harden or lasers. Change size does not relax the briefs. When packages write product docs or domain-facing copy, pass `RESEARCH.md` / `MODEL.md` paths as brief inputs. When promoting a sandbox, follow `SANDBOX.md` Promote map into production paths. When a remaining package is a contained element that needs inspect-each-turn, hand off `/sandbox` rather than iterating on production. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, structure catalog, Sub-task criteria, and binding.
 4. **Closeout gate** — Walk the **whole** delivery diff against [structure.md](structure.md#manager-gate-before-next-test) and [testing.md](testing.md). Remaining catalog breaches, missing reports, or missing tests → re-delegate; do not hand off. Done when the gate holds or every remainder is a documented exception.
 5. **Verify and deliver** — Run the recorded checks, update the same PR (include binding summary, test plan, and structure notes), apply the implementation tracker row, and persist **Next** `/test` (then the bound chain includes `/harden`). Keep the Task **In Progress**. Fix-forward during review-fix returns **In Review**. Done when checks pass, the gate holds, the PR and mirrors are current, and **Next** is recorded.
 
@@ -109,8 +109,8 @@ Prefer the next step in the bound **Chain**. Default after Build:
 `/test <TASK-KEY>` — Dedicated testing phase, then harden, then laser code review
 ```
 
-When `test.mode=skip` (docs-only or explicit user ask), Next is `/harden`.
-Do not skip `/harden` from implement. Fix-forward invoked from review-fix
+When `test.mode=skip` (docs-only or explicit user ask) and class is not adopt, Next is `/harden`.
+Adopt / `ADOPT.md` always Next `/test`. Do not skip `/harden` from implement. Fix-forward invoked from review-fix
 returns to that orchestrator — do not rewrite Next to `/test`.
 
 (Use `/ship <TASK-KEY>` to finish remaining along the bound chain.)

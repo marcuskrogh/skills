@@ -8,9 +8,9 @@ Axes: **Spec**, **Correctness**, **Integration**, **Architecture**, **Standards*
 ## Spec
 
 ### Vertical
-- [ ] Each acceptance criterion / bug expected-result / tweak desired-change / refine preserve-behaviour bar / rework parity bar / PLAN Classification acceptance is implemented in the changed code
+- [ ] Each acceptance criterion / bug expected-result / tweak desired-change / refine preserve-behaviour bar / adopt preserve-behaviour gate / rework parity bar / PLAN Classification acceptance is implemented in the changed code
 - [ ] Work-package / sub-task outcomes are actually delivered (not just TODOs/comments)
-- [ ] Edge cases called out in PLAN/BUG/TWEAK/REFINE/REWORK are handled
+- [ ] Edge cases called out in PLAN/BUG/TWEAK/REFINE/REWORK/ADOPT are handled
 - [ ] Wrong algorithm or behaviour relative to the written spec
 - [ ] PLAN Workflow binding (if present) was followed for verify mode (tests / non-regression / comparative evidence)
 
@@ -19,8 +19,9 @@ Axes: **Spec**, **Correctness**, **Integration**, **Architecture**, **Standards*
 - [ ] No scope creep beyond the issue (extra behaviour that should be a new Task)
 - [ ] BUG fixes include regression protection called for in acceptance (test or equivalent)
 - [ ] REFINE keeps executable behaviour unchanged; verification matches Preserve behaviour
+- [ ] ADOPT keeps executable behaviour unchanged; Behaviour map rows stay locked (same tests, same expected results)
 - [ ] REWORK meets the parity bar; PR/evidence shows baseline vs candidate comparison (not suite-green alone)
-- [ ] MODEL/PLAN/BUG/TWEAK/REFINE/REWORK numeric or domain constraints reflected at all touchpoints
+- [ ] MODEL/PLAN/BUG/TWEAK/REFINE/REWORK/ADOPT numeric or domain constraints reflected at all touchpoints
 
 ## Correctness
 
@@ -78,6 +79,7 @@ module/layer/design-shape problems → Architecture.
 - [ ] Module cohesion: changed unit has one clear responsibility; change does not turn it into a god object/service/file
 - [ ] Abstraction quality: interfaces/ports hide the right details; no leaky abstractions exposing persistence/transport internals
 - [ ] Complexity growth: long methods/types/files made worse without an extract/split plan
+- [ ] **CRAP** as a guide: nested conditionals above the target extracted; a flat switch/case over a closed set of types may stay
 - [ ] Speculative frameworks or premature generalization introduced without a second real use
 - [ ] Composition vs inheritance / indirection: new layers earn their keep
 
@@ -99,6 +101,7 @@ When flagging, name a concrete move, for example:
 - Move type or function to the correct layer
 - Invert dependency (introduce port + adapter; depend on abstraction)
 - Split god module along change-axes
+- Extract nested conditionals that drive **CRAP** above the target; leave a justified switch/case
 - Collapse needless indirection / speculative generality
 - Introduce a façade to hide a message chain or unstable neighbor
 - Align with an existing pattern already used for a sibling feature
@@ -117,7 +120,7 @@ or `blocker`. Pure taste with no named smell and no repo-doc backing → `note`.
 Skip tooling-enforced style.
 
 ### Vertical / horizontal for standards
-- Vertical: naming, structure, and clarity inside new functions
+- Vertical: naming, structure, **CRAP**, and clarity inside new functions
 - Horizontal: consistency with neighbouring modules and established patterns in the repo
 - [ ] **Dev-surface keys** — [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md)
 

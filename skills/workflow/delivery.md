@@ -25,7 +25,7 @@ or pushing to a delivery head.
    a PR** from sandbox. Reuse the head when define already opened the PR.
    Post-merge: **new** branch from WORKSPACE base for the new Task. Done
    when the harness and artifact are on the delivery head.
-5. **First PR-opening writer.** First of define / bug / tweak / refine / rework
+5. **First PR-opening writer.** First of define / bug / tweak / refine / rework / adopt
    that commits for a **delivery** Task opens the draft PR when `Open PR by
    default` (reusing the branch if research/model/sandbox already started it).
    After **post-merge sandbox**, **implement** opens that PR. Later
@@ -46,7 +46,7 @@ or pushing to a delivery head.
 
 | Kind | What | Branch / PR |
 |------|------|-------------|
-| **Delivery Task** | Will (or may) reach implement → ship — including a define-typed explore route Task that also runs research/model/sandbox, or a post-merge sandbox Task | One delivery branch; research/model add finding docs; sandbox adds a **representative** harness + `SANDBOX.md`; define (or bug/tweak/refine/rework) opens the single PR — **implement** opens it after post-merge sandbox |
+| **Delivery Task** | Will (or may) reach implement → ship — including a define-typed explore route Task that also runs research/model/sandbox, or a post-merge sandbox Task | One delivery branch; research/model add finding docs; sandbox adds a **representative** harness + `SANDBOX.md`; define (or bug/tweak/refine/rework/adopt) opens the single PR — **implement** opens it after post-merge sandbox |
 | **Supportive-only route Task** | Explore-typed research/model/sandbox/task whose **Next** advances a *different* key; no implement/ship on this key | Commit finding docs or sandbox tree onto the **downstream delivery Task’s** branch (or tracker/external). **Never** open a PR for this key. Mark **Done** at handoff |
 | **Explore map (Story)** | `ROADMAP.md` + Story + route tickets | Charting only — never leave an explore-only open PR |
 
@@ -63,13 +63,14 @@ is the active define→ship head (if any).
 | `/bug` | Create Task; start delivery branch when committing `BUG.md`; Next `/implement` |
 | `/tweak` | Create Task; start delivery branch when committing `TWEAK.md`; Next `/implement` |
 | `/refine` | Create Task; start delivery branch when committing `REFINE.md`; Next `/implement` |
+| `/adopt` | Create Task (or Story + area Tasks); walk inventory then unit chain per area until Done; Next none (or the blocking skill on a hard stop) |
 | `/rework` | Create Task; start delivery branch when committing `REWORK.md`; Next `/implement` (comparative) |
 | `/sandbox` | Commit `SANDBOX.md` + isolation tree on delivery branch; **never** open a PR; Next `/sandbox` (delta) or `/implement` (promote). Post-merge: new Task + branch from base, Relates → prior |
 | `/iterate` | New Task + branch + PR from base; Next `/test` (or first remaining closeout step). If the delta needs inspect-each-turn, compose `/sandbox` instead |
 | `/define` with no explore Task | Create Task (+ Sub-tasks) as pipeline owner |
-| `/implement` with existing PLAN / BUG / TWEAK / REFINE / REWORK | Allowed; reuse delivery head |
+| `/implement` with existing PLAN / BUG / TWEAK / REFINE / REWORK / ADOPT | Allowed; reuse delivery head |
 | Skip define on features | Only when already implementation-ready |
-| Skip define for defects / tweaks / refinements / reworks | Use `/bug`, `/tweak`, `/refine`, or `/rework` instead |
+| Skip define for defects / tweaks / refinements / reworks / adoption | Use `/bug`, `/tweak`, `/refine`, `/rework`, or `/adopt` instead |
 
 ## Linking
 

@@ -11,13 +11,15 @@ Apply **discriminators in order**; **first match wins**.
 |------:|-------|--------------------------------|
 | 1 | **bug** | Behaviour is wrong / regressing; fix is the work; expected correct behaviour is known or knowable |
 | 2 | **rework** | Intentional **implementation** change (algorithm, control law, internal path) **and** measured outcomes must not degrade (parity bar needed or implied) |
-| 3 | **refine** | Structure, naming, layering, comments, or docs only; **executable behaviour unchanged** |
-| 4 | **tweak** | Small intentional behaviour delta; not a defect; too light for a full feature slice |
-| 5 | **feature** | Buildable product/system slice that needs scope/behaviour/acceptance as a unit |
-| 6 | **iterate** | Prior Task already **merged**; shipped work still wrong or incomplete (post-ship only); straightforward production fix — inspect-each-turn post-merge is sandbox |
+| 3 | **adopt** | Entire existing codebase (or the named tree) was **not built** to the structure bar; apply the catalog across it; **executable behaviour unchanged** |
+| 4 | **refine** | **Bounded** area (module, class, slice, README); structure, naming, layering, comments, or docs only; **executable behaviour unchanged** |
+| 5 | **tweak** | Small intentional behaviour delta; not a defect; too light for a full feature slice |
+| 6 | **feature** | Buildable product/system slice that needs scope/behaviour/acceptance as a unit |
+| 7 | **iterate** | Prior Task already **merged**; shipped work still wrong or incomplete (post-ship only); straightforward production fix — inspect-each-turn post-merge is sandbox |
 
 If nothing matches cleanly → ask one discriminator question (usually: defect vs
-intentional change vs structure-only vs measured swap).
+intentional change vs whole-tree structure vs bounded structure-only vs measured
+swap).
 
 ## Templates
 
@@ -42,6 +44,7 @@ recorded in `sandbox` (`none` \| `inject`). Closeout after implement is always
 |-------|------------------|
 | bug | fix-fast |
 | tweak | delta-fast |
+| adopt | structure-safe |
 | refine | structure-safe |
 | rework | parity-iterative |
 | feature | feature-standard |
@@ -107,6 +110,7 @@ Structure and testing are the **floor**. Efficiency applies to `review.mode`,
 | User asks for thorough/full review | `review.depth=full`, `review.mode=multiagent` |
 | User asks to skip multiagent / save tokens | prefer `single` + `focused`; **do not** skip test, harden, sequential lasers, or Architecture |
 | User explicitly asks to skip test or harden | that phase only; record the skip on the binding |
+| Class is **adopt** | Walk the route autonomously: inventory (delegated), then each area runs characterize → implement → test → harden → review-fix → ship, then the next area, until the route is Done. Characterize maps current observable behaviour and implements lock tests; structure work does not start until that suite is green on current code. Force `implement.verify=non-regression` and `test.mode=dedicated`. Refuse `test.mode=skip` even if the user asked — proof is required. `implement.mode=multiagent` when the unit has more than one package or any Moderate/Demanding package. Do not wait for user Next between steps or areas. Do not ship or start the next area until the preserve-behaviour gate holds. Hard stop on a composed skill's hard stop or a failed proof. Closeout params stay on **structure-safe** except `implement.mode` / forced verify+test as above |
 
 **Cheapest review breadth that still covers risk wins.** Do not escalate to
 feature-heavy or full multiagent review without a matching override row. Do not
@@ -116,7 +120,7 @@ drop test, harden, or the Architecture/Standards lasers to save tokens.
 
 ```markdown
 ## Classification
-- Class: bug | tweak | refine | rework | feature | iterate
+- Class: bug | tweak | adopt | refine | rework | feature | iterate
 - Confidence: high | medium
 - Why: <one line>
 
@@ -133,15 +137,16 @@ drop test, harden, or the Architecture/Standards lasers to save tokens.
   - review.lasers: bundled | sequential
   - side_paths: none | research | model | research+model
   - sandbox: none | inject
-- Chain: implement → test → harden → review-fix → ship
+- Chain: implement → test → harden → review-fix → ship   # adopt: characterize → implement → test → harden → review-fix → ship per area
 - Rationale: <one line efficiency + risk; test/harden are the floor>
 ```
 
 Adjust **Chain** when `side_paths` ≠ none (e.g. `research → implement → …`) or
 `sandbox=inject` (e.g. `sandbox → implement → test → harden → review-fix → ship`).
-Drop `test` only when `test.mode=skip` (docs-only or explicit user ask). Drop
+Class **adopt** is an orchestrator: inventory, then `characterize → implement → test → harden → review-fix → ship` per area until the route is Done.
+Adopt does **not** drop characterize or `test` (proof is required). Drop `test` on other classes only when `test.mode=skip` (docs-only or explicit user ask). Drop
 `harden` only when the user explicitly asked to skip it. Prefix order:
-side_paths, then sandbox, then implement.
+side_paths, then sandbox, then implement (or adopt's unit chain).
 
 ## Legacy fallback
 
@@ -151,6 +156,7 @@ When the Task has no `## Workflow` section:
 |----------|----------------|--------|-----------|-------------|--------------|---------------|
 | `BUG.md` / `ITERATE.md` | bug / iterate | tests | dedicated | dedicated | focused | sequential |
 | `TWEAK.md` | tweak | tests | dedicated | dedicated | focused | sequential |
+| `ADOPT.md` | adopt | non-regression | dedicated | dedicated | focused | sequential |
 | `REFINE.md` | refine | non-regression | dedicated | dedicated | focused | sequential |
 | `REWORK.md` | rework | comparative | dedicated | dedicated | focused | sequential |
 | `SANDBOX.md` without PLAN | feature / post-merge sandbox | measure kind → comparative; else tests | dedicated | dedicated | focused | sequential |

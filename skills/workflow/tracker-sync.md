@@ -10,7 +10,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
   explore/define      implement         harden         ship
   research/model      iterate           review
   sandbox             test              review-fix
-  bug / tweak / refine / rework
+  bug / tweak / refine / rework / adopt
 ```
 
 ## Matrix
@@ -21,6 +21,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 | **bug** | Task (+ optional Sub-tasks); link BUG.md; start delivery branch/PR | Leave **To Do** | Task: BUG.md + branch/PR + **Next**; ISSUES | — |
 | **tweak** | Task (+ optional Sub-tasks); link TWEAK.md; start delivery branch/PR | Leave **To Do** | Task: TWEAK.md + branch/PR + **Next**; ISSUES | — |
 | **refine** | Task (+ optional Sub-tasks); link REFINE.md; start delivery branch/PR | Leave **To Do** | Task: REFINE.md + branch/PR + **Next**; ISSUES | — |
+| **adopt** | Task (or Story + area Tasks); link ADOPT.md; start current area delivery branch/PR; walk unit chain (implement delegates packages) | Current area **In Progress** then ship **Done**; non-frontier Tasks stay **To Do** until the walk reaches them; Story **Done** when the route is empty | Task/Story: ADOPT.md + current branch/PR + inventory + **Next**; ISSUES | Story when route empty (area Tasks via ship) |
 | **rework** | Task (+ optional Sub-tasks); link REWORK.md; start delivery branch/PR | Leave **To Do** | Task: REWORK.md + branch/PR + **Next**; ISSUES | — |
 | **iterate** | **New** Task; link ITERATE.md; Relates → prior | In Progress (implement/test); **In Review** after harden | Prior + new Task comments; **Next** `/test`; ISSUES | — (ship closes) |
 | **research** | Enrich **delivery** Task; commit `RESEARCH.md` on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | RESEARCH.md path + branch + **Next**; ROADMAP/PLAN/ISSUES | Supportive-only Task after docs are on the delivery branch |

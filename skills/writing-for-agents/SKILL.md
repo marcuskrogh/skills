@@ -105,15 +105,19 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **sandbox** | Isolated, representative vehicle for one contained unit, outside production paths; inspect-each-turn then promote via implement; post-merge instead of iterate when each turn needs inspection |
 | **test** | Shipping-phase dedicated testing pass after implement (`test.mode=dedicated`) |
 | **harden** | Shipping-phase behaviour-preserving structure pass (`harden.mode=dedicated`) |
+| **adopt** | Apply the structure catalog across an existing codebase that was not built to the bar; characterize current behaviour into tests first; delegated walk until the route is Done |
+| **characterize** | Map current observable behaviour to tests and prove them green on current code before structure-only edits |
+| **CRAP** | Change Risk Anti-Patterns score; a guide toward extract vs justified dispatch; target below 8 unless repo docs set another threshold |
+| **prove** | Recorded lock suite must still hold before the next structure-only step or area |
 | **laser** | Sequential single-axis (or small-bundle) review pass; under review-fix, fix before the next laser |
 | **code review** | Final published pull-request review after lasers; the closeout gate |
-| **class** | Closed label for kind of work (bug/tweak/refine/rework/feature/…); from CONCEPT_CLASSIFICATION |
+| **class** | Closed label for kind of work (bug/tweak/adopt/refine/rework/feature/…); from CONCEPT_CLASSIFICATION |
 | **binding** | Selected workflow template + parameters persisted on the definition artifact |
 | **template** | Named delivery bundle (fix-fast, parity-iterative, …) |
 | **front door** | Primary human entry: explore (fog) or define (concrete) |
 | **manager** | Orchestrating agent — stays high-capability; plans, evaluates, tracks |
 | **worker** | Delegated sub-agent — value-routed low/mid/high |
-| **depth** | Proportional intensity preset (review: `full` vs `focused`; define/bug/tweak/refine/rework: Full vs Lightweight) |
+| **depth** | Proportional intensity preset (review: `full` vs `focused`; define/bug/tweak/adopt/refine/rework: Full vs Lightweight) |
 | **dev-surface** | (pl. **dev-surfaces**) Development linking surface where issue keys belong — full list: CONCEPT_IMPLEMENTATION Leading words |
 | **product surface** | (pl. **product surfaces**) End-user facing shipped source and copy — product language exclusively; full list: CONCEPT_IMPLEMENTATION Leading words |
 | **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md); workspace `Agent language: general` widens the same rules |

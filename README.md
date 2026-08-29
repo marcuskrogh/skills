@@ -33,16 +33,23 @@ the set; does not start delivery. Want the current step taught?
 | Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks; research/model/sandbox = artifacts on the delivery branch → `/define` |
 | Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Align → **classify** → **bind workflow** → `PLAN.md` + **Next** |
 
+### Whole-repo structure
+
+| If you… | Run | What happens |
+|---------|-----|----------------|
+| Want the structure catalog on a brownfield codebase | `/adopt` | Characterizes current behaviour into tests, then walks implement → test → harden → review-fix → ship per area until Done |
+
 Without an explicit override or continuation: **foggy → explore**, **concrete →
 define**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework`
-`/sandbox`.
+`/sandbox`. Whole-tree structure on a brownfield codebase matches **adopt**
+before define.
 
 ### Define: classify + bind
 
 [`/define`](skills/define/SKILL.md) is the default front door for concrete work.
 After user alignment it:
 
-1. Infers a closed **class** (bug / tweak / refine / rework / feature / …)
+1. Infers a closed **class** (bug / tweak / adopt / refine / rework / feature / …)
 2. Binds an efficient **template** + **parameters** (e.g. fix-fast,
    parity-iterative, feature-heavy; single vs multiagent; verify mode;
    **test and harden are always bound** unless the user explicitly skips them;
@@ -76,6 +83,7 @@ continue or ship, not a new map — unless they asked for a walkthrough
 
 ```text
 setup → explore? → define (classify + bind) → [sandbox?] → [bound chain, often implement → test → harden → review-fix → ship]
+brownfield structure:  adopt (inventory → [characterize → implement → test → harden → review-fix → ship] per area until Done)
 ```
 
 Explore charts a **map**; research / model commit **finding docs**
@@ -103,13 +111,18 @@ report inspection of a contained element — the sandbox must be
 inspectable or comparison, then implement promotes. `/review` is findings-only;
 `/review-fix` runs lasers → fix-forward → **code review** → CLEAN. `/test` and
 `/harden` are the dedicated testing and structure phases before that.
+[`/adopt`](skills/adopt/SKILL.md) applies the same catalog across a codebase that
+was not built to it. Each area **characterizes** current behaviour into tests
+first, then walks the bound chain. Those same tests and requirements are the bar
+after structure; `/test` is not skippable.
 `/summarise` reports status anytime without advancing.
 
 ### Manual overrides vs define
 
 `/bug`, `/tweak`, `/refine`, `/rework` remain user-invokable when you want to
 skip define’s classifier. Prefer `/define` for new work — the agent classifies
-and binds. Explicit slash always wins.
+and binds. Prefer `/adopt` when the whole existing tree should meet the structure
+bar. Explicit slash always wins.
 
 ### Compact catalog
 
@@ -127,6 +140,7 @@ Pick the **first matching** row (same order as
 | **sandbox** | Explicit isolated inspect-loop; or post-merge instead of iterate when each turn needs inspection | [sandbox](skills/sandbox/SKILL.md) |
 | **iterate** | Prior Task/PR **already merged**; still broken — straightforward production fix | [iterate](skills/iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](skills/review-fix/SKILL.md) |
+| **adopt** | Entire existing codebase was not built to the structure bar; walk until Done | [adopt](skills/adopt/SKILL.md) |
 | **explore** | Vague, oversized, or foggy initiative | [explore](skills/explore/SKILL.md) |
 | **research** / **model** | Explicit multi-axis evidence or math now | [research](skills/research/SKILL.md) / [model](skills/model/SKILL.md) |
 | **implement** | Ready-to-build PLAN (or legacy artifact / SANDBOX.md) exists | [implement](skills/implement/SKILL.md) |
@@ -166,11 +180,11 @@ Concepts own **invariants**; skills fill **extensions** only — see
 [`writing-for-agents`](skills/writing-for-agents/SKILL.md). Example: `define`
 applies alignment + definition + **classification** for concrete work; `bug` /
 `tweak` / `refine` / `rework` are manual overrides with the same class
-semantics. User-facing agent prose follows
+semantics. `adopt` applies the structure catalog to a brownfield tree. User-facing agent prose follows
 [`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md).
 
 **Sub-agent value routing:** skills that delegate (`implement`, `test`, `harden`,
-`review`, `review-fix`, `sandbox`, and composers like `ship` / `iterate` / `research` axes)
+`adopt`, `review`, `review-fix`, `sandbox`, and composers like `ship` / `iterate` / `research` axes)
 apply [`CONCEPT_DELEGATION`](skills/concepts/CONCEPT_DELEGATION.md) — score
 difficulty (Routine → low, Moderate → mid, Demanding → high), keep the manager
 on high-capability, escalate one tier at a time, and pick **catalog-closed**
@@ -203,7 +217,7 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── CONCEPT_RESEARCH.md
 │   ├── CONCEPT_REVIEW.md
 │   ├── CONCEPT_SANDBOX.md
-│   ├── CONCEPT_STRUCTURE.md    ← Clean Code / SOLID / smell bar
+│   ├── CONCEPT_STRUCTURE.md    ← Clean Code / SOLID / smell / CRAP bar
 │   └── STRUCTURE-CATALOG.md
 ├── workflow/                   ← lean delivery contract + disclosed refs
 ├── workflows/                  ← model-invoked router (explore/define front doors)
@@ -213,6 +227,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── bug/                        ← manual override → BUG.md
 ├── tweak/                      ← manual override → TWEAK.md
 ├── refine/                     ← manual override → REFINE.md
+├── adopt/                      ← brownfield whole-tree structure → ADOPT.md
 ├── rework/                     ← manual override → REWORK.md (comparative eval)
 ├── research/                   ← finding docs → RESEARCH.md on delivery branch (no PR)
 ├── model/                      ← math finding docs → MODEL.md on delivery branch (no PR)
@@ -247,6 +262,7 @@ templates/project-sync/         ← startup sync script template
 | **explore** | user | Clear fog → `ROADMAP.md` + Story + route Tasks (one delivery unit; research/model = finding docs, no separate PRs) |
 | **define** | user | **Front door** for concrete work → align, classify, bind → `PLAN.md` |
 | **bug** / **tweak** / **refine** / **rework** | user | Manual overrides; prefer `/define` for new work |
+| **adopt** | user | Apply the structure catalog across a brownfield tree; characterize current behaviour into tests first; delegated walk per area until Done |
 | **research** / **model** | user | Finding docs on delivery branch (no PR; often via define `side_paths`) |
 | **sandbox** | user | Isolated, representative inspect-loop on delivery branch (no PR; inject, mid-implement, or post-merge instead of iterate) |
 | **implement** | user | Build on the **same** delivery branch/PR; tests and structure as-you-go; promotes SANDBOX |
@@ -415,7 +431,7 @@ adding a single file to a consuming repo:
 
 - `WORKSPACE.md` lives in `~/.agents/`
 - `PLAN.md` / `ROADMAP.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` /
-  `MODEL.md` / `RESEARCH.md` / `SANDBOX.md` / `ITERATE.md` are written under
+  `ADOPT.md` / `MODEL.md` / `RESEARCH.md` / `SANDBOX.md` / `ITERATE.md` are written under
   `~/.agents/artifacts/<repo>/` and their **full content is pushed into the
   tracker issue**, which becomes the durable, shareable copy
 - Disable the markdown mirror so the remote tracker is the sole source of truth

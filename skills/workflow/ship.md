@@ -5,13 +5,14 @@ Load when running `/ship` — remaining-tail detection or closed-loop closeout.
 ## Remaining workflow
 
 `/ship` finalizes whatever is still left after define / bug / tweak / refine /
-rework / sandbox / iterate-ready.
+rework / adopt / sandbox / iterate-ready.
 It is not limited to “clean review → merge”.
 
 ```text
 detect stage
-  → not ready-to-build → stop; tell user /define|/bug|/tweak|/refine|/rework|/iterate|/sandbox
+  → not ready-to-build → stop; tell user /define|/bug|/tweak|/refine|/rework|/adopt|/iterate|/sandbox
   → sandbox outstanding (`sandbox=inject`, SANDBOX.md not promotion-ready) → /sandbox
+  → adopt outstanding (`ADOPT.md` present, route not Done) → /adopt
   → implementation outstanding → /implement on delivery branch/PR
   → testing outstanding (`test.mode` not an explicit skip, no testing-phase comment) → /test
   → harden outstanding (`harden.mode` not an explicit user skip, Task not yet In Review from harden) → /harden
@@ -23,6 +24,7 @@ detect stage
 | Invoked when | Remaining |
 |--------------|-----------|
 | After define / bug / tweak / refine / rework (To Do, plan ready) | implement → test → harden → review-fix → closeout (sandbox first when `sandbox=inject` and not promotion-ready) |
+| After adopt (route not Done) | `/adopt` — resume the route (inventory if needed, characterize if the map is not locked, then remaining unit chains) |
 | After sandbox (promotion-ready) | implement → test → harden → review-fix → closeout |
 | After implement (In Progress, PR has impl) | test → harden → review-fix → closeout |
 | After test | harden → review-fix → closeout |
@@ -35,7 +37,7 @@ to run. Done when remaining skills have completed or a hard stop is reported.
 
 Honor bound `test.mode` / `harden.mode` / `review.lasers`. Treat missing skip as
 **dedicated**. Drop a closeout step only when the user explicitly asked to skip
-it (or docs-only for test).
+it (or docs-only for test). Class **adopt** / `ADOPT.md`: do not drop characterize or `/test`.
 
 ## Closeout
 
@@ -43,7 +45,7 @@ Closed-loop on the Task’s **single delivery PR**. Run only after CLEAN **code
 review** (or already ship-ready / explicit user override).
 
 1. **Pre-merge continuity (PR still open)** — commit and push on the delivery branch:
-   - PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / SANDBOX — shipped / **Next: Done** + PR link
+   - PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / ADOPT / SANDBOX — shipped / **Next: Done** + PR link
    - ROADMAP — phase Done + PR link when this Task owns a phase
    - **Changelog** — when [detected](changelog.md), append compact entry per repo format
    - ISSUES (and markdown issue files if provider is markdown)

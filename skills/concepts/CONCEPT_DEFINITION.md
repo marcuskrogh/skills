@@ -27,7 +27,7 @@ research, math modelling, and coding are other skills' jobs.
 | **Subject** | must | Kind of thing being defined |
 | **Probes** | must | Definition-oriented question areas (skill fills) |
 | **Stop condition** | must | When the definition is implementable |
-| **Definition artifact** | must | Format and filename (`PLAN.md`, `BUG.md`, `TWEAK.md`, `REFINE.md`, `REWORK.md`, …) |
+| **Definition artifact** | must | Format and filename (`PLAN.md`, `BUG.md`, `TWEAK.md`, `REFINE.md`, `REWORK.md`, `ADOPT.md`, …) |
 | **Readiness prompt** | must | How to confirm with the user |
 | **Opening** | may | Thin vs rich / key-driven entry |
 | **Scope guard** | may | Exclusions during definition |

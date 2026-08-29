@@ -25,7 +25,7 @@ from this skill; do not load every pipeline skill.
 ## Steps
 
 1. **Orient** — If the user named a situation, point at **explore** or **define**
-   (or **guide** / **explain** / a continuation); if they asked for an overview, give the short map.
+   (or **adopt** / **guide** / **explain** / a continuation); if they asked for an overview, give the short map.
    Done when the reply matches overview vs choose-one.
 2. **Reply** — Use the shapes below; keep it scannable. Done when the user knows
    the front door and that **Next** carries the rest.
@@ -43,6 +43,12 @@ from this skill; do not load every pipeline skill.
 | Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks; research/model/sandbox = artifacts on the delivery branch → `/define` |
 | Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Align → agent **classifies** → binds **workflow** → `PLAN.md` + **Next** |
 
+### Whole-repo structure
+
+| If you… | Run | What happens |
+|---------|-----|----------------|
+| Want the structure catalog applied across a brownfield codebase | `/adopt` | Characterizes current behaviour into tests, then walks implement → test → harden → review-fix → ship per area until Done |
+
 ### Walk, teach, map
 
 | If you… | Run | What happens |
@@ -57,16 +63,20 @@ class-specific entry skills.
 ### What define binds (agent-side)
 
 Define applies [CONCEPT_CLASSIFICATION](../concepts/CONCEPT_CLASSIFICATION.md):
-infers **class** (bug / tweak / refine / rework / feature / …), selects a
+infers **class** (bug / tweak / adopt / refine / rework / feature / …), selects a
 **template** (fix-fast, parity-iterative, feature-heavy, …) and **parameters**
 (single vs multiagent implement/review, verify mode, **test and harden as the
 floor**, review depth and lasers, optional research/model side paths, optional
 sandbox inspect-loop), then walks that chain almost deterministically.
+Class **adopt** walks `characterize → implement → test → harden → review-fix → ship` per area
+until the route is Done. Characterize maps current behaviour into tests first;
+those same tests are the bar after structure. `/test` is not skippable.
 
 ### Closed-loop shape
 
 ```text
 setup → explore? → define (classify + bind) → [sandbox?] → [bound chain: often implement → test → harden → review-fix → ship]
+brownfield structure:  adopt (inventory → [characterize → implement → test → harden → review-fix → ship] per area until Done)
 post-merge fix:  ship → iterate → test → harden → review-fix → ship
 post-merge inspect-loop:  ship → sandbox → implement → test → harden → review-fix → ship
 ```
@@ -79,7 +89,7 @@ production in every area that would change that inspection.
 
 All pipeline skills stay **user-invokable** when you want to deviate from Next
 or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
-`/sandbox`, `/implement`, `/test`, `/harden`, `/review`, `/review-fix`, `/ship`, `/research`,
+`/adopt`, `/sandbox`, `/implement`, `/test`, `/harden`, `/review`, `/review-fix`, `/ship`, `/research`,
 `/model`, `/summarise`, `/guide`, `/explain`, …
 
 ### Meta
@@ -100,7 +110,7 @@ prose in the workspace.
 ## Choose-one reply shape
 
 ```markdown
-**Suggested:** `/explore` or `/define` or `/guide` or `/explain` — <one line why>
+**Suggested:** `/explore` or `/define` or `/adopt` or `/guide` or `/explain` — <one line why>
 
 **Then:** follow **Next** on the Task (bound workflow), or wait for okay after each walkthrough or explanation step
 
@@ -109,10 +119,10 @@ prose in the workspace.
 
 ## Overview reply shape
 
-Present **Front doors** + **Walk, teach, map** + **Closed-loop shape**; mention manual overrides only
+Present **Front doors** + **Whole-repo structure** + **Walk, teach, map** + **Closed-loop shape**; mention manual overrides only
 briefly. End with:
 
 ```markdown
 ## Next
-`/define` or `/explore` or `/guide` or `/explain` — <if clear>, or say what you’re trying to do.
+`/define` or `/explore` or `/adopt` or `/guide` or `/explain` — <if clear>, or say what you’re trying to do.
 ```
