@@ -51,8 +51,10 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **research** | User explicitly wants multi-axis literature/evidence now (not product alignment) | [research](../research/SKILL.md) |
 | **model** | User explicitly wants math formulation now (not product scope/UX) | [model](../model/SKILL.md) |
 | **implement** | Ready-to-build PLAN (or legacy BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX) exists; build or resume | [implement](../implement/SKILL.md) |
+| **test** | Bound testing phase after implement, or user wants that phase now | [test](../test/SKILL.md) |
+| **harden** | Bound structure phase after test, or user wants that phase now | [harden](../harden/SKILL.md) |
 | **review** | Want findings only on an In Review PR (no auto-fix) | [review](../review/SKILL.md) |
-| **review-fix** | Want one review → fix → CLEAN on the delivery PR | [review-fix](../review-fix/SKILL.md) |
+| **review-fix** | Want lasers → fix → code review → CLEAN on the delivery PR | [review-fix](../review-fix/SKILL.md) |
 | **summarise** | Status / “where am I” / “what next” *reported*, not advanced | [summarise](../summarise/SKILL.md) |
 | **define** | Concrete work to pin down (bug, tweak, refine, rework, feature, …) — **default front door** | [define](../define/SKILL.md) |
 | **bug** / **tweak** / **refine** / **rework** | User **explicitly** named that skill (manual override) | matching skill |

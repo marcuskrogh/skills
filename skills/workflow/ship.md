@@ -13,26 +13,34 @@ detect stage
   → not ready-to-build → stop; tell user /define|/bug|/tweak|/refine|/rework|/iterate|/sandbox
   → sandbox outstanding (`sandbox=inject`, SANDBOX.md not promotion-ready) → /sandbox
   → implementation outstanding → /implement on delivery branch/PR
-  → review not CLEAN → /review-fix on same PR
+  → testing outstanding (`test.mode=dedicated`, no testing-phase comment) → /test
+  → harden outstanding (`harden.mode=dedicated`, Task not yet In Review from harden) → /harden
+  → review not CLEAN → /review-fix on same PR (lasers + code review)
   → CLEAN / ship-ready → closeout
   → review-fix FAILED → stop; do not merge; report Next
 ```
 
 | Invoked when | Remaining |
 |--------------|-----------|
-| After define / bug / tweak / refine / rework (To Do, plan ready) | implement → review-fix → closeout (sandbox first when `sandbox=inject` and not promotion-ready) |
-| After sandbox (promotion-ready) | implement → review-fix → closeout |
-| After implement (In Review) | review-fix → closeout |
-| After review-fix CLEAN / clean review | closeout |
-| After iterate (new Task In Review) | review-fix → closeout |
+| After define / bug / tweak / refine / rework (To Do, plan ready) | implement → test → harden → review-fix → closeout (drop test/harden when binding skips them; sandbox first when `sandbox=inject` and not promotion-ready) |
+| After sandbox (promotion-ready) | implement → test → harden → review-fix → closeout |
+| After implement (In Progress, PR has impl) | test → harden → review-fix → closeout |
+| After test | harden → review-fix → closeout |
+| After harden (In Review) | review-fix → closeout |
+| After implement when test and harden are skipped | review-fix → closeout |
+| After review-fix CLEAN / clean code review | closeout |
+| After iterate (new Task, impl done) | remaining closeout chain from Next |
 
 Composed skills keep their full contracts. Ship only chooses **which** still need
 to run. Done when remaining skills have completed or a hard stop is reported.
 
+Honor bound `test.mode` / `harden.mode` / `review.lasers` when skipping or
+including a closeout step.
+
 ## Closeout
 
-Closed-loop on the Task’s **single delivery PR**. Run only after CLEAN review
-(or already ship-ready / explicit user override).
+Closed-loop on the Task’s **single delivery PR**. Run only after CLEAN **code
+review** (or already ship-ready / explicit user override).
 
 1. **Pre-merge continuity (PR still open)** — commit and push on the delivery branch:
    - PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / SANDBOX — shipped / **Next: Done** + PR link

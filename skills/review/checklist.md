@@ -62,8 +62,10 @@ Axes: **Spec**, **Correctness**, **Integration**, **Architecture**, **Standards*
 ## Architecture
 
 Deep structural analysis of the change in context of the surrounding codebase.
-Findings must cite evidence (paths, layers, dependency edges) and propose a
-**concrete refactoring** — not vague "consider cleaning this up."
+Applies [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md) and
+[STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md). Findings must cite
+evidence (paths, layers, dependency edges) and propose a **concrete refactoring**
+— not vague "consider cleaning this up."
 
 Documented ADRs / architecture docs / dependency rules override generic advice.
 
@@ -108,25 +110,11 @@ optional adjacent cleanup the PR did not cause → `note`. When unsure between
 
 ## Standards (smell baseline)
 
-Repo docs override. **Fix-biased:** actionable named smells in **changed** code
-(clear rename / extract / move) → `should-fix`. Documented convention breaches →
-`should-fix` or `blocker`. Pure taste with no named smell and no repo-doc backing →
-`note`. Skip tooling-enforced style.
-
-### Smell baseline (_Refactoring_, Fowler ch.3)
-
-- **Mysterious Name** — name doesn't reveal role → rename or rethink design
-- **Duplicated Code** — same logic shape in multiple hunks → extract
-- **Feature Envy** — method uses another's data more than its own → move it
-- **Data Clumps** — same fields travel together → introduce a type
-- **Primitive Obsession** — primitive stands in for a domain concept → small type
-- **Repeated Switches** — same type cascade repeated → polymorphism or shared map
-- **Shotgun Surgery** — one change edits many scattered sites → gather
-- **Divergent Change** — one module changed for unrelated reasons → split
-- **Speculative Generality** — abstraction for unneeded future → delete/inline
-- **Message Chains** — long `a.b().c().d()` → hide behind one method
-- **Middle Man** — mostly delegates → remove and call target
-- **Refused Bequest** — ignores most inherited behaviour → prefer composition
+Repo docs override. Apply [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md).
+**Fix-biased:** actionable named smells in **changed** code (clear rename /
+extract / move) → `should-fix`. Documented convention breaches → `should-fix`
+or `blocker`. Pure taste with no named smell and no repo-doc backing → `note`.
+Skip tooling-enforced style.
 
 ### Vertical / horizontal for standards
 - Vertical: naming, structure, and clarity inside new functions

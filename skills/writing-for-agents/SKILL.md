@@ -103,6 +103,10 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **refine** | Bounded structural/descriptive improvement without behaviour change; lightweight define sibling of bug/tweak |
 | **rework** | Intentional implementation change with measured non-degradation (parity bar + comparative eval); lightweight define sibling of refine/tweak |
 | **sandbox** | Isolated, representative vehicle for one contained unit, outside production paths; inspect-each-turn then promote via implement; post-merge instead of iterate when each turn needs inspection |
+| **test** | Shipping-phase dedicated testing pass after implement (`test.mode=dedicated`) |
+| **harden** | Shipping-phase behaviour-preserving structure pass (`harden.mode=dedicated`) |
+| **laser** | Sequential single-axis (or small-bundle) review pass; under review-fix, fix before the next laser |
+| **code review** | Final published pull-request review after lasers; the closeout gate |
 | **class** | Closed label for kind of work (bug/tweak/refine/rework/feature/…); from CONCEPT_CLASSIFICATION |
 | **binding** | Selected workflow template + parameters persisted on the definition artifact |
 | **template** | Named delivery bundle (fix-fast, parity-iterative, …) |

@@ -3,8 +3,8 @@ name: iterate
 description: >-
   Iteration on already merged work through a brief delta, a new Task and branch,
   implementation, and a new PR. Use when shipped work needs another fix cycle
-  before review-fix. Prefer /sandbox when each turn needs visual, plot, or
-  report inspection of a contained element.
+  before the closeout chain (test, harden, review-fix). Prefer /sandbox when
+  each turn needs visual, plot, or report inspection of a contained element.
 disable-model-invocation: true
 ---
 
@@ -34,7 +34,7 @@ instead. Before spawning workers, also read
 | **Iteration artifact** | `ITERATE.md` |
 | **Branch + delivery** | WORKSPACE base + **new** Task key; open new PR |
 | **Tracker** | New Task Relates to prior; iterate row in [tracker-sync](../workflow/tracker-sync.md#matrix) |
-| **Handoff** | `/review-fix <NEW-KEY>` (or `/sandbox` when the delta is an inspect-loop) |
+| **Handoff** | `/test <NEW-KEY>` (or `/sandbox` when the delta is an inspect-loop; skip to `/harden` / `/review-fix` when bound) |
 | **Chain policy** | Each iterate Task Relates to immediate prior (or original) |
 | **Inspect-loop fork** | If each turn needs inspectables (visual, plots, representative comparative reports), run [sandbox](../sandbox/SKILL.md) post-merge instead of implement |
 
@@ -70,8 +70,8 @@ Follow the CONCEPT_ITERATION flow. Skill specialisations:
 
 1. **Resolve lineage** — Fetch prior Task, merged PR, and PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE; apply Prior context resolution. Done when lineage is identified per the concept stop, or an open-PR fix-forward handoff is reported.
 2. **Capture** — Brief CONCEPT_ALIGNMENT when needed. If the delta needs inspect-each-turn on a contained element, run [sandbox](../sandbox/SKILL.md) (post-merge entry) and stop. Done when sandbox owns **Next**, or the delta is a straightforward production fix ready to persist.
-3. **Persist and implement** — Write `ITERATE.md`; create related Task (+ optional Sub-tasks); comment prior; upsert ISSUES; run [implement](../implement/SKILL.md) Build on `<NEW-KEY>` with CONCEPT_DELEGATION. Done when checks pass, new PR ready, Task **In Review**.
-4. **Hand off** — Persist **Next** on every configured durable surface. Done when all point to `/review-fix <NEW-KEY>`.
+3. **Persist and implement** — Write `ITERATE.md`; create related Task (+ optional Sub-tasks); comment prior; upsert ISSUES; run [implement](../implement/SKILL.md) Build on `<NEW-KEY>` with CONCEPT_DELEGATION. Done when checks pass, new PR ready, Task **In Progress**.
+4. **Hand off** — Persist **Next** on every configured durable surface. Done when all point to `/test <NEW-KEY>` (or the first remaining closeout step).
 
 ## Artifact
 
@@ -103,15 +103,15 @@ Follow the CONCEPT_ITERATION flow. Skill specialisations:
 - Relates: <PRIOR-KEY>
 
 ## Next
-`/review-fix <NEW-KEY>` — Review and auto-fix (single pass)
+`/test <NEW-KEY>` — Dedicated testing phase, then harden and code review
 ```
 
 ## Handoff
 
 ```markdown
 ## Next
-`/review-fix <NEW-KEY>` — Review and auto-fix on the new delivery PR
+`/test <NEW-KEY>` — Dedicated testing phase on the new delivery PR
 ```
 
 When step 2 forked to sandbox, that skill's **Next** applies (`/sandbox` or
-`/implement`); do not write the review-fix block above.
+`/implement`); do not write the `/test` block above.

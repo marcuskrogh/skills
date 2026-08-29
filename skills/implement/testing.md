@@ -64,4 +64,6 @@ testability_notes: <seams used or deliberately not introduced>
 ```
 
 Gaps that remain after the package become **plan items** or re-delegation targets —
-do not silently defer them past verification.
+do not silently defer them past verification. The bound **testing phase** (`/test`)
+still runs an adversarial pass when `test.mode=dedicated`; in-package tests do not
+replace it.

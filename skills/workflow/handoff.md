@@ -30,8 +30,10 @@ in-flight or none) and do not write tracker or artifact Next.
 | model | `/define <Task>` (or `/implement` if PLAN exists) |
 | sandbox | `/sandbox <Task>` (delta) or `/implement <Task>` (promote) |
 | define | `/implement <Task>` (or first Chain step from Workflow binding; or `/ship`) |
-| implement | `/review-fix <Task>` (or `/review` / `/ship`) |
-| iterate | `/review-fix <NewTask>` (or `/sandbox` when the delta is an inspect-loop) |
+| implement | `/test <Task>` (or `/harden` / `/review-fix` when those phases are skipped; or `/ship`) |
+| test | `/harden <Task>` (or `/review-fix` when harden skipped) |
+| harden | `/review-fix <Task>` |
+| iterate | `/test <NewTask>` (or `/sandbox` when the delta is an inspect-loop) |
 | review (must-fix) | `/review-fix` or `/implement` fix-forward |
 | review (clean / non-actionable notes only) | `/ship <Task>` |
 | review-fix (CLEAN) | `/ship <Task>` |
@@ -55,6 +57,8 @@ in-flight or none) and do not write tracker or artifact Next.
 | sandbox | Task (+ Story), PLAN/REWORK, existing `SANDBOX.md` + isolation tree — inspect-loop; post-merge: prior shipped Task |
 | define | Task (+ Story), ROADMAP, RESEARCH/MODEL/SANDBOX as **supportive** — still probe the user; then classify + bind workflow |
 | implement | Task + Sub-tasks, PLAN / BUG / TWEAK / REFINE / REWORK, `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` when present (esp. docs and promote packages), **existing delivery branch/PR**, test/lint commands (rework → comparative eval) |
+| test | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + implement testing notes |
+| harden | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + structure catalog |
 | review / review-fix | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + `SANDBOX.md` when present |
 | ship | Task + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + `SANDBOX.md` when present + delivery branch/PR; detect stage |
 | summarise | Task + artifacts needed for stage inference |

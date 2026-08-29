@@ -45,10 +45,12 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **model** | Math alignment with user | `MODEL.md` finding docs on delivery branch (no PR) | `/define` |
 | **sandbox** | Isolated inspect-loop for a contained element (incl. post-merge instead of iterate) | `SANDBOX.md` + harness on delivery branch (no PR) | `/sandbox` (delta) or `/implement` (promote) |
 | **define** | Route or standalone Task (front door for concrete work) | `PLAN.md` + Classification + Workflow binding + Sub-tasks + branch/PR | First skill in bound Chain (usually `/implement`) |
-| **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX ready | Code on **same** PR (opens PR after post-merge sandbox); Task → In Review | `/review-fix` |
-| **iterate** | Shipped work still wrong; straightforward production fix | `ITERATE.md` + **new** Task/PR; In Review | `/review-fix` |
-| **review** | Task In Review | Findings on the **same** PR | `/review-fix` or `/ship` |
-| **review-fix** | Task In Review | One review → fix-forward → CLEAN | `/ship` |
+| **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX ready | Code on **same** PR (opens PR after post-merge sandbox); Task stays **In Progress** | `/test` (or `/harden` / `/review-fix` when those phases are skipped) |
+| **test** | After implement; `test.mode=dedicated` | Tests/seams on the **same** PR; Task stays **In Progress** | `/harden` or `/review-fix` |
+| **harden** | After test (or implement when test skipped); `harden.mode=dedicated` | Structure edits on the **same** PR; Task → **In Review** | `/review-fix` |
+| **iterate** | Shipped work still wrong; straightforward production fix | `ITERATE.md` + **new** Task/PR; then bound closeout chain | `/test` (or first remaining closeout step) |
+| **review** | Task In Review | Findings + **code review** on the **same** PR | `/review-fix` or `/ship` |
+| **review-fix** | Task In Review | Lasers → fix-forward → **code review** → CLEAN | `/ship` |
 | **ship** | After ready-to-build | Remaining work + merge + Done | Done (or `/iterate` / `/sandbox`) |
 | **summarise** | Anytime | Status only (About / Stage / Next) | *(reports; does not advance)* |
 | **guide** | User wants a walkthrough | Paced steps (no artifact) | Resume persisted Next or none |

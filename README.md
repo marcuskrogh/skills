@@ -3,7 +3,7 @@
 Reusable agent skills for **workflow-driven delivery** — not a flat skill dump.
 Agents prefer a catalog workflow over freestyle coding: foggy work goes through
 **explore**, concrete work through **define** (classify + bind), then a bound
-chain via persisted **Next** through implement → review-fix → ship.
+chain via persisted **Next** through implement → test → harden → review-fix → ship.
 
 Built on the [Agent Skills](https://agentskills.io) standard. Install via an
 agent (preferred when possible) or [skills.sh](https://skills.sh); works with any
@@ -44,8 +44,9 @@ After user alignment it:
 
 1. Infers a closed **class** (bug / tweak / refine / rework / feature / …)
 2. Binds an efficient **template** + **parameters** (e.g. fix-fast,
-   parity-iterative, feature-heavy; single vs multiagent; verify mode; review
-   depth; optional research/model side paths; optional sandbox inspect-loop)
+   parity-iterative, feature-heavy; single vs multiagent; verify mode;
+   test/harden phases; review depth and lasers; optional research/model side
+   paths; optional sandbox inspect-loop)
 3. Writes Classification + Workflow onto `PLAN.md` and the tracker
 4. Sets **Next** to the first step of the bound **Chain**
 
@@ -73,7 +74,7 @@ continue or ship, not a new map — unless they asked for a walkthrough
 ### Typical chain
 
 ```text
-setup → explore? → define (classify + bind) → [sandbox?] → [bound chain, often implement → review-fix → ship]
+setup → explore? → define (classify + bind) → [sandbox?] → [bound chain, often implement → test → harden → review-fix → ship]
 ```
 
 Explore charts a **map**; research / model commit **finding docs**
@@ -89,8 +90,8 @@ steps, then merge and close out.
 ### Post-ship iterate
 
 ```text
-ship → iterate → review-fix → ship → (optional) iterate …
-ship → sandbox → implement → review-fix → ship   # inspect-loop instead of iterate
+ship → iterate → test → harden → review-fix → ship → (optional) iterate …
+ship → sandbox → implement → test → harden → review-fix → ship   # inspect-loop instead of iterate
 ```
 
 `/iterate` opens a **new** Task/branch/PR after merge (not fix-forward on an
@@ -98,8 +99,10 @@ open PR) when the delta is a straightforward production fix. Prefer
 [`/sandbox`](skills/sandbox/SKILL.md) when each turn needs visual, plot, or
 report inspection of a contained element — the sandbox must be
 **representative** of production in every area that would change the
-inspectable or comparison, then implement promotes. `/review` is findings-only; `/review-fix` runs one review →
-fix-forward → CLEAN. `/summarise` reports status anytime without advancing.
+inspectable or comparison, then implement promotes. `/review` is findings-only;
+`/review-fix` runs lasers → fix-forward → **code review** → CLEAN. `/test` and
+`/harden` are the dedicated testing and structure phases before that.
+`/summarise` reports status anytime without advancing.
 
 ### Manual overrides vs define
 
@@ -126,7 +129,8 @@ Pick the **first matching** row (same order as
 | **explore** | Vague, oversized, or foggy initiative | [explore](skills/explore/SKILL.md) |
 | **research** / **model** | Explicit multi-axis evidence or math now | [research](skills/research/SKILL.md) / [model](skills/model/SKILL.md) |
 | **implement** | Ready-to-build PLAN (or legacy artifact / SANDBOX.md) exists | [implement](skills/implement/SKILL.md) |
-| **review** / **review-fix** | Findings only, or one review→fix→CLEAN | [review](skills/review/SKILL.md) / [review-fix](skills/review-fix/SKILL.md) |
+| **test** / **harden** | Dedicated testing or structure closeout phases | [test](skills/test/SKILL.md) / [harden](skills/harden/SKILL.md) |
+| **review** / **review-fix** | Findings only, or lasers→fix→code review→CLEAN | [review](skills/review/SKILL.md) / [review-fix](skills/review-fix/SKILL.md) |
 | **summarise** | Status reported, not advanced | [summarise](skills/summarise/SKILL.md) |
 | **define** | Concrete work to pin down — **default front door** | [define](skills/define/SKILL.md) |
 | **bug** / **tweak** / **refine** / **rework** | User **explicitly** named that skill | matching skill |
@@ -164,8 +168,8 @@ applies alignment + definition + **classification** for concrete work; `bug` /
 semantics. User-facing agent prose follows
 [`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md).
 
-**Sub-agent value routing:** skills that delegate (`implement`, `review`,
-`review-fix`, `sandbox`, and composers like `ship` / `iterate` / `research` axes)
+**Sub-agent value routing:** skills that delegate (`implement`, `test`, `harden`,
+`review`, `review-fix`, `sandbox`, and composers like `ship` / `iterate` / `research` axes)
 apply [`CONCEPT_DELEGATION`](skills/concepts/CONCEPT_DELEGATION.md) — score
 difficulty (Routine → low, Moderate → mid, Demanding → high), keep the manager
 on high-capability, escalate one tier at a time, and pick **catalog-closed**
@@ -197,7 +201,9 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── CONCEPT_EXPLANATION.md
 │   ├── CONCEPT_RESEARCH.md
 │   ├── CONCEPT_REVIEW.md
-│   └── CONCEPT_SANDBOX.md
+│   ├── CONCEPT_SANDBOX.md
+│   ├── CONCEPT_STRUCTURE.md    ← Clean Code / SOLID / smell bar
+│   └── STRUCTURE-CATALOG.md
 ├── workflow/                   ← lean delivery contract + disclosed refs
 ├── workflows/                  ← model-invoked router (explore/define front doors)
 ├── setup/                      ← workspace alignment → WORKSPACE.md
@@ -210,10 +216,12 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── research/                   ← finding docs → RESEARCH.md on delivery branch (no PR)
 ├── model/                      ← math finding docs → MODEL.md on delivery branch (no PR)
 ├── sandbox/                    ← isolated inspect-loop → SANDBOX.md + harness (no PR)
-├── implement/                  ← honors PLAN Workflow binding
-├── iterate/                    ← post-ship fix → review-fix
-├── review/                     ← adaptive-depth; honors bound review.mode/depth
-├── review-fix/                ← one review → fix-forward → CLEAN
+├── implement/                  ← honors PLAN Workflow binding; structure as-you-go
+├── test/                       ← dedicated testing phase
+├── harden/                     ← dedicated structure phase
+├── iterate/                    ← post-ship fix → test → harden → review-fix
+├── review/                     ← lasers + code review; honors bound review.mode/depth/lasers
+├── review-fix/                 ← lasers → fix-forward → code review → CLEAN
 ├── ship/                       ← remaining-workflow orchestrator → Done
 ├── summarise/                  ← status: about / stage / Next
 ├── help/                       ← front-door map (does not start delivery)
@@ -240,10 +248,12 @@ templates/project-sync/         ← startup sync script template
 | **bug** / **tweak** / **refine** / **rework** | user | Manual overrides; prefer `/define` for new work |
 | **research** / **model** | user | Finding docs on delivery branch (no PR; often via define `side_paths`) |
 | **sandbox** | user | Isolated, representative inspect-loop on delivery branch (no PR; inject, mid-implement, or post-merge instead of iterate) |
-| **implement** | user | Build on the **same** delivery branch/PR; uses RESEARCH/MODEL when formulating docs; promotes SANDBOX |
-| **iterate** | user | Post-ship straightforward fix → new Task/branch/PR → review-fix |
-| **review** | user | Adaptive-depth findings only |
-| **review-fix** | user | One review → fix-forward → CLEAN → ship |
+| **implement** | user | Build on the **same** delivery branch/PR; tests and structure as-you-go; promotes SANDBOX |
+| **test** | user | Adversarial testing phase on the same PR |
+| **harden** | user | Behaviour-preserving structure phase on the same PR |
+| **iterate** | user | Post-ship straightforward fix → new Task/branch/PR → test → harden → review-fix |
+| **review** | user | Laser findings + published code review (no auto-fix) |
+| **review-fix** | user | Lasers → fix-forward → code review → CLEAN → ship |
 | **ship** | user | Finish remaining along the bound chain, then merge + Done |
 | **summarise** | user | About / stage / what to run Next (does not advance) |
 | **help** | model | Front-door map — maps skills; does not start delivery |

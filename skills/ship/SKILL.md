@@ -2,8 +2,9 @@
 name: ship
 description: >-
   Shipping of all remaining work for a ready-to-build Task. Detects the stage,
-  composes implementation and review-fix when needed, then merges the delivery
-  PR and completes Done closeout. Use for ship, finish, or close-it-out cues.
+  composes implementation, test, harden, and review-fix when needed, then merges
+  the delivery PR and completes Done closeout. Use for ship, finish, or
+  close-it-out cues.
 disable-model-invocation: true
 ---
 
@@ -22,7 +23,9 @@ PR after CLEAN.
 [../tracker/SKILL.md](../tracker/SKILL.md). After stage detection, read only the
 remaining composed skill contracts:
 [../implement/SKILL.md](../implement/SKILL.md) and/or
-[../review-fix/SKILL.md](../review-fix/SKILL.md).
+[../review-fix/SKILL.md](../review-fix/SKILL.md). When the remaining tail
+includes them, also read [../test/SKILL.md](../test/SKILL.md) and/or
+[../harden/SKILL.md](../harden/SKILL.md).
 
 Requires authenticated `gh` + tracker auth.
 
@@ -34,14 +37,16 @@ Requires authenticated `gh` + tracker auth.
 | Evidence | Remaining |
 |----------|-----------|
 | No ready-to-build artifact | **Stop** — `/define` (or `/iterate`) first; manual `/bug`/`/tweak`/`/refine`/`/rework` also ready-to-build |
-| Defined; To Do; no meaningful impl on delivery PR | implement → review-fix → closeout |
-| In Progress; impl incomplete | finish implement → review-fix → closeout |
+| Defined; To Do; no meaningful impl on delivery PR | implement → test → harden → review-fix → closeout |
+| In Progress; impl incomplete | finish implement → test → harden → review-fix → closeout |
+| In Progress; impl complete; testing phase not done | test → harden → review-fix → closeout |
+| In Progress; testing done; harden bound and not done | harden → review-fix → closeout |
 | In Review; unresolved REQUEST_CHANGES / must-fix | review-fix → closeout |
-| In Review; clean review **or** no review yet but user wants full finish | review-fix if needed → closeout; else closeout only |
+| In Review; clean code review **or** no review yet but user wants full finish | review-fix if needed → closeout; else closeout only |
 | PR merged; Task not Done | closeout |
 
    Done when exactly one remaining path is selected.
-3. **Run remaining** — Run each selected skill's full contract in order, preserving its delegation and verification rules. Done when the tail reaches CLEAN or a named implement/review-fix hard stop.
+3. **Run remaining** — Run each selected skill's full contract in order, preserving its delegation and verification rules. Drop `/test` or `/harden` when the binding skips that phase. Done when the tail reaches CLEAN or a named implement/test/harden/review-fix hard stop.
 4. **Close out** — Run the [closed-loop closeout](../workflow/ship.md#closeout) on the recorded delivery PR, including [changelog](../workflow/changelog.md) detection and entry when the repo maintains one. Done when its closeout criterion holds or merge failure is reported without closing tracker work.
 
 ## Tell the user

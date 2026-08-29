@@ -7,8 +7,9 @@ thread. Uninvokable — load only when a skill's On-invoke pointer fires.
 ## Intent
 
 Deliver the spec through isolated work packages so every touched area stays at
-least as testable and as well covered as before. When spawning workers, also
-load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
+least as testable, as well covered, and as well structured as before. When
+spawning workers, also load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
+Structure bar: [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md).
 
 ## Leading words
 
@@ -23,7 +24,8 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 - **Branch discipline.** Resolve the skill's delivery branch before first delegation; prefer an existing open branch/PR for the Task; workers commit only there.
 - **Dev-surface keys.** Issue keys live only on **dev-surfaces**. **Product surfaces** carry product language exclusively.
 - **Named-gap re-delegate.** Insufficient report → re-delegate with named gaps (escalate one tier).
-- **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); honor PLAN Workflow `implement.verify` when bound (`tests` / `non-regression` / `comparative`); bug fixes and behaviour-changing tweaks include regression coverage; refinements verify behaviour is unchanged (non-regression); reworks / comparative verify use baseline vs candidate evaluation before accept; injectable seams; touched-area suite stays honest and green.
+- **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); honor PLAN Workflow `implement.verify` when bound (`tests` / `non-regression` / `comparative`); bug fixes and behaviour-changing tweaks include regression coverage; refinements verify behaviour is unchanged (non-regression); reworks / comparative verify use baseline vs candidate evaluation before accept; injectable seams; touched-area suite stays honest and green. In-package tests do not replace the bound **testing phase** (`/test`) when `test.mode=dedicated`.
+- **Structured delivery.** Packages meet [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md) as-you-go. Named smells and catalog breaches in changed code fail the package — re-delegate; do not defer them to harden or review. In-package structure does not replace the bound **harden** phase when `harden.mode=dedicated`.
 - **Honor binding.** When Classification / Workflow are persisted on the spec, do not reclassify; execute to the bound params.
 - **Verification mandatory.** Run real project tests/lint for the touched area (or full suite if that is the norm); report observed results only.
 
@@ -41,6 +43,7 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 | **Model routing** | may | Defaults for CONCEPT_DELEGATION (still value-biased) |
 | **PR template** | may | Required PR body sections |
 | **Testing checklist** | may | Concrete checks for package briefs |
+| **Structure checklist** | may | Concrete structure checks for package briefs |
 
 ## Flow
 
@@ -48,11 +51,11 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 2. **Pre-work** — skill-defined. Done when pre-work complete.
 3. **Branch** — reuse open delivery branch/PR for the work item, else create. Done when branch is checked out.
 4. **Draft plan** — ordered packages with acceptance (tests in behavioural packages). Done when packages cover the spec.
-5. **Implementation loop** — select package → score difficulty → delegate → evaluate (incl. tests/testability) → re-delegate or mark done → revise plan. Done when all packages complete.
+5. **Implementation loop** — select package → score difficulty → delegate → evaluate (tests, testability, and structure catalog) → re-delegate or mark done → revise plan. Done when all packages complete.
 6. **Verify and deliver** — skill verification + delivery outcome. Done when checks pass and delivery criteria met.
 
 ## Reference
 
 ### Package brief (minimum)
 
-Objective; inputs; constraints (incl. testability seams; **Dev-surface keys**); deliverables (code + tests or explicit justification); branch; difficulty / model.
+Objective; inputs; constraints (incl. testability seams, structure catalog, **Dev-surface keys**); deliverables (code + tests or explicit justification; structure notes); branch; difficulty / model.

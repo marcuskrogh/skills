@@ -101,4 +101,4 @@ Keep the Task **To Do** and record `BUG.md`, branch/PR, optional parent, and
 `/implement <TASK-KEY>` — Fix per BUG.md on the same delivery branch/PR
 ```
 
-(Or `/ship <TASK-KEY>` to finish remaining: implement → review-fix → closeout.)
+(Or `/ship <TASK-KEY>` to finish remaining along the bound chain.)

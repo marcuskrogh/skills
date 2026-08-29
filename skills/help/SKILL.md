@@ -51,24 +51,24 @@ from this skill; do not load every pipeline skill.
 | Want the current step or a decision taught | `/explain` | paced teaching |
 | Want to be walked through a manual task | `/guide` | one step at a time |
 
-After define, follow persisted **Next** (or bare **next** / **ship**). You do
-**not** need to remember implement / review-fix / class-specific entry skills.
+After define, follow persisted **Next** (or bare **next** / **ship**). You do **not** need to remember implement / test / harden / review-fix /
+class-specific entry skills.
 
 ### What define binds (agent-side)
 
 Define applies [CONCEPT_CLASSIFICATION](../concepts/CONCEPT_CLASSIFICATION.md):
 infers **class** (bug / tweak / refine / rework / feature / …), selects a
 **template** (fix-fast, parity-iterative, feature-heavy, …) and **parameters**
-(single vs multiagent implement/review, verify mode, review depth, optional
-research/model side paths, optional sandbox inspect-loop), then walks
-that chain almost deterministically.
+(single vs multiagent implement/review, verify mode, test/harden phases,
+review depth and lasers, optional research/model side paths, optional sandbox
+inspect-loop), then walks that chain almost deterministically.
 
 ### Closed-loop shape
 
 ```text
-setup → explore? → define (classify + bind) → [sandbox?] → [bound chain: often implement → review-fix → ship]
-post-merge fix:  ship → iterate → review-fix → ship
-post-merge inspect-loop:  ship → sandbox → implement → review-fix → ship
+setup → explore? → define (classify + bind) → [sandbox?] → [bound chain: often implement → test → harden → review-fix → ship]
+post-merge fix:  ship → iterate → test → harden → review-fix → ship
+post-merge inspect-loop:  ship → sandbox → implement → test → harden → review-fix → ship
 ```
 
 After ship, `/iterate` when tests/review on a new PR suffice; `/sandbox` when
@@ -79,7 +79,7 @@ production in every area that would change that inspection.
 
 All pipeline skills stay **user-invokable** when you want to deviate from Next
 or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
-`/sandbox`, `/implement`, `/review`, `/review-fix`, `/ship`, `/research`,
+`/sandbox`, `/implement`, `/test`, `/harden`, `/review`, `/review-fix`, `/ship`, `/research`,
 `/model`, `/summarise`, `/guide`, `/explain`, …
 
 ### Meta

@@ -1,0 +1,68 @@
+---
+name: test
+description: >-
+  Testing phase after implement: adversarial coverage, failure-path, and
+  testability pass on the delivery PR. Adds or tightens tests and seams only —
+  no new product behaviour. Hands off to harden or review-fix. Use when the
+  bound chain's testing phase is next, or to run that phase explicitly.
+disable-model-invocation: true
+---
+
+# Test
+
+Applies [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md)
+**Tested delivery** as a dedicated shipping-phase pass on the **same** delivery
+pull request. Complements in-package tests from implement — this pass hunts
+gaps those packages missed.
+
+**On invoke:** read CONCEPT_IMPLEMENTATION above,
+[../implement/testing.md](../implement/testing.md),
+[../workflow/reference.md](../workflow/reference.md),
+[../workflow/delivery.md](../workflow/delivery.md),
+[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
+[../workflow/handoff.md](../workflow/handoff.md), and
+[../tracker/SKILL.md](../tracker/SKILL.md).
+When `implement.verify` is `comparative` (or the spec is `REWORK.md`), also read
+[../implement/rework.md](../implement/rework.md).
+When spawning workers, also read
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
+as directed there.
+
+## Extensions
+
+| Slot | This skill |
+|------|------------|
+| **Spec source** | Task + PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE + implement packages already on the PR |
+| **Workflow binding** | Honor `test.mode` and `implement.verify`; `test.mode=skip` → persist Next to `/harden` or `/review-fix` without a testing pass |
+| **Branch naming** | Reuse Task delivery branch |
+| **Delivery** | Push test/seam changes to the same PR; leave merge to ship |
+| **Verification** | [testing.md](../implement/testing.md) as an adversarial checklist; comparative adds [rework.md](../implement/rework.md); run touched-area suite + lint |
+| **Testing checklist** | [testing.md](../implement/testing.md) |
+| **Work package types** | Testing (and tiny seam edits required to make a test honest) |
+| **Handoff** | `/harden` when `harden.mode=dedicated`; else Task **In Review** and `/review-fix` |
+
+## Steps
+
+1. **Resolve delivery** — Resolve the Task, spec, Workflow binding, and delivery PR. If `test.mode=skip`, persist Next to the next chain step and stop. Done when the PR is checked out or skip is recorded.
+2. **Hunt gaps** — Walk [testing.md](../implement/testing.md) against the diff and neighbours: missing behaviour tests, missing failure paths, missing regression tests, untestable new design, weakened or skipped tests, coverage regression. Done when every gap is a package or an explicit, documented exception.
+3. **Close gaps** — Add or tighten tests; add a **seam** only when a unit cannot be tested honestly without one. No new product behaviour. Re-run recorded commands. Done when the checklist holds and the suite is green.
+4. **Track and hand off** — If Next is `/review-fix` (`harden.mode=skip`), Task → **In Review**; otherwise stay **In Progress**. Comment the testing outcome, persist **Next**. Done when Task, PR, mirror, and user report agree.
+
+## Scope
+
+In: tests, fixtures, fakes, and the smallest seam that makes a test honest.
+Out: product behaviour, feature work, and structure-only refactors (`/harden`).
+
+## Handoff
+
+```markdown
+## Next
+`/harden <TASK-KEY>` — Structure pass per Workflow binding
+```
+
+When `harden.mode=skip`:
+
+```markdown
+## Next
+`/review-fix <TASK-KEY>` — Laser reviews then code review
+```
