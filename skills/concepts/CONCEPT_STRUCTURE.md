@@ -1,8 +1,8 @@
 # Concept: Structure
 
 Shared **structure** bar for production code: names, size, cohesion, dependency
-direction, and named smells. Uninvokable — load only when a skill's On-invoke
-pointer fires.
+direction, named smells, and **CRAP**. Uninvokable — load only when a skill's
+On-invoke pointer fires.
 
 ## Intent
 
@@ -23,6 +23,8 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
   to the bar; inventory, sequence, walk one delivery unit at a time until Done
 - **characterize** — map current observable behaviour to tests and prove them
   green on current code before structure-only edits
+- **CRAP** — Change Risk Anti-Patterns score; catalog bar is below 8 unless
+  repo docs set another threshold
 - **seam** — injectable boundary that lets a unit be tested without booting the
   whole system
 
@@ -42,16 +44,16 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 - **Lock before restructure.** Adopt does not start structural edits on a unit
   until observable behaviours are mapped to tests that are green on current
   code. Those tests are the prove commands after edits.
-- **Repo docs win.** Documented ADRs, layering, and naming override generic
-  catalog rows.
+- **Repo docs win.** Documented ADRs, layering, naming, and numeric bars
+  override generic catalog rows.
 - **Named smells are defects.** An actionable named smell in changed code is
   `should-fix` (or `blocker` when it breaches a documented constraint) — not
   optional polish.
 - **Concrete move.** A structure finding names an extract, move, rename, split,
-  or invert with evidence. Vague cleanup is not a finding.
+  invert, or asserting test with evidence. Vague cleanup is not a finding.
 - **Neighbours set the pattern, not the smell.** Match existing patterns in the
   touched area. New and changed hunks still meet the catalog; do not copy a
-  neighbour smell into this PR.
+  neighbour smell or high **CRAP** into this PR.
 
 ## Extensions
 

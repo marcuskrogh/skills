@@ -217,7 +217,7 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── CONCEPT_RESEARCH.md
 │   ├── CONCEPT_REVIEW.md
 │   ├── CONCEPT_SANDBOX.md
-│   ├── CONCEPT_STRUCTURE.md    ← Clean Code / SOLID / smell bar
+│   ├── CONCEPT_STRUCTURE.md    ← Clean Code / SOLID / smell / CRAP bar
 │   └── STRUCTURE-CATALOG.md
 ├── workflow/                   ← lean delivery contract + disclosed refs
 ├── workflows/                  ← model-invoked router (explore/define front doors)

@@ -19,6 +19,20 @@ smell into a new hunk.
 | **Short parameter lists** | Prefer two or fewer arguments; clump related values into a type rather than growing arity |
 | **One level per function** | Mix of high-level orchestration and low-level detail in the same body → extract |
 
+## Change risk
+
+Per **function** (the unit Change Risk Anti-Patterns (**CRAP**) score is
+computed on). Default bar is **below 8** (Uncle Bob's recent Clean Code
+recommendation) unless repo docs set another threshold. Prefer the repo's CRAP
+or complexity+coverage report; otherwise compute from cyclomatic complexity `C`
+and coverage fraction `cov` (0–1):
+
+`CRAP = C² × (1 − cov)³ + C`
+
+| Bar | Check |
+|-----|--------|
+| **CRAP below 8** | Changed and new functions score **below 8** unless repo docs set another threshold. At full coverage CRAP equals C, so complexity stays at 7 or below. Coverage counts only tests that assert the executed paths. Extract to lower C; add asserting tests to raise cov. Meeting the bar does not skip lock tests or behaviour coverage |
+
 ## Cohesion and coupling
 
 | Bar | Check |

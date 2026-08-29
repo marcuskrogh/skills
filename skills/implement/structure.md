@@ -19,6 +19,8 @@ Repo docs and neighbour **patterns** win over generic catalog rows. Neighbour
       the concepts only rhyme
 - [ ] Error paths are handled, not swallowed; comments (if any) say why
 - [ ] Named smells in **changed** code are fixed in-package — not left for review
+- [ ] Changed and new functions score **CRAP** below 8 (or the repo-documented
+      threshold); extract or add asserting tests rather than leave a breach
 
 ## Package report (required)
 
@@ -26,6 +28,7 @@ Each Implementation (and Harden) sub-agent report must include:
 
 ```text
 structure_notes: <catalog rows checked + meets | breaches + concrete moves made>
+crap: <below 8 | breaches + moves | report path>
 smells_fixed: <named smells addressed or "none">
 seams: <injectable boundaries used or deliberately not introduced>
 exceptions: <documented catalog exceptions or "none">
@@ -41,8 +44,9 @@ last one):
 
 - [ ] Every write-time bar item holds, or has a documented exception on the PR
 - [ ] Every Implementation package report includes `structure_notes` that cite
-      catalog rows
+      catalog rows and a `crap` line
 - [ ] No remaining named smell in **changed** hunks
+- [ ] Changed and new functions meet **CRAP** below 8 (or documented threshold)
 - [ ] New code does not copy a neighbour smell
 - [ ] Seams required by [testing.md](testing.md) exist before `/test`
 

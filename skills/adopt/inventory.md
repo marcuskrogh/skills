@@ -13,9 +13,10 @@ workers; the manager merges rows.
 
 For each **area** (module, package, bounded directory, or equivalent seam the
 repo already uses), record catalog rows that fail with a **concrete move**
-(extract, rename, move, split, invert) and evidence. Vague cleanup is not a
-row. Neighbour patterns in that area set the shape to match; do not copy a
-neighbour smell into the adoption hunks.
+(extract, rename, move, split, invert, asserting test) and evidence. Include
+**CRAP** at or above 8 (or the repo threshold). Vague cleanup is not a row.
+Neighbour patterns in that area set the shape to match; do not copy a
+neighbour smell or high **CRAP** into the adoption hunks.
 
 An area **meets the bar** when remaining rows are documented exceptions.
 
@@ -24,7 +25,8 @@ An area **meets the bar** when remaining rows are documented exceptions.
 Rank areas that still fail:
 
 1. **Foundation** — breaches that other areas must copy if left in place
-   (wrong dependency direction, missing seams, cycles).
+   (wrong dependency direction, missing seams, cycles, high-**CRAP** types
+   neighbours must extend).
 2. **Contagion** — smells that spread when new code follows neighbours.
 3. **Value** — hot paths and public modules before cold or leaf code.
 

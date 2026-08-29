@@ -74,8 +74,9 @@ Include: context pack + Spec checklist (if pack non-empty) + Correctness checkli
    diff; missing/wrong → `blocker`; incomplete related surfaces → `should-fix`.
 2. **Correctness** — logic, edges, errors, races, tests; unexplained tooling
    failures → `blocker`.
-3. **Standards (light)** — actionable named smells or documented convention
-   breaches in changed code only, per [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md).
+3. **Standards (light)** — actionable named smells, **CRAP** at or above 8,
+   or documented convention breaches in changed code only, per
+   [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md).
    Leave module/layer redesign to the Architecture laser (**always** included
    under focused — small diffs included).
 

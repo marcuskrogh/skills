@@ -21,7 +21,9 @@ work runs the **same tests** against the **same requirements**.
    or `gap`.
 3. **Lock** — Implement tests for gaps. Tests encode **current** behaviour,
    including quirks. Do not change production to match a nicer spec. Reuse the
-   repo's test layout. Done when every gap has a test path.
+   repo's test layout. Asserting lock tests raise coverage (one **CRAP** lever);
+   complexity at 8 or above still needs extract during structure. Done when
+   every gap has a test path.
 4. **Prove on current code** — Run the lock suite (existing + new) on the
    pre-structure tree. Done when it is green (or matches a documented
    known-fail list that structure work must not enlarge). Those commands become

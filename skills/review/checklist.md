@@ -79,6 +79,7 @@ module/layer/design-shape problems → Architecture.
 - [ ] Module cohesion: changed unit has one clear responsibility; change does not turn it into a god object/service/file
 - [ ] Abstraction quality: interfaces/ports hide the right details; no leaky abstractions exposing persistence/transport internals
 - [ ] Complexity growth: long methods/types/files made worse without an extract/split plan
+- [ ] **CRAP** below 8 on changed and new functions (or the repo-documented threshold); extract or add asserting tests
 - [ ] Speculative frameworks or premature generalization introduced without a second real use
 - [ ] Composition vs inheritance / indirection: new layers earn their keep
 
@@ -100,6 +101,7 @@ When flagging, name a concrete move, for example:
 - Move type or function to the correct layer
 - Invert dependency (introduce port + adapter; depend on abstraction)
 - Split god module along change-axes
+- Extract or add asserting tests to bring **CRAP** below 8
 - Collapse needless indirection / speculative generality
 - Introduce a façade to hide a message chain or unstable neighbor
 - Align with an existing pattern already used for a sibling feature
@@ -118,7 +120,7 @@ or `blocker`. Pure taste with no named smell and no repo-doc backing → `note`.
 Skip tooling-enforced style.
 
 ### Vertical / horizontal for standards
-- Vertical: naming, structure, and clarity inside new functions
+- Vertical: naming, structure, **CRAP**, and clarity inside new functions
 - Horizontal: consistency with neighbouring modules and established patterns in the repo
 - [ ] **Dev-surface keys** — [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md)
 

@@ -67,7 +67,7 @@ Include: context pack + Architecture checklist + architecture pack + neighbor ma
 + package/module tree around changed paths + [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md).
 
 **Vertical:** cohesion, responsibility creep, wrong-layer logic, god types growing,
-abstraction leaks, premature frameworks.
+abstraction leaks, premature frameworks, **CRAP** at or above 8 on changed functions.
 
 **Horizontal:** dependency direction/cycles introduced or worsened, shotgun surgery,
 divergent change, eroded boundaries, duplication vs false sharing, consistency with
@@ -88,7 +88,8 @@ structural fix.
 Include: standards pack + [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md).
 
 Documented standard breaches → `blocker` / `should-fix`. Actionable named smells in
-changed code (clear rename/extract/move) → `should-fix`. Name the smell. Repo
-overrides catalog. Skip tooling-enforced style. Leave structural redesign to
+changed code (clear rename/extract/move) → `should-fix`. Name the smell. **CRAP**
+at or above 8 on a changed function (or above the repo threshold) → `should-fix`.
+Repo overrides catalog. Skip tooling-enforced style. Leave structural redesign to
 Architecture. Pure taste without named smell or repo-doc backing → `note`.
 Harden having already run is **not** a reason to demote a remaining smell.
