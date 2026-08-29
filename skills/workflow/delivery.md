@@ -63,7 +63,7 @@ is the active define→ship head (if any).
 | `/bug` | Create Task; start delivery branch when committing `BUG.md`; Next `/implement` |
 | `/tweak` | Create Task; start delivery branch when committing `TWEAK.md`; Next `/implement` |
 | `/refine` | Create Task; start delivery branch when committing `REFINE.md`; Next `/implement` |
-| `/adopt` | Create Task (or Story + area Tasks); start frontier delivery branch when committing `ADOPT.md`; apply frontier; Next `/test` |
+| `/adopt` | Create Task (or Story + area Tasks); walk inventory then unit chain per area until Done; Next none (or the blocking skill on a hard stop) |
 | `/rework` | Create Task; start delivery branch when committing `REWORK.md`; Next `/implement` (comparative) |
 | `/sandbox` | Commit `SANDBOX.md` + isolation tree on delivery branch; **never** open a PR; Next `/sandbox` (delta) or `/implement` (promote). Post-merge: new Task + branch from base, Relates → prior |
 | `/iterate` | New Task + branch + PR from base; Next `/test` (or first remaining closeout step). If the delta needs inspect-each-turn, compose `/sandbox` instead |

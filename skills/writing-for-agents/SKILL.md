@@ -105,7 +105,7 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **sandbox** | Isolated, representative vehicle for one contained unit, outside production paths; inspect-each-turn then promote via implement; post-merge instead of iterate when each turn needs inspection |
 | **test** | Shipping-phase dedicated testing pass after implement (`test.mode=dedicated`) |
 | **harden** | Shipping-phase behaviour-preserving structure pass (`harden.mode=dedicated`) |
-| **adopt** | Apply the structure catalog across an existing codebase that was not built to the bar |
+| **adopt** | Apply the structure catalog across an existing codebase that was not built to the bar; delegated walk until the route is Done |
 | **laser** | Sequential single-axis (or small-bundle) review pass; under review-fix, fix before the next laser |
 | **code review** | Final published pull-request review after lasers; the closeout gate |
 | **class** | Closed label for kind of work (bug/tweak/adopt/refine/rework/feature/…); from CONCEPT_CLASSIFICATION |

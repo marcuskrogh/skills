@@ -25,7 +25,7 @@ in-flight or none) and do not write tracker or artifact Next.
 | bug | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | tweak | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | refine | `/implement <Task>` (or `/ship <Task>` for remaining) |
-| adopt | `/test <Task>` after frontier apply (or `/adopt` on the next area Task after ship) |
+| adopt | none when the route is Done; the blocking skill + `/adopt` to resume the route on a hard stop |
 | rework | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | research | `/model <Task>` or `/define <Task>` |
 | model | `/define <Task>` (or `/implement` if PLAN exists) |

@@ -20,7 +20,7 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 - **harden** — shipping-phase, behaviour-preserving structure pass on the
   delivery pull request
 - **adopt** — apply the catalog across an existing codebase that was not built
-  to the bar; inventory, sequence, apply one delivery unit at a time
+  to the bar; inventory, sequence, walk one delivery unit at a time until Done
 - **seam** — injectable boundary that lets a unit be tested without booting the
   whole system
 

@@ -8,6 +8,8 @@ invariants.
 
 Walk the production tree. Skip generated output, vendor, lockfiles, and paths
 repo docs mark as out of scope. **Repo docs win** on layering and names.
+When more than one area exists, scan via [route.md](route.md#delegation)
+workers; the manager merges rows.
 
 For each **area** (module, package, bounded directory, or equivalent seam the
 repo already uses), record catalog rows that fail with a **concrete move**

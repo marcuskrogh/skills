@@ -2,32 +2,34 @@
 name: adopt
 description: >-
   Adopt the structure catalog across an existing codebase that was not built
-  to it. Inventories against the catalog, sequences shippable areas, and applies
-  the frontier (behaviour unchanged). Use when the whole repo or named tree
-  predates the structure bar. Prefer /refine for a bounded area; prefer /harden
-  for closeout of the current delivery PR.
+  to it. Delegates inventory and packages; walks each area through implement,
+  test, harden, review-fix, and ship until the route is Done. Use when the
+  whole repo or named tree predates the structure bar. Prefer /refine for a
+  bounded area; prefer /harden for closeout of the current delivery PR.
 disable-model-invocation: true
 ---
 
 # Adopt
 
 Applies [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md) to a **brownfield**
-tree: inventory, sequence, apply the frontier. Distinct from `/refine` (bounded
-**class**) and `/harden` (closeout of the current Task).
+tree. Orchestrates inventory, then a **fixed** unit chain per area until the
+route is Done. Distinct from `/refine` (bounded **class**) and `/harden`
+(closeout of the current Task).
 
 **On invoke:** read CONCEPT_STRUCTURE above,
 [../concepts/STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md),
 [inventory.md](inventory.md),
+[route.md](route.md),
 [../implement/structure.md](../implement/structure.md),
 [../implement/testing.md](../implement/testing.md),
-[../implement/SKILL.md](../implement/SKILL.md),
 [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md),
 [../workflow/reference.md](../workflow/reference.md),
 [../workflow/delivery.md](../workflow/delivery.md),
 [../workflow/tracker-sync.md](../workflow/tracker-sync.md),
 [../workflow/handoff.md](../workflow/handoff.md), and
 [../tracker/SKILL.md](../tracker/SKILL.md).
-When spawning workers, also read
+When walking the unit chain, read each composed skill as [route.md](route.md)
+directs. When spawning workers, also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
 as directed there.
 User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
@@ -36,6 +38,7 @@ User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 
 - **frontier** — first open area on the adoption route
 - **area** — module, package, or bounded directory the repo already treats as a unit
+- **unit chain** — fixed per-area sequence: implement → test → harden → review-fix → ship
 
 ## Extensions
 
@@ -45,28 +48,22 @@ User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 | **Scope** | Entire production tree (or the named subtree); one delivery unit at a time per [inventory.md](inventory.md) |
 | **Verification** | `implement.verify=non-regression`; suite + lint prove behaviour unchanged |
 | **Alignment / definition artifact** | `ADOPT.md` (path from WORKSPACE) |
-| **Readiness prompt** | "Apply the catalog starting with [area]?" |
-| **Opening** | Thin: whole repo. Named subtree or exclusions → honour them. Existing `ADOPT.md` → [Continue adoption](#continue-adoption) |
-| **Workflow binding** | Template **structure-safe**; Chain `adopt → test → harden → review-fix → ship`. Honor an existing PLAN Classification when class is adopt |
-| **Branch naming** | WORKSPACE pattern — start the **frontier** Task's delivery branch |
-| **Delivery** | First PR-opening writer for the frontier Task; later closeout reuses that head |
+| **Readiness prompt** | None — walk the route; honour named subtree or exclusions from the invoke |
+| **Opening** | Thin: whole repo. Named subtree or exclusions → honour them. Existing `ADOPT.md` → resume the [route loop](route.md#route-loop) |
+| **Workflow binding** | Template **structure-safe**; `implement.mode` per [route.md](route.md#delegation). Unit chain `implement → test → harden → review-fix → ship` per area until Done. Honor an existing PLAN Classification when class is adopt |
+| **Default table** | [route.md](route.md#delegation) |
+| **Branch naming** | WORKSPACE pattern — one delivery head **per area Task** |
+| **Delivery** | First PR-opening writer for the current area Task; ship closes that head; the next area starts from the updated base |
 | **Structure checklist** | [structure.md](../implement/structure.md) |
 | **Work package types** | Harden-shaped (extract, rename, move, split, invert); no behaviour change |
-| **Handoff** | `/test` after the frontier apply; next area after that Task ships |
+| **Handoff** | none when the route is Done; the blocking skill on a hard stop |
 
 ## Steps
 
 1. **Resolve tree** — Resolve workspace, tracker, and the tree to adopt (repo root or named subtree). Load PLAN Classification when class is adopt. Generated, vendor, lockfiles, and documented exclusions stay out of scope. Done when the tree and out-of-scope paths are named.
-2. **Inventory** — Follow [inventory.md](inventory.md). Done when every area is either at the bar, a documented exception, or a sequenced row with a concrete move.
-3. **Sequence and persist** — Rank areas; choose one Task or a Story + route Tasks. Confirm Order with the user when more than one delivery unit. Write `ADOPT.md`, apply the [adopt tracker row](../workflow/tracker-sync.md#matrix), start the frontier delivery branch/PR. Done when artifact, tracker, and **frontier** agree. Tree already at the bar → report that, persist Next none, stop.
-4. **Apply frontier** — Run [implement](../implement/SKILL.md)'s full contract on the frontier packages (`non-regression`, structure briefs, closeout gate). Done when the gate holds on that PR.
-5. **Track and hand off** — Stay **In Progress**, comment the inventory + frontier outcome, persist **Next** `/test`. Remaining areas stay on the Story. Done when Task, PR, mirror, and user report agree.
-
-## Continue adoption
-
-Existing `ADOPT.md` with open areas: skip a fresh whole-tree scan unless the tree
-changed underfoot. Apply the next open row as the frontier (new Task + branch/PR
-after the prior unit shipped). Re-scan only that area.
+2. **Inventory** — Follow [inventory.md](inventory.md) with [route.md](route.md#delegation) workers. Manager merges and sequences. Done when every area is either at the bar, a documented exception, or a sequenced row with a concrete move.
+3. **Persist** — Write `ADOPT.md`; apply the [adopt tracker row](../workflow/tracker-sync.md#matrix). One Task or a Story + area Tasks. Do not confirm Order. Tree already at the bar → persist Next none, stop. Done when artifact, tracker, and Order agree.
+4. **Walk the route** — Follow [route.md](route.md). Compose each unit-chain skill's full contract for the frontier, then the next open area, until Done or a hard stop. Report each shipped unit in one short line. Done when the route is empty or a hard stop is persisted.
 
 ## Artifact
 
@@ -92,7 +89,7 @@ Meet the structure catalog across the existing tree; executable behaviour unchan
 
 ## Preserve behaviour
 - Yes — executable behaviour unchanged
-- Verification: suite + lint on the frontier (non-regression)
+- Verification: suite + lint per area (non-regression)
 
 ## Frontier
 - Area: …
@@ -100,39 +97,40 @@ Meet the structure catalog across the existing tree; executable behaviour unchan
 
 ## Workflow
 - Template: structure-safe
-- Chain: adopt → test → harden → review-fix → ship
+- Unit chain: implement → test → harden → review-fix → ship
+- Route: inventory → unit chain per area in Order until Done
 
 ## Tracker
 - Story: <KEY>   # omit when one Task
-- Task: <KEY>    # frontier
+- Task: <KEY>    # current frontier
 - Branch: <delivery-branch>
 - PR: <url or draft url>
 
 ## Next
-`/test <KEY>` — Dedicated testing phase, then harden, then laser code review
+none — route Done
 ```
 
 ## Tracker (after persist)
 
 Follow the [adopt tracker row](../workflow/tracker-sync.md#matrix) and
 [delivery continuity](../workflow/delivery.md). One Task when the inventory is
-one delivery unit; otherwise a **Story** plus one Task per area. Keep
-non-frontier Tasks **To Do**. Record `ADOPT.md`, branch/PR, and **Next** on
-every configured durable surface.
+one delivery unit; otherwise a **Story** plus one Task per area. Non-frontier
+Tasks stay **To Do** until the walk reaches them. Ship closes each area Task.
+Record `ADOPT.md`, current branch/PR, and **Next** on every configured durable
+surface. Story **Done** when the route is empty.
 
 ## Handoff
 
-```markdown
-## Next
-`/test <TASK-KEY>` — Dedicated testing phase, then harden, then laser code review
-```
-
-When the tree already meets the bar:
+When the route is Done (or the tree already met the bar):
 
 ```markdown
 ## Next
-none — catalog already met on this tree
+none — catalog met on this tree
 ```
 
-After the frontier **ships**, Story **Next** is `/adopt` on the next open area
-Task (or none when the route is Done).
+On a hard stop:
+
+```markdown
+## Next
+`/<blocking-skill> <TASK-KEY>` — resume the unit; `/adopt` continues the route after that Task ships
+```

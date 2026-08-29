@@ -47,7 +47,7 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **sandbox** | Explicit isolated inspect-loop of a contained UI/method/bench; bound `sandbox: inject`; mid-implement inspect-loop; or **post-merge instead of iterate** when each turn needs visual/plot/report inspection | [sandbox](../sandbox/SKILL.md) |
 | **iterate** | Prior Task/PR **already merged**; still broken or incomplete — straightforward production fix (tests/review on the new PR suffice) | [iterate](../iterate/SKILL.md) |
 | **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](../review-fix/SKILL.md) (or implement fix-forward) |
-| **adopt** | Entire existing codebase was not built to the structure bar; apply the catalog across it | [adopt](../adopt/SKILL.md) |
+| **adopt** | Entire existing codebase was not built to the structure bar; apply the catalog across it until the route is Done | [adopt](../adopt/SKILL.md) |
 | **explore** | Vague, oversized, or foggy initiative — destination felt, way unclear | [explore](../explore/SKILL.md) |
 | **research** | User explicitly wants multi-axis literature/evidence now (not product alignment) | [research](../research/SKILL.md) |
 | **model** | User explicitly wants math formulation now (not product scope/UX) | [model](../model/SKILL.md) |

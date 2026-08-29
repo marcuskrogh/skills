@@ -12,7 +12,7 @@ It is not limited to “clean review → merge”.
 detect stage
   → not ready-to-build → stop; tell user /define|/bug|/tweak|/refine|/rework|/adopt|/iterate|/sandbox
   → sandbox outstanding (`sandbox=inject`, SANDBOX.md not promotion-ready) → /sandbox
-  → adopt outstanding (`ADOPT.md` inventory ready, frontier not applied) → /adopt
+  → adopt outstanding (`ADOPT.md` present, route not Done) → /adopt
   → implementation outstanding → /implement on delivery branch/PR
   → testing outstanding (`test.mode` not an explicit skip, no testing-phase comment) → /test
   → harden outstanding (`harden.mode` not an explicit user skip, Task not yet In Review from harden) → /harden
@@ -24,8 +24,7 @@ detect stage
 | Invoked when | Remaining |
 |--------------|-----------|
 | After define / bug / tweak / refine / rework (To Do, plan ready) | implement → test → harden → review-fix → closeout (sandbox first when `sandbox=inject` and not promotion-ready) |
-| After adopt (inventory ready; frontier not applied) | adopt apply → test → harden → review-fix → closeout |
-| After adopt (frontier applied, In Progress) | test → harden → review-fix → closeout |
+| After adopt (route not Done) | `/adopt` — resume the route (inventory if needed, then remaining unit chains) |
 | After sandbox (promotion-ready) | implement → test → harden → review-fix → closeout |
 | After implement (In Progress, PR has impl) | test → harden → review-fix → closeout |
 | After test | harden → review-fix → closeout |

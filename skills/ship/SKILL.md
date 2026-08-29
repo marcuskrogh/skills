@@ -38,7 +38,7 @@ Requires authenticated `gh` + tracker auth.
 |----------|-----------|
 | No ready-to-build artifact | **Stop** — `/define` (or `/iterate`) first; manual `/bug`/`/tweak`/`/refine`/`/rework`/`/adopt` also ready-to-build |
 | Defined; To Do; no meaningful impl on delivery PR | implement → test → harden → review-fix → closeout |
-| `ADOPT.md`; frontier not applied | adopt apply → test → harden → review-fix → closeout |
+| `ADOPT.md`; route not Done | `/adopt` — resume the route |
 | In Progress; impl incomplete | finish implement → test → harden → review-fix → closeout |
 | In Progress; impl complete; testing phase not done | test → harden → review-fix → closeout |
 | In Progress; testing done; harden not done | harden → review-fix → closeout |
