@@ -22,16 +22,17 @@ smell into a new hunk.
 ## Change risk
 
 Per **function** (the unit Change Risk Anti-Patterns (**CRAP**) score is
-computed on). Default bar is **below 8** (Uncle Bob's recent Clean Code
-recommendation) unless repo docs set another threshold. Prefer the repo's CRAP
-or complexity+coverage report; otherwise compute from cyclomatic complexity `C`
-and coverage fraction `cov` (0–1):
+computed on). **Guide, not a package fail.** Target **below 8** (Uncle Bob's
+recent Clean Code recommendation) unless repo docs set another threshold. A
+score at or above the target is a prompt to inspect the shape of the
+complexity. Prefer the repo's CRAP or complexity+coverage report; otherwise
+compute from cyclomatic complexity `C` and coverage fraction `cov` (0–1):
 
 `CRAP = C² × (1 − cov)³ + C`
 
 | Bar | Check |
 |-----|--------|
-| **CRAP below 8** | Changed and new functions score **below 8** unless repo docs set another threshold. At full coverage CRAP equals C, so complexity stays at 7 or below. Coverage counts only tests that assert the executed paths. Extract to lower C; add asserting tests to raise cov. Meeting the bar does not skip lock tests or behaviour coverage |
+| **CRAP as guide** | Nested conditionals (long if/else chains, nested ifs) at or above the target → extract. A flat switch/case, match, or lookup over a closed set of types may stay even when the score is high. The score alone is not `should-fix` and does not fail a package. Coverage counts only tests that assert the executed paths. A low score does not skip lock tests or behaviour coverage |
 
 ## Cohesion and coupling
 

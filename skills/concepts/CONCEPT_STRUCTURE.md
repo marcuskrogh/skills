@@ -23,8 +23,8 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
   to the bar; inventory, sequence, walk one delivery unit at a time until Done
 - **characterize** — map current observable behaviour to tests and prove them
   green on current code before structure-only edits
-- **CRAP** — Change Risk Anti-Patterns score; catalog bar is below 8 unless
-  repo docs set another threshold
+- **CRAP** — Change Risk Anti-Patterns score; a guide toward extract vs
+  justified dispatch; target below 8 unless repo docs set another threshold
 - **seam** — injectable boundary that lets a unit be tested without booting the
   whole system
 
@@ -53,7 +53,7 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
   invert, or asserting test with evidence. Vague cleanup is not a finding.
 - **Neighbours set the pattern, not the smell.** Match existing patterns in the
   touched area. New and changed hunks still meet the catalog; do not copy a
-  neighbour smell or high **CRAP** into this PR.
+  neighbour smell or nested-conditional **CRAP** into this PR.
 
 ## Extensions
 

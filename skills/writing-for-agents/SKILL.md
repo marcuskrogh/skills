@@ -107,7 +107,7 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **harden** | Shipping-phase behaviour-preserving structure pass (`harden.mode=dedicated`) |
 | **adopt** | Apply the structure catalog across an existing codebase that was not built to the bar; characterize current behaviour into tests first; delegated walk until the route is Done |
 | **characterize** | Map current observable behaviour to tests and prove them green on current code before structure-only edits |
-| **CRAP** | Change Risk Anti-Patterns score; catalog bar is below 8 unless repo docs set another threshold |
+| **CRAP** | Change Risk Anti-Patterns score; a guide toward extract vs justified dispatch; target below 8 unless repo docs set another threshold |
 | **prove** | Recorded lock suite must still hold before the next structure-only step or area |
 | **laser** | Sequential single-axis (or small-bundle) review pass; under review-fix, fix before the next laser |
 | **code review** | Final published pull-request review after lasers; the closeout gate |
