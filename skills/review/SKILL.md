@@ -39,7 +39,7 @@ Requires authenticated `gh` and tracker auth per WORKSPACE. If either is missing
 | **Checklist** | [checklist.md](checklist.md) + [axis-briefs.md](axis-briefs.md) |
 | **Depth routing** | Bound `review.depth` / `review.mode` from PLAN Workflow when present; else [depth.md](depth.md) |
 | **Laser routing** | Bound `review.lasers` from PLAN Workflow when present; else [lasers.md](lasers.md) |
-| **Parallelism** | `sequential` → one axis worker at a time; `bundled` + `multiagent` / `full` → five axis workers; `bundled` + `single` / `focused` → one Core (+ optional Integration, + Architecture when harden/refine) |
+| **Parallelism** | `sequential` → one axis worker at a time; `bundled` + `multiagent` / `full` → five axis workers; `bundled` + `single` / `focused` → Core + Architecture (+ optional Integration) |
 | **Model routing** | CONCEPT_DELEGATION — defaults below / in depth.md |
 | **Tooling evidence** | Run project lint/typecheck/test for touched area when cheap; feed failures to Correctness |
 | **Handoff** | See [Handoff](#handoff) |
@@ -52,7 +52,7 @@ Requires authenticated `gh` and tracker auth per WORKSPACE. If either is missing
 | Correctness | Mid | Concurrency/races, security, subtle algorithms, unexplained tooling failures |
 | Integration | Mid | Authz, migrations, public API/schema breaks, multi-service contracts |
 | Architecture | Mid | New layers/modules, cycles, ADR conflicts, large structural shift |
-| Standards | Low | Almost never — climb via mid only after a failed lower pass |
+| Standards | Mid | Almost never stay Low — climb after a failed lower pass; named smells on small diffs still Mid |
 
 Focused defaults: [depth.md](depth.md#model-defaults-focused).
 
@@ -80,8 +80,7 @@ Follow the CONCEPT_REVIEW flow with these specialisations:
 ```
 
 Under `focused` + `bundled`, axes not covered → `Skipped (focused).` Architecture
-is skipped unless depth was promoted to `full`, `harden.mode=dedicated`, or class
-is refine.
+and Standards are **not** skipped.
 
 ### Tell the user
 

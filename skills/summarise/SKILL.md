@@ -39,7 +39,7 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 | **test** | In Progress; implement done; testing phase next or in flight |
 | **harden** | In Progress or just In Review; testing done; structure phase next or in flight |
 | **review** | In Review; PR open (findings-only) |
-| **review-fix** | Preferred post-harden (or post-test when harden skipped) stage; lasers + code review |
+| **review-fix** | Preferred post-harden stage; lasers + code review |
 | **fix-forward** | In Review/In Progress + open REQUEST_CHANGES / unreplied threads |
 | **ship-ready** | In Review + clean **code review** (no must-fix) |
 | **done** | Done / PR merged |

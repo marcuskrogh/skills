@@ -26,7 +26,10 @@ Catalogs (classes, templates, discriminators, default params):
 - **Closed classes.** Only labels in the class catalog; no free-text types.
 - **Discriminators first.** Apply the catalog’s ordered checks; first match wins.
 - **Efficiency default.** Choose the cheapest binding that still covers risk
-  (tokens, review breadth, multiagent cost).
+  (tokens, review breadth, multiagent cost). **`test.mode=dedicated` and
+  `harden.mode=dedicated` are the floor** — they are not efficiency knobs.
+  Skip them only when the catalog's skip rows apply (explicit user ask, or
+  docs-only for test).
 - **Ask on costly ambiguity.** Question the user only when two viable classes
   or bindings diverge on expensive params (e.g. comparative vs not, `full` vs
   `focused`, multiagent vs single) — or confidence is not high.

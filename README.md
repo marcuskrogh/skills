@@ -45,8 +45,9 @@ After user alignment it:
 1. Infers a closed **class** (bug / tweak / refine / rework / feature / …)
 2. Binds an efficient **template** + **parameters** (e.g. fix-fast,
    parity-iterative, feature-heavy; single vs multiagent; verify mode;
-   test/harden phases; review depth and lasers; optional research/model side
-   paths; optional sandbox inspect-loop)
+   **test and harden are always bound** unless the user explicitly skips them;
+   review depth and lasers; optional research/model side paths; optional sandbox
+   inspect-loop)
 3. Writes Classification + Workflow onto `PLAN.md` and the tracker
 4. Sets **Next** to the first step of the bound **Chain**
 

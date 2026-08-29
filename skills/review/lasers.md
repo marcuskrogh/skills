@@ -15,9 +15,10 @@ Pick the **first matching** row. Record `review.lasers: bundled | sequential`.
 | Bound `review.lasers=sequential` | **sequential** |
 | Bound `review.lasers=bundled` | **bundled** |
 | Bound `review.depth=full` or `review.mode=multiagent` (no lasers key) | **sequential** |
-| Bound `review.depth=focused` (no lasers key) | **bundled** |
+| Bound `review.depth=focused` (no lasers key) | **sequential** |
 | User names sequential / laser / one-axis-at-a-time | **sequential** |
-| Ambiguous | **bundled** when focused; **sequential** when full |
+| User names bundled / one-pass | **bundled** |
+| Ambiguous | **sequential** |
 
 ## Sequential order (ending in code review)
 
@@ -28,8 +29,8 @@ Run only axes that depth includes. Skip Spec when its pack is empty.
 | 1 | Spec | full; focused Core when Spec pack non-empty |
 | 2 | Correctness | always |
 | 3 | Integration | full; focused when contracts are in blast radius ([depth.md](depth.md#when-to-add-the-integration-worker-focused)) |
-| 4 | Architecture | full; also when `harden.mode=dedicated` or class is refine — even under focused |
-| 5 | Standards | always (light under focused: changed hunks only) |
+| 4 | Architecture | **always** — small diffs included |
+| 5 | Standards | **always** (light under focused: changed hunks only) |
 | 6 | **Code review** | always — manager merge + publish |
 
 Under `/review-fix`, after each of 1–5: if must-fix findings remain, fix-forward
@@ -46,8 +47,8 @@ worker), then the same **code review** publish. Under `/review-fix`, one
 fix-forward pass after the bundle, then **code review** (a second look at the
 diff after fixes — not skipped).
 
-When `harden.mode=dedicated` or class is refine, bundled **focused** still
-includes Architecture (do not skip it).
+When bundled **focused**, still include Architecture and Standards (do not skip
+them because the diff is small).
 
 ## Code review (always last)
 
@@ -70,6 +71,7 @@ Code review is the closeout gate. Lasers do not replace it.
 
 - Architecture / Standards lasers apply [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md)
   as `should-fix` on changed code — harden having run is not a reason to soften.
+  Small diffs use the same catalog.
 - Correctness laser still checks tests after `/test` — missing coverage is
   `should-fix`.
 - Cap volume per axis as in axis-briefs; drop weakest evidence first; keep

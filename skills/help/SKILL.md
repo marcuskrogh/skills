@@ -59,9 +59,9 @@ class-specific entry skills.
 Define applies [CONCEPT_CLASSIFICATION](../concepts/CONCEPT_CLASSIFICATION.md):
 infers **class** (bug / tweak / refine / rework / feature / …), selects a
 **template** (fix-fast, parity-iterative, feature-heavy, …) and **parameters**
-(single vs multiagent implement/review, verify mode, test/harden phases,
-review depth and lasers, optional research/model side paths, optional sandbox
-inspect-loop), then walks that chain almost deterministically.
+(single vs multiagent implement/review, verify mode, **test and harden as the
+floor**, review depth and lasers, optional research/model side paths, optional
+sandbox inspect-loop), then walks that chain almost deterministically.
 
 ### Closed-loop shape
 

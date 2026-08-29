@@ -5,7 +5,8 @@ when the finding is Architecture, Standards, or a named smell). Applies
 [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md). Complements
 [testing.md](testing.md).
 
-Repo docs and neighbour patterns win over generic catalog rows.
+Repo docs and neighbour **patterns** win over generic catalog rows. Neighbour
+**smells** do not. Change size does not relax this list.
 
 ## Write-time bar
 
@@ -24,11 +25,25 @@ Repo docs and neighbour patterns win over generic catalog rows.
 Each Implementation (and Harden) sub-agent report must include:
 
 ```text
-structure_notes: <meets catalog | breaches + concrete moves made>
+structure_notes: <catalog rows checked + meets | breaches + concrete moves made>
 smells_fixed: <named smells addressed or "none">
 seams: <injectable boundaries used or deliberately not introduced>
 exceptions: <documented catalog exceptions or "none">
 ```
 
-A catalog breach that remains after the package is a **re-delegation** target —
-do not mark the package done.
+A missing report, a catalog breach that remains, or "leave for harden/review"
+fails the package — re-delegate; do not mark it done.
+
+## Manager gate (before Next `/test`)
+
+Walk the **whole** delivery diff (every Implementation package, not only the
+last one):
+
+- [ ] Every write-time bar item holds, or has a documented exception on the PR
+- [ ] Every Implementation package report includes `structure_notes` that cite
+      catalog rows
+- [ ] No remaining named smell in **changed** hunks
+- [ ] New code does not copy a neighbour smell
+- [ ] Seams required by [testing.md](testing.md) exist before `/test`
+
+Fail the gate → re-delegate. Passing the gate does not skip `/test` or `/harden`.

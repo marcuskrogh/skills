@@ -28,7 +28,7 @@ a soft review. When spawning axis workers, also load
 
 - **Proportional depth.** Choose depth before spawn from work-package shape and change size. `full` when the package warrants all-axis coverage; `focused` for bugs, tweaks, refinements, reworks, small iterates, and localized deltas. Record the choice. Both vertical and horizontal still apply on every included axis.
 - **Laser then code review.** Honor bound `review.lasers`. `sequential` runs one included axis at a time; `bundled` runs the focused or full worker map together. Either way, **code review** is the last published pass — not an optional extra.
-- **Closeout rigor.** On Architecture and Standards lasers, catalog breaches and named smells in **changed** code are `should-fix` (or `blocker` when ship-critical). Do not demote them to `note` because a harden pass already ran.
+- **Closeout rigor.** On Architecture and Standards lasers, catalog breaches and named smells in **changed** code are `should-fix` (or `blocker` when ship-critical). Do not demote them to `note` because a harden pass already ran, or because the diff is small.
 - **Investigation context before axis work** — changed paths, file snapshots, neighbor map, spec pack, architecture pack, standards pack, tooling evidence when cheap.
 - **Fix-biased severity.** Prefer `should-fix` over `note` when **actionable**.
 - **Publish to the durable surface** (PR review, etc.); summarise counts to the user when a publish target exists. Under `/review-fix`, per-laser findings may stay in worker reports until **code review** publishes the merged set (plus any residue after fix-forward).

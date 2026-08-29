@@ -23,8 +23,8 @@ intentional change vs structure-only vs measured swap).
 
 | Template | Intent | Default chain |
 |----------|--------|---------------|
-| **fix-fast** | Clear defect, contained blast radius | implement → test → review-fix → ship |
-| **delta-fast** | Small intentional behaviour change | implement → test → review-fix → ship |
+| **fix-fast** | Clear defect, contained blast radius | implement → test → harden → review-fix → ship |
+| **delta-fast** | Small intentional behaviour change | implement → test → harden → review-fix → ship |
 | **structure-safe** | Behaviour-preserving structural/docs work | implement → test → harden → review-fix → ship |
 | **parity-iterative** | Impl swap with non-degradation bar | implement (comparative loop) → test → harden → review-fix → ship |
 | **feature-standard** | Ordinary feature slice | implement → test → harden → review-fix → ship |
@@ -32,9 +32,9 @@ intentional change vs structure-only vs measured swap).
 
 Optional prefix steps (only when bound): `/research`, `/model` before
 implement — recorded in `side_paths`. Optional `/sandbox` before implement —
-recorded in `sandbox` (`none` \| `inject`). Closeout after implement is
-**test** → **harden** (when bound) → **review-fix** (lasers ending in
-**code review**).
+recorded in `sandbox` (`none` \| `inject`). Closeout after implement is always
+**test** → **harden** → **review-fix** (lasers ending in **code review**).
+`test.mode=skip` / `harden.mode=skip` are explicit exceptions, not defaults.
 
 ## Default binding (class → template)
 
@@ -81,31 +81,36 @@ Every binding records these keys (use exactly these names):
 
 | Template | test.mode | harden.mode | review.mode | review.depth | review.lasers |
 |----------|-----------|-------------|-------------|--------------|---------------|
-| fix-fast | dedicated | skip | single | focused | bundled |
-| delta-fast | dedicated | skip | single | focused | bundled |
-| structure-safe | dedicated | dedicated | single | focused | bundled |
+| fix-fast | dedicated | dedicated | single | focused | sequential |
+| delta-fast | dedicated | dedicated | single | focused | sequential |
+| structure-safe | dedicated | dedicated | single | focused | sequential |
 | parity-iterative | dedicated | dedicated | single | focused | sequential |
 | feature-standard | dedicated | dedicated | single | focused | sequential |
 | feature-heavy | dedicated | dedicated | multiagent | full | sequential |
 
 `side_paths` and `sandbox` default to `none` on every template.
 
-### Override rules (apply after defaults; efficiency-first)
+### Override rules (apply after defaults)
+
+Structure and testing are the **floor**. Efficiency applies to `review.mode`,
+`review.depth`, and `implement.mode` only.
 
 | When | Change |
 |------|--------|
-| Blast radius wide, new layers/modules, public API/schema/migration, authz, or ADR risk | `review.depth=full`, `review.mode=multiagent`, `review.lasers=sequential`, `harden.mode=dedicated`; feature → prefer **feature-heavy** |
-| Localized one-concern diff, no new layers | keep `focused` / `single` / `bundled`; `harden.mode=skip` even on feature-standard |
-| Purely non-behavioural docs/comments (no executable change) | `test.mode=skip` |
+| Blast radius wide, new layers/modules, public API/schema/migration, authz, or ADR risk | `review.depth=full`, `review.mode=multiagent`; feature → prefer **feature-heavy** |
+| Localized one-concern diff, no new layers | keep `focused` / `single`; keep `test.mode=dedicated`, `harden.mode=dedicated`, `review.lasers=sequential` |
+| Purely non-behavioural docs/comments (no executable change) | `test.mode=skip` only; **harden stays dedicated** |
 | Math/formulation unclear and blocks acceptance | `side_paths=model` (and/or research) before implement |
 | Literature/evidence needed before locking approach | `side_paths=research` |
 | Contained UI/UX slice or isolated method/perf comparison that needs inspect-each-turn before production wiring | `sandbox=inject` |
 | Rework / comparative verify | force `implement.verify=comparative`, `implement.iteration=until-bar` |
-| User asks for thorough/full review | `review.depth=full`, `review.mode=multiagent`, `review.lasers=sequential`, `harden.mode=dedicated` |
-| User asks to skip multiagent / save tokens | prefer `single` + `focused` + `bundled` unless override risk rows apply |
+| User asks for thorough/full review | `review.depth=full`, `review.mode=multiagent` |
+| User asks to skip multiagent / save tokens | prefer `single` + `focused`; **do not** skip test, harden, sequential lasers, or Architecture |
+| User explicitly asks to skip test or harden | that phase only; record the skip on the binding |
 
-**Cheapest binding that still covers risk wins.** Do not escalate to
-feature-heavy or full multiagent review without a matching override row.
+**Cheapest review breadth that still covers risk wins.** Do not escalate to
+feature-heavy or full multiagent review without a matching override row. Do not
+drop test, harden, or the Architecture/Standards lasers to save tokens.
 
 ## Artifact sections (required on PLAN.md from define)
 
@@ -129,13 +134,14 @@ feature-heavy or full multiagent review without a matching override row.
   - side_paths: none | research | model | research+model
   - sandbox: none | inject
 - Chain: implement → test → harden → review-fix → ship
-- Rationale: <one line efficiency + risk>
+- Rationale: <one line efficiency + risk; test/harden are the floor>
 ```
 
 Adjust **Chain** when `side_paths` ≠ none (e.g. `research → implement → …`) or
 `sandbox=inject` (e.g. `sandbox → implement → test → harden → review-fix → ship`).
-Drop `test` when `test.mode=skip`; drop `harden` when `harden.mode=skip`. Prefix
-order: side_paths, then sandbox, then implement.
+Drop `test` only when `test.mode=skip` (docs-only or explicit user ask). Drop
+`harden` only when the user explicitly asked to skip it. Prefix order:
+side_paths, then sandbox, then implement.
 
 ## Legacy fallback
 
@@ -143,9 +149,9 @@ When the Task has no `## Workflow` section:
 
 | Artifact | Treat as class | verify | test.mode | harden.mode | review.depth | review.lasers |
 |----------|----------------|--------|-----------|-------------|--------------|---------------|
-| `BUG.md` / `ITERATE.md` | bug / iterate | tests | dedicated | skip | focused | bundled |
-| `TWEAK.md` | tweak | tests | dedicated | skip | focused | bundled |
-| `REFINE.md` | refine | non-regression | dedicated | dedicated | focused | bundled |
+| `BUG.md` / `ITERATE.md` | bug / iterate | tests | dedicated | dedicated | focused | sequential |
+| `TWEAK.md` | tweak | tests | dedicated | dedicated | focused | sequential |
+| `REFINE.md` | refine | non-regression | dedicated | dedicated | focused | sequential |
 | `REWORK.md` | rework | comparative | dedicated | dedicated | focused | sequential |
 | `SANDBOX.md` without PLAN | feature / post-merge sandbox | measure kind → comparative; else tests | dedicated | dedicated | focused | sequential |
-| `PLAN.md` without Classification | feature | tests | dedicated | dedicated | per [../review/depth.md](../review/depth.md) | sequential when full; else bundled |
+| `PLAN.md` without Classification | feature | tests | dedicated | dedicated | per [../review/depth.md](../review/depth.md) | sequential |

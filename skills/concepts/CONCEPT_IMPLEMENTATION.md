@@ -24,9 +24,10 @@ Structure bar: [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md).
 - **Branch discipline.** Resolve the skill's delivery branch before first delegation; prefer an existing open branch/PR for the Task; workers commit only there.
 - **Dev-surface keys.** Issue keys live only on **dev-surfaces**. **Product surfaces** carry product language exclusively.
 - **Named-gap re-delegate.** Insufficient report → re-delegate with named gaps (escalate one tier).
-- **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); honor PLAN Workflow `implement.verify` when bound (`tests` / `non-regression` / `comparative`); bug fixes and behaviour-changing tweaks include regression coverage; refinements verify behaviour is unchanged (non-regression); reworks / comparative verify use baseline vs candidate evaluation before accept; injectable seams; touched-area suite stays honest and green. In-package tests do not replace the bound **testing phase** (`/test`) when `test.mode=dedicated`.
-- **Structured delivery.** Packages meet [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md) as-you-go. Named smells and catalog breaches in changed code fail the package — re-delegate; do not defer them to harden or review. In-package structure does not replace the bound **harden** phase when `harden.mode=dedicated`.
-- **Honor binding.** When Classification / Workflow are persisted on the spec, do not reclassify; execute to the bound params.
+- **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); honor PLAN Workflow `implement.verify` when bound (`tests` / `non-regression` / `comparative`); bug fixes and behaviour-changing tweaks include regression coverage; refinements verify behaviour is unchanged (non-regression); reworks / comparative verify use baseline vs candidate evaluation before accept; injectable seams; touched-area suite stays honest and green. In-package tests do not replace the bound **testing phase** (`/test`). Change size does not relax coverage or seams.
+- **Structured delivery.** Packages meet [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md) as-you-go. Named smells and catalog breaches in changed code fail the package — re-delegate. Do not defer them to harden or review. In-package structure does not replace the bound **harden** phase. Change size does not relax the catalog.
+- **Closeout-aware.** Implement writes for the bound chain: honest seams for `/test`, catalog-clean units for `/harden`, nothing left as "lasers will catch it." Before leaving implement, the manager gates the **whole** diff against the testing and structure checklists.
+- **Honor binding.** When Classification / Workflow are persisted on the spec, do not reclassify; execute to the bound params. Do not skip `/test` or `/harden` unless the binding's skip rows apply.
 - **Verification mandatory.** Run real project tests/lint for the touched area (or full suite if that is the norm); report observed results only.
 
 ## Extensions
@@ -44,6 +45,7 @@ Structure bar: [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md).
 | **PR template** | may | Required PR body sections |
 | **Testing checklist** | may | Concrete checks for package briefs |
 | **Structure checklist** | may | Concrete structure checks for package briefs |
+| **Closeout gate** | may | Whole-diff testing + structure walk before handing off to `/test` |
 
 ## Flow
 
@@ -52,7 +54,8 @@ Structure bar: [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md).
 3. **Branch** — reuse open delivery branch/PR for the work item, else create. Done when branch is checked out.
 4. **Draft plan** — ordered packages with acceptance (tests in behavioural packages). Done when packages cover the spec.
 5. **Implementation loop** — select package → score difficulty → delegate → evaluate (tests, testability, and structure catalog) → re-delegate or mark done → revise plan. Done when all packages complete.
-6. **Verify and deliver** — skill verification + delivery outcome. Done when checks pass and delivery criteria met.
+6. **Closeout gate** — walk the whole diff against the testing and structure checklists. Done when every remaining gap is a re-delegation or a documented exception.
+7. **Verify and deliver** — skill verification + delivery outcome. Done when checks pass, the gate holds, and delivery criteria met.
 
 ## Reference
 

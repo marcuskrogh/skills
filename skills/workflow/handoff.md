@@ -30,8 +30,8 @@ in-flight or none) and do not write tracker or artifact Next.
 | model | `/define <Task>` (or `/implement` if PLAN exists) |
 | sandbox | `/sandbox <Task>` (delta) or `/implement <Task>` (promote) |
 | define | `/implement <Task>` (or first Chain step from Workflow binding; or `/ship`) |
-| implement | `/test <Task>` (or `/harden` / `/review-fix` when those phases are skipped; or `/ship`) |
-| test | `/harden <Task>` (or `/review-fix` when harden skipped) |
+| implement | `/test <Task>` (then `/harden`; or `/ship`) |
+| test | `/harden <Task>` |
 | harden | `/review-fix <Task>` |
 | iterate | `/test <NewTask>` (or `/sandbox` when the delta is an inspect-loop) |
 | review (must-fix) | `/review-fix` or `/implement` fix-forward |

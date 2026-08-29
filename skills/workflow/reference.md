@@ -45,7 +45,7 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **model** | Math alignment with user | `MODEL.md` finding docs on delivery branch (no PR) | `/define` |
 | **sandbox** | Isolated inspect-loop for a contained element (incl. post-merge instead of iterate) | `SANDBOX.md` + harness on delivery branch (no PR) | `/sandbox` (delta) or `/implement` (promote) |
 | **define** | Route or standalone Task (front door for concrete work) | `PLAN.md` + Classification + Workflow binding + Sub-tasks + branch/PR | First skill in bound Chain (usually `/implement`) |
-| **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX ready | Code on **same** PR (opens PR after post-merge sandbox); Task stays **In Progress** | `/test` (or `/harden` / `/review-fix` when those phases are skipped) |
+| **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX ready | Code on **same** PR (opens PR after post-merge sandbox); Task stays **In Progress**; closeout gate before `/test` | `/test` (then `/harden`) |
 | **test** | After implement; `test.mode=dedicated` | Tests/seams on the **same** PR; Task stays **In Progress** | `/harden` or `/review-fix` |
 | **harden** | After test (or implement when test skipped); `harden.mode=dedicated` | Structure edits on the **same** PR; Task → **In Review** | `/review-fix` |
 | **iterate** | Shipped work still wrong; straightforward production fix | `ITERATE.md` + **new** Task/PR; then bound closeout chain | `/test` (or first remaining closeout step) |

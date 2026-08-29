@@ -18,6 +18,7 @@ honor its parameters — do not reclassify.
 
 **On invoke:** read [../concepts/CONCEPT_IMPLEMENTATION.md](../concepts/CONCEPT_IMPLEMENTATION.md),
 [../concepts/CONCEPT_STRUCTURE.md](../concepts/CONCEPT_STRUCTURE.md),
+[../concepts/STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md),
 [testing.md](testing.md), [structure.md](structure.md),
 [../workflow/reference.md](../workflow/reference.md),
 [../workflow/delivery.md](../workflow/delivery.md),
@@ -40,9 +41,10 @@ as directed there.
 | **Workflow binding** | `PLAN.md` `## Workflow` when present; else legacy fallback in [CLASSIFICATION-CATALOG.md](../concepts/CLASSIFICATION-CATALOG.md#legacy-fallback) |
 | **Branch naming** | WORKSPACE pattern — **reuse** Task delivery branch if it exists |
 | **Delivery** | **Same** PR as define/bug/tweak/refine/rework when one exists (or branch-only per WORKSPACE); research/model/sandbox may have started the branch without a PR |
-| **Verification** | Per binding `implement.verify`: `tests` → [testing.md](testing.md); `non-regression` → behaviour unchanged + testing.md; `comparative` → [rework.md](rework.md) + testing.md. Plus [structure.md](structure.md), lint, plan checklist, sub-task completion |
+| **Verification** | Per binding `implement.verify`: `tests` → [testing.md](testing.md); `non-regression` → behaviour unchanged + testing.md; `comparative` → [rework.md](rework.md) + testing.md. Plus [structure.md](structure.md) **manager gate**, lint, plan checklist, sub-task completion |
 | **Testing checklist** | [testing.md](testing.md); comparative adds [rework.md](rework.md) |
 | **Structure checklist** | [structure.md](structure.md) + [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md) |
+| **Closeout gate** | [structure.md](structure.md#manager-gate-before-next-test) + [testing.md](testing.md) on the **whole** diff before `/test` |
 | **Model routing** | CONCEPT_DELEGATION when `implement.mode=multiagent` or workers are spawned; `single` → manager may implement localized packages without workers when Routine |
 | **Work package types** | See table below; add **Promote** when `SANDBOX.md` is promotion-ready |
 | **PR template** | Summary; Tracker; Spec refs; Workflow binding; Test plan; Structure notes; Completed sub-tasks / review threads |
@@ -79,8 +81,9 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 
 1. **Resolve work and status** — Resolve the Task, spec, Workflow binding (or legacy fallback), Sub-tasks or review threads, and any `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` on the delivery branch (PLAN Inputs); then apply the implementation start transition. If `sandbox=inject` (or post-merge sandbox) and `SANDBOX.md` is not promotion-ready (`## Representativeness` incomplete or last verdict is not accept), hand off `/sandbox` instead of implementing that element in production. Done when the usable spec, binding params, finding-doc/sandbox inputs, and active packages are known and the Task is **In Progress** (or Next is `/sandbox`).
 2. **Resolve delivery and commands** — Follow [delivery continuity](../workflow/delivery.md) and inspect repository-owned test/lint commands. Done when the Task's one delivery head is checked out and verification commands are recorded.
-3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md) and [structure.md](structure.md) in briefs. Fail a package that still breaches the structure catalog. When packages write product docs or domain-facing copy, pass `RESEARCH.md` / `MODEL.md` paths as brief inputs. When promoting a sandbox, follow `SANDBOX.md` Promote map into production paths. When a remaining package is a contained element that needs inspect-each-turn, hand off `/sandbox` rather than iterating on production. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, structure catalog, Sub-task criteria, and binding.
-4. **Verify and deliver** — Run the recorded checks, update the same PR (include binding summary), apply the implementation tracker row, and persist **Next** from the bound **Chain** (usually `/test`). Keep the Task **In Progress**, unless Next is `/review-fix` (test and harden both skipped) or this invoke is fix-forward during review-fix (then **In Review**). Done when checks pass, the PR and mirrors are current, and **Next** is recorded.
+3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md), [structure.md](structure.md), and [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md) in briefs. Fail a package that still breaches the structure catalog, that omits the structure/testing report, or that defers catalog work to harden or lasers. Change size does not relax the briefs. When packages write product docs or domain-facing copy, pass `RESEARCH.md` / `MODEL.md` paths as brief inputs. When promoting a sandbox, follow `SANDBOX.md` Promote map into production paths. When a remaining package is a contained element that needs inspect-each-turn, hand off `/sandbox` rather than iterating on production. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, structure catalog, Sub-task criteria, and binding.
+4. **Closeout gate** — Walk the **whole** delivery diff against [structure.md](structure.md#manager-gate-before-next-test) and [testing.md](testing.md). Remaining catalog breaches, missing reports, or missing tests → re-delegate; do not hand off. Done when the gate holds or every remainder is a documented exception.
+5. **Verify and deliver** — Run the recorded checks, update the same PR (include binding summary, test plan, and structure notes), apply the implementation tracker row, and persist **Next** `/test` (then the bound chain includes `/harden`). Keep the Task **In Progress**. Fix-forward during review-fix returns **In Review**. Done when checks pass, the gate holds, the PR and mirrors are current, and **Next** is recorded.
 
 ## Work packages
 
@@ -95,7 +98,7 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 | Promote | `generalPurpose` | Mid (Routine → low) | Sandbox spans many production seams or public API → high |
 | Fix-forward | `generalPurpose` | Low (obvious) / Mid otherwise | Architectural must-fixes, subtle correctness/races, prior lower-tier miss → next tier / high |
 
-Ensure each behavioural package lists test deliverables and structure notes; if the plan omitted verification, add Testing packages before verify. For comparative verify, ensure Baseline / Compare / Reiterate packages exist per [rework.md](rework.md).
+Ensure each behavioural package lists test deliverables and structure notes; if the plan omitted verification, add Testing packages before verify. For comparative verify, ensure Baseline / Compare / Reiterate packages exist per [rework.md](rework.md). A Harden package during Build repairs catalog breaches in-package; it does not replace `/harden`.
 
 ## Handoff
 
@@ -103,10 +106,11 @@ Prefer the next step in the bound **Chain**. Default after Build:
 
 ```markdown
 ## Next
-`/test <TASK-KEY>` — Dedicated testing phase per Workflow binding
+`/test <TASK-KEY>` — Dedicated testing phase, then harden, then laser code review
 ```
 
-When `test.mode=skip`, Next is `/harden` (or `/review-fix` when `harden.mode=skip`).
-Fix-forward invoked from review-fix returns to that orchestrator — do not rewrite Next to `/test`.
+When `test.mode=skip` (docs-only or explicit user ask), Next is `/harden`.
+Do not skip `/harden` from implement. Fix-forward invoked from review-fix
+returns to that orchestrator — do not rewrite Next to `/test`.
 
 (Use `/ship <TASK-KEY>` to finish remaining along the bound chain.)

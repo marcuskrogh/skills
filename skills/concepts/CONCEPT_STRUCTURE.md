@@ -7,9 +7,10 @@ pointer fires.
 ## Intent
 
 Keep every changed unit at least as well structured as its neighbours, and meet
-the catalog bar on new code. **implement** applies this as-you-go; **harden**
-applies it as a shipping-phase pass; Architecture and Standards **lasers**
-enforce it at closeout.
+the catalog bar on new code — **including small diffs**. **implement** applies
+this as-you-go and gates closeout; **harden** applies it as a shipping-phase
+pass on every bound Task; Architecture and Standards **lasers** enforce it at
+closeout.
 
 Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 
@@ -23,7 +24,10 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 ## Invariants
 
 - **As-you-go.** New and changed code meets the structure catalog before a
-  package is done. Implement does not defer catalog breaches to review.
+  package is done. Implement does not defer catalog breaches to harden or review.
+  Change size does not relax the catalog.
+- **Every change size.** A one-hunk bugfix meets the same catalog as a feature.
+  Small is not a skip.
 - **Behaviour preserved on harden.** Harden changes structure, naming, layering,
   and comments only. Executable behaviour stays the same; the suite proves it.
 - **Repo docs win.** Documented ADRs, layering, and naming override generic
@@ -33,8 +37,9 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
   optional polish.
 - **Concrete move.** A structure finding names an extract, move, rename, split,
   or invert with evidence. Vague cleanup is not a finding.
-- **Neighbours set the floor.** Match existing patterns in the touched area;
-  raise to the catalog when new code would otherwise be worse than the catalog.
+- **Neighbours set the pattern, not the smell.** Match existing patterns in the
+  touched area. New and changed hunks still meet the catalog; do not copy a
+  neighbour smell into this PR.
 
 ## Extensions
 
@@ -48,7 +53,8 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 
 1. **Load catalog + repo docs** — ADRs and neighbour patterns first. Done when
    the effective bar is known.
-2. **Apply** — Check each changed unit against the catalog. Done when every
-   breach has a concrete move or an explicit, documented exception.
+2. **Apply** — Check each changed unit against the catalog, including small
+   diffs. Done when every breach has a concrete move or an explicit, documented
+   exception.
 3. **Prove** — Re-run the touched-area suite (and lint) after structural edits.
    Done when checks pass.

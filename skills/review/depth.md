@@ -37,7 +37,7 @@ user explicitly locked a focused binding and reaffirms it.
 | Depth | Workers | Axes covered |
 |-------|---------|--------------|
 | **full** | Five `generalPurpose` — one per axis (parallel when bundled; one-at-a-time when sequential) | Spec, Correctness, Integration, Architecture, Standards |
-| **focused** | One **Core** worker; add **Integration** when contracts are in blast radius; add **Architecture** when `harden.mode=dedicated` or class is refine | Core = Spec (if pack non-empty) + Correctness + light Standards in changed hunks; optional Integration; optional Architecture |
+| **focused** | **Core** + **Architecture** always; add **Integration** when contracts are in blast radius | Core = Spec (if pack non-empty) + Correctness + light Standards in changed hunks; Architecture always; optional Integration |
 
 Empty Spec pack → skip Spec content inside Core / skip Spec worker under full; still run the other included axes. Ask once if everything is empty of intent.
 
@@ -76,14 +76,13 @@ Include: context pack + Spec checklist (if pack non-empty) + Correctness checkli
    failures → `blocker`.
 3. **Standards (light)** — actionable named smells or documented convention
    breaches in changed code only, per [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md).
-   Leave module/layer redesign to an Architecture pass (include Architecture when
-   `harden.mode=dedicated` or class is refine; else promote depth if the change
-   clearly needs it).
+   Leave module/layer redesign to the Architecture laser (**always** included
+   under focused — small diffs included).
 
-### Architecture (optional under focused)
+### Architecture (always under focused)
 
-Include when `harden.mode=dedicated`, class is refine, or depth was promoted.
-Same brief as [axis-briefs.md](axis-briefs.md#architecture).
+Always include. Small diffs use the same structure catalog. Same brief as
+[axis-briefs.md](axis-briefs.md#architecture).
 
 ### Integration (optional)
 

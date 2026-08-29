@@ -39,14 +39,14 @@ as directed there.
 | **Verification** | [testing.md](../implement/testing.md) as an adversarial checklist; comparative adds [rework.md](../implement/rework.md); run touched-area suite + lint |
 | **Testing checklist** | [testing.md](../implement/testing.md) |
 | **Work package types** | Testing (and tiny seam edits required to make a test honest) |
-| **Handoff** | `/harden` when `harden.mode=dedicated`; else Task **In Review** and `/review-fix` |
+| **Handoff** | `/harden` — default; Task **In Review** and `/review-fix` only when the user explicitly skipped harden |
 
 ## Steps
 
-1. **Resolve delivery** — Resolve the Task, spec, Workflow binding, and delivery PR. If `test.mode=skip`, persist Next to the next chain step and stop. Done when the PR is checked out or skip is recorded.
+1. **Resolve delivery** — Resolve the Task, spec, Workflow binding, and delivery PR. If `test.mode=skip` (docs-only or explicit user ask), persist Next `/harden` and stop. Done when the PR is checked out or skip is recorded.
 2. **Hunt gaps** — Walk [testing.md](../implement/testing.md) against the diff and neighbours: missing behaviour tests, missing failure paths, missing regression tests, untestable new design, weakened or skipped tests, coverage regression. Done when every gap is a package or an explicit, documented exception.
 3. **Close gaps** — Add or tighten tests; add a **seam** only when a unit cannot be tested honestly without one. No new product behaviour. Re-run recorded commands. Done when the checklist holds and the suite is green.
-4. **Track and hand off** — If Next is `/review-fix` (`harden.mode=skip`), Task → **In Review**; otherwise stay **In Progress**. Comment the testing outcome, persist **Next**. Done when Task, PR, mirror, and user report agree.
+4. **Track and hand off** — Stay **In Progress**. Comment the testing outcome, persist **Next** `/harden`. Done when Task, PR, mirror, and user report agree.
 
 ## Scope
 
@@ -57,10 +57,10 @@ Out: product behaviour, feature work, and structure-only refactors (`/harden`).
 
 ```markdown
 ## Next
-`/harden <TASK-KEY>` — Structure pass per Workflow binding
+`/harden <TASK-KEY>` — Structure pass (same catalog as implement; small diffs included)
 ```
 
-When `harden.mode=skip`:
+When the user explicitly skipped harden:
 
 ```markdown
 ## Next
