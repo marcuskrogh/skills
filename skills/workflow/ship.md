@@ -24,7 +24,7 @@ detect stage
 | Invoked when | Remaining |
 |--------------|-----------|
 | After define / bug / tweak / refine / rework (To Do, plan ready) | implement → test → harden → review-fix → closeout (sandbox first when `sandbox=inject` and not promotion-ready) |
-| After adopt (route not Done) | `/adopt` — resume the route (inventory if needed, then remaining unit chains) |
+| After adopt (route not Done) | `/adopt` — resume the route (inventory if needed, characterize if the map is not locked, then remaining unit chains) |
 | After sandbox (promotion-ready) | implement → test → harden → review-fix → closeout |
 | After implement (In Progress, PR has impl) | test → harden → review-fix → closeout |
 | After test | harden → review-fix → closeout |
@@ -37,7 +37,7 @@ to run. Done when remaining skills have completed or a hard stop is reported.
 
 Honor bound `test.mode` / `harden.mode` / `review.lasers`. Treat missing skip as
 **dedicated**. Drop a closeout step only when the user explicitly asked to skip
-it (or docs-only for test). Class **adopt** / `ADOPT.md`: do not drop `/test`.
+it (or docs-only for test). Class **adopt** / `ADOPT.md`: do not drop characterize or `/test`.
 
 ## Closeout
 

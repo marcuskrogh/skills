@@ -21,6 +21,8 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
   delivery pull request
 - **adopt** — apply the catalog across an existing codebase that was not built
   to the bar; inventory, sequence, walk one delivery unit at a time until Done
+- **characterize** — map current observable behaviour to tests and prove them
+  green on current code before structure-only edits
 - **seam** — injectable boundary that lets a unit be tested without booting the
   whole system
 
@@ -37,6 +39,9 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 - **Proof is the gate.** A structure-only unit is not done while the suite is red
   relative to its recorded baseline, the suite was not run, or existing tests
   were weakened to pass.
+- **Lock before restructure.** Adopt does not start structural edits on a unit
+  until observable behaviours are mapped to tests that are green on current
+  code. Those tests are the prove commands after edits.
 - **Repo docs win.** Documented ADRs, layering, and naming override generic
   catalog rows.
 - **Named smells are defects.** An actionable named smell in changed code is

@@ -37,7 +37,7 @@ the set; does not start delivery. Want the current step taught?
 
 | If you… | Run | What happens |
 |---------|-----|----------------|
-| Want the structure catalog on a brownfield codebase | `/adopt` | Delegated inventory; walks each area through implement → test → harden → review-fix → ship; suite must prove behaviour unchanged before the next area |
+| Want the structure catalog on a brownfield codebase | `/adopt` | Characterizes current behaviour into tests, then walks implement → test → harden → review-fix → ship per area until Done |
 
 Without an explicit override or continuation: **foggy → explore**, **concrete →
 define**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework`
@@ -83,7 +83,7 @@ continue or ship, not a new map — unless they asked for a walkthrough
 
 ```text
 setup → explore? → define (classify + bind) → [sandbox?] → [bound chain, often implement → test → harden → review-fix → ship]
-brownfield structure:  adopt (inventory → [implement → test → harden → review-fix → ship] per area until Done)
+brownfield structure:  adopt (inventory → [characterize → implement → test → harden → review-fix → ship] per area until Done)
 ```
 
 Explore charts a **map**; research / model commit **finding docs**
@@ -112,9 +112,9 @@ inspectable or comparison, then implement promotes. `/review` is findings-only;
 `/review-fix` runs lasers → fix-forward → **code review** → CLEAN. `/test` and
 `/harden` are the dedicated testing and structure phases before that.
 [`/adopt`](skills/adopt/SKILL.md) applies the same catalog across a codebase that
-was not built to it: delegated inventory, then the bound chain on each area until
-the route is Done. Executable behaviour stays unchanged — the suite must prove
-each unit before the next; `/test` is not skippable.
+was not built to it. Each area **characterizes** current behaviour into tests
+first, then walks the bound chain. Those same tests and requirements are the bar
+after structure; `/test` is not skippable.
 `/summarise` reports status anytime without advancing.
 
 ### Manual overrides vs define
@@ -262,7 +262,7 @@ templates/project-sync/         ← startup sync script template
 | **explore** | user | Clear fog → `ROADMAP.md` + Story + route Tasks (one delivery unit; research/model = finding docs, no separate PRs) |
 | **define** | user | **Front door** for concrete work → align, classify, bind → `PLAN.md` |
 | **bug** / **tweak** / **refine** / **rework** | user | Manual overrides; prefer `/define` for new work |
-| **adopt** | user | Apply the structure catalog across a brownfield tree; keep executable behaviour unchanged; delegated walk of the unit chain per area until Done |
+| **adopt** | user | Apply the structure catalog across a brownfield tree; characterize current behaviour into tests first; delegated walk per area until Done |
 | **research** / **model** | user | Finding docs on delivery branch (no PR; often via define `side_paths`) |
 | **sandbox** | user | Isolated, representative inspect-loop on delivery branch (no PR; inject, mid-implement, or post-merge instead of iterate) |
 | **implement** | user | Build on the **same** delivery branch/PR; tests and structure as-you-go; promotes SANDBOX |

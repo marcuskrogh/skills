@@ -44,14 +44,14 @@ as directed there.
 ## Steps
 
 1. **Resolve delivery** — Resolve the Task, spec, Workflow binding, and delivery PR. If `test.mode=skip` (docs-only or explicit user ask) **and** class is not adopt, persist Next `/harden` and stop. Adopt / `ADOPT.md` → run the pass. Done when the PR is checked out or skip is recorded.
-2. **Hunt gaps** — Walk [testing.md](../implement/testing.md) against the diff and neighbours: missing behaviour tests, missing failure paths, missing regression tests, untestable new design, weakened or skipped tests, coverage regression. Done when every gap is a package or an explicit, documented exception.
-3. **Close gaps** — Add or tighten tests; add a **seam** only when a unit cannot be tested honestly without one. No new product behaviour. Re-run recorded commands. Done when the checklist holds and the suite is green.
+2. **Hunt gaps** — Walk [testing.md](../implement/testing.md) against the diff and neighbours: missing behaviour tests, missing failure paths, missing regression tests, untestable new design, weakened or skipped tests, coverage regression. When spec is `ADOPT.md`, also walk the Behaviour map: every locked row's test still runs with the same expected results. Done when every gap is a package or an explicit, documented exception.
+3. **Close gaps** — Add or tighten tests; add a **seam** only when a unit cannot be tested honestly without one. No new product behaviour. Do not rewrite adopt lock-test expectations to make a restructure green. Re-run recorded commands (on adopt: the lock suite). Done when the checklist holds and the suite is green.
 4. **Track and hand off** — Stay **In Progress**. Comment the testing outcome, persist **Next** `/harden`. Done when Task, PR, mirror, and user report agree.
 
 ## Scope
 
 In: tests, fixtures, fakes, and the smallest seam that makes a test honest.
-Out: product behaviour, feature work, and structure-only refactors (`/harden`).
+Out: product behaviour, feature work, structure-only refactors (`/harden`), and rewriting adopt lock-test expected results.
 
 ## Handoff
 

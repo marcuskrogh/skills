@@ -110,7 +110,7 @@ Structure and testing are the **floor**. Efficiency applies to `review.mode`,
 | User asks for thorough/full review | `review.depth=full`, `review.mode=multiagent` |
 | User asks to skip multiagent / save tokens | prefer `single` + `focused`; **do not** skip test, harden, sequential lasers, or Architecture |
 | User explicitly asks to skip test or harden | that phase only; record the skip on the binding |
-| Class is **adopt** | Walk the route autonomously: inventory (delegated), then each area runs implement → test → harden → review-fix → ship, then the next area, until the route is Done. Force `implement.verify=non-regression` and `test.mode=dedicated`. Refuse `test.mode=skip` even if the user asked — proof is required. `implement.mode=multiagent` when the unit has more than one package or any Moderate/Demanding package. Do not wait for user Next between steps or areas. Do not ship or start the next area until the preserve-behaviour gate holds. Hard stop on a composed skill's hard stop or a failed proof. Closeout params stay on **structure-safe** except `implement.mode` / forced verify+test as above |
+| Class is **adopt** | Walk the route autonomously: inventory (delegated), then each area runs characterize → implement → test → harden → review-fix → ship, then the next area, until the route is Done. Characterize maps current observable behaviour and implements lock tests; structure work does not start until that suite is green on current code. Force `implement.verify=non-regression` and `test.mode=dedicated`. Refuse `test.mode=skip` even if the user asked — proof is required. `implement.mode=multiagent` when the unit has more than one package or any Moderate/Demanding package. Do not wait for user Next between steps or areas. Do not ship or start the next area until the preserve-behaviour gate holds. Hard stop on a composed skill's hard stop or a failed proof. Closeout params stay on **structure-safe** except `implement.mode` / forced verify+test as above |
 
 **Cheapest review breadth that still covers risk wins.** Do not escalate to
 feature-heavy or full multiagent review without a matching override row. Do not
@@ -137,14 +137,14 @@ drop test, harden, or the Architecture/Standards lasers to save tokens.
   - review.lasers: bundled | sequential
   - side_paths: none | research | model | research+model
   - sandbox: none | inject
-- Chain: implement → test → harden → review-fix → ship   # adopt: unit chain per area until Done
+- Chain: implement → test → harden → review-fix → ship   # adopt: characterize → implement → test → harden → review-fix → ship per area
 - Rationale: <one line efficiency + risk; test/harden are the floor>
 ```
 
 Adjust **Chain** when `side_paths` ≠ none (e.g. `research → implement → …`) or
 `sandbox=inject` (e.g. `sandbox → implement → test → harden → review-fix → ship`).
-Class **adopt** is an orchestrator: inventory, then `implement → test → harden → review-fix → ship` per area until the route is Done.
-Adopt does **not** drop `test` (proof is required). Drop `test` on other classes only when `test.mode=skip` (docs-only or explicit user ask). Drop
+Class **adopt** is an orchestrator: inventory, then `characterize → implement → test → harden → review-fix → ship` per area until the route is Done.
+Adopt does **not** drop characterize or `test` (proof is required). Drop `test` on other classes only when `test.mode=skip` (docs-only or explicit user ask). Drop
 `harden` only when the user explicitly asked to skip it. Prefix order:
 side_paths, then sandbox, then implement (or adopt's unit chain).
 

@@ -47,7 +47,7 @@ from this skill; do not load every pipeline skill.
 
 | If you… | Run | What happens |
 |---------|-----|----------------|
-| Want the structure catalog applied across a brownfield codebase | `/adopt` | Delegated inventory; walks each area through implement → test → harden → review-fix → ship; suite must prove behaviour unchanged before the next area |
+| Want the structure catalog applied across a brownfield codebase | `/adopt` | Characterizes current behaviour into tests, then walks implement → test → harden → review-fix → ship per area until Done |
 
 ### Walk, teach, map
 
@@ -68,15 +68,15 @@ infers **class** (bug / tweak / adopt / refine / rework / feature / …), select
 (single vs multiagent implement/review, verify mode, **test and harden as the
 floor**, review depth and lasers, optional research/model side paths, optional
 sandbox inspect-loop), then walks that chain almost deterministically.
-Class **adopt** walks `implement → test → harden → review-fix → ship` per area
-until the route is Done. Executable behaviour stays unchanged: baseline the
-suite, prove each unit before the next, never skip `/test`.
+Class **adopt** walks `characterize → implement → test → harden → review-fix → ship` per area
+until the route is Done. Characterize maps current behaviour into tests first;
+those same tests are the bar after structure. `/test` is not skippable.
 
 ### Closed-loop shape
 
 ```text
 setup → explore? → define (classify + bind) → [sandbox?] → [bound chain: often implement → test → harden → review-fix → ship]
-brownfield structure:  adopt (inventory → [implement → test → harden → review-fix → ship] per area until Done)
+brownfield structure:  adopt (inventory → [characterize → implement → test → harden → review-fix → ship] per area until Done)
 post-merge fix:  ship → iterate → test → harden → review-fix → ship
 post-merge inspect-loop:  ship → sandbox → implement → test → harden → review-fix → ship
 ```

@@ -19,7 +19,7 @@ Axes: **Spec**, **Correctness**, **Integration**, **Architecture**, **Standards*
 - [ ] No scope creep beyond the issue (extra behaviour that should be a new Task)
 - [ ] BUG fixes include regression protection called for in acceptance (test or equivalent)
 - [ ] REFINE keeps executable behaviour unchanged; verification matches Preserve behaviour
-- [ ] ADOPT keeps executable behaviour unchanged; baseline suite still holds (no new fails, tests not weakened)
+- [ ] ADOPT keeps executable behaviour unchanged; Behaviour map rows stay locked (same tests, same expected results)
 - [ ] REWORK meets the parity bar; PR/evidence shows baseline vs candidate comparison (not suite-green alone)
 - [ ] MODEL/PLAN/BUG/TWEAK/REFINE/REWORK/ADOPT numeric or domain constraints reflected at all touchpoints
 

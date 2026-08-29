@@ -29,7 +29,7 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 | **bug** | `BUG.md` linked; not yet In Progress |
 | **tweak** | `TWEAK.md` linked; not yet In Progress |
 | **refine** | `REFINE.md` linked; not yet In Progress |
-| **adopt** | `ADOPT.md` linked; route in flight (inventory, current unit, or remaining areas) |
+| **adopt** | `ADOPT.md` linked; route in flight (inventory, characterize, current unit, or remaining areas) |
 | **rework** | `REWORK.md` linked; not yet In Progress |
 | **iterate** | `ITERATE.md` (or Relates Done prior); building or about to |
 | **research** | `RESEARCH.md`; define not done — Next usually `/define` or `/model` |

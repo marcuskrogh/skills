@@ -90,7 +90,7 @@ After bind, later skills follow the chain **deterministically** via **Next**.
   - review.lasers: bundled | sequential
   - side_paths: none | research | model | research+model
   - sandbox: none | inject
-- Chain: implement → test → harden → review-fix → ship   # adopt: unit chain per area until Done
+- Chain: implement → test → harden → review-fix → ship   # adopt: characterize → implement → test → harden → review-fix → ship
 - Rationale: …
 
 ## Inputs
