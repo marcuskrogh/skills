@@ -1,8 +1,8 @@
 # Structure catalog
 
 Disclosed from [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md). Load when implementing,
-hardening, or reviewing Architecture / Standards. **Repo docs win.** Change size
-does not relax these rows.
+hardening, adopting, or reviewing Architecture / Standards. **Repo docs win.**
+Change size does not relax these rows.
 
 Each row is a checkable bar. A breach in **changed** code with a concrete in-PR
 move is `should-fix`. A documented layering/ADR breach is `blocker`. Optional

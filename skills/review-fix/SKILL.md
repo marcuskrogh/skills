@@ -34,7 +34,7 @@ as directed there.
 | Slot | This skill |
 |------|------------|
 | **Change source** | Task's existing delivery PR |
-| **Spec source** | Task + PLAN / BUG / TWEAK / REFINE / ITERATE + published review findings |
+| **Spec source** | Task + PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / ADOPT + published review findings |
 | **Publish target** | One GitHub **code review** + tracker summary (per-laser findings stay in worker reports until then) |
 | **Checklist / depth** | [review](../review/SKILL.md) full or focused contract + [lasers.md](../review/lasers.md) |
 | **Parallelism / model routing** | Laser workers and fix-forward packages use CONCEPT_DELEGATION |
@@ -69,7 +69,7 @@ Soft non-actionable notes may remain on CLEAN.
 ### Fix-forward constraints
 
 Same Task + same PR; packages = current laser (or code-review) threads **and**
-unresolved actionable notes; higher severity first; scope = review + PLAN/BUG/TWEAK/REFINE
+unresolved actionable notes; higher severity first; scope = review + PLAN/BUG/TWEAK/REFINE/ADOPT
 plus neighbor edits required by a finding. Honor [structure.md](../implement/structure.md)
 and [testing.md](../implement/testing.md) in briefs. After each fix push → stay
 **In Review** + comment. Reply to deferred notes with their out-of-scope reason.

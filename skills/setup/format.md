@@ -112,6 +112,7 @@ Agreed agent workspace setup.
 | Bug | BUG.md |
 | Tweak | TWEAK.md |
 | Refine | REFINE.md |
+| Adopt | ADOPT.md |
 | Rework | REWORK.md |
 | Iterate | ITERATE.md |
 | Model | MODEL.md |
@@ -191,7 +192,7 @@ agent language in this workspace.
 | Key prefix | `MD` |
 | Mirror | `true` |
 | Mirror path | `docs/agents/ISSUES.md` |
-| Roadmap / Plan / Bug / Tweak / Refine / Rework / Iterate / Model / Research / Sandbox | repo root `ROADMAP.md`, `PLAN.md`, `BUG.md`, `TWEAK.md`, `REFINE.md`, `REWORK.md`, `ITERATE.md`, `MODEL.md`, `RESEARCH.md`, `SANDBOX.md`; sandbox tree under `sandbox/` |
+| Roadmap / Plan / Bug / Tweak / Refine / Rework / Adopt / Iterate / Model / Research / Sandbox | repo root `ROADMAP.md`, `PLAN.md`, `BUG.md`, `TWEAK.md`, `REFINE.md`, `REWORK.md`, `ADOPT.md`, `ITERATE.md`, `MODEL.md`, `RESEARCH.md`, `SANDBOX.md`; sandbox tree under `sandbox/` |
 | Base branch | `main` |
 | Open PR | `true` |
 | One delivery PR per Task | `true` |
@@ -203,7 +204,7 @@ agent language in this workspace.
 Regardless of remote tracker, when **Mirror to markdown** is true (recommended):
 
 1. Create/update rows in the mirror file whenever issues are created, transitioned, or handed off.
-2. Always write keys + **Next** into `ROADMAP.md` / `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `SANDBOX.md` / issue bodies.
+2. Always write keys + **Next** into `ROADMAP.md` / `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ADOPT.md` / `ITERATE.md` / `SANDBOX.md` / issue bodies.
 3. Remote tracker remains authoritative for status **except** for `markdown` provider, where issue files are authoritative.
 
 When **Mirror to markdown** is false, the remote tracker is the *only* continuity

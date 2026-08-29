@@ -25,11 +25,12 @@ in-flight or none) and do not write tracker or artifact Next.
 | bug | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | tweak | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | refine | `/implement <Task>` (or `/ship <Task>` for remaining) |
+| adopt | `/test <Task>` after frontier apply (or `/adopt` on the next area Task after ship) |
 | rework | `/implement <Task>` (or `/ship <Task>` for remaining) |
 | research | `/model <Task>` or `/define <Task>` |
 | model | `/define <Task>` (or `/implement` if PLAN exists) |
 | sandbox | `/sandbox <Task>` (delta) or `/implement <Task>` (promote) |
-| define | `/implement <Task>` (or first Chain step from Workflow binding; or `/ship`) |
+| define | `/implement <Task>` (or `/adopt` when class is adopt; or first Chain step from Workflow binding; or `/ship`) |
 | implement | `/test <Task>` (then `/harden`; or `/ship`) |
 | test | `/harden <Task>` |
 | harden | `/review-fix <Task>` |
@@ -51,16 +52,17 @@ in-flight or none) and do not write tracker or artifact Next.
 | bug | Related Task/Story if linked; codebase pointers from user |
 | tweak | Related Task/Story if linked; codebase pointers from user |
 | refine | Related Task/Story if linked; thin area description + codebase pointers from user |
+| adopt | Tree root (repo or named subtree); `ADOPT.md` when continuing; PLAN when class is adopt; structure catalog |
 | rework | Related Task/Story if linked; thin area description + parity bar pointers from user |
 | iterate | Prior shipped Task + merged PR + PLAN/BUG/TWEAK/REFINE/REWORK/prior ITERATE; fork to sandbox when inspect-loop |
 | research / model | Task (+ Story), ROADMAP, sibling artifacts — research is supportive |
 | sandbox | Task (+ Story), PLAN/REWORK, existing `SANDBOX.md` + isolation tree — inspect-loop; post-merge: prior shipped Task |
 | define | Task (+ Story), ROADMAP, RESEARCH/MODEL/SANDBOX as **supportive** — still probe the user; then classify + bind workflow |
-| implement | Task + Sub-tasks, PLAN / BUG / TWEAK / REFINE / REWORK, `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` when present (esp. docs and promote packages), **existing delivery branch/PR**, test/lint commands (rework → comparative eval) |
-| test | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + implement testing notes |
-| harden | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + structure catalog |
-| review / review-fix | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + `SANDBOX.md` when present |
-| ship | Task + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE + `SANDBOX.md` when present + delivery branch/PR; detect stage |
+| implement | Task + Sub-tasks, PLAN / BUG / TWEAK / REFINE / REWORK / ADOPT, `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` when present (esp. docs and promote packages), **existing delivery branch/PR**, test/lint commands (rework → comparative eval) |
+| test | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/ADOPT + implement testing notes |
+| harden | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/ADOPT + structure catalog |
+| review / review-fix | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/ADOPT + `SANDBOX.md` when present |
+| ship | Task + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/ADOPT + `SANDBOX.md` when present + delivery branch/PR; detect stage |
 | summarise | Task + artifacts needed for stage inference |
 | help | None required — catalog overview; no Task advance |
 | guide | Named task; in-flight Task artifacts only when that work is being walked; no Task advance |

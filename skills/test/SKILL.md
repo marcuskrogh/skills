@@ -32,7 +32,7 @@ as directed there.
 
 | Slot | This skill |
 |------|------------|
-| **Spec source** | Task + PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE + implement packages already on the PR |
+| **Spec source** | Task + PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / ADOPT + implement packages already on the PR |
 | **Workflow binding** | Honor `test.mode` and `implement.verify`; `test.mode=skip` (docs-only or explicit user ask) → persist Next `/harden` without a testing pass |
 | **Branch naming** | Reuse Task delivery branch |
 | **Delivery** | Push test/seam changes to the same PR; leave merge to ship |

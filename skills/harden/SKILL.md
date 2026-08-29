@@ -12,7 +12,8 @@ disable-model-invocation: true
 
 Applies [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md) as a dedicated
 shipping-phase pass on the **same** delivery pull request. Distinct from
-`/refine` (a work **class**): harden is a closeout phase of the current Task.
+`/refine` (a work **class**) and `/adopt` (brownfield whole-tree): harden is a
+closeout phase of the current Task.
 
 **On invoke:** read CONCEPT_STRUCTURE above,
 [../concepts/STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md),
@@ -32,7 +33,7 @@ as directed there.
 
 | Slot | This skill |
 |------|------------|
-| **Spec source** | Task + PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE + current PR diff |
+| **Spec source** | Task + PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / ADOPT + current PR diff |
 | **Catalog** | [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md) |
 | **Scope** | Changed hunks always; surrounding module when a hunk made a neighbour worse |
 | **Workflow binding** | Honor `harden.mode`; `harden.mode=skip` only when the user explicitly asked — then Task **In Review**, Next `/review-fix`, no structure pass. Default is **dedicated**, including small diffs. |

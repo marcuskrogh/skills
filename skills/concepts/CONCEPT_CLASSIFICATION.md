@@ -15,8 +15,8 @@ Catalogs (classes, templates, discriminators, default params):
 
 ## Leading words
 
-- **class** — closed label for the kind of work (`bug`, `tweak`, `refine`,
-  `rework`, `feature`, …)
+- **class** — closed label for the kind of work (`bug`, `tweak`, `adopt`,
+  `refine`, `rework`, `feature`, …)
 - **binding** — selected workflow **template** plus **parameters**
 - **discriminator** — ordered, checkable signal that separates classes
 - **template** — named delivery bundle (implement/review/verify shape)
@@ -35,8 +35,8 @@ Catalogs (classes, templates, discriminators, default params):
   `focused`, multiagent vs single) — or confidence is not high.
 - **Bind once.** After the binding is persisted on the artifact + tracker,
   implement / review / ship read it; they do not re-infer class from vibes.
-- **Explicit override wins.** User-named `/bug`, `/tweak`, … or an explicit
-  class correction replaces the inferred class for that Task.
+- **Explicit override wins.** User-named `/bug`, `/tweak`, `/adopt`, … or an
+  explicit class correction replaces the inferred class for that Task.
 
 ## Extensions
 

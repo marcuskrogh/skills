@@ -5,7 +5,7 @@ description: >-
   packages. Reuses the Task's delivery branch/PR, honors PLAN.md Workflow
   binding when present, enforces tests and structure as-you-go, and hands
   off to the bound testing phase. Use for an approved PLAN.md, BUG.md,
-  TWEAK.md, REFINE.md, REWORK.md, ITERATE.md, or review fix-forward.
+  TWEAK.md, REFINE.md, REWORK.md, ITERATE.md, ADOPT.md, or review fix-forward.
 disable-model-invocation: true
 ---
 
@@ -37,10 +37,10 @@ as directed there.
 
 | Slot | This skill |
 |------|------------|
-| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs; load `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` from PLAN Inputs or delivery branch when present |
+| **Spec source** | Tracker Task + Sub-tasks + `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `ADOPT.md` / linked specs; load `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` from PLAN Inputs or delivery branch when present |
 | **Workflow binding** | `PLAN.md` `## Workflow` when present; else legacy fallback in [CLASSIFICATION-CATALOG.md](../concepts/CLASSIFICATION-CATALOG.md#legacy-fallback) |
 | **Branch naming** | WORKSPACE pattern — **reuse** Task delivery branch if it exists |
-| **Delivery** | **Same** PR as define/bug/tweak/refine/rework when one exists (or branch-only per WORKSPACE); research/model/sandbox may have started the branch without a PR |
+| **Delivery** | **Same** PR as define/bug/tweak/refine/rework/adopt when one exists (or branch-only per WORKSPACE); research/model/sandbox may have started the branch without a PR |
 | **Verification** | Per binding `implement.verify`: `tests` → [testing.md](testing.md); `non-regression` → behaviour unchanged + testing.md; `comparative` → [rework.md](rework.md) + testing.md. Plus [structure.md](structure.md) **manager gate**, lint, plan checklist, sub-task completion |
 | **Testing checklist** | [testing.md](testing.md); comparative adds [rework.md](rework.md) |
 | **Structure checklist** | [structure.md](structure.md) + [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md) |
@@ -62,7 +62,7 @@ as directed there.
 2. `PLAN.md` **Workflow** / **Classification** binding (do not override without user ask)
 3. Sub-task descriptions
 4. Task description
-5. `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / linked specs
+5. `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `ADOPT.md` / linked specs
 6. `RESEARCH.md` / `MODEL.md` on the delivery branch (PLAN Inputs) — supportive finding docs; use when formulating product docs, rationale, or domain-facing copy
 7. `SANDBOX.md` on the delivery branch — promotion input for the sandboxed element; production paths follow its Promote map
 8. User paste

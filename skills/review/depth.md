@@ -24,7 +24,7 @@ Sequential vs bundled spawn order: [lasers.md](lasers.md).
 | User names full / thorough / all-axes | **full** |
 | `PLAN.md` feature work with multi-package scope, new modules/layers, wide blast radius, or structural/ADR risk (no binding) | **full** |
 | Diff touches many packages or public API / schema / migration surface as the main change (no binding) | **full** |
-| `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` (default) | **focused** |
+| `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `ADOPT.md` (default) | **focused** |
 | `PLAN.md` but small localized slice (few files, one concern, no new layers) (no binding) | **focused** |
 | Ambiguous | **focused** for bug/tweak/refine/rework/iterate; **full** for unbound feature `PLAN.md` |
 

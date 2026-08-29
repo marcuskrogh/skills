@@ -9,7 +9,8 @@ pointer fires.
 Keep every changed unit at least as well structured as its neighbours, and meet
 the catalog bar on new code — **including small diffs**. **implement** applies
 this as-you-go and gates closeout; **harden** applies it as a shipping-phase
-pass on every bound Task; Architecture and Standards **lasers** enforce it at
+pass on every bound Task; **adopt** applies it across an existing tree that was
+not built to the bar; Architecture and Standards **lasers** enforce it at
 closeout.
 
 Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
@@ -18,6 +19,8 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 
 - **harden** — shipping-phase, behaviour-preserving structure pass on the
   delivery pull request
+- **adopt** — apply the catalog across an existing codebase that was not built
+  to the bar; inventory, sequence, apply one delivery unit at a time
 - **seam** — injectable boundary that lets a unit be tested without booting the
   whole system
 
@@ -28,8 +31,9 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
   Change size does not relax the catalog.
 - **Every change size.** A one-hunk bugfix meets the same catalog as a feature.
   Small is not a skip.
-- **Behaviour preserved on harden.** Harden changes structure, naming, layering,
-  and comments only. Executable behaviour stays the same; the suite proves it.
+- **Behaviour preserved on structure-only passes.** Harden and adopt change
+  structure, naming, layering, and comments only. Executable behaviour stays the
+  same; the suite proves it.
 - **Repo docs win.** Documented ADRs, layering, and naming override generic
   catalog rows.
 - **Named smells are defects.** An actionable named smell in changed code is
@@ -46,7 +50,7 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 | Slot | Required | Purpose |
 |------|----------|---------|
 | **Catalog** | must | Principle rows ([STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md)) |
-| **Scope** | may | Changed hunks vs surrounding module |
+| **Scope** | may | Changed hunks, surrounding module, or sequenced brownfield tree |
 | **Verification** | may | How behaviour-preservation is proved after structural edits |
 
 ## Flow
