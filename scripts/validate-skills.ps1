@@ -199,11 +199,57 @@ if (Test-Path $pluginJson) {
 
     foreach ($path in $onDisk) {
         if ($path -notin $declared) {
-            Write-Host "WARN: skill on disk not declared in plugin.json: $path"
+            $msg = "skill on disk not declared in plugin.json: $path"
+            if ($path -in @('./skills/test', './skills/harden')) {
+                Write-Host "FAIL: $msg"
+                $script:errors++
+            } else {
+                Write-Host "WARN: $msg"
+            }
         }
     }
 } else {
     Write-Host "WARN: .claude-plugin/plugin.json missing"
+}
+
+# Shipping-phase floor: every template defaults test + harden to dedicated.
+$catalogPath = Join-Path $ConceptsDir "CLASSIFICATION-CATALOG.md"
+if (-not (Test-Path $catalogPath)) {
+    Write-Host "FAIL: Missing classification catalog: $catalogPath"
+    $script:errors++
+} else {
+    $catalog = Get-Content -Path $catalogPath -Raw
+    $closeoutAt = $catalog.IndexOf('**Closeout**')
+    if ($closeoutAt -lt 0) {
+        Write-Host "FAIL: CLASSIFICATION-CATALOG.md missing Closeout defaults table"
+        $script:errors++
+    } else {
+        $closeout = $catalog.Substring($closeoutAt)
+        $templates = @(
+            'fix-fast',
+            'delta-fast',
+            'structure-safe',
+            'parity-iterative',
+            'feature-standard',
+            'feature-heavy'
+        )
+        $floorOk = $true
+        foreach ($t in $templates) {
+            $row = [regex]::Match($closeout, "(?m)^\s*\|\s*$t\s*\|\s*(\S+)\s*\|\s*(\S+)\s*\|")
+            if (-not $row.Success) {
+                Write-Host "FAIL: Closeout defaults missing template $t"
+                $script:errors++
+                $floorOk = $false
+            } elseif ($row.Groups[1].Value -ne 'dedicated' -or $row.Groups[2].Value -ne 'dedicated') {
+                Write-Host "FAIL: Closeout floor for $t must be test.mode=dedicated and harden.mode=dedicated (got $($row.Groups[1].Value) / $($row.Groups[2].Value))"
+                $script:errors++
+                $floorOk = $false
+            }
+        }
+        if ($floorOk) {
+            Write-Host "OK: Closeout floor (test + harden dedicated) for all templates"
+        }
+    }
 }
 
 if ($errors -gt 0) {

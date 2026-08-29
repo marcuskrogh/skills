@@ -3,8 +3,8 @@ name: test
 description: >-
   Testing phase after implement: adversarial coverage, failure-path, and
   testability pass on the delivery PR. Adds or tightens tests and seams only —
-  no new product behaviour. Hands off to harden or review-fix. Use when the
-  bound chain's testing phase is next, or to run that phase explicitly.
+  no new product behaviour. Hands off to harden. Use when the bound chain's
+  testing phase is next, or to run that phase explicitly.
 disable-model-invocation: true
 ---
 
@@ -33,7 +33,7 @@ as directed there.
 | Slot | This skill |
 |------|------------|
 | **Spec source** | Task + PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE + implement packages already on the PR |
-| **Workflow binding** | Honor `test.mode` and `implement.verify`; `test.mode=skip` → persist Next to `/harden` or `/review-fix` without a testing pass |
+| **Workflow binding** | Honor `test.mode` and `implement.verify`; `test.mode=skip` (docs-only or explicit user ask) → persist Next `/harden` without a testing pass |
 | **Branch naming** | Reuse Task delivery branch |
 | **Delivery** | Push test/seam changes to the same PR; leave merge to ship |
 | **Verification** | [testing.md](../implement/testing.md) as an adversarial checklist; comparative adds [rework.md](../implement/rework.md); run touched-area suite + lint |
