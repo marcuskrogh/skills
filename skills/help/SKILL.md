@@ -47,7 +47,7 @@ from this skill; do not load every pipeline skill.
 
 | If you… | Run | What happens |
 |---------|-----|----------------|
-| Want the structure catalog applied across a brownfield codebase | `/adopt` | Delegated inventory; walks each area through implement → test → harden → review-fix → ship until Done |
+| Want the structure catalog applied across a brownfield codebase | `/adopt` | Delegated inventory; walks each area through implement → test → harden → review-fix → ship; suite must prove behaviour unchanged before the next area |
 
 ### Walk, teach, map
 
@@ -69,7 +69,8 @@ infers **class** (bug / tweak / adopt / refine / rework / feature / …), select
 floor**, review depth and lasers, optional research/model side paths, optional
 sandbox inspect-loop), then walks that chain almost deterministically.
 Class **adopt** walks `implement → test → harden → review-fix → ship` per area
-until the route is Done (delegated inventory and packages; no wait between areas).
+until the route is Done. Executable behaviour stays unchanged: baseline the
+suite, prove each unit before the next, never skip `/test`.
 
 ### Closed-loop shape
 

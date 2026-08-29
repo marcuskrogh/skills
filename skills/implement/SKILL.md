@@ -109,8 +109,8 @@ Prefer the next step in the bound **Chain**. Default after Build:
 `/test <TASK-KEY>` — Dedicated testing phase, then harden, then laser code review
 ```
 
-When `test.mode=skip` (docs-only or explicit user ask), Next is `/harden`.
-Do not skip `/harden` from implement. Fix-forward invoked from review-fix
+When `test.mode=skip` (docs-only or explicit user ask) and class is not adopt, Next is `/harden`.
+Adopt / `ADOPT.md` always Next `/test`. Do not skip `/harden` from implement. Fix-forward invoked from review-fix
 returns to that orchestrator — do not rewrite Next to `/test`.
 
 (Use `/ship <TASK-KEY>` to finish remaining along the bound chain.)

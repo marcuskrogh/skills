@@ -37,7 +37,7 @@ to run. Done when remaining skills have completed or a hard stop is reported.
 
 Honor bound `test.mode` / `harden.mode` / `review.lasers`. Treat missing skip as
 **dedicated**. Drop a closeout step only when the user explicitly asked to skip
-it (or docs-only for test).
+it (or docs-only for test). Class **adopt** / `ADOPT.md`: do not drop `/test`.
 
 ## Closeout
 

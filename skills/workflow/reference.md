@@ -37,7 +37,7 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | Skill | Entry | Produces | Default Next |
 |-------|-------|----------|--------------|
 | **explore** | Foggy initiative | `ROADMAP.md` + Story + typed route Tasks | Frontier skill by Order |
-| **adopt** | Brownfield tree not built to the structure bar | `ADOPT.md` + Task (or Story + area Tasks); delegated inventory; unit chain per area until the route is Done | none (or the blocking skill on a hard stop) |
+| **adopt** | Brownfield tree not built to the structure bar | `ADOPT.md` + Task (or Story + area Tasks); delegated inventory; unit chain per area until the route is Done; prove behaviour before each advance | none (or the blocking skill on a hard stop) |
 | **bug** | Defect; fix is the work | `BUG.md` + Task + delivery branch/PR | `/implement` |
 | **tweak** | Small intentional change to existing behaviour | `TWEAK.md` + Task + delivery branch/PR | `/implement` |
 | **refine** | Bounded structural/descriptive improvement; behaviour unchanged | `REFINE.md` + Task + delivery branch/PR | `/implement` |

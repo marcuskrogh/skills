@@ -34,6 +34,9 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 - **Behaviour preserved on structure-only passes.** Harden and adopt change
   structure, naming, layering, and comments only. Executable behaviour stays the
   same; the suite proves it.
+- **Proof is the gate.** A structure-only unit is not done while the suite is red
+  relative to its recorded baseline, the suite was not run, or existing tests
+  were weakened to pass.
 - **Repo docs win.** Documented ADRs, layering, and naming override generic
   catalog rows.
 - **Named smells are defects.** An actionable named smell in changed code is
@@ -60,5 +63,6 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 2. **Apply** — Check each changed unit against the catalog, including small
    diffs. Done when every breach has a concrete move or an explicit, documented
    exception.
-3. **Prove** — Re-run the touched-area suite (and lint) after structural edits.
-   Done when checks pass.
+3. **Prove** — Re-run the recorded baseline commands (touched-area suite and
+   lint) after structural edits. Done when checks match the baseline (green, or
+   no new fails against a documented known-fail list).
