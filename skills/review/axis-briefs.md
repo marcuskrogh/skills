@@ -45,7 +45,8 @@ Vertical deep-dive — logic bugs, edges, error handling, null/empty, off-by-one
 resource lifecycle, concurrency, idempotency. Horizontal: tests cover new behaviour
 and failure paths; existing tests still match contracts? Prefer `blocker`/`should-fix`
 for real failure modes. Missing/outdated tests for new behaviour → `should-fix`.
-Unexplained tooling failures from the manager run → `blocker`. Micro-optimizations
+The dedicated **testing phase** having run is **not** a reason to skip coverage
+findings. Unexplained tooling failures from the manager run → `blocker`. Micro-optimizations
 with no correctness impact → `note`.
 
 ## Integration
@@ -63,7 +64,7 @@ risk → `note`.
 ## Architecture
 
 Include: context pack + Architecture checklist + architecture pack + neighbor map
-+ package/module tree around changed paths.
++ package/module tree around changed paths + [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md).
 
 **Vertical:** cohesion, responsibility creep, wrong-layer logic, god types growing,
 abstraction leaks, premature frameworks.
@@ -84,9 +85,10 @@ structural fix.
 
 ## Standards
 
-Include: standards pack + smell baseline.
+Include: standards pack + [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md).
 
 Documented standard breaches → `blocker` / `should-fix`. Actionable named smells in
 changed code (clear rename/extract/move) → `should-fix`. Name the smell. Repo
-overrides baseline. Skip tooling-enforced style. Leave structural redesign to
+overrides catalog. Skip tooling-enforced style. Leave structural redesign to
 Architecture. Pure taste without named smell or repo-doc backing → `note`.
+Harden having already run is **not** a reason to demote a remaining smell.

@@ -110,4 +110,4 @@ durable surface.
 `/implement <TASK-KEY>` — Apply per REWORK.md with comparative evaluation on the same delivery branch/PR
 ```
 
-(Or `/ship <TASK-KEY>` to finish remaining: implement → review-fix → closeout.)
+(Or `/ship <TASK-KEY>` to finish remaining along the bound chain.)

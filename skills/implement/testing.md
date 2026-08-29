@@ -63,5 +63,7 @@ coverage_notes: <touched paths covered / gaps remaining>
 testability_notes: <seams used or deliberately not introduced>
 ```
 
-Gaps that remain after the package become **plan items** or re-delegation targets —
-do not silently defer them past verification.
+Gaps that remain after the package become **re-delegation** targets —
+do not silently defer them to `/test`, `/harden`, or review. Change size does
+not relax this list. The bound **testing phase** (`/test`) still runs an
+adversarial pass; in-package tests do not replace it.

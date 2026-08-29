@@ -30,7 +30,7 @@ or pushing to a delivery head.
    default` (reusing the branch if research/model/sandbox already started it).
    After **post-merge sandbox**, **implement** opens that PR. Later
    skills only push to that head. Done when the delivery PR exists and is recorded.
-6. **Same PR through ship.** Implement, review-fix, and ship continue on that
+6. **Same PR through ship.** Implement, test, harden, review-fix, and ship continue on that
    head — update the PR body; do not open a parallel `…-implement-…` or
    ship-only PR.
 7. **Explore charts; it does not open a map-only PR.** Write `ROADMAP.md` on the
@@ -65,7 +65,7 @@ is the active define→ship head (if any).
 | `/refine` | Create Task; start delivery branch when committing `REFINE.md`; Next `/implement` |
 | `/rework` | Create Task; start delivery branch when committing `REWORK.md`; Next `/implement` (comparative) |
 | `/sandbox` | Commit `SANDBOX.md` + isolation tree on delivery branch; **never** open a PR; Next `/sandbox` (delta) or `/implement` (promote). Post-merge: new Task + branch from base, Relates → prior |
-| `/iterate` | New Task + branch + PR from base; Next `/review-fix`. If the delta needs inspect-each-turn, compose `/sandbox` instead |
+| `/iterate` | New Task + branch + PR from base; Next `/test` (or first remaining closeout step). If the delta needs inspect-each-turn, compose `/sandbox` instead |
 | `/define` with no explore Task | Create Task (+ Sub-tasks) as pipeline owner |
 | `/implement` with existing PLAN / BUG / TWEAK / REFINE / REWORK | Allowed; reuse delivery head |
 | Skip define on features | Only when already implementation-ready |

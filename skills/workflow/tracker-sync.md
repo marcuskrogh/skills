@@ -7,10 +7,10 @@ enabled). Load when creating issues, transitioning status, commenting, or closin
 
 ```text
 To Do / Backlog  →  In Progress  →  In Review  →  Done
-  explore/define      implement         implement      ship
-  research/model      iterate           iterate
-  sandbox
-  bug / tweak / refine / rework         review
+  explore/define      implement         harden         ship
+  research/model      iterate           review
+  sandbox             test              review-fix
+  bug / tweak / refine / rework
 ```
 
 ## Matrix
@@ -22,17 +22,19 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 | **tweak** | Task (+ optional Sub-tasks); link TWEAK.md; start delivery branch/PR | Leave **To Do** | Task: TWEAK.md + branch/PR + **Next**; ISSUES | — |
 | **refine** | Task (+ optional Sub-tasks); link REFINE.md; start delivery branch/PR | Leave **To Do** | Task: REFINE.md + branch/PR + **Next**; ISSUES | — |
 | **rework** | Task (+ optional Sub-tasks); link REWORK.md; start delivery branch/PR | Leave **To Do** | Task: REWORK.md + branch/PR + **Next**; ISSUES | — |
-| **iterate** | **New** Task; link ITERATE.md; Relates → prior | In Progress → **In Review** when PR ready | Prior + new Task comments; **Next** `/review-fix`; ISSUES | — (ship closes) |
+| **iterate** | **New** Task; link ITERATE.md; Relates → prior | In Progress (implement/test); **In Review** after harden | Prior + new Task comments; **Next** `/test`; ISSUES | — (ship closes) |
 | **research** | Enrich **delivery** Task; commit `RESEARCH.md` on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | RESEARCH.md path + branch + **Next**; ROADMAP/PLAN/ISSUES | Supportive-only Task after docs are on the delivery branch |
 | **model** | Enrich **delivery** Task; commit `MODEL.md` on delivery branch (**no PR**) | Leave **To Do** on delivery Task unless further along; **Done** when supportive-only route Task completes | MODEL.md path + branch + **Next**; links + ISSUES | Supportive-only Task after docs are on the delivery branch |
 | **sandbox** | Enrich **delivery** Task; commit `SANDBOX.md` + isolation tree on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | SANDBOX.md path + isolation path + branch + **Next**; PLAN/ISSUES | Supportive-only Task after harness is on the delivery branch |
 | **sandbox** (post-merge) | **New** Task; link SANDBOX.md; Relates → prior; branch from base (**no PR**) | Leave **To Do** until implement | Prior + new Task comments; **Next** `/sandbox` or `/implement`; ISSUES | — (ship closes after implement) |
 | **define** | Enrich Task; Sub-tasks per package; start/reuse delivery + draft PR; record Classification + Workflow binding | Stay **To Do** | PLAN.md, class, template/params/chain, branch, PR, Sub-task keys, **Next**; ISSUES | — |
-| **implement** | May add missing Sub-tasks (incl. Testing); **reuse** delivery | Task → In Progress; Sub-tasks → Done as finished; Task → **In Review** | Session + packages + **same** PR + **Next**; ISSUES | Sub-tasks only — not parent |
+| **implement** | May add missing Sub-tasks (incl. Testing); **reuse** delivery | Task → In Progress; Sub-tasks → Done as finished; stay **In Progress** after Build (closeout gate then `/test`) | Session + packages + **same** PR + **Next**; ISSUES | Sub-tasks only — not parent |
 | **implement** (fix-forward) | — | In Progress if needed → **In Review** | Threads addressed + **Next**; ISSUES | — |
-| **review** | — | Must already be **In Review**; do not Done | Depth + summary + **Next**; ISSUES | — |
-| **review-fix** | — | Review publish + fix-forward status (single pass) | After review and after fix-forward; ISSUES | — (ship closes) |
-| **ship** | May compose sandbox / implement / review-fix first | See [ship.md](ship.md) | Task + Story; pre-merge continuity on delivery branch | **Yes** after CLEAN — merge **that** PR; close Task / Sub-tasks / Story when complete |
+| **test** | May add Testing Sub-tasks | Stay **In Progress**; Next `/harden` | Testing outcome + **Next**; ISSUES | — |
+| **harden** | May add Harden Sub-tasks | **In Review** when the structure pass completes (or skip) | Harden outcome + **Next** `/review-fix`; ISSUES | — |
+| **review** | — | Must already be **In Review**; do not Done | Depth + lasers + summary + **Next**; ISSUES | — |
+| **review-fix** | — | Laser + code-review publish + fix-forward status | After lasers, after code review, and after fix-forward; ISSUES | — (ship closes) |
+| **ship** | May compose sandbox / implement / test / harden / review-fix first | See [ship.md](ship.md) | Task + Story; pre-merge continuity on delivery branch | **Yes** after CLEAN — merge **that** PR; close Task / Sub-tasks / Story when complete |
 | **summarise** | — | Read-only (may fix stale mirror **Next** text) | — | — |
 | **guide** | — | — | Chat Next only (resume in-flight) | — |
 | **explain** | — | — | Chat Next only (resume in-flight) | — |

@@ -2,7 +2,8 @@
 
 Disclosed reference for [review](SKILL.md). Choose **depth** after the
 investigation context pack is ready; then spawn only the workers that depth
-requires. Severity stays **fix-biased** per
+requires. **Laser** mode is chosen per [lasers.md](lasers.md). Severity stays
+**fix-biased** per
 [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md). Axis detail lives in
 [axis-briefs.md](axis-briefs.md) and [checklist.md](checklist.md).
 
@@ -10,10 +11,11 @@ requires. Severity stays **fix-biased** per
 
 Pick the **first matching** row. Record `depth: full | focused` and a one-line
 reason in the tracker comment. When `PLAN.md` has `## Workflow`, **honor
-`review.depth` and `review.mode`** from the binding (do not re-guess from class
-vibes). Map `review.mode=multiagent` → workers per **full**; `review.mode=single`
-→ workers per **focused** (unless depth was explicitly `full` with single-mode
-Core-only — still use the depth worker map below).
+`review.depth`, `review.mode`, and `review.lasers`** from the binding (do not
+re-guess from class vibes). Map `review.mode=multiagent` → workers per **full**;
+`review.mode=single` → workers per **focused** (unless depth was explicitly
+`full` with single-mode Core-only — still use the depth worker map below).
+Sequential vs bundled spawn order: [lasers.md](lasers.md).
 
 | Signal | Depth |
 |--------|-------|
@@ -34,8 +36,8 @@ user explicitly locked a focused binding and reaffirms it.
 
 | Depth | Workers | Axes covered |
 |-------|---------|--------------|
-| **full** | Five parallel `generalPurpose` — one per axis | Spec, Correctness, Integration, Architecture, Standards |
-| **focused** | One **Core** worker; add **Integration** when contracts are in blast radius | Core = Spec (if pack non-empty) + Correctness + light Standards in changed hunks; optional second = Integration |
+| **full** | Five `generalPurpose` — one per axis (parallel when bundled; one-at-a-time when sequential) | Spec, Correctness, Integration, Architecture, Standards |
+| **focused** | **Core** + **Architecture** always; add **Integration** when contracts are in blast radius | Core = Spec (if pack non-empty) + Correctness + light Standards in changed hunks; Architecture always; optional Integration |
 
 Empty Spec pack → skip Spec content inside Core / skip Spec worker under full; still run the other included axes. Ask once if everything is empty of intent.
 
@@ -52,6 +54,7 @@ is enough.
 |--------|---------|----------------------|
 | Core | Mid | Concurrency/races, security, subtle algorithms, unexplained tooling failures, conflicting acceptance |
 | Integration | Mid | Authz, migrations, public API/schema breaks, multi-service contracts |
+| Architecture | Mid | New layers/modules, cycles, ADR conflicts, large structural shift |
 
 Full-depth per-axis defaults stay in [SKILL.md](SKILL.md).
 
@@ -72,10 +75,16 @@ Include: context pack + Spec checklist (if pack non-empty) + Correctness checkli
 2. **Correctness** — logic, edges, errors, races, tests; unexplained tooling
    failures → `blocker`.
 3. **Standards (light)** — actionable named smells or documented convention
-   breaches in changed code only. Leave module/layer redesign to a **full**
-   Architecture pass (promote depth if the change clearly needs it).
+   breaches in changed code only, per [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md).
+   Leave module/layer redesign to the Architecture laser (**always** included
+   under focused — small diffs included).
 
-### Integration (optional second)
+### Architecture (always under focused)
+
+Always include. Small diffs use the same structure catalog. Same brief as
+[axis-briefs.md](axis-briefs.md#architecture).
+
+### Integration (optional)
 
 Include: context pack + Integration checklist + neighbor map. Same brief as
 [axis-briefs.md](axis-briefs.md#integration). Do not expand into Architecture.

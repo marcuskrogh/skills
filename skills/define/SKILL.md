@@ -82,11 +82,14 @@ After bind, later skills follow the chain **deterministically** via **Next**.
   - implement.mode: single | multiagent
   - implement.verify: tests | non-regression | comparative
   - implement.iteration: one-shot | until-bar
+  - test.mode: skip | dedicated
+  - harden.mode: skip | dedicated
   - review.mode: single | multiagent
   - review.depth: focused | full
+  - review.lasers: bundled | sequential
   - side_paths: none | research | model | research+model
   - sandbox: none | inject
-- Chain: implement → review-fix → ship
+- Chain: implement → test → harden → review-fix → ship
 - Rationale: …
 
 ## Inputs
