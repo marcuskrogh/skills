@@ -52,7 +52,7 @@ become so after harden).
 ## Steps
 
 1. **Resolve delivery** — Resolve the issue and its existing PR through delivery continuity; require review readiness and configured auth. Done when one Task/PR pair is ready or a concrete stop is reported.
-2. **Lasers** — Run [lasers.md](../review/lasers.md) at bound depth/mode. After each sequential laser (or after the bundle), promote actionable notes to must-fix and run [implement](../implement/SKILL.md) fix-forward on those threads. Re-run the touched-area suite. Done when included lasers are complete or a named hard stop remains.
+2. **Lasers** — Run [lasers.md](../review/lasers.md) at bound depth/mode. After each sequential laser (or after the bundle), promote actionable notes to must-fix and run [implement](../implement/SKILL.md) fix-forward on those threads. Re-run the touched-area suite (on `ADOPT.md`: lock suite **and** working-surface commands). Done when included lasers are complete or a named hard stop remains.
 3. **Code review** — Manager merge + publish per [review](../review/SKILL.md) **code review**. If the event is `REQUEST_CHANGES`, one more fix-forward. Done when the durable PR review exists and must-fix are addressed (**CLEAN**) or unresolved findings are named (**FAILED**).
 4. **Track and hand off** — Apply the review-fix tracker row, keep the Task **In Review**, update ISSUES, and persist **Next**. Done when Task, PR, mirror, and user report agree on CLEAN/FAILED and its Handoff.
 

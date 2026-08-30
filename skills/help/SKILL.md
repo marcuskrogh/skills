@@ -69,8 +69,9 @@ infers **class** (bug / tweak / adopt / refine / rework / feature / …), select
 floor**, review depth and lasers, optional research/model side paths, optional
 sandbox inspect-loop), then walks that chain almost deterministically.
 Class **adopt** walks `characterize → implement → test → harden → review-fix → ship` per area
-until the route is Done. Characterize maps current behaviour into tests first;
-those same tests are the bar after structure. `/test` is not skippable.
+until the route is Done. Characterize maps current behaviour into tests first,
+including startable frontend and backend; those same tests are the bar after
+structure. `/test` is not skippable.
 
 ### Closed-loop shape
 
