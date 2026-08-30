@@ -11,17 +11,19 @@ This workflow's verification slot is [CONCEPT_STRUCTURE](../concepts/CONCEPT_STR
 
 | Gate | Check | Fail → |
 |------|--------|--------|
-| **Characterize** | [characterize.md](characterize.md) map + lock suite green on **current** code before any structure package. | Hard stop; do not start implement structure |
-| **Baseline** | Lock-suite commands and result from characterize are the unit baseline. | Hard stop if characterize has not run |
+| **Characterize** | [characterize.md](characterize.md) map + lock suite **and** working-surface commands green on **current** code before any structure package. | Hard stop; do not start implement structure |
+| **Baseline** | Lock-suite commands, working-surface commands, and result from characterize are the unit baseline. | Hard stop if characterize has not run |
+| **Working surfaces** | Baseline includes every surface the area owns: startable backend, startable frontend, composed client-server path. Re-run after every code-editing step. | Hard stop if a surface does not start, a mapped UI/API flow fails, or working-surface commands are missing from the baseline |
 | **After every code-editing step** | Re-run those same commands after implement, test, harden, and review-fix. Same requirements, same expected results. | Hard stop on new fails, rewritten expectations, skipped/weakened lock tests, or a missing run |
-| **Dedicated test** | `test.mode=dedicated` and `implement.verify=non-regression`. `/test` after structure hunts gaps; it does not replace characterize. | Do not honour `test.mode=skip` |
+| **Dedicated test** | `test.mode=dedicated` and `implement.verify=non-regression`. `/test` after structure hunts gaps (including working surfaces); it does not replace characterize. | Do not honour `test.mode=skip` |
 | **Advance** | Ship and the next area wait until the gate holds. | Do not mark the area done; do not start the next area |
 
 A package that changes observable behaviour, or that edits lock-test
 expectations to pass, is out of scope (tweak / rework / feature). Revert it or
 hard-stop.
 
-Worker briefs include the behaviour map, lock-suite commands, and this gate.
+Worker briefs include the behaviour map, lock-suite commands, working-surface
+commands, and this gate.
 
 ## Unit chain (fixed)
 
@@ -77,7 +79,7 @@ CONCEPT_DELEGATION; pass a catalog `model` on every `Task` type.
 |------|----------|------------------|--------------|
 | Inventory scan | `explore` | Mid (small, well-seamed dir → Routine / low) | Unfamiliar large area, ambiguous seams, or cycles → high |
 | Characterize map | `explore` | Mid | Ambiguous seams, undocumented public behaviour → high |
-| Characterize lock tests | per [implement](../implement/SKILL.md#work-packages) Testing row | Mid | No harness, flaky area, concurrency → high |
+| Characterize lock tests | per [implement](../implement/SKILL.md#work-packages) Testing row | Mid | No harness, flaky area, concurrency, startable UI/service with no E2E → high |
 | Implementation | per implement table | Mid | same table |
 | Testing | per implement Testing row | Mid | same table |
 | Harden | per implement Harden row | Mid | same table |
@@ -87,5 +89,8 @@ package is Moderate or Demanding. One Routine package may stay on the manager.
 
 Inventory and characterize-map workers may run **in parallel** across
 independent areas. Each characterize brief: area path, seams to map, existing
-tests, [testing.md](../implement/testing.md). Return shape = behaviour-map rows
-+ lock tests + suite commands. Manager merges; sequence stays [inventory.md](inventory.md).
+tests, working surfaces to prove, [testing.md](../implement/testing.md). Return
+shape = behaviour-map rows + lock tests + suite commands + working-surface
+commands. Manager merges; sequence stays [inventory.md](inventory.md).
+GUI working-surface proof stays on the manager when the harness manager path
+covers it; spawn `computerUse` only when a worker must drive the UI.

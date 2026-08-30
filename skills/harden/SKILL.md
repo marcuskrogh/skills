@@ -39,7 +39,7 @@ as directed there.
 | **Workflow binding** | Honor `harden.mode`; `harden.mode=skip` only when the user explicitly asked — then Task **In Review**, Next `/review-fix`, no structure pass. Default is **dedicated**, including small diffs. |
 | **Branch naming** | Reuse Task delivery branch |
 | **Delivery** | Push structural edits to the same PR; leave merge to ship |
-| **Verification** | Suite + lint stay green; executable behaviour unchanged |
+| **Verification** | Suite + lint stay green; executable behaviour unchanged; on `ADOPT.md`, re-run lock-suite **and** working-surface commands |
 | **Structure checklist** | [structure.md](../implement/structure.md) |
 | **Work package types** | Harden (extract, rename, move, split, invert, asserting test); no behaviour change |
 | **Handoff** | `/review-fix` — lasers then **code review** |
@@ -48,7 +48,7 @@ as directed there.
 
 1. **Resolve delivery** — Resolve the Task, spec, Workflow binding, and delivery PR. If `harden.mode=skip` **and** the user explicitly asked to skip, transition **In Review**, persist Next `/review-fix`, and stop. A missing skip on the binding → run the pass. Done when the PR is checked out or an explicit skip is recorded.
 2. **Scan** — Apply the structure catalog to the diff (and neighbours the change worsened). Each breach is a concrete extract / rename / move / split / invert / asserting test. Small diffs use the same catalog. Done when every catalog breach is a package or a documented exception.
-3. **Apply** — Run Harden packages; include [structure.md](../implement/structure.md) in briefs. Behaviour stays the same. Re-run the touched-area suite + lint. Done when remaining breaches are documented exceptions and checks pass.
+3. **Apply** — Run Harden packages; include [structure.md](../implement/structure.md) in briefs. Behaviour stays the same. Re-run the touched-area suite + lint. When spec is `ADOPT.md`, also re-run the recorded lock suite and working-surface commands. Done when remaining breaches are documented exceptions and checks pass.
 4. **Track and hand off** — Task → **In Review**, comment the harden outcome, persist **Next** `/review-fix`. Done when Task, PR, mirror, and user report agree.
 
 ## Scope

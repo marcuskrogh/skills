@@ -252,6 +252,36 @@ if (-not (Test-Path $catalogPath)) {
     }
 }
 
+# Adopt / test working-surface proof: startable frontend and backend stay in the bar.
+$workingSurfaceChecks = @(
+    @{ Path = (Join-Path (Join-Path $SkillsDir "adopt") "characterize.md"); Need = @('working surface', 'backend', 'frontend', 'composed') },
+    @{ Path = (Join-Path (Join-Path $SkillsDir "adopt") "route.md"); Need = @('Working surfaces', 'startable backend', 'startable frontend') },
+    @{ Path = (Join-Path (Join-Path $SkillsDir "implement") "testing.md"); Need = @('## Working surfaces', 'working_surfaces:') },
+    @{ Path = (Join-Path $ConceptsDir "CONCEPT_STRUCTURE.md"); Need = @('working surface', 'Lock before restructure') },
+    @{ Path = (Join-Path $ConceptsDir "CONCEPT_IMPLEMENTATION.md"); Need = @('working surface') },
+    @{ Path = (Join-Path (Join-Path $SkillsDir "test") "SKILL.md"); Need = @('working surface') }
+)
+$wsOk = $true
+foreach ($check in $workingSurfaceChecks) {
+    if (-not (Test-Path $check.Path)) {
+        Write-Host "FAIL: Missing working-surface file: $($check.Path)"
+        $script:errors++
+        $wsOk = $false
+        continue
+    }
+    $text = Get-Content -Path $check.Path -Raw
+    foreach ($need in $check.Need) {
+        if ($text.IndexOf($need) -lt 0) {
+            Write-Host "FAIL: $($check.Path) must contain '$need' (working-surface proof)"
+            $script:errors++
+            $wsOk = $false
+        }
+    }
+}
+if ($wsOk) {
+    Write-Host "OK: Adopt/test working-surface proof (frontend + backend) in characterize, route, testing, concepts, and test"
+}
+
 if ($errors -gt 0) {
     Write-Host ""
     Write-Host "Validation failed with $errors error(s)."

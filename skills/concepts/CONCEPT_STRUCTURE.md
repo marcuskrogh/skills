@@ -23,6 +23,10 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
   to the bar; inventory, sequence, walk one delivery unit at a time until Done
 - **characterize** — map current observable behaviour to tests and prove them
   green on current code before structure-only edits
+- **working surface** — startable backend, startable frontend, or composed
+  client-server path the area already owns
+- **prove** — recorded baseline (lock suite plus working-surface commands) still
+  holds before the next structure-only step or area
 - **CRAP** — Change Risk Anti-Patterns score; a guide toward extract vs
   justified dispatch; target below 8 unless repo docs set another threshold
 - **seam** — injectable boundary that lets a unit be tested without booting the
@@ -37,13 +41,17 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
   Small is not a skip.
 - **Behaviour preserved on structure-only passes.** Harden and adopt change
   structure, naming, layering, and comments only. Executable behaviour stays the
-  same; the suite proves it.
-- **Proof is the gate.** A structure-only unit is not done while the suite is red
-  relative to its recorded baseline, the suite was not run, or existing tests
-  were weakened to pass.
+  same; **prove** holds on the recorded baseline.
+- **Proof is the gate.** A structure-only unit is not done while the recorded
+  baseline is red, was not run, or existing tests were weakened to pass. The
+  baseline is the lock suite **and** every **working surface** the unit owns
+  (backend still starts and answers; frontend still builds, serves, and mapped
+  flows still complete; composed client-server paths still work when both exist).
 - **Lock before restructure.** Adopt does not start structural edits on a unit
-  until observable behaviours are mapped to tests that are green on current
-  code. Those tests are the prove commands after edits.
+  until observable behaviours — including every **working surface** the area
+  owns — are mapped to tests that are green on current code. Those commands are
+  the prove commands after edits. A unit suite that never starts the process
+  does not lock a startable surface.
 - **Repo docs win.** Documented ADRs, layering, naming, and numeric bars
   override generic catalog rows.
 - **Named smells are defects.** An actionable named smell in changed code is
@@ -70,6 +78,7 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 2. **Apply** — Check each changed unit against the catalog, including small
    diffs. Done when every breach has a concrete move or an explicit, documented
    exception.
-3. **Prove** — Re-run the recorded baseline commands (touched-area suite and
-   lint) after structural edits. Done when checks match the baseline (green, or
-   no new fails against a documented known-fail list).
+3. **Prove** — Re-run the recorded baseline commands (touched-area suite, lint,
+   and **working surface** commands the unit owns) after structural edits. Done
+   when checks match the baseline (green, or no new fails against a documented
+   known-fail list).

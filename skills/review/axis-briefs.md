@@ -29,7 +29,8 @@ optional polish, out-of-scope follow-ups, or speculative cleanup outside blast r
 Include: context pack + Spec checklist from [checklist.md](checklist.md#spec).
 
 Trace **each** acceptance criterion / work package / bug repro expectation /
-tweak desired-change / refine preserve-behaviour / rework parity bar through
+tweak desired-change / refine preserve-behaviour / rework parity bar /
+adopt preserve-behaviour (including working surfaces) through
 the diff and neighbors. Vertical: is this requirement fully implemented inside the
 changed paths? Horizontal: are related UI/API/docs/migrations/flags updated? Flag
 missing, partial, wrong, or scope-creep behaviour. Quote the spec line in `body`.

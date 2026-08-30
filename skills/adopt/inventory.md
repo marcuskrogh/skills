@@ -49,7 +49,8 @@ that already contains prior adoption.
 
 On the frontier Task, **characterize** first ([characterize.md](characterize.md)).
 Structure packages (extract, rename, move, split, invert) start only when the
-behaviour map is locked. Observable behaviour stays the same;
+behaviour map is locked, including every **working surface** the area owns.
+Observable behaviour stays the same;
 [route.md](route.md#preserve-behaviour-required) is the gate. A behaviour-changing
 package is out of scope. Size packages so implement can finish them in one
 delivery; do not stuff the whole tree into one package.

@@ -37,7 +37,7 @@ the set; does not start delivery. Want the current step taught?
 
 | If you… | Run | What happens |
 |---------|-----|----------------|
-| Want the structure catalog on a brownfield codebase | `/adopt` | Characterizes current behaviour into tests, then walks implement → test → harden → review-fix → ship per area until Done |
+| Want the structure catalog on a brownfield codebase | `/adopt` | Characterizes current behaviour into tests (including startable frontend and backend), then walks implement → test → harden → review-fix → ship per area until Done |
 
 Without an explicit override or continuation: **foggy → explore**, **concrete →
 define**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework`
@@ -113,8 +113,8 @@ inspectable or comparison, then implement promotes. `/review` is findings-only;
 `/harden` are the dedicated testing and structure phases before that.
 [`/adopt`](skills/adopt/SKILL.md) applies the same catalog across a codebase that
 was not built to it. Each area **characterizes** current behaviour into tests
-first, then walks the bound chain. Those same tests and requirements are the bar
-after structure; `/test` is not skippable.
+first — including startable frontend and backend — then walks the bound chain.
+Those same tests and requirements are the bar after structure; `/test` is not skippable.
 `/summarise` reports status anytime without advancing.
 
 ### Manual overrides vs define
@@ -262,11 +262,11 @@ templates/project-sync/         ← startup sync script template
 | **explore** | user | Clear fog → `ROADMAP.md` + Story + route Tasks (one delivery unit; research/model = finding docs, no separate PRs) |
 | **define** | user | **Front door** for concrete work → align, classify, bind → `PLAN.md` |
 | **bug** / **tweak** / **refine** / **rework** | user | Manual overrides; prefer `/define` for new work |
-| **adopt** | user | Apply the structure catalog across a brownfield tree; characterize current behaviour into tests first; delegated walk per area until Done |
+| **adopt** | user | Apply the structure catalog across a brownfield tree; characterize current behaviour into tests first (including startable frontend and backend); delegated walk per area until Done |
 | **research** / **model** | user | Finding docs on delivery branch (no PR; often via define `side_paths`) |
 | **sandbox** | user | Isolated, representative inspect-loop on delivery branch (no PR; inject, mid-implement, or post-merge instead of iterate) |
 | **implement** | user | Build on the **same** delivery branch/PR; tests and structure as-you-go; promotes SANDBOX |
-| **test** | user | Adversarial testing phase on the same PR |
+| **test** | user | Adversarial testing phase on the same PR (behaviour, failure paths, working frontend/backend) |
 | **harden** | user | Behaviour-preserving structure phase on the same PR |
 | **iterate** | user | Post-ship straightforward fix → new Task/branch/PR → test → harden → review-fix |
 | **review** | user | Laser findings + published code review (no auto-fix) |

@@ -52,5 +52,7 @@ last one):
       fail the gate)
 - [ ] New code does not copy a neighbour smell
 - [ ] Seams required by [testing.md](testing.md) exist before `/test`
+- [ ] [testing.md](testing.md) **Working surfaces** are proved, or recorded
+      `none` with evidence
 
 Fail the gate → re-delegate. Passing the gate does not skip `/test` or `/harden`.

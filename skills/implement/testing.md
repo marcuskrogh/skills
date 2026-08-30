@@ -19,6 +19,25 @@ Repo docs and existing test patterns win over generic advice.
 - [ ] Purely non-behavioural changes (docs, comments, renames with no runtime effect)
       may omit new tests — state that explicitly in the package report
 
+## Working surfaces
+
+A **working surface** is a startable backend, a startable frontend, or a
+composed client-server path the change can break. Unit tests at a seam do not
+replace these checks when the area owns that surface.
+
+- [ ] Backend the change can break still starts and answers its health, API, or
+      CLI contract
+- [ ] Frontend the change can break still builds and serves; mapped user flows
+      still complete (browser or repo E2E — exercise the flow, not only first paint)
+- [ ] When both exist, a composed path still works (the client still talks to the
+      server on a mapped flow)
+- [ ] Commands that prove the surfaces are recorded and re-run; the report
+      includes `how_to_run` and observed result
+- [ ] Adopt / `ADOPT.md`: every working-surface row on the Behaviour map is locked
+      this way before structure, and still holds after
+- [ ] Pure library / types / docs with no startable surface: record `none` with
+      evidence — do not invent a host
+
 ## Testability of the design
 
 - [ ] Collaborators that need isolation (I/O, clock, network, DB, neighbors) are
@@ -61,6 +80,7 @@ Each Implementation/Testing sub-agent report must include:
 tests_added_or_updated: <paths or "none — <justification>">
 how_to_run: <exact command(s) used>
 result: pass | fail | unavailable (<why>)
+working_surfaces: <commands + result, or "none — <evidence>">
 coverage_notes: <touched paths covered / gaps remaining>
 testability_notes: <seams used or deliberately not introduced>
 ```
