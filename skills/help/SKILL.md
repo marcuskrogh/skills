@@ -65,9 +65,10 @@ class-specific entry skills.
 Define applies [CONCEPT_CLASSIFICATION](../concepts/CONCEPT_CLASSIFICATION.md):
 infers **class** (bug / tweak / adopt / refine / rework / feature / …), selects a
 **template** (fix-fast, parity-iterative, feature-heavy, …) and **parameters**
-(single vs multiagent implement/review, verify mode, **test and restructure as the
-floor**, review depth and lasers, optional research/model side paths, optional
-sandbox inspect-loop), then walks that chain almost deterministically.
+(single vs multiagent implement/review, verify mode, **test and restructure
+(refactoring) as the floor**, review depth and lasers, optional research/model
+side paths, optional sandbox inspect-loop), then walks that chain almost
+deterministically.
 Class **adopt** walks `characterize → architect → implement → test → restructure → review → ship` per area
 until the route is Done. Characterize maps current behaviour into tests first,
 including startable frontend and backend; those same tests are the bar after
@@ -76,7 +77,7 @@ structure. `/test` is not skippable.
 ### Closed-loop shape
 
 ```text
-setup → explore? → define (classify + bind) → architect → [sandbox?] → [bound chain: often implement → test → restructure → review → ship]
+setup → explore? → define (classify + bind) → architect → [sandbox?] → [bound chain: often implement → test → restructure (refactoring) → review → ship]
 brownfield structure:  adopt (inventory → [characterize → architect → implement → test → restructure → review → ship] per area until Done)
 post-merge fix:  ship → iterate → test → restructure → review → ship
 post-merge inspect-loop:  ship → sandbox → implement → test → restructure → review → ship

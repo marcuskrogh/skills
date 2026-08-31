@@ -12,7 +12,7 @@ Apply **discriminators in order**; **first match wins**.
 | 1 | **bug** | Behaviour is wrong / regressing; fix is the work; expected correct behaviour is known or knowable |
 | 2 | **rework** | Intentional **implementation** change (algorithm, control law, internal path) **and** measured outcomes must not degrade (parity bar needed or implied) |
 | 3 | **adopt** | Entire existing codebase (or the named tree) was **not built** to the structure bar; apply the catalog across it; **executable behaviour unchanged** |
-| 4 | **refine** | **Bounded** area (module, class, slice, README); structure, naming, layering, comments, or docs only; **executable behaviour unchanged** |
+| 4 | **refine** | **Bounded** area (module, class, slice, README); structure, naming, layering, comments, docs, or **refactoring** only; **executable behaviour unchanged** |
 | 5 | **tweak** | Small intentional behaviour delta; not a defect; too light for a full feature slice |
 | 6 | **feature** | Buildable product/system slice that needs scope/behaviour/acceptance as a unit |
 | 7 | **iterate** | Prior Task already **merged**; shipped work still wrong or incomplete (post-ship only); straightforward production fix — inspect-each-turn post-merge is sandbox |

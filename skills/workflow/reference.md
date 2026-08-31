@@ -49,7 +49,7 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **architect** | After define; always in the bound chain | `ARCHITECTURE.md` on **same** delivery branch (no extra PR) | `/implement` (or `/sandbox` when inject) |
 | **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX ready | Code on **same** PR (opens PR after post-merge sandbox); Task stays **In Progress**; closeout gate before `/test` | `/test` (then `/restructure`) |
 | **test** | After implement; `test.mode=dedicated` | Tests/seams + touched-code analysis on the **same** PR; Task stays **In Progress** | `/restructure` or `/review` |
-| **restructure** (`/harden`) | After test (or implement when test skipped); `harden.mode=dedicated` | Structure edits on the **same** PR; Task → **In Review** | `/review` |
+| **restructure** (`/harden`) | After test (or implement when test skipped); `harden.mode=dedicated` | Refactoring on the **same** PR; Task → **In Review** | `/review` |
 | **iterate** | Shipped work still wrong; straightforward production fix | `ITERATE.md` + **new** Task/PR; then bound closeout chain | `/test` (or first remaining closeout step) |
 | **review** (`/review-fix`) | Task In Review | Lasers → fix → **code review** on the **same** PR → CLEAN | `/ship` |
 | **ship** | After ready-to-build | Remaining work + merge + Done | Done (or `/iterate` / `/sandbox`) |

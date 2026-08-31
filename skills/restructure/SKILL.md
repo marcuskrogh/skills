@@ -1,20 +1,20 @@
 ---
 name: restructure
 description: >-
-  Restructure phase after testing: behaviour-preserving structure pass on the
-  delivery PR against the structure catalog (campground, names, size, cohesion,
-  seams, named smells, CRAP). Hands off to review. Use when the bound chain's
-  restructure phase is next, or to run that phase explicitly. Alias: /harden.
+  Restructure phase after testing: refactoring pass on the delivery PR against
+  the structure catalog (campground, names, size, cohesion, seams, named smells,
+  CRAP). Hands off to review. Use when the bound chain's restructure phase is
+  next, or to run that phase explicitly. Alias: /harden.
 disable-model-invocation: true
 ---
 
 # Restructure
 
 Applies [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md) as a dedicated
-shipping-phase pass on the **same** delivery pull request. Distinct from
-`/refine` (a work **class**) and `/adopt` (brownfield whole-tree): restructure
-is a closeout phase of the current Task. `/harden` is the invoke alias;
-`harden.mode` is the binding key.
+shipping-phase **refactoring** pass on the **same** delivery pull request.
+Distinct from `/refine` (a work **class**) and `/adopt` (brownfield whole-tree):
+restructure is a closeout phase of the current Task. `/harden` is the invoke
+alias; `harden.mode` is the binding key.
 
 **On invoke:** read CONCEPT_STRUCTURE above,
 [../concepts/STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md),
@@ -42,7 +42,7 @@ as directed there.
 | **Delivery** | Push structural edits to the same PR; leave merge to ship |
 | **Verification** | Suite + lint stay green; executable behaviour unchanged; on `ADOPT.md`, re-run lock-suite **and** working-surface commands |
 | **Structure checklist** | [structure.md](../implement/structure.md) |
-| **Work package types** | Restructure (extract, rename, move, split, invert, asserting test); no behaviour change |
+| **Work package types** | Refactoring (extract, rename, move, split, invert, asserting test); no behaviour change |
 | **Handoff** | `/review` — lasers then fix then **code review** |
 
 ## Steps

@@ -2,7 +2,7 @@
 name: refine
 description: >-
   Refine alignment and lightweight definition for a limited codebase area that
-  needs structural or descriptive improvement without changing behaviour.
+  needs refactoring or descriptive improvement without changing behaviour.
   Requires a thin area description. Produces REFINE.md and one tracker Task
   (optional Sub-tasks), then hands off to implementation. Use when a class,
   feature slice, README, or other bounded surface is outdated relative to
