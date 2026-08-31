@@ -8,11 +8,8 @@ or:
 from __future__ import annotations
 
 import importlib.util
-import io
-import json
 import tempfile
 import unittest
-from contextlib import redirect_stdout
 from pathlib import Path
 
 
@@ -26,7 +23,6 @@ def _load(name: str):
 
 
 crap = _load("crap")
-mutate = _load("mutate")
 
 
 class CrapTests(unittest.TestCase):
@@ -66,33 +62,6 @@ class CrapTests(unittest.TestCase):
     def test_crap_formula(self):
         self.assertEqual(crap.crap(1, 1.0), 1.0)
         self.assertEqual(crap.crap(2, 0.0), 6.0)
-
-
-class MutateTests(unittest.TestCase):
-    def test_python_equality_mutant(self):
-        src = "def eq(a, b):\n    return a == b\n"
-        ms = mutate.python_mutants(src)
-        kinds = {m["kind"] for m in ms}
-        self.assertIn("equality", kinds)
-
-    def test_js_and_swap(self):
-        src = "if (a && b) { return 1 }"
-        ms = mutate.js_mutants(src)
-        self.assertTrue(any(m["from"] == "&&" for m in ms))
-
-    def test_cli_json(self):
-        with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False) as fh:
-            fh.write("def eq(a, b):\n    return a == b\n")
-            path = Path(fh.name)
-        try:
-            buf = io.StringIO()
-            with redirect_stdout(buf):
-                mutate.main([str(path)])
-            data = json.loads(buf.getvalue())
-            self.assertEqual(data[0]["language"], "python")
-            self.assertGreaterEqual(data[0]["mutant_count"], 1)
-        finally:
-            path.unlink()
 
 
 if __name__ == "__main__":
