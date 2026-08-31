@@ -54,7 +54,7 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **implement** | Ready-to-build PLAN (or legacy BUG/TWEAK/REFINE/REWORK/ITERATE/ADOPT/SANDBOX) exists; build or resume | [implement](../implement/SKILL.md) |
 | **architect** | Bound architecture phase after define, or user wants that phase now | [architect](../architect/SKILL.md) |
 | **test** | Bound testing phase after implement, or user wants that phase now | [test](../test/SKILL.md) |
-| **restructure** / **harden** | Bound structure phase after test, or user wants that phase now (`/harden` is an alias) | [restructure](../restructure/SKILL.md) |
+| **restructure** / **harden** | Bound refactoring phase after test, or user wants that phase now (`/harden` is an alias) | [restructure](../restructure/SKILL.md) |
 | **review** / **review-fix** | Bound review on an In Review PR (find and fix). `/review-fix` is an alias | [review](../review/SKILL.md) |
 | **summarise** | Status / “where am I” / “what next” *reported*, not advanced | [summarise](../summarise/SKILL.md) |
 | **define** | Concrete work to pin down (bug, tweak, adopt, refine, rework, feature, …) — **default front door** | [define](../define/SKILL.md) |

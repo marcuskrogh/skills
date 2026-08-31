@@ -1,8 +1,8 @@
 ---
 name: harden
 description: >-
-  Alias for restructure. Behaviour-preserving structure pass after testing.
-  Prefer /restructure; /harden remains valid. Binding key stays harden.mode.
+  Alias for restructure. Refactoring pass after testing. Prefer /restructure;
+  /harden remains valid. Binding key stays harden.mode.
 disable-model-invocation: true
 ---
 

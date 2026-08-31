@@ -14,7 +14,7 @@ finding (do not park a ticket). Do not copy a neighbour smell into a new hunk.
 | Bar | Check |
 |-----|--------|
 | **Campground** | The opened function, method, type, or interface meets this catalog after the change; helpers extracted from it do too; the rest of the file is unchanged unless a hunk made a neighbour worse |
-| **Prove before tidy** | Honest tests lock the unit (or characterization tests are added) before structural cleanup |
+| **Prove before tidy** | Honest tests lock the unit (or characterization tests are added) before **refactoring** |
 | **God-unit sprout** | Far-from-bar units extract the path this Task needs; remainder is no worse |
 | **One thing** | One reason to change; one level of abstraction in the body |
 | **Depth** | Simple interface; implementation hides the rest; a deep module does one thing; a quiet 20–40 line function with one job is a win |
@@ -43,7 +43,7 @@ compute from cyclomatic complexity `C` and coverage fraction `cov` (0–1):
 
 | Bar | Check |
 |-----|--------|
-| **CRAP as guide** | Always evaluate on touched functions. Nested conditionals (long if/else chains, nested ifs) lean toward extract (about 4–8). A flat switch/case, match, or lookup over a closed set of types may stay even when the score is high. The score alone is not `should-fix` and does not fail a package. Coverage counts only tests that assert the executed paths. A low score does not skip lock tests or behaviour coverage |
+| **CRAP as guide** | Always evaluate on touched functions. Nested conditionals (long if/else chains, nested ifs) lean toward extract — a **refactoring** (about 4–8). A flat switch/case, match, or lookup over a closed set of types may stay even when the score is high. The score alone is not `should-fix` and does not fail a package. Coverage counts only tests that assert the executed paths. A low score does not skip lock tests or behaviour coverage |
 
 ## Cohesion and coupling
 
@@ -80,6 +80,7 @@ compute from cyclomatic complexity `C` and coverage fraction `cov` (0–1):
 ## Named smells (_Refactoring_, Fowler ch.3)
 
 Actionable in **changed** code → `should-fix`. Name the smell in the finding.
+The listed moves are **refactorings**.
 
 | Smell | Move |
 |-------|------|

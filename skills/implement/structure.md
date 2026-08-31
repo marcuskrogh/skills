@@ -11,7 +11,8 @@ Repo docs and neighbour **patterns** win over generic catalog rows. Neighbour
 ## Write-time bar
 
 - [ ] **Campground:** each **touched unit** meets the catalog after the change
-      (prove before tidy; god-unit sprouts the needed path)
+      (prove before tidy; the tidy is **refactoring**; god-unit sprouts the
+      needed path)
 - [ ] Names reveal role; new functions/types are small enough to need no apology
 - [ ] Each new/changed unit has one responsibility, one level of abstraction,
       and a simple interface (**depth** allowed)
@@ -26,8 +27,8 @@ Repo docs and neighbour **patterns** win over generic catalog rows. Neighbour
 - [ ] Error paths are handled, not swallowed; comments (if any) say why
 - [ ] Named smells in **changed** code are fixed in-package — not left for review
 - [ ] **CRAP** evaluated on changed functions (no hard cap): nested conditionals
-      lean toward extract (about 4–8); a flat switch/case over a closed set of
-      types may stay
+      lean toward extract — a **refactoring** (about 4–8); a flat switch/case
+      over a closed set of types may stay
 
 ## Package report (required)
 

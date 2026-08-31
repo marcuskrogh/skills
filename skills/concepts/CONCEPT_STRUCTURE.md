@@ -1,19 +1,19 @@
 # Concept: Structure
 
 Shared **structure** bar for production code: names, size, cohesion, dependency
-direction, named smells, **CRAP**, campground, and module depth. Uninvokable —
-load only when a skill's On-invoke pointer fires.
+direction, named smells, **CRAP**, campground, **refactoring**, and module depth.
+Uninvokable — load only when a skill's On-invoke pointer fires.
 
 ## Intent
 
 Keep every opened unit at least as well structured as its neighbours, and meet
 the catalog bar on new code — **including small diffs**. Everyday work leaves
 opened units cleaner (**campground**) and, when the benefit is major, opened
-module neighbourhoods cleaner. **implement** applies this as-you-go and gates
-closeout; **restructure** (alias **harden**) applies it as a shipping-phase pass
-on every bound Task; **adopt** applies it across an existing tree that was not
-built to the bar; Architecture and Standards **lasers** still evaluate it at
-closeout.
+module neighbourhoods cleaner. Those structure edits are **refactoring**.
+**implement** applies this as-you-go and gates closeout; **restructure** (alias
+**harden**) applies it as a shipping-phase pass on every bound Task; **adopt**
+applies it across an existing tree that was not built to the bar; Architecture
+and Standards **lasers** still evaluate it at closeout.
 
 Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 
@@ -21,6 +21,9 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 
 - **campground** — when a Task opens a unit, leave that whole unit cleaner
   (catalog holds) after the change
+- **refactoring** — a behaviour-preserving structure edit (extract, rename,
+  move, split, invert). Campground and **restructure** apply refactorings;
+  **CRAP** guides which extract. Not a phase, class, or invoke.
 - **touched unit** — the function, method, type, or interface opened to make
   the spec change; not the whole file
 - **restructure** — shipping-phase, behaviour-preserving structure pass on the
@@ -49,10 +52,10 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
   review. Change size does not relax the catalog.
 - **Campground.** Opening a **touched unit** licenses cleaning that whole unit
   (and helpers extracted from it), not the rest of the file. After the change
-  the unit meets the catalog. Prove before tidy. A god-unit **sprouts** the
-  path this Task needs; the remainder is no worse. Review may finish that unit
-  when this change opened it. Feature behaviour and campground extracts do not
-  share a work package.
+  the unit meets the catalog. Prove before tidy. The tidy is **refactoring**.
+  A god-unit **sprouts** the path this Task needs; the remainder is no worse.
+  Review may finish that unit when this change opened it. Feature behaviour and
+  campground extracts do not share a work package.
 - **Every change size.** A one-hunk bugfix meets the same catalog as a feature.
   Small is not a skip.
 - **Behaviour preserved on structure-only passes.** Restructure and adopt change
@@ -86,8 +89,9 @@ Catalog: [STRUCTURE-CATALOG.md](STRUCTURE-CATALOG.md).
 - **Named smells are defects.** An actionable named smell in changed code is
   `should-fix` (or `blocker` when it breaches a documented constraint) — not
   optional polish.
-- **Concrete move.** A structure finding names an extract, move, rename, split,
-  invert, or asserting test with evidence. Vague cleanup is not a finding.
+- **Concrete move.** A structure finding names a **refactoring** (extract, move,
+  rename, split, invert) or an asserting test with evidence. Vague cleanup is
+  not a finding.
 - **Neighbours set the pattern, not the smell.** Match existing patterns in the
   touched area. New and changed hunks still meet the catalog; do not copy a
   neighbour smell or nested-conditional **CRAP** into this PR.
