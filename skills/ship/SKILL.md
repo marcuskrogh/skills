@@ -37,13 +37,13 @@ Requires authenticated `gh` + tracker auth.
 | Evidence | Remaining |
 |----------|-----------|
 | No ready-to-build artifact | **Stop** — `/define` (or `/iterate`) first; manual `/bug`/`/tweak`/`/refine`/`/rework`/`/adopt` also ready-to-build |
-| Defined; To Do; no meaningful impl on delivery PR | implement → test → harden → review-fix → closeout |
+| Defined; To Do; no meaningful impl on delivery PR | architect → implement → test → restructure → review → closeout |
 | `ADOPT.md`; route not Done | `/adopt` — resume the route |
-| In Progress; impl incomplete | finish implement → test → harden → review-fix → closeout |
-| In Progress; impl complete; testing phase not done | test → harden → review-fix → closeout |
-| In Progress; testing done; harden not done | harden → review-fix → closeout |
-| In Review; unresolved REQUEST_CHANGES / must-fix | review-fix → closeout |
-| In Review; clean code review **or** no review yet but user wants full finish | review-fix if needed → closeout; else closeout only |
+| In Progress; impl incomplete | finish implement → test → restructure → review → closeout |
+| In Progress; impl complete; testing phase not done | test → restructure → review → closeout |
+| In Progress; testing done; restructure not done | restructure → review → closeout |
+| In Review; unresolved must-fix | review → closeout |
+| In Review; clean code review **or** no review yet but user wants full finish | review if needed → closeout; else closeout only |
 | PR merged; Task not Done | closeout |
 
    Done when exactly one remaining path is selected.

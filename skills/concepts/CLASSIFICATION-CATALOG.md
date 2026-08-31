@@ -25,17 +25,18 @@ swap).
 
 | Template | Intent | Default chain |
 |----------|--------|---------------|
-| **fix-fast** | Clear defect, contained blast radius | implement → test → harden → review-fix → ship |
-| **delta-fast** | Small intentional behaviour change | implement → test → harden → review-fix → ship |
-| **structure-safe** | Behaviour-preserving structural/docs work | implement → test → harden → review-fix → ship |
-| **parity-iterative** | Impl swap with non-degradation bar | implement (comparative loop) → test → harden → review-fix → ship |
-| **feature-standard** | Ordinary feature slice | implement → test → harden → review-fix → ship |
-| **feature-heavy** | Cross-cutting / high-risk feature | implement (multiagent OK) → test → harden → review-fix (full sequential) → ship |
+| **fix-fast** | Clear defect, contained blast radius | architect → implement → test → restructure → review → ship |
+| **delta-fast** | Small intentional behaviour change | architect → implement → test → restructure → review → ship |
+| **structure-safe** | Behaviour-preserving structural/docs work | architect → implement → test → restructure → review → ship |
+| **parity-iterative** | Impl swap with non-degradation bar | architect → implement (comparative loop) → test → restructure → review → ship |
+| **feature-standard** | Ordinary feature slice | architect → implement → test → restructure → review → ship |
+| **feature-heavy** | Cross-cutting / high-risk feature | architect → implement (multiagent OK) → test → restructure → review (full sequential) → ship |
 
 Optional prefix steps (only when bound): `/research`, `/model` before
-implement — recorded in `side_paths`. Optional `/sandbox` before implement —
-recorded in `sandbox` (`none` \| `inject`). Closeout after implement is always
-**test** → **harden** → **review-fix** (lasers ending in **code review**).
+architect — recorded in `side_paths`. Optional `/sandbox` after architect
+(or before implement) — recorded in `sandbox` (`none` \| `inject`).
+**architect** is always in the chain. Closeout after implement is always
+**test** → **restructure** (`/harden`) → **review** (find, fix, **code review**).
 `test.mode=skip` / `harden.mode=skip` are explicit exceptions, not defaults.
 
 ## Default binding (class → template)
@@ -60,7 +61,7 @@ Every binding records these keys (use exactly these names):
 | `implement.verify` | `tests` \| `non-regression` \| `comparative` | Suite/acceptance; behaviour-unchanged checks; baseline vs candidate ([../implement/rework.md](../implement/rework.md)) |
 | `implement.iteration` | `one-shot` \| `until-bar` | Stop after one verify vs reiterate until parity/acceptance bar |
 | `test.mode` | `skip` \| `dedicated` | Skip the testing phase vs run `/test` after implement |
-| `harden.mode` | `skip` \| `dedicated` | Skip the structure phase vs run `/harden` after test |
+| `harden.mode` | `skip` \| `dedicated` | Skip the structure phase vs run `/restructure` (`/harden`) after test |
 | `review.mode` | `single` \| `multiagent` | Focused worker set vs full multi-axis workers |
 | `review.depth` | `focused` \| `full` | See [../review/depth.md](../review/depth.md) |
 | `review.lasers` | `bundled` \| `sequential` | One worker set then code review vs axis lasers then code review ([../review/lasers.md](../review/lasers.md)) |
@@ -110,7 +111,7 @@ Structure and testing are the **floor**. Efficiency applies to `review.mode`,
 | User asks for thorough/full review | `review.depth=full`, `review.mode=multiagent` |
 | User asks to skip multiagent / save tokens | prefer `single` + `focused`; **do not** skip test, harden, sequential lasers, or Architecture |
 | User explicitly asks to skip test or harden | that phase only; record the skip on the binding |
-| Class is **adopt** | Walk the route autonomously: inventory (delegated), then each area runs characterize → implement → test → harden → review-fix → ship, then the next area, until the route is Done. Characterize maps current observable behaviour **and every working surface** (startable backend, startable frontend, composed client-server path) and implements lock tests that fail if those surfaces stop working; structure work does not start until that baseline is green on current code. Force `implement.verify=non-regression` and `test.mode=dedicated`. Refuse `test.mode=skip` even if the user asked — proof is required. `implement.mode=multiagent` when the unit has more than one package or any Moderate/Demanding package. Do not wait for user Next between steps or areas. Do not ship or start the next area until the preserve-behaviour gate holds (lock suite **and** working surfaces). Hard stop on a composed skill's hard stop or a failed proof. Closeout params stay on **structure-safe** except `implement.mode` / forced verify+test as above |
+| Class is **adopt** | Walk the route autonomously: inventory (delegated), then each area runs characterize → architect → implement → test → restructure → review → ship, then the next area, until the route is Done. Characterize maps current observable behaviour **and every working surface** (startable backend, startable frontend, composed client-server path) and implements lock tests that fail if those surfaces stop working; structure work does not start until that baseline is green on current code. Force `implement.verify=non-regression` and `test.mode=dedicated`. Refuse `test.mode=skip` even if the user asked — proof is required. `implement.mode=multiagent` when the unit has more than one package or any Moderate/Demanding package. Do not wait for user Next between steps or areas. Do not ship or start the next area until the preserve-behaviour gate holds (lock suite **and** working surfaces). Hard stop on a composed skill's hard stop or a failed proof. Closeout params stay on **structure-safe** except `implement.mode` / forced verify+test as above |
 
 **Cheapest review breadth that still covers risk wins.** Do not escalate to
 feature-heavy or full multiagent review without a matching override row. Do not
@@ -137,16 +138,16 @@ drop test, harden, or the Architecture/Standards lasers to save tokens.
   - review.lasers: bundled | sequential
   - side_paths: none | research | model | research+model
   - sandbox: none | inject
-- Chain: implement → test → harden → review-fix → ship   # adopt: characterize → implement → test → harden → review-fix → ship per area
+- Chain: architect → implement → test → restructure → review → ship   # adopt: characterize → architect → implement → test → restructure → review → ship per area
 - Rationale: <one line efficiency + risk; test/harden are the floor>
 ```
 
-Adjust **Chain** when `side_paths` ≠ none (e.g. `research → implement → …`) or
-`sandbox=inject` (e.g. `sandbox → implement → test → harden → review-fix → ship`).
-Class **adopt** is an orchestrator: inventory, then `characterize → implement → test → harden → review-fix → ship` per area until the route is Done.
+Adjust **Chain** when `side_paths` ≠ none (e.g. `research → architect → implement → …`) or
+`sandbox=inject` (e.g. `architect → sandbox → implement → test → restructure → review → ship`).
+Class **adopt** is an orchestrator: inventory, then `characterize → architect → implement → test → restructure → review → ship` per area until the route is Done.
 Adopt does **not** drop characterize or `test` (proof is required). Drop `test` on other classes only when `test.mode=skip` (docs-only or explicit user ask). Drop
-`harden` only when the user explicitly asked to skip it. Prefix order:
-side_paths, then sandbox, then implement (or adopt's unit chain).
+`harden` / restructure only when the user explicitly asked to skip it. Prefix order:
+side_paths, then architect, then sandbox, then implement (or adopt's unit chain).
 
 ## Legacy fallback
 

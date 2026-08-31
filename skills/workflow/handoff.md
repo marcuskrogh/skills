@@ -22,23 +22,22 @@ in-flight or none) and do not write tracker or artifact Next.
 |-------|----------------|
 | setup | `/explore` or `/define` (front doors); `/help` for the map |
 | explore | Frontier route Task skill — usually `/define` on a delivery Task; research/model/sandbox leave artifacts on that branch (no separate PR) |
-| bug | `/implement <Task>` (or `/ship <Task>` for remaining) |
-| tweak | `/implement <Task>` (or `/ship <Task>` for remaining) |
-| refine | `/implement <Task>` (or `/ship <Task>` for remaining) |
+| bug | `/architect <Task>` (or `/ship <Task>` for remaining) |
+| tweak | `/architect <Task>` (or `/ship <Task>` for remaining) |
+| refine | `/architect <Task>` (or `/ship <Task>` for remaining) |
 | adopt | none when the route is Done; the blocking skill + `/adopt` to resume the route on a hard stop |
-| rework | `/implement <Task>` (or `/ship <Task>` for remaining) |
+| rework | `/architect <Task>` (or `/ship <Task>` for remaining) |
 | research | `/model <Task>` or `/define <Task>` |
 | model | `/define <Task>` (or `/implement` if PLAN exists) |
 | sandbox | `/sandbox <Task>` (delta) or `/implement <Task>` (promote) |
-| define | `/implement <Task>` (or `/adopt` when class is adopt; or first Chain step from Workflow binding; or `/ship`) |
-| implement | `/test <Task>` (then `/harden`; or `/ship`) |
-| test | `/harden <Task>` |
-| harden | `/review-fix <Task>` |
+| define | `/architect <Task>` (or `/adopt` when class is adopt; or first Chain step from Workflow binding; or `/ship`) |
+| architect | `/implement <Task>` |
+| implement | `/test <Task>` (then `/restructure`; or `/ship`) |
+| test | `/restructure <Task>` |
+| restructure / harden | `/review <Task>` |
 | iterate | `/test <NewTask>` (or `/sandbox` when the delta is an inspect-loop) |
-| review (must-fix) | `/review-fix` or `/implement` fix-forward |
-| review (clean / non-actionable notes only) | `/ship <Task>` |
-| review-fix (CLEAN) | `/ship <Task>` |
-| review-fix (FAILED) | `/implement` or `/review` — or `/ship` to retry remaining |
+| review / review-fix (CLEAN) | `/ship <Task>` |
+| review (FAILED) | `/implement` — or `/ship` to retry remaining |
 | ship (Done) | Done — or `/iterate` if merged work still wrong; `/sandbox` when each turn needs inspectables |
 | ship (stopped) | `/ship <Task>` or the skill that unblocks |
 | summarise | *(reports Next; does not advance)* |

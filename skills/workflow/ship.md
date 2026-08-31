@@ -13,23 +13,24 @@ detect stage
   → not ready-to-build → stop; tell user /define|/bug|/tweak|/refine|/rework|/adopt|/iterate|/sandbox
   → sandbox outstanding (`sandbox=inject`, SANDBOX.md not promotion-ready) → /sandbox
   → adopt outstanding (`ADOPT.md` present, route not Done) → /adopt
+  → architecture outstanding (no ARCHITECTURE.md after define) → /architect
   → implementation outstanding → /implement on delivery branch/PR
   → testing outstanding (`test.mode` not an explicit skip, no testing-phase comment) → /test
-  → harden outstanding (`harden.mode` not an explicit user skip, Task not yet In Review from harden) → /harden
-  → review not CLEAN → /review-fix on same PR (lasers + code review)
+  → restructure outstanding (`harden.mode` not an explicit user skip, Task not yet In Review from restructure) → /restructure
+  → review not CLEAN → /review on same PR (lasers + fix + code review)
   → CLEAN / ship-ready → closeout
   → review-fix FAILED → stop; do not merge; report Next
 ```
 
 | Invoked when | Remaining |
 |--------------|-----------|
-| After define / bug / tweak / refine / rework (To Do, plan ready) | implement → test → harden → review-fix → closeout (sandbox first when `sandbox=inject` and not promotion-ready) |
+| After define / bug / tweak / refine / rework (To Do, plan ready) | architect → implement → test → restructure → review → closeout (sandbox first when `sandbox=inject` and not promotion-ready) |
 | After adopt (route not Done) | `/adopt` — resume the route (inventory if needed, characterize if the map is not locked, then remaining unit chains) |
-| After sandbox (promotion-ready) | implement → test → harden → review-fix → closeout |
-| After implement (In Progress, PR has impl) | test → harden → review-fix → closeout |
-| After test | harden → review-fix → closeout |
-| After harden (In Review) | review-fix → closeout |
-| After review-fix CLEAN / clean code review | closeout |
+| After sandbox (promotion-ready) | implement → test → restructure → review → closeout |
+| After implement (In Progress, PR has impl) | test → restructure → review → closeout |
+| After test | restructure → review → closeout |
+| After restructure / harden (In Review) | review → closeout |
+| After review CLEAN / clean code review | closeout |
 | After iterate (new Task, impl done) | remaining closeout chain from Next |
 
 Composed skills keep their full contracts. Ship only chooses **which** still need

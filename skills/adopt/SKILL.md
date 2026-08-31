@@ -4,9 +4,9 @@ description: >-
   Adopt the structure catalog across an existing codebase that was not built
   to it. Characterizes current behaviour into tests first — including startable
   frontend and backend — then restructures against that same suite. Delegates
-  inventory and packages; walks characterize → implement → test → harden →
-  review-fix → ship until Done. Prefer /refine for a bounded area; prefer
-  /harden for closeout of the current delivery PR.
+  inventory and packages; walks characterize → architect → implement → test →
+  restructure → review → ship until Done. Prefer /refine for a bounded area; prefer
+  /restructure for closeout of the current delivery PR.
 disable-model-invocation: true
 ---
 
@@ -15,7 +15,7 @@ disable-model-invocation: true
 Applies [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md) to a **brownfield**
 tree. Orchestrates inventory, then a **fixed** unit chain per area until the
 route is Done — **Proof is the gate** on every unit. Distinct from `/refine`
-(bounded **class**) and `/harden` (closeout of the current Task).
+(bounded **class**) and `/restructure` (closeout of the current Task; alias `/harden`).
 
 **On invoke:** read CONCEPT_STRUCTURE above,
 [../concepts/STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md),
@@ -40,7 +40,7 @@ User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 
 - **frontier** — first open area on the adoption route
 - **area** — module, package, or bounded directory the repo already treats as a unit
-- **unit chain** — fixed per-area sequence: characterize → implement → test → harden → review-fix → ship
+- **unit chain** — fixed per-area sequence: characterize → architect → implement → test → restructure → review → ship
 - **characterize** — map current observable behaviour and implement tests that lock it before structure work
 - **working surface** — startable backend, startable frontend, or composed client-server path the area already owns
 - **prove** — lock suite and working-surface commands from characterize must still hold before the next step or area
@@ -55,7 +55,7 @@ User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 | **Alignment / definition artifact** | `ADOPT.md` (path from WORKSPACE) |
 | **Readiness prompt** | None — walk the route; honour named subtree or exclusions from the invoke |
 | **Opening** | Thin: whole repo. Named subtree or exclusions → honour them. Existing `ADOPT.md` → resume the [route loop](route.md#route-loop) |
-| **Workflow binding** | Template **structure-safe**; force `implement.verify=non-regression` and `test.mode=dedicated`. `implement.mode` per [route.md](route.md#delegation). Unit chain `characterize → implement → test → harden → review-fix → ship` per area until Done. Honor an existing PLAN Classification when class is adopt |
+| **Workflow binding** | Template **structure-safe**; force `implement.verify=non-regression` and `test.mode=dedicated`. `implement.mode` per [route.md](route.md#delegation). Unit chain `characterize → architect → implement → test → restructure → review → ship` per area until Done. Honor an existing PLAN Classification when class is adopt |
 | **Default table** | [route.md](route.md#delegation) |
 | **Branch naming** | WORKSPACE pattern — one delivery head **per area Task** |
 | **Delivery** | First PR-opening writer for the current area Task; ship closes that head; the next area starts from the updated base |
@@ -68,7 +68,7 @@ User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 1. **Resolve tree** — Resolve workspace, tracker, and the tree to adopt (repo root or named subtree). Load PLAN Classification when class is adopt. Generated, vendor, lockfiles, and documented exclusions stay out of scope. Done when the tree and out-of-scope paths are named.
 2. **Inventory** — Follow [inventory.md](inventory.md) with [route.md](route.md#delegation) workers. Manager merges and sequences. Done when every area is either at the bar, a documented exception, or a sequenced row with a concrete move.
 3. **Persist** — Write `ADOPT.md`; apply the [adopt tracker row](../workflow/tracker-sync.md#matrix). One Task or a Story + area Tasks. Do not confirm Order. Tree already at the bar → persist Next none, stop. Done when artifact, tracker, and Order agree.
-4. **Walk the route** — Follow [route.md](route.md). Characterize the frontier (map + lock tests + working-surface proof on current code), then compose implement → test → harden → review-fix → ship with the preserve-behaviour gate after each code-editing step; then the next open area, until Done or a hard stop. Report each shipped unit in one short line. Done when the route is empty or a hard stop is persisted.
+4. **Walk the route** — Follow [route.md](route.md). Characterize the frontier (map + lock tests + working-surface proof on current code), then compose architect → implement → test → restructure → review → ship with the preserve-behaviour gate after each code-editing step; then the next open area, until Done or a hard stop. Report each shipped unit in one short line. Done when the route is empty or a hard stop is persisted.
 
 ## Artifact
 
@@ -110,7 +110,7 @@ Meet the structure catalog across the existing tree; executable behaviour unchan
 
 ## Workflow
 - Template: structure-safe
-- Unit chain: characterize → implement → test → harden → review-fix → ship
+- Unit chain: characterize → architect → implement → test → restructure → review → ship
 - Route: inventory → characterize → unit chain remainder per area in Order until Done
 - Verify: non-regression; test.mode=dedicated; lock suite + working surfaces from characterize
 

@@ -10,18 +10,24 @@ Repo docs and neighbour **patterns** win over generic catalog rows. Neighbour
 
 ## Write-time bar
 
+- [ ] **Campground:** each **touched unit** meets the catalog after the change
+      (prove before tidy; god-unit sprouts the needed path)
 - [ ] Names reveal role; new functions/types are small enough to need no apology
-- [ ] Each new/changed unit has one responsibility and sits in the right layer
+- [ ] Each new/changed unit has one responsibility, one level of abstraction,
+      and a simple interface (**depth** allowed)
+- [ ] **Architecture neighbourhood:** major boundary/interface wins on modules
+      this Task already opened are in this PR — not a ritual, not a system rewrite
 - [ ] No new hard-wired I/O, clock, network, or DB that blocks a **seam**
+- [ ] An extract that cannot be tested without booting the world is not done
 - [ ] No new import/package cycles; dependency direction matches the repo
 - [ ] No speculative framework, extra layer, or unused hook
 - [ ] Duplicated logic in this change is extracted, or an explicit reason says
       the concepts only rhyme
 - [ ] Error paths are handled, not swallowed; comments (if any) say why
 - [ ] Named smells in **changed** code are fixed in-package — not left for review
-- [ ] **CRAP** used as a guide on changed functions (target below 8): nested
-      conditionals extracted; a flat switch/case over a closed set of types
-      may stay
+- [ ] **CRAP** evaluated on changed functions (no hard cap): nested conditionals
+      lean toward extract (about 4–8); a flat switch/case over a closed set of
+      types may stay
 
 ## Package report (required)
 
@@ -55,4 +61,4 @@ last one):
 - [ ] [testing.md](testing.md) **Working surfaces** are proved, or recorded
       `none` with evidence
 
-Fail the gate → re-delegate. Passing the gate does not skip `/test` or `/harden`.
+Fail the gate → re-delegate. Passing the gate does not skip `/test` or `/restructure`.

@@ -83,7 +83,7 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 2. **Resolve delivery and commands** — Follow [delivery continuity](../workflow/delivery.md) and inspect repository-owned test/lint commands. Done when the Task's one delivery head is checked out and verification commands are recorded.
 3. **Execute packages** — If `implement.mode=multiagent`, use CONCEPT_DELEGATION for workers; if `single`, keep Routine packages on the manager when safe. Include [testing.md](testing.md), [structure.md](structure.md), and [STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md) in briefs. When spec is `ADOPT.md`, also include the Behaviour map, lock-suite commands, and working-surface commands; fail a package that rewrites lock-test expectations or that skips working-surface proof when the area owns a startable surface. Fail a package that still breaches the structure catalog, that omits the structure/testing report, or that defers catalog work to harden or lasers. Change size does not relax the briefs. When packages write product docs or domain-facing copy, pass `RESEARCH.md` / `MODEL.md` paths as brief inputs. When promoting a sandbox, follow `SANDBOX.md` Promote map into production paths. When a remaining package is a contained element that needs inspect-each-turn, hand off `/sandbox` rather than iterating on production. When `implement.verify=comparative`, follow [rework.md](rework.md) (baseline → candidate → compare → reiterate when `implement.iteration=until-bar`). Done when all packages satisfy the spec, verification mode, structure catalog, Sub-task criteria, and binding.
 4. **Closeout gate** — Walk the **whole** delivery diff against [structure.md](structure.md#manager-gate-before-next-test) and [testing.md](testing.md) (including **Working surfaces**). Remaining catalog breaches, missing reports, missing tests, or missing working-surface proof → re-delegate; do not hand off. Done when the gate holds or every remainder is a documented exception.
-5. **Verify and deliver** — Run the recorded checks, update the same PR (include binding summary, test plan, and structure notes), apply the implementation tracker row, and persist **Next** `/test` (then the bound chain includes `/harden`). Keep the Task **In Progress**. Fix-forward during review-fix returns **In Review**. Done when checks pass, the gate holds, the PR and mirrors are current, and **Next** is recorded.
+5. **Verify and deliver** — Run the recorded checks, update the same PR (include binding summary, test plan, and structure notes), apply the implementation tracker row, and persist **Next** `/test` (then the bound chain includes `/restructure`). Keep the Task **In Progress**. Fix-forward during review returns **In Review**. Done when checks pass, the gate holds, the PR and mirrors are current, and **Next** is recorded.
 
 ## Work packages
 
@@ -98,7 +98,7 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 | Promote | `generalPurpose` | Mid (Routine → low) | Sandbox spans many production seams or public API → high |
 | Fix-forward | `generalPurpose` | Low (obvious) / Mid otherwise | Architectural must-fixes, subtle correctness/races, prior lower-tier miss → next tier / high |
 
-Ensure each behavioural package lists test deliverables and structure notes; if the plan omitted verification, add Testing packages before verify. For comparative verify, ensure Baseline / Compare / Reiterate packages exist per [rework.md](rework.md). A Harden package during Build repairs catalog breaches in-package; it does not replace `/harden`.
+Ensure each behavioural package lists test deliverables and structure notes; if the plan omitted verification, add Testing packages before verify. For comparative verify, ensure Baseline / Compare / Reiterate packages exist per [rework.md](rework.md). A Harden package during Build repairs catalog breaches in-package; it does not replace `/restructure`.
 
 ## Handoff
 
@@ -106,11 +106,11 @@ Prefer the next step in the bound **Chain**. Default after Build:
 
 ```markdown
 ## Next
-`/test <TASK-KEY>` — Dedicated testing phase, then harden, then laser code review
+`/test <TASK-KEY>` — Dedicated testing phase, then restructure, then review
 ```
 
-When `test.mode=skip` (docs-only or explicit user ask) and class is not adopt, Next is `/harden`.
-Adopt / `ADOPT.md` always Next `/test`. Do not skip `/harden` from implement. Fix-forward invoked from review-fix
+When `test.mode=skip` (docs-only or explicit user ask) and class is not adopt, Next is `/restructure`.
+Adopt / `ADOPT.md` always Next `/test`. Do not skip `/restructure` from implement. Fix-forward invoked from review
 returns to that orchestrator — do not rewrite Next to `/test`.
 
 (Use `/ship <TASK-KEY>` to finish remaining along the bound chain.)

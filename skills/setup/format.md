@@ -118,6 +118,7 @@ Agreed agent workspace setup.
 | Model | MODEL.md |
 | Research | RESEARCH.md |
 | Sandbox | SANDBOX.md |
+| Architecture | ARCHITECTURE.md |
 | Sandbox root | sandbox/ |
 | Changelog | CHANGELOG.md (optional; auto-detect when empty) |
 
