@@ -55,7 +55,7 @@
 - Task: MD-1
 - Sub-tasks:
 - Branch: md-1-refactoring-keyword
-- PR:
+- PR: https://github.com/marcuskrogh/skills/pull/47
 - Classification: refine
 - Workflow: structure-safe
 

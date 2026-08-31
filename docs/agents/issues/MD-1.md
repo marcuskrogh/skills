@@ -7,7 +7,7 @@
 | Parent | |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/47 |
 | Created | 2026-08-31 |
 
 ## Summary
@@ -25,4 +25,4 @@ Add **refactoring** as the ordinary word for behaviour-preserving structure edit
 ## Comments
 
 ### 2026-08-31
-Define + architect + implement. Next: `/restructure MD-1`
+Define + architect + implement. Delivery PR: https://github.com/marcuskrogh/skills/pull/47. Next: `/restructure MD-1`

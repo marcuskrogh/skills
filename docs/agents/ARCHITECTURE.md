@@ -12,7 +12,7 @@
 
 ## Tracker
 - Task: MD-1
-- Branch: md-1-refactoring-keyword
+- PR: https://github.com/marcuskrogh/skills/pull/47
 
 ## Next
 `/implement MD-1` — Build to this shape
