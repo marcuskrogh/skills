@@ -36,12 +36,12 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 | **model** | `MODEL.md`; define not done — math aligned; particulars need `/define` |
 | **sandbox** | `SANDBOX.md` present; not promotion-ready — Next `/sandbox`; promotion-ready — `/implement` |
 | **define** | Feature Task enriched / PLAN exists, not started |
+| **architect** | PLAN exists; ARCHITECTURE.md next or in flight |
 | **implement** | In Progress, or branch/PR WIP |
 | **test** | In Progress; implement done; testing phase next or in flight |
-| **harden** | In Progress or just In Review; testing done; structure phase next or in flight |
-| **review** | In Review; PR open (findings-only) |
-| **review-fix** | Preferred post-harden stage; lasers + code review |
-| **fix-forward** | In Review/In Progress + open REQUEST_CHANGES / unreplied threads |
+| **harden** / **restructure** | In Progress or just In Review; testing done; structure phase next or in flight |
+| **review** | In Review; PR open (find and fix; alias review-fix) |
+| **fix-forward** | In Review/In Progress + open must-fix threads |
 | **ship-ready** | In Review + clean **code review** (no must-fix) |
 | **done** | Done / PR merged |
 

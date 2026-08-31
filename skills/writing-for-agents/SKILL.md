@@ -104,7 +104,11 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **rework** | Intentional implementation change with measured non-degradation (parity bar + comparative eval); lightweight define sibling of refine/tweak |
 | **sandbox** | Isolated, representative vehicle for one contained unit, outside production paths; inspect-each-turn then promote via implement; post-merge instead of iterate when each turn needs inspection |
 | **test** | Shipping-phase dedicated testing pass after implement (`test.mode=dedicated`) |
-| **harden** | Shipping-phase behaviour-preserving structure pass (`harden.mode=dedicated`) |
+| **harden** | shipping-phase behaviour-preserving structure pass (`harden.mode=dedicated`); user-facing name **restructure** (`/harden` alias) |
+| **architect** | Always-on shape step after define; `ARCHITECTURE.md` on the delivery branch |
+| **restructure** | Shipping-phase structure pass after test; alias `/harden` |
+| **campground** | Leave each opened unit cleaner; prove before tidy |
+| **architecture neighbourhood** | Opened module/boundary; refine only when the benefit is major |
 | **adopt** | Apply the structure catalog across an existing codebase that was not built to the bar; characterize current behaviour into tests first (including working surfaces); delegated walk until the route is Done |
 | **characterize** | Map current observable behaviour to tests and prove them green on current code before structure-only edits |
 | **working surface** | Startable backend, startable frontend, or composed client-server path the area already owns |

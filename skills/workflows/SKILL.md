@@ -46,16 +46,16 @@ Pick the **first matching** row. Prefer continuing an in-flight Task over starti
 | **guide** | Walk through a manual task one step at a time (install, setup, hardware, coding the user wants walked) | [guide](../guide/SKILL.md) |
 | **sandbox** | Explicit isolated inspect-loop of a contained UI/method/bench; bound `sandbox: inject`; mid-implement inspect-loop; or **post-merge instead of iterate** when each turn needs visual/plot/report inspection | [sandbox](../sandbox/SKILL.md) |
 | **iterate** | Prior Task/PR **already merged**; still broken or incomplete — straightforward production fix (tests/review on the new PR suffice) | [iterate](../iterate/SKILL.md) |
-| **fix-forward** | Open PR has review findings / REQUEST_CHANGES | [review-fix](../review-fix/SKILL.md) (or implement fix-forward) |
+| **fix-forward** | Open PR has review findings | [review](../review/SKILL.md) (always fix) |
 | **adopt** | Entire existing codebase was not built to the structure bar; apply the catalog across it until the route is Done | [adopt](../adopt/SKILL.md) |
 | **explore** | Vague, oversized, or foggy initiative — destination felt, way unclear | [explore](../explore/SKILL.md) |
 | **research** | User explicitly wants multi-axis literature/evidence now (not product alignment) | [research](../research/SKILL.md) |
 | **model** | User explicitly wants math formulation now (not product scope/UX) | [model](../model/SKILL.md) |
 | **implement** | Ready-to-build PLAN (or legacy BUG/TWEAK/REFINE/REWORK/ITERATE/ADOPT/SANDBOX) exists; build or resume | [implement](../implement/SKILL.md) |
+| **architect** | Bound architecture phase after define, or user wants that phase now | [architect](../architect/SKILL.md) |
 | **test** | Bound testing phase after implement, or user wants that phase now | [test](../test/SKILL.md) |
-| **harden** | Bound structure phase after test, or user wants that phase now | [harden](../harden/SKILL.md) |
-| **review** | Want findings only on an In Review PR (no auto-fix) | [review](../review/SKILL.md) |
-| **review-fix** | Want lasers → fix → code review → CLEAN on the delivery PR | [review-fix](../review-fix/SKILL.md) |
+| **restructure** / **harden** | Bound structure phase after test, or user wants that phase now (`/harden` is an alias) | [restructure](../restructure/SKILL.md) |
+| **review** / **review-fix** | Bound review on an In Review PR (find and fix). `/review-fix` is an alias | [review](../review/SKILL.md) |
 | **summarise** | Status / “where am I” / “what next” *reported*, not advanced | [summarise](../summarise/SKILL.md) |
 | **define** | Concrete work to pin down (bug, tweak, adopt, refine, rework, feature, …) — **default front door** | [define](../define/SKILL.md) |
 | **bug** / **tweak** / **refine** / **rework** | User **explicitly** named that skill (manual override) | matching skill |

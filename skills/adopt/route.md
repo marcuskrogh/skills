@@ -31,7 +31,7 @@ Every area Task runs this chain, in order, with each skill's **full** contract
 (including that skill's delegation). Read that skill when the step starts
 (same progressive load as `/ship`):
 
-`characterize → implement → test → harden → review-fix → ship`
+`characterize → architect → implement → test → restructure → review → ship`
 
 Characterize is [characterize.md](characterize.md) (this skill). The later
 steps are the pipeline skills of those names. Do not drop characterize, `/test`,

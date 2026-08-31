@@ -3,7 +3,7 @@
 Reusable agent skills for **workflow-driven delivery** — not a flat skill dump.
 Agents prefer a catalog workflow over freestyle coding: foggy work goes through
 **explore**, concrete work through **define** (classify + bind), then a bound
-chain via persisted **Next** through implement → test → harden → review-fix → ship.
+chain via persisted **Next** through architect → implement → test → restructure → review → ship.
 
 Built on the [Agent Skills](https://agentskills.io) standard. Install via an
 agent (preferred when possible) or [skills.sh](https://skills.sh); works with any
@@ -37,7 +37,7 @@ the set; does not start delivery. Want the current step taught?
 
 | If you… | Run | What happens |
 |---------|-----|----------------|
-| Want the structure catalog on a brownfield codebase | `/adopt` | Characterizes current behaviour into tests (including startable frontend and backend), then walks implement → test → harden → review-fix → ship per area until Done |
+| Want the structure catalog on a brownfield codebase | `/adopt` | Characterizes current behaviour into tests (including startable frontend and backend), then walks architect → implement → test → restructure → review → ship per area until Done |
 
 Without an explicit override or continuation: **foggy → explore**, **concrete →
 define**. Do not route silent asks to `/bug` `/tweak` `/refine` `/rework`
@@ -82,8 +82,8 @@ continue or ship, not a new map — unless they asked for a walkthrough
 ### Typical chain
 
 ```text
-setup → explore? → define (classify + bind) → [sandbox?] → [bound chain, often implement → test → harden → review-fix → ship]
-brownfield structure:  adopt (inventory → [characterize → implement → test → harden → review-fix → ship] per area until Done)
+setup → explore? → define (classify + bind) → architect → [sandbox?] → [bound chain, often implement → test → restructure → review → ship]
+brownfield structure:  adopt (inventory → [characterize → architect → implement → test → restructure → review → ship] per area until Done)
 ```
 
 Explore charts a **map**; research / model commit **finding docs**
@@ -99,8 +99,8 @@ steps, then merge and close out.
 ### Post-ship iterate
 
 ```text
-ship → iterate → test → harden → review-fix → ship → (optional) iterate …
-ship → sandbox → implement → test → harden → review-fix → ship   # inspect-loop instead of iterate
+ship → iterate → test → restructure → review → ship → (optional) iterate …
+ship → sandbox → implement → test → restructure → review → ship   # inspect-loop instead of iterate
 ```
 
 `/iterate` opens a **new** Task/branch/PR after merge (not fix-forward on an
@@ -108,9 +108,8 @@ open PR) when the delta is a straightforward production fix. Prefer
 [`/sandbox`](skills/sandbox/SKILL.md) when each turn needs visual, plot, or
 report inspection of a contained element — the sandbox must be
 **representative** of production in every area that would change the
-inspectable or comparison, then implement promotes. `/review` is findings-only;
-`/review-fix` runs lasers → fix-forward → **code review** → CLEAN. `/test` and
-`/harden` are the dedicated testing and structure phases before that.
+inspectable or comparison, then implement promotes. `/review` finds and fixes (alias `/review-fix`). `/test` and
+`/restructure` (`/harden`) are the dedicated testing and structure phases before that.
 [`/adopt`](skills/adopt/SKILL.md) applies the same catalog across a codebase that
 was not built to it. Each area **characterizes** current behaviour into tests
 first — including startable frontend and backend — then walks the bound chain.

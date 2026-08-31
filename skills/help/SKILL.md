@@ -47,7 +47,7 @@ from this skill; do not load every pipeline skill.
 
 | If you… | Run | What happens |
 |---------|-----|----------------|
-| Want the structure catalog applied across a brownfield codebase | `/adopt` | Characterizes current behaviour into tests, then walks implement → test → harden → review-fix → ship per area until Done |
+| Want the structure catalog applied across a brownfield codebase | `/adopt` | Characterizes current behaviour into tests, then walks architect → implement → test → restructure → review → ship per area until Done |
 
 ### Walk, teach, map
 
@@ -57,7 +57,7 @@ from this skill; do not load every pipeline skill.
 | Want the current step or a decision taught | `/explain` | paced teaching |
 | Want to be walked through a manual task | `/guide` | one step at a time |
 
-After define, follow persisted **Next** (or bare **next** / **ship**). You do **not** need to remember implement / test / harden / review-fix /
+After define, follow persisted **Next** (or bare **next** / **ship**). You do **not** need to remember architect / implement / test / restructure / review /
 class-specific entry skills.
 
 ### What define binds (agent-side)
@@ -65,10 +65,10 @@ class-specific entry skills.
 Define applies [CONCEPT_CLASSIFICATION](../concepts/CONCEPT_CLASSIFICATION.md):
 infers **class** (bug / tweak / adopt / refine / rework / feature / …), selects a
 **template** (fix-fast, parity-iterative, feature-heavy, …) and **parameters**
-(single vs multiagent implement/review, verify mode, **test and harden as the
+(single vs multiagent implement/review, verify mode, **test and restructure as the
 floor**, review depth and lasers, optional research/model side paths, optional
 sandbox inspect-loop), then walks that chain almost deterministically.
-Class **adopt** walks `characterize → implement → test → harden → review-fix → ship` per area
+Class **adopt** walks `characterize → architect → implement → test → restructure → review → ship` per area
 until the route is Done. Characterize maps current behaviour into tests first,
 including startable frontend and backend; those same tests are the bar after
 structure. `/test` is not skippable.
@@ -76,10 +76,10 @@ structure. `/test` is not skippable.
 ### Closed-loop shape
 
 ```text
-setup → explore? → define (classify + bind) → [sandbox?] → [bound chain: often implement → test → harden → review-fix → ship]
-brownfield structure:  adopt (inventory → [characterize → implement → test → harden → review-fix → ship] per area until Done)
-post-merge fix:  ship → iterate → test → harden → review-fix → ship
-post-merge inspect-loop:  ship → sandbox → implement → test → harden → review-fix → ship
+setup → explore? → define (classify + bind) → architect → [sandbox?] → [bound chain: often implement → test → restructure → review → ship]
+brownfield structure:  adopt (inventory → [characterize → architect → implement → test → restructure → review → ship] per area until Done)
+post-merge fix:  ship → iterate → test → restructure → review → ship
+post-merge inspect-loop:  ship → sandbox → implement → test → restructure → review → ship
 ```
 
 After ship, `/iterate` when tests/review on a new PR suffice; `/sandbox` when
@@ -90,7 +90,7 @@ production in every area that would change that inspection.
 
 All pipeline skills stay **user-invokable** when you want to deviate from Next
 or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
-`/adopt`, `/sandbox`, `/implement`, `/test`, `/harden`, `/review`, `/review-fix`, `/ship`, `/research`,
+`/adopt`, `/sandbox`, `/architect`, `/implement`, `/test`, `/restructure` (`/harden`), `/review` (`/review-fix`), `/ship`, `/research`,
 `/model`, `/summarise`, `/guide`, `/explain`, …
 
 ### Meta
