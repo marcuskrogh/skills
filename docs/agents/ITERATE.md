@@ -29,6 +29,7 @@
 ## Tracker
 - Task: MD-1
 - Relates: PR #45 (prior MD-2)
+- PR: https://github.com/marcuskrogh/skills/pull/46
 
 ## Next
 `/test MD-1` — Dedicated testing phase, then harden and code review

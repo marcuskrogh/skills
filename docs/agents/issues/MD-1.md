@@ -7,7 +7,7 @@
 | Parent | |
 | Children | |
 | Artifact | docs/agents/ITERATE.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/46 |
 | Relates | https://github.com/marcuskrogh/skills/pull/45 |
 | Created | 2026-08-31 |
 
@@ -22,4 +22,4 @@ Remove identification-only mutation from the `/test` phase. The bundled runner l
 ## Comments
 
 ### 2026-08-31
-Iterate from merged PR #45. Next: `/test MD-1`
+Iterate from merged PR #45. Delivery PR: https://github.com/marcuskrogh/skills/pull/46. Next: `/test MD-1`
