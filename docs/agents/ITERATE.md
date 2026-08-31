@@ -32,4 +32,4 @@
 - PR: https://github.com/marcuskrogh/skills/pull/46
 
 ## Next
-`/test MD-1` — Dedicated testing phase, then harden and code review
+`/ship MD-1` — Merge and close out
