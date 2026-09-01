@@ -108,5 +108,6 @@ Paths follow WORKSPACE. Record path + commit SHA on the Task when location is
 
 Value-aware worker routing: [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)
 (load before every `Task` spawn of any type, including `computerUse` and
-`videoReview`). Catalog-closed — on Cursor, only Composer / Grok slugs from
-[platforms/cursor.md](../concepts/platforms/cursor.md).
+`videoReview`). Catalog-closed — on Cursor (Desktop, Cloud, CLI, Mobile), only
+Composer / Grok slugs from [platforms/cursor.md](../concepts/platforms/cursor.md);
+never inherit.

@@ -5,7 +5,9 @@ scoring difficulty and picking a worker model. Ranks are preference order for
 **this skills repo**; WORKSPACE or skill overrides win when present.
 
 **Progressive disclosure:** after detecting the harness, read **only** that
-platform file below (use General when unknown or incomplete).
+platform file below. Use General only when the harness is unknown (not Cursor /
+Claude Code / Codex / Copilot). An incomplete Task `model` enum is not unknown
+— stay on the detected file and remap.
 
 ## Catalog rules
 
@@ -28,15 +30,16 @@ platform file below (use General when unknown or incomplete).
 7. **Same slug for low and mid** is allowed (and preferred when cost-optimal).
    If low and mid resolve to the same model, an insufficient report escalates
    **directly to high**.
-8. **Cursor first-party** — on Cursor (Desktop, Cloud, CLI), the platform file
+8. **Cursor first-party** — on Cursor (Desktop, Cloud, CLI, Mobile), the platform file
    is a closed allowlist of **Composer** and **Grok** standard slugs only
    (`composer-2.5`, `cursor-grok-4.6-high`). No `*-fast` variants. The
    allowlist covers every `Task` type (`computerUse`, `videoReview`, …).
    Third-party models in the Cursor picker (Claude, GPT, Gemini, Kimi, …)
    bill the **API budget**; Composer and Grok bill the **internal** budget.
    Never pass a third-party or fast slug on Cursor — remap to the category's
-   catalog slug. When a type would still run a third-party default, keep the
-   work on the manager.
+   catalog slug. If that slug is absent from the Task enum, pass `composer-2.5`.
+   Never omit `model` or pass `inherit`. When a type would still run a
+   third-party default, keep the work on the manager.
 
 ## Platforms
 

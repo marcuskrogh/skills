@@ -9,10 +9,12 @@ Continuation cues: bare **next** / **ship** still apply (see
 `.agents/skills/workflow/reference.md`). Explicit `/skill` names win over
 re-routing. Lost on which skill to use → [`.agents/skills/help/SKILL.md`](.agents/skills/help/SKILL.md).
 
-**Cursor models (catalog-closed).** On Cursor, every `Task` spawn of any type —
+**Cursor models (catalog-closed).** On Cursor (Desktop, Cloud, CLI, Mobile), every `Task` spawn of any type —
 including `computerUse` and `videoReview` — passes `model` `composer-2.5`
-(Routine / Moderate) or `cursor-grok-4.6-high` (Demanding / manager). No
-`*-fast` variants. Third-party picker models bill the API budget. Load
+(Routine / Moderate) or `cursor-grok-4.6-high` (Demanding / manager). If that
+slug is absent from the Task enum, pass `composer-2.5`. Never `inherit`, omit
+`model`, or pick a picker slug. No `*-fast` variants. Third-party picker models
+bill the API budget. Load
 [`.agents/skills/concepts/CONCEPT_DELEGATION.md`](.agents/skills/concepts/CONCEPT_DELEGATION.md)
 and [`.agents/skills/concepts/platforms/cursor.md`](.agents/skills/concepts/platforms/cursor.md)
 before every spawn.

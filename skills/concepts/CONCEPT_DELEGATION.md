@@ -22,11 +22,11 @@ from [PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md) → the matching platform file
 - **Workers only.** Orchestration, plan merge, severity promotion, tracker/PR, and verification ownership stay on the manager.
 - **Score before spawn.** Hardest matching signal wins; no Demanding/Moderate signal → Routine (low).
 - **Bias down.** When unclear, prefer lower category. Importance ≠ difficulty.
-- **Catalog-closed.** The `model` argument is a slug from the loaded platform file (prefer or fallback column) for the scored category. Harness-wide model lists, “latest of family,” type defaults, and vendor heuristics are not a catalog.
+- **Catalog-closed.** The `model` argument is a slug from the loaded platform file (prefer or fallback column) for the scored category. Harness-wide model lists, “latest of family,” type defaults, “use inherit”, “do not substitute”, and vendor heuristics are not a catalog.
 - **Every type.** Every `Task` / sub-agent spawn of any `subagent_type` is a worker spawn for catalog purposes. Type does not select the model.
-- **Pass `model`.** When the harness supports per-worker `model`, every spawn of every type includes an explicit catalog slug. Omit / `inherit` only when the harness cannot set per-worker model; still record difficulty.
+- **Pass `model`.** When the harness supports per-worker `model`, every spawn of every type includes an explicit catalog slug. `inherit` and omit are not catalog slugs. On Cursor, never omit and never pass `inherit`. Omit only when the harness has no per-worker `model` parameter.
 - **One-tier escalate.** Insufficient report → re-delegate same package one tier up with named gaps. If low and mid resolve to the same model, escalate directly to high.
-- **Platform catalog.** Model selection follows the ranked list for the detected harness; General only when the harness is unknown (not Cursor / Claude Code / Codex / Copilot).
+- **Platform catalog.** Model selection follows the ranked list for the detected harness; General only when the harness is unknown (not Cursor / Claude Code / Codex / Copilot). Incomplete Task enums stay on the detected file.
 
 ## Extensions
 
@@ -77,9 +77,12 @@ reason: <one short line — deciding signal>
 Each worker call includes: full brief; explicit catalog `model` when supported
 (every `subagent_type`); difficulty one-liner. Before spawn, verify `model`
 appears in the loaded platform file for the chosen category (prefer or
-fallback). Off-catalog — including a type's default model — remap to that
-category's top prefer slug, then spawn. When the harness would still run an
-off-catalog model for that type, keep the work on the manager.
+fallback). Off-catalog — including a type's default model, `inherit`, or omit —
+remap to that category's top prefer slug, then spawn. If the prefer slug is
+not in the Task `model` enum, pass the other allowlisted slug the enum contains
+(on Cursor: `composer-2.5`). Do not pick a picker slug. When the harness would
+still run an off-catalog model for that type, or no allowlisted slug is in the
+enum, keep the work on the manager.
 
 Load [PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md), then only the detected
 platform file, when assigning models.

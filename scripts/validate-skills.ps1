@@ -145,13 +145,50 @@ if (-not (Test-Path $ConceptsDir)) {
         if ($missingTypes.Count -eq 0) {
             Write-Host "OK: Cursor platform names computerUse and videoReview"
         }
+        $cursorNeedles = @(
+            @{ Needle = 'Mobile'; Label = 'Mobile in Cursor detection' },
+            @{ Needle = 'inherit'; Label = 'inherit forbidden on Cursor' },
+            @{ Needle = 'incomplete'; Label = 'incomplete enum stays Cursor' }
+        )
+        foreach ($need in $cursorNeedles) {
+            if ($cursorText.IndexOf($need.Needle) -lt 0) {
+                Write-Host "FAIL: Cursor platform catalog must contain '$($need.Needle)' ($($need.Label))"
+                $script:errors++
+            } else {
+                Write-Host "OK: Cursor platform $($need.Label)"
+            }
+        }
+    }
+
+    $catalogIndex = Join-Path $ConceptsDir "PLATFORM-CATALOGS.md"
+    if (-not (Test-Path $catalogIndex)) {
+        Write-Host "FAIL: Missing platform catalog index: $catalogIndex"
+        $script:errors++
+    } else {
+        $indexText = Get-Content -Path $catalogIndex -Raw
+        if ($indexText -match 'use General when unknown or incomplete') {
+            Write-Host "FAIL: PLATFORM-CATALOGS.md must not fall through to General when the Task enum is incomplete"
+            $script:errors++
+        } else {
+            Write-Host "OK: PLATFORM-CATALOGS.md does not treat incomplete enum as General"
+        }
+        foreach ($need in @('Mobile', 'inherit')) {
+            if ($indexText.IndexOf($need) -lt 0) {
+                Write-Host "FAIL: PLATFORM-CATALOGS.md must contain '$need' (Cursor first-party spawn)"
+                $script:errors++
+            } else {
+                Write-Host "OK: PLATFORM-CATALOGS.md names $need"
+            }
+        }
     }
 }
 
 # Always-on Cursor pointers must name computerUse / videoReview so sandbox
-# inspect spawns stay catalog-closed even before skills load.
+# inspect spawns stay catalog-closed even before skills load, and must name
+# Mobile / inherit / composer-2.5 so Cloud-from-Mobile cannot pick picker models.
 $pointerFiles = @(
     (Join-Path $RepoRoot "AGENTS.md"),
+    (Join-Path $RepoRoot "CLAUDE.md"),
     (Join-Path $RepoRoot (Join-Path ".cursor" (Join-Path "rules" "github-skills.mdc"))),
     (Join-Path $RepoRoot (Join-Path "templates" (Join-Path "agent-install" "AGENTS.md"))),
     (Join-Path $RepoRoot (Join-Path "templates" (Join-Path "agent-install" "AGENTS.block.md"))),
@@ -172,8 +209,15 @@ foreach ($pf in $pointerFiles) {
             $pointerOk = $false
         }
     }
+    foreach ($need in @('Mobile', 'inherit', 'composer-2.5')) {
+        if ($pointerText.IndexOf($need) -lt 0) {
+            Write-Host "FAIL: $pf must contain '$need' (Cursor first-party spawn on Mobile / enum remap)"
+            $script:errors++
+            $pointerOk = $false
+        }
+    }
     if ($pointerOk) {
-        Write-Host "OK: $pf names computerUse and videoReview"
+        Write-Host "OK: $pf names computerUse, videoReview, Mobile, inherit, and composer-2.5"
     }
 }
 

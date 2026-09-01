@@ -12,10 +12,12 @@ Continuation cues: bare **next** / **ship** still apply (see
 (manual overrides remain available). Lost on which skill to use →
 [`help`](skills/help/SKILL.md).
 
-**Cursor models (catalog-closed).** On Cursor, every `Task` spawn of any type —
+**Cursor models (catalog-closed).** On Cursor (Desktop, Cloud, CLI, Mobile), every `Task` spawn of any type —
 including `computerUse` and `videoReview` — passes `model` `composer-2.5`
-(Routine / Moderate) or `cursor-grok-4.6-high` (Demanding / manager). No
-`*-fast` variants. Third-party picker models bill the API budget. Load
+(Routine / Moderate) or `cursor-grok-4.6-high` (Demanding / manager). If that
+slug is absent from the Task enum, pass `composer-2.5`. Never `inherit`, omit
+`model`, or pick a picker slug. No `*-fast` variants. Third-party picker models
+bill the API budget. Load
 [`CONCEPT_DELEGATION`](skills/concepts/CONCEPT_DELEGATION.md) and
 [`platforms/cursor.md`](skills/concepts/platforms/cursor.md) before every spawn.
 
