@@ -15,4 +15,4 @@
 - Branch: cursor/first-party-cloud-subagents-5fab
 
 ## Next
-`/review MD-1` — Lasers then fix then code review
+`/ship MD-1` — Merge and close out (CLEAN review)

@@ -58,4 +58,4 @@ Skills that spawn `Task` workers on Cursor must stay on Composer and Grok. A Clo
 - Workflow: fix-fast
 
 ## Next
-`/review MD-1` — Lasers then fix then code review
+`/ship MD-1` — Merge and close out (CLEAN review)

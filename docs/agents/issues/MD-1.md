@@ -27,7 +27,7 @@ Applying skills in a Cursor Cloud environment started from Mobile sometimes spaw
 - Chain: architect → implement → test → restructure → review → ship
 
 ## Next
-`/review MD-1` — Lasers then fix then code review
+`/ship MD-1` — Merge and close out (CLEAN review)
 
 ## Comments
 
@@ -42,3 +42,6 @@ Test: `pwsh scripts/validate-skills.ps1` green (Mobile / inherit / no-General-on
 
 ### 2026-09-01
 Restructure: campground on CONCEPT_DELEGATION assign-model step (enum remap). Task In Review. Next: `/review MD-1`.
+
+### 2026-09-01
+Review CLEAN (focused lasers). Next: `/ship MD-1`.
