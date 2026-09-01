@@ -15,4 +15,4 @@
 - Branch: cursor/first-party-cloud-subagents-5fab
 
 ## Next
-`/test MD-1` — Dedicated testing phase (validate-skills regression)
+`/review MD-1` — Lasers then fix then code review

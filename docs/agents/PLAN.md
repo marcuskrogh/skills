@@ -53,9 +53,9 @@ Skills that spawn `Task` workers on Cursor must stay on Composer and Grok. A Clo
 - Task: MD-1
 - Sub-tasks: MD-2, MD-3
 - Branch: cursor/first-party-cloud-subagents-5fab
-- PR:
+- PR: https://github.com/marcuskrogh/skills/pull/48
 - Classification: bug
 - Workflow: fix-fast
 
 ## Next
-`/test MD-1` — Dedicated testing phase (validate-skills regression)
+`/review MD-1` — Lasers then fix then code review

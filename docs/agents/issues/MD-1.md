@@ -3,12 +3,12 @@
 | Field | Value |
 |-------|-------|
 | Type | Task |
-| Status | In Progress |
+| Status | In Review |
 | Parent | |
 | Children | MD-2, MD-3 |
 | Artifact | docs/agents/PLAN.md |
 | Branch | cursor/first-party-cloud-subagents-5fab |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/48 |
 | Classification | bug |
 | Workflow | fix-fast |
 | Created | 2026-09-01 |
@@ -27,7 +27,7 @@ Applying skills in a Cursor Cloud environment started from Mobile sometimes spaw
 - Chain: architect → implement → test → restructure → review → ship
 
 ## Next
-`/test MD-1` — Dedicated testing phase (validate-skills regression)
+`/review MD-1` — Lasers then fix then code review
 
 ## Comments
 
@@ -36,3 +36,9 @@ Define complete. PLAN.md on delivery branch. Next: `/architect MD-1`.
 
 ### 2026-09-01
 Architect + implement: catalog, pointers, and validate-skills checks on this branch. Next: `/test MD-1`.
+
+### 2026-09-01
+Test: `pwsh scripts/validate-skills.ps1` green (Mobile / inherit / no-General-on-incomplete). Working surfaces: none. Next: `/restructure MD-1`.
+
+### 2026-09-01
+Restructure: campground on CONCEPT_DELEGATION assign-model step (enum remap). Task In Review. Next: `/review MD-1`.
