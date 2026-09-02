@@ -33,8 +33,8 @@ through lightweight alignment. Implementation follows the comparative path in
 | Slot | This skill |
 |------|------------|
 | **Subject** | Limited area whose implementation should change (algorithm, control law, mapping, internal path) while measured outcomes stay within a declared bar |
-| **Probes** | Area boundary; thin description of current vs intended implementation; why rework; **parity bar** (metrics, scenarios, tolerances, how baseline is obtained); acceptance; out of scope; optional parent Story/Task link; optional `/model` when math equivalence needs alignment |
-| **Stop condition** | Area, intended rework, parity bar, and acceptance are clear enough to implement with comparative evaluation |
+| **Probes** | Area boundary; thin description of current vs intended implementation; why rework; **parity bar** (metrics, scenarios, tolerances, how baseline is obtained); **pass criteria**; out of scope; optional parent Story/Task link; optional `/model` when math equivalence needs alignment |
+| **Stop condition** | Area, intended rework, parity bar, and pass criteria are clear enough to implement with comparative evaluation |
 | **Alignment / definition artifact** | `REWORK.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Is this enough to implement the rework?" |
 | **Opening** | Thin description **required**. Missing area → "What area should be reworked?" Rich (area + change pasted): first question on highest-impact gap (often the parity bar) |
@@ -75,7 +75,7 @@ through lightweight alignment. Implementation follows the comparative path in
 - Baseline: …   # how current code is measured (branch, seam, recorded runs)
 - Candidate: …  # how new code is measured on the same scenarios
 
-## Acceptance criteria
+## Pass criteria
 - …   # include: candidate meets parity bar vs baseline; suite green
 
 ## Out of scope

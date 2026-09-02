@@ -114,6 +114,8 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **characterize** | Map current observable behaviour to tests and prove them green on current code before structure-only edits |
 | **working surface** | Startable backend, startable frontend, or composed client-server path the area already owns |
 | **CRAP** | Change Risk Anti-Patterns score; a guide toward extract vs justified dispatch; target below 8 unless repo docs set another threshold |
+| **pass criteria** | Checkable success rows on the definition artifact, distinct from the specification; each row is one observable a spec lock can fail |
+| **spec lock** | Automated check written from a pass-criteria row; fails if that row is unmet; a test of an invented helper does not count |
 | **prove** | Recorded lock suite plus working-surface commands must still hold before the next structure-only step or area |
 | **laser** | Sequential single-axis (or small-bundle) review pass; under review-fix, fix before the next laser |
 | **code review** | Final published pull-request review after lasers; the closeout gate |

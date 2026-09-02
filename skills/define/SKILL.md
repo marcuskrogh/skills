@@ -22,7 +22,7 @@ binding) and Sub-tasks on the **pipeline Task**.
 
 **Alignment first.** Classification and workflow binding do **not** replace
 user alignment — they run **after** (or interleaved with) the alignment loop so
-scope, behaviour, constraints, and acceptance are settled **with the user**.
+scope, behaviour, constraints, and **pass criteria** are settled **with the user**.
 Depth is proportional: lightweight classes stay short; **feature** (and any
 work with unresolved definition divergences) uses **full** relentless alignment.
 After bind, later skills follow the chain **deterministically** via **Next**.
@@ -40,8 +40,8 @@ After bind, later skills follow the chain **deterministically** via **Next**.
 | Slot | This skill |
 |------|------------|
 | **Subject** | Concrete work: defect, small delta, brownfield whole-tree structure, bounded structure-only, measured impl swap, or feature slice (explore route Task when present) |
-| **Probes** | Thin description; scope in/out; behaviour divergences (or preserve-behaviour / parity bar as class requires); constraints; acceptance; work packages; fog pointers on this route Task; Task key; how to apply RESEARCH/MODEL/SANDBOX — same definition probe set as classic define, proportional depth |
-| **Stop condition** | No obvious divergences remain for scope, behaviour (or parity/preserve-behaviour), constraints, and acceptance — resolved **with the user**; then class + workflow binding are persisted |
+| **Probes** | Thin description; scope in/out; behaviour divergences (or preserve-behaviour / parity bar as class requires); constraints; **pass criteria** (checkable success rows, distinct from the specification); work packages; fog pointers on this route Task; Task key; how to apply RESEARCH/MODEL/SANDBOX — same definition probe set as classic define, proportional depth |
+| **Stop condition** | No obvious divergences remain for scope, behaviour (or parity/preserve-behaviour), constraints, and pass criteria — resolved **with the user**; then class + workflow binding are persisted |
 | **Alignment / definition artifact** | `PLAN.md` (path from WORKSPACE) — always; class lives in Classification, not a separate BUG/TWEAK file |
 | **Readiness prompt** | "Does this plan and workflow binding look right?" |
 | **Opening** | Thin description **required**. Missing → "What should we define?" Rich / key given: load Task (+ Story, ROADMAP, RESEARCH, MODEL, SANDBOX); first **definition** divergence with the user |
@@ -57,7 +57,7 @@ After bind, later skills follow the chain **deterministically** via **Next**.
 ## Steps
 
 1. **Resolve entry** — Require a thin description or ask once; fetch route Task + Story when present; load ROADMAP / RESEARCH / MODEL as supportive. Form a *provisional* class signal only to choose alignment depth (not a final binding). Done when the subject and unresolved definition divergences are known.
-2. **Align and define** — Follow CONCEPT_ALIGNMENT + CONCEPT_DEFINITION relentlessly until the stop condition holds. Use **full** depth when provisional class is feature, class is ambiguous, or definition divergences remain; use lightweight depth only for clear bug/tweak/adopt/refine/rework with no remaining definition forks. Done when scope, behaviour/parity/preserve-behaviour, constraints, and acceptance are user-aligned and the plan body is ready.
+2. **Align and define** — Follow CONCEPT_ALIGNMENT + CONCEPT_DEFINITION relentlessly until the stop condition holds. Use **full** depth when provisional class is feature, class is ambiguous, or definition divergences remain; use lightweight depth only for clear bug/tweak/adopt/refine/rework with no remaining definition forks. Done when scope, behaviour/parity/preserve-behaviour, constraints, and pass criteria are user-aligned and the plan body is ready.
 3. **Classify and bind** — Apply CONCEPT_CLASSIFICATION + the catalog on the *aligned* description: final **class**, **template** + **parameters** (efficiency-first), confirm only on costly ambiguity. Done when Classification + Workflow are complete and accepted — without reopening settled definition decisions unless the binding exposes a new divergence.
 4. **Persist and track** — Write `PLAN.md`, follow delivery continuity, apply the define tracker row, mirror binding fields on the tracker, and set **Next** to the first step of the bound **Chain**. Done when artifact, Sub-tasks, branch/PR, comments, mirrors, and **Next** agree.
 
@@ -98,8 +98,8 @@ After bind, later skills follow the chain **deterministically** via **Next**.
 - Model: MODEL.md (if any)
 - Sandbox: SANDBOX.md (if any)
 
-## Acceptance criteria
-- …   # include parity bar metrics when Class is rework
+## Pass criteria
+- …   # one observable per row; fail if unmet. Distinct from Scope. Docs-only: none — no executable behaviour. Parity bar metrics when Class is rework.
 
 ## Work packages
 1. …

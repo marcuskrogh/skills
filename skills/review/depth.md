@@ -70,7 +70,7 @@ per worker. Prefer accurate severity over a soft review.
 Include: context pack + Spec checklist (if pack non-empty) + Correctness checklist
 + Standards smell baseline for **changed** hunks only + tooling failures.
 
-1. **Spec** (when pack exists) — each acceptance / repro expectation through the
+1. **Spec** (when pack exists) — each pass-criteria row / repro expectation through the
    diff; missing/wrong → `blocker`; incomplete related surfaces → `should-fix`.
 2. **Correctness** — logic, edges, errors, races, tests; unexplained tooling
    failures → `blocker`.

@@ -43,7 +43,7 @@ instead. Before spawning workers, also read
 | Slot | This skill |
 |------|------------|
 | **Subject** | Post-ship delta |
-| **Probes** | Symptom vs expected; acceptance; out of scope; environment/constraint that changes the fix |
+| **Probes** | Symptom vs expected; **pass criteria**; out of scope; environment/constraint that changes the fix |
 | **Stop condition** | Enough to implement without guessing |
 | **Readiness prompt** | "Implement this fix now?" (default yes when invoke was rich) |
 
@@ -89,7 +89,7 @@ Follow the CONCEPT_ITERATION flow. Skill specialisations:
 ## Clarifications
 - …   # omit if none
 
-## Acceptance criteria
+## Pass criteria
 - …
 
 ## Out of scope
