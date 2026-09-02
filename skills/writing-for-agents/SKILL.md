@@ -35,8 +35,9 @@ handoff). Restating an invariant is **duplication** — it inflates prominence
 and drifts.
 
 **User-facing prose** is not this skill. Messages the operator reads follow
-[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md). This skill's leading words
-and compact tokens are for skill and concept files only.
+[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md) and
+[LANGUAGE-PHRASES.md](../concepts/LANGUAGE-PHRASES.md). This skill's leading
+words and compact tokens are for skill and concept files only.
 
 ## Context pointers
 
@@ -128,7 +129,7 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **depth** | Proportional intensity preset (review: `full` vs `focused`; define/bug/tweak/adopt/refine/rework: Full vs Lightweight) |
 | **dev-surface** | (pl. **dev-surfaces**) Development linking surface where issue keys belong — full list: CONCEPT_IMPLEMENTATION Leading words |
 | **product surface** | (pl. **product surfaces**) End-user facing shipped source and copy — product language exclusively; full list: CONCEPT_IMPLEMENTATION Leading words |
-| **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md); workspace `Agent language: general` widens the same rules |
+| **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md). A repo or global install applies those rules to all operator-directed language in that scope. |
 | **pace** | One unit per user turn; wait for **advance** or **block** before the next; each waited message ends on a short continue cue |
 | **advance** | Approving reply that continues a paced sequence (yes, okay, move on, and similar; a successful result counts) |
 | **block** | Reply that the current unit failed, is unclear, or does not fit the environment; reevaluate the remaining sequence |

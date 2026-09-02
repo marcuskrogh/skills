@@ -65,12 +65,6 @@ Agreed agent workspace setup.
 | Require `gh` for review/ship | true |
 | One delivery PR per Task | true |
 
-## Language
-
-| Field | Value |
-|-------|-------|
-| Agent language | general |
-
 ## Pipeline
 
 | Field | Value |

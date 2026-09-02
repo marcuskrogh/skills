@@ -7,6 +7,8 @@
 # Also supported: npx skills add marcuskrogh/skills
 #
 # Always syncs skills/*/ (with SKILL.md) and skills/concepts/ as sibling folders.
+# Also upserts the language extract into ~/.claude/CLAUDE.md and
+# ~/.cursor/rules/marcuskrogh-skills.mdc.
 
 set -euo pipefail
 
@@ -99,6 +101,78 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
 
   echo "Synced ${#SYNCED[@]} item(s) to $TARGET_DIR"
 done
+
+upsert_marked_block() {
+  local dest="$1"
+  local block_file="$2"
+  local begin="<!-- marcuskrogh/skills:begin -->"
+  local end="<!-- marcuskrogh/skills:end -->"
+  local tmp before after
+
+  mkdir -p "$(dirname "$dest")"
+  tmp="$(mktemp)"
+  cat "$block_file" > "$tmp"
+  if [ -s "$tmp" ] && [ "$(tail -c 1 "$tmp" | wc -l)" -eq 0 ]; then
+    echo >> "$tmp"
+  fi
+
+  if [ ! -f "$dest" ]; then
+    mv "$tmp" "$dest"
+    echo "Wrote $dest"
+    return
+  fi
+
+  if grep -qF "$begin" "$dest"; then
+    before="$(mktemp)"
+    after="$(mktemp)"
+    awk -v b="$begin" -v e="$end" '
+      $0 == b { exit }
+      { print }
+    ' "$dest" > "$before"
+    awk -v b="$begin" -v e="$end" '
+      $0 == e { saw_end=1; next }
+      saw_end { print }
+    ' "$dest" > "$after"
+    {
+      cat "$before"
+      cat "$tmp"
+      if [ -s "$after" ]; then
+        first="$(head -n 1 "$after")"
+        if [ -n "$first" ]; then
+          echo ""
+        fi
+        cat "$after"
+      fi
+    } > "$dest"
+    rm -f "$before" "$after" "$tmp"
+    echo "Updated $dest"
+  else
+    {
+      cat "$tmp"
+      echo ""
+      cat "$dest"
+    } > "${tmp}.out"
+    mv "${tmp}.out" "$dest"
+    rm -f "$tmp"
+    echo "Prepended $dest"
+  fi
+}
+
+echo ""
+echo "Wiring global language pointers..."
+TPL="$REPO_ROOT/templates/agent-install"
+if [ -f "$TPL/global-CLAUDE.block.md" ]; then
+  upsert_marked_block "${HOME}/.claude/CLAUDE.md" "$TPL/global-CLAUDE.block.md"
+else
+  echo "WARN: missing $TPL/global-CLAUDE.block.md"
+fi
+if [ -f "$TPL/global-cursor-language.mdc" ]; then
+  mkdir -p "${HOME}/.cursor/rules"
+  cp "$TPL/global-cursor-language.mdc" "${HOME}/.cursor/rules/marcuskrogh-skills.mdc"
+  echo "Wrote ${HOME}/.cursor/rules/marcuskrogh-skills.mdc"
+else
+  echo "WARN: missing $TPL/global-cursor-language.mdc"
+fi
 
 echo ""
 echo "Tip: for project installs, prefer agent-from-git:"

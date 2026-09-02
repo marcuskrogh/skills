@@ -33,7 +33,7 @@ installer. Do not use another install method.
 | Write `.agents/skills/.skills-version` | `repo`, `ref`, `sha`, `synced_at`, `method=install-from-git` |
 | Upsert marked block in `AGENTS.md` | `<!-- marcuskrogh/skills:begin -->` … `end` |
 | Wire `CLAUDE.md` | Symlink → `AGENTS.md` when absent; else same block |
-| Write `.cursor/rules/github-skills.mdc` | Prefer-workflow Cursor rule |
+| Write `.cursor/rules/github-skills.mdc` | Prefer-workflow Cursor rule plus language extract |
 
 ## Env knobs (optional)
 
@@ -75,7 +75,8 @@ npx skills add marcuskrogh/skills --all -y
 `npx` does **not** write the prefer-workflow `AGENTS.md` block or Cursor rule.
 After an npx-only install, either run `install-from-git.sh` (replaces the skill
 tree and wires pointers) or copy the marked block from
-`templates/agent-install/AGENTS.block.md` into `AGENTS.md` manually.
+`templates/agent-install/AGENTS.block.md` into `AGENTS.md` manually. Language
+rules only apply when that block (or the Cursor rule) is present.
 
 ## Update an agent-from-git install
 
@@ -88,5 +89,6 @@ the marked pointer block. Then commit.
 - [ ] `.agents/skills/concepts/` exists
 - [ ] `.agents/skills/.skills-version` records `method=install-from-git`
 - [ ] `AGENTS.md` contains the `marcuskrogh/skills` begin/end block pointing at
-      `.agents/skills/workflows/SKILL.md`
+      `.agents/skills/workflows/SKILL.md` and the language extract
+      (`CONCEPT_LANGUAGE.md`, `LANGUAGE-PHRASES.md`)
 - [ ] Changes committed (unless the user asked not to)

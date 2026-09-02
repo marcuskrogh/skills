@@ -179,8 +179,9 @@ Concepts own **invariants**; skills fill **extensions** only — see
 [`writing-for-agents`](skills/writing-for-agents/SKILL.md). Example: `define`
 applies alignment + definition + **classification** for concrete work; `bug` /
 `tweak` / `refine` / `rework` are manual overrides with the same class
-semantics. `adopt` applies the structure catalog to a brownfield tree. User-facing agent prose follows
-[`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md).
+semantics. `adopt` applies the structure catalog to a brownfield tree. Operator-directed
+agent prose follows [`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md)
+whenever the skills are installed.
 
 **Sub-agent value routing:** skills that delegate (`implement`, `test`, `harden`,
 `adopt`, `review`, `review-fix`, `sandbox`, and composers like `ship` / `iterate` / `research` axes)
@@ -211,7 +212,8 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── platforms/              ← cursor, claude-code, codex, github-copilot, general
 │   ├── CONCEPT_IMPLEMENTATION.md
 │   ├── CONCEPT_ITERATION.md
-│   ├── CONCEPT_LANGUAGE.md     ← user-facing prose; setup can persist general
+│   ├── CONCEPT_LANGUAGE.md     ← operator-directed prose; always on when installed
+│   ├── LANGUAGE-PHRASES.md     ← replacements for stock assistant lines and metaphors
 │   ├── CONCEPT_DEFINITION.md
 │   ├── CONCEPT_GUIDANCE.md
 │   ├── CONCEPT_EXPLANATION.md
@@ -420,10 +422,10 @@ Repository fields **override global fields one by one**, so a repo can change
 just the tracker and inherit everything else. Set `Extends global: false` in a
 repo file to opt out of inheritance entirely.
 
-`/setup` also asks **Agent language**: `user-facing` (default; skill replies)
-or `general` (the same [CONCEPT_LANGUAGE](skills/concepts/CONCEPT_LANGUAGE.md)
-contract on all operator-directed agent prose in that workspace). A global
-file can set it for every repo; a repo field overrides.
+Language is not a workspace field. A repo install writes the language extract
+into `AGENTS.md`, `CLAUDE.md`, and `.cursor/rules/github-skills.mdc`. A global
+skill sync writes `~/.claude/CLAUDE.md` and `~/.cursor/rules/marcuskrogh-skills.mdc`.
+The contract is [CONCEPT_LANGUAGE](skills/concepts/CONCEPT_LANGUAGE.md).
 
 ### Keeping repos clean
 
@@ -459,7 +461,7 @@ Use `/manage-skills` for the full checklist.
 | `validate-skills.ps1` | Frontmatter, naming, plugin.json coverage, concepts |
 | `setup-project-sync.ps1` | Wire startup sync into a project (optional `-WireCursorCloud`) |
 | `templates/project-sync/sync-skills.sh` | Startup sync: fetch `SKILLS_REF` (default `main`) → `.agents/skills/` + `.skills-version` |
-| `templates/agent-install/` | Consumer `AGENTS.md` block + Cursor rule used by `install-from-git.sh` |
+| `templates/agent-install/` | Consumer `AGENTS.md` block, Cursor rule, and global language pointers used by `install-from-git.sh` / `sync-local` |
 | `setup-github.ps1` | First-time push to GitHub |
 
 ## Tracker credentials
