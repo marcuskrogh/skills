@@ -57,7 +57,7 @@
 - Task: MD-1
 - Sub-tasks:
 - Branch: md-1-spec-lock-pass-criteria
-- PR:
+- PR: https://github.com/marcuskrogh/skills/pull/49
 - Classification: refine
 - Workflow: structure-safe
 

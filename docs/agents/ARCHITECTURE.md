@@ -13,6 +13,7 @@
 ## Tracker
 - Task: MD-1
 - Branch: md-1-spec-lock-pass-criteria
+- PR: https://github.com/marcuskrogh/skills/pull/49
 
 ## Next
-`/implement MD-1` — Build to this shape
+`/restructure MD-1` — Structure pass after implement (`test.mode=skip`)

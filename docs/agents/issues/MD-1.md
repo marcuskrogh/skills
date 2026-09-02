@@ -7,7 +7,7 @@
 | Parent | |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/49 |
 | Created | 2026-09-02 |
 
 ## Summary
@@ -24,4 +24,4 @@ Define records checkable pass criteria. Implement writes a spec lock per row. `/
 ## Comments
 
 ### 2026-09-02
-Define + architect + implement. Next: `/restructure MD-1`
+Define + architect + implement. Delivery PR: https://github.com/marcuskrogh/skills/pull/49. Next: `/restructure MD-1`
