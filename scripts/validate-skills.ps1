@@ -183,6 +183,30 @@ if (-not (Test-Path $ConceptsDir)) {
     }
 }
 
+function Get-PointerText {
+    param([string]$Path)
+
+    $item = Get-Item -Path $Path -Force
+    if ($item.LinkType) {
+        $target = $item.Target
+        if ($target -is [array]) { $target = $target[0] }
+        if (-not [IO.Path]::IsPathRooted($target)) {
+            $target = Join-Path (Split-Path $Path -Parent) $target
+        }
+        return Get-Content -Path $target -Raw
+    }
+
+    $raw = Get-Content -Path $Path -Raw
+    $trimmed = $raw.Trim()
+    if ($trimmed -match '^(AGENTS\.md|CLAUDE\.md)$') {
+        $target = Join-Path (Split-Path $Path -Parent) $trimmed
+        if (Test-Path $target) {
+            return Get-Content -Path $target -Raw
+        }
+    }
+    return $raw
+}
+
 # Always-on Cursor pointers must name computerUse / videoReview so sandbox
 # inspect spawns stay catalog-closed even before skills load, and must name
 # Mobile / inherit / composer-2.5 so Cloud-from-Mobile cannot pick picker models.
@@ -200,7 +224,7 @@ foreach ($pf in $pointerFiles) {
         $script:errors++
         continue
     }
-    $pointerText = Get-Content -Path $pf -Raw
+    $pointerText = Get-PointerText -Path $pf
     $pointerOk = $true
     foreach ($needType in @('computerUse', 'videoReview')) {
         if ($pointerText.IndexOf($needType) -lt 0) {
@@ -218,6 +242,48 @@ foreach ($pf in $pointerFiles) {
     }
     if ($pointerOk) {
         Write-Host "OK: $pf names computerUse, videoReview, Mobile, inherit, and composer-2.5"
+    }
+    foreach ($langNeed in @('CONCEPT_LANGUAGE', 'LANGUAGE-PHRASES', 'GeneralProcessSimulator', 'harness')) {
+        if ($pointerText.IndexOf($langNeed) -lt 0) {
+            Write-Host "FAIL: $pf must contain '$langNeed' (always-on language extract)"
+            $script:errors++
+            $pointerOk = $false
+        }
+    }
+    if ($pointerText.IndexOf('CONCEPT_LANGUAGE') -ge 0 -and $pointerText.IndexOf('LANGUAGE-PHRASES') -ge 0) {
+        Write-Host "OK: $pf names CONCEPT_LANGUAGE and LANGUAGE-PHRASES"
+    }
+}
+
+$phrasesRef = Join-Path $ConceptsDir "LANGUAGE-PHRASES.md"
+if (-not (Test-Path $phrasesRef)) {
+    Write-Host "FAIL: Missing language phrase catalog: $phrasesRef"
+    $script:errors++
+} else {
+    Write-Host "OK: LANGUAGE-PHRASES.md"
+}
+
+$globalLangFiles = @(
+    (Join-Path $RepoRoot (Join-Path "templates" (Join-Path "agent-install" "global-CLAUDE.block.md"))),
+    (Join-Path $RepoRoot (Join-Path "templates" (Join-Path "agent-install" "global-cursor-language.mdc")))
+)
+foreach ($gf in $globalLangFiles) {
+    if (-not (Test-Path $gf)) {
+        Write-Host "FAIL: Missing global language pointer: $gf"
+        $script:errors++
+        continue
+    }
+    $gText = Get-Content -Path $gf -Raw
+    $gOk = $true
+    foreach ($langNeed in @('CONCEPT_LANGUAGE', 'LANGUAGE-PHRASES', 'GeneralProcessSimulator', 'harness')) {
+        if ($gText.IndexOf($langNeed) -lt 0) {
+            Write-Host "FAIL: $gf must contain '$langNeed'"
+            $script:errors++
+            $gOk = $false
+        }
+    }
+    if ($gOk) {
+        Write-Host "OK: $gf language extract"
     }
 }
 

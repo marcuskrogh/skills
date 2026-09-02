@@ -7,6 +7,8 @@
 # Also supported: npx skills add marcuskrogh/skills
 #
 # Always syncs skills/*/ (with SKILL.md) and skills/concepts/ as sibling folders.
+# Also upserts the language extract into ~/.claude/CLAUDE.md and
+# ~/.cursor/rules/marcuskrogh-skills.mdc.
 
 param(
     [switch]$Prune,
@@ -99,6 +101,76 @@ foreach ($TargetDir in $Targets) {
   }
 
   Write-Host "Synced $($synced.Count) item(s) to $TargetDir"
+}
+
+function Upsert-MarkedBlock {
+  param(
+    [string]$DestPath,
+    [string]$BlockPath
+  )
+
+  $begin = '<!-- marcuskrogh/skills:begin -->'
+  $end = '<!-- marcuskrogh/skills:end -->'
+  $block = Get-Content -Path $BlockPath -Raw
+  if ($block -notmatch "`n$") { $block += "`n" }
+
+  $dir = Split-Path -Parent $DestPath
+  if (-not (Test-Path $dir)) {
+    New-Item -ItemType Directory -Force -Path $dir | Out-Null
+  }
+
+  if (-not (Test-Path $DestPath)) {
+    Set-Content -Path $DestPath -Value $block -NoNewline
+    Write-Host "Wrote $DestPath"
+    return
+  }
+
+  $existing = Get-Content -Path $DestPath -Raw
+  if ($null -eq $existing) { $existing = '' }
+
+  if ($existing.Contains($begin)) {
+    $before = $existing.Substring(0, $existing.IndexOf($begin))
+    $after = ''
+    $endAt = $existing.IndexOf($end)
+    if ($endAt -ge 0) {
+      $afterStart = $endAt + $end.Length
+      if ($afterStart -lt $existing.Length) {
+        $after = $existing.Substring($afterStart)
+        $after = $after -replace '^(\r\n|\n|\r)', ''
+      }
+    }
+    $out = $before + $block
+    if ($after.Trim().Length -gt 0) {
+      if ($out -notmatch "(\r\n|\n)$") { $out += "`n" }
+      $out += "`n" + $after
+    }
+    Set-Content -Path $DestPath -Value $out -NoNewline
+    Write-Host "Updated $DestPath"
+  } else {
+    $out = $block + "`n" + $existing
+    Set-Content -Path $DestPath -Value $out -NoNewline
+    Write-Host "Prepended $DestPath"
+  }
+}
+
+Write-Host ""
+Write-Host "Wiring global language pointers..."
+$tpl = Join-Path $RepoRoot (Join-Path "templates" "agent-install")
+$claudeBlock = Join-Path $tpl "global-CLAUDE.block.md"
+$cursorRule = Join-Path $tpl "global-cursor-language.mdc"
+if (Test-Path $claudeBlock) {
+  Upsert-MarkedBlock -DestPath (Join-Path $env:USERPROFILE ".claude\CLAUDE.md") -BlockPath $claudeBlock
+} else {
+  Write-Host "WARN: missing $claudeBlock"
+}
+if (Test-Path $cursorRule) {
+  $cursorRulesDir = Join-Path $env:USERPROFILE ".cursor\rules"
+  New-Item -ItemType Directory -Force -Path $cursorRulesDir | Out-Null
+  $cursorDest = Join-Path $cursorRulesDir "marcuskrogh-skills.mdc"
+  Copy-Item -Path $cursorRule -Destination $cursorDest -Force
+  Write-Host "Wrote $cursorDest"
+} else {
+  Write-Host "WARN: missing $cursorRule"
 }
 
 Write-Host ""

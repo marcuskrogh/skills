@@ -106,9 +106,9 @@ or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
 | **manage-skills** | Install/sync this repo |
 | **writing-for-agents** | Author skills/concepts |
 
-User-facing replies follow [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
-`/setup` can persist `Agent language: general` for all operator-directed agent
-prose in the workspace.
+User-facing replies follow [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md)
+whenever these skills are installed (this repo, or this machine for a global
+install).
 
 ## Choose-one reply shape
 

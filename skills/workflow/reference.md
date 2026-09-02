@@ -11,8 +11,9 @@ Load [disclosed refs](#disclosed-refs) only when a step needs them.
 2. If neither layer resolves → `/setup` first.
 3. Resolve the tracker via [../tracker/SKILL.md](../tracker/SKILL.md).
 4. Honour **Artifact location** (`repo` vs `external`).
-5. Honour WORKSPACE `Agent language` (`user-facing` default, or `general`) per
-   [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
+5. Operator-directed language follows
+   [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md) whenever these skills are
+   installed.
 
 ## Delivery identity
 

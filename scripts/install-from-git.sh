@@ -207,15 +207,35 @@ write_fallback_block() {
   # Keep in sync with templates/agent-install/AGENTS.block.md
   cat > "$1" <<'EOF'
 <!-- marcuskrogh/skills:begin -->
-**Prefer workflow.** When the user describes a feature, bug, tweak, refine, problem, idea,
-investigation, or follow-up — even without naming a skill — invoke
-[`.agents/skills/workflows/SKILL.md`](.agents/skills/workflows/SKILL.md): infer
-the supported pipeline, then load and run only that skill. Do not freestyle
-coding or ad-hoc planning when a catalog workflow fits.
+**Prefer workflow.** When the user describes work to deliver — even without naming
+a skill — invoke [`.agents/skills/workflows/SKILL.md`](.agents/skills/workflows/SKILL.md).
+**Front doors:** foggy → explore; concrete → define (classifies + binds workflow).
+Follow persisted **Next**. Do not freestyle coding or ad-hoc planning when a
+catalog workflow fits.
 
 Continuation cues: bare **next** / **ship** still apply (see
 `.agents/skills/workflow/reference.md`). Explicit `/skill` names win over
-re-routing.
+re-routing. Lost on which skill to use → [`.agents/skills/help/SKILL.md`](.agents/skills/help/SKILL.md).
+
+**Cursor models (catalog-closed).** On Cursor (Desktop, Cloud, CLI, Mobile), every `Task` spawn of any type —
+including `computerUse` and `videoReview` — passes `model` `composer-2.5`
+(Routine / Moderate) or `cursor-grok-4.6-high` (Demanding / manager). If that
+slug is absent from the Task enum, pass `composer-2.5`. Never `inherit`, omit
+`model`, or pick a picker slug. No `*-fast` variants. Third-party picker models
+bill the API budget. Load
+[`.agents/skills/concepts/CONCEPT_DELEGATION.md`](.agents/skills/concepts/CONCEPT_DELEGATION.md)
+and [`.agents/skills/concepts/platforms/cursor.md`](.agents/skills/concepts/platforms/cursor.md)
+before every spawn.
+
+**Language.** Before any reply the operator will see, read
+[`.agents/skills/concepts/CONCEPT_LANGUAGE.md`](.agents/skills/concepts/CONCEPT_LANGUAGE.md)
+and [`.agents/skills/concepts/LANGUAGE-PHRASES.md`](.agents/skills/concepts/LANGUAGE-PHRASES.md).
+Write short, precise, ordinary English. Spell names in full
+(`GeneralProcessSimulator`, not `GPS`). Field-standard short forms (`HTTP`,
+`JSON`, `SQL`) are fine. Name the file, command, or result — no metaphors,
+catchy labels, or stock assistant lines. First sentence is the fact or the next
+action. Say "Cursor" or "Claude Code", not "the harness"; "I'll check", not
+"Let me dive in"; "in the code", not "under the hood".
 
 Authoring skills or concepts → [`.agents/skills/writing-for-agents/SKILL.md`](.agents/skills/writing-for-agents/SKILL.md).
 <!-- marcuskrogh/skills:end -->
@@ -226,16 +246,34 @@ write_fallback_cursor_rule() {
   # Keep in sync with templates/agent-install/github-skills.mdc
   cat > "$1" <<'EOF'
 ---
-description: Prefer supported workflows for any described work
+description: Prefer supported workflows and Cursor first-party models
 alwaysApply: true
 ---
 
-When the user describes a feature, bug, tweak, refine, problem, idea, or other work to deliver,
-prefer the model-invoked **workflows** skill: infer which pipeline fits, then
-read and run only that skill. Do not freestyle past a supported workflow.
+When the user describes work to deliver, prefer the model-invoked **workflows**
+skill. Front doors: foggy → **explore**; concrete → **define** (classifies and
+binds an efficient workflow). Follow persisted **Next**. Do not freestyle past a
+supported workflow. For a navigation overview only, prefer **help**.
+
+On Cursor (Desktop, Cloud, CLI, Mobile), every Task spawn of any type —
+including computerUse and videoReview — is catalog-closed: only
+`composer-2.5` (Routine/Moderate) or `cursor-grok-4.6-high`
+(Demanding/manager). If that slug is absent from the Task enum, pass
+`composer-2.5`. Never inherit, omit model, or pick a picker slug. No
+`*-fast` variants. Third-party models bill the API budget. Load
+CONCEPT_DELEGATION and `concepts/platforms/cursor.md` before every spawn.
+
+Language: before any reply the operator will see, read
+`.agents/skills/concepts/CONCEPT_LANGUAGE.md` and
+`.agents/skills/concepts/LANGUAGE-PHRASES.md`. Write short, precise, ordinary
+English. Spell names in full (`GeneralProcessSimulator`, not `GPS`).
+Field-standard short forms (`HTTP`, `JSON`, `SQL`) are fine. Name the file,
+command, or result — no metaphors, catchy labels, or stock assistant lines.
+First sentence is the fact or the next action. Say "Cursor" or "Claude Code",
+not "the harness"; "I'll check", not "Let me dive in"; "in the code", not
+"under the hood".
 
 Repo skills: https://github.com/marcuskrogh/skills
-Installed at: `.agents/skills/`
 EOF
 }
 

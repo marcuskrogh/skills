@@ -1,27 +1,30 @@
 # Concept: Language
 
-User-facing prose from agents that apply these skills. Uninvokable — load from
-AGENTS.md, the workflows router, or a skill's On-invoke pointer. Workspace
-`Agent language` can widen the same rules to all operator-directed agent
-language ([setup](../setup/SKILL.md)).
+Operator-directed prose from agents that apply these skills. Uninvokable — load
+from AGENTS.md, the always-on Cursor rule, `~/.claude/CLAUDE.md`, or a skill's
+On-invoke pointer. **On load:** also read
+[LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md).
+
+A **repo install** applies these rules to all operator-directed language in that
+repo. A **global install** applies them on that machine.
 
 ## Intent
 
-Every message an operator reads is **short**, **precise**, and uses the same
-**established technical words** throughout. Abbreviations and specialised
-tokens are introduced in full on first use. The reader can follow the work
-without a glossary. `/setup` can persist **general** application when the
-operator wants that contract everywhere in the workspace.
+Every message an operator reads is **short**, **precise**, and uses **ordinary
+English**. Names stay in full. Metaphors, catchy labels, and stock assistant
+lines are replaced with the words a colleague would use. The reader can follow
+the work without a glossary.
 
 ## Leading words
 
 - **user-facing** — prose the operator reads: chat replies, readiness questions,
-  status, and pull-request text written for the human. Distinct from skill and
-  concept files ([writing-for-agents](../writing-for-agents/SKILL.md)) and from
-  shipped **product surfaces** ([CONCEPT_IMPLEMENTATION](CONCEPT_IMPLEMENTATION.md)).
-- **general** — workspace-opted scope: every operator-directed agent utterance
-  in this workspace (those surfaces, plus tracker comments and descriptions,
-  human-readable artifact prose, and worker summaries shown to the operator).
+  status, tracker comments and descriptions, human-readable artifact prose,
+  operator-facing pull-request text, and worker summaries shown to the operator.
+  Distinct from skill and concept files
+  ([writing-for-agents](../writing-for-agents/SKILL.md)) and from shipped
+  **product surfaces** ([CONCEPT_IMPLEMENTATION](CONCEPT_IMPLEMENTATION.md)).
+- **ordinary English** — the word a competent engineer already uses in speech.
+  Not a skill token, not a coined label, not a stock assistant line.
 
 ## Invariants
 
@@ -30,24 +33,43 @@ operator wants that contract everywhere in the workspace.
 - **Standard terms.** Use established engineering vocabulary. Keep one word for
   one thing across chat, tracker comments, and pull requests. Prefer the
   operator's word when it is unambiguous.
-- **Ordinary words.** Prefer the term a competent engineer already knows over a
-  coined label. Required headings and field names stay exact; the sentence
-  around them uses the ordinary word.
-- **Introduce terms.** First use of an abbreviation, acronym, or specialised
-  token is the ordinary phrase, then the short form: "pull request (PR)", "the
-  next skill to run (`Next`)". Later uses may be the short form.
-- **User-facing.** Chat replies, operator-facing pull request text, readiness
-  questions, and status reports follow this concept. Skill and concept files
-  follow writing-for-agents. Shipped product copy stays product language
-  (CONCEPT_IMPLEMENTATION).
-- **Honor workspace.** Effective WORKSPACE `Agent language` is `user-facing`
-  (default when unset) or `general`. When `general`, the other invariants apply
-  to all operator-directed agent language in this workspace. Setup persists the
-  field; skills do not re-ask unless the operator wants it changed.
+- **Ordinary English.** Prefer the term a competent engineer already knows. Skill
+  tokens (`Next`, fog, frontier) stay in skill files. Required headings and
+  field names stay exact; the sentence around them uses the ordinary word.
+- **Spell out.** Use the ordinary name in full. Field-standard short forms are
+  fine (`HTTP`, `JSON`, `SQL`). Never invent a short form from a local name:
+  `GeneralProcessSimulator` stays `GeneralProcessSimulator`, not `GPS`. A short
+  form is allowed only after the operator used it in this conversation.
+- **Literal.** Name the file, command, result, or decision in the words that
+  already name it. No metaphors, idioms, or catchy labels for technical work.
+- **Plain.** Write as a colleague reporting work. First sentence is the fact or
+  the next action. Stock assistant lines go through
+  [LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md) — write the right-hand column.
+- **User-facing.** All operator-directed language in the install scope follows
+  this concept. Skill and concept files follow writing-for-agents. Shipped
+  product copy stays product language (CONCEPT_IMPLEMENTATION).
+- **Installed scope.** Repo install → this repo. Global install → this machine.
+  Setup does not ask; leftover `Agent language` rows in WORKSPACE.md are ignored.
 
 ## Reference
 
-| `Agent language` | Applies the invariants to |
-|------------------|---------------------------|
-| **user-facing** | Chat, readiness questions, status, operator-facing pull request text |
-| **general** | Those, plus tracker comments and descriptions, human-readable artifact prose, and worker summaries shown to the operator |
+| Install | Always-on files | Applies to |
+|---------|-----------------|------------|
+| **Repo** | `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/github-skills.mdc` | All operator-directed language in that repo |
+| **Global** | `~/.claude/CLAUDE.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | All operator-directed language on that machine |
+
+High-signal replacements (full catalog: [LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md)):
+
+| Instead of | Write |
+|------------|-------|
+| Let me dive in / I'll unpack this | I'll check `file`. / Here's what it does. |
+| Here's what I found: | (start with the finding) |
+| Great question! / Absolutely! / Happy to help | (omit — answer or do the work) |
+| under the hood | in the code / in `file` |
+| the harness | Cursor / Claude Code / the editor |
+| spin up | start |
+| leverage / utilize / harness (the power of) | use |
+| landscape / realm / tapestry | this area of the code / the mix of |
+| at a high level | (state the fact) |
+| the key insight | the reason is |
+| GeneralProcessSimulator → GPS | `GeneralProcessSimulator` |

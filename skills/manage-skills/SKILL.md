@@ -27,6 +27,7 @@ zero-deviation agent-from-git procedure; keep `npx` as the supported CLI path.
 | `skills/concepts/` | **Uninvokable concepts** (`CONCEPT_*.md`) + disclosed refs (e.g. `PLATFORM-CATALOGS.md`) — synced as sibling `concepts/` |
 | `~/.agents/skills/` | Shared / standard global mirror — sync only |
 | `~/.claude/skills/`, `~/.codex/skills/`, `~/.copilot/skills/`, `~/.cursor/skills/` | Per-harness global mirrors — sync only |
+| `~/.claude/CLAUDE.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | Global language extract — written by `sync-local` |
 | Project `.agents/skills/` | Per-project install (agent-from-git and skills.sh default) |
 | `.claude-plugin/` | Optional Claude Code marketplace manifests |
 
@@ -55,8 +56,8 @@ curl -fsSL https://raw.githubusercontent.com/marcuskrogh/skills/main/scripts/ins
 ```
 
 Installs `.agents/skills/` (skills + `concepts/`), writes `.skills-version`, and
-wires `AGENTS.md` / `CLAUDE.md` / `.cursor/rules/github-skills.mdc`. Agents must
-not freestyle an alternate copy layout.
+wires `AGENTS.md` / `CLAUDE.md` / `.cursor/rules/github-skills.mdc` (prefer-workflow
+plus the language extract). Agents must not freestyle an alternate copy layout.
 
 **skills.sh / npx (also supported):**
 
