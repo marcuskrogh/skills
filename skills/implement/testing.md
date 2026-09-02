@@ -6,12 +6,25 @@ when the finding is Correctness / missing coverage / testability). Complements
 
 Repo docs and existing test patterns win over generic advice.
 
+## Spec locks
+
+Honor [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) **spec
+lock**. Pass-criteria rows come from the definition artifact (legacy
+`## Acceptance criteria` counts).
+
+- [ ] Each pass-criteria row for this package has a spec lock (path named in
+      the package report). Docs-only: `none — no executable behaviour`
+- [ ] The lock is written from the row, not from the implementation
+- [ ] Bug fixes and behaviour-changing tweaks: the lock was red on current
+      code, then green after the fix
+- [ ] New observable behaviour still has tests that would fail if the behaviour
+      were missing or wrong — those tests are spec locks when they encode a
+      pass-criteria row
+
 ## Behaviour coverage
 
-- [ ] New observable behaviour has automated tests that would fail if the behaviour
-      were missing or wrong
 - [ ] Bug fixes include a regression test (or equivalent automated check) that
-      reproduces the defect before the fix
+      reproduces the defect before the fix (the spec lock, fail-first)
 - [ ] Failure paths covered where the code branches on errors, empty/null, auth,
       validation, or partial failure — not only the happy path
 - [ ] Contract / API / schema changes update existing tests and fixtures so they
@@ -78,6 +91,7 @@ Each Implementation/Testing sub-agent report must include:
 
 ```text
 tests_added_or_updated: <paths or "none — <justification>">
+spec_locks: <pass-criteria row → test path, or "none — no executable behaviour">
 how_to_run: <exact command(s) used>
 result: pass | fail | unavailable (<why>)
 working_surfaces: <commands + result, or "none — <evidence>">
@@ -87,5 +101,5 @@ testability_notes: <seams used or deliberately not introduced>
 
 Gaps that remain after the package become **re-delegation** targets —
 do not silently defer them to `/test`, `/harden`, or review. Change size does
-not relax this list. The bound **testing phase** (`/test`) still runs an
-adversarial pass; in-package tests do not replace it.
+not relax this list. Missing spec locks fail the package. The bound **testing
+phase** (`/test`) still audits the mapping; in-package tests do not replace it.

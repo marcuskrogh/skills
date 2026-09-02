@@ -28,7 +28,8 @@ optional polish, out-of-scope follow-ups, or speculative cleanup outside blast r
 
 Include: context pack + Spec checklist from [checklist.md](checklist.md#spec).
 
-Trace **each** acceptance criterion / work package / bug repro expectation /
+Trace **each** pass-criteria row (legacy Acceptance rows count) / work package /
+bug repro expectation /
 tweak desired-change / refine preserve-behaviour / rework parity bar /
 adopt preserve-behaviour (including working surfaces) through
 the diff and neighbors. Vertical: is this requirement fully implemented inside the

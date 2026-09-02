@@ -8,6 +8,7 @@ Axes: **Spec**, **Correctness**, **Integration**, **Architecture**, **Standards*
 ## Spec
 
 ### Vertical
+- [ ] Each **pass criteria** row has a **spec lock** (automated check written from that row); a test of an invented helper does not count
 - [ ] Each acceptance criterion / bug expected-result / tweak desired-change / refine preserve-behaviour bar / adopt preserve-behaviour gate / rework parity bar / PLAN Classification acceptance is implemented in the changed code
 - [ ] Work-package / sub-task outcomes are actually delivered (not just TODOs/comments)
 - [ ] Edge cases called out in PLAN/BUG/TWEAK/REFINE/REWORK/ADOPT are handled
@@ -17,7 +18,7 @@ Axes: **Spec**, **Correctness**, **Integration**, **Architecture**, **Standards*
 ### Horizontal
 - [ ] Related surfaces updated: API, UI, docs, config, migrations, feature flags, metrics
 - [ ] No scope creep beyond the issue (extra behaviour that should be a new Task)
-- [ ] BUG fixes include regression protection called for in acceptance (test or equivalent)
+- [ ] BUG fixes include a spec lock that reproduces the defect (fail-first)
 - [ ] REFINE keeps executable behaviour unchanged; verification matches Preserve behaviour
 - [ ] ADOPT keeps executable behaviour unchanged; Behaviour map rows stay locked (same tests, same expected results); working surfaces still start and mapped UI/API flows still complete
 - [ ] REWORK meets the parity bar; PR/evidence shows baseline vs candidate comparison (not suite-green alone)

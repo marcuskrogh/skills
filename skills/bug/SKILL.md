@@ -28,12 +28,12 @@ Produces an implementation-ready `BUG.md` through lightweight alignment.
 | Slot | This skill |
 |------|------------|
 | **Subject** | Bug, regression, or incorrect behaviour |
-| **Probes** | Symptom; minimal repro; expected vs actual; impact/severity; suspected area (no deep code dive); fix acceptance; out of scope; optional parent Story/Task link |
-| **Stop condition** | Repro, expected/actual, impact, and fix acceptance are clear enough to implement |
+| **Probes** | Symptom; minimal repro; expected vs actual; impact/severity; suspected area (no deep code dive); **pass criteria**; out of scope; optional parent Story/Task link |
+| **Stop condition** | Repro, expected/actual, impact, and pass criteria are clear enough to implement |
 | **Alignment / definition artifact** | `BUG.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Is this enough to implement the fix?" |
 | **Opening** | Thin: "What is broken?" Rich (stack/steps pasted): first question on highest-impact gap |
-| **Scope guard** | Defect acceptance and optional lineage only; keep the loop short |
+| **Scope guard** | Defect pass criteria and optional lineage only; keep the loop short |
 | **Depth** | Lightweight — fewer questions than full define |
 | **Work packages** | Optional Sub-tasks only when packages are truly separate |
 
@@ -66,8 +66,8 @@ Produces an implementation-ready `BUG.md` through lightweight alignment.
 ## Suspected area
 - …
 
-## Acceptance criteria
-- …
+## Pass criteria
+- …   # observable that fails if the defect remains
 
 ## Out of scope
 - …

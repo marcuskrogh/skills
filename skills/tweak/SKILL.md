@@ -29,8 +29,8 @@ through lightweight alignment.
 | Slot | This skill |
 |------|------------|
 | **Subject** | Small intentional change to existing behaviour (extend a pattern, add a field, adjust a clear edge) |
-| **Probes** | Desired change; where it applies; precedent elsewhere in the codebase (if any); acceptance; out of scope; optional parent Story/Task link |
-| **Stop condition** | Desired change, where, and acceptance are clear enough to implement |
+| **Probes** | Desired change; where it applies; precedent elsewhere in the codebase (if any); **pass criteria**; out of scope; optional parent Story/Task link |
+| **Stop condition** | Desired change, where, and pass criteria are clear enough to implement |
 | **Alignment / definition artifact** | `TWEAK.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Is this enough to implement the tweak?" |
 | **Opening** | Thin: "What do you want to tweak?" Rich (change + area pasted): first question on highest-impact gap |
@@ -61,8 +61,8 @@ through lightweight alignment.
 ## Precedent
 - …   # omit if none
 
-## Acceptance criteria
-- …
+## Pass criteria
+- …   # one observable per row; fail if the desired change is unmet
 
 ## Out of scope
 - …
