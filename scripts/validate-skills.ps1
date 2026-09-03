@@ -243,15 +243,15 @@ foreach ($pf in $pointerFiles) {
     if ($pointerOk) {
         Write-Host "OK: $pf names computerUse, videoReview, Mobile, inherit, and composer-2.5"
     }
-    foreach ($langNeed in @('CONCEPT_LANGUAGE', 'LANGUAGE-PHRASES', 'GeneralProcessSimulator', 'harness')) {
+    foreach ($langNeed in @('CONCEPT_LANGUAGE', 'LANGUAGE-PHRASES', 'LANGUAGE-HUMANIZER', 'GeneralProcessSimulator', 'harness')) {
         if ($pointerText.IndexOf($langNeed) -lt 0) {
             Write-Host "FAIL: $pf must contain '$langNeed' (always-on language extract)"
             $script:errors++
             $pointerOk = $false
         }
     }
-    if ($pointerText.IndexOf('CONCEPT_LANGUAGE') -ge 0 -and $pointerText.IndexOf('LANGUAGE-PHRASES') -ge 0) {
-        Write-Host "OK: $pf names CONCEPT_LANGUAGE and LANGUAGE-PHRASES"
+    if ($pointerText.IndexOf('CONCEPT_LANGUAGE') -ge 0 -and $pointerText.IndexOf('LANGUAGE-PHRASES') -ge 0 -and $pointerText.IndexOf('LANGUAGE-HUMANIZER') -ge 0) {
+        Write-Host "OK: $pf names CONCEPT_LANGUAGE, LANGUAGE-PHRASES, and LANGUAGE-HUMANIZER"
     }
 }
 
@@ -261,6 +261,14 @@ if (-not (Test-Path $phrasesRef)) {
     $script:errors++
 } else {
     Write-Host "OK: LANGUAGE-PHRASES.md"
+}
+
+$humanizerRef = Join-Path $ConceptsDir "LANGUAGE-HUMANIZER.md"
+if (-not (Test-Path $humanizerRef)) {
+    Write-Host "FAIL: Missing language humanizer catalog: $humanizerRef"
+    $script:errors++
+} else {
+    Write-Host "OK: LANGUAGE-HUMANIZER.md"
 }
 
 $globalLangFiles = @(
@@ -275,7 +283,7 @@ foreach ($gf in $globalLangFiles) {
     }
     $gText = Get-Content -Path $gf -Raw
     $gOk = $true
-    foreach ($langNeed in @('CONCEPT_LANGUAGE', 'LANGUAGE-PHRASES', 'GeneralProcessSimulator', 'harness')) {
+    foreach ($langNeed in @('CONCEPT_LANGUAGE', 'LANGUAGE-PHRASES', 'LANGUAGE-HUMANIZER', 'GeneralProcessSimulator', 'harness')) {
         if ($gText.IndexOf($langNeed) -lt 0) {
             Write-Host "FAIL: $gf must contain '$langNeed'"
             $script:errors++

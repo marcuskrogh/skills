@@ -20,13 +20,15 @@ and [`.agents/skills/concepts/platforms/cursor.md`](.agents/skills/concepts/plat
 before every spawn.
 
 **Language.** Before any reply the operator will see, read
-[`.agents/skills/concepts/CONCEPT_LANGUAGE.md`](.agents/skills/concepts/CONCEPT_LANGUAGE.md)
-and [`.agents/skills/concepts/LANGUAGE-PHRASES.md`](.agents/skills/concepts/LANGUAGE-PHRASES.md).
+[`.agents/skills/concepts/CONCEPT_LANGUAGE.md`](.agents/skills/concepts/CONCEPT_LANGUAGE.md),
+[`.agents/skills/concepts/LANGUAGE-PHRASES.md`](.agents/skills/concepts/LANGUAGE-PHRASES.md),
+and [`.agents/skills/concepts/LANGUAGE-HUMANIZER.md`](.agents/skills/concepts/LANGUAGE-HUMANIZER.md).
 Write short, precise, ordinary English. Spell names in full
 (`GeneralProcessSimulator`, not `GPS`). Field-standard short forms (`HTTP`,
 `JSON`, `SQL`) are fine. Name the file, command, or result — no metaphors,
 catchy labels, or stock assistant lines. First sentence is the fact or the next
-action. Say "Cursor" or "Claude Code", not "the harness"; "I'll check", not
+action. Use is and has. Skip sales language, leftover chatbot closings, and em
+dashes. Say "Cursor" or "Claude Code", not "the harness"; "I'll check", not
 "Let me dive in"; "in the code", not "under the hood".
 
 Authoring skills or concepts → [`.agents/skills/writing-for-agents/SKILL.md`](.agents/skills/writing-for-agents/SKILL.md).

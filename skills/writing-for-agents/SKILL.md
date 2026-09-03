@@ -3,8 +3,8 @@ name: writing-for-agents
 description: >-
   Writing skills and concepts for agents. Use when creating or editing a
   SKILL.md, CONCEPT_*.md, skill reference file, AGENTS.md, or CLAUDE.md in
-  this repo — especially to prune duplication, sharpen terminology, or
-  apply the lean concept/skill shapes.
+  this repo — especially to prune duplication, sharpen terminology, apply the
+  lean concept/skill shapes, or apply the human-cadence overlay.
 ---
 
 Reference for writing any document an agent in this repo consumes — a **skill**,
@@ -35,9 +35,13 @@ handoff). Restating an invariant is **duplication** — it inflates prominence
 and drifts.
 
 **User-facing prose** is not this skill. Messages the operator reads follow
-[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md) and
-[LANGUAGE-PHRASES.md](../concepts/LANGUAGE-PHRASES.md). This skill's leading
-words and compact tokens are for skill and concept files only.
+[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md),
+[LANGUAGE-PHRASES.md](../concepts/LANGUAGE-PHRASES.md), and
+[LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md). This skill's leading
+words and compact tokens are for skill and concept files only. Chatbot cadence
+still applies to skill prose (simple verbs, no sales language, no leftover
+assistant lines); the skill **shape** (bold leading words, tables, required
+headings) stays.
 
 ## Context pointers
 
@@ -130,6 +134,7 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **dev-surface** | (pl. **dev-surfaces**) Development linking surface where issue keys belong — full list: CONCEPT_IMPLEMENTATION Leading words |
 | **product surface** | (pl. **product surfaces**) End-user facing shipped source and copy — product language exclusively; full list: CONCEPT_IMPLEMENTATION Leading words |
 | **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md). A repo or global install applies those rules to all operator-directed language in that scope. |
+| **human cadence** | Overlay that strips chatbot patterns from user-facing and skill prose without adding personality; full catalog [LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md). |
 | **pace** | One unit per user turn; wait for **advance** or **block** before the next; each waited message ends on a short continue cue |
 | **advance** | Approving reply that continues a paced sequence (yes, okay, move on, and similar; a successful result counts) |
 | **block** | Reply that the current unit failed, is unclear, or does not fit the environment; reevaluate the remaining sequence |
@@ -144,6 +149,20 @@ State the **positive** target. A prohibition earns its place only as a hard
 guardrail you cannot phrase positively — and even then pair it with the
 positive. Prefer **invariants** over **anti-pattern** lists; the latter are
 usually invariants written twice in negative form.
+
+## Human cadence in skill files
+
+Apply [LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md) on top of this
+skill's shape. Skill and concept files stay lean and token-first. Strip
+inflated claims, sales language, filler, leftover chatbot, fake-candid openers,
+formulaic sayings, and a heading restated in the next sentence. Prefer *is*
+and *has*.
+
+Keep the skill **shape**: bold leading words, labeled tables, required headings,
+and em dashes used as skill punctuation. Keep skill prose factual; skip added
+personality.
+
+Adapted from [blader/humanizer](https://github.com/blader/humanizer).
 
 ## Steps and completion criteria
 
@@ -268,4 +287,7 @@ When touching a concept or skill:
 4. **Leading word available?** Collapse the triad into the token.
 5. **Ladder correct?** Disclose catalogs and branch-only material.
 6. **Completion criteria sharp?** Especially on alignment stop and verify.
-7. **Validate:** `.\scripts\validate-skills.ps1`
+7. **Human cadence?** No inflated claims, sales language, leftover chatbot, or
+   filler. User-facing also follows LANGUAGE-HUMANIZER marks (no em dashes,
+   sentence-case headings). Skill files keep their shape.
+8. **Validate:** `.\scripts\validate-skills.ps1`

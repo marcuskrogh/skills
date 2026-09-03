@@ -90,5 +90,5 @@ the marked pointer block. Then commit.
 - [ ] `.agents/skills/.skills-version` records `method=install-from-git`
 - [ ] `AGENTS.md` contains the `marcuskrogh/skills` begin/end block pointing at
       `.agents/skills/workflows/SKILL.md` and the language extract
-      (`CONCEPT_LANGUAGE.md`, `LANGUAGE-PHRASES.md`)
+      (`CONCEPT_LANGUAGE.md`, `LANGUAGE-PHRASES.md`, `LANGUAGE-HUMANIZER.md`)
 - [ ] Changes committed (unless the user asked not to)

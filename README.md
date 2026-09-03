@@ -181,7 +181,9 @@ applies alignment + definition + **classification** for concrete work; `bug` /
 `tweak` / `refine` / `rework` are manual overrides with the same class
 semantics. `adopt` applies the structure catalog to a brownfield tree. Operator-directed
 agent prose follows [`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md)
-whenever the skills are installed.
+whenever the skills are installed. That contract includes
+[`LANGUAGE-HUMANIZER`](skills/concepts/LANGUAGE-HUMANIZER.md): strip chatbot
+cadence from operator-facing replies without adding personality.
 
 **Sub-agent value routing:** skills that delegate (`implement`, `test`, `harden`,
 `adopt`, `review`, `review-fix`, `sandbox`, and composers like `ship` / `iterate` / `research` axes)
@@ -214,6 +216,7 @@ skills/                         ← source of truth (Agent Skills layout)
 │   ├── CONCEPT_ITERATION.md
 │   ├── CONCEPT_LANGUAGE.md     ← operator-directed prose; always on when installed
 │   ├── LANGUAGE-PHRASES.md     ← replacements for stock assistant lines and metaphors
+│   ├── LANGUAGE-HUMANIZER.md   ← chatbot-cadence overlay (humanizer patterns)
 │   ├── CONCEPT_DEFINITION.md
 │   ├── CONCEPT_GUIDANCE.md
 │   ├── CONCEPT_EXPLANATION.md
@@ -425,7 +428,8 @@ repo file to opt out of inheritance entirely.
 Language is not a workspace field. A repo install writes the language extract
 into `AGENTS.md`, `CLAUDE.md`, and `.cursor/rules/github-skills.mdc`. A global
 skill sync writes `~/.claude/CLAUDE.md` and `~/.cursor/rules/marcuskrogh-skills.mdc`.
-The contract is [CONCEPT_LANGUAGE](skills/concepts/CONCEPT_LANGUAGE.md).
+The contract is [CONCEPT_LANGUAGE](skills/concepts/CONCEPT_LANGUAGE.md), including
+the phrase table and [LANGUAGE-HUMANIZER](skills/concepts/LANGUAGE-HUMANIZER.md).
 
 ### Keeping repos clean
 

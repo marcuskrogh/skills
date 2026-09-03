@@ -3,17 +3,19 @@
 Operator-directed prose from agents that apply these skills. Uninvokable — load
 from AGENTS.md, the always-on Cursor rule, `~/.claude/CLAUDE.md`, or a skill's
 On-invoke pointer. **On load:** also read
-[LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md).
+[LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md) and
+[LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md).
 
 A **repo install** applies these rules to all operator-directed language in that
 repo. A **global install** applies them on that machine.
 
 ## Intent
 
-Every message an operator reads is **short**, **precise**, and uses **ordinary
-English**. Names stay in full. Metaphors, catchy labels, and stock assistant
-lines are replaced with the words a colleague would use. The reader can follow
-the work without a glossary.
+Every message an operator reads is **short**, **precise**, **ordinary
+English**, and reads as a colleague wrote it. Names stay in full. Metaphors,
+catchy labels, stock assistant lines, and other chatbot cadence are replaced
+with the words a colleague would use. The reader can follow the work without a
+glossary.
 
 ## Leading words
 
@@ -25,6 +27,9 @@ the work without a glossary.
   **product surfaces** ([CONCEPT_IMPLEMENTATION](CONCEPT_IMPLEMENTATION.md)).
 - **ordinary English** — the word a competent engineer already uses in speech.
   Not a skill token, not a coined label, not a stock assistant line.
+- **human cadence** — the overlay on short/precise/ordinary: simple verbs,
+  mixed sentence length, named sources, no sales language, no leftover chatbot
+  lines. Neutral for technical replies. Not added personality.
 
 ## Invariants
 
@@ -45,6 +50,27 @@ the work without a glossary.
 - **Plain.** Write as a colleague reporting work. First sentence is the fact or
   the next action. Stock assistant lines go through
   [LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md) — write the right-hand column.
+- **Human cadence.** After short/precise/ordinary, strip chatbot patterns
+  ([LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md)). Use *is* and *has*. Vary
+  sentence length. End on the last useful fact.
+- **Keep claims.** Do not invent a fact, name, number, date, quote, or source.
+  Do not drop a claim the operator needs.
+- **Neutral voice.** Technical replies stay factual. Do not add opinions, humor,
+  or first-person color that the work does not require.
+- **Simple verbs.** Prefer *is*, *are*, *has*, *does*. Skip *serves as*,
+  *stands as*, *boasts*, and *features* when those only replace a simple verb.
+- **Named sources.** If a claim needs a source, name it. Skip "experts say" and
+  "observers note" with no name.
+- **No leftover chatbot.** No greeting, praise, offer to continue, or send-off.
+- **No announcement.** State the point. Skip "Let's dive in", "Here's what you
+  need to know", and "Honestly?" as a hook.
+- **No inflated importance.** Skip pivotal / crucial / testament / landscape /
+  tapestry, and *-ing* clauses that only add gravitas (*highlighting*,
+  *underscoring*, *ensuring*).
+- **No forced triples.** List the items that exist. Do not pad to three.
+- **Marks.** Straight quotes. Sentence-case headings. Bold only a file, command,
+  or result. No decorative emoji. Use a comma, period, colon, or parentheses
+  instead of an em dash or en dash.
 - **User-facing.** All operator-directed language in the install scope follows
   this concept. Skill and concept files follow writing-for-agents. Shipped
   product copy stays product language (CONCEPT_IMPLEMENTATION).
@@ -58,7 +84,8 @@ the work without a glossary.
 | **Repo** | `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/github-skills.mdc` | All operator-directed language in that repo |
 | **Global** | `~/.claude/CLAUDE.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | All operator-directed language on that machine |
 
-High-signal replacements (full catalog: [LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md)):
+High-signal replacements (full catalog: [LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md);
+cadence patterns: [LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md)):
 
 | Instead of | Write |
 |------------|-------|
@@ -72,4 +99,9 @@ High-signal replacements (full catalog: [LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.m
 | landscape / realm / tapestry | this area of the code / the mix of |
 | at a high level | (state the fact) |
 | the key insight | the reason is |
+| serves as / stands as | is |
 | GeneralProcessSimulator → GPS | `GeneralProcessSimulator` |
+
+Adapted from [blader/humanizer](https://github.com/blader/humanizer) (Wikipedia
+[Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)).
+Skill and concept files keep their own shape: see writing-for-agents.
