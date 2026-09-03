@@ -50,27 +50,15 @@ glossary.
 - **Plain.** Write as a colleague reporting work. First sentence is the fact or
   the next action. Stock assistant lines go through
   [LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md) — write the right-hand column.
-- **Human cadence.** After short/precise/ordinary, strip chatbot patterns
-  ([LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md)). Use *is* and *has*. Vary
-  sentence length. End on the last useful fact.
+- **Human cadence.** After short/precise/ordinary, apply
+  [LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md). Use *is* and *has*. Vary
+  sentence length. End on the last useful fact. User-facing marks (quotes,
+  headings, bold, emoji, dashes) are in that catalog; skill and concept files
+  keep writing-for-agents punctuation.
 - **Keep claims.** Do not invent a fact, name, number, date, quote, or source.
   Do not drop a claim the operator needs.
 - **Neutral voice.** Technical replies stay factual. Do not add opinions, humor,
   or first-person color that the work does not require.
-- **Simple verbs.** Prefer *is*, *are*, *has*, *does*. Skip *serves as*,
-  *stands as*, *boasts*, and *features* when those only replace a simple verb.
-- **Named sources.** If a claim needs a source, name it. Skip "experts say" and
-  "observers note" with no name.
-- **No leftover chatbot.** No greeting, praise, offer to continue, or send-off.
-- **No announcement.** State the point. Skip "Let's dive in", "Here's what you
-  need to know", and "Honestly?" as a hook.
-- **No inflated importance.** Skip pivotal / crucial / testament / landscape /
-  tapestry, and *-ing* clauses that only add gravitas (*highlighting*,
-  *underscoring*, *ensuring*).
-- **No forced triples.** List the items that exist. Do not pad to three.
-- **Marks.** Straight quotes. Sentence-case headings. Bold only a file, command,
-  or result. No decorative emoji. Use a comma, period, colon, or parentheses
-  instead of an em dash or en dash.
 - **User-facing.** All operator-directed language in the install scope follows
   this concept. Skill and concept files follow writing-for-agents. Shipped
   product copy stays product language (CONCEPT_IMPLEMENTATION).

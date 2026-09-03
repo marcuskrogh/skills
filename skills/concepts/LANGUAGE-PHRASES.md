@@ -204,16 +204,4 @@ operator already used the token.
 `HTTP`, `JSON`, `SQL`, and other field-standard short forms stay as they are.
 A short form the operator already used in this conversation may be reused.
 
-## Chatbot marks
-
-User-facing replies only. Skill files keep their own punctuation and bold
-tokens.
-
-| Instead of | Write |
-|------------|-------|
-| em dash / en dash / spaced ` — ` / `--` as a dash | comma, period, colon, or parentheses |
-| title-case heading (`## Strategic Negotiations`) | sentence case (`## Strategic negotiations`) |
-| decorative emoji in a heading or list | the words |
-| curly quotes (“ ”) | straight quotes (" ") |
-| bold on an ordinary phrase | bold only a file, command, or result |
-| `- **Label:** sentence` | a sentence, or a list item without the bold label |
+Marks (dashes, headings, emoji, quotes, bold): [LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md).
