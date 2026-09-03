@@ -24,7 +24,8 @@ before every spawn.
 [`.agents/skills/concepts/LANGUAGE-PHRASES.md`](.agents/skills/concepts/LANGUAGE-PHRASES.md),
 and [`.agents/skills/concepts/LANGUAGE-HUMANIZER.md`](.agents/skills/concepts/LANGUAGE-HUMANIZER.md).
 Follow those files. Spell names in full (`GeneralProcessSimulator`, not `GPS`).
-In replies, say Cursor or Claude Code, not "the harness".
+Keep **harness** for the agent host (Cursor, Claude Code, Codex, …). Do not call
+a sandbox tree, wrapper, or other code a harness.
 
 Authoring skills or concepts → [`.agents/skills/writing-for-agents/SKILL.md`](.agents/skills/writing-for-agents/SKILL.md).
 <!-- marcuskrogh/skills:end -->

@@ -25,7 +25,8 @@ bill the API budget. Load
 [`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md),
 [`LANGUAGE-PHRASES`](skills/concepts/LANGUAGE-PHRASES.md), and
 [`LANGUAGE-HUMANIZER`](skills/concepts/LANGUAGE-HUMANIZER.md). Follow those
-files. Spell names in full (`GeneralProcessSimulator`, not `GPS`). In replies,
-say Cursor or Claude Code, not "the harness".
+files. Spell names in full (`GeneralProcessSimulator`, not `GPS`). Keep
+**harness** for the agent host (Cursor, Claude Code, Codex, …). Do not call a
+sandbox tree, wrapper, or other code a harness.
 
 Authoring skills or concepts → [`writing-for-agents`](skills/writing-for-agents/SKILL.md).

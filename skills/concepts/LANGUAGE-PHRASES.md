@@ -148,10 +148,14 @@ Cadence patterns (inflated claims, leftover chatbot, marks):
 These words are fine in skill files. In replies the operator reads, use the
 ordinary English on the right.
 
+**Harness.** Use **harness** for an **agent harness**: the host that runs the
+agent (Cursor, Claude Code, Codex, Copilot, and other Agent Skills hosts). Do
+not use it for code. Isolation trees, wrappers, eval fixtures, helpers, and
+modules are named as the file, tree, test runner, or command. **test harness**
+stays only when it means the test runner.
+
 | Instead of | Write |
 |------------|-------|
-| the harness | Cursor / Claude Code / Codex / the editor |
-| across harnesses | in Cursor, Claude Code, and Codex |
 | spin up (an agent) | start |
 | kick off | start |
 | wire up | connect |
@@ -173,8 +177,6 @@ ordinary English on the right.
 | spec lock | the automated check |
 | manager (agent) | this agent |
 | worker | the sub-agent |
-
-Keep **test harness** when it means the test runner.
 
 ## Skill tokens in chat
 

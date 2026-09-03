@@ -177,7 +177,8 @@ across a real context boundary (hand-off / subagent), not an inline call.
   **Intent**; the one-line Uninvokable role line in the concept shape is the
   allowed exception (do not expand it into a section).
 - **Always-on language extract** names CONCEPT_LANGUAGE, LANGUAGE-PHRASES, and
-  LANGUAGE-HUMANIZER, plus two caches (`GeneralProcessSimulator`, "the harness").
+  LANGUAGE-HUMANIZER, plus two caches (`GeneralProcessSimulator`, agent-host
+  **harness**).
   Do not copy the phrase or cadence tables into AGENTS.md, Cursor rules, or
   skill On-invoke lines. Pipeline skills load [../workflow/SKILL.md](../workflow/SKILL.md)
   instead of listing delivery/handoff/tracker-sync files. Manual class skills

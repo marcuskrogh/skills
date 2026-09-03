@@ -78,11 +78,11 @@ Order).
 
 **Finding docs, not separate PRs.** Research and model only produce finding
 documentation on the delivery branch for whatever follows in **Next** (define,
-implement, …). Sandbox produces a harness and `SANDBOX.md` the same way. They
+implement, …). Sandbox produces an isolation tree and `SANDBOX.md` the same way. They
 never open their own PRs. Explore does not open a map-only
 PR. The only open delivery PR is the define→ship head once define (or a
 bug/tweak/refine/rework entry) opens it. Supportive-only route Tasks go **Done**
-at handoff after their docs (or harness) are on the downstream delivery branch.
+at handoff after their docs (or isolation tree) are on the downstream delivery branch.
 
 ## Artifact
 

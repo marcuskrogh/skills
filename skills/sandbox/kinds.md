@@ -1,6 +1,6 @@
 # Sandbox kinds
 
-Disclosed from [SKILL.md](SKILL.md). Load when choosing a harness, inspectable,
+Disclosed from [SKILL.md](SKILL.md). Load when choosing a run command, inspectable,
 or **relevant area** map. [CONCEPT_SANDBOX](../concepts/CONCEPT_SANDBOX.md) owns
 **representative**; this file lists how each kind demonstrates it.
 
@@ -20,7 +20,7 @@ comparison. Map before the first inspect-loop turn:
 Stubs replace only wiring that **cannot** move the verdict. Each stub is a named
 gap until the operator agrees.
 
-Done when every row is either reproduced in the harness or a named gap.
+Done when every row is either reproduced in the isolation tree or a named gap.
 
 ## visual
 

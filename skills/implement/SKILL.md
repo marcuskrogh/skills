@@ -88,9 +88,9 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 | Structure exploration | `explore` | Mid | Unfamiliar large area with ambiguous seams → high |
 | Research | `generalPurpose` | Mid | Novel domain spike with conflicting approaches → high |
 | Implementation | `generalPurpose` | Mid (Routine → low) | Novel design, security/authz, concurrency, large cross-cutting → high |
-| Testing | `generalPurpose` | Mid (Routine → low) | Flaky harness, concurrency tests, subtle regression isolation → high |
+| Testing | `generalPurpose` | Mid (Routine → low) | Flaky tests, concurrency tests, subtle regression isolation → high |
 | Harden | `generalPurpose` | Mid (Routine → low) | Large structural split, layer inversion, cycle break → high |
-| Comparative eval | `generalPurpose` | Mid | Novel harness, control/performance isolation, conflicting metrics → high |
+| Comparative eval | `generalPurpose` | Mid | Novel eval setup, control/performance isolation, conflicting metrics → high |
 | Promote | `generalPurpose` | Mid (Routine → low) | Sandbox spans many production seams or public API → high |
 | Fix-forward | `generalPurpose` | Low (obvious) / Mid otherwise | Architectural must-fixes, subtle correctness/races, prior lower-tier miss → next tier / high |
 

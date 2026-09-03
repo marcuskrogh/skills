@@ -72,9 +72,9 @@ glossary.
 | **Global** | `~/.claude/CLAUDE.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | All operator-directed language on that machine |
 
 Always-on extracts **name** this concept and the two disclosed catalogs. They
-may cache two replacements: spell out `GeneralProcessSimulator`; in replies say
-Cursor or Claude Code, not "the harness". They do not copy the phrase or cadence
-tables.
+may cache two replacements: spell out `GeneralProcessSimulator`; keep
+**harness** for the agent host, not for code. They do not copy the phrase or
+cadence tables.
 
 Skill and concept files keep writing-for-agents shape. Attribution for the
 cadence overlay lives in [LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md).
