@@ -12,7 +12,7 @@ Explain in simple terms the current workflow step, a coding or design decision, 
 
 ## Invariants
 
-- **Simple terms.** User-facing prose follows [CONCEPT_LANGUAGE](CONCEPT_LANGUAGE.md).
+- **Simple terms.** Plain words a competent engineer already knows.
 - **Why with what.** Each beat covers the fact or step and the decision behind it when a choice was made.
 - **Short completes.** If one beat covers the subject, send it and close. Extra beats are not invented.
 - **Long is paced.** When more than one distinct decision, interface, or numerical point remains, present one **beat** per turn. Wait for **advance** before the next.

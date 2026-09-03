@@ -17,10 +17,8 @@ issues, write specs, or advance a Task. For autonomous routing, the agent uses
 [explain](../explain/SKILL.md); for a paced walkthrough, use
 [guide](../guide/SKILL.md).
 
-**On invoke:** read [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md),
-[../workflows/SKILL.md](../workflows/SKILL.md) (catalog only)
-and [../workflow/reference.md](../workflow/reference.md) (stage ownership). Reply
-from this skill; do not load every pipeline skill.
+**On invoke:** read [../workflows/SKILL.md](../workflows/SKILL.md) (catalog only).
+Reply from this skill; do not load every pipeline skill.
 
 ## Steps
 
@@ -60,20 +58,11 @@ from this skill; do not load every pipeline skill.
 After define, follow persisted **Next** (or bare **next** / **ship**). You do **not** need to remember architect / implement / test / restructure / review /
 class-specific entry skills.
 
-### What define binds (agent-side)
-
-Define applies [CONCEPT_CLASSIFICATION](../concepts/CONCEPT_CLASSIFICATION.md):
-infers **class** (bug / tweak / adopt / refine / rework / feature / …), selects a
-**template** (fix-fast, parity-iterative, feature-heavy, …) and **parameters**
-(single vs multiagent implement/review, verify mode, **test and restructure
-(refactoring) as the floor**, **pass criteria** on the plan then **spec locks**
-in implement, review depth and lasers, optional research/model
-side paths, optional sandbox inspect-loop), then walks that chain almost
-deterministically.
-Class **adopt** walks `characterize → architect → implement → test → restructure → review → ship` per area
-until the route is Done. Characterize maps current behaviour into tests first,
-including startable frontend and backend; those same tests are the bar after
-structure. `/test` is not skippable.
+Define infers **class** and binds a **template** after alignment —
+[CONCEPT_CLASSIFICATION](../concepts/CONCEPT_CLASSIFICATION.md) and
+[CLASSIFICATION-CATALOG.md](../concepts/CLASSIFICATION-CATALOG.md). Class
+**adopt** walks characterize → architect → implement → test → restructure →
+review → ship per area until Done.
 
 ### Closed-loop shape
 
@@ -90,10 +79,8 @@ production in every area that would change that inspection.
 
 ### Manual overrides (optional)
 
-All pipeline skills stay **user-invokable** when you want to deviate from Next
-or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
-`/adopt`, `/sandbox`, `/architect`, `/implement`, `/test`, `/restructure` (`/harden`), `/review` (`/review-fix`), `/ship`, `/research`,
-`/model`, `/summarise`, `/guide`, `/explain`, …
+Pipeline skills stay **user-invokable** when you want to skip define's classifier
+or deviate from Next. Explicit `/skill` wins.
 
 ### Meta
 
@@ -105,10 +92,6 @@ or skip define’s classifier: `/bug`, `/tweak`, `/refine`, `/rework`,
 | **guide** | Walks a manual task one step at a time |
 | **manage-skills** | Install/sync this repo |
 | **writing-for-agents** | Author skills/concepts |
-
-User-facing replies follow [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md)
-whenever these skills are installed (this repo, or this machine for a global
-install).
 
 ## Choose-one reply shape
 

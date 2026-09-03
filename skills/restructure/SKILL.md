@@ -21,11 +21,7 @@ alias; `harden.mode` is the binding key.
 [../implement/structure.md](../implement/structure.md),
 [../implement/testing.md](../implement/testing.md),
 [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md),
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+and [../workflow/SKILL.md](../workflow/SKILL.md).
 When spawning workers, also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
 as directed there.

@@ -1,16 +1,10 @@
 ---
 name: refine
 description: >-
-  Refine alignment and lightweight definition for a limited codebase area that
-  needs refactoring or descriptive improvement without changing behaviour.
-  Requires a thin area description. Produces REFINE.md and one tracker Task
-  (optional Sub-tasks), then hands off to implementation. Use when a class,
-  feature slice, README, or other bounded surface is outdated relative to
-  current architecture or conventions. Prefer /adopt when the whole existing
-  tree was not built to the structure bar. Prefer /define for new work (agent
-  classifies as refine). Prefer /tweak for intentional behaviour changes
-  without a comparative bar; prefer /rework when replacing an implementation
-  that must not degrade measured outcomes; prefer /bug for defects.
+  Refine alignment and lightweight definition for a limited area that needs
+  refactoring or descriptive improvement without changing behaviour. Produces
+  REFINE.md and one tracker Task. Prefer /adopt for a whole tree; prefer
+  /define for new work (agent classifies as refine).
 disable-model-invocation: true
 ---
 
@@ -18,14 +12,10 @@ disable-model-invocation: true
 
 Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) and
 [CONCEPT_DEFINITION](../concepts/CONCEPT_DEFINITION.md) to a **bounded
-refinement** of an existing area. Produces an implementation-ready `REFINE.md`
-through lightweight alignment.
+refinement**. Produces `REFINE.md`. Shared persist/track contract:
+[../define/overrides.md](../define/overrides.md).
 
-**On invoke:** read those concepts, [../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+**On invoke:** read [../define/overrides.md](../define/overrides.md).
 
 ## Extensions
 
@@ -38,14 +28,8 @@ through lightweight alignment.
 | **Readiness prompt** | "Is this enough to implement the refinement?" |
 | **Opening** | Thin description **required**. Missing area → "What area should be refined?" Rich (area + why pasted): first question on highest-impact gap |
 | **Scope guard** | Bounded area only; **no intentional behaviour change** for running code — refine structure, naming, layering, comments, and docs to match current codebase characteristics; keep the loop short |
-| **Depth** | Lightweight — fewer questions than full define |
+| **Depth** | Lightweight |
 | **Work packages** | Optional Sub-tasks only when packages are truly separate |
-
-## Steps
-
-1. **Resolve context** — Require a thin area description from the invoke or ask once for it; load any related Task/Story and user-provided code pointers. Done when the refine subject (bounded area) and optional parent are identified.
-2. **Align and define** — Follow the CONCEPT_ALIGNMENT flow with the definition extensions above. Done when the stop condition holds and the user approves `REFINE.md`.
-3. **Persist and track** — Write the artifact, follow delivery continuity, apply the refine row in the tracker sync matrix, and persist the Handoff. Done when the Task, artifact, branch/PR, mirrors, and **Next** agree.
 
 ## Artifact
 
@@ -89,21 +73,3 @@ through lightweight alignment.
 ## Next
 `/implement <KEY>` — Apply per REFINE.md (same branch/PR)
 ```
-
-## Tracker (after approval)
-
-Follow the [refine tracker row](../workflow/tracker-sync.md#matrix) and
-[delivery continuity](../workflow/delivery.md). Create one **Task** (ordinary
-type — not bug); add Sub-tasks only for genuinely separate packages. A lone
-refine needs no Story unless the user requests one. Keep the Task **To Do** and
-record `REFINE.md`, branch/PR, optional parent, and **Next** on every configured
-durable surface.
-
-## Handoff
-
-```markdown
-## Next
-`/implement <TASK-KEY>` — Apply per REFINE.md on the same delivery branch/PR
-```
-
-(Or `/ship <TASK-KEY>` to finish remaining along the bound chain.)

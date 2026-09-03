@@ -16,11 +16,7 @@ delivery branch for later skills.
 
 **On invoke:** read [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md),
 [format.md](format.md), [reference.md](reference.md), and
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+[../workflow/SKILL.md](../workflow/SKILL.md).
 
 Settles formulation, assumptions, and numerical choices **with the user** — not
 product scope, UX, behaviour, or acceptance (`/define`). `RESEARCH.md` orients

@@ -18,11 +18,7 @@ pull request.
 **On invoke:** read CONCEPT_ARCHITECTURE above,
 [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md),
 [../concepts/STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md),
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+and [../workflow/SKILL.md](../workflow/SKILL.md).
 
 ## Extensions
 

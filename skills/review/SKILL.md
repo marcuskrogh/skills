@@ -19,12 +19,9 @@ Applies [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md) as **lasers**,
 [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md),
 [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md),
 [../implement/SKILL.md](../implement/SKILL.md) (fix-forward),
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), [depth.md](depth.md),
-[lasers.md](lasers.md), [checklist.md](checklist.md), [axis-briefs.md](axis-briefs.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md). Before spawning workers, also read
+[../workflow/SKILL.md](../workflow/SKILL.md), [depth.md](depth.md),
+[lasers.md](lasers.md), [checklist.md](checklist.md), and [axis-briefs.md](axis-briefs.md).
+Before spawning workers, also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
 as directed there.
 

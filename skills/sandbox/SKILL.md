@@ -19,18 +19,11 @@ input** on the delivery branch (no sandbox PR). The harness is **representative*
 before the inspect-loop starts.
 
 **On invoke:** read [CONCEPT_SANDBOX](../concepts/CONCEPT_SANDBOX.md),
-[kinds.md](kinds.md), and
-[../workflow/reference.md](../workflow/reference.md), plus
-[../workflow/handoff.md](../workflow/handoff.md) when writing **Next**. When
-linked to a Task, also read [../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-and [../tracker/SKILL.md](../tracker/SKILL.md). When a relevant-area gap needs
-operator agreement, also read
+[kinds.md](kinds.md), and [../workflow/SKILL.md](../workflow/SKILL.md). When a
+relevant-area gap needs operator agreement, also read
 [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md). When spawning Task /
 sub-agents of any type, also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md).
-
-User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 
 ## Extensions
 

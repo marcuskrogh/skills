@@ -35,13 +35,10 @@ handoff). Restating an invariant is **duplication** — it inflates prominence
 and drifts.
 
 **User-facing prose** is not this skill. Messages the operator reads follow
-[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md),
-[LANGUAGE-PHRASES.md](../concepts/LANGUAGE-PHRASES.md), and
-[LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md). This skill's leading
-words and compact tokens are for skill and concept files only. Chatbot cadence
-still applies to skill prose (simple verbs, no sales language, no leftover
-assistant lines); the skill **shape** (bold leading words, tables, required
-headings) stays.
+[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md) from the always-on extract.
+This skill's leading words and compact tokens are for skill and concept files
+only. Skill prose still uses simple verbs and drops leftover assistant lines;
+the skill **shape** (bold leading words, tables, required headings) stays.
 
 ## Context pointers
 
@@ -133,8 +130,8 @@ Repo tokens (use these; do not paraphrase into soft synonyms):
 | **depth** | Proportional intensity preset (review: `full` vs `focused`; define/bug/tweak/adopt/refine/rework: Full vs Lightweight) |
 | **dev-surface** | (pl. **dev-surfaces**) Development linking surface where issue keys belong — full list: CONCEPT_IMPLEMENTATION Leading words |
 | **product surface** | (pl. **product surfaces**) End-user facing shipped source and copy — product language exclusively; full list: CONCEPT_IMPLEMENTATION Leading words |
-| **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md). A repo or global install applies those rules to all operator-directed language in that scope. |
-| **human cadence** | Overlay that strips chatbot patterns from user-facing and skill prose without adding personality; full catalog [LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md). |
+| **user-facing** | Prose the operator reads — [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md) |
+| **human cadence** | Overlay in [LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md) |
 | **pace** | One unit per user turn; wait for **advance** or **block** before the next; each waited message ends on a short continue cue |
 | **advance** | Approving reply that continues a paced sequence (yes, okay, move on, and similar; a successful result counts) |
 | **block** | Reply that the current unit failed, is unclear, or does not fit the environment; reevaluate the remaining sequence |
@@ -152,17 +149,11 @@ usually invariants written twice in negative form.
 
 ## Human cadence in skill files
 
-Apply [LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md) on top of this
-skill's shape. Skill and concept files stay lean and token-first. Strip
-inflated claims, sales language, filler, leftover chatbot, fake-candid openers,
-formulaic sayings, and a heading restated in the next sentence. Prefer *is*
-and *has*.
-
-Keep the skill **shape**: bold leading words, labeled tables, required headings,
-and em dashes used as skill punctuation. Keep skill prose factual; skip added
-personality.
-
-Adapted from [blader/humanizer](https://github.com/blader/humanizer).
+Apply [LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md) content
+patterns. Keep the skill **shape**: bold leading words, labeled tables, required
+headings, and em dashes used as skill punctuation. Operator-directed replies are
+not this skill; they follow [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md)
+from the always-on extract.
 
 ## Steps and completion criteria
 
@@ -185,6 +176,12 @@ across a real context boundary (hand-off / subagent), not an inline call.
   "What this is not" that only negates the purpose). Concepts open on
   **Intent**; the one-line Uninvokable role line in the concept shape is the
   allowed exception (do not expand it into a section).
+- **Always-on language extract** names CONCEPT_LANGUAGE, LANGUAGE-PHRASES, and
+  LANGUAGE-HUMANIZER, plus two caches (`GeneralProcessSimulator`, "the harness").
+  Do not copy the phrase or cadence tables into AGENTS.md, Cursor rules, or
+  skill On-invoke lines. Pipeline skills load [../workflow/SKILL.md](../workflow/SKILL.md)
+  instead of listing delivery/handoff/tracker-sync files. Manual class skills
+  share [../define/overrides.md](../define/overrides.md).
 
 ## Concept shape
 
@@ -243,7 +240,7 @@ description: >-
 
 Applies [CONCEPT_…](../concepts/…) to <subject>. <One sentence on outcome.>
 
-**On invoke:** read <concept(s)>, <workflow/tracker as needed>, <disclosed refs>.
+**On invoke:** read <concept(s)>, [../workflow/SKILL.md](../workflow/SKILL.md) when pipeline, <disclosed refs>.
 
 ## Extensions
 
@@ -287,7 +284,6 @@ When touching a concept or skill:
 4. **Leading word available?** Collapse the triad into the token.
 5. **Ladder correct?** Disclose catalogs and branch-only material.
 6. **Completion criteria sharp?** Especially on alignment stop and verify.
-7. **Human cadence?** No inflated claims, sales language, leftover chatbot, or
-   filler. User-facing also follows LANGUAGE-HUMANIZER marks (no em dashes,
-   sentence-case headings). Skill files keep their shape.
+7. **Human cadence?** Apply LANGUAGE-HUMANIZER. User-facing also follows its
+   marks. Skill files keep their shape.
 8. **Validate:** `.\scripts\validate-skills.ps1`

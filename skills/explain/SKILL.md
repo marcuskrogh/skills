@@ -13,8 +13,7 @@ disable-model-invocation: true
 Applies [CONCEPT_EXPLANATION](../concepts/CONCEPT_EXPLANATION.md) to the **current
 subject**.
 
-**On invoke:** read CONCEPT_EXPLANATION,
-[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md), and
+**On invoke:** read CONCEPT_EXPLANATION and
 [../workflow/handoff.md](../workflow/handoff.md) (entry context + Next). Load
 in-flight Task artifacts when the subject is the current workflow step.
 

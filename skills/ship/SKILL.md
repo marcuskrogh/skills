@@ -15,12 +15,9 @@ is a [continuation keyword](../workflow/reference.md#continuation-keywords):
 detect the stage, run only the remaining skills, then close the same delivery
 PR after CLEAN.
 
-**On invoke:** read [../workflow/reference.md](../workflow/reference.md),
-[../workflow/ship.md](../workflow/ship.md),
-[../workflow/changelog.md](../workflow/changelog.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md). After stage detection, read only the
+**On invoke:** read [../workflow/SKILL.md](../workflow/SKILL.md),
+[../workflow/ship.md](../workflow/ship.md), and
+[../workflow/changelog.md](../workflow/changelog.md). After stage detection, read only the
 remaining composed skill contracts:
 [../implement/SKILL.md](../implement/SKILL.md) and/or
 [../review-fix/SKILL.md](../review-fix/SKILL.md). When the remaining tail

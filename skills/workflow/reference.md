@@ -11,9 +11,6 @@ Load [disclosed refs](#disclosed-refs) only when a step needs them.
 2. If neither layer resolves → `/setup` first.
 3. Resolve the tracker via [../tracker/SKILL.md](../tracker/SKILL.md).
 4. Honour **Artifact location** (`repo` vs `external`).
-5. Operator-directed language follows
-   [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md) whenever these skills are
-   installed.
 
 ## Delivery identity
 
@@ -108,7 +105,4 @@ Paths follow WORKSPACE. Record path + commit SHA on the Task when location is
 | `/ship` remaining tails or closeout | [ship.md](ship.md) |
 
 Value-aware worker routing: [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)
-(load before every `Task` spawn of any type, including `computerUse` and
-`videoReview`). Catalog-closed — on Cursor (Desktop, Cloud, CLI, Mobile), only
-Composer / Grok slugs from [platforms/cursor.md](../concepts/platforms/cursor.md);
-never inherit.
+before every `Task` spawn.

@@ -25,25 +25,16 @@ route is Done — **Proof is the gate** on every unit. Distinct from `/refine`
 [../implement/structure.md](../implement/structure.md),
 [../implement/testing.md](../implement/testing.md),
 [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md),
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+and [../workflow/SKILL.md](../workflow/SKILL.md).
 When walking the unit chain, read each composed skill as [route.md](route.md)
 directs. When spawning workers, also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
 as directed there.
-User-facing replies: [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md).
 
 ## Leading words
 
-- **frontier** — first open area on the adoption route
 - **area** — module, package, or bounded directory the repo already treats as a unit
 - **unit chain** — fixed per-area sequence: characterize → architect → implement → test → restructure → review → ship
-- **characterize** — map current observable behaviour and implement tests that lock it before structure work
-- **working surface** — startable backend, startable frontend, or composed client-server path the area already owns
-- **prove** — lock suite and working-surface commands from characterize must still hold before the next step or area
 
 ## Extensions
 

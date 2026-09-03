@@ -170,9 +170,7 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 - …
 ```
 
-`Agent language` rows in an older WORKSPACE.md are ignored. Operator-directed
-language follows [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md) whenever
-these skills are installed (repo or global).
+`Agent language` rows in an older WORKSPACE.md are ignored.
 
 ## Defaults (only if user opts out of full setup)
 

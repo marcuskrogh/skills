@@ -13,8 +13,7 @@ disable-model-invocation: true
 
 Applies [CONCEPT_GUIDANCE](../concepts/CONCEPT_GUIDANCE.md) to a **named task**.
 
-**On invoke:** read CONCEPT_GUIDANCE,
-[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md), and
+**On invoke:** read CONCEPT_GUIDANCE and
 [../workflow/handoff.md](../workflow/handoff.md) (entry context + Next).
 
 ## Extensions

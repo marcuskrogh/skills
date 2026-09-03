@@ -20,11 +20,7 @@ honor its parameters — do not reclassify.
 [../concepts/CONCEPT_STRUCTURE.md](../concepts/CONCEPT_STRUCTURE.md),
 [../concepts/STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md),
 [testing.md](testing.md), [structure.md](structure.md),
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+and [../workflow/SKILL.md](../workflow/SKILL.md).
 When `implement.verify` is `comparative` (or the spec is `REWORK.md`), also read
 [rework.md](rework.md).
 When `sandbox=inject` or `SANDBOX.md` is present, follow its Promote map
