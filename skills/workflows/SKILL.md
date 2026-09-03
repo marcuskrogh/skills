@@ -20,19 +20,14 @@ Pipeline skills stay user-invoked (`disable-model-invocation`). This skill is th
 always-loaded pointer that keeps workflows discoverable without loading every
 pipeline skill into context.
 
-**On invoke:** use the catalog first. User-facing replies: read
-[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md),
-[LANGUAGE-PHRASES.md](../concepts/LANGUAGE-PHRASES.md), and
-[LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md). For a continuation or
-in-flight Task, read [../workflow/reference.md](../workflow/reference.md) and
-[../workflow/handoff.md](../workflow/handoff.md). After choosing a path, read
+**On invoke:** use the catalog first. For a continuation or in-flight Task,
+read [../workflow/SKILL.md](../workflow/SKILL.md). After choosing a path, read
 the target skill and only its On-invoke concepts and references.
 
 ## Leading words
 
 - **workflow** — named delivery path or bound template after define
 - **prefer workflow** — if a catalog row fits, route; do not freestyle past it
-- **front door** — explore (fog) or define (concrete); primary human entries
 
 ## Catalog
 

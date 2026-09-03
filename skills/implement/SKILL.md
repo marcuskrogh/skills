@@ -20,11 +20,7 @@ honor its parameters — do not reclassify.
 [../concepts/CONCEPT_STRUCTURE.md](../concepts/CONCEPT_STRUCTURE.md),
 [../concepts/STRUCTURE-CATALOG.md](../concepts/STRUCTURE-CATALOG.md),
 [testing.md](testing.md), [structure.md](structure.md),
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+and [../workflow/SKILL.md](../workflow/SKILL.md).
 When `implement.verify` is `comparative` (or the spec is `REWORK.md`), also read
 [rework.md](rework.md).
 When `sandbox=inject` or `SANDBOX.md` is present, follow its Promote map
@@ -92,9 +88,9 @@ Follow the CONCEPT_IMPLEMENTATION flow with these specialisations:
 | Structure exploration | `explore` | Mid | Unfamiliar large area with ambiguous seams → high |
 | Research | `generalPurpose` | Mid | Novel domain spike with conflicting approaches → high |
 | Implementation | `generalPurpose` | Mid (Routine → low) | Novel design, security/authz, concurrency, large cross-cutting → high |
-| Testing | `generalPurpose` | Mid (Routine → low) | Flaky harness, concurrency tests, subtle regression isolation → high |
+| Testing | `generalPurpose` | Mid (Routine → low) | Flaky tests, concurrency tests, subtle regression isolation → high |
 | Harden | `generalPurpose` | Mid (Routine → low) | Large structural split, layer inversion, cycle break → high |
-| Comparative eval | `generalPurpose` | Mid | Novel harness, control/performance isolation, conflicting metrics → high |
+| Comparative eval | `generalPurpose` | Mid | Novel eval setup, control/performance isolation, conflicting metrics → high |
 | Promote | `generalPurpose` | Mid (Routine → low) | Sandbox spans many production seams or public API → high |
 | Fix-forward | `generalPurpose` | Low (obvious) / Mid otherwise | Architectural must-fixes, subtle correctness/races, prior lower-tier miss → next tier / high |
 

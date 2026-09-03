@@ -24,13 +24,9 @@ bill the API budget. Load
 **Language.** Before any reply the operator will see, read
 [`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md),
 [`LANGUAGE-PHRASES`](skills/concepts/LANGUAGE-PHRASES.md), and
-[`LANGUAGE-HUMANIZER`](skills/concepts/LANGUAGE-HUMANIZER.md). Write short,
-precise, ordinary English. Spell names in full (`GeneralProcessSimulator`, not
-`GPS`). Field-standard short forms (`HTTP`, `JSON`, `SQL`) are fine. Name the
-file, command, or result — no metaphors, catchy labels, or stock assistant
-lines. First sentence is the fact or the next action. Use is and has. Skip
-sales language, leftover chatbot closings, and em dashes. Say "Cursor" or
-"Claude Code", not "the harness"; "I'll check", not "Let me dive in"; "in the
-code", not "under the hood".
+[`LANGUAGE-HUMANIZER`](skills/concepts/LANGUAGE-HUMANIZER.md). Follow those
+files. Spell names in full (`GeneralProcessSimulator`, not `GPS`). Keep
+**harness** for the agent host (Cursor, Claude Code, Codex, …). Do not call a
+sandbox tree, wrapper, or other code a harness.
 
 Authoring skills or concepts → [`writing-for-agents`](skills/writing-for-agents/SKILL.md).

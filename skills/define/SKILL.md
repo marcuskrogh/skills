@@ -20,20 +20,9 @@ Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md),
 topic**. Produces `PLAN.md` (including **Classification** + **Workflow**
 binding) and Sub-tasks on the **pipeline Task**.
 
-**Alignment first.** Classification and workflow binding do **not** replace
-user alignment — they run **after** (or interleaved with) the alignment loop so
-scope, behaviour, constraints, and **pass criteria** are settled **with the user**.
-Depth is proportional: lightweight classes stay short; **feature** (and any
-work with unresolved definition divergences) uses **full** relentless alignment.
-After bind, later skills follow the chain **deterministically** via **Next**.
-
 **On invoke:** read those concepts,
 [../concepts/CLASSIFICATION-CATALOG.md](../concepts/CLASSIFICATION-CATALOG.md),
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+and [../workflow/SKILL.md](../workflow/SKILL.md).
 
 ## Extensions
 

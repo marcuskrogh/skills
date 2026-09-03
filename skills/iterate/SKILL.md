@@ -14,12 +14,7 @@ Applies [CONCEPT_ITERATION](../concepts/CONCEPT_ITERATION.md), with brief
 [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) when needed and
 [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md) for the fix.
 
-**On invoke:** read those concepts,
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md),
-[../tracker/SKILL.md](../tracker/SKILL.md).
+**On invoke:** read those concepts and [../workflow/SKILL.md](../workflow/SKILL.md).
 Before implementation, read [../implement/SKILL.md](../implement/SKILL.md);
 when the delta is an inspect-loop, read [../sandbox/SKILL.md](../sandbox/SKILL.md)
 instead. Before spawning workers, also read

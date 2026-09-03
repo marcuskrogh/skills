@@ -79,7 +79,7 @@ CONCEPT_DELEGATION; pass a catalog `model` on every `Task` type.
 |------|----------|------------------|--------------|
 | Inventory scan | `explore` | Mid (small, well-seamed dir → Routine / low) | Unfamiliar large area, ambiguous seams, or cycles → high |
 | Characterize map | `explore` | Mid | Ambiguous seams, undocumented public behaviour → high |
-| Characterize lock tests | per [implement](../implement/SKILL.md#work-packages) Testing row | Mid | No harness, flaky area, concurrency, startable UI/service with no E2E → high |
+| Characterize lock tests | per [implement](../implement/SKILL.md#work-packages) Testing row | Mid | No test runner, flaky area, concurrency, startable UI/service with no E2E → high |
 | Implementation | per implement table | Mid | same table |
 | Testing | per implement Testing row | Mid | same table |
 | Harden | per implement Harden row | Mid | same table |
@@ -92,5 +92,5 @@ independent areas. Each characterize brief: area path, seams to map, existing
 tests, working surfaces to prove, [testing.md](../implement/testing.md). Return
 shape = behaviour-map rows + lock tests + suite commands + working-surface
 commands. Manager merges; sequence stays [inventory.md](inventory.md).
-GUI working-surface proof stays on the manager when the harness manager path
+GUI working-surface proof stays on the manager when the agent-harness manager path
 covers it; spawn `computerUse` only when a worker must drive the UI.

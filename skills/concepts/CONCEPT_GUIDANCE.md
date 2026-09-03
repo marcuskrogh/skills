@@ -20,7 +20,7 @@ Walk the user through a manual task — coding they perform, setup, installation
 - **Block reevaluates.** A problem with the current step, a misunderstanding, a failed command, or an environment/hardware mismatch is a **block**. Revise the remaining **sequence**, then present the new current step.
 - **Name the actor.** Each step says who acts.
 - **Continue cue.** Each waited message ends on a short invitation to **advance** or report a **block**.
-- **Understandable.** Short, concrete action. User-facing prose follows [CONCEPT_LANGUAGE](CONCEPT_LANGUAGE.md).
+- **Understandable.** Short, concrete action.
 - **Active pace owns the turn.** While a guidance sequence is open, **advance** and **block** stay in this concept. Explicit `/skill` names and **ship** still override.
 
 ## Extensions

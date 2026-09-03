@@ -16,14 +16,9 @@ feed **model** / **define** / **implement** (and **explore**) as supportive
 context only.
 
 **On invoke:** read [CONCEPT_RESEARCH](../concepts/CONCEPT_RESEARCH.md),
-[reference.md](reference.md), and
-[../workflow/reference.md](../workflow/reference.md), plus
-[../workflow/handoff.md](../workflow/handoff.md) when writing **Next**. When
-spawning axis workers, also read
-[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md). When linking the brief
-to a Task, also read [../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-and [../tracker/SKILL.md](../tracker/SKILL.md).
+[reference.md](reference.md), and [../workflow/SKILL.md](../workflow/SKILL.md).
+When spawning axis workers, also read
+[CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md).
 
 ## Extensions
 

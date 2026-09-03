@@ -16,5 +16,6 @@ disable-model-invocation: true
 needed: [delivery.md](delivery.md), [handoff.md](handoff.md),
 [tracker-sync.md](tracker-sync.md), [ship.md](ship.md), [changelog.md](changelog.md).
 
-Issue tracker operations: [../tracker/SKILL.md](../tracker/SKILL.md).
-Workspace decisions: [../setup/SKILL.md](../setup/SKILL.md).
+Pipeline skills point here instead of listing those files. Issue tracker
+operations: [../tracker/SKILL.md](../tracker/SKILL.md). Workspace decisions:
+[../setup/SKILL.md](../setup/SKILL.md).

@@ -11,9 +11,7 @@ disable-model-invocation: true
 Read-only status for feature/bug/tweak/refine/rework/adopt/iterate pipelines. Does **not** change issues or
 artifacts except optionally refreshing a stale mirror **Next** column.
 
-**On invoke:** read [../workflow/reference.md](../workflow/reference.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+**On invoke:** read [../workflow/SKILL.md](../workflow/SKILL.md).
 
 ## Steps
 

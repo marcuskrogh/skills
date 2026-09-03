@@ -11,9 +11,6 @@ Load [disclosed refs](#disclosed-refs) only when a step needs them.
 2. If neither layer resolves → `/setup` first.
 3. Resolve the tracker via [../tracker/SKILL.md](../tracker/SKILL.md).
 4. Honour **Artifact location** (`repo` vs `external`).
-5. Operator-directed language follows
-   [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md) whenever these skills are
-   installed.
 
 ## Delivery identity
 
@@ -45,7 +42,7 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 | **rework** | Intentional implementation change; no measured degradation | `REWORK.md` + Task + delivery branch/PR | `/architect` (comparative) |
 | **research** | Multi-axis question | `RESEARCH.md` finding docs on delivery branch (no PR) | `/model` or `/define` |
 | **model** | Math alignment with user | `MODEL.md` finding docs on delivery branch (no PR) | `/define` |
-| **sandbox** | Isolated inspect-loop for a contained element (incl. post-merge instead of iterate) | `SANDBOX.md` + harness on delivery branch (no PR) | `/sandbox` (delta) or `/implement` (promote) |
+| **sandbox** | Isolated inspect-loop for a contained element (incl. post-merge instead of iterate) | `SANDBOX.md` + isolation tree on delivery branch (no PR) | `/sandbox` (delta) or `/implement` (promote) |
 | **define** | Route or standalone Task (front door for concrete work) | `PLAN.md` + Classification + Workflow binding + Sub-tasks + branch/PR | First skill in bound Chain (usually `/architect`) |
 | **architect** | After define; always in the bound chain | `ARCHITECTURE.md` on **same** delivery branch (no extra PR) | `/implement` (or `/sandbox` when inject) |
 | **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX ready | Code on **same** PR (opens PR after post-merge sandbox); Task stays **In Progress**; closeout gate before `/test` | `/test` (then `/restructure`) |
@@ -60,7 +57,7 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 
 Side paths **research** / **model** enrich the **same** Task; they do not replace
 user answers in **define**. **sandbox** likewise enriches the same Task with a
-representative harness and inspectables; it does not replace implement. Post-merge
+representative isolation tree and inspectables; it does not replace implement. Post-merge
 sandbox starts a **new** Task (instead of iterate) when each turn needs inspection.
 
 ## Continuation keywords
@@ -108,7 +105,4 @@ Paths follow WORKSPACE. Record path + commit SHA on the Task when location is
 | `/ship` remaining tails or closeout | [ship.md](ship.md) |
 
 Value-aware worker routing: [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)
-(load before every `Task` spawn of any type, including `computerUse` and
-`videoReview`). Catalog-closed — on Cursor (Desktop, Cloud, CLI, Mobile), only
-Composer / Grok slugs from [platforms/cursor.md](../concepts/platforms/cursor.md);
-never inherit.
+before every `Task` spawn.

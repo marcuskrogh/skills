@@ -1,9 +1,8 @@
 # Concept: Language
 
 Operator-directed prose from agents that apply these skills. Uninvokable — load
-from AGENTS.md, the always-on Cursor rule, `~/.claude/CLAUDE.md`, or a skill's
-On-invoke pointer. **On load:** also read
-[LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md) and
+from AGENTS.md, the always-on Cursor rule, or `~/.claude/CLAUDE.md`. **On load:**
+also read [LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md) and
 [LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md).
 
 A **repo install** applies these rules to all operator-directed language in that
@@ -72,24 +71,10 @@ glossary.
 | **Repo** | `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/github-skills.mdc` | All operator-directed language in that repo |
 | **Global** | `~/.claude/CLAUDE.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | All operator-directed language on that machine |
 
-High-signal replacements (full catalog: [LANGUAGE-PHRASES.md](LANGUAGE-PHRASES.md);
-cadence patterns: [LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md)):
+Always-on extracts **name** this concept and the two disclosed catalogs. They
+may cache two replacements: spell out `GeneralProcessSimulator`; keep
+**harness** for the agent host, not for code. They do not copy the phrase or
+cadence tables.
 
-| Instead of | Write |
-|------------|-------|
-| Let me dive in / I'll unpack this | I'll check `file`. / Here's what it does. |
-| Here's what I found: | (start with the finding) |
-| Great question! / Absolutely! / Happy to help | (omit — answer or do the work) |
-| under the hood | in the code / in `file` |
-| the harness | Cursor / Claude Code / the editor |
-| spin up | start |
-| leverage / utilize / harness (the power of) | use |
-| landscape / realm / tapestry | this area of the code / the mix of |
-| at a high level | (state the fact) |
-| the key insight | the reason is |
-| serves as / stands as | is |
-| GeneralProcessSimulator → GPS | `GeneralProcessSimulator` |
-
-Adapted from [blader/humanizer](https://github.com/blader/humanizer) (Wikipedia
-[Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)).
-Skill and concept files keep their own shape: see writing-for-agents.
+Skill and concept files keep writing-for-agents shape. Attribution for the
+cadence overlay lives in [LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md).

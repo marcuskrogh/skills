@@ -13,22 +13,13 @@ disable-model-invocation: true
 Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) to **wayfinding** —
 charting a course through foggy work. Explore charts; downstream skills walk.
 
-**On invoke:** read [../concepts/CONCEPT_ALIGNMENT.md](../concepts/CONCEPT_ALIGNMENT.md),
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+**On invoke:** read [../concepts/CONCEPT_ALIGNMENT.md](../concepts/CONCEPT_ALIGNMENT.md)
+and [../workflow/SKILL.md](../workflow/SKILL.md).
 
 ## Leading words
 
-- **destination** — named end-state this effort is finding its way to
-- **fog** — in-scope work felt but not yet ticketable
-- **route** — sequenced Tasks that clear fog
-- **frontier** — open, unblocked route Tasks
 - **delivery unit** — one define-typed Task (and its PR) that owns research/model/sandbox artifacts through ship when they share a build
 - **finding docs** — `RESEARCH.md` / `MODEL.md` committed on the delivery branch for later skills; never their own PR
-- **sandbox** — isolated harness + `SANDBOX.md` on the delivery branch; never its own PR
 - **supportive-only** — explore route Task whose Next advances a different key; no implement/ship on itself
 
 **Chart the route.** Creating a research/model/sandbox/define Task completes a map step;
@@ -43,7 +34,7 @@ the frontier's Handoff starts execution.
 | **Stop condition** | Destination named, visible frontier ticketed (with sequence/deps), remaining uncertainty recorded as fog or out of scope — enough to hand off **Next** |
 | **Alignment artifact** | `ROADMAP.md` (path from WORKSPACE) — the map |
 | **Readiness prompt** | "Does this map capture the destination and the next steps through the fog?" |
-| **Opening** | Thin: "What are we trying to find our way to?" Rich: highest-leverage fog (destination, framing, or first takeable step). Existing map → [Continue the map](#continue-the-map) |
+| **Opening** | Thin: "What are we trying to find our way to?" Rich: highest-value fog (destination, framing, or first takeable step). Existing map → [Continue the map](#continue-the-map) |
 | **Scope guard** | Chart only — no destination implementation; no fake-settled requirements for later skills; tracker writes after approval are charting, not walking; no map-only open PR |
 
 **Divergence here** changes destination, route shape, or Task existence/deps.
@@ -87,11 +78,11 @@ Order).
 
 **Finding docs, not separate PRs.** Research and model only produce finding
 documentation on the delivery branch for whatever follows in **Next** (define,
-implement, …). Sandbox produces a harness and `SANDBOX.md` the same way. They
+implement, …). Sandbox produces an isolation tree and `SANDBOX.md` the same way. They
 never open their own PRs. Explore does not open a map-only
 PR. The only open delivery PR is the define→ship head once define (or a
 bug/tweak/refine/rework entry) opens it. Supportive-only route Tasks go **Done**
-at handoff after their docs (or harness) are on the downstream delivery branch.
+at handoff after their docs (or isolation tree) are on the downstream delivery branch.
 
 ## Artifact
 

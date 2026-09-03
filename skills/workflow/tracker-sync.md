@@ -26,7 +26,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 | **iterate** | **New** Task; link ITERATE.md; Relates → prior | In Progress (implement/test); **In Review** after harden | Prior + new Task comments; **Next** `/test`; ISSUES | — (ship closes) |
 | **research** | Enrich **delivery** Task; commit `RESEARCH.md` on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | RESEARCH.md path + branch + **Next**; ROADMAP/PLAN/ISSUES | Supportive-only Task after docs are on the delivery branch |
 | **model** | Enrich **delivery** Task; commit `MODEL.md` on delivery branch (**no PR**) | Leave **To Do** on delivery Task unless further along; **Done** when supportive-only route Task completes | MODEL.md path + branch + **Next**; links + ISSUES | Supportive-only Task after docs are on the delivery branch |
-| **sandbox** | Enrich **delivery** Task; commit `SANDBOX.md` + isolation tree on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | SANDBOX.md path + isolation path + branch + **Next**; PLAN/ISSUES | Supportive-only Task after harness is on the delivery branch |
+| **sandbox** | Enrich **delivery** Task; commit `SANDBOX.md` + isolation tree on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | SANDBOX.md path + isolation path + branch + **Next**; PLAN/ISSUES | Supportive-only Task after the isolation tree is on the delivery branch |
 | **sandbox** (post-merge) | **New** Task; link SANDBOX.md; Relates → prior; branch from base (**no PR**) | Leave **To Do** until implement | Prior + new Task comments; **Next** `/sandbox` or `/implement`; ISSUES | — (ship closes after implement) |
 | **define** | Enrich Task; Sub-tasks per package; start/reuse delivery + draft PR; record Classification + Workflow binding | Stay **To Do** | PLAN.md, class, template/params/chain, branch, PR, Sub-task keys, **Next**; ISSUES | — |
 | **architect** | Enrich Task; commit `ARCHITECTURE.md` on delivery branch (**no extra PR** unless define already opened one) | Unchanged (usually **To Do**) | ARCHITECTURE.md path + **Next** `/implement`; ISSUES | — |
@@ -48,7 +48,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 3. Provider backends implement `transition` / close natively.
 4. **Delivery** Tasks reach **Done** only via **ship**. **Supportive-only** explore
    route Tasks (research/model/sandbox/task that advance a different key) reach **Done**
-   at their skill handoff once finding docs (or the sandbox harness) are on the
+   at their skill handoff once finding docs (or the isolation tree) are on the
    downstream delivery branch (research/model/sandbox never open a PR).
 5. Leave no Sub-tasks open after **ship**.
 6. Research / model / sandbox / explore charting leave **no** open PRs of their own

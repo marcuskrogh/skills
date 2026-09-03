@@ -83,7 +83,7 @@ replace these checks when the area owns that surface.
 - [ ] Tests live where this repo expects them (`*_test.*`, `__tests__/`, `tests/`, …)
 - [ ] Naming, fixtures, factories, and runners match neighbouring tests
 - [ ] Shared test helpers are reused when they already exist — do not invent a
-      parallel harness for one package
+      parallel test runner for one package
 
 ## Package report (required)
 

@@ -18,11 +18,7 @@ touched code and hunts gaps those packages missed.
 **On invoke:** read CONCEPT_IMPLEMENTATION above,
 [../implement/testing.md](../implement/testing.md),
 [tools.md](tools.md),
-[../workflow/reference.md](../workflow/reference.md),
-[../workflow/delivery.md](../workflow/delivery.md),
-[../workflow/tracker-sync.md](../workflow/tracker-sync.md),
-[../workflow/handoff.md](../workflow/handoff.md), and
-[../tracker/SKILL.md](../tracker/SKILL.md).
+and [../workflow/SKILL.md](../workflow/SKILL.md).
 When `implement.verify` is `comparative` (or the spec is `REWORK.md`), also read
 [../implement/rework.md](../implement/rework.md).
 When spawning workers, also read
