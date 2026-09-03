@@ -21,8 +21,9 @@ always-loaded pointer that keeps workflows discoverable without loading every
 pipeline skill into context.
 
 **On invoke:** use the catalog first. User-facing replies: read
-[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md) and
-[LANGUAGE-PHRASES.md](../concepts/LANGUAGE-PHRASES.md). For a continuation or
+[CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md),
+[LANGUAGE-PHRASES.md](../concepts/LANGUAGE-PHRASES.md), and
+[LANGUAGE-HUMANIZER.md](../concepts/LANGUAGE-HUMANIZER.md). For a continuation or
 in-flight Task, read [../workflow/reference.md](../workflow/reference.md) and
 [../workflow/handoff.md](../workflow/handoff.md). After choosing a path, read
 the target skill and only its On-invoke concepts and references.

@@ -4,6 +4,9 @@ Disclosed from [CONCEPT_LANGUAGE](CONCEPT_LANGUAGE.md). Load with that concept.
 Match the left column; write the right. If several left-column items fit, write
 the concrete file, command, or result instead of a synonym.
 
+Cadence patterns (inflated claims, leftover chatbot, marks):
+[LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md).
+
 ## Stock assistant lines
 
 | Instead of | Write |
@@ -23,11 +26,17 @@ the concrete file, command, or result instead of a synonym.
 | Here's what I found: | (start with the finding) |
 | Here's the thing | (state the fact) |
 | Here's why that matters | (state the reason, or omit) |
+| Here's what you need to know | (state the fact) |
+| Without further ado | (start) |
+| Heads up / Quick note | (state the fact) |
+| Honestly? / Look, / Real talk | (state the fact) |
 | Great question! | (answer) |
+| You're absolutely right | (answer, or omit) |
 | Absolutely! / Of course! / Perfect! / Awesome! | (omit) |
 | Happy to help | (omit — do the work) |
 | I'd be happy to | I will |
 | I hope this helps | (omit) |
+| Would you like… / Want me to… | (omit, or do the next step) |
 | Let me know if you need anything else | (omit, or name the next step) |
 | Feel free to | You can |
 | Don't hesitate to | (omit) |
@@ -58,6 +67,10 @@ the concrete file, command, or result instead of a synonym.
 | There's a lot to unpack here | (name the parts) |
 | This is a nuanced topic | (state the distinction) |
 | Before we dive in | (omit — start) |
+| The real question is / at its core | (state the question or fact) |
+| What really matters is | (state the fact) |
+| Despite these challenges… continues to thrive | (the concrete problem, or omit) |
+| Exciting times lie ahead | (omit — end on the last fact) |
 
 ## Metaphors and catchy labels
 
@@ -95,6 +108,11 @@ the concrete file, command, or result instead of a synonym.
 | navigate (complexities) | handle / work through (name the problem) |
 | shine a light on | show |
 | the tip of the iceberg | this is only part of it |
+| nestled / breathtaking / must-visit | (the literal place or fact) |
+| X is the Y of Z | (the specific claim) |
+| It's not just X, it's Y | (the Y claim, once) |
+| serves as / stands as | is |
+| boasts / features (as a simple-verb stand-in) | has |
 
 ## Inflated words
 
@@ -185,3 +203,5 @@ operator already used the token.
 
 `HTTP`, `JSON`, `SQL`, and other field-standard short forms stay as they are.
 A short form the operator already used in this conversation may be reused.
+
+Marks (dashes, headings, emoji, quotes, bold): [LANGUAGE-HUMANIZER.md](LANGUAGE-HUMANIZER.md).
