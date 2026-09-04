@@ -51,9 +51,9 @@
 - Task: MD-1
 - Sub-tasks: MD-2
 - Branch: cursor/local-session-working-tree-0a5d
-- PR:
+- PR: https://github.com/marcuskrogh/skills/pull/53
 - Classification: tweak
 - Workflow: delta-fast
 
 ## Next
-`/restructure MD-1` — Structure pass, then review
+`/ship MD-1` — Review CLEAN; closeout on the same PR
