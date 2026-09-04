@@ -31,6 +31,13 @@ and any later type. Type does not select the model. `computerUse` and
 `videoReview` receive `composer-2.5` or `cursor-grok-4.6-high` like any other
 worker.
 
+**Session working tree.** Pipeline workers share the manager's folder (default
+local Task environment). `best-of-n-runner` and a cloud Task environment each
+open a separate tree; use them only when the operator asked for competing
+parallel attempts. Ordinary implement / test / harden packages stay
+`generalPurpose` or `explore` as the skill maps, in the session working tree
+([delivery.md](../../workflow/delivery.md#rules)).
+
 **Manager path.** GUI walkthroughs and image or video checks the manager can
 do with RecordScreen or Read stay on the manager. A spawned `computerUse` or
 `videoReview` Task still receives the catalog slug.

@@ -16,6 +16,9 @@ Load [disclosed refs](#disclosed-refs) only when a step needs them.
 
 - **One Task** owns work from ready-to-build through ship (provider-native key).
 - **One open delivery branch + PR** per **delivery** Task through ship.
+  Checkout is the **session working tree** ([delivery.md](delivery.md#rules)):
+  the folder this session was started in, so a local operator can run the
+  delivery head there.
 - **Research / model** commit finding docs (`RESEARCH.md` / `MODEL.md`) onto that
   branch and **never open a PR**. **sandbox** commits `SANDBOX.md` plus the
   isolation tree the same way. **First PR-opening writer** is define / bug /
