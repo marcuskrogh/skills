@@ -23,9 +23,14 @@ Structure bar: [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md).
 ## Invariants
 
 - **Spec fidelity.** Every package and evaluation cross-references the specification; deviations require plan revision or user alignment.
-- **Isolated packages.** Each delegation is self-contained: objective, inputs, constraints, deliverables, branch, difficulty/model.
+- **Isolated packages.** Each delegation is a self-contained *brief*
+  (objective, inputs, constraints, deliverables, branch, difficulty/model).
+  Packages share the manager's working directory — a second Git worktree is not
+  the isolation.
 - **Iterative plan.** Re-evaluate after each report; revise remaining packages when findings change assumptions.
-- **Branch discipline.** Resolve the skill's delivery branch before first delegation; prefer an existing open branch/PR for the Task; workers commit only there.
+- **Branch discipline.** Resolve the skill's delivery branch before first
+  delegation; prefer an existing open branch/PR for the Task; check it out in
+  this session's working directory; workers commit only there.
 - **Dev-surface keys.** Issue keys live only on **dev-surfaces**. **Product surfaces** carry product language exclusively.
 - **Named-gap re-delegate.** Insufficient report → re-delegate with named gaps (escalate one tier).
 - **Spec lock.** Each pass-criteria row has a spec lock before the package is
@@ -60,7 +65,8 @@ Structure bar: [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md).
 
 1. **Obtain spec** — from skill source; ask if missing. Done when spec is usable.
 2. **Pre-work** — skill-defined. Done when pre-work complete.
-3. **Branch** — reuse open delivery branch/PR for the work item, else create. Done when branch is checked out.
+3. **Branch** — reuse open delivery branch/PR for the work item, else create.
+   Done when that branch is checked out in this session's working directory.
 4. **Draft plan** — ordered packages with a spec lock per pass-criteria row. Done when packages cover the spec.
 5. **Implementation loop** — select package → score difficulty → delegate → evaluate (tests, testability, and structure catalog) → re-delegate or mark done → revise plan. Done when all packages complete.
 6. **Closeout gate** — walk the whole diff against the testing and structure checklists. Done when every remaining gap is a re-delegation or a documented exception.

@@ -40,7 +40,9 @@ from [PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md) → the matching platform file
 1. **Detect platform** — harness → catalog file. Done when catalog is selected.
 2. **Score difficulty** — hardest matching signal → Routine / Moderate / Demanding. Done when tier is recorded.
 3. **Assign model** — category from tier → highest-ranked available slug **in that platform file**; confirm the slug is catalog-closed; if it is absent from the Task enum, remap per spawn contract; pass `model` when supported. Done when a legal model is chosen.
-4. **Spawn** — full brief + difficulty one-liner + explicit catalog `model` on every type. Done when worker is launched.
+4. **Spawn** — full brief + difficulty one-liner + explicit catalog `model` on
+   every type; workers use the manager's working directory unless the operator
+   asked for competing parallel attempts. Done when worker is launched.
 5. **Evaluate** — insufficient → escalate one tier with named gaps. Done when report is adequate or high tier exhausted.
 
 ## Reference

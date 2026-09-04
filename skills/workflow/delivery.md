@@ -14,8 +14,8 @@ or pushing to a delivery head.
    section + ISSUES mirror) as soon as they exist.
 2. **Resolve before create.** Look up recorded branch/PR (issue comment, artifact
    Tracker section, ISSUES, `gh pr list` by head/Task key). Open delivery PR or
-   branch → **checkout and reuse**. Done when the existing head is checked out,
-   or confirmed absent.
+   branch → **checkout and reuse** in the **session working tree**. Done when the
+   existing head is checked out there, or confirmed absent.
 3. **Finding docs on the branch (research / model).** Commit `RESEARCH.md` /
    `MODEL.md` onto the delivery Task’s branch (create the branch if missing).
    **Never open a PR** from research or model. Record the branch; leave PR empty
@@ -41,6 +41,15 @@ or pushing to a delivery head.
 8. **Iterate** (post-merge only) starts a **new** Task + branch + PR when the
    delta is a straightforward production fix. **Sandbox post-merge** starts a
    **new** Task + branch from base and **never** opens a PR.
+9. **Session working tree.** The delivery branch is checked out with
+   `git switch` / `git checkout` in the folder this agent session was started
+   in. A Cloud Agent VM already is that folder. On Desktop and CLI, that folder
+   is the clone the operator opened, so they can run the delivery head there.
+   A second linked Git worktree is only when the operator asked for competing
+   parallel attempts. If the session was already started inside a Cursor
+   worktree, that folder is the session tree. Do not `git worktree add` to park
+   the delivery branch beside the operator's folder. Do not spawn
+   `best-of-n-runner` or a cloud Task worker for ordinary pipeline packages.
 
 ## Charting vs delivery
 

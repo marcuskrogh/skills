@@ -43,7 +43,7 @@ as directed there.
 
 ## Steps
 
-1. **Resolve delivery** — Resolve the Task, spec, Workflow binding, and delivery PR. If `harden.mode=skip` **and** the user explicitly asked to skip, transition **In Review**, persist Next `/review`, and stop. A missing skip on the binding → run the pass. Done when the PR is checked out or an explicit skip is recorded.
+1. **Resolve delivery** — Resolve the Task, spec, Workflow binding, and delivery PR. If `harden.mode=skip` **and** the user explicitly asked to skip, transition **In Review**, persist Next `/review`, and stop. A missing skip on the binding → run the pass. Done when the PR is checked out in this session's working tree or an explicit skip is recorded.
 2. **Scan** — Apply the structure catalog to **touched units** (and neighbours the change worsened). Hunt leftovers implement missed. Each breach is a concrete extract / rename / move / split / invert / asserting test. Small diffs use the same catalog. Done when every catalog breach is a package or a documented exception.
 3. **Apply** — Run Restructure packages; include [structure.md](../implement/structure.md) in briefs. Behaviour stays the same. Re-run the touched-area suite + lint. When spec is `ADOPT.md`, also re-run the recorded lock suite and working-surface commands. Done when remaining breaches are documented exceptions and checks pass.
 4. **Track and hand off** — Task → **In Review**, comment the restructure outcome, persist **Next** `/review`. Done when Task, PR, mirror, and user report agree.
