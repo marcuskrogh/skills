@@ -107,6 +107,7 @@ if (-not (Test-Path $ConceptsDir)) {
         $slugMatches = [regex]::Matches($cursorText, '`([a-z0-9][a-z0-9._-]*)`')
         $allowed = @(
             'composer-2.5',
+            'grok-4.7-high',
             'cursor-grok-4.6-high'
         )
         $illegal = @()
