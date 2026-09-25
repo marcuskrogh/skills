@@ -12,7 +12,7 @@ or `haiku`.
 
 | Rank | Provider | Model | Slug / alias (prefer) | Fallback |
 |------|----------|-------|----------------------|----------|
-| 1 | Anthropic | Claude Opus 5 | `opus` / `claude-opus-5` | `claude-opus-4-8` |
+| 1 | Anthropic | Claude Opus 5.5 | `claude-opus-5-5` | `claude-opus-5` |
 
 ## Mid-capability (ranked)
 

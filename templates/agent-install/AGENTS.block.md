@@ -11,8 +11,9 @@ re-routing. Lost on which skill to use → [`.agents/skills/help/SKILL.md`](.age
 
 **Cursor models (catalog-closed).** On Cursor (Desktop, Cloud, CLI, Mobile), every `Task` spawn of any type —
 including `computerUse` and `videoReview` — passes `model` `composer-2.5`
-(Routine / Moderate) or `cursor-grok-4.6-high` (Demanding / manager). If that
-slug is absent from the Task enum, pass `composer-2.5`. Never `inherit`, omit
+(Routine / Moderate) or `grok-4.7-high` (Demanding / manager). If that
+slug is absent from the Task enum, pass `cursor-grok-4.6-high` when present,
+else `composer-2.5`. Never `inherit`, omit
 `model`, or pick a picker slug. No `*-fast` variants. Third-party picker models
 bill the API budget. Load
 [`.agents/skills/concepts/CONCEPT_DELEGATION.md`](.agents/skills/concepts/CONCEPT_DELEGATION.md)

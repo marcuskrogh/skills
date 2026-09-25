@@ -82,7 +82,7 @@ appears in the loaded platform file for the chosen category (prefer or
 fallback). Off-catalog — including a type's default model, `inherit`, or omit —
 remap to that category's top prefer slug, then spawn. If the prefer slug is
 not in the Task `model` enum, pass the other allowlisted slug the enum contains
-(on Cursor: `composer-2.5`). Do not pick a picker slug. When the harness would
+(on Cursor: `cursor-grok-4.6-high` when Demanding and that slug is listed, else `composer-2.5`). Do not pick a picker slug. When the harness would
 still run an off-catalog model for that type, or no allowlisted slug is in the
 enum, keep the work on the manager.
 
