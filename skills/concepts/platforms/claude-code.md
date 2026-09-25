@@ -6,7 +6,9 @@ Anthropic-only harness. Use aliases the CLI resolves (`/model`, sub-agent model,
 or env defaults). Prefer full IDs when pinning. **Do not** use `fable`, `best`,
 or `haiku`.
 
-**Cost split:** Sonnet for Routine and Moderate; Opus for Demanding / manager.
+**Cost split:** Sonnet for Routine and Moderate; Opus 5.5 for Demanding / manager.
+This harness is Anthropic-only, so the efficient Grok / Sol / Terra picks are
+unavailable. Opus is the ceiling here, not the cross-platform efficiency rank.
 
 ## High-capability (ranked)
 

@@ -22,8 +22,10 @@ When the harness exposes a `model` parameter on sub-agent / `Task` calls, pass
 an explicit allowlisted slug on every spawn of every type. Never omit `model`
 and never pass `inherit` — type defaults and harness "use inherit" guidance
 select third-party picker models. **Cost split:** Composer handles all Routine
-and Moderate workers; Grok handles Demanding workers and is preferred for the
-manager.
+and Moderate workers. **Grok 4.7** (`grok-4.7-high`) handles Demanding workers
+and is preferred for the manager: it is the efficient frontier pick (stronger
+score per dollar than API models such as GPT-6 Astra or Claude Opus) and it
+stays on the internal budget.
 
 **Every type.** The allowlist applies to every `Task` spawn: `generalPurpose`,
 `explore`, `computerUse`, `videoReview`, `cursor-guide`, `best-of-n-runner`,

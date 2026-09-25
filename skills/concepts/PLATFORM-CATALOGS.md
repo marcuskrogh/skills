@@ -11,12 +11,16 @@ Claude Code / Codex / Copilot). An incomplete Task `model` enum is not unknown
 
 ## Catalog rules
 
-1. **Cost first** — for each harness, prefer the cheapest model that can do the
-   work. In practice this usually means one **cost workhorse** for both
-   **low** and **mid**, and a single **premium** model for **high**. Do not
-   introduce extra mid-tier brands when the workhorse already covers Moderate.
-2. **One model per provider** per category — prefer the current cost-efficient
-   pick; put prior generations only as that row's fallback slug.
+1. **Efficiency first** — rank by capability per cost, not peak score. A higher
+   benchmark at several times the price is a worse rank. **Grok 4.7**, **GPT-6
+   Sol** (`gpt-6-sol`), and **Terra** (`gpt-5.6-terra`) are the efficient picks.
+   **GPT-6 Astra** and **Claude Opus** are capability ceilings: use one only
+   after the efficient pick for that tier is insufficient. One workhorse may
+   cover both **low** and **mid**. Do not add a brand that costs more for a
+   small score gain.
+2. **One prefer slug per provider** per category. Sol and Terra may share a
+   category only as prefer plus the slug used when that prefer is absent.
+   Prior generations stay on that row's fallback slug.
 3. **Catalog-closed** — pick only prefer/fallback slugs from the loaded platform
    file. Do not invent, family-resolve, or “upgrade” to a model the harness
    lists but the platform file does not.
