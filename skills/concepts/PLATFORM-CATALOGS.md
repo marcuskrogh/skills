@@ -32,7 +32,7 @@ Claude Code / Codex / Copilot). An incomplete Task `model` enum is not unknown
    **directly to high**.
 8. **Cursor first-party** — on Cursor (Desktop, Cloud, CLI, Mobile), the platform file
    is a closed allowlist of **Composer** and **Grok** standard slugs only
-   (`composer-2.5`, `cursor-grok-4.6-high`). No `*-fast` variants. The
+   (`composer-2.5`, `grok-4.7-high`). No `*-fast` variants. The
    allowlist covers every `Task` type (`computerUse`, `videoReview`, …).
    Third-party models in the Cursor picker (Claude, GPT, Gemini, Kimi, …)
    bill the **API budget**; Composer and Grok bill the **internal** budget.

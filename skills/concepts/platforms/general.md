@@ -13,16 +13,16 @@ live in the catalog index.
 |------|----------|-------|-----------------|
 | 1 | DeepSeek | DeepSeek V4-Pro | `deepseek-v4-pro`, `deepseek-chat` Pro equivalent |
 | 2 | Z.ai | GLM-5.2 | `glm-5.2`, `glm-5` latest coding |
-| 3 | Anthropic | Claude Opus 5 | `opus`, `claude-opus-5` |
+| 3 | Anthropic | Claude Opus 5.5 | `opus`, `claude-opus-5-5` |
 | 4 | Moonshot | Kimi K3 | `kimi-k3`, `kimi-k3-high`, K2.6 if K3 unavailable |
-| 5 | xAI | Grok 4.6 | `grok-4.6`, `cursor-grok-4.6-high` |
+| 5 | xAI | Grok 4.7 | `grok-4.7`, `grok-4.7-high` |
 | 6 | OpenAI | GPT-5.6 Sol | `gpt-5.6-sol` |
 
 ## Mid-capability (ranked)
 
 | Rank | Provider | Model | Prefer / map to |
 |------|----------|-------|-----------------|
-| 1 | Google | Gemini 3.6 Flash | `gemini-3.6-flash` |
+| 1 | Google | Gemini 3.8 Flash | `gemini-3.8-flash` |
 | 2 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` |
 | 3 | Anthropic | Claude Sonnet 5 | `sonnet`, `claude-sonnet-5` |
 | 4 | Alibaba | Qwen3-Coder | `qwen3-coder`, latest Qwen coder instruct |
