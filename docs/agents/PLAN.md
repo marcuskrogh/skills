@@ -73,4 +73,4 @@
 - Workflow: delta-fast
 
 ## Next
-`/test MD-1` — Dedicated testing phase, then restructure, then review
+`/review MD-1` — Lasers, then fix, then code review

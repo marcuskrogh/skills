@@ -401,13 +401,6 @@ if ($wsOk) {
     Write-Host "OK: Adopt/test working-surface proof (frontend + backend) in characterize, route, testing, concepts, and test"
 }
 
-# Locked 2026-09-27 prefer slugs. Checks are written from the plan pass criteria.
-$platformsDir = Join-Path $ConceptsDir "platforms"
-$generalPlatform = Join-Path $platformsDir "general.md"
-$claudePlatform = Join-Path $platformsDir "claude-code.md"
-$copilotPlatform = Join-Path $platformsDir "github-copilot.md"
-$codexPlatform = Join-Path $platformsDir "codex.md"
-
 function Test-FileContains {
     param([string]$Path, [string]$Needle, [string]$Label)
     if (-not (Test-Path $Path)) {
@@ -424,96 +417,116 @@ function Test-FileContains {
     }
 }
 
-foreach ($need in @('glm-5.3', 'gemini-3.8-flash', 'qwen3.8-max', 'muse-spark-1.3')) {
-    Test-FileContains -Path $generalPlatform -Needle $need -Label "general.md prefer slug $need"
+function Get-HeadingSlice {
+    param(
+        [string]$Text,
+        [string]$StartHeading,
+        [string]$EndHeading,
+        [string]$Fallback
+    )
+    $start = $Text.IndexOf($StartHeading)
+    if ($start -lt 0) { return $Fallback }
+    if ([string]::IsNullOrEmpty($EndHeading)) {
+        return $Text.Substring($start)
+    }
+    $end = $Text.IndexOf($EndHeading)
+    if ($end -gt $start) {
+        return $Text.Substring($start, $end - $start)
+    }
+    return $Fallback
 }
-if (Test-Path $generalPlatform) {
-    $generalText = Get-Content -Path $generalPlatform -Raw
-    foreach ($stale in @('| GLM-5.2 |', '| Gemini 3.6 Flash |', '| Qwen3-Coder |', '| Llama 4 Maverick |')) {
-        if ($generalText.IndexOf($stale) -ge 0) {
-            Write-Host "FAIL: general.md still prefers stale row $stale"
+
+function Test-SectionLists {
+    param(
+        [string]$Section,
+        [string]$FailPrefix,
+        [string]$OkPrefix,
+        [string[]]$Needles
+    )
+    foreach ($need in $Needles) {
+        if ($Section.IndexOf($need) -lt 0) {
+            Write-Host "FAIL: $FailPrefix$need"
             $script:errors++
         } else {
-            Write-Host "OK: general.md does not prefer stale row $stale"
+            Write-Host "OK: $OkPrefix$need"
         }
     }
 }
 
-Test-FileContains -Path $claudePlatform -Needle 'claude-opus-5-5' -Label "claude-code.md prefer claude-opus-5-5"
-Test-FileContains -Path $claudePlatform -Needle '`opus`' -Label "claude-code.md prefer alias opus"
-Test-FileContains -Path $claudePlatform -Needle 'claude-opus-5' -Label "claude-code.md fallback claude-opus-5"
-Test-FileContains -Path $claudePlatform -Needle 'fable' -Label "claude-code.md forbids fable"
-Test-FileContains -Path $claudePlatform -Needle 'haiku' -Label "claude-code.md forbids haiku"
+function Test-LockedPreferSlugs {
+    param([string]$PlatformsDir)
 
-if (Test-Path $copilotPlatform) {
-    $copilotText = Get-Content -Path $copilotPlatform -Raw
-    $highPart = $copilotText
-    $highIdx = $copilotText.IndexOf('## High-capability')
-    $midIdx = $copilotText.IndexOf('## Mid-capability')
-    if ($highIdx -ge 0 -and $midIdx -gt $highIdx) {
-        $highPart = $copilotText.Substring($highIdx, $midIdx - $highIdx)
+    $generalPlatform = Join-Path $PlatformsDir "general.md"
+    $claudePlatform = Join-Path $PlatformsDir "claude-code.md"
+    $copilotPlatform = Join-Path $PlatformsDir "github-copilot.md"
+    $codexPlatform = Join-Path $PlatformsDir "codex.md"
+
+    foreach ($need in @('glm-5.3', 'gemini-3.8-flash', 'qwen3.8-max', 'muse-spark-1.3')) {
+        $wrapped = '`' + $need + '`'
+        Test-FileContains -Path $generalPlatform -Needle $wrapped -Label "general.md prefer slug $need"
     }
-    foreach ($need in @('Grok 4.7', 'GPT-6 Sol', 'Claude Opus 5.5')) {
-        if ($highPart.IndexOf($need) -lt 0) {
-            Write-Host "FAIL: github-copilot.md high section must list $need"
+    if (Test-Path $generalPlatform) {
+        $generalText = Get-Content -Path $generalPlatform -Raw
+        foreach ($stale in @('| GLM-5.2 |', '| Gemini 3.6 Flash |', '| Qwen3-Coder |', '| Llama 4 Maverick |')) {
+            if ($generalText.IndexOf($stale) -ge 0) {
+                Write-Host "FAIL: general.md still prefers stale row $stale"
+                $script:errors++
+            } else {
+                Write-Host "OK: general.md does not prefer stale row $stale"
+            }
+        }
+    }
+
+    Test-FileContains -Path $claudePlatform -Needle '`claude-opus-5-5`' -Label "claude-code.md prefer claude-opus-5-5"
+    Test-FileContains -Path $claudePlatform -Needle '`opus`' -Label "claude-code.md prefer alias opus"
+    Test-FileContains -Path $claudePlatform -Needle '`claude-opus-5`' -Label "claude-code.md fallback claude-opus-5"
+    Test-FileContains -Path $claudePlatform -Needle 'fable' -Label "claude-code.md forbids fable"
+    Test-FileContains -Path $claudePlatform -Needle 'haiku' -Label "claude-code.md forbids haiku"
+
+    if (Test-Path $copilotPlatform) {
+        $copilotText = Get-Content -Path $copilotPlatform -Raw
+        $highPart = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback $copilotText
+        Test-SectionLists -Section $highPart -FailPrefix 'github-copilot.md high section must list ' -OkPrefix 'github-copilot.md high lists ' -Needles @('Grok 4.7', 'GPT-6 Sol', 'Claude Opus 5.5')
+        $midPart = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+        Test-SectionLists -Section $midPart -FailPrefix 'github-copilot.md mid section must list ' -OkPrefix 'github-copilot.md mid lists ' -Needles @('GPT-5.6 Terra', 'Claude Sonnet 5')
+        $lowPart = Get-HeadingSlice -Text $copilotText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
+        if ($lowPart.IndexOf('GPT-6 Luna') -lt 0) {
+            Write-Host "FAIL: github-copilot.md low section must list GPT-6 Luna"
             $script:errors++
         } else {
-            Write-Host "OK: github-copilot.md high lists $need"
+            Write-Host "OK: github-copilot.md low lists GPT-6 Luna"
         }
     }
-    $midPart = ''
-    $lowIdx = $copilotText.IndexOf('## Low-capability')
-    if ($midIdx -ge 0 -and $lowIdx -gt $midIdx) {
-        $midPart = $copilotText.Substring($midIdx, $lowIdx - $midIdx)
-    }
-    foreach ($need in @('GPT-5.6 Terra', 'Claude Sonnet 5')) {
-        if ($midPart.IndexOf($need) -lt 0) {
-            Write-Host "FAIL: github-copilot.md mid section must list $need"
+
+    if (Test-Path $codexPlatform) {
+        $codexText = Get-Content -Path $codexPlatform -Raw
+        $midPart = Get-HeadingSlice -Text $codexText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+        if ($midPart.IndexOf('gpt-5.6-terra') -lt 0) {
+            Write-Host "FAIL: codex.md mid prefer must stay gpt-5.6-terra"
             $script:errors++
         } else {
-            Write-Host "OK: github-copilot.md mid lists $need"
+            Write-Host "OK: codex.md mid prefer stays gpt-5.6-terra"
         }
     }
-    $lowPart = ''
-    if ($lowIdx -ge 0) { $lowPart = $copilotText.Substring($lowIdx) }
-    if ($lowPart.IndexOf('GPT-6 Luna') -lt 0) {
-        Write-Host "FAIL: github-copilot.md low section must list GPT-6 Luna"
-        $script:errors++
-    } else {
-        Write-Host "OK: github-copilot.md low lists GPT-6 Luna"
+
+    $bannedHits = 0
+    foreach ($plat in (Get-ChildItem -Path $PlatformsDir -Filter "*.md")) {
+        $platText = Get-Content -Path $plat.FullName -Raw
+        foreach ($banned in @('gpt-6-terra', 'sonnet-5-5', 'haiku-5-5', 'claude-sonnet-5-5', 'claude-haiku-5')) {
+            if ($platText.IndexOf($banned) -ge 0) {
+                Write-Host "FAIL: $($plat.Name) invents banned slug $banned"
+                $script:errors++
+                $bannedHits++
+            }
+        }
+    }
+    if ($bannedHits -eq 0) {
+        Write-Host "OK: platform files do not invent gpt-6-terra, Sonnet 5.5, or Haiku 5.5"
     }
 }
 
-if (Test-Path $codexPlatform) {
-    $codexText = Get-Content -Path $codexPlatform -Raw
-    $midIdx = $codexText.IndexOf('## Mid-capability')
-    $lowIdx = $codexText.IndexOf('## Low-capability')
-    $midPart = ''
-    if ($midIdx -ge 0 -and $lowIdx -gt $midIdx) {
-        $midPart = $codexText.Substring($midIdx, $lowIdx - $midIdx)
-    }
-    if ($midPart.IndexOf('gpt-5.6-terra') -lt 0) {
-        Write-Host "FAIL: codex.md mid prefer must stay gpt-5.6-terra"
-        $script:errors++
-    } else {
-        Write-Host "OK: codex.md mid prefer stays gpt-5.6-terra"
-    }
-}
-
-$bannedHits = 0
-Get-ChildItem -Path $platformsDir -Filter "*.md" | ForEach-Object {
-    $platText = Get-Content -Path $_.FullName -Raw
-    foreach ($banned in @('gpt-6-terra', 'sonnet-5-5', 'haiku-5-5', 'claude-sonnet-5-5', 'claude-haiku-5')) {
-        if ($platText.IndexOf($banned) -ge 0) {
-            Write-Host "FAIL: $($_.Name) invents banned slug $banned"
-            $script:errors++
-            $script:bannedHits++
-        }
-    }
-}
-if ($bannedHits -eq 0) {
-    Write-Host "OK: platform files do not invent gpt-6-terra, Sonnet 5.5, or Haiku 5.5"
-}
+# Locked 2026-09-27 prefer slugs. Checks are written from the plan pass criteria.
+Test-LockedPreferSlugs -PlatformsDir (Join-Path $ConceptsDir "platforms")
 
 if ($errors -gt 0) {
     Write-Host ""
