@@ -18,7 +18,7 @@ to **fix-forward**, not this concept.
 - **New branch from base.** From WORKSPACE base (usually `main`).
 - **New PR every iteration.**
 - **Delta, not reboot.** Spec is the reported problem + **pass criteria**; prior PLAN/BUG/TWEAK/REFINE/REWORK are context.
-- **Brief alignment.** Prefer zero questions when the invoke suffices; at most a short clarifying loop (one question per message).
+- **Brief alignment.** When the invoke states the wrong behaviour and the pass criteria, proceed. When either is unstated, ask one question at a time until both are stated. Do not invent the delta from the prior plan.
 - **Session continuity.** Load prior Task, merged PR, and artifacts before guessing.
 - **Chainable.** After this PR ships, another iterate on the same lineage is valid.
 - **Ends at In Progress after implement.** Testing, restructure, and merge/Done remain the bound closeout chain (`/test` → `/restructure` → `/review` → `/ship`).

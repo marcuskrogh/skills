@@ -38,8 +38,14 @@ glossary.
   one thing across chat, tracker comments, and pull requests. Prefer the
   operator's word when it is unambiguous.
 - **Ordinary English.** Prefer the term a competent engineer already knows. Skill
-  tokens (`Next`, fog, frontier) stay in skill files. Required headings and
-  field names stay exact; the sentence around them uses the ordinary word.
+  tokens (`Next`, fog, frontier) stay in skill files, except the handoff close
+  below. Required headings and field names stay exact; the sentence around them
+  uses the ordinary word.
+- **Handoff block stays.** A reply that finishes a skill ends with the exact
+  `## Next` block from [../workflow/handoff.md](../workflow/handoff.md). Phrase
+  and cadence rewrites apply above that block. They leave the heading, the
+  slash invoke, and the em dash on that line unchanged. An open alignment
+  question has no `## Next` block.
 - **Spell out.** Use the ordinary name in full. Field-standard short forms are
   fine (`HTTP`, `JSON`, `SQL`). Never invent a short form from a local name:
   `GeneralProcessSimulator` stays `GeneralProcessSimulator`, not `GPS`. A short

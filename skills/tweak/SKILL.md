@@ -22,7 +22,7 @@ contract: [../define/overrides.md](../define/overrides.md).
 |------|------------|
 | **Subject** | Small intentional change to existing behaviour (extend a pattern, add a field, adjust a clear edge) |
 | **Probes** | Desired change; where it applies; precedent elsewhere in the codebase (if any); **pass criteria**; out of scope; optional parent Story/Task link |
-| **Stop condition** | Desired change, where, and pass criteria are clear enough to implement |
+| **Stop condition** | The user has stated the desired change, where it applies, and pass criteria (or explicitly deferred one) and approved the readiness prompt |
 | **Alignment / definition artifact** | `TWEAK.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Is this enough to implement the tweak?" |
 | **Opening** | Thin: "What do you want to tweak?" Rich (change + area pasted): first question on highest-impact gap |

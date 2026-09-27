@@ -209,9 +209,12 @@ write_fallback_block() {
 <!-- marcuskrogh/skills:begin -->
 **Prefer workflow.** When the user describes work to deliver — even without naming
 a skill — invoke [`.agents/skills/workflows/SKILL.md`](.agents/skills/workflows/SKILL.md).
-**Front doors:** foggy → explore; concrete → define (classifies + binds workflow).
-Follow persisted **Next**. Do not freestyle coding or ad-hoc planning when a
-catalog workflow fits.
+**Front doors:** foggy → explore; concrete → define. Define interviews for
+alignment, then classifies and binds a workflow. A short description starts that
+interview; it does not approve the plan. Follow persisted **Next**. A reply that
+finishes a skill ends with the exact `## Next` block (`/<skill> <KEY>` — why).
+An open alignment question does not include that block. Do not freestyle
+coding or ad-hoc planning when a catalog workflow fits.
 
 Continuation cues: bare **next** / **ship** still apply (see
 `.agents/skills/workflow/reference.md`). Explicit `/skill` names win over
@@ -250,9 +253,12 @@ alwaysApply: true
 ---
 
 When the user describes work to deliver, prefer the model-invoked **workflows**
-skill. Front doors: foggy → **explore**; concrete → **define** (classifies and
-binds an efficient workflow). Follow persisted **Next**. Do not freestyle past a
-supported workflow. For a navigation overview only, prefer **help**.
+skill. Front doors: foggy → **explore**; concrete → **define**, which interviews
+for alignment, then classifies and binds a workflow. A short description starts
+that interview; it does not approve the plan. Follow persisted **Next**. A reply
+that finishes a skill ends with the exact `## Next` block (`/<skill> <KEY>` — why).
+An open alignment question does not include that block. Do not freestyle past
+a supported workflow. For a navigation overview only, prefer **help**.
 
 On Cursor (Desktop, Cloud, CLI, Mobile), every Task spawn of any type —
 including computerUse and videoReview — is catalog-closed: only

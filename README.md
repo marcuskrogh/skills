@@ -2,8 +2,10 @@
 
 Reusable agent skills for **workflow-driven delivery**. Agents prefer a catalog
 workflow over freestyle coding: foggy work goes through **explore**, concrete
-work through **define** (classify + bind), then a bound chain via persisted
-**Next**.
+work through **define** (interview, then classify and bind), then a bound chain
+via persisted **Next**. A short description starts that interview and does not
+approve the plan. A reply that finishes a skill ends with the `## Next` block.
+An open interview question does not include that block.
 
 Built on the [Agent Skills](https://agentskills.io) standard. Install via an
 agent (preferred) or [skills.sh](https://skills.sh). Works with Cursor, Claude
@@ -57,14 +59,14 @@ Compare the rows in order. The first row that fits is the workflow.
 | **explore** | The goal is vague, oversized, or still unclear | `/explore` |
 | **research** | You explicitly want a multi-axis literature or evidence pass now | `/research` |
 | **model** | You explicitly want a math formulation now | `/model` |
-| **implement** | A ready-to-build `PLAN.md`, or a class artifact (`BUG.md`, `TWEAK.md`, `REFINE.md`, `REWORK.md`, `ITERATE.md`, `ADOPT.md`, `SANDBOX.md`), and you want to build or resume | `/implement` |
+| **implement** | An approved `PLAN.md` or class artifact (`BUG.md`, `TWEAK.md`, `REFINE.md`, `REWORK.md`, `ITERATE.md`, `ADOPT.md`, `SANDBOX.md`) already exists on the Task, and you want to build or resume. A chat description is not that file | `/implement` |
 | **architect** | The bound architecture phase is next, or you want that phase now | `/architect` |
 | **test** | The bound testing phase is next, or you want that phase now | `/test` |
 | **restructure** | The bound refactoring phase is next, or you want that phase now. `/harden` is the same skill | `/restructure` or `/harden` |
 | **review** | Bound review on an In Review PR (find and fix). `/review-fix` is the same skill | `/review` or `/review-fix` |
 | **summarise** | Status, where you are, or what is next, reported and not advanced | `/summarise` |
-| **define** | Concrete work to pin down (bug, tweak, refine, rework, feature, …). Default front door | `/define` |
-| **bug** / **tweak** / **refine** / **rework** | You **explicitly** named that skill. Manual override of define's classifier | `/bug`, `/tweak`, `/refine`, `/rework` |
+| **define** | Concrete work to pin down (bug, tweak, refine, rework, feature, …). Default front door. Interviews before classify and bind. A short description starts the interview and does not approve the plan | `/define` |
+| **bug** / **tweak** / **refine** / **rework** | You **explicitly** named that skill. Manual override of define's classifier. Each one still interviews before it writes the plan | `/bug`, `/tweak`, `/refine`, `/rework` |
 
 **research** and **model** usually show up as define's bound `side_paths`, or
 because you asked for them. They do not replace define's questions.
@@ -85,9 +87,9 @@ catalog. Authoring `SKILL.md` or `CONCEPT_*.md` prose is
 | **setup** | `WORKSPACE.md`: tracker, artifact location, paths |
 | **continue** | Runs the persisted Next skill once |
 | **explore** | `ROADMAP.md` and sequenced route Tasks. No map-only pull request |
-| **define** | Aligns with you, classifies, binds a template, writes `PLAN.md`, opens the delivery branch and pull request, sets **Next** |
+| **define** | Interviews until the open questions are settled and you approve the plan, then classifies, binds a template, writes `PLAN.md`, opens the delivery branch and pull request, and sets **Next** |
 | **adopt** | `ADOPT.md`. Inventory, then characterize → architect → implement → test → restructure → review → ship per area until Done |
-| **bug** / **tweak** / **refine** / **rework** | `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md`, one Task, then the same closeout chain. Prefer `/define` unless you mean the override |
+| **bug** / **tweak** / **refine** / **rework** | Interview, then `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md`, one Task, and the same closeout chain. Prefer `/define` unless you mean the override |
 | **research** / **model** | `RESEARCH.md` / `MODEL.md` on the delivery branch. No pull request of their own |
 | **sandbox** | `SANDBOX.md` plus an isolation tree on the delivery branch. No pull request of its own. After a post-merge sandbox, implement opens the pull request when the work is promoted |
 | **architect** | `ARCHITECTURE.md` on the same branch |
@@ -104,8 +106,8 @@ catalog. Authoring `SKILL.md` or `CONCEPT_*.md` prose is
 
 ### Bound template
 
-`/define` does not leave the later stages for you to choose. After alignment
-it records a **class** and a **template** on `PLAN.md`. Later skills follow
+`/define` does not leave the later stages for you to choose. After you approve
+the interview it records a **class** and a **template** on `PLAN.md`. Later skills follow
 that binding. Discriminators are applied in order. The first match wins.
 Catalog: [`CLASSIFICATION-CATALOG.md`](skills/concepts/CLASSIFICATION-CATALOG.md).
 

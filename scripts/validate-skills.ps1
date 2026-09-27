@@ -254,6 +254,106 @@ foreach ($pf in $pointerFiles) {
     if ($pointerText.IndexOf('CONCEPT_LANGUAGE') -ge 0 -and $pointerText.IndexOf('LANGUAGE-PHRASES') -ge 0 -and $pointerText.IndexOf('LANGUAGE-HUMANIZER') -ge 0) {
         Write-Host "OK: $pf names CONCEPT_LANGUAGE, LANGUAGE-PHRASES, and LANGUAGE-HUMANIZER"
     }
+    foreach ($closeNeed in @('## Next', 'does not approve the plan')) {
+        if ($pointerText.IndexOf($closeNeed) -lt 0) {
+            Write-Host "FAIL: $pf must contain '$closeNeed' (alignment interview + Next close)"
+            $script:errors++
+        }
+    }
+    if ($pointerText.IndexOf('## Next') -ge 0 -and $pointerText.IndexOf('does not approve the plan') -ge 0) {
+        Write-Host "OK: $pf keeps the alignment interview and ## Next close"
+    }
+}
+
+$alignmentConcept = Join-Path $ConceptsDir "CONCEPT_ALIGNMENT.md"
+if (-not (Test-Path $alignmentConcept)) {
+    Write-Host "FAIL: Missing CONCEPT_ALIGNMENT.md"
+    $script:errors++
+} else {
+    $alignmentText = Get-Content -Path $alignmentConcept -Raw
+    foreach ($need in @('Shallow stays open', 'Opening names the subject', 'First turn waits', 'Close with the user')) {
+        if ($alignmentText.IndexOf($need) -lt 0) {
+            Write-Host "FAIL: CONCEPT_ALIGNMENT.md must contain '$need'"
+            $script:errors++
+        }
+    }
+    if ($alignmentText.IndexOf('on invoke') -ge 0 -and $alignmentText -match 'Rich \(user already answered') {
+        Write-Host "FAIL: CONCEPT_ALIGNMENT.md still treats the invoke as a rich answer"
+        $script:errors++
+    } else {
+        Write-Host "OK: CONCEPT_ALIGNMENT.md keeps shallow openings open"
+    }
+}
+
+$definitionConcept = Join-Path $ConceptsDir "CONCEPT_DEFINITION.md"
+if (Test-Path $definitionConcept) {
+    $definitionText = Get-Content -Path $definitionConcept -Raw
+    if ($definitionText.IndexOf('confirm gaps only when already implementation-ready') -ge 0) {
+        Write-Host "FAIL: CONCEPT_DEFINITION.md still treats a description as implementation-ready"
+        $script:errors++
+    } elseif ($definitionText.IndexOf('A short opening is not implementation-ready') -lt 0) {
+        Write-Host "FAIL: CONCEPT_DEFINITION.md must say a short opening is not implementation-ready"
+        $script:errors++
+    } else {
+        Write-Host "OK: CONCEPT_DEFINITION.md refuses a short opening as implementation-ready"
+    }
+}
+
+$handoffRef = Join-Path $RepoRoot (Join-Path "skills" (Join-Path "workflow" "handoff.md"))
+if (-not (Test-Path $handoffRef)) {
+    Write-Host "FAIL: Missing workflow/handoff.md"
+    $script:errors++
+} else {
+    $handoffText = Get-Content -Path $handoffRef -Raw
+    foreach ($need in @('## Reply close', 'open alignment', '## Next')) {
+        if ($handoffText.IndexOf($need) -lt 0) {
+            Write-Host "FAIL: workflow/handoff.md must contain '$need'"
+            $script:errors++
+        }
+    }
+    if ($handoffText.IndexOf('## Reply close') -ge 0) {
+        Write-Host "OK: workflow/handoff.md requires the Next reply close"
+    }
+}
+
+$workflowsSkill = Join-Path $RepoRoot (Join-Path "skills" (Join-Path "workflows" "SKILL.md"))
+if (Test-Path $workflowsSkill) {
+    $workflowsText = Get-Content -Path $workflowsSkill -Raw
+    foreach ($need in @('does not approve the plan', '## Next', 'Interview before build')) {
+        if ($workflowsText.IndexOf($need) -lt 0) {
+            Write-Host "FAIL: workflows/SKILL.md must contain '$need'"
+            $script:errors++
+        }
+    }
+    if ($workflowsText.IndexOf('no remaining definition forks') -ge 0) {
+        Write-Host "FAIL: workflows/SKILL.md still allows skipping alignment when no forks are declared"
+        $script:errors++
+    }
+}
+
+$defineSkill = Join-Path $RepoRoot (Join-Path "skills" (Join-Path "define" "SKILL.md"))
+if (Test-Path $defineSkill) {
+    $defineText = Get-Content -Path $defineSkill -Raw
+    if ($defineText.IndexOf('no remaining definition forks') -ge 0) {
+        Write-Host "FAIL: define/SKILL.md still skips alignment when no forks are declared"
+        $script:errors++
+    } elseif ($defineText.IndexOf('does not approve the plan') -lt 0) {
+        Write-Host "FAIL: define/SKILL.md description must say a short description does not approve the plan"
+        $script:errors++
+    } else {
+        Write-Host "OK: define/SKILL.md interviews before the plan is approved"
+    }
+}
+
+$installScript = Join-Path $RepoRoot (Join-Path "scripts" "install-from-git.sh")
+if (Test-Path $installScript) {
+    $installText = Get-Content -Path $installScript -Raw
+    foreach ($need in @('## Next', 'does not approve the plan')) {
+        if ($installText.IndexOf($need) -lt 0) {
+            Write-Host "FAIL: scripts/install-from-git.sh fallback must contain '$need'"
+            $script:errors++
+        }
+    }
 }
 
 $phrasesRef = Join-Path $ConceptsDir "LANGUAGE-PHRASES.md"

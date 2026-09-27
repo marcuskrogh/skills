@@ -22,7 +22,7 @@ Produces `BUG.md`. Shared persist/track contract:
 |------|------------|
 | **Subject** | Bug, regression, or incorrect behaviour |
 | **Probes** | Symptom; minimal repro; expected vs actual; impact/severity; suspected area (no deep code dive); **pass criteria**; out of scope; optional parent Story/Task link |
-| **Stop condition** | Repro, expected/actual, impact, and pass criteria are clear enough to implement |
+| **Stop condition** | The user has stated repro, expected vs actual, impact, and pass criteria (or explicitly deferred one) and approved the readiness prompt |
 | **Alignment / definition artifact** | `BUG.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Is this enough to implement the fix?" |
 | **Opening** | Thin: "What is broken?" Rich (stack/steps pasted): first question on highest-impact gap |

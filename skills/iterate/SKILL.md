@@ -25,7 +25,7 @@ instead. Before spawning workers, also read
 | Slot | This skill |
 |------|------------|
 | **Prior context** | Explicit prior key → session just-shipped → latest Done ISSUES row → ask once |
-| **Alignment depth** | Skip if invoke is enough; else ≤ few clarifying questions; stop when fix is implementable |
+| **Alignment depth** | Skip further questions only when the invoke states the wrong behaviour and the pass criteria. Otherwise one question at a time until both are stated |
 | **Iteration artifact** | `ITERATE.md` |
 | **Branch + delivery** | WORKSPACE base + **new** Task key; open new PR |
 | **Tracker** | New Task Relates to prior; iterate row in [tracker-sync](../workflow/tracker-sync.md#matrix) |

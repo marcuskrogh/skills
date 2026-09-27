@@ -3,8 +3,11 @@
 **Prefer workflow.** When the user describes work to deliver — even without naming
 a skill — invoke [`workflows`](skills/workflows/SKILL.md). **Front doors:** foggy
 → [`explore`](skills/explore/SKILL.md); concrete (bug, tweak, refine, rework,
-feature, …) → [`define`](skills/define/SKILL.md), which classifies the work and
-binds an efficient workflow. Follow persisted **Next** afterward. Do not freestyle
+feature, …) → [`define`](skills/define/SKILL.md). Define interviews for alignment,
+then classifies and binds a workflow. A short description starts that interview;
+it does not approve the plan. Follow persisted **Next** afterward. A reply that
+finishes a skill ends with the exact `## Next` block (`/<skill> <KEY>` — why).
+An open alignment question does not include that block. Do not freestyle
 coding or ad-hoc planning when a catalog workflow fits.
 
 Continuation cues: bare **next** / **ship** still apply (see
