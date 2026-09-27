@@ -12,10 +12,14 @@ disable-model-invocation: true
 
 **Shared reference skill.** Users invoke pipeline skills, not this file.
 
-**On invoke:** read [reference.md](reference.md). Disclose branch refs only when
-needed: [delivery.md](delivery.md), [handoff.md](handoff.md),
+**On invoke:** read [reference.md](reference.md) and [handoff.md](handoff.md).
+Disclose other refs only when a step needs them: [delivery.md](delivery.md),
 [tracker-sync.md](tracker-sync.md), [ship.md](ship.md), [changelog.md](changelog.md).
 
 Pipeline skills point here instead of listing those files. Issue tracker
 operations: [../tracker/SKILL.md](../tracker/SKILL.md). Workspace decisions:
 [../setup/SKILL.md](../setup/SKILL.md).
+
+A reply that finishes a pipeline skill ends with the **Next** block in
+[handoff.md](handoff.md). An open alignment turn is the one question; it does
+not include that block and does not start the next skill.

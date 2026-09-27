@@ -103,7 +103,7 @@ Paths follow WORKSPACE. Record path + commit SHA on the Task when location is
 | When | Read |
 |------|------|
 | Creating or reusing branch/PR | [delivery.md](delivery.md) |
-| Writing **Next** / resolving entry context | [handoff.md](handoff.md) |
+| User-facing reply, **Next**, or entry context | [handoff.md](handoff.md) — required on invoke |
 | Tracker create / transition / comment / close | [tracker-sync.md](tracker-sync.md) |
 | `/ship` remaining tails or closeout | [ship.md](ship.md) |
 

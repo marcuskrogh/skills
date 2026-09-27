@@ -78,8 +78,8 @@ is the active define→ship head (if any).
 | `/iterate` | New Task + branch + PR from base; Next `/test` (or first remaining closeout step). If the delta needs inspect-each-turn, compose `/sandbox` instead |
 | `/define` with no explore Task | Create Task (+ Sub-tasks) as pipeline owner |
 | `/implement` with existing PLAN / BUG / TWEAK / REFINE / REWORK / ADOPT | Allowed; reuse delivery head |
-| Skip define on features | Only when already implementation-ready |
-| Skip define for defects / tweaks / refinements / reworks / adoption | Use `/bug`, `/tweak`, `/refine`, `/rework`, or `/adopt` instead |
+| Skip define on features | Only when a user-approved `PLAN.md` already exists on the Task. A chat description does not approve the plan |
+| Skip define for defects / tweaks / refinements / reworks / adoption | Use `/bug`, `/tweak`, `/refine`, `/rework`, or `/adopt` instead — those still interview before implement |
 
 ## Linking
 

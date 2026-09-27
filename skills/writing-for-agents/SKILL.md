@@ -177,12 +177,15 @@ across a real context boundary (hand-off / subagent), not an inline call.
   **Intent**; the one-line Uninvokable role line in the concept shape is the
   allowed exception (do not expand it into a section).
 - **Always-on language extract** names CONCEPT_LANGUAGE, LANGUAGE-PHRASES, and
-  LANGUAGE-HUMANIZER, plus two caches (`GeneralProcessSimulator`, agent-host
-  **harness**).
-  Do not copy the phrase or cadence tables into AGENTS.md, Cursor rules, or
-  skill On-invoke lines. Pipeline skills load [../workflow/SKILL.md](../workflow/SKILL.md)
-  instead of listing delivery/handoff/tracker-sync files. Manual class skills
-  share [../define/overrides.md](../define/overrides.md).
+LANGUAGE-HUMANIZER, plus caches: spell out `GeneralProcessSimulator`; keep
+**harness** for the agent host; concrete work interviews before bind; a short
+description does not approve the plan; a finished skill reply ends with the
+exact `## Next` block. Do not copy the phrase or cadence tables into AGENTS.md,
+Cursor rules, or skill On-invoke lines. Pipeline skills load
+[../workflow/SKILL.md](../workflow/SKILL.md) and
+[../workflow/handoff.md](../workflow/handoff.md) instead of listing
+delivery/tracker-sync files. Manual class skills share
+[../define/overrides.md](../define/overrides.md).
 
 ## Concept shape
 

@@ -31,8 +31,9 @@ literature research, math modelling, and coding are other skills' jobs.
   of the specification. Docs-only: `none — no executable behaviour`. A
   definition is not implementable until pass criteria are explicit (or that
   none). Legacy `## Acceptance criteria` rows count as pass criteria.
-- **Proportional depth.** Full for non-trivial features; lightweight for clear defects, tweaks, refinements, and reworks; confirm gaps only when already implementation-ready.
-- **Classify and bind when the skill requires it.** Skills that apply [CONCEPT_CLASSIFICATION](CONCEPT_CLASSIFICATION.md) persist class + workflow binding on the definition artifact so later stages stay deterministic. **Classification does not replace alignment** — bind only after definition divergences are resolved with the user (proportional depth still applies).
+- **Proportional depth.** Full probe set for a non-trivial feature and whenever class or behaviour is still open. Lightweight for a clear defect, tweak, refinement, or rework: the in-play probes are only those that would change the artifact. Both depths follow [CONCEPT_ALIGNMENT](CONCEPT_ALIGNMENT.md), including the readiness prompt. A short opening is not implementation-ready.
+- **Implementation-ready.** The user approved the definition artifact via the readiness prompt. A chat description of the work is the opening.
+- **Classify and bind when the skill requires it.** Skills that apply [CONCEPT_CLASSIFICATION](CONCEPT_CLASSIFICATION.md) persist class + workflow binding on the definition artifact so later stages stay deterministic. **Classification does not replace alignment** — bind only after the user has approved the definition. A provisional class chooses full vs lightweight; it does not settle probes.
 
 ## Extensions
 

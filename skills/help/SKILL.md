@@ -39,7 +39,7 @@ Reply from this skill; do not load every pipeline skill.
 |---------|-----|----------------|
 | Have no workspace yet | `/setup` | `WORKSPACE.md` |
 | Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks; research/model/sandbox = artifacts on the delivery branch → `/define` |
-| Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Align → agent **classifies** → binds **workflow** → `PLAN.md` + **Next** |
+| Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Interview, then classify and bind → `PLAN.md` + **Next**. A short description starts the interview |
 
 ### Whole-repo structure
 

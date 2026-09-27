@@ -1,20 +1,32 @@
 # Handoff protocol
 
-Every pipeline skill **ends** by telling the user the next invoke and writing
-**Next** into durable surfaces. Load when finishing a skill or resolving
-continuation.
+Every pipeline skill **ends** by telling the user what to run next and writing
+**Next** into durable surfaces. Load with [SKILL.md](SKILL.md) before the
+user-facing reply. Also load when resolving continuation.
 
-## Next block
+## Reply close
+
+The last section of a reply that finishes a skill is exactly:
 
 ```markdown
 ## Next
 `/<skill> <ISSUE-KEY>` — <one-line why>
 ```
 
-Also write **Next** into: the issue comment (or markdown Comments section), the
-alignment artifact, and the ISSUES mirror when enabled. Chat-only Next is not
-enough — except **guide** and **explain**, which use chat Next only (resume
-in-flight or none) and do not write tracker or artifact Next.
+The heading, the slash invoke, and the em dash stay exact. Prose above the
+block follows [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md). Nothing
+follows the block.
+
+Also write that same **Next** line into: the issue comment (or markdown
+Comments section), the alignment artifact, and the ISSUES mirror when enabled.
+Chat-only Next is not enough — except **guide** and **explain**, which use
+chat Next only (resume in-flight or none) and do not write tracker or artifact
+Next.
+
+An open alignment turn is not a finish. That reply is the one question and
+stops. It has no `## Next` block and does not start a later skill. When ship
+closes the loop, the line may be `Done — <KEY>` instead of a slash invoke
+(see the table).
 
 ## Default Next by stage
 
@@ -56,7 +68,7 @@ in-flight or none) and do not write tracker or artifact Next.
 | iterate | Prior shipped Task + merged PR + PLAN/BUG/TWEAK/REFINE/REWORK/prior ITERATE; fork to sandbox when inspect-loop |
 | research / model | Task (+ Story), ROADMAP, sibling artifacts — research is supportive |
 | sandbox | Task (+ Story), PLAN/REWORK, existing `SANDBOX.md` + isolation tree — inspect-loop; post-merge: prior shipped Task |
-| define | Task (+ Story), ROADMAP, RESEARCH/MODEL/SANDBOX as **supportive** — still probe the user; then classify + bind workflow |
+| define | Task (+ Story), ROADMAP, RESEARCH/MODEL/SANDBOX as **supportive** — still probe the user. The opening description does not approve the plan. Classify and bind only after the readiness prompt |
 | implement | Task + Sub-tasks, PLAN / BUG / TWEAK / REFINE / REWORK / ADOPT, `RESEARCH.md` / `MODEL.md` / `SANDBOX.md` when present (esp. docs and promote packages), **existing delivery branch/PR**, test/lint commands (rework → comparative eval) |
 | test | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/ADOPT + implement testing notes |
 | harden | Task + **same** delivery PR + PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/ADOPT + structure catalog |

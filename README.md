@@ -2,8 +2,9 @@
 
 Reusable agent skills for **workflow-driven delivery**. Agents prefer a catalog
 workflow over freestyle coding: foggy work goes through **explore**, concrete
-work through **define** (classify + bind), then a bound chain via persisted
-**Next**.
+work through **define** (interview, then classify and bind), then a bound chain
+via persisted **Next**. A short description starts that interview. A reply that
+finishes a skill ends with the `## Next` block.
 
 Built on the [Agent Skills](https://agentskills.io) standard. Install via an
 agent (preferred) or [skills.sh](https://skills.sh). Works with Cursor, Claude
@@ -23,7 +24,7 @@ Walk through a task: [`/guide`](skills/guide/SKILL.md).
 |---------|-----|----------------|
 | Have no usable workspace yet | `/setup` | `WORKSPACE.md` (tracker + paths) |
 | Feel a big or foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks |
-| Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Align, classify, bind, write `PLAN.md` + **Next** |
+| Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Interview, then classify and bind; write `PLAN.md` + **Next**. A short description starts the interview |
 | Want the structure catalog on a brownfield codebase | `/adopt` | Characterize into tests, then walk the unit chain per area until Done |
 
 Without an explicit override: **foggy → explore**, **concrete → define**.

@@ -189,12 +189,22 @@ operator already used the token.
 | frontier | the first task |
 | campground | leave this code cleaner |
 | laser | this review pass |
-| `Next` | the next skill to run |
+| `Next` in ordinary sentences | the next skill to run |
 | divergence | a choice we still need to make |
 | alignment (process) | we still need to agree |
 | ship (verb, vague) | finish / merge |
 | iterate (vague) | the follow-up change |
 | adopt (vague) | bring this codebase up to the structure bar |
+
+The finished-skill close is not a sentence. Its last section stays exact:
+
+```markdown
+## Next
+`/<skill> <KEY>` — <why this step>
+```
+
+Phrase substitutions apply to the prose above that block. An open alignment
+question does not include the block.
 
 ## Invented short forms
 

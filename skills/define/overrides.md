@@ -10,7 +10,7 @@ Shared contract for `/bug`, `/tweak`, `/refine`, and `/rework`. Each skill fills
 ## Steps
 
 1. **Resolve context** — Load any related Task/Story and user-provided code pointers. Skills that require a thin area description ask once if it is missing. Done when the subject and optional parent are identified.
-2. **Align and define** — Follow CONCEPT_ALIGNMENT with this skill's Extensions. Done when the stop condition holds and the user approves the artifact.
+2. **Align and define** — Follow CONCEPT_ALIGNMENT with this skill's Extensions. Done when every in-play probe is user-settled and the user approves the readiness prompt.
 3. **Persist and track** — Write the artifact, follow delivery continuity, apply this skill's tracker-sync row, and persist the Handoff. Done when the Task, artifact, branch/PR, mirrors, and **Next** agree.
 
 ## Tracker

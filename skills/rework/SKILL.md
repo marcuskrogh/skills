@@ -25,7 +25,7 @@ Produces `REWORK.md`. Comparative implement path:
 |------|------------|
 | **Subject** | Limited area whose implementation should change (algorithm, control law, mapping, internal path) while measured outcomes stay within a declared bar |
 | **Probes** | Area boundary; thin description of current vs intended implementation; why rework; **parity bar** (metrics, scenarios, tolerances, how baseline is obtained); **pass criteria**; out of scope; optional parent Story/Task link; optional `/model` when math equivalence needs alignment |
-| **Stop condition** | Area, intended rework, parity bar, and pass criteria are clear enough to implement with comparative evaluation |
+| **Stop condition** | The user has stated the area, intended rework, parity bar, and pass criteria (or explicitly deferred one) and approved the readiness prompt |
 | **Alignment / definition artifact** | `REWORK.md` (path from WORKSPACE) |
 | **Readiness prompt** | "Is this enough to implement the rework?" |
 | **Opening** | Thin description **required**. Missing area → "What area should be reworked?" Rich (area + change pasted): first question on highest-impact gap (often the parity bar) |

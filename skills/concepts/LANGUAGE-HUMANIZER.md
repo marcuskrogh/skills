@@ -64,7 +64,7 @@ to make the text feel human.
 
 | Pattern | Instead of | Write |
 |---------|------------|-------|
-| Em / en dash | ` — ` ` – ` `--` | comma, period, colon, or parentheses |
+| Em / en dash | ` — ` ` – ` `--` | comma, period, colon, or parentheses. Exempt: the `## Next` slash line keeps its em dash |
 | Decorative bold | bold on ordinary phrases | bold only a file, command, or result |
 | Bold mini-headings in a list | `- **Performance:** …` | a sentence, or a list without the bold label |
 | Title-case heading | `## Strategic Negotiations` | `## Strategic negotiations` |
