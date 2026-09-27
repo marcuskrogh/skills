@@ -14,31 +14,129 @@ Code, Codex, GitHub Copilot, and other compatible editors.
 ## Workflows
 
 When you describe work to deliver, the model-invoked
-[`workflows`](skills/workflows/SKILL.md) router picks a catalog path and loads
-only that skill. Pipeline skills stay user-invoked. Navigation map:
-[`/help`](skills/help/SKILL.md). Teach the current step: [`/explain`](skills/explain/SKILL.md).
-Walk through a task: [`/guide`](skills/guide/SKILL.md).
+[`workflows`](skills/workflows/SKILL.md) router picks the **first matching**
+catalog row and loads only that skill. Pipeline skills stay user-invoked.
+The router is how an unnamed request is recognised. Naming a skill
+(`/define`, `/bug`, …) is how you invoke one directly. An explicit name wins
+over re-routing.
 
-| If you… | Run | What happens |
-|---------|-----|----------------|
-| Have no usable workspace yet | `/setup` | `WORKSPACE.md` (tracker + paths) |
-| Feel a big or foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks |
-| Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Align, classify, bind, write `PLAN.md` + **Next** |
-| Want the structure catalog on a brownfield codebase | `/adopt` | Characterize into tests, then walk the unit chain per area until Done |
+On an active Task, bare **next**, continue, or go runs the persisted **Next**
+skill once. Bare **ship**, finish, or close it out runs the remaining chain
+through Done. [`/guide`](skills/guide/SKILL.md) and [`/explain`](skills/explain/SKILL.md)
+can interrupt that Task without replacing its bound chain.
+[`/help`](skills/help/SKILL.md) maps choices and does not start work.
+[`/summarise`](skills/summarise/SKILL.md) reports status and does not advance.
 
-Without an explicit override: **foggy → explore**, **concrete → define**.
-Whole-tree brownfield structure matches **adopt** before define. Catalog order
-and later stages live in [`workflows/SKILL.md`](skills/workflows/SKILL.md).
-Continuity (one Task, one branch/PR, **next** vs **ship**) lives in
+Three skills are model-invoked, so the agent can discover them without a slash
+name: **workflows** (which path to run), **help** (the map), and
+**writing-for-agents** (editing skill or concept prose in this repo). Every
+pipeline skill is user-invoked. **workflow**, **tracker**, and **jira** are
+composed references. You do not start work by invoking them.
+
+Without an explicit override or continuation: **foggy → explore**, **concrete
+→ define**. A whole tree that was not built to the structure bar matches
+**adopt** before define. Continuity (one Task, one branch/PR) lives in
 [`workflow/reference.md`](skills/workflow/reference.md).
 
-| Cue | Meaning |
-|-----|---------|
-| **next** / continue | Advance **one** persisted Next step |
-| **ship** / finish / close it out | Finish **remaining** work through Done |
+### How a request is recognised
 
-Explicit `/skill` names win. `/bug`, `/tweak`, `/refine`, `/rework` are manual
-overrides of define's classifier.
+Compare the rows in order. The first row that fits is the workflow.
+
+| Workflow | Recognised when | Invoke |
+|----------|-----------------|--------|
+| **setup** | Delivery work and no usable `WORKSPACE.md` (repo or global), or you want the tracker, paths, or defaults changed | `/setup` |
+| **continue** | Bare **next**, continue, or go on an active Task | **next** (runs the persisted Next skill once) |
+| **ship** | Bare **ship**, finish, or close it out | `/ship` |
+| **help** | Which skill to run, how workflows relate, or a navigation overview | `/help` |
+| **explain** | Teach the current step, a decision, an interface, a numerical point, or recent agent output | `/explain` |
+| **guide** | Walk through a manual task one step at a time (install, setup, hardware, or coding you want walked) | `/guide` |
+| **sandbox** | Isolated inspect-loop of a contained UI, method, or bench; a bound `sandbox: inject` step; mid-implement when a package needs inspect-each-turn; or a post-merge fix where each turn needs a visual, plot, or report | `/sandbox` |
+| **iterate** | A prior Task or PR is **already merged** and still broken or incomplete, and tests plus review on a new PR are enough | `/iterate` |
+| **fix-forward** | The open PR has review findings | `/review` (always fixes) |
+| **adopt** | The existing codebase (or the named tree) was not built to the structure bar; apply the catalog across it | `/adopt` |
+| **explore** | The goal is vague, oversized, or still unclear | `/explore` |
+| **research** | You explicitly want a multi-axis literature or evidence pass now | `/research` |
+| **model** | You explicitly want a math formulation now | `/model` |
+| **implement** | A ready-to-build `PLAN.md`, or a class artifact (`BUG.md`, `TWEAK.md`, `REFINE.md`, `REWORK.md`, `ITERATE.md`, `ADOPT.md`, `SANDBOX.md`), and you want to build or resume | `/implement` |
+| **architect** | The bound architecture phase is next, or you want that phase now | `/architect` |
+| **test** | The bound testing phase is next, or you want that phase now | `/test` |
+| **restructure** | The bound refactoring phase is next, or you want that phase now. `/harden` is the same skill | `/restructure` or `/harden` |
+| **review** | Bound review on an In Review PR (find and fix). `/review-fix` is the same skill | `/review` or `/review-fix` |
+| **summarise** | Status, where you are, or what is next, reported and not advanced | `/summarise` |
+| **define** | Concrete work to pin down (bug, tweak, refine, rework, feature, …). Default front door | `/define` |
+| **bug** / **tweak** / **refine** / **rework** | You **explicitly** named that skill. Manual override of define's classifier | `/bug`, `/tweak`, `/refine`, `/rework` |
+
+**research** and **model** usually show up as define's bound `side_paths`, or
+because you asked for them. They do not replace define's questions.
+**sandbox** is a separate bound step (`sandbox: inject`) before implement, or
+mid-implement when a package needs an inspect-loop. After a merge, use
+**sandbox** when each turn needs a visual, plot, or report, and **iterate**
+when a normal production fix is enough.
+
+Maintaining this skills repo (install, sync, new skill) is
+[`/manage-skills`](skills/manage-skills/SKILL.md), outside the delivery
+catalog. Authoring `SKILL.md` or `CONCEPT_*.md` prose is
+[`writing-for-agents`](skills/writing-for-agents/SKILL.md).
+
+### What each workflow does
+
+| Workflow | Result |
+|----------|--------|
+| **setup** | `WORKSPACE.md`: tracker, artifact location, paths |
+| **continue** | Runs the persisted Next skill once |
+| **explore** | `ROADMAP.md` and sequenced route Tasks. No map-only pull request |
+| **define** | Aligns with you, classifies, binds a template, writes `PLAN.md`, opens the delivery branch and pull request, sets **Next** |
+| **adopt** | `ADOPT.md`. Inventory, then characterize → architect → implement → test → restructure → review → ship per area until Done |
+| **bug** / **tweak** / **refine** / **rework** | `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md`, one Task, then the same closeout chain. Prefer `/define` unless you mean the override |
+| **research** / **model** | `RESEARCH.md` / `MODEL.md` on the delivery branch. No pull request of their own |
+| **sandbox** | `SANDBOX.md` plus an isolation tree on the delivery branch. No pull request of its own. After a post-merge sandbox, implement opens the pull request when the work is promoted |
+| **architect** | `ARCHITECTURE.md` on the same branch |
+| **implement** | Code on the Task's pull request, then test (unless the binding skips it) |
+| **test** | Tests and seams on that pull request. No new product behaviour |
+| **restructure** | Refactoring on that pull request, then review. Binding key stays `harden.mode` |
+| **fix-forward** | Same as review, on the open pull request |
+| **review** | Finds issues, fixes them on the same pull request, publishes a code review, then ship when clean |
+| **iterate** | `ITERATE.md`, a **new** Task, branch, and pull request, then test → restructure → review → ship |
+| **ship** | Runs whatever closeout remains, merges, marks Done |
+| **summarise** | Reports purpose, stage, and the next skill. Does not run it |
+| **explain** / **guide** | One paced beat or step, then waits. The bound chain stays in place |
+| **help** | The short map. Stops |
+
+### Bound template
+
+`/define` does not leave the later stages for you to choose. After alignment
+it records a **class** and a **template** on `PLAN.md`. Later skills follow
+that binding. Discriminators are applied in order. The first match wins.
+Catalog: [`CLASSIFICATION-CATALOG.md`](skills/concepts/CLASSIFICATION-CATALOG.md).
+
+| Class | Recognised when | Default template |
+|-------|-----------------|------------------|
+| **bug** | Behaviour is wrong. The fix is the work | **fix-fast** |
+| **rework** | Intentional implementation change. Measured outcomes must not degrade | **parity-iterative** |
+| **adopt** | The whole tree was not built to the structure bar | **structure-safe** |
+| **refine** | Bounded structure, naming, or docs. Behaviour unchanged | **structure-safe** |
+| **tweak** | Small intentional behaviour change | **delta-fast** |
+| **feature** | A buildable slice that needs scope and acceptance | **feature-standard** (or **feature-heavy** when the change is cross-cutting or high risk) |
+| **iterate** | Prior Task already merged. Still wrong or incomplete | **fix-fast** on the new iterate Task |
+
+Default chain:
+
+```text
+architect → implement → test → restructure → review → ship
+```
+
+Optional prefixes, only when the binding says so: `research` and/or `model`
+(`side_paths`), then `sandbox` when `sandbox: inject`. Test and restructure
+stay in the chain unless the binding records a skip. Class **adopt** walks
+`characterize → architect → implement → test → restructure → review → ship`
+per area.
+
+```text
+setup → explore? → define → architect → [sandbox?] → implement → test → restructure → review → ship
+brownfield:  adopt (inventory, then that unit chain per area until Done)
+post-merge fix:  ship → iterate → test → restructure → review → ship
+post-merge inspect-loop:  ship → sandbox → implement → test → restructure → review → ship
+```
 
 ## Concepts vs skills
 
@@ -61,24 +159,28 @@ file under [`concepts/platforms/`](skills/concepts/platforms/cursor.md).
 ```
 skills/                         ← source of truth (Agent Skills layout)
 ├── concepts/                   ← uninvokable CONCEPT_*.md + disclosed refs
-├── workflow/                   ← lean delivery contract + disclosed refs
+├── workflow/                   ← delivery contract (composed; not an entry point)
 ├── workflows/                  ← model-invoked router
+├── help/                       ← model-invoked map (does not start work)
+├── explain/ guide/             ← teach the current step; walk a manual task
 ├── setup/ explore/ define/     ← front doors
 ├── bug/ tweak/ refine/ rework/ ← manual class overrides
 ├── adopt/ research/ model/ sandbox/
-├── architect/ implement/ test/ restructure/ review/ review-fix/
-├── iterate/ ship/ summarise/ help/ explain/ guide/
-├── tracker/ jira/
-├── manage-skills/              ← maintain this repo
-└── writing-for-agents/         ← lean shapes + vocabulary
+├── architect/ implement/ test/
+├── restructure/ harden/        ← harden aliases restructure
+├── review/ review-fix/         ← review-fix aliases review
+├── iterate/ ship/ summarise/
+├── tracker/ jira/              ← composed tracker (not entry points)
+├── manage-skills/              ← install, sync, and repo maintenance
+└── writing-for-agents/         ← model-invoked authoring guide
 
 .claude-plugin/                 ← optional Claude Code marketplace manifests
-scripts/                        ← validate / sync / install-from-git / project bootstrap
+scripts/                        ← validate, sync, install-from-git, arXiv helper
 templates/agent-install/        ← consumer AGENTS.md block + Cursor rule
 templates/project-sync/         ← startup sync script template
 ```
 
-Pipeline skill purposes: [`/help`](skills/help/SKILL.md).
+Short map, if you only want which front door to use: [`/help`](skills/help/SKILL.md).
 
 ## Install
 
@@ -177,6 +279,7 @@ Use `/manage-skills` for the full checklist.
 | `templates/project-sync/sync-skills.sh` | Startup sync to `.agents/skills/` + `.skills-version` |
 | `templates/agent-install/` | Consumer `AGENTS.md` block, Cursor rule, global language pointers |
 | `setup-github.ps1` | First-time push to GitHub |
+| `arxiv_research.py` | arXiv search, lookup, and snowball for `/research` |
 
 ## Tracker credentials
 
