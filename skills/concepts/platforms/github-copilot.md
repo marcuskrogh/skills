@@ -16,6 +16,7 @@ or Sol is insufficient on the same package.
 |------|----------|-------|--------|
 | 1 | xAI | Grok 4.7 | efficient frontier pick |
 | 2 | OpenAI | GPT-6 Sol | efficient OpenAI demanding pick |
+| 3 | Anthropic | Claude Opus 5.5 | ceiling after Grok or Sol is insufficient |
 
 ## Mid-capability (ranked)
 

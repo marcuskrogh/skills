@@ -14,7 +14,7 @@ unavailable. Opus is the ceiling here, not the cross-platform efficiency rank.
 
 | Rank | Provider | Model | Slug / alias (prefer) | Fallback |
 |------|----------|-------|----------------------|----------|
-| 1 | Anthropic | Claude Opus 5.5 | `claude-opus-5-5` | `claude-opus-5` |
+| 1 | Anthropic | Claude Opus 5.5 | `claude-opus-5-5` / `opus` | `claude-opus-5` |
 
 ## Mid-capability (ranked)
 

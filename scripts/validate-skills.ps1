@@ -401,6 +401,201 @@ if ($wsOk) {
     Write-Host "OK: Adopt/test working-surface proof (frontend + backend) in characterize, route, testing, concepts, and test"
 }
 
+function Test-FileContains {
+    param([string]$Path, [string]$Needle, [string]$Label)
+    if (-not (Test-Path $Path)) {
+        Write-Host "FAIL: Missing $Path"
+        $script:errors++
+        return
+    }
+    $text = Get-Content -Path $Path -Raw
+    if ($text.IndexOf($Needle) -lt 0) {
+        Write-Host "FAIL: $Label"
+        $script:errors++
+    } else {
+        Write-Host "OK: $Label"
+    }
+}
+
+function Get-HeadingSlice {
+    param(
+        [string]$Text,
+        [string]$StartHeading,
+        [string]$EndHeading,
+        [string]$Fallback,
+        [ValidateSet('Fallback', 'FromStart')]
+        [string]$OnMissingEnd = 'Fallback'
+    )
+    $start = $Text.IndexOf($StartHeading)
+    if ($start -lt 0) { return $Fallback }
+    if ([string]::IsNullOrEmpty($EndHeading)) {
+        return $Text.Substring($start)
+    }
+    $end = $Text.IndexOf($EndHeading)
+    if ($end -gt $start) {
+        return $Text.Substring($start, $end - $start)
+    }
+    if ($OnMissingEnd -eq 'FromStart') {
+        return $Text.Substring($start)
+    }
+    return $Fallback
+}
+
+function Test-SectionLists {
+    param(
+        [string]$Section,
+        [string]$FailPrefix,
+        [string]$OkPrefix,
+        [string[]]$Needles
+    )
+    foreach ($need in $Needles) {
+        if ($Section.IndexOf($need) -lt 0) {
+            Write-Host "FAIL: $FailPrefix$need"
+            $script:errors++
+        } else {
+            Write-Host "OK: $OkPrefix$need"
+        }
+    }
+}
+
+function Get-LockedGeneralRows {
+    return @(
+        @{ Prefer = 'glm-5.3'; StaleSlug = 'glm-5.2'; StaleDisplay = '| GLM-5.2 |' },
+        @{ Prefer = 'gemini-3.8-flash'; StaleSlug = 'gemini-3.6-flash'; StaleDisplay = '| Gemini 3.6 Flash |' },
+        @{ Prefer = 'qwen3.8-max'; StaleSlug = 'qwen3-coder'; StaleDisplay = '| Qwen3-Coder |' },
+        @{ Prefer = 'muse-spark-1.3'; StaleSlug = 'llama-4-maverick'; StaleDisplay = '| Llama 4 Maverick |' }
+    )
+}
+
+function Test-GeneralLockedRows {
+    param([string]$PlatformsDir)
+
+    $generalPlatform = Join-Path $PlatformsDir "general.md"
+    $rows = Get-LockedGeneralRows
+    foreach ($row in $rows) {
+        $wrapped = '`' + $row.Prefer + '`'
+        Test-FileContains -Path $generalPlatform -Needle $wrapped -Label "general.md prefer slug $($row.Prefer)"
+    }
+    if (Test-Path $generalPlatform) {
+        $generalText = Get-Content -Path $generalPlatform -Raw
+        foreach ($row in $rows) {
+            if ($generalText.IndexOf($row.StaleDisplay) -ge 0) {
+                Write-Host "FAIL: general.md still prefers stale row $($row.StaleDisplay)"
+                $script:errors++
+            } else {
+                Write-Host "OK: general.md does not prefer stale row $($row.StaleDisplay)"
+            }
+        }
+    }
+}
+
+function Test-ClaudeCodeCatalog {
+    param([string]$ClaudePlatform)
+
+    Test-FileContains -Path $ClaudePlatform -Needle '`claude-opus-5-5`' -Label "claude-code.md prefer claude-opus-5-5"
+    Test-FileContains -Path $ClaudePlatform -Needle '`opus`' -Label "claude-code.md prefer alias opus"
+    Test-FileContains -Path $ClaudePlatform -Needle '`claude-opus-5`' -Label "claude-code.md fallback claude-opus-5"
+    Test-FileContains -Path $ClaudePlatform -Needle 'fable' -Label "claude-code.md forbids fable"
+    Test-FileContains -Path $ClaudePlatform -Needle 'haiku' -Label "claude-code.md forbids haiku"
+    if (Test-Path $ClaudePlatform) {
+        $claudeText = Get-Content -Path $ClaudePlatform -Raw
+        $claudeTables = Get-HeadingSlice -Text $claudeText -StartHeading '## High-capability' -EndHeading '' -Fallback ''
+        foreach ($bannedName in @('fable', 'haiku')) {
+            if ($claudeTables.IndexOf($bannedName) -ge 0) {
+                Write-Host "FAIL: claude-code.md capability tables must not list $bannedName"
+                $script:errors++
+            } else {
+                Write-Host "OK: claude-code.md capability tables omit $bannedName"
+            }
+        }
+    }
+}
+
+function Test-CopilotCatalog {
+    param([string]$CopilotPlatform)
+
+    if (-not (Test-Path $CopilotPlatform)) { return }
+    $copilotText = Get-Content -Path $CopilotPlatform -Raw
+    $highPart = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
+    Test-SectionLists -Section $highPart -FailPrefix 'github-copilot.md high section must list ' -OkPrefix 'github-copilot.md high lists ' -Needles @('Grok 4.7', 'GPT-6 Sol', 'Claude Opus 5.5')
+    $midPart = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+    Test-SectionLists -Section $midPart -FailPrefix 'github-copilot.md mid section must list ' -OkPrefix 'github-copilot.md mid lists ' -Needles @('GPT-5.6 Terra', 'Claude Sonnet 5')
+    $lowPart = Get-HeadingSlice -Text $copilotText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
+    if ($lowPart.IndexOf('GPT-6 Luna') -lt 0) {
+        Write-Host "FAIL: github-copilot.md low section must list GPT-6 Luna"
+        $script:errors++
+    } else {
+        Write-Host "OK: github-copilot.md low lists GPT-6 Luna"
+    }
+}
+
+function Test-CodexCatalog {
+    param([string]$CodexPlatform)
+
+    if (-not (Test-Path $CodexPlatform)) { return }
+    $codexText = Get-Content -Path $CodexPlatform -Raw
+    $midPart = Get-HeadingSlice -Text $codexText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+    if ($midPart.IndexOf('gpt-5.6-terra') -lt 0) {
+        Write-Host "FAIL: codex.md mid prefer must stay gpt-5.6-terra"
+        $script:errors++
+    } else {
+        Write-Host "OK: codex.md mid prefer stays gpt-5.6-terra"
+    }
+}
+
+function Test-BannedPlatformSlugs {
+    param([string]$PlatformsDir)
+
+    $bannedHits = 0
+    foreach ($plat in (Get-ChildItem -Path $PlatformsDir -Filter "*.md")) {
+        $platText = Get-Content -Path $plat.FullName -Raw
+        foreach ($banned in @('gpt-6-terra', 'sonnet-5-5', 'haiku-5-5', 'claude-sonnet-5-5', 'claude-haiku-5')) {
+            if ($platText.IndexOf($banned) -ge 0) {
+                Write-Host "FAIL: $($plat.Name) invents banned slug $banned"
+                $script:errors++
+                $bannedHits++
+            }
+        }
+    }
+    if ($bannedHits -eq 0) {
+        Write-Host "OK: platform files do not invent gpt-6-terra, Sonnet 5.5, or Haiku 5.5"
+    }
+}
+
+function Test-StalePreferSlugs {
+    param([string[]]$Roots)
+
+    $stalePreferHits = 0
+    foreach ($root in $Roots) {
+        if (-not (Test-Path $root)) { continue }
+        foreach ($conceptFile in (Get-ChildItem -Path $root -Recurse -File | Where-Object { $_.Extension -in '.md', '.ps1', '.sh' })) {
+            $lineNo = 0
+            foreach ($line in (Get-Content -Path $conceptFile.FullName)) {
+                $lineNo++
+                foreach ($row in (Get-LockedGeneralRows)) {
+                    if ($line.IndexOf($row.StaleSlug) -ge 0 -and $line.IndexOf($row.Prefer) -lt 0) {
+                        Write-Host "FAIL: $($conceptFile.FullName):$lineNo uses $($row.StaleSlug) outside a $($row.Prefer) fallback"
+                        $script:errors++
+                        $stalePreferHits++
+                    }
+                }
+            }
+        }
+    }
+    if ($stalePreferHits -eq 0) {
+        Write-Host "OK: concept markdown keeps stale prefer slugs only beside their replacements"
+    }
+}
+
+# Locked 2026-09-27 prefer slugs. Checks are written from the plan pass criteria.
+$platformsDir = Join-Path $ConceptsDir "platforms"
+Test-GeneralLockedRows -PlatformsDir $platformsDir
+Test-ClaudeCodeCatalog -ClaudePlatform (Join-Path $platformsDir "claude-code.md")
+Test-CopilotCatalog -CopilotPlatform (Join-Path $platformsDir "github-copilot.md")
+Test-CodexCatalog -CodexPlatform (Join-Path $platformsDir "codex.md")
+Test-BannedPlatformSlugs -PlatformsDir $platformsDir
+Test-StalePreferSlugs -Roots @($ConceptsDir, (Join-Path $RepoRoot "scripts"))
+
 if ($errors -gt 0) {
     Write-Host ""
     Write-Host "Validation failed with $errors error(s)."
