@@ -68,9 +68,9 @@
 - Task: MD-1
 - Sub-tasks: MD-2
 - Branch: cursor/md-1-platform-slugs-c226
-- PR: (opened with this plan)
+- PR: https://github.com/marcuskrogh/skills/pull/56
 - Classification: tweak
 - Workflow: delta-fast
 
 ## Next
-`/architect MD-1` — Shape the catalogue edit on this branch before implementation.
+`/implement MD-1` — Build to ARCHITECTURE.md (same branch)

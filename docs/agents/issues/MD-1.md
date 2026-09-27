@@ -7,7 +7,7 @@
 | Parent | |
 | Children | MD-2 |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/56 |
 | Created | 2026-09-27 |
 
 ## Summary
@@ -34,4 +34,8 @@ See pass criteria in `docs/agents/PLAN.md`.
 
 ### 2026-09-27
 
-Plan written. Classification tweak, template delta-fast. Branch `cursor/md-1-platform-slugs-c226`. Next: `/architect MD-1`
+Plan written. Classification tweak, template delta-fast. Branch `cursor/md-1-platform-slugs-c226`. PLAN.md at 222f24a. PR https://github.com/marcuskrogh/skills/pull/56.
+
+### 2026-09-27
+
+Shape stamp in `docs/agents/ARCHITECTURE.md`. Task stays To Do. Next: `/implement MD-1`
