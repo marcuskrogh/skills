@@ -696,6 +696,32 @@ Test-CodexCatalog -CodexPlatform (Join-Path $platformsDir "codex.md")
 Test-BannedPlatformSlugs -PlatformsDir $platformsDir
 Test-StalePreferSlugs -Roots @($ConceptsDir, (Join-Path $RepoRoot "scripts"))
 
+$pipelineTest = Join-Path $RepoRoot (Join-Path "scripts" "test_pipelines.py")
+if (-not (Test-Path $pipelineTest)) {
+    Write-Host "FAIL: Missing pipeline independence test: $pipelineTest"
+    $script:errors++
+} else {
+    $python = $null
+    foreach ($candidate in @("python3", "python")) {
+        if (Get-Command $candidate -ErrorAction SilentlyContinue) {
+            $python = $candidate
+            break
+        }
+    }
+    if (-not $python) {
+        Write-Host "FAIL: python3 is required to run scripts/test_pipelines.py"
+        $script:errors++
+    } else {
+        & $python $pipelineTest
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "FAIL: pipeline independence checks failed"
+            $script:errors++
+        } else {
+            Write-Host "OK: pipeline independence checks"
+        }
+    }
+}
+
 if ($errors -gt 0) {
     Write-Host ""
     Write-Host "Validation failed with $errors error(s)."

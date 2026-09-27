@@ -1,21 +1,23 @@
 ---
 name: review
 description: >-
-  Review of a GitHub PR as sequential or bundled lasers across Spec,
+  Review of a change as sequential or bundled lasers across Spec,
   Correctness, Integration, Architecture, and Standards: find, fix, then
-  publish a code review. Hands off to ship when CLEAN. Use when the bound
-  chain's review phase is next. Alias: /review-fix.
+  publish a code review. Outcome CLEAN or FAILED. Use standalone, or when a
+  workflow's review step is current. Alias: /review-fix.
 disable-model-invocation: true
 ---
 
 # Review
 
-Applies [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md) as **lasers**,
+Applies [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md) and
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md) as **lasers**,
 **fix-forward**, and a published **code review** on the GitHub pull request.
 **Depth** is proportional: `full` or `focused` per [depth.md](depth.md).
 **Laser** mode is `sequential` or `bundled` per [lasers.md](lasers.md).
 
 **On invoke:** read [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md),
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md),
 [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md),
 [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md),
 [../implement/SKILL.md](../implement/SKILL.md) (fix-forward),
@@ -40,7 +42,6 @@ Requires authenticated `gh` and tracker auth per WORKSPACE. If either is missing
 | **Parallelism** | `sequential` → one axis worker at a time; `bundled` + `multiagent` / `full` → five axis workers; `bundled` + `single` / `focused` → Core + Architecture (+ optional Integration) |
 | **Model routing** | CONCEPT_DELEGATION — defaults below / in depth.md |
 | **Tooling evidence** | Run project lint/typecheck/test for touched area when cheap; feed failures to Correctness |
-| **Handoff** | CLEAN → `/ship`; FAILED → named remaining work |
 
 ### Default worker categories (`full`)
 
@@ -62,7 +63,7 @@ Follow the CONCEPT_REVIEW flow with these specialisations:
 2. **Build context and choose depth** — Prepare the concept's investigation packs (include `ARCHITECTURE.md` when present); choose depth/mode from PLAN **Workflow** binding when present, else via [depth.md](depth.md); choose laser mode via [lasers.md](lasers.md); score each included worker. `review.mode=findings-only` only when the operator explicitly asked. Done when every brief has the relevant packs and a recorded tier/model.
 3. **Lasers and fix** — Follow [lasers.md](lasers.md). After each sequential laser (or after the bundle), fix **actionable** findings via [implement](../implement/SKILL.md) fix-forward inside the **expansion bound**. Re-run the touched-area suite (on `ADOPT.md`: lock suite **and** working-surface commands). Skip Spec only when its pack is empty. Dedupe with Architecture owning structural overlap and Integration owning runtime contract breaks. Done when included lasers are complete and must-fix are addressed, or a named hard stop remains.
 4. **Code review** — Manager merge + publish: **APPROVE** when no must-fix remain. If residue remains, one more fix-forward, then APPROVE. Put a short found/fixed/discarded summary in the review body. Done when the durable PR review exists and must-fix are addressed (**CLEAN**) or unresolved findings are named (**FAILED**).
-5. **Track and hand off** — Keep the Task **In Review**, persist **Next**. Done when Task, PR, mirror, and user report agree on CLEAN/FAILED and its Handoff.
+5. **Track** — Keep the Task **In Review**. Record outcome `CLEAN` or `FAILED`. Apply the workflow transition. Done when Task, PR, mirror, and user report agree on the outcome.
 
 ### Must-fix
 
@@ -87,16 +88,20 @@ Discard the rest. Do not leave notes on CLEAN. Do not open follow-up issues.
 
 ### Tell the user
 
-Issue key/URL, PR URL, depth, laser mode, found/fixed/discarded counts, CLEAN/FAILED, **Next**.
+Issue key/URL, PR URL, depth, laser mode, found/fixed/discarded counts, CLEAN/FAILED.
 
-## Handoff
+## Inputs
 
-| Exit | Condition | Next |
-|------|-----------|------|
-| **CLEAN** | Code review has no must-fix | `/ship <KEY>` |
-| **FAILED** | Fix-forward could not address must-fix inside the expansion bound | Report remaining; `/implement <KEY>` |
+| Input | When present | When absent |
+|-------|----------------|-------------|
+| Diff (pull request or working tree) | Review that change | Ask once what to review |
+| Definition spec | Apply it as the behaviour authority | Define a short spec from the diff and the user intent in this invocation (CONCEPT_DEFINITION, lightweight), then review against it |
+| `ARCHITECTURE.md` | Apply it on the Architecture axis | Review structure against the catalog only |
 
-```markdown
-## Next
-`/ship <TASK-KEY>` — Merge and close out
-```
+Fix-forward of must-fix findings applies the implement fix-forward procedure in this invocation. That is part of producing the review, not a successor.
+
+## Output
+
+pull-request review — published review body. Outcome: `CLEAN` or `FAILED`.
+
+This skill does not name a successor. Apply the workflow transition before the turn ends.

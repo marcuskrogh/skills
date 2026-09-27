@@ -60,24 +60,27 @@ or pushing to a delivery head.
 | **Explore map (Story)** | `ROADMAP.md` + Story + route tickets | Charting only — never leave an explore-only open PR |
 
 **Invariant:** research and model produce documentation of findings on the
-delivery branch for define / implement / later Next — **no separate PRs**.
+delivery branch for later workflow steps — **no separate PRs**.
 Sandbox produces an isolation tree and `SANDBOX.md` the same way. After
 explore or supportive handoff, the only allowed open delivery PR for that Story
 is the active define→ship head (if any).
 
 ## Standalone entry
 
+Branch and PR rules only. The successor is the workflow transition in
+[pipelines.md](pipelines.md), not a Next written here.
+
 | Entry | Behavior |
 |-------|----------|
-| `/bug` | Create Task; start delivery branch when committing `BUG.md`; Next `/implement` |
-| `/tweak` | Create Task; start delivery branch when committing `TWEAK.md`; Next `/implement` |
-| `/refine` | Create Task; start delivery branch when committing `REFINE.md`; Next `/implement` |
-| `/adopt` | Create Task (or Story + area Tasks); walk inventory then unit chain per area until Done; Next none (or the blocking skill on a hard stop) |
-| `/rework` | Create Task; start delivery branch when committing `REWORK.md`; Next `/implement` (comparative) |
-| `/sandbox` | Commit `SANDBOX.md` + isolation tree on delivery branch; **never** open a PR; Next `/sandbox` (delta) or `/implement` (promote). Post-merge: new Task + branch from base, Relates → prior |
-| `/iterate` | New Task + branch + PR from base; Next `/test` (or first remaining closeout step). If the delta needs inspect-each-turn, compose `/sandbox` instead |
+| `/bug` | Create Task; start delivery branch when committing `BUG.md`; record the fix-fast binding |
+| `/tweak` | Create Task; start delivery branch when committing `TWEAK.md`; record the delta-fast binding |
+| `/refine` | Create Task; start delivery branch when committing `REFINE.md`; record the structure-safe binding |
+| `/adopt` | Create Task (or Story + area Tasks); write `ADOPT.md`. The adopt workflow walks the route |
+| `/rework` | Create Task; start delivery branch when committing `REWORK.md`; record the parity-iterative binding |
+| `/sandbox` | Commit `SANDBOX.md` + isolation tree on delivery branch; **never** open a PR. Post-merge: new Task + branch from base, Relates → prior. Outcome `delta`, `accept`, or `end` |
+| `/iterate` | New Task + branch from base; write `ITERATE.md`. The iterate workflow continues. Outcome `ready` or `inspect-loop` |
 | `/define` with no explore Task | Create Task (+ Sub-tasks) as pipeline owner |
-| `/implement` with existing PLAN / BUG / TWEAK / REFINE / REWORK / ADOPT | Allowed; reuse delivery head |
+| `/implement` with existing PLAN / BUG / TWEAK / REFINE / REWORK / ADOPT | Allowed; reuse delivery head. A chat description does not approve the plan |
 | Skip define on features | Only when a user-approved `PLAN.md` already exists on the Task. A chat description does not approve the plan |
 | Skip define for defects / tweaks / refinements / reworks / adoption | Use `/bug`, `/tweak`, `/refine`, `/rework`, or `/adopt` instead — those still interview before implement |
 

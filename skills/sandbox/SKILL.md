@@ -12,13 +12,15 @@ disable-model-invocation: true
 
 # Sandbox
 
-Applies [CONCEPT_SANDBOX](../concepts/CONCEPT_SANDBOX.md) to one **element**.
-Optional pipeline step — before **implement**, mid-implement, or **post-merge
-instead of iterate** when each turn needs inspectables. Produces **promotion
-input** on the delivery branch (no sandbox PR). The isolation tree is **representative**
-before the inspect-loop starts.
+Applies [CONCEPT_SANDBOX](../concepts/CONCEPT_SANDBOX.md) and
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md) to one **element**.
+Produces **promotion input** on the delivery branch (no sandbox PR). The
+isolation tree is **representative** before the inspect-loop starts. A workflow
+may run this step before implement, during a delivery chain, or post-merge
+when each turn needs inspectables.
 
 **On invoke:** read [CONCEPT_SANDBOX](../concepts/CONCEPT_SANDBOX.md),
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md),
 [kinds.md](kinds.md), and [../workflow/SKILL.md](../workflow/SKILL.md). When a
 relevant-area gap needs operator agreement, also read
 [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md). When spawning Task /
@@ -38,7 +40,6 @@ sub-agents of any type, also read
 | **Bar** | From PLAN/REWORK parity bar or invoke; required for measure |
 | **Promote map** | Production target paths + what to copy |
 | **Pipeline continuity** | Commit the isolation tree + `SANDBOX.md` onto the delivery branch; never open a PR. Post-merge: new Task + branch from base (Relates → prior), same as iterate lineage without a sandbox PR |
-| **Handoff defaults** | `/sandbox` (delta) / `/implement` (accept) / none |
 | **Model routing** | CONCEPT_DELEGATION for every Task spawn (`computerUse`, `videoReview`, packages) |
 
 ## Steps
@@ -49,9 +50,9 @@ Follow CONCEPT_SANDBOX flow. Specialisations:
 2. **Represent** — Build the relevant-area map per [kinds.md](kinds.md). One CONCEPT_ALIGNMENT question when completeness of that map is a divergence. Do not start the inspect-loop while a relevant area is missing and unwaived. Done when `## Representativeness` is complete and the isolation tree can demonstrate each reproduced area.
 3. **Isolate** — Create or resume the isolation tree at the isolation path; do not edit production source for the element. Done when the recorded command yields an inspectable from the representative scenario.
 4. **Iterate one turn** — Apply the operator's latest delta (or the initial extract); run the recorded command; follow **Manager inspect**; present the inspectable; ask one question: accept and promote, name a delta, or end sandbox-only. Done when the inspectable is shown and that question is asked.
-5. **Persist and continue** — Append the iteration row; commit `SANDBOX.md`, the isolation tree, and inspectables onto the delivery branch (no PR); when linked, apply the sandbox tracker row (post-merge: new-Task variant) and persist **Next** from the verdict. Done when the head, Task, mirrors, and **Next** agree.
+5. **Persist** — Append the iteration row; commit `SANDBOX.md`, the isolation tree, and inspectables onto the delivery branch (no PR); when linked, apply the sandbox tracker row (post-merge: new-Task variant). Record outcome `delta`, `accept`, or `end`. Apply the workflow transition. Done when the head, Task, and mirrors agree.
 
-A delta on a later **next** / `/sandbox` resumes at step 4 on the same tree.
+A later turn with outcome `delta` resumes at step 4 on the same tree. The workflow records that resume.
 Re-run **Represent** when a delta would add or drop a relevant area.
 
 ## Artifact
@@ -88,9 +89,8 @@ visual | measure
 |---|--------|-------------|---------|
 | 1 | initial extract | sandbox/<slug>/inspect/01.* | delta: … |
 
-## Role in pipeline
-Promotion input for `/implement`. Supportive isolation — not production source.
-Post-merge inspect-loop instead of `/iterate` when each turn needs inspection.
+## Role
+Promotion input. Supportive isolation — not production source.
 
 ## Tracker
 - Task: <KEY> (if linked)
@@ -98,9 +98,6 @@ Post-merge inspect-loop instead of `/iterate` when each turn needs inspection.
 - Artifact: SANDBOX.md
 - Branch: <delivery-branch>
 - PR: — (sandbox never opens a PR)
-
-## Next
-`/<skill> <KEY>` — <why>
 ```
 
 ## Pipeline continuity
@@ -120,18 +117,25 @@ branch from WORKSPACE base using the new key; commit `SANDBOX.md` + tree;
 **never open a PR**. Implement is the first PR-opening writer on that head.
 Comment the prior Task. Leave the new Task **To Do** until implement.
 
-Standalone (no lineage): still write `SANDBOX.md` and the tree; **Next** may be
-`/define`, `/implement`, or none.
+Standalone (no lineage): still write `SANDBOX.md` and the tree. With no bound
+workflow, **Next** is none.
 
 `SANDBOX.md` follows WORKSPACE **Artifact location**. The isolation tree is
 source on the delivery branch (outside production paths), not an externalizable
 pipeline artifact.
 
-## Handoff
+## Inputs
 
-| Verdict | Next |
-|---------|------|
-| Delta named | `/sandbox <KEY>` — next inspect turn |
-| Accept / promote | `/implement <KEY>` — promote per SANDBOX.md (opens PR when post-merge). Promotion-ready only when last verdict is accept **and** `## Representativeness` is complete |
-| Sandbox-only end | none, or `/define <KEY>` when product scope remains |
-| Bound chain after accept | first remaining skill (usually `/implement`) |
+| Input | When present | When absent |
+|-------|----------------|-------------|
+| Element to isolate | Apply it | Ask once which element |
+| Parity or visual bar (measure, or a bar already on the definition spec) | Apply it | For measure, align the bar in this invocation before the inspect-loop |
+| Definition spec | Apply scope and promote targets | Continue from the invoke alone |
+
+Promotion-ready means the last verdict is accept **and** `## Representativeness` is complete.
+
+## Output
+
+`SANDBOX.md` plus the isolation tree. Outcome: `delta`, `accept`, or `end`.
+
+This skill does not name a successor. Apply the workflow transition before the turn ends.

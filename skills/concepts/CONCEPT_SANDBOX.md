@@ -50,7 +50,7 @@ this concept when each turn needs visual, plot, or report inspection.
 | **Bar** | may | Metrics, scenarios, tolerances, baseline method (measure) |
 | **Promote map** | may | Production target paths and copy notes |
 | **Pipeline continuity** | may | Delivery branch; never a sandbox PR; post-merge new Task from base |
-| **Handoff defaults** | may | Next after accept vs another iteration |
+| **Outcome** | may | `delta`, `accept`, or `end` — the workflow maps these |
 | **Model routing** | may | CONCEPT_DELEGATION for any Task spawn |
 
 ## Flow
@@ -60,4 +60,4 @@ this concept when each turn needs visual, plot, or report inspection.
 3. **Isolate** — place that representative tree outside production; record the run command. Done when the command yields an inspectable **from the representative scenario**.
 4. **Iterate** — change → run → present inspectable → one question (accept, delta, or sandbox-only end). Done for this turn when the inspectable is shown and the question is asked.
 5. **Persist** — write the artifact + inspectables onto the delivery branch (create the branch if needed; post-merge: new Task + branch from base). **Never open a PR.** Done when the head and tracker agree.
-6. **Hand off** — delta → Next remains sandbox; accept → Next implement (promote); sandbox-only end → Next none or define. Done when **Next** matches the operator's verdict.
+6. **Record the verdict** — outcome `delta` (another inspect turn), `accept` (promotion-ready), or `end` (sandbox-only). Done when the outcome matches the operator's verdict. The workflow records **Next**.

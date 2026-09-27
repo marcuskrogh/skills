@@ -1,7 +1,9 @@
 # Adopt route
 
-Disclosed from [SKILL.md](SKILL.md). Load when walking the adoption route or
-spawning inventory workers. Do not restate [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)
+Adopt **workflow** procedure. Disclosed from [pipelines.md](../workflow/pipelines.md)
+and [SKILL.md](SKILL.md). Load when the adopt workflow is walking the route or
+spawning inventory workers. Successor order is the adopt chain in pipelines.md.
+Do not restate [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)
 or [CONCEPT_STRUCTURE](../concepts/CONCEPT_STRUCTURE.md) invariants.
 
 ## Preserve behaviour (required)
@@ -43,9 +45,9 @@ starting the next step.
 
 1. **Frontier** — first open row in Order (Blocked by all Done or empty).
 2. **Characterize** — map, lock, prove on current code ([characterize.md](characterize.md)).
-3. **Unit** — start or reuse that Task's delivery head; run implement → test →
-   harden → review-fix → ship with the preserve-behaviour gate after each
-   code-editing step.
+3. **Unit** — start or reuse that Task's delivery head; run the adopt chain
+   (architect, then implement, test, restructure, review, ship) with the
+   preserve-behaviour gate after each code-editing step.
 4. **Advance** — only when the gate holds: mark the area **done** on `ADOPT.md`;
    ship has closed the Task. Remaining open rows stay on the Story.
 5. **Continue** — if an open area remains, fetch the updated base, make it the
@@ -61,11 +63,10 @@ map; re-characterize only when seams changed.
 
 ## Hard stop
 
-Stop the loop when a composed skill reports a hard stop (merge failure, CLEAN
+Stop the loop when a composed skill reports a hard stop (merge failure, outcome
 FAILED, gate fail after escalate exhausted, missing workspace or auth) **or**
-the preserve-behaviour gate fails. Persist **Next** as that skill + the current
-Task key (or `/adopt` when characterize is the blocker). Do not skip to the next
-area.
+the preserve-behaviour gate fails. Record outcome `hard-stop`. The adopt
+workflow's transition names the blocking skill. Do not skip to the next area.
 
 User **Next** / `/adopt` / `/ship` on that key resumes the same loop.
 

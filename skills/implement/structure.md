@@ -45,7 +45,7 @@ exceptions: <documented catalog exceptions or "none">
 A missing report, a catalog breach that remains, or "leave for harden/review"
 fails the package — re-delegate; do not mark it done.
 
-## Manager gate (before Next `/test`)
+## Manager gate (before leaving implement)
 
 Walk the **whole** delivery diff (every Implementation package, not only the
 last one):
@@ -58,8 +58,8 @@ last one):
       flat dispatch is recorded on the `crap` line (the score alone does not
       fail the gate)
 - [ ] New code does not copy a neighbour smell
-- [ ] Seams required by [testing.md](testing.md) exist before `/test`
+- [ ] Seams required by [testing.md](testing.md) exist before this skill records `built`
 - [ ] [testing.md](testing.md) **Working surfaces** are proved, or recorded
       `none` with evidence
 
-Fail the gate → re-delegate. Passing the gate does not skip `/test` or `/restructure`.
+Fail the gate → re-delegate. Passing the gate does not remove test or restructure from a bound chain.

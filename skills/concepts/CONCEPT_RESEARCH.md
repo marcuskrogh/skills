@@ -35,7 +35,7 @@ run as workers, also load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 | **Domain filters** | may | Categories, venues, date windows |
 | **Depth presets** | may | Quick vs thorough (axes still plural unless scoped) |
 | **Pipeline continuity** | may | Attach brief to Task / roadmap |
-| **Handoff defaults** | may | Next skill after the brief |
+| **Outcome** | may | `ready` once the brief is on the delivery branch |
 | **Model routing** | may | When axes are workers — CONCEPT_DELEGATION |
 
 ## Flow
@@ -47,7 +47,7 @@ run as workers, also load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md).
 5. **Triage** — relevance, recency, centrality, quality → core (3–8) / supporting (5–15) / peripheral. Label axis + reliability. Done when tiers assigned.
 6. **Deep read (core)** — from available evidence only: problem, approach, contribution, evidence, limitations, IDs. Done when each core item is extracted or marked insufficient.
 7. **Synthesize** — question, axes (and skips), strategy, summary, key sources, themes, gaps, reading order, citations — framed as what sources say. Done when brief meets skill artifact sections.
-8. **Hand off** — Next only when the brief should feed model/define/scoping; language treats brief as supportive input.
+8. **Record the outcome** — `ready`. The brief stays supportive input. The workflow records **Next** when one is bound.
 
 ## Reference
 

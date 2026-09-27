@@ -41,7 +41,7 @@ Structure bar: [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md).
 - **Tested delivery.** Behavioural packages include/update tests in-package (or a Testing package before verify); honor PLAN Workflow `implement.verify` when bound (`tests` / `non-regression` / `comparative`); bug fixes and behaviour-changing tweaks include regression coverage; refinements verify behaviour is unchanged (non-regression); adopt characterizes current behaviour into lock tests before structure packages, including every **working surface** the area owns, then those tests are the non-regression bar; reworks / comparative verify use baseline vs candidate evaluation before accept; injectable seams; touched-area suite stays honest and green. In-package tests do not replace the bound **testing phase** (`/test`). Change size does not relax coverage, seams, or spec locks.
 - **Structured delivery.** Packages meet [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md) as-you-go. Named smells and catalog breaches in changed code fail the package — re-delegate. Do not defer them to harden or review. In-package structure does not replace the bound **harden** phase. Change size does not relax the catalog.
 - **Honor binding.** When Classification / Workflow are persisted on the spec, do not reclassify; execute to the bound params. Do not skip `/test` or `/restructure` (`/harden`) unless the binding's skip rows apply.
-- **Closeout-aware.** Implement writes for the bound chain: honest seams for `/test`, catalog-clean units for `/restructure`, nothing left as "review will catch it." Before leaving implement, the manager gates the **whole** diff against the testing and structure checklists. Honor `ARCHITECTURE.md` when present.
+- **Closeout-aware.** Implement writes for the bound chain: honest seams for the testing phase, catalog-clean units for the restructure phase, nothing left as "review will catch it." Before leaving implement, the manager gates the **whole** diff against the testing and structure checklists. Honor `ARCHITECTURE.md` when present.
 - **Verification mandatory.** Run real project tests/lint for the touched area (or full suite if that is the norm); report observed results only. When the change can break a **working surface**, those commands run too: backend start and contract, frontend build/serve and mapped flows, composed client-server path when both exist. A unit suite alone does not prove a startable surface.
 
 ## Extensions
@@ -59,7 +59,7 @@ Structure bar: [CONCEPT_STRUCTURE](CONCEPT_STRUCTURE.md).
 | **PR template** | may | Required PR body sections |
 | **Testing checklist** | may | Concrete checks for package briefs |
 | **Structure checklist** | may | Concrete structure checks for package briefs |
-| **Closeout gate** | may | Whole-diff testing + structure walk before handing off to `/test` |
+| **Closeout gate** | may | Whole-diff testing + structure walk before the outcome is `built` |
 
 ## Flow
 
