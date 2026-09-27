@@ -2,9 +2,10 @@
 
 Reusable agent skills for **workflow-driven delivery**. Agents prefer a catalog
 workflow over freestyle coding: foggy work goes through **explore**, concrete
-work through **define** (interview, then classify and bind), then a bound chain
-via persisted **Next**. A short description starts that interview and does not
-approve the plan. A reply that finishes a skill ends with the `## Next` block.
+work through **define** (interview, then classify and bind). A short description
+starts that interview and does not approve the plan. Each skill applies concepts
+and produces an output on its own. The bound workflow writes persisted **Next**.
+A reply that finishes a skill ends with the `## Next` block.
 An open interview question does not include that block.
 
 Built on the [Agent Skills](https://agentskills.io) standard. Install via an
@@ -87,7 +88,7 @@ catalog. Authoring `SKILL.md` or `CONCEPT_*.md` prose is
 | **setup** | `WORKSPACE.md`: tracker, artifact location, paths |
 | **continue** | Runs the persisted Next skill once |
 | **explore** | `ROADMAP.md` and sequenced route Tasks. No map-only pull request |
-| **define** | Interviews until the open questions are settled and you approve the plan, then classifies, binds a template, writes `PLAN.md`, opens the delivery branch and pull request, and sets **Next** |
+| **define** | Interviews until the open questions are settled and you approve the plan, then classifies, binds a template, writes `PLAN.md`, and opens the delivery branch and pull request. The workflow writes **Next** |
 | **adopt** | `ADOPT.md`. Inventory, then characterize → architect → implement → test → restructure → review → ship per area until Done |
 | **bug** / **tweak** / **refine** / **rework** | Interview, then `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md`, one Task, and the same closeout chain. Prefer `/define` unless you mean the override |
 | **research** / **model** | `RESEARCH.md` / `MODEL.md` on the delivery branch. No pull request of their own |

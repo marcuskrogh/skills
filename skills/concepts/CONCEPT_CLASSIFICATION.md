@@ -62,8 +62,9 @@ Catalogs (classes, templates, discriminators, default params):
    one short confirmation (or one discriminator question). Done when the user
    accepts or corrects the binding.
 5. **Persist** — Write Classification + Workflow on the definition artifact and
-   tracker; set **Next** to the first step of the bound chain. Done when durable
-   surfaces agree.
+   tracker. Do not name a successor. The workflow records **Next** from the
+   bound chain ([../workflow/pipelines.md](../workflow/pipelines.md)). Done when
+   durable surfaces agree.
 
 ## Reference
 

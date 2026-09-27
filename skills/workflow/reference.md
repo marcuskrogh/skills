@@ -35,28 +35,31 @@ Lookup, reuse, and first-writer rules: [delivery.md](delivery.md).
 
 ## Stage ownership
 
-| Skill | Entry | Produces | Default Next |
-|-------|-------|----------|--------------|
-| **explore** | Foggy initiative | `ROADMAP.md` + Story + typed route Tasks | Frontier skill by Order |
-| **adopt** | Brownfield tree not built to the structure bar | `ADOPT.md` + Task (or Story + area Tasks); delegated inventory; characterize then unit chain per area until the route is Done; prove behaviour before each advance | none (or the blocking skill on a hard stop) |
-| **bug** | Defect; fix is the work | `BUG.md` + Task + delivery branch/PR | `/architect` |
-| **tweak** | Small intentional change to existing behaviour | `TWEAK.md` + Task + delivery branch/PR | `/architect` |
-| **refine** | Bounded structural/descriptive improvement; behaviour unchanged | `REFINE.md` + Task + delivery branch/PR | `/architect` |
-| **rework** | Intentional implementation change; no measured degradation | `REWORK.md` + Task + delivery branch/PR | `/architect` (comparative) |
-| **research** | Multi-axis question | `RESEARCH.md` finding docs on delivery branch (no PR) | `/model` or `/define` |
-| **model** | Math alignment with user | `MODEL.md` finding docs on delivery branch (no PR) | `/define` |
-| **sandbox** | Isolated inspect-loop for a contained element (incl. post-merge instead of iterate) | `SANDBOX.md` + isolation tree on delivery branch (no PR) | `/sandbox` (delta) or `/implement` (promote) |
-| **define** | Route or standalone Task (front door for concrete work) | `PLAN.md` + Classification + Workflow binding + Sub-tasks + branch/PR | First skill in bound Chain (usually `/architect`) |
-| **architect** | After define; always in the bound chain | `ARCHITECTURE.md` on **same** delivery branch (no extra PR) | `/implement` (or `/sandbox` when inject) |
-| **implement** | PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE/SANDBOX ready | Code on **same** PR (opens PR after post-merge sandbox); Task stays **In Progress**; closeout gate before `/test` | `/test` (then `/restructure`) |
-| **test** | After implement; `test.mode=dedicated` | Tests/seams + touched-code analysis on the **same** PR; Task stays **In Progress** | `/restructure` or `/review` |
-| **restructure** (`/harden`) | After test (or implement when test skipped); `harden.mode=dedicated` | Refactoring on the **same** PR; Task → **In Review** | `/review` |
-| **iterate** | Shipped work still wrong; straightforward production fix | `ITERATE.md` + **new** Task/PR; then bound closeout chain | `/test` (or first remaining closeout step) |
-| **review** (`/review-fix`) | Task In Review | Lasers → fix → **code review** on the **same** PR → CLEAN | `/ship` |
-| **ship** | After ready-to-build | Remaining work + merge + Done | Done (or `/iterate` / `/sandbox`) |
-| **summarise** | Anytime | Status only (About / Stage / Next) | *(reports; does not advance)* |
-| **guide** | User wants a walkthrough | Paced steps (no artifact) | Resume persisted Next or none |
-| **explain** | User wants current step/decisions taught | Paced beats (no artifact) | Resume persisted Next or none |
+Successor, mode, and chain live only in [pipelines.md](pipelines.md). This
+table is stage identity: what the skill produces. It does not name a successor.
+
+| Skill | Entry | Produces |
+|-------|-------|----------|
+| **explore** | Foggy initiative | `ROADMAP.md` + Story + typed route Tasks |
+| **adopt** | Brownfield tree not built to the structure bar | `ADOPT.md` + Task (or Story + area Tasks); inventory and frontier behaviour map. The adopt workflow then walks the unit chain |
+| **bug** | Defect; fix is the work | `BUG.md` + Task + delivery branch/PR + class binding |
+| **tweak** | Small intentional change to existing behaviour | `TWEAK.md` + Task + delivery branch/PR + class binding |
+| **refine** | Bounded structural/descriptive improvement; behaviour unchanged | `REFINE.md` + Task + delivery branch/PR + class binding |
+| **rework** | Intentional implementation change; no measured degradation | `REWORK.md` + Task + delivery branch/PR + class binding |
+| **research** | Multi-axis question | `RESEARCH.md` finding docs on delivery branch (no PR) |
+| **model** | Math alignment with user | `MODEL.md` finding docs on delivery branch (no PR) |
+| **sandbox** | Isolated inspect-loop for a contained element (incl. post-merge instead of iterate) | `SANDBOX.md` + isolation tree on delivery branch (no PR) |
+| **define** | Route or standalone Task (front door for concrete work) | `PLAN.md` + Classification + Workflow binding + Sub-tasks + branch/PR |
+| **architect** | Definition spec exists, or this skill defines one | `ARCHITECTURE.md` on the delivery branch (no extra PR) |
+| **implement** | Definition spec and `ARCHITECTURE.md` exist, or this skill defines them | Code on the delivery PR (opens PR after post-merge sandbox); Task stays **In Progress** |
+| **test** | Delivery diff + pass criteria, or this skill defines the criteria | Tests/seams + touched-code analysis on the **same** PR; Task stays **In Progress** |
+| **restructure** (`/harden`) | Delivery diff | Refactoring on the **same** PR; Task → **In Review** |
+| **iterate** | Shipped work still wrong | `ITERATE.md` + **new** Task/branch. The iterate workflow continues into sandbox or implement |
+| **review** (`/review-fix`) | Task In Review | Lasers → fix → **code review** on the **same** PR → CLEAN or FAILED |
+| **ship** | Bound workflow still open | Remaining chain from [pipelines.md](pipelines.md) + merge + Done |
+| **summarise** | Anytime | Status only (About / Stage / Next). Reports the workflow transition; does not advance |
+| **guide** | User wants a walkthrough | Paced steps (no artifact). Repeats persisted Next or none |
+| **explain** | User wants current step/decisions taught | Paced beats (no artifact). Repeats persisted Next or none |
 
 Side paths **research** / **model** enrich the **same** Task; they do not replace
 user answers in **define**. **sandbox** likewise enriches the same Task with a
@@ -70,7 +73,7 @@ Bare (or near-bare) cues resolve the active Task the same way
 
 | Cue | Meaning | Action |
 |-----|---------|--------|
-| **next**, continue, go | Advance **one** step | Run the persisted `## Next` skill for that Task |
+| **next**, continue, go | Advance **one** step | Run the persisted `## Next` skill for that Task (written by the workflow, not by the skill) |
 | **ship**, finish, close it out | Finish **remaining** through Done | Run [ship](../ship/SKILL.md) |
 
 While a **pace** is open (**guidance** or **explanation**), yes / okay / move on
@@ -79,19 +82,20 @@ and similarly approving replies are **advance**, and problem reports are
 **ship** still override.
 
 Prefer an explicit key when present (`ship MD-5`). When both could apply, follow
-the user’s word. Full Next table and persistence targets: [handoff.md](handoff.md).
+the user’s word. Successor map: [pipelines.md](pipelines.md). Persistence
+targets: [handoff.md](handoff.md).
 
 ## Artifacts
 
 | Artifact | Owner | Role |
 |----------|-------|------|
 | `WORKSPACE.md` | setup | Tracker + path + delivery decisions |
-| `ROADMAP.md` | explore | Map + route + **Next** |
-| `PLAN.md` | define | Spec + Classification + Workflow binding + keys + **Next** |
-| `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `ADOPT.md` | bug / tweak / refine / rework / iterate / adopt | Spec + keys + **Next** |
-| `RESEARCH.md` / `MODEL.md` | research / model | Finding docs on the delivery branch for define / implement (+ **Next**); never their own PR |
-| `SANDBOX.md` + isolation tree | sandbox | Promotion input on the delivery branch for implement (+ **Next**); never its own PR |
-| `ARCHITECTURE.md` | architect | Shape of this Task on the delivery branch for implement (+ **Next**); never its own PR |
+| `ROADMAP.md` | explore | Map + route. The workflow may append **Next** |
+| `PLAN.md` | define | Spec + Classification + Workflow binding + keys. The workflow may append **Next** |
+| `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `ADOPT.md` | bug / tweak / refine / rework / iterate / adopt | Spec + keys. The workflow may append **Next** |
+| `RESEARCH.md` / `MODEL.md` | research / model | Finding docs on the delivery branch; never their own PR. The workflow may append **Next** |
+| `SANDBOX.md` + isolation tree | sandbox | Promotion input on the delivery branch; never its own PR. The workflow may append **Next** |
+| `ARCHITECTURE.md` | architect | Shape of this Task on the delivery branch; never its own PR. The workflow may append **Next** |
 | Branch + PR | Define / bug / tweak / refine / rework / adopt → ship | One delivery vehicle per Task (research/model may start the branch only) |
 | Merge + Done | ship | Closed-loop closeout on that PR |
 
@@ -103,7 +107,7 @@ Paths follow WORKSPACE. Record path + commit SHA on the Task when location is
 | When | Read |
 |------|------|
 | Creating or reusing branch/PR | [delivery.md](delivery.md) |
-| User-facing reply, **Next**, or entry context | [handoff.md](handoff.md) — required on invoke |
+| User-facing reply, **Next**, or entry context | [handoff.md](handoff.md) + [pipelines.md](pipelines.md) |
 | Tracker create / transition / comment / close | [tracker-sync.md](tracker-sync.md) |
 | `/ship` remaining tails or closeout | [ship.md](ship.md) |
 

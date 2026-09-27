@@ -64,7 +64,7 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md). Structure bar:
 | **Model routing** | may | Per-worker defaults (value-biased) |
 | **Severity model** | may | Overrides to the fix-biased default |
 | **Tooling evidence** | may | Whether to run lint/type/test into briefs |
-| **Handoff** | may | Next when CLEAN vs FAILED |
+| **Outcome** | may | `CLEAN` or `FAILED` — the workflow maps these |
 
 ## Flow
 
@@ -75,7 +75,7 @@ load [CONCEPT_DELEGATION](CONCEPT_DELEGATION.md). Structure bar:
 5. Run **lasers** for that mode (sequential by axis, or bundled workers). Done when all included axis reports return.
 6. Fix must-fix findings after each laser (or after the bundle) inside the **expansion bound**; re-run touched-area suite. Done when remaining lasers are unblocked or a hard stop is named.
 7. **Code review** — manager merges, dedupes, publishes one pull-request review (**APPROVE** when no must-fix remain). Done when the durable review records the closed loop.
-8. Hand off: `/ship` when CLEAN; FAILED only when a must-fix could not be done inside the expansion bound after the cap of fix cycles.
+8. Record outcome `CLEAN` when the published review has no must-fix. Outcome `FAILED` only when a must-fix could not be done inside the expansion bound after the cap of fix cycles. The workflow records **Next**.
 
 ## Reference
 

@@ -37,4 +37,4 @@ Walk the user through a manual task — coding they perform, setup, installation
 
 1. **Open** — Thin: one question naming the task. Rich (task already named): form the **sequence** internally; if an early fork depends on environment or hardware, ask that one question first; otherwise present step 1. Done when the first step is shown or the opener is asked.
 2. **Pace** — Present one step → wait. **Advance** → next remaining step. **Block** → reevaluate remaining sequence → present the new current step. Done when **stop condition** holds.
-3. **Close** — State that the task is complete; hand off. Done when the user has the Next cue (resume in-flight Task, or none).
+3. **Close** — State that the task is complete. Repeat the in-flight workflow's persisted **Next** when one exists; otherwise none. This concept does not choose a successor.

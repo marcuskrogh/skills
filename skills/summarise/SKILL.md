@@ -11,14 +11,14 @@ disable-model-invocation: true
 Read-only status for feature/bug/tweak/refine/rework/adopt/iterate pipelines. Does **not** change issues or
 artifacts except optionally refreshing a stale mirror **Next** column.
 
-**On invoke:** read [../workflow/SKILL.md](../workflow/SKILL.md).
+**On invoke:** read [../workflow/SKILL.md](../workflow/SKILL.md) and [../workflow/pipelines.md](../workflow/pipelines.md).
 
 ## Steps
 
 1. **Resolve subject** — Resolve key/URL → single active ISSUES row → branch inference → ask once; fetch it and load linked artifacts from the effective workspace. Done when one Task or Story and its available evidence are identified.
 2. **Infer track** — Prefer `PLAN.md` **Classification.Class** when present; else classify feature (PLAN/ROADMAP), bug (BUG), tweak (TWEAK), refine (REFINE), rework (REWORK), adopt (ADOPT), or iterate (ITERATE / Relates to Done prior). Done when one track is supported by durable evidence.
 3. **Infer furthest stage** — Compare tracker, artifact, branch, PR, and review evidence against the table below. Done when the highest evidenced stage and any inconsistency are named.
-4. **Reply** — Use the reply shape below and the Handoff table to validate persisted **Next**; recompute stale Next from current status. Done when the answer reports About, Track, Stage, Artifacts, Status, and one valid **Next** (or no further work).
+4. **Reply** — Use the reply shape below. Validate persisted **Next** against [pipelines.md](../workflow/pipelines.md); recompute a stale cue from the bound workflow, the current outcome, and the stage evidence. Done when the answer reports About, Track, Stage, Artifacts, Status, and one valid **Next** (or no further work).
 
 | Stage | Evidence |
 |-------|----------|
@@ -30,9 +30,9 @@ artifacts except optionally refreshing a stale mirror **Next** column.
 | **adopt** | `ADOPT.md` linked; route in flight (inventory, characterize, current unit, or remaining areas) |
 | **rework** | `REWORK.md` linked; not yet In Progress |
 | **iterate** | `ITERATE.md` (or Relates Done prior); building or about to |
-| **research** | `RESEARCH.md`; define not done — Next usually `/define` or `/model` |
-| **model** | `MODEL.md`; define not done — math aligned; particulars need `/define` |
-| **sandbox** | `SANDBOX.md` present; not promotion-ready — Next `/sandbox`; promotion-ready — `/implement` |
+| **research** | `RESEARCH.md` exists; definition spec does not |
+| **model** | `MODEL.md` exists; definition spec does not |
+| **sandbox** | `SANDBOX.md` present; promotion-ready or not is the outcome (`accept` vs `delta`) |
 | **define** | Feature Task enriched / PLAN exists, not started |
 | **architect** | PLAN exists; ARCHITECTURE.md next or in flight |
 | **implement** | In Progress, or branch/PR WIP |

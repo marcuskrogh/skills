@@ -73,8 +73,8 @@ inspectables.
 2. **Gather cheap context** — Read user wording, named keys, and available active ISSUES / branch / open PR signals. Done when enough context exists to compare catalog rows without loading pipeline skills.
 3. **Infer workflow** — Pick the first matching catalog row; ask one question only when equally valid paths would cause material rework. Done when exactly one workflow is selected.
 4. **Announce** — One short line naming the workflow and first skill, then that skill's first action. For define, explore, bug, tweak, refine, and rework, the first action is the one alignment question. Done when the user can see the route and either that question or the skill's completed handoff.
-5. **Disclose and run** — Read the selected skill and only its On-invoke concepts/references; execute until the skill's turn boundary. Done when an alignment skill has asked its one question and stopped, or the skill's completion criterion holds.
-6. **Honor the boundary** — An open alignment turn stops on its one question (a one-line route name may sit above it). A finished skill ends on the handoff, except when the selected orchestrator (`ship`, `review-fix`, `adopt`) owns further composition. Done when that finished reply ends with the exact `## Next` block, or the open alignment reply has stopped without one.
+5. **Disclose and run** — Read the selected skill and only its On-invoke concepts/references; execute until the skill's turn boundary. Done when an alignment skill has asked its one question and stopped, or the skill's output and outcome exist.
+6. **Honor the boundary** — An open alignment turn stops on its one question (a one-line route name may sit above it). It has no `## Next` block. A finished skill applies [pipelines.md](../workflow/pipelines.md). **immediate** runs the next skill now, then resolve again. **cue** persists **Next** and stops. **stop** persists Next none. `ship` runs the remaining suffix. A finished reply ends with the exact `## Next` block. Done when that boundary holds.
 
 ## Invariants
 

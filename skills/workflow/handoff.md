@@ -1,8 +1,10 @@
 # Handoff protocol
 
-Every pipeline skill **ends** by telling the user what to run next and writing
-**Next** into durable surfaces. Load with [SKILL.md](SKILL.md) before the
-user-facing reply. Also load when resolving continuation.
+Every pipeline skill **ends** on its output and outcome. The **workflow** then
+writes **Next**. Skills do not choose the successor
+([CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md)). Load with [SKILL.md](SKILL.md)
+and [pipelines.md](pipelines.md) before the user-facing reply. Also load when
+resolving continuation.
 
 ## Reply close
 
@@ -18,43 +20,35 @@ block follows [CONCEPT_LANGUAGE](../concepts/CONCEPT_LANGUAGE.md). Nothing
 follows the block.
 
 Also write that same **Next** line into: the issue comment (or markdown
-Comments section), the alignment artifact, and the ISSUES mirror when enabled.
+Comments section), the skill's artifact, and the ISSUES mirror when enabled.
 Chat-only Next is not enough — except **guide** and **explain**, which use
 chat Next only (resume in-flight or none) and do not write tracker or artifact
 Next.
 
 An open alignment turn is not a finish. That reply is the one question and
 stops. It has no `## Next` block and does not start a later skill. When ship
-closes the loop, the line may be `Done — <KEY>` instead of a slash invoke
-(see the table).
+closes the loop, the line may be `Done — <KEY>` instead of a slash invoke.
+The skill name in the block comes from [pipelines.md](pipelines.md).
 
-## Default Next by stage
+## Resolve Next
 
-| After | Next (default) |
-|-------|----------------|
-| setup | `/explore` or `/define` (front doors); `/help` for the map |
-| explore | Frontier route Task skill — usually `/define` on a delivery Task; research/model/sandbox leave artifacts on that branch (no separate PR) |
-| bug | `/architect <Task>` (or `/ship <Task>` for remaining) |
-| tweak | `/architect <Task>` (or `/ship <Task>` for remaining) |
-| refine | `/architect <Task>` (or `/ship <Task>` for remaining) |
-| adopt | none when the route is Done; the blocking skill + `/adopt` to resume the route on a hard stop |
-| rework | `/architect <Task>` (or `/ship <Task>` for remaining) |
-| research | `/model <Task>` or `/define <Task>` |
-| model | `/define <Task>` (or `/implement` if PLAN exists) |
-| sandbox | `/sandbox <Task>` (delta) or `/implement <Task>` (promote) |
-| define | `/architect <Task>` (or `/adopt` when class is adopt; or first Chain step from Workflow binding; or `/ship`) |
-| architect | `/implement <Task>` |
-| implement | `/test <Task>` (then `/restructure`; or `/ship`) |
-| test | `/restructure <Task>` |
-| restructure / harden | `/review <Task>` |
-| iterate | `/test <NewTask>` (or `/sandbox` when the delta is an inspect-loop) |
-| review / review-fix (CLEAN) | `/ship <Task>` |
-| review (FAILED) | `/implement` — or `/ship` to retry remaining |
-| ship (Done) | Done — or `/iterate` if merged work still wrong; `/sandbox` when each turn needs inspectables |
-| ship (stopped) | `/ship <Task>` or the skill that unblocks |
-| summarise | *(reports Next; does not advance)* |
-| guide | Resume persisted Next of in-flight Task, or none |
-| explain | Resume persisted Next of in-flight Task, or none |
+1. If the skill's output does not exist yet (an alignment question is open, or
+   an inspect-loop inside this invocation is waiting on a verdict), persist
+   **Next** as this same skill and stop. That resumes the unfinished output.
+   It is not a successor.
+2. Take the skill's **outcome** and the bound workflow
+   ([pipelines.md](pipelines.md#which-workflow)). No binding and no route →
+   **standalone** (Next none).
+3. Apply the first matching **Transitions** row. `chain-first` / `chain-next`
+   use the **Chains** table for that workflow.
+4. **immediate** — read that skill and run it now, then resolve again.
+   **cue** — persist the Next block and stop. **stop** — persist Next none.
+   **immediate** is the workflow mode. The user cue **continue** still means
+   one persisted **Next**.
+5. A finished reply ends with the [Reply close](#reply-close) block. An open
+   alignment reply does not. `/ship <KEY>` remains the continuation that
+   finishes the rest of the bound chain; it is not a successor a skill writes
+   for itself. When the outcome is done, the block is `Done — <KEY>`.
 
 ## Entry context
 

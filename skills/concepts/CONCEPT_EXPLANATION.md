@@ -36,4 +36,4 @@ Explain in simple terms the current workflow step, a coding or design decision, 
 
 1. **Open** — Resolve subject (user text, current workflow step, last agent output). If missing, ask once. Form remaining **beats** internally. Done when the subject is known.
 2. **Pace** — Present one beat (or the whole explanation when it fits one beat). If more remain, wait. **Advance** → next beat. **Block** → reevaluate remaining beats → present the new current beat. Done when **stop condition** holds.
-3. **Close** — State that the explanation is complete; hand off. Done when the user has the Next cue (resume in-flight Task, or none).
+3. **Close** — State that the explanation is complete. Repeat the in-flight workflow's persisted **Next** when one exists; otherwise none. This concept does not choose a successor.

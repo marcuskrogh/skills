@@ -16,4 +16,4 @@ disable-model-invocation: true
 ([../setup/format.md](../setup/format.md) → **Resolution order**), then read
 [reference.md](reference.md) and only the matching backend under `backends/`.
 
-If neither workspace layer resolves, hand off to `/setup` before creating issues.
+If neither workspace layer resolves, apply [setup](../setup/SKILL.md) in this invocation until `WORKSPACE.md` exists, then continue. Do not stop in order to name a successor.

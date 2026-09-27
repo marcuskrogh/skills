@@ -13,6 +13,7 @@ disable-model-invocation: true
 **Shared reference skill.** Users invoke pipeline skills, not this file.
 
 **On invoke:** read [reference.md](reference.md) and [handoff.md](handoff.md).
+When a skill finishes or **Next** is resolved, also read [pipelines.md](pipelines.md).
 Disclose other refs only when a step needs them: [delivery.md](delivery.md),
 [tracker-sync.md](tracker-sync.md), [ship.md](ship.md), [changelog.md](changelog.md).
 

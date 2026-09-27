@@ -5,7 +5,10 @@ a skill — invoke [`workflows`](skills/workflows/SKILL.md). **Front doors:** fo
 → [`explore`](skills/explore/SKILL.md); concrete (bug, tweak, refine, rework,
 feature, …) → [`define`](skills/define/SKILL.md). Define interviews for alignment,
 then classifies and binds a workflow. A short description starts that interview;
-it does not approve the plan. Follow persisted **Next** afterward. A reply that
+it does not approve the plan. Skills apply concepts and produce an output; they
+do not name the next skill. The bound workflow
+([`skills/workflow/pipelines.md`](skills/workflow/pipelines.md)) writes persisted
+**Next**. Follow that cue afterward. A reply that
 finishes a skill ends with the exact `## Next` block (`/<skill> <KEY>` — why).
 An open alignment question does not include that block. Do not freestyle
 coding or ad-hoc planning when a catalog workflow fits.

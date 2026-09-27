@@ -13,7 +13,8 @@ disable-model-invocation: true
 Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) and
 [CONCEPT_DEFINITION](../concepts/CONCEPT_DEFINITION.md) to a **bounded
 refinement**. Produces `REFINE.md`. Shared persist/track contract:
-[../define/overrides.md](../define/overrides.md).
+[../define/overrides.md](../define/overrides.md). Applies
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md).
 
 **On invoke:** read [../define/overrides.md](../define/overrides.md).
 
@@ -70,6 +71,25 @@ refinement**. Produces `REFINE.md`. Shared persist/track contract:
 - Branch: <delivery-branch>
 - PR: <url or draft url>
 
-## Next
-`/implement <KEY>` — Apply per REFINE.md (same branch/PR)
+## Classification
+- Class: refine
+- Confidence: high
+- Why: explicit /refine
+
+## Workflow
+- Template: structure-safe
+- Parameters: catalog defaults for structure-safe
+- Chain: delivery chain for that template
 ```
+
+## Inputs
+
+| Input | When present | When absent |
+|-------|----------------|-------------|
+| Area to refine | Apply it | Ask "What area should be refined?" once |
+
+## Output
+
+`REFINE.md` — bounded refinement spec plus the structure-safe binding. Outcome: `ready`.
+
+This skill does not name a successor. Apply the workflow transition before the turn ends.

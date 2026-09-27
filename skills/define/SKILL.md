@@ -19,7 +19,10 @@ Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md),
 topic**. Produces `PLAN.md` (including **Classification** + **Workflow**
 binding) and Sub-tasks on the **pipeline Task**.
 
+Applies [CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md).
+
 **On invoke:** read those concepts,
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md),
 [../concepts/CLASSIFICATION-CATALOG.md](../concepts/CLASSIFICATION-CATALOG.md),
 and [../workflow/SKILL.md](../workflow/SKILL.md).
 
@@ -40,14 +43,14 @@ and [../workflow/SKILL.md](../workflow/SKILL.md).
 | **Template catalog** | same |
 | **Binding rules** | same |
 | **Artifact sections** | `## Classification` + `## Workflow` required (in addition to full plan body) |
-| **Tracker mirror** | Copy class, template, params, chain, and **Next** onto the Task (and Story when linked) |
+| **Tracker mirror** | Copy class, template, params, and chain onto the Task (and Story when linked). The workflow appends **Next** |
 
 ## Steps
 
 1. **Resolve entry** — Require a thin description or ask once; fetch route Task + Story when present; load ROADMAP / RESEARCH / MODEL / SANDBOX as supportive. Form a provisional class only to choose full vs lightweight. Done when the subject and which probes are still unstated are known.
 2. **Align and define** — Follow CONCEPT_ALIGNMENT + CONCEPT_DEFINITION until every in-play probe is user-settled. Done when scope, behaviour/parity/preserve-behaviour, constraints, and pass criteria are stated by the user or explicitly deferred, and the turn has waited for those answers.
 3. **Classify, bind, and confirm** — Apply CONCEPT_CLASSIFICATION + the catalog on that agreed description: final **class**, **template** + **parameters** (efficiency-first), confirm only on costly ambiguity. Present `PLAN.md` (Classification + Workflow included) and the readiness prompt. Done when the user approves the prompt — without reopening settled definition decisions unless the binding exposes a new divergence.
-4. **Persist and track** — Write `PLAN.md` only after that approval. Follow delivery continuity, apply the define tracker row, mirror binding fields on the tracker, and set **Next** to the first step of the bound **Chain**. Done when artifact, Sub-tasks, branch/PR, comments, mirrors, and **Next** agree.
+4. **Persist and track** — Write `PLAN.md` only after that approval. Follow delivery continuity, apply the define tracker row, and mirror binding fields on the tracker. Record outcome `ready`. Apply the workflow transition. Done when artifact, Sub-tasks, branch/PR, comments, and mirrors agree.
 
 ## Artifact
 
@@ -104,12 +107,7 @@ and [../workflow/SKILL.md](../workflow/SKILL.md).
 - PR: <url or draft url>
 - Classification: <class>
 - Workflow: <template>
-
-## Next
-`/<first-chain-skill> <KEY>` — <why>
 ```
-
-(`PLAN.md` may note `/ship <KEY>` as alternate Next once the chain is bound.)
 
 ## Tracker (after approval)
 
@@ -117,18 +115,21 @@ Follow [delivery continuity](../workflow/delivery.md) and the
 [define tracker row](../workflow/tracker-sync.md#matrix). Enrich the explore
 route Task when present; otherwise create the pipeline Task. Keep it **To Do**,
 create Sub-tasks per work package, and record `PLAN.md`, **Classification**,
-**Workflow** (template + params + chain), branch/PR, Sub-task keys, and **Next**
-on the Task, parent Story, and enabled mirror.
+**Workflow** (template + params + chain), branch/PR, and Sub-task keys on the
+Task, parent Story, and enabled mirror. The workflow appends **Next**.
 
-## Handoff
+## Inputs
 
-Set **Next** to the first skill in the bound **Chain** (usually `/implement`;
-`/adopt` when class is adopt; `/research` or `/model` when `side_paths` requires
-it; `/sandbox` when `sandbox=inject` and no prefix side path remains):
+| Input | When present | When absent |
+|-------|----------------|-------------|
+| Thin description | Apply it as the subject | Ask "What should we define?" once |
+| `ROADMAP.md` | Apply destination and fog as context | Continue without a map |
+| `RESEARCH.md` | Apply as evidence, not as decisions | Continue without literature |
+| `MODEL.md` | Apply as the formulation | Continue without a math spec |
+| `SANDBOX.md` | Apply the element, bar, and promote map as context | Continue without a sandbox |
 
-```markdown
-## Next
-`/implement <TASK-KEY>` — Build per PLAN.md workflow binding (same branch/PR)
-```
+## Output
 
-(Or `/ship <TASK-KEY>` to finish remaining along the bound chain.)
+`PLAN.md` — definition spec, classification, and workflow binding. Outcome: `ready`.
+
+This skill does not name a successor. Apply the workflow transition before the turn ends. Class **adopt** uses the adopt workflow.

@@ -29,28 +29,14 @@ Requires authenticated `gh` + tracker auth.
 ## Steps
 
 1. **Resolve issue** — Resolve key/URL → single active ISSUES row → ask once; fetch Task, children, Story, PLAN/BUG/TWEAK/REFINE/REWORK/ITERATE, and linked PR. Done when one Task and its delivery state are identified, including an already-Done result.
-2. **Detect stage → remaining** — Apply the [remaining workflow](../workflow/ship.md#remaining-workflow) and tell the user the detected tail in one short line:
-
-| Evidence | Remaining |
-|----------|-----------|
-| No ready-to-build artifact | **Stop** — `/define` (or `/iterate`) first; manual `/bug`/`/tweak`/`/refine`/`/rework`/`/adopt` also ready-to-build |
-| Defined; To Do; no meaningful impl on delivery PR | architect → implement → test → restructure → review → closeout |
-| `ADOPT.md`; route not Done | `/adopt` — resume the route |
-| In Progress; impl incomplete | finish implement → test → restructure → review → closeout |
-| In Progress; impl complete; testing phase not done | test → restructure → review → closeout |
-| In Progress; testing done; restructure not done | restructure → review → closeout |
-| In Review; unresolved must-fix | review → closeout |
-| In Review; clean code review **or** no review yet but user wants full finish | review if needed → closeout; else closeout only |
-| PR merged; Task not Done | closeout |
-
-   Done when exactly one remaining path is selected.
-3. **Run remaining** — Run each selected skill's full contract in order, preserving its delegation and verification rules. Drop `/test` or `/harden` only when the user explicitly skipped that phase (or docs-only for test). Class **adopt** / `ADOPT.md`: do not drop characterize or `/test`. Done when the tail reaches CLEAN or a named implement/test/harden/review-fix hard stop.
+2. **Detect position** — Apply the [remaining workflow](../workflow/ship.md#remaining-workflow). The order is the bound chain in [pipelines.md](../workflow/pipelines.md). Tell the user the detected position in one short line. Done when exactly one position is selected.
+3. **Run the suffix** — Run each later step's full contract, in chain order, including a skill defining a required input that is missing. Mode is **immediate** until closeout or a hard stop. Class **adopt** follows [../adopt/route.md](../adopt/route.md). Done when the suffix reaches CLEAN or a named hard stop.
 4. **Close out** — Run the [closed-loop closeout](../workflow/ship.md#closeout) on the recorded delivery PR, including [changelog](../workflow/changelog.md) detection and entry when the repo maintains one. Done when its closeout criterion holds or merge failure is reported without closing tracker work.
 
 ## Tell the user
 
 Task Done (or stop reason); stage detected + steps run; Sub-tasks closed; Story status;
 PR URL; closed-loop confirmation when merged; changelog path + entry when updated (or
-skip reason when omitted); Next hint for next phase, `/iterate` when post-ship
-straightforward, or `/sandbox` when each turn needs inspectables. No skill
-handoff when Task is Done.
+skip reason when omitted). When the Task is Done, **Next** is none. A later
+request that is still wrong is a new iterate or sandbox workflow, not a
+successor this skill writes.

@@ -195,7 +195,7 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 Regardless of remote tracker, when **Mirror to markdown** is true (recommended):
 
 1. Create/update rows in the mirror file whenever issues are created, transitioned, or handed off.
-2. Always write keys + **Next** into `ROADMAP.md` / `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ADOPT.md` / `ITERATE.md` / `SANDBOX.md` / issue bodies.
+2. Always write keys into `ROADMAP.md` / `PLAN.md` / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ADOPT.md` / `ITERATE.md` / `SANDBOX.md` / issue bodies. The workflow appends **Next** when a pipeline skill finishes.
 3. Remote tracker remains authoritative for status **except** for `markdown` provider, where issue files are authoritative.
 
 When **Mirror to markdown** is false, the remote tracker is the *only* continuity

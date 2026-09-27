@@ -2,20 +2,20 @@
 name: research
 description: >-
   Research across preprint, formal, web, and practitioner axes. Produces
-  RESEARCH.md finding docs on the delivery branch (no separate PR) for define,
-  model, and implement. Use for surveys, state of the art, or a wide evidence
-  pass.
+  RESEARCH.md finding docs on the delivery branch (no separate PR). Use for
+  surveys, state of the art, or a wide evidence pass.
 disable-model-invocation: true
 ---
 
 # Research
 
-Applies [CONCEPT_RESEARCH](../concepts/CONCEPT_RESEARCH.md) as a **multi-axis**
-investigation. Optional pipeline side path — produces **finding docs** that
-feed **model** / **define** / **implement** (and **explore**) as supportive
-context only.
+Applies [CONCEPT_RESEARCH](../concepts/CONCEPT_RESEARCH.md) and
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md) as a **multi-axis**
+investigation. Produces **finding docs**. A workflow may apply them as
+supportive context. They do not settle product decisions.
 
 **On invoke:** read [CONCEPT_RESEARCH](../concepts/CONCEPT_RESEARCH.md),
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md),
 [reference.md](reference.md), and [../workflow/SKILL.md](../workflow/SKILL.md).
 When spawning axis workers, also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md).
@@ -29,7 +29,6 @@ When spawning axis workers, also read
 | **Artifact** | `RESEARCH.md` (path from WORKSPACE) |
 | **Citation rules** | Every claim → retrieved evidence; durable ID/URL + **axis** label |
 | **Pipeline continuity** | Commit `RESEARCH.md` onto the delivery branch; never open a PR |
-| **Handoff defaults** | `/model` / `/define` / `/explore` / none |
 | **Model routing** | CONCEPT_DELEGATION when axes are workers; synthesis stays on manager |
 
 | Axis | Primary retrieval |
@@ -45,7 +44,7 @@ Follow CONCEPT_RESEARCH flow. Specialisations:
 
 1. **Scope and plan axes** — Default to all four axes; when the user narrows the pass, record the included axes and reason. Write queries/targets into Search strategy. Done when every included axis has a retrieval plan and every skipped axis has a reason.
 2. **Retrieve and synthesize** — Run axes in parallel when tools allow; otherwise Preprints → Formal → Web → Informal. Prefer one multi-`-q` arXiv search, dedupe by DOI / arXiv ID / canonical URL, and prefer multi-axis hits. Done when the CONCEPT_RESEARCH completion bars hold for retrieval, triage, deep read, and synthesis.
-3. **Persist and continue** — Write `RESEARCH.md` onto the delivery branch (no PR); when linked, apply the research tracker row and persist the Handoff. Done when claims are traceable and the artifact is on the delivery head with Task, mirrors, and **Next** agreed.
+3. **Persist** — Write `RESEARCH.md` onto the delivery branch (no PR); when linked, apply the research tracker row. Record outcome `ready`. Apply the workflow transition. Done when claims are traceable and the artifact is on the delivery head with Task and mirrors agreed.
 
 ## Artifact
 
@@ -81,9 +80,8 @@ Follow CONCEPT_RESEARCH flow. Specialisations:
 ## Recommended reading order
 … (sources to study — not a product plan)
 
-## Role in pipeline
-Finding docs for `/model`, `/define`, and `/implement` (including product docs
-that need evidence). Supportive context only — not a product plan.
+## Role
+Supportive finding doc. Not a product plan.
 
 ## Sources
 … (full citations + axis)
@@ -93,9 +91,6 @@ that need evidence). Supportive context only — not a product plan.
 - Artifact: RESEARCH.md
 - Branch: <delivery-branch>
 - PR: — (research never opens a PR)
-
-## Next
-`/<skill> <KEY>` — <why>
 ```
 
 ## Pipeline continuity
@@ -108,16 +103,18 @@ Follow [finding-docs continuity](../workflow/delivery.md#rules) and the
 reuse the downstream delivery head when this is a supportive-only route Task).
 **Never open a PR.** Leave delivery-Task status unchanged; mark a supportive-only
 route Task **Done** at handoff. Update ROADMAP notes / PLAN Inputs when present.
-Record the artifact, short summary, branch, **Next**, and enabled mirror;
+Record the artifact, short summary, branch, and enabled mirror;
 external artifacts are pushed into the Task without starting a branch.
 
-Standalone: still write `RESEARCH.md`; **Next** may be `/explore` or `/define`.
+## Inputs
 
-## Handoff
+| Input | When present | When absent |
+|-------|----------------|-------------|
+| Question | Apply it | Ask once what to investigate |
+| Task, `ROADMAP.md`, or definition spec | Use as the question boundary | Investigate the question the user named |
 
-| Context | Next |
-|---------|------|
-| Math-heavy follow-up | `/model <KEY>` |
-| Ready to define with the user | `/define <KEY>` |
-| Still scoping | `/explore` |
-| Only needed the brief | none |
+## Output
+
+`RESEARCH.md` — citable finding doc. Outcome: `ready`.
+
+This skill does not name a successor. Apply the workflow transition before the turn ends. Standalone work still writes `RESEARCH.md`; with no bound workflow, **Next** is none.

@@ -8,8 +8,8 @@ when a skill's On-invoke pointer fires.
 
 Composes brief [CONCEPT_ALIGNMENT](CONCEPT_ALIGNMENT.md) +
 [CONCEPT_IMPLEMENTATION](CONCEPT_IMPLEMENTATION.md) for work that already
-shipped but still needs a fix. Closeout stays separate (`/test` → `/restructure` →
-`/review`) so the loop can repeat after ship. Open-PR review findings route
+shipped but still needs a fix. Closeout stays on the iterate workflow in
+[../workflow/pipelines.md](../workflow/pipelines.md) so the loop can repeat after ship. Open-PR review findings route
 to **fix-forward**, not this concept.
 
 ## Invariants
@@ -21,8 +21,8 @@ to **fix-forward**, not this concept.
 - **Brief alignment.** When the invoke states the wrong behaviour and the pass criteria, proceed. When either is unstated, ask one question at a time until both are stated. Do not invent the delta from the prior plan.
 - **Session continuity.** Load prior Task, merged PR, and artifacts before guessing.
 - **Chainable.** After this PR ships, another iterate on the same lineage is valid.
-- **Ends at In Progress after implement.** Testing, restructure, and merge/Done remain the bound closeout chain (`/test` → `/restructure` → `/review` → `/ship`).
-- **Straightforward delta.** This loop implements a production fix on a new PR. Inspect-each-turn development of a contained element (visuals, plots, representative comparative reports) is [CONCEPT_SANDBOX](CONCEPT_SANDBOX.md).
+- **Output is the delta spec.** This concept writes `ITERATE.md` and the new Task. Production code is [CONCEPT_IMPLEMENTATION](CONCEPT_IMPLEMENTATION.md), applied by the iterate workflow (mode continue) or, when each turn needs inspection, [CONCEPT_SANDBOX](CONCEPT_SANDBOX.md).
+- **Straightforward delta.** Inspect-each-turn development of a contained element (visuals, plots, representative comparative reports) records outcome `inspect-loop`. The iterate workflow continues into sandbox.
 
 ## Extensions
 
@@ -33,7 +33,7 @@ to **fix-forward**, not this concept.
 | **Iteration artifact** | must | Format/filename (`ITERATE.md`) |
 | **Branch + delivery** | must | Always new branch from base; new PR |
 | **Tracker** | must | New Task linked to prior; status through implement, then the bound closeout chain |
-| **Handoff** | must | Default Next (usually `/test`, then the bound closeout chain) |
+| **Outcome** | must | `ready` (straightforward) or `inspect-loop` |
 | **Chain policy** | may | How a later iterate relates to a previous iterate Task |
 | **Spec for review** | may | How review discovers the delta |
 | **Inspect-loop fork** | may | When to compose sandbox instead of implement |
@@ -43,5 +43,4 @@ to **fix-forward**, not this concept.
 1. **Resolve prior context** — Task, merged PR, artifacts. Done when lineage is identified.
 2. **Capture delta** — wrong/missing behaviour, acceptance, explicit out of scope. Done when implementable (after brief alignment if needed) **or** the work is an inspect-loop (sandbox owns it).
 3. **Persist + track** — write artifact; create linked Task. Done when Task exists and artifact is attached — skipped when sandbox takes the post-merge path.
-4. **Implement** — CONCEPT_IMPLEMENTATION on new branch; new PR; Task stays **In Progress**. Done when PR is ready for the testing phase.
-5. **Hand off** — **Next** → `/test` on the new Task/PR (or `/restructure` / `/review` when those phases are skipped).
+4. **Record the outcome** — `ready` or `inspect-loop`. Done when `ITERATE.md` and the new Task exist. The iterate workflow applies the next step ([../workflow/pipelines.md](../workflow/pipelines.md)); this concept does not name it.

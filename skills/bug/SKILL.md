@@ -2,8 +2,8 @@
 name: bug
 description: >-
   Bug alignment and lightweight definition for a clear defect. Produces BUG.md
-  and one tracker Task, then hands off to implementation. Prefer /define for
-  new work (agent classifies as bug).
+  and one tracker Task with a fix-fast binding. Prefer /define for new work
+  (agent classifies as bug).
 disable-model-invocation: true
 ---
 
@@ -12,7 +12,8 @@ disable-model-invocation: true
 Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) and
 [CONCEPT_DEFINITION](../concepts/CONCEPT_DEFINITION.md) to a **defect**.
 Produces `BUG.md`. Shared persist/track contract:
-[../define/overrides.md](../define/overrides.md).
+[../define/overrides.md](../define/overrides.md). Applies
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md).
 
 **On invoke:** read [../define/overrides.md](../define/overrides.md).
 
@@ -68,6 +69,27 @@ Produces `BUG.md`. Shared persist/track contract:
 - Branch: <delivery-branch>
 - PR: <url or draft url>
 
-## Next
-`/implement <KEY>` — Fix per BUG.md (same branch/PR)
+## Classification
+- Class: bug
+- Confidence: high
+- Why: explicit /bug
+
+## Workflow
+- Template: fix-fast
+- Parameters: catalog defaults for fix-fast
+- Chain: delivery chain for that template
 ```
+
+## Inputs
+
+| Input | When present | When absent |
+|-------|----------------|-------------|
+| Defect report | Apply it as the subject | Ask "What is broken?" once |
+
+Supportive Task or Story links are applied when present.
+
+## Output
+
+`BUG.md` — defect spec plus the fix-fast binding. Outcome: `ready`.
+
+This skill does not name a successor. Apply the workflow transition before the turn ends.

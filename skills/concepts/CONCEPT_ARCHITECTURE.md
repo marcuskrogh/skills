@@ -43,7 +43,7 @@ Review checks the code against it and the structure catalog.
 |------|----------|---------|
 | **Artifact** | must | Path and sections of `ARCHITECTURE.md` |
 | **Depth** | may | Shape stamp vs full map |
-| **Handoff** | must | Next after the artifact is on the delivery branch |
+| **Outcome** | must | `ready` once `ARCHITECTURE.md` is on the delivery branch |
 
 ## Flow
 

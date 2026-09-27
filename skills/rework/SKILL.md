@@ -3,8 +3,8 @@ name: rework
 description: >-
   Rework alignment and lightweight definition for an intentional implementation
   change that must not degrade measured outcomes. Produces REWORK.md and one
-  tracker Task, then implement with comparative evaluation. Prefer /define for
-  new work (agent classifies as rework).
+  tracker Task with a parity-iterative binding. Prefer /define for new work
+  (agent classifies as rework).
 disable-model-invocation: true
 ---
 
@@ -12,9 +12,10 @@ disable-model-invocation: true
 
 Applies [CONCEPT_ALIGNMENT](../concepts/CONCEPT_ALIGNMENT.md) and
 [CONCEPT_DEFINITION](../concepts/CONCEPT_DEFINITION.md) to a **bounded rework**.
-Produces `REWORK.md`. Comparative implement path:
+Produces `REWORK.md`. Comparative verification notes:
 [../implement/rework.md](../implement/rework.md). Shared persist/track contract:
-[../define/overrides.md](../define/overrides.md).
+[../define/overrides.md](../define/overrides.md). Applies
+[CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md).
 
 **On invoke:** read [../define/overrides.md](../define/overrides.md) and
 [../implement/rework.md](../implement/rework.md).
@@ -75,6 +76,26 @@ Produces `REWORK.md`. Comparative implement path:
 - Branch: <delivery-branch>
 - PR: <url or draft url>
 
-## Next
-`/implement <KEY>` — Apply per REWORK.md with comparative evaluation (same branch/PR)
+## Classification
+- Class: rework
+- Confidence: high
+- Why: explicit /rework
+
+## Workflow
+- Template: parity-iterative
+- Parameters: catalog defaults for parity-iterative (`implement.verify=comparative`, `implement.iteration=until-bar`)
+- Chain: delivery chain for that template
 ```
+
+## Inputs
+
+| Input | When present | When absent |
+|-------|----------------|-------------|
+| Area and intended implementation change | Apply them | Ask "What area should be reworked?" once |
+| Parity bar | Apply it | Align the bar in this invocation before the artifact is approved |
+
+## Output
+
+`REWORK.md` — rework spec, parity bar, and the parity-iterative binding. Outcome: `ready`.
+
+This skill does not name a successor. Apply the workflow transition before the turn ends.

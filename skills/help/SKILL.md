@@ -39,7 +39,7 @@ Reply from this skill; do not load every pipeline skill.
 |---------|-----|----------------|
 | Have no workspace yet | `/setup` | `WORKSPACE.md` |
 | Feel a big/foggy goal but not the steps | `/explore` | `ROADMAP.md` + route Tasks; research/model/sandbox = artifacts on the delivery branch → `/define` |
-| Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Interview, then classify and bind → `PLAN.md` + **Next**. A short description starts the interview |
+| Have concrete work (bug, tweak, refine, rework, feature, …) | `/define` | Interview, then classify and bind → `PLAN.md`. A short description starts the interview and does not approve the plan. The workflow writes **Next** |
 
 ### Whole-repo structure
 
@@ -55,7 +55,9 @@ Reply from this skill; do not load every pipeline skill.
 | Want the current step or a decision taught | `/explain` | paced teaching |
 | Want to be walked through a manual task | `/guide` | one step at a time |
 
-After define, follow persisted **Next** (or bare **next** / **ship**). You do **not** need to remember architect / implement / test / restructure / review /
+After define, follow persisted **Next** (or bare **next** / **ship**). The bound
+workflow writes that cue. Skills do not choose the following skill. You do
+**not** need to remember architect / implement / test / restructure / review /
 class-specific entry skills.
 
 Define infers **class** and binds a **template** after alignment —
