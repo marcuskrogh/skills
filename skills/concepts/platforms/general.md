@@ -14,7 +14,7 @@ Hard exclusions (Fable 5, Haiku) live in the catalog index.
 | 1 | xAI | Grok 4.7 | `grok-4.7-high`, `grok-4.7`, `cursor-grok-4.6-high` |
 | 2 | OpenAI | GPT-6 Sol | `gpt-6-sol`, `gpt-5.6-sol` |
 | 3 | DeepSeek | DeepSeek V4-Pro | `deepseek-v4-pro`, `deepseek-chat` Pro equivalent |
-| 4 | Z.ai | GLM-5.2 | `glm-5.2`, `glm-5` latest coding |
+| 4 | Z.ai | GLM-5.3 | `glm-5.3`, `glm-5.2` |
 | 5 | Anthropic | Claude Opus 5.5 | `claude-opus-5-5`, `claude-opus-5` — ceiling; worse efficiency than Grok or Sol |
 | 6 | Moonshot | Kimi K3 | `kimi-k3`, `kimi-k3-high`, K2.6 if K3 unavailable |
 
@@ -24,10 +24,10 @@ Hard exclusions (Fable 5, Haiku) live in the catalog index.
 |------|----------|-------|-----------------|
 | 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` |
 | 2 | OpenAI | GPT-6 Sol | `gpt-6-sol` |
-| 3 | Google | Gemini 3.6 Flash | `gemini-3.6-flash` |
+| 3 | Google | Gemini 3.8 Flash | `gemini-3.8-flash`, `gemini-3.6-flash` |
 | 4 | Anthropic | Claude Sonnet 5 | `sonnet`, `claude-sonnet-5` |
-| 5 | Alibaba | Qwen3-Coder | `qwen3-coder`, latest Qwen coder instruct |
-| 6 | Meta | Llama 4 Maverick | `llama-4-maverick` or harness Llama 4 coding mid |
+| 5 | Alibaba | Qwen3.8-Max | `qwen3.8-max`, `qwen3-coder` |
+| 6 | Meta | Muse Spark 1.3 | `muse-spark-1.3`, `meta/muse-spark-1.3`, `llama-4-maverick` |
 
 ## Low-capability (ranked)
 

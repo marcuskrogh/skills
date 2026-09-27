@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Sub-task |
-| Status | To Do |
+| Status | Done |
 | Parent | MD-1 |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
@@ -23,3 +23,7 @@ The pass criteria in `docs/agents/PLAN.md` hold for the edited files.
 ### 2026-09-27
 
 Created with MD-1. Next: `/implement MD-1`
+
+### 2026-09-27
+
+Catalogue rows and validator locks are in. Sub-task done. Parent stays In Progress for closeout.

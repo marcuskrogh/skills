@@ -73,4 +73,4 @@
 - Workflow: delta-fast
 
 ## Next
-`/implement MD-1` — Build to ARCHITECTURE.md (same branch)
+`/test MD-1` — Dedicated testing phase, then restructure, then review
