@@ -26,5 +26,8 @@ PLAN.md and ARCHITECTURE.md on `cursor/frontend-design-skill-f322`. Heating Assi
 ### 2026-09-28
 Skill PR: https://github.com/marcuskrogh/skills/pull/60
 
+### 2026-09-28
+Sandbox isolation at `sandbox/front-end-design/`. Artifact `docs/agents/SANDBOX.md`. Outcome `delta`.
+
 ## Next
-`/restructure MD-1` — test skipped; structure pass on the skill files
+`/sandbox MD-1` — inspect-loop; name a change, accept, or end

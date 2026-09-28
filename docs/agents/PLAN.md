@@ -28,14 +28,14 @@
   - review.depth: focused
   - review.lasers: sequential
   - side_paths: none
-  - sandbox: none
-- Chain: architect → implement → restructure → review → ship
-- Rationale: docs-only in this repo (`test.mode=skip`); harden stays the floor; localized skill add keeps review focused
+  - sandbox: inject
+- Chain: architect → implement → sandbox inspect-loop → restructure → review → ship
+- Rationale: docs-only in this repo (`test.mode=skip`); harden stays the floor; localized skill add keeps review focused; sandbox is the visual inspect-loop for the design sheet
 
 ## Inputs
 - Research: none
 - Model: none
-- Sandbox: none
+- Sandbox: docs/agents/SANDBOX.md (`sandbox/front-end-design/`)
 - Prior skill: commit `212b727` / branch `cursor/frontend-design-concept-3aa3`
 
 ## Pass criteria
@@ -59,4 +59,4 @@
 - Workflow: feature-standard
 
 ## Next
-`/restructure MD-1` — test skipped; structure pass on the skill files
+`/sandbox MD-1` — inspect-loop; name a change, accept, or end
