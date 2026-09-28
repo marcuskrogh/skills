@@ -94,6 +94,7 @@ or deviate from Next. Explicit `/skill` wins.
 | **guide** | Walks a manual task one step at a time |
 | **manage-skills** | Install/sync this repo |
 | **writing-for-agents** | Author skills/concepts |
+| **frontend-design** | Product-surface UI: warm tokens, one signature, craft floor |
 
 ## Choose-one reply shape
 
