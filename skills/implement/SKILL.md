@@ -33,6 +33,8 @@ When `sandbox=inject` or `SANDBOX.md` is present, follow its Promote map
 When `implement.mode` is `multiagent` (or spawning workers otherwise), also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
 as directed there.
+When a package changes **product surface** UI (HTML, CSS, frontend components),
+also read [../frontend-design/SKILL.md](../frontend-design/SKILL.md).
 
 ## Extensions
 

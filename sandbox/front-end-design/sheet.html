@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f3ebe3">
+  <title>Warm home — front-end design sheet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <script>
+    if (location.hash === '#shot-home') document.documentElement.classList.add('shot-home');
+    if (location.hash === '#shot-guide') document.documentElement.classList.add('shot-guide');
+    if (location.hash === '#shot-pieces') document.documentElement.classList.add('shot-pieces');
+  </script>
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --honey: #e3a15a;
+      --sage: #6d8b6f;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --line: color-mix(in srgb, #2a221c 10%, #f3ebe3);
+      --sans: "Atkinson Hyperlegible", ui-sans-serif, sans-serif;
+      --radius: 1.75rem;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: #efe6dc;
+      color: var(--ink);
+      font: 400 17px/1.45 var(--sans);
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
+    .page { width: min(68rem, calc(100% - 2.5rem)); margin: 0 auto; padding: 2.5rem 0 4rem; }
+    .lede h1 {
+      margin: 0 0 0.4rem;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .lede p { margin: 0; max-width: 38rem; color: var(--mute); }
+    .block { margin-top: 2.75rem; }
+    .block h2 {
+      margin: 0 0 0.35rem;
+      font-weight: 700;
+      font-size: 1.7rem;
+      letter-spacing: -0.02em;
+    }
+    .block > .why { margin: 0 0 1.1rem; max-width: 40rem; color: var(--mute); }
+
+    .home {
+      background: var(--paper);
+      border-radius: 2rem;
+      padding: 1.35rem 1.5rem 1.6rem;
+      box-shadow: 0 24px 60px rgb(42 34 28 / 0.06);
+    }
+    .bar { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+    .mark {
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+      margin-right: 0.6rem;
+    }
+    .bar a {
+      color: var(--mute);
+      text-decoration: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+    }
+    .bar a.on { background: var(--sheet); color: var(--ink); }
+    .grow { flex: 1; }
+    .live { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--sage); font-weight: 700; font-size: 0.92rem; }
+    .live i { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--sage); }
+    .stop {
+      border: 0; border-radius: 999px; background: var(--clay); color: #fff;
+      padding: 0.55rem 1.05rem; font-weight: 700;
+    }
+    .stop.is-off { background: transparent; color: var(--clay); box-shadow: inset 0 0 0 1.5px var(--clay); }
+
+    .hero { display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 1rem; align-items: end; margin-top: 1.6rem; }
+    @media (max-width: 46rem) { .hero { grid-template-columns: 1fr; } }
+    .where { margin: 0; color: var(--mute); font-size: 0.95rem; }
+    .temp {
+      margin: 0.15rem 0 0;
+      font-weight: 700;
+      font-size: clamp(4.6rem, 10vw, 6.6rem);
+      letter-spacing: -0.02em;
+      line-height: 0.9;
+    }
+    .temp span { color: var(--clay); font-size: 0.45em; margin-left: 0.02em; }
+    .state { margin: 0.7rem 0 0; font-size: 1.05rem; }
+    .state b { font-weight: 700; color: var(--clay); }
+    .state.is-idle b { color: var(--mute); }
+    .target { display: flex; align-items: center; gap: 0.55rem; margin-top: 1rem; }
+    .step {
+      width: 2.4rem; height: 2.4rem; border: 0; border-radius: 50%;
+      background: var(--sheet); font-size: 1.2rem;
+    }
+    .target strong { font-weight: 700; min-width: 3.2rem; text-align: center; }
+    .band { margin-top: 1rem; height: 0.45rem; border-radius: 999px; background: color-mix(in srgb, var(--ink) 8%, var(--paper)); position: relative; }
+    .band i { position: absolute; left: 36%; width: 28%; top: 0; bottom: 0; border-radius: 999px; background: color-mix(in srgb, var(--clay) 28%, var(--paper)); }
+    .band b { position: absolute; left: 54%; top: -0.22rem; width: 0.35rem; height: 0.9rem; border-radius: 999px; background: var(--clay); }
+
+    .aside { display: grid; gap: 0.7rem; justify-items: start; }
+    .fact {
+      border: 0; background: transparent; text-align: left; padding: 0.2rem 0;
+      display: grid; gap: 0.1rem;
+    }
+    .fact span { color: var(--mute); font-size: 0.82rem; }
+    .fact strong {
+      font-weight: 700; font-size: 2rem;
+      letter-spacing: -0.02em; line-height: 1;
+    }
+    .fact.is-on strong { color: var(--clay); }
+    .unfold {
+      margin-top: 1.15rem;
+      background: var(--sheet);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem 1.05rem;
+      max-width: 36rem;
+    }
+    .unfold p { margin: 0; }
+    .unfold ul { margin: 0.65rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; color: var(--mute); font-size: 0.92rem; }
+    .unfold[hidden] { display: none; }
+
+    .rooms { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.35rem; }
+    .room {
+      border: 0; border-radius: 999px; background: var(--sheet);
+      padding: 0.55rem 0.9rem 0.55rem 0.7rem; display: inline-flex; align-items: baseline; gap: 0.45rem;
+    }
+    .room b { font-weight: 700; font-size: 1.15rem; }
+    .room.is-on { background: var(--ink); color: var(--paper); }
+    .day { margin-top: 1.25rem; display: grid; gap: 0.45rem; }
+    .day-label { color: var(--mute); font-size: 0.82rem; }
+    .track { display: grid; grid-template-columns: 1.1fr 1.6fr 1.2fr; gap: 0.35rem; }
+    .seg { background: var(--sheet); border-radius: 999px; padding: 0.45rem 0.8rem; font-size: 0.95rem; font-weight: 700; color: var(--ink); }
+    .seg.now { background: var(--ink); color: var(--paper); }
+    .plot { margin-top: 1.1rem; background: var(--sheet); border-radius: var(--radius); padding: 0.85rem 0.9rem 0.7rem; }
+    .plot svg { width: 100%; height: 140px; display: block; }
+    .legend { display: flex; gap: 1rem; color: var(--mute); font-size: 0.82rem; margin-top: 0.2rem; }
+    .legend i { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; margin-right: 0.3rem; vertical-align: -1px; }
+
+    .swatches { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+    .swatch { width: 7.2rem; }
+    .swatch b {
+      display: block; height: 4.4rem; border-radius: 1.2rem; margin-bottom: 0.35rem;
+    }
+    .swatch span { display: block; font-size: 0.82rem; }
+    .swatch code { color: var(--mute); font-size: 0.75rem; }
+    .type-sample { display: grid; gap: 0.8rem; background: var(--paper); border-radius: var(--radius); padding: 1.3rem 1.4rem; }
+    .type-sample .big { font-weight: 700; font-size: 4.2rem; line-height: 0.9; letter-spacing: -0.02em; margin: 0; }
+    .digits { margin: 0.4rem 0 0; font-weight: 700; font-size: 1.8rem; letter-spacing: 0.08em; }
+    .type-sample .big span { color: var(--clay); }
+    .shapes { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+    .blob { background: var(--sheet); border-radius: var(--radius); padding: 1rem 1.2rem; }
+    .pill { background: var(--clay); color: #fff; border-radius: 999px; padding: 0.55rem 1rem; border: 0; font-weight: 700; }
+    .chip { background: var(--sheet); border-radius: 999px; padding: 0.4rem 0.75rem; }
+
+    .pieces { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    @media (max-width: 46rem) { .pieces { grid-template-columns: 1fr; } }
+    .piece { background: var(--paper); border-radius: var(--radius); padding: 1rem 1.1rem 1.1rem; }
+    .piece h3 { margin: 0 0 0.55rem; font-size: 0.82rem; font-weight: 400; color: var(--mute); }
+    .field { display: grid; gap: 0.35rem; }
+    .field input {
+      border: 0; background: var(--sheet); border-radius: 999px; padding: 0.6rem 0.9rem;
+      font-weight: 700;
+    }
+    .banner { display: inline-block; background: var(--sheet); border-radius: 999px; padding: 0.4rem 0.8rem; }
+    .banner.warn { color: var(--clay); }
+    .empty { color: var(--mute); }
+    .exp { display: grid; gap: 0.35rem; }
+    .exp .barline { height: 0.4rem; border-radius: 999px; background: color-mix(in srgb, var(--ink) 8%, var(--paper)); overflow: hidden; }
+    .exp .barline i { display: block; width: 42%; height: 100%; background: var(--plum); border-radius: 999px; }
+
+    html.shot-home .page > :not(#home) { display: none; }
+    html.shot-guide .page > :not(#guide) { display: none; }
+    html.shot-pieces .page > :not(#pieces) { display: none; }
+    html.shot-home .page, html.shot-guide .page, html.shot-pieces .page { padding-top: 1rem; }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="lede">
+      <h1>A warmer home</h1>
+      <p>This pass leaves the industrial grid behind. One reading, a sentence when you ask for more, clay for heat, sage for calm. Heating Assistant stays the source of the jobs, not the layout.</p>
+    </header>
+
+    <section class="block" id="home">
+      <h2>Home</h2>
+      <p class="why">Click a room to change the reading. Click Next or House to open the sentence under it. The detail stays in the flow. It does not jump to the top of a card grid.</p>
+      <article class="home" aria-label="Proposed home">
+        <header class="bar">
+          <span class="mark">Heating</span>
+          <a class="on" href="#home">Home</a>
+          <a href="#rooms">Rooms</a>
+          <a href="#day">Today</a>
+          <span class="grow"></span>
+          <span class="live"><i></i> Live</span>
+          <button class="stop" type="button" id="run" aria-pressed="true">Stop</button>
+        </header>
+        <div class="hero">
+          <div>
+            <p class="where" id="where">Living room</p>
+            <p class="temp" id="temp">21.4<span>°</span></p>
+            <p class="state" id="state"><b>Heating</b> · comfortable</p>
+            <div class="target">
+              <button class="step" type="button" id="down" aria-label="Lower target">−</button>
+              <strong id="target">21.0°</strong>
+              <button class="step" type="button" id="up" aria-label="Raise target">+</button>
+            </div>
+            <div class="band" aria-hidden="true"><i></i><b></b></div>
+          </div>
+          <div class="aside">
+            <button class="fact" type="button" data-fold="next" aria-expanded="false">
+              <span>Next control</span>
+              <strong>11:02</strong>
+            </button>
+            <button class="fact is-on" type="button" data-fold="house" aria-expanded="true">
+              <span>House</span>
+              <strong>Healthy</strong>
+            </button>
+          </div>
+        </div>
+        <div class="unfold" id="unfold">
+          <p id="unfold-copy">The house is healthy. Heaters are drawing 2.1 kW, 42% of the range. Comfort is 94%.</p>
+          <ul id="unfold-facts">
+            <li>2.1 kW live</li>
+            <li>42% of range</li>
+            <li>MQTT ok</li>
+          </ul>
+        </div>
+        <div class="rooms" id="rooms">
+          <button class="room is-on" type="button" data-room="living">Living <b>21.4°</b></button>
+          <button class="room" type="button" data-room="kitchen">Kitchen <b>20.1°</b></button>
+          <button class="room" type="button" data-room="bedroom">Bedroom <b>19.6°</b></button>
+        </div>
+        <div class="plot" aria-label="Temperature this hour">
+          <svg viewBox="0 0 640 140" role="img">
+            <title>Living room temperature this hour</title>
+            <rect width="640" height="140" rx="22" fill="#fffaf6"/>
+            <path d="M24 96 C 80 90, 120 88, 170 80 S 260 70, 320 62 430 58, 500 48 580 46, 616 44" fill="none" stroke="#d4532b" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M24 70 H 616" fill="none" stroke="#2a221c" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="5 6"/>
+            <path d="M24 108 C 140 104, 240 100, 360 96 S 520 92, 616 90" fill="none" stroke="#e3a15a" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <div class="legend"><span><i style="background:#d4532b"></i>Measured</span><span><i style="background:#2a221c"></i>Setpoint</span><span><i style="background:#e3a15a"></i>Power</span></div>
+        </div>
+        <div class="day" id="day">
+          <div class="day-label">Today</div>
+          <div class="track">
+            <div class="seg now">Now · Comfort · 06–09</div>
+            <div class="seg">Setback · 09–16</div>
+            <div class="seg">Comfort · 16–22</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="block" id="guide">
+      <h2>Style guide</h2>
+      <p class="why">Paper, clay, sage, honey, plum. Atkinson Hyperlegible for every word and every value. Large radius, pills for actions, space instead of rules.</p>
+      <div class="swatches" aria-label="Colours">
+        <div class="swatch"><b style="background:#f3ebe3;box-shadow:inset 0 0 0 1px rgba(42,34,28,.08)"></b><span>Paper</span><code>#f3ebe3</code></div>
+        <div class="swatch"><b style="background:#fffaf6;box-shadow:inset 0 0 0 1px rgba(42,34,28,.08)"></b><span>Sheet</span><code>#fffaf6</code></div>
+        <div class="swatch"><b style="background:#2a221c"></b><span>Ink</span><code>#2a221c</code></div>
+        <div class="swatch"><b style="background:#d4532b"></b><span>Clay</span><code>#d4532b</code></div>
+        <div class="swatch"><b style="background:#6d8b6f"></b><span>Sage</span><code>#6d8b6f</code></div>
+        <div class="swatch"><b style="background:#e3a15a"></b><span>Honey</span><code>#e3a15a</code></div>
+        <div class="swatch"><b style="background:#8f5d78"></b><span>Plum</span><code>#8f5d78</code></div>
+        <div class="swatch"><b style="background:#8d7f74"></b><span>Mute</span><code>#8d7f74</code></div>
+      </div>
+      <div class="type-sample" style="margin-top:1rem">
+        <p class="big">21.4<span>°</span></p>
+        <p class="digits">0123456789</p>
+        <p style="margin:0.6rem 0 0">One face for the temperature, the target, the rooms, the clock, and the form. Lining figures, tabular figures, weight 700 on values.</p>
+      </div>
+      <div class="shapes" style="margin-top:1rem">
+        <div class="blob">Surface · 1.75rem</div>
+        <button class="pill" type="button">Clay pill</button>
+        <span class="chip">Sheet chip</span>
+        <span class="chip" style="background:#2a221c;color:#f3ebe3">Selected</span>
+      </div>
+    </section>
+
+    <section class="block" id="pieces">
+      <h2>Pieces</h2>
+      <p class="why">The jobs remain: start and stop, a target, a plot, a schedule, a form, a banner, an empty state, an experiment. The frames are new.</p>
+      <div class="pieces">
+        <div class="piece">
+          <h3>Run</h3>
+          <button class="stop" type="button">Stop</button>
+          <button class="stop is-off" type="button" style="margin-left:.4rem">Start</button>
+        </div>
+        <div class="piece">
+          <h3>Experiment</h3>
+          <div class="exp">
+            <div>Parameter estimation · 12 min left</div>
+            <div class="barline" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+          </div>
+        </div>
+        <div class="piece">
+          <h3>Comfort target</h3>
+          <div class="field">
+            <label for="comfort">Comfort target</label>
+            <input id="comfort" value="21.0" inputmode="decimal">
+          </div>
+          <button class="pill" type="button" style="margin-top:.6rem">Save</button>
+        </div>
+        <div class="piece">
+          <h3>Status</h3>
+          <div style="display:grid;gap:.4rem;justify-items:start">
+            <span class="banner">App API connected</span>
+            <span class="banner warn">Panel boot failed. Retry.</span>
+            <p class="empty">No history for this hour. Widen the window, or wait for the next control.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    (function () {
+      var rooms = {
+        living: { name: 'Living room', temp: '21.4', mode: 'Heating', note: 'comfortable', target: 21.0, idle: false },
+        kitchen: { name: 'Kitchen', temp: '20.1', mode: 'Idle', note: 'at rest', target: 20.0, idle: true },
+        bedroom: { name: 'Bedroom', temp: '19.6', mode: 'Heating', note: 'coming up', target: 20.0, idle: false }
+      };
+      var folds = {
+        house: {
+          copy: 'The house is healthy. Heaters are drawing 2.1 kW, 42% of the range. Comfort is 94%.',
+          facts: ['2.1 kW live', '42% of range', 'MQTT ok']
+        },
+        next: {
+          copy: 'The next control runs in 11 minutes. The planner is idle until then.',
+          facts: ['11:02 remaining', 'Sample interval on the hour', 'Computing: no']
+        }
+      };
+      var current = 'living';
+      var target = 21.0;
+      var whereEl = document.getElementById('where');
+      var tempEl = document.getElementById('temp');
+      var stateEl = document.getElementById('state');
+      var targetEl = document.getElementById('target');
+      var unfold = document.getElementById('unfold');
+      var copyEl = document.getElementById('unfold-copy');
+      var factsEl = document.getElementById('unfold-facts');
+
+      function paintRoom() {
+        var room = rooms[current];
+        target = room.target;
+        whereEl.textContent = room.name;
+        tempEl.innerHTML = room.temp + '<span>°</span>';
+        stateEl.innerHTML = '<b>' + room.mode + '</b> · ' + room.note;
+        stateEl.classList.toggle('is-idle', room.idle);
+        targetEl.textContent = target.toFixed(1) + '°';
+      }
+      function paintTarget() {
+        rooms[current].target = target;
+        targetEl.textContent = target.toFixed(1) + '°';
+      }
+      function openFold(key) {
+        var fold = folds[key];
+        if (!fold) {
+          unfold.hidden = true;
+          return;
+        }
+        copyEl.textContent = fold.copy;
+        factsEl.innerHTML = fold.facts.map(function (item) { return '<li>' + item + '</li>'; }).join('');
+        unfold.hidden = false;
+        document.querySelectorAll('.fact').forEach(function (btn) {
+          var on = btn.getAttribute('data-fold') === key;
+          btn.classList.toggle('is-on', on);
+          btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+        });
+      }
+      document.getElementById('rooms').addEventListener('click', function (event) {
+        var btn = event.target.closest('[data-room]');
+        if (!btn) return;
+        current = btn.getAttribute('data-room');
+        document.querySelectorAll('.room').forEach(function (el) {
+          el.classList.toggle('is-on', el === btn);
+        });
+        paintRoom();
+      });
+      document.querySelector('.aside').addEventListener('click', function (event) {
+        var btn = event.target.closest('[data-fold]');
+        if (!btn) return;
+        var key = btn.getAttribute('data-fold');
+        if (btn.classList.contains('is-on')) openFold(null);
+        else openFold(key);
+      });
+      document.getElementById('down').addEventListener('click', function () {
+        target = Math.round((target - 0.5) * 10) / 10;
+        paintTarget();
+      });
+      document.getElementById('up').addEventListener('click', function () {
+        target = Math.round((target + 0.5) * 10) / 10;
+        paintTarget();
+      });
+      document.getElementById('run').addEventListener('click', function (event) {
+        var btn = event.currentTarget;
+        var on = btn.getAttribute('aria-pressed') === 'true';
+        btn.setAttribute('aria-pressed', on ? 'false' : 'true');
+        btn.textContent = on ? 'Start' : 'Stop';
+        btn.classList.toggle('is-off', on);
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') openFold(null);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -22,7 +22,7 @@ In this repo:
 
 | Kind | Invocation | Examples |
 |------|------------|----------|
-| **Router** | model-invoked | `workflows`, `writing-for-agents`, `help` |
+| **Router** | model-invoked | `workflows`, `writing-for-agents`, `help`, `frontend-design` |
 | **Pipeline / meta** | user-invoked | `explore`, `define`, `implement`, `manage-skills`, … |
 | **Composed reference** | user-invoked (not for humans) | `workflow`, `tracker`, `jira` |
 

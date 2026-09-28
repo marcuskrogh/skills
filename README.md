@@ -30,9 +30,10 @@ can interrupt that Task without replacing its bound chain.
 [`/help`](skills/help/SKILL.md) maps choices and does not start work.
 [`/summarise`](skills/summarise/SKILL.md) reports status and does not advance.
 
-Three skills are model-invoked, so the agent can discover them without a slash
-name: **workflows** (which path to run), **help** (the map), and
-**writing-for-agents** (editing skill or concept prose in this repo). Every
+Four skills are model-invoked, so the agent can discover them without a slash
+name: **workflows** (which path to run), **help** (the map),
+**writing-for-agents** (editing skill or concept prose in this repo), and
+**frontend-design** (product-surface UI). Every
 pipeline skill is user-invoked. **workflow**, **tracker**, and **jira** are
 composed references. You do not start work by invoking them.
 
@@ -175,6 +176,7 @@ skills/                         ← source of truth (Agent Skills layout)
 ├── iterate/ ship/ summarise/
 ├── tracker/ jira/              ← composed tracker (not entry points)
 ├── manage-skills/              ← install, sync, and repo maintenance
+├── frontend-design/            ← product-surface UI (warm default)
 └── writing-for-agents/         ← model-invoked authoring guide
 
 .claude-plugin/                 ← optional Claude Code marketplace manifests

@@ -95,5 +95,6 @@ inspectables.
 
 Maintaining this skills repo → [manage-skills](../manage-skills/SKILL.md).
 Authoring skill/concept prose → [writing-for-agents](../writing-for-agents/SKILL.md).
+Product-surface UI → [frontend-design](../frontend-design/SKILL.md).
 A brief aside can stay in the current skill. A request to teach the current
 step or to walk through a task routes to **explain** or **guide**.
