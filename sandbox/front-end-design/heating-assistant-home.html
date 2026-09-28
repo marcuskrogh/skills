@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f3ebe3">
+  <title>Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --honey: #e3a15a;
+      --sage: #6d8b6f;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --rose: #c48474;
+      --sans: "Atkinson Hyperlegible", ui-sans-serif, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 400 17px/1.45 var(--sans);
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    button, a { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
+    .skip {
+      position: absolute; left: 0.8rem; top: -3rem;
+      background: var(--ink); color: var(--paper);
+      padding: 0.4rem 0.7rem; border-radius: 999px;
+    }
+    .skip:focus { top: 0.6rem; }
+    .shell { width: min(76rem, calc(100% - 2rem)); margin: 0 auto; padding: 1.1rem 0 2.4rem; }
+    h1 {
+      margin: 0 0.7rem 0 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .nav { display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; }
+    .nav a {
+      text-decoration: none;
+      color: var(--mute);
+      padding: 0.38rem 0.72rem;
+      border-radius: 999px;
+    }
+    .nav a[aria-current="page"] { background: var(--sheet); color: var(--ink); font-weight: 700; }
+    .nav .grow { flex: 1; min-width: 0.5rem; }
+    .health { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: var(--sage); margin-right: 0.35rem; }
+    .health i { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--sage); }
+    .run {
+      border: 0; border-radius: 999px; background: var(--clay); color: #fff;
+      font-weight: 700; padding: 0.48rem 1rem;
+    }
+    .run.is-stopped { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+
+    .section { margin: 1.05rem 0 0.4rem; font-size: 0.92rem; font-weight: 400; color: var(--mute); }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.4rem, 1fr)); gap: 0.5rem; }
+    .kpis.sys { grid-template-columns: repeat(2, minmax(8.4rem, 12rem)); }
+    .kpi {
+      background: var(--sheet); border: 0; border-radius: 1.35rem;
+      padding: 0.75rem 0.8rem 0.7rem; text-align: left;
+    }
+    .kpi span { display: block; color: var(--mute); font-size: 0.78rem; }
+    .kpi strong { display: block; margin-top: 0.15rem; font-weight: 700; font-size: 1.35rem; letter-spacing: -0.03em; line-height: 1.05; }
+    .kpi.next { background: var(--ink); color: var(--paper); }
+    .kpi.next span { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+    .kpi .more { display: none; margin: 0.45rem 0 0; font-size: 0.92rem; font-weight: 400; line-height: 1.35; }
+    .kpi.is-open { grid-column: span 2; }
+    .kpi.is-open .more { display: block; }
+
+    .rooms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.55rem; margin-top: 0.7rem; }
+    .room {
+      background: var(--sheet); border: 0; border-radius: 1.5rem;
+      padding: 0.85rem 1rem 0.9rem; text-align: left;
+    }
+    .room.is-on { box-shadow: inset 0 0 0 2px var(--ink); }
+    .room .top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+    .room .name { font-weight: 700; }
+    .room .st { font-size: 0.82rem; font-weight: 700; color: var(--sage); }
+    .room .st.idle { color: var(--mute); }
+    .room .st.off { color: var(--clay); }
+    .room b { display: block; margin-top: 0.25rem; font-size: 1.7rem; font-weight: 700; letter-spacing: -0.03em; }
+
+    .detail { margin-top: 0.7rem; background: var(--sheet); border-radius: 1.75rem; padding: 1.1rem 1.15rem 1rem; }
+    .detail-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 1.5rem; }
+    .who { margin: 0; color: var(--mute); font-size: 0.92rem; }
+    .reading { margin: 0.1rem 0 0; font-weight: 700; font-size: clamp(4.2rem, 8vw, 5.6rem); letter-spacing: -0.04em; line-height: 0.88; }
+    .reading span { color: var(--clay); }
+    .controls { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; }
+    .step, .band, .power {
+      border: 0; border-radius: 999px; background: var(--paper); font-weight: 700; padding: 0.55rem 0.9rem;
+    }
+    .step { width: 2.4rem; padding: 0.55rem 0; }
+    .target { font-weight: 700; font-size: 1.35rem; min-width: 4.2rem; text-align: center; }
+    .target small { display: block; font-weight: 400; font-size: 0.75rem; color: var(--mute); }
+    .power.is-off { color: var(--clay); }
+
+    .plots { display: grid; gap: 0.55rem; margin-top: 1rem; }
+    .plot { background: var(--paper); border-radius: 1.5rem; padding: 0.55rem 0.45rem 0.25rem; }
+    .plot-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.35rem 0.8rem; margin: 0 0.4rem 0.05rem; }
+    .plot h2 { margin: 0; font-size: 0.95rem; font-weight: 400; color: var(--mute); }
+    .legend { display: flex; flex-wrap: wrap; gap: 0.3rem 0.7rem; font-size: 0.78rem; font-weight: 700; }
+    .legend i { display: inline-block; width: 0.65rem; height: 0.65rem; border-radius: 999px; margin-right: 0.28rem; vertical-align: -1px; }
+    .plot svg { width: 100%; height: auto; display: block; }
+    .plot svg.temp { aspect-ratio: 860 / 240; }
+    .plot svg.power { aspect-ratio: 860 / 196; }
+
+    .day { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-top: 0.75rem; }
+    .day-label { color: var(--mute); margin-right: 0.2rem; }
+    .seg { background: var(--paper); border-radius: 999px; padding: 0.42rem 0.8rem; font-weight: 700; font-size: 0.92rem; }
+    .seg.now { background: var(--ink); color: var(--paper); }
+    .exp { margin: 0.55rem 0 0; }
+    .exp span { display: inline-block; background: color-mix(in srgb, var(--plum) 16%, var(--sheet)); color: var(--plum); border-radius: 999px; padding: 0.35rem 0.75rem; font-weight: 700; font-size: 0.9rem; }
+
+    @media (max-width: 64rem) {
+      .kpis { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 42rem) {
+      .kpis, .rooms { grid-template-columns: 1fr 1fr; }
+      .reading { font-size: 4rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#room">Skip to the room</a>
+  <div class="shell">
+    <nav class="nav" aria-label="Heating Assistant">
+      <h1>Heating Assistant</h1>
+      <a href="#overview" aria-current="page">Overview</a>
+      <a href="#schedules">Schedules</a>
+      <a href="#tuning">Tuning</a>
+      <a href="#parameter-estimation">Parameter estimation</a>
+      <a href="#system-status">System status</a>
+      <a href="#config">Configuration</a>
+      <span class="grow"></span>
+      <span class="health"><i></i>Healthy</span>
+      <button class="run" id="run" type="button">Stop</button>
+    </nav>
+
+    <h2 class="section">System status</h2>
+    <section class="kpis sys" aria-label="System status">
+      <button class="kpi" type="button" data-detail="Overall health is healthy. MQTT is connected.">
+        <span>Overall health</span><strong>Healthy</strong><p class="more"></p>
+      </button>
+      <button class="kpi" type="button" data-detail="The solver is using 34% of its time budget.">
+        <span>MPC load</span><strong>34%</strong><p class="more"></p>
+      </button>
+    </section>
+
+    <h2 class="section">Controller</h2>
+    <section class="kpis" aria-label="Controller">
+      <button class="kpi next" type="button" data-detail="The controller computes again in 4 minutes 12 seconds.">
+        <span>Next</span><strong>04:12</strong><p class="more"></p>
+      </button>
+      <button class="kpi" type="button" data-detail="94% of the last day was inside the comfort band.">
+        <span>Comfort</span><strong>94%</strong><p class="more"></p>
+      </button>
+      <button class="kpi" type="button" data-detail="The house is drawing 2.1 kW, 42% of the heating range.">
+        <span>Heating power</span><strong>2.1 kW</strong><p class="more"></p>
+      </button>
+      <button class="kpi" type="button" data-detail="Effective system COP since midnight is 3.42.">
+        <span>System COP</span><strong>3.42</strong><p class="more"></p>
+      </button>
+      <button class="kpi" type="button" data-detail="18.4 kWh delivered since local midnight.">
+        <span>Daily energy</span><strong>18.4 kWh</strong><p class="more"></p>
+      </button>
+      <button class="kpi" type="button" data-detail="Mean tracking error across rooms is 0.18°.">
+        <span>Tracking error</span><strong>0.18°</strong><p class="more"></p>
+      </button>
+      <button class="kpi" type="button" data-detail="House model fit is 0.91.">
+        <span>Model fit</span><strong>0.91</strong><p class="more"></p>
+      </button>
+    </section>
+
+    <div class="rooms" role="group" aria-label="Rooms">
+      <button class="room is-on" type="button" data-room="living" aria-pressed="true">
+        <span class="top"><span class="name">Living room</span><span class="st">Heating</span></span>
+        <b>21.4°</b>
+      </button>
+      <button class="room" type="button" data-room="kitchen" aria-pressed="false">
+        <span class="top"><span class="name">Kitchen</span><span class="st idle">Idle</span></span>
+        <b>20.1°</b>
+      </button>
+      <button class="room" type="button" data-room="bedroom" aria-pressed="false">
+        <span class="top"><span class="name">Bedroom</span><span class="st off">Off</span></span>
+        <b>19.6°</b>
+      </button>
+    </div>
+
+    <section class="detail" id="room" aria-labelledby="room-name">
+      <div class="detail-top">
+        <div>
+          <p class="who" id="room-name">Living room · current</p>
+          <p class="reading" id="reading">21.4<span>°</span></p>
+        </div>
+        <div class="controls">
+          <button class="step" type="button" id="down" aria-label="Lower setpoint">−</button>
+          <div class="target"><span id="target">21.0°</span><small>Target</small></div>
+          <button class="step" type="button" id="up" aria-label="Raise setpoint">+</button>
+          <button class="band" type="button" id="band" aria-label="Widen comfort band">±1.0°</button>
+          <button class="power" type="button" id="power">Heating on</button>
+        </div>
+      </div>
+
+      <div class="plots">
+        <div class="plot">
+          <div class="plot-head">
+            <h2 id="temp-label">Temperature</h2>
+            <div class="legend">
+              <span><i style="background:#d4532b"></i>Measured</span>
+              <span><i style="background:#2a221c"></i>Setpoint</span>
+              <span><i style="background:#e39a82"></i>Forecast</span>
+              <span><i style="background:#c48474"></i>Infeasible</span>
+            </div>
+          </div>
+          <svg class="temp" viewBox="0 0 860 240" role="img" aria-labelledby="temp-label">
+            <defs>
+              <clipPath id="temp-round"><rect x="48" y="8" width="792" height="200" rx="32" ry="32"/></clipPath>
+            </defs>
+            <g clip-path="url(#temp-round)">
+              <rect x="48" y="8" width="792" height="200" fill="#fffaf6"/>
+              <rect x="48" y="8" width="792" height="73.3" fill="#c48474"/>
+              <rect x="48" y="160.5" width="792" height="47.5" fill="#c48474"/>
+              <g fill="none" stroke="#2a221c" stroke-opacity="0.1" stroke-width="1">
+                <line x1="48" y1="41.8" x2="840" y2="41.8"/>
+                <line x1="48" y1="81.3" x2="840" y2="81.3"/>
+                <line x1="48" y1="120.9" x2="840" y2="120.9"/>
+                <line x1="48" y1="160.5" x2="840" y2="160.5"/>
+                <line x1="48" y1="200.1" x2="840" y2="200.1"/>
+              </g>
+              <line x1="444" y1="8" x2="444" y2="208" stroke="#2a221c" stroke-opacity="0.35" stroke-width="1"/>
+              <polyline fill="none" stroke="#2a221c" stroke-width="1.5" stroke-dasharray="5 5" points="48,120.9 576,120.9 576,140.7 840,140.7"/>
+              <polyline fill="none" stroke="#e39a82" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" stroke-linejoin="round" points="444,77.4 510,93.2 576,113 642,128.8 708,152.6 774,136.8 840,120.9"/>
+              <polyline fill="none" stroke="#fffaf6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points="48,152.6 114,136.8 180,117 246,105.1 312,89.3 378,65.5 444,77.4 510,101.1 576,120.9 642,144.7 708,176.3 774,148.6 840,124.9"/>
+              <polyline fill="none" stroke="#d4532b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="48,152.6 114,136.8 180,117 246,105.1 312,89.3 378,65.5 444,77.4 510,101.1 576,120.9 642,144.7 708,176.3 774,148.6 840,124.9"/>
+            </g>
+            <g fill="#8d7f74" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" font-weight="700" text-anchor="end">
+              <text x="42" y="46">23°</text>
+              <text x="42" y="86">22°</text>
+              <text x="42" y="125">21°</text>
+              <text x="42" y="165">20°</text>
+              <text x="42" y="205">19°</text>
+            </g>
+            <g fill="#8d7f74" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
+              <text x="48" y="228">06</text>
+              <text x="246" y="228">09</text>
+              <text x="444" y="228">12</text>
+              <text x="642" y="228">15</text>
+              <text x="840" y="228">18</text>
+            </g>
+          </svg>
+        </div>
+        <div class="plot">
+          <div class="plot-head">
+            <h2 id="power-label">Power</h2>
+            <div class="legend">
+              <span><i style="background:#e3a15a"></i>Measured power</span>
+              <span><i style="background:#2a221c"></i>Planned</span>
+              <span><i style="background:#c48474"></i>Infeasible</span>
+            </div>
+          </div>
+          <svg class="power" viewBox="0 0 860 196" role="img" aria-labelledby="power-label">
+            <defs>
+              <clipPath id="power-round"><rect x="48" y="6" width="792" height="162" rx="32" ry="32"/></clipPath>
+            </defs>
+            <g clip-path="url(#power-round)">
+              <rect x="48" y="6" width="792" height="162" fill="#fffaf6"/>
+              <rect x="48" y="6" width="792" height="36" fill="#c48474"/>
+              <rect x="48" y="150.5" width="792" height="17.5" fill="#c48474"/>
+              <line x1="48" y1="133" x2="840" y2="133" stroke="#2a221c" stroke-opacity="0.1" stroke-width="1"/>
+              <line x1="444" y1="6" x2="444" y2="168" stroke="#2a221c" stroke-opacity="0.35" stroke-width="1"/>
+              <polyline fill="none" stroke="#fffaf6" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" points="48,70 180,70 180,56 312,56 312,31.5 444,31.5 444,84 576,84 576,112 708,112 708,133 840,133 840,94.5"/>
+              <polyline fill="none" stroke="#e3a15a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="48,70 180,70 180,56 312,56 312,31.5 444,31.5 444,84 576,84 576,112 708,112 708,133 840,133 840,94.5"/>
+              <polyline fill="none" stroke="#2a221c" stroke-width="2" stroke-dasharray="6 5" stroke-linejoin="round" points="444,77 576,77 576,91 708,91 708,105 840,105 840,98"/>
+            </g>
+            <g fill="#8d7f74" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" font-weight="700" text-anchor="end">
+              <text x="42" y="46">2.6</text>
+              <text x="42" y="137">0</text>
+            </g>
+            <g fill="#8d7f74" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
+              <text x="48" y="186">06</text>
+              <text x="246" y="186">09</text>
+              <text x="444" y="186">12</text>
+              <text x="642" y="186">15</text>
+              <text x="840" y="186">18</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="day" id="day" aria-label="Today">
+        <span class="day-label">Today</span>
+        <span class="seg">Comfort · 06–09</span>
+        <span class="seg now">Now · Setback · 09–16</span>
+        <span class="seg">Comfort · 16–22</span>
+      </div>
+      <p class="exp"><span>Step test · 18:00–19:00</span></p>
+    </section>
+  </div>
+  <script>
+    const rooms = {
+      living: { name: "Living room", temp: 21.4, target: 21.0, band: 1.0, on: true, status: "Heating",
+        periods: [["Comfort · 06–09", false], ["Now · Setback · 09–16", true], ["Comfort · 16–22", false]] },
+      kitchen: { name: "Kitchen", temp: 20.1, target: 20.0, band: 1.0, on: true, status: "Idle",
+        periods: [["Comfort · 07–10", false], ["Now · Setback · 10–17", true], ["Comfort · 17–22", false]] },
+      bedroom: { name: "Bedroom", temp: 19.6, target: 19.0, band: 1.5, on: false, status: "Off",
+        periods: [["Comfort · 06–08", false], ["Now · Off · 08–21", true], ["Comfort · 21–23", false]] },
+    };
+    let current = "living";
+    const reading = document.getElementById("reading");
+    const roomName = document.getElementById("room-name");
+    const targetEl = document.getElementById("target");
+    const bandEl = document.getElementById("band");
+    const powerEl = document.getElementById("power");
+    const day = document.getElementById("day");
+
+    function paint() {
+      const room = rooms[current];
+      reading.innerHTML = room.temp.toFixed(1) + "<span>°</span>";
+      roomName.textContent = room.name + " · current";
+      targetEl.textContent = room.target.toFixed(1) + "°";
+      bandEl.textContent = "±" + room.band.toFixed(1) + "°";
+      bandEl.setAttribute("aria-label", "Comfort band plus or minus " + room.band.toFixed(1) + " degrees");
+      powerEl.textContent = room.on ? "Heating on" : "Heating off";
+      powerEl.classList.toggle("is-off", !room.on);
+      day.innerHTML = '<span class="day-label">Today</span>' + room.periods.map(([label, now]) =>
+        '<span class="seg' + (now ? " now" : "") + '">' + label + "</span>").join("");
+    }
+
+    document.querySelectorAll(".room").forEach((button) => {
+      button.addEventListener("click", () => {
+        current = button.dataset.room;
+        document.querySelectorAll(".room").forEach((el) => {
+          const on = el === button;
+          el.classList.toggle("is-on", on);
+          el.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        paint();
+      });
+    });
+    document.getElementById("down").addEventListener("click", () => {
+      rooms[current].target = Math.max(5, Math.round((rooms[current].target - 0.5) * 2) / 2);
+      paint();
+    });
+    document.getElementById("up").addEventListener("click", () => {
+      rooms[current].target = Math.min(30, Math.round((rooms[current].target + 0.5) * 2) / 2);
+      paint();
+    });
+    bandEl.addEventListener("click", () => {
+      const next = Math.round((rooms[current].band + 0.1) * 10) / 10;
+      rooms[current].band = next > 2 ? 0.5 : next;
+      paint();
+    });
+    powerEl.addEventListener("click", () => {
+      rooms[current].on = !rooms[current].on;
+      paint();
+    });
+    document.getElementById("run").addEventListener("click", (event) => {
+      const stopped = event.currentTarget.classList.toggle("is-stopped");
+      event.currentTarget.textContent = stopped ? "Start" : "Stop";
+    });
+    document.querySelectorAll(".kpi").forEach((card) => {
+      card.addEventListener("click", () => {
+        const open = card.classList.toggle("is-open");
+        card.querySelector(".more").textContent = open ? card.dataset.detail : "";
+      });
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      document.querySelectorAll(".kpi.is-open").forEach((card) => {
+        card.classList.remove("is-open");
+        card.querySelector(".more").textContent = "";
+      });
+    });
+  </script>
+</body>
+</html>

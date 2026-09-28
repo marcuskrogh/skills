@@ -35,7 +35,8 @@ visual
 | 4 | Atkinson Hyperlegible for words and values. Weight 700, lining and tabular figures. Industrial strip removed. | sandbox/front-end-design/inspect/04-home.png, 04-style-guide.png, 04-pieces.png | delta: waiting on whether this type is the one to write into the skill |
 | 5 | Temperature and power plots fill the frame. Sage wash is feasible. Clay wash is infeasible, to the plot edge, with no boundary line. | sandbox/front-end-design/inspect/05-plots.png | delta: drop the green and red washes |
 | 6 | Infeasible is opaque plum to the plot edge. Feasible is the plain sheet, with no wash. | sandbox/front-end-design/inspect/06-plots.png | accept the opaque infeasible-only treatment |
-| 7 | Plot face is a rounded rectangle. Infeasible is opaque warm rose `#c48474`. | sandbox/front-end-design/inspect/07-plots.png | delta: waiting on the warmer rounded plots |
+| 7 | Plot face is a rounded rectangle. Infeasible is opaque warm rose `#c48474`. | sandbox/front-end-design/inspect/07-plots.png | accept the rounded warm-rose plots |
+| 8 | One Heating Assistant overview page in the warm look: reading, rooms, start/stop, plots, schedule, controller jobs. | sandbox/front-end-design/inspect/08-example-home.png | delta: waiting on the example page |
 
 ## Role
 Promotion input. Supportive isolation — not production source.
