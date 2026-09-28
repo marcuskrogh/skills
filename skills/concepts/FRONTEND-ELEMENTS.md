@@ -68,10 +68,11 @@ about a 5% margin, the same way Heating Assistant sizes a room chart. The
 line sits in that range.
 
 Feasible and infeasible are areas, not extra lines. The feasible band is the
-plain plot surface (`#fffaf6`), with no wash. Infeasible is an opaque plum
-fill (`#8f5d78`) from the bound out to the edge of the plot: on temperature,
+plain plot surface (`#fffaf6`), with no wash. Infeasible is an opaque warm
+rose (`#c48474`) from the bound out to the edge of the plot: on temperature,
 above the upper constraint and below the lower one; on power, outside heating
-and cooling capacity. No dashed boundary, and no translucent green or red.
+and cooling capacity. The plot face is a rounded rectangle (about 32px in the
+chart frame). No dashed boundary, and no translucent green or red.
 
 Cream plot face, warm ink ticks, hairline grid at low contrast. Series:
 measured temperature terracotta, setpoint ink, power amber (`#d08a2b`),

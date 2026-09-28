@@ -146,14 +146,14 @@
     .seg { background: var(--sheet); border-radius: 999px; padding: 0.45rem 0.8rem; font-size: 0.95rem; font-weight: 700; color: var(--ink); }
     .seg.now { background: var(--ink); color: var(--paper); }
     .plots { display: grid; gap: 0.45rem; margin-top: 0.85rem; }
-    .plot { background: var(--sheet); border-radius: 1.25rem; padding: 0.45rem 0.35rem 0.2rem; }
+    .plot { background: var(--paper); border-radius: 1.75rem; padding: 0.7rem 0.55rem 0.4rem; }
     .plot-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.35rem 0.8rem; margin: 0 0.45rem 0.05rem; }
     .plot h3 { margin: 0; font-size: 0.92rem; font-weight: 400; color: var(--mute); }
     .plot svg { width: 100%; height: auto; display: block; }
     .plot svg.temp { aspect-ratio: 860 / 240; }
     .plot svg.power { aspect-ratio: 860 / 196; }
     .legend { display: flex; flex-wrap: wrap; gap: 0.35rem 0.75rem; color: var(--ink); font-size: 0.82rem; font-weight: 700; margin: 0; }
-    .legend i { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 0.2rem; margin-right: 0.3rem; vertical-align: -1px; }
+    .legend i { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 999px; margin-right: 0.3rem; vertical-align: -1px; }
     html.shot-plot .page > :not(#home) { display: none; }
     html.shot-plot #home > h2, html.shot-plot #home > .why { display: none; }
     html.shot-plot .home > :not(.plots) { display: none; }
@@ -262,14 +262,20 @@
                 <span><i style="background:#d4532b"></i>Measured</span>
                 <span><i style="background:#2a221c"></i>Setpoint</span>
                 <span><i style="background:#e39a82"></i>Forecast</span>
-                <span><i style="background:#8f5d78"></i>Infeasible</span>
+                <span><i style="background:#c48474"></i>Infeasible</span>
               </div>
             </div>
             <svg class="temp" viewBox="0 0 860 240" role="img" aria-labelledby="temp-title">
-              <title id="temp-title">Living room temperature. The plain sheet between 20° and 22° is feasible. Opaque plum above 22° and below 20° is infeasible.</title>
+              <title id="temp-title">Living room temperature. The plain sheet between 20° and 22° is feasible. Opaque warm rose above 22° and below 20° is infeasible.</title>
+              <defs>
+                <clipPath id="temp-round">
+                  <rect x="48" y="8" width="792" height="200" rx="32" ry="32"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#temp-round)">
               <rect x="48" y="8" width="792" height="200" fill="#fffaf6"/>
-              <rect x="48" y="8" width="792" height="73.3" fill="#8f5d78"/>
-              <rect x="48" y="160.5" width="792" height="47.5" fill="#8f5d78"/>
+              <rect x="48" y="8" width="792" height="73.3" fill="#c48474"/>
+              <rect x="48" y="160.5" width="792" height="47.5" fill="#c48474"/>
               <g fill="none" stroke="#2a221c" stroke-opacity="0.1" stroke-width="1">
                 <line x1="48" y1="41.8" x2="840" y2="41.8"/>
                 <line x1="48" y1="81.3" x2="840" y2="81.3"/>
@@ -282,6 +288,7 @@
               <polyline fill="none" stroke="#e39a82" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" stroke-linejoin="round" points="444,77.4 510,93.2 576,113 642,128.8 708,152.6 774,136.8 840,120.9"/>
               <polyline fill="none" stroke="#fffaf6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points="48,152.6 114,136.8 180,117 246,105.1 312,89.3 378,65.5 444,77.4 510,101.1 576,120.9 642,144.7 708,176.3 774,148.6 840,124.9"/>
               <polyline fill="none" stroke="#d4532b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="48,152.6 114,136.8 180,117 246,105.1 312,89.3 378,65.5 444,77.4 510,101.1 576,120.9 642,144.7 708,176.3 774,148.6 840,124.9"/>
+              </g>
               <g fill="#8d7f74" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" font-weight="700" text-anchor="end">
                 <text x="42" y="46">23°</text>
                 <text x="42" y="86">22°</text>
@@ -304,19 +311,26 @@
               <div class="legend">
                 <span><i style="background:#e3a15a"></i>Measured power</span>
                 <span><i style="background:#2a221c"></i>Planned</span>
-                <span><i style="background:#8f5d78"></i>Infeasible</span>
+                <span><i style="background:#c48474"></i>Infeasible</span>
               </div>
             </div>
             <svg class="power" viewBox="0 0 860 196" role="img" aria-labelledby="power-title">
-              <title id="power-title">Heating power. The plain sheet inside capacity is feasible. Opaque plum above 2.6 kW and below the cooling limit is infeasible.</title>
+              <title id="power-title">Heating power. The plain sheet inside capacity is feasible. Opaque warm rose above 2.6 kW and below the cooling limit is infeasible.</title>
+              <defs>
+                <clipPath id="power-round">
+                  <rect x="48" y="6" width="792" height="162" rx="32" ry="32"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#power-round)">
               <rect x="48" y="6" width="792" height="162" fill="#fffaf6"/>
-              <rect x="48" y="6" width="792" height="36" fill="#8f5d78"/>
-              <rect x="48" y="150.5" width="792" height="17.5" fill="#8f5d78"/>
+              <rect x="48" y="6" width="792" height="36" fill="#c48474"/>
+              <rect x="48" y="150.5" width="792" height="17.5" fill="#c48474"/>
               <line x1="48" y1="133" x2="840" y2="133" stroke="#2a221c" stroke-opacity="0.1" stroke-width="1"/>
               <line x1="444" y1="6" x2="444" y2="168" stroke="#2a221c" stroke-opacity="0.35" stroke-width="1"/>
               <polyline fill="none" stroke="#fffaf6" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" points="48,70 180,70 180,56 312,56 312,31.5 444,31.5 444,84 576,84 576,112 708,112 708,133 840,133 840,94.5"/>
               <polyline fill="none" stroke="#e3a15a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="48,70 180,70 180,56 312,56 312,31.5 444,31.5 444,84 576,84 576,112 708,112 708,133 840,133 840,94.5"/>
               <polyline fill="none" stroke="#2a221c" stroke-width="2" stroke-dasharray="6 5" stroke-linejoin="round" points="444,77 576,77 576,91 708,91 708,105 840,105 840,98"/>
+              </g>
               <g fill="#8d7f74" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" font-weight="700" text-anchor="end">
                 <text x="42" y="46">2.6</text>
                 <text x="42" y="137">0</text>
