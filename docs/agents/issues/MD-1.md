@@ -29,5 +29,8 @@ Skill PR: https://github.com/marcuskrogh/skills/pull/60
 ### 2026-09-28
 Sandbox isolation at `sandbox/front-end-design/`. Artifact `docs/agents/SANDBOX.md`. Outcome `delta`.
 
+### 2026-09-28
+KPI expand is on the sheet: one open card, moves to the front, spans the row, detail on the same card. Inspectable `sandbox/front-end-design/inspect/02-kpi-expand.png`.
+
 ## Next
 `/sandbox MD-1` — inspect-loop; name a change, accept, or end

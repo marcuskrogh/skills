@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>if (location.hash === '#shot-kpi') document.documentElement.classList.add('shot-kpi');</script>
   <style>
     :root {
       --page: #f7f4ee;
@@ -176,8 +177,63 @@
       color: #fff; padding: 0 0.65rem; font-weight: 700; box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.12);
     }
     .p-section { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--p-mute); margin: 0 0 0.65rem; }
-    .p-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem 1.1rem; background: var(--p-panel); border-radius: var(--p-radius); padding: 1.1rem 1.2rem; }
-    @media (max-width: 40rem) { .p-kpis { grid-template-columns: repeat(2, 1fr); } }
+    .p-kpis, .c-kpi-grid, .p-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.65rem; }
+    .p-kpis { gap: 0.85rem 1.1rem; background: var(--p-panel); border-radius: var(--p-radius); padding: 1.1rem 1.2rem; }
+    .c-kpi-grid { gap: 10px; }
+    .kpi-hit {
+      display: block; width: 100%; margin: 0; padding: 0; text-align: left;
+      font: inherit; color: inherit; cursor: pointer; border: 0; background: transparent;
+    }
+    .kpi-hit:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+    .c-kpi-grid .kpi-hit {
+      background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px; padding: 12px 10px 10px;
+    }
+    .c-kpi-grid .kpi-hit:hover { border-color: var(--c-accent); }
+    .c-kpi-grid .kpi-hit.is-open { grid-column: 1 / -1; padding: 14px 14px 12px; }
+    .c-kpi-grid .kpi-hit.is-open .c-gauge { padding: 0; }
+    .c-detail, .p-detail { display: none; }
+    .kpi-hit.is-open .c-detail, .kpi-hit.is-open .p-detail { display: block; }
+    .c-detail {
+      margin-top: 14px; padding: 12px 14px 14px;
+      background: color-mix(in srgb, #1a1d23 78%, #000);
+      border: 1px solid color-mix(in srgb, #363b44 70%, #8892a0);
+      border-radius: 6px;
+    }
+    .c-detail p { margin: 0 0 10px; font-size: 12px; line-height: 1.45; color: #9aa0a8; }
+    .c-detail h3, .p-detail h3 {
+      margin: 0 0 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .c-detail h3 { color: #6b7280; }
+    .c-detail dl, .p-detail dl { margin: 0; }
+    .c-detail .row, .p-detail .row {
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: baseline;
+      padding: 6px 0;
+    }
+    .c-detail .row + .row { border-top: 1px solid color-mix(in srgb, #6b7280 18%, transparent); }
+    .c-detail dt { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #6b7280; }
+    .c-detail dd { margin: 0; font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 12px; }
+    .p-kpi-grid .kpi-hit {
+      background: var(--p-panel); border-radius: 1.15rem; padding: 0.9rem 1rem 0.85rem;
+    }
+    .p-kpi-grid .kpi-hit:hover { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--p-accent) 45%, transparent); }
+    .p-kpi-grid .kpi-hit.is-open { grid-column: 1 / -1; padding: 1.05rem 1.2rem 1.1rem; }
+    .p-kpi-face { display: grid; gap: 0.2rem; }
+    .p-kpi-grid .kpi-hit.is-open .p-kpi-face {
+      grid-template-columns: 1fr auto; align-items: end; gap: 0.4rem 1rem;
+    }
+    .p-kpi-face .hint { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--p-mute); }
+    .p-detail { margin-top: 0.85rem; padding: 0.15rem 0.1rem 0; }
+    .p-detail h3 { color: var(--p-mute); font-size: 0.62rem; }
+    .p-detail p { margin: 0 0 0.55rem; font-size: 0.92rem; line-height: 1.4; }
+    .p-detail dt { font-size: 0.85rem; color: var(--p-mute); }
+    .p-detail dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .p-detail .row + .row { border-top: 1px solid var(--p-line); }
+    html.shot-kpi .wrap > :not(.shot-keep) { display: none !important; }
+    html.shot-kpi .wrap { padding-top: 1rem; padding-bottom: 1rem; }
+    @media (max-width: 40rem) {
+      .p-kpis, .c-kpi-grid, .p-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
     .p-kpi { display: grid; gap: 0.28rem; }
     .p-kpi dt { margin: 0; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--p-mute); }
     .p-kpi dd { margin: 0; font-weight: 700; font-size: 1.15rem; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
@@ -386,29 +442,137 @@
       </div>
     </div>
 
-    <h2 class="el" id="kpi">KPI cards</h2>
-    <p class="why">Overview today paints these as gauges with a fill bar (<code>components/gauge.js</code>, <code>.grid-kpi</code>). Proposed: large number, short label, no well. Heating power keeps terracotta. Hide empty values.</p>
-    <div class="pair">
+    <h2 class="el shot-keep" id="kpi">KPI cards</h2>
+    <p class="why shot-keep">Same job as <code>kpi-expand.js</code>: the card is a button. One card is open. It moves to the front of the grid, spans the row, and the description plus absolute values open under that same card. Click again, or press Escape, to close. Collapsed cards stay numbers only. Proposed detail is cream on cream. Current detail is the dark inset.</p>
+    <div class="pair shot-keep" id="kpi-stage">
       <div class="col col--now">
         <div class="col__label">Current</div>
         <div class="stage">
-          <div class="c-kpis">
-            <div class="c-gauge"><div class="c-gauge__val" style="color:#00d4aa">HEALTHY</div><div class="c-gauge__bar"><i style="width:100%"></i></div><div class="c-gauge__lab">Overall health</div></div>
-            <div class="c-gauge"><div class="c-gauge__val">18%</div><div class="c-gauge__bar"><i style="width:18%"></i></div><div class="c-gauge__lab">MPC load</div></div>
-            <div class="c-gauge"><div class="c-gauge__val">94%</div><div class="c-gauge__bar"><i style="width:94%"></i></div><div class="c-gauge__lab">Comfort</div></div>
-            <div class="c-gauge"><div class="c-gauge__val">2.1 kW</div><div class="c-gauge__bar is-warn"><i style="width:42%"></i></div><div class="c-gauge__lab">Heating power</div></div>
+          <div class="c-kpi-grid" data-kpi-grid>
+            <button class="kpi-hit is-open" type="button" data-key="power" aria-expanded="true">
+              <div class="c-gauge">
+                <div class="c-gauge__val">2.1 kW</div>
+                <div class="c-gauge__bar is-warn"><i style="width:42%"></i></div>
+                <div class="c-gauge__lab">Heating power</div>
+              </div>
+              <div class="c-detail">
+                <h3>Description</h3>
+                <p>Sum of measured heater power across the house.</p>
+                <dl>
+                  <div class="row"><dt>Live</dt><dd>2.1 kW</dd></div>
+                  <div class="row"><dt>Fill</dt><dd>42%</dd></div>
+                </dl>
+              </div>
+            </button>
+            <button class="kpi-hit" type="button" data-key="health" aria-expanded="false">
+              <div class="c-gauge">
+                <div class="c-gauge__val" style="color:#00d4aa">HEALTHY</div>
+                <div class="c-gauge__bar"><i style="width:100%"></i></div>
+                <div class="c-gauge__lab">Overall health</div>
+              </div>
+              <div class="c-detail">
+                <h3>Description</h3>
+                <p>Combined house quality from MQTT, tags, and identification history.</p>
+                <dl>
+                  <div class="row"><dt>Quality</dt><dd>HEALTHY</dd></div>
+                  <div class="row"><dt>Issue</dt><dd>No active issues</dd></div>
+                  <div class="row"><dt>MQTT</dt><dd>ok</dd></div>
+                </dl>
+              </div>
+            </button>
+            <button class="kpi-hit" type="button" data-key="load" aria-expanded="false">
+              <div class="c-gauge">
+                <div class="c-gauge__val">18%</div>
+                <div class="c-gauge__bar"><i style="width:18%"></i></div>
+                <div class="c-gauge__lab">MPC load</div>
+              </div>
+              <div class="c-detail">
+                <h3>Description</h3>
+                <p>Share of the sample-interval load budget used by the last planner solve. The budget is 10% of the sample interval.</p>
+                <dl>
+                  <div class="row"><dt>Load</dt><dd>18%</dd></div>
+                  <div class="row"><dt>Computing</dt><dd>no</dd></div>
+                </dl>
+              </div>
+            </button>
+            <button class="kpi-hit" type="button" data-key="comfort" aria-expanded="false">
+              <div class="c-gauge">
+                <div class="c-gauge__val">94%</div>
+                <div class="c-gauge__bar"><i style="width:94%"></i></div>
+                <div class="c-gauge__lab">Comfort</div>
+              </div>
+              <div class="c-detail">
+                <h3>Description</h3>
+                <p>Share of active rooms whose temperature is inside the comfort band.</p>
+                <dl>
+                  <div class="row"><dt>In band</dt><dd>94%</dd></div>
+                </dl>
+              </div>
+            </button>
           </div>
         </div>
       </div>
       <div class="col col--next">
         <div class="col__label">Proposed</div>
         <div class="stage">
-          <dl class="p-kpis">
-            <div class="p-kpi"><dt>Health</dt><dd>Healthy</dd></div>
-            <div class="p-kpi"><dt>MPC load</dt><dd>18%</dd></div>
-            <div class="p-kpi"><dt>Comfort</dt><dd>94%</dd></div>
-            <div class="p-kpi is-heat"><dt>Heating power</dt><dd>2.1&nbsp;kW</dd></div>
-          </dl>
+          <div class="p-kpi-grid" data-kpi-grid>
+            <button class="kpi-hit is-open" type="button" data-key="power" aria-expanded="true">
+              <div class="p-kpi-face">
+                <span class="hint">Heating power</span>
+                <strong class="p-temp" style="font-size:1.7rem;color:var(--p-accent)">2.1<span>kW</span></strong>
+              </div>
+              <div class="p-detail">
+                <h3>Description</h3>
+                <p>Sum of measured heater power across the house.</p>
+                <dl>
+                  <div class="row"><dt>Live</dt><dd>2.1 kW</dd></div>
+                  <div class="row"><dt>Fill</dt><dd>42%</dd></div>
+                </dl>
+              </div>
+            </button>
+            <button class="kpi-hit" type="button" data-key="health" aria-expanded="false">
+              <div class="p-kpi-face">
+                <span class="hint">Health</span>
+                <strong style="font-size:1.15rem">Healthy</strong>
+              </div>
+              <div class="p-detail">
+                <h3>Description</h3>
+                <p>Combined house quality from MQTT, tags, and identification history.</p>
+                <dl>
+                  <div class="row"><dt>Quality</dt><dd>Healthy</dd></div>
+                  <div class="row"><dt>Issue</dt><dd>No active issues</dd></div>
+                  <div class="row"><dt>MQTT</dt><dd>ok</dd></div>
+                </dl>
+              </div>
+            </button>
+            <button class="kpi-hit" type="button" data-key="load" aria-expanded="false">
+              <div class="p-kpi-face">
+                <span class="hint">MPC load</span>
+                <strong style="font-size:1.15rem">18%</strong>
+              </div>
+              <div class="p-detail">
+                <h3>Description</h3>
+                <p>Share of the sample-interval load budget used by the last planner solve. The budget is 10% of the sample interval.</p>
+                <dl>
+                  <div class="row"><dt>Load</dt><dd>18%</dd></div>
+                  <div class="row"><dt>Computing</dt><dd>no</dd></div>
+                </dl>
+              </div>
+            </button>
+            <button class="kpi-hit" type="button" data-key="comfort" aria-expanded="false">
+              <div class="p-kpi-face">
+                <span class="hint">Comfort</span>
+                <strong style="font-size:1.15rem">94%</strong>
+              </div>
+              <div class="p-detail">
+                <h3>Description</h3>
+                <p>Share of active rooms whose temperature is inside the comfort band.</p>
+                <dl>
+                  <div class="row"><dt>In band</dt><dd>94%</dd></div>
+                </dl>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -633,8 +797,35 @@
     </div>
 
     <footer class="note">
-      Radius current 8px / 4px. Radius proposed 1.5rem modules, pills for chips and nav. Experiment state uses plum <code>#8b5e83</code>, not violet-on-charcoal. This HTML is the iterate surface: change a token, reload.
+      Radius current 8px / 4px. Radius proposed 1.5rem modules, pills for chips and nav. Experiment state uses plum <code>#8b5e83</code>, not violet-on-charcoal. This HTML is the iterate surface: change a token, reload. KPI cards in the comparison above are clickable.
     </footer>
   </div>
+  <script>
+    (function () {
+      function closeAll(grid) {
+        grid.querySelectorAll('.kpi-hit').forEach(function (btn) {
+          btn.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      }
+      document.querySelectorAll('[data-kpi-grid]').forEach(function (grid) {
+        grid.addEventListener('click', function (event) {
+          var btn = event.target.closest('.kpi-hit');
+          if (!btn || !grid.contains(btn)) return;
+          var wasOpen = btn.classList.contains('is-open');
+          closeAll(grid);
+          if (!wasOpen) {
+            btn.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+            grid.insertBefore(btn, grid.firstElementChild);
+          }
+        });
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        document.querySelectorAll('[data-kpi-grid]').forEach(closeAll);
+      });
+    })();
+  </script>
 </body>
 </html>
