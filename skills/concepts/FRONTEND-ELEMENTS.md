@@ -63,13 +63,24 @@ time, and a rounded progress capsule in plum — not a violet industrial bar.
 **Where.** `components/time-series-chart.js`, `chart-theme.js`, `chart-align.js`,
 room-detail history, identification/tuning canvases.
 
+The series fills the plot. Scale the axis to the data and the bounds, with
+about a 5% margin, the same way Heating Assistant sizes a room chart. The
+line sits in that range. The bands fill the rest of the frame.
+
+Feasible and infeasible are areas, not extra lines. On temperature, the
+comfort corridor (between the lower and upper constraint) is a sage wash.
+Above the upper bound and below the lower bound is a clay wash, drawn to the
+edge of the plot, with no dashed boundary. On power, the same clay wash sits
+outside heating and cooling capacity; the sage wash is the deliverable range.
+The boundary datasets stay invisible.
+
 Cream plot face, warm ink ticks, hairline grid at low contrast. Series:
-measured temperature terracotta, setpoint ink at 50%, power amber
-(`#d08a2b`), outdoor mute stone, solar a dusty gold, forecast a light
-terracotta dash. Line width 2 CSS pixels; round caps. No cyan, no teal fill
-under the line. Height stays `--chart-height-primary` (240px) / secondary
-(200px). Legend is sentence-case labels, not a mono key. Empty plot: one
-sentence that names the next step (wait for history, pick a range).
+measured temperature terracotta, setpoint ink, power amber (`#d08a2b`),
+outdoor mute stone, solar a dusty gold, forecast a light terracotta dash.
+Line width 2 CSS pixels; round caps. No cyan, no teal fill under the line.
+Height stays `--chart-height-primary` (240px) / secondary (200px). Legend is
+sentence-case labels, not a mono key. Empty plot: one sentence that names
+the next step (wait for history, pick a range).
 
 ## Countdown
 
