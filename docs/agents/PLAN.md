@@ -54,7 +54,7 @@
 - Task: MD-1
 - Sub-tasks: MD-2, MD-3
 - Branch: cursor/frontend-design-skill-f322
-- PR:
+- PR: https://github.com/marcuskrogh/skills/pull/60
 - Classification: feature
 - Workflow: feature-standard
 

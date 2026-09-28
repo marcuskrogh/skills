@@ -7,7 +7,7 @@
 | Parent | |
 | Children | MD-2, MD-3 |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/60 |
 | Created | 2026-09-28 |
 | Classification | feature |
 | Workflow | feature-standard |
@@ -22,6 +22,9 @@ none — no executable behaviour
 
 ### 2026-09-28
 PLAN.md and ARCHITECTURE.md on `cursor/frontend-design-skill-f322`. Heating Assistant is not modified.
+
+### 2026-09-28
+Skill PR: https://github.com/marcuskrogh/skills/pull/60
 
 ## Next
 `/restructure MD-1` — test skipped; structure pass on the skill files
