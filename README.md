@@ -1,203 +1,128 @@
 # Agent Skills
 
-Reusable agent skills for **workflow-driven delivery**. Agents prefer a catalog
-workflow over freestyle coding: foggy work goes through **explore**, concrete
-work through **define** (interview, then classify and bind). A short description
-starts that interview and does not approve the plan. Each skill applies concepts
-and produces an output on its own. The bound workflow writes persisted **Next**.
-A reply that finishes a skill ends with the `## Next` block.
-An open interview question does not include that block.
+Reusable agent skills for workflow-driven delivery. Agents prefer a catalog workflow over freestyle coding. Foggy work goes through **explore**. Concrete work goes through **define** (interview, then classify and bind). A short description starts that interview and does not approve the plan.
 
-Built on the [Agent Skills](https://agentskills.io) standard. Install via an
-agent (preferred) or [skills.sh](https://skills.sh). Works with Cursor, Claude
-Code, Codex, GitHub Copilot, and other compatible editors.
+Each skill applies concepts and produces an output on its own. The bound workflow writes persisted **Next**. A reply that finishes a skill ends with the `## Next` block. An open interview question does not include that block.
+
+Built on the [Agent Skills](https://agentskills.io) standard. Install via an agent (preferred) or [skills.sh](https://skills.sh). Works with Cursor, Claude Code, Codex, GitHub Copilot, and other compatible editors.
 
 [![skills.sh](https://skills.sh/b/marcuskrogh/skills)](https://skills.sh/marcuskrogh/skills)
 
-## Workflows
+## What this repository is
 
-When you describe work to deliver, the model-invoked
-[`workflows`](skills/workflows/SKILL.md) router picks the **first matching**
-catalog row and loads only that skill. Pipeline skills stay user-invoked.
-The router is how an unnamed request is recognised. Naming a skill
-(`/define`, `/bug`, …) is how you invoke one directly. An explicit name wins
-over re-routing.
+This repository is the source of truth for a set of skills that tell an agent how to take work from a vague idea or a concrete request through definition, architecture, implementation, tests, structure, review, and merge.
 
-On an active Task, bare **next**, continue, or go runs the persisted **Next**
-skill once. Bare **ship**, finish, or close it out runs the remaining chain
-through Done. [`/guide`](skills/guide/SKILL.md) and [`/explain`](skills/explain/SKILL.md)
-can interrupt that Task without replacing its bound chain.
-[`/help`](skills/help/SKILL.md) maps choices and does not start work.
-[`/summarise`](skills/summarise/SKILL.md) reports status and does not advance.
+Installing it does not start a server. It copies skill files, concepts, and prefer-workflow pointers into a project or into local agent homes so the next chat in that harness follows the catalog.
 
-Three skills are model-invoked, so the agent can discover them without a slash
-name: **workflows** (which path to run), **help** (the map), and
-**writing-for-agents** (editing skill or concept prose in this repo). Every
-pipeline skill is user-invoked. **workflow**, **tracker**, and **jira** are
-composed references. You do not start work by invoking them.
+## Intention
 
-Without an explicit override or continuation: **foggy → explore**, **concrete
-→ define**. A whole tree that was not built to the structure bar matches
-**adopt** before define. Continuity (one Task, one branch/PR) lives in
-[`workflow/reference.md`](skills/workflow/reference.md).
+Keep delivery deterministic. The operator describes work. The agent picks the first matching catalog row, interviews when the work is concrete, records a class and a template, and then follows that chain. Skills do not name the skill that follows. The workflow writes **Next**.
 
-### How a request is recognised
+## How it is used
 
-Compare the rows in order. The first row that fits is the workflow.
+1. Install the skills into a consuming project (or this repo, if you author them).
+2. Tell the agent what you want delivered, or name a skill (`/define`, `/help`, …).
+3. Answer interview questions until you approve the plan.
+4. Follow **Next**, or say **next** / **ship**.
 
-| Workflow | Recognised when | Invoke |
-|----------|-----------------|--------|
-| **setup** | Delivery work and no usable `WORKSPACE.md` (repo or global), or you want the tracker, paths, or defaults changed | `/setup` |
-| **continue** | Bare **next**, continue, or go on an active Task | **next** (runs the persisted Next skill once) |
-| **ship** | Bare **ship**, finish, or close it out | `/ship` |
-| **help** | Which skill to run, how workflows relate, or a navigation overview | `/help` |
-| **explain** | Teach the current step, a decision, an interface, a numerical point, or recent agent output | `/explain` |
-| **guide** | Walk through a manual task one step at a time (install, setup, hardware, or coding you want walked) | `/guide` |
-| **sandbox** | Isolated inspect-loop of a contained UI, method, or bench; a bound `sandbox: inject` step; mid-implement when a package needs inspect-each-turn; or a post-merge fix where each turn needs a visual, plot, or report | `/sandbox` |
-| **iterate** | A prior Task or PR is **already merged** and still broken or incomplete, and tests plus review on a new PR are enough | `/iterate` |
-| **fix-forward** | The open PR has review findings | `/review` (always fixes) |
-| **adopt** | The existing codebase (or the named tree) was not built to the structure bar; apply the catalog across it | `/adopt` |
-| **explore** | The goal is vague, oversized, or still unclear | `/explore` |
-| **research** | You explicitly want a multi-axis literature or evidence pass now | `/research` |
-| **model** | You explicitly want a math formulation now | `/model` |
-| **implement** | An approved `PLAN.md` or class artifact (`BUG.md`, `TWEAK.md`, `REFINE.md`, `REWORK.md`, `ITERATE.md`, `ADOPT.md`, `SANDBOX.md`) already exists on the Task, and you want to build or resume. A chat description is not that file | `/implement` |
-| **architect** | The bound architecture phase is next, or you want that phase now | `/architect` |
-| **test** | The bound testing phase is next, or you want that phase now | `/test` |
-| **restructure** | The bound refactoring phase is next, or you want that phase now. `/harden` is the same skill | `/restructure` or `/harden` |
-| **review** | Bound review on an In Review PR (find and fix). `/review-fix` is the same skill | `/review` or `/review-fix` |
-| **summarise** | Status, where you are, or what is next, reported and not advanced | `/summarise` |
-| **define** | Concrete work to pin down (bug, tweak, refine, rework, feature, …). Default front door. Interviews before classify and bind. A short description starts the interview and does not approve the plan | `/define` |
-| **bug** / **tweak** / **refine** / **rework** | You **explicitly** named that skill. Manual override of define's classifier. Each one still interviews before it writes the plan | `/bug`, `/tweak`, `/refine`, `/rework` |
+`/help` maps choices and does not start work. `/guide` walks a manual task one step at a time. `/explain` teaches the current step.
 
-**research** and **model** usually show up as define's bound `side_paths`, or
-because you asked for them. They do not replace define's questions.
-**sandbox** is a separate bound step (`sandbox: inject`) before implement, or
-mid-implement when a package needs an inspect-loop. After a merge, use
-**sandbox** when each turn needs a visual, plot, or report, and **iterate**
-when a normal production fix is enough.
+## What it does
 
-Maintaining this skills repo (install, sync, new skill) is
-[`/manage-skills`](skills/manage-skills/SKILL.md), outside the delivery
-catalog. Authoring `SKILL.md` or `CONCEPT_*.md` prose is
-[`writing-for-agents`](skills/writing-for-agents/SKILL.md).
+After install, an unnamed delivery request is recognised by [`workflows`](skills/workflows/SKILL.md). Explicit `/skill` names win over re-routing. Typical results are markdown artifacts (`PLAN.md`, `ARCHITECTURE.md`, …), one tracker Task, and one delivery branch and pull request through ship.
 
-### What each workflow does
+## Guide
 
-| Workflow | Result |
-|----------|--------|
-| **setup** | `WORKSPACE.md`: tracker, artifact location, paths |
-| **continue** | Runs the persisted Next skill once |
-| **explore** | `ROADMAP.md` and sequenced route Tasks. No map-only pull request |
-| **define** | Interviews until the open questions are settled and you approve the plan, then classifies, binds a template, writes `PLAN.md`, and opens the delivery branch and pull request. The workflow writes **Next** |
-| **adopt** | `ADOPT.md`. Inventory, then characterize → architect → implement → test → restructure → review → ship per area until Done |
-| **bug** / **tweak** / **refine** / **rework** | Interview, then `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md`, one Task, and the same closeout chain. Prefer `/define` unless you mean the override |
-| **research** / **model** | `RESEARCH.md` / `MODEL.md` on the delivery branch. No pull request of their own |
-| **sandbox** | `SANDBOX.md` plus an isolation tree on the delivery branch. No pull request of its own. After a post-merge sandbox, implement opens the pull request when the work is promoted |
-| **architect** | `ARCHITECTURE.md` on the same branch |
-| **implement** | Code on the Task's pull request, then test (unless the binding skips it) |
-| **test** | Tests and seams on that pull request. No new product behaviour |
-| **restructure** | Refactoring on that pull request, then review. Binding key stays `harden.mode` |
-| **fix-forward** | Same as review, on the open pull request |
-| **review** | Finds issues, fixes them on the same pull request, publishes a code review, then ship when clean |
-| **iterate** | `ITERATE.md`, a **new** Task, branch, and pull request, then test → restructure → review → ship |
-| **ship** | Runs whatever closeout remains, merges, marks Done |
-| **summarise** | Reports purpose, stage, and the next skill. Does not run it |
-| **explain** / **guide** | One paced beat or step, then waits. The bound chain stays in place |
-| **help** | The short map. Stops |
+The front page is an overview and an install guide. The pages below are the rest of the description.
 
-### Bound template
+| Page | What it covers |
+|------|----------------|
+| [Structure](docs/guide/structure.md) | Tree, directories, scripts, templates, and what is not a skill |
+| [How it works](docs/guide/how-it-works.md) | Skills vs concepts, routing, classification, Next, tracker, language |
+| [Workflows](docs/guide/workflows.md) | Which workflow runs in which situation, templates, and chains |
+| [Skills](docs/guide/skills.md) | Each skill: how to use it, where, outputs, and which workflows invoke it |
+| [Concepts](docs/guide/concepts.md) | Shared invariants and disclosed catalogs |
+| [Examples](docs/guide/examples.md) | Applied situations taken from the catalog |
+| [Install in more depth](docs/guide/install.md) | Pinning, updates, author setup, project sync, first use |
 
-`/define` does not leave the later stages for you to choose. After you approve
-the interview it records a **class** and a **template** on `PLAN.md`. Later skills follow
-that binding. Discriminators are applied in order. The first match wins.
-Catalog: [`CLASSIFICATION-CATALOG.md`](skills/concepts/CLASSIFICATION-CATALOG.md).
-
-| Class | Recognised when | Default template |
-|-------|-----------------|------------------|
-| **bug** | Behaviour is wrong. The fix is the work | **fix-fast** |
-| **rework** | Intentional implementation change. Measured outcomes must not degrade | **parity-iterative** |
-| **adopt** | The whole tree was not built to the structure bar | **structure-safe** |
-| **refine** | Bounded structure, naming, or docs. Behaviour unchanged | **structure-safe** |
-| **tweak** | Small intentional behaviour change | **delta-fast** |
-| **feature** | A buildable slice that needs scope and acceptance | **feature-standard** (or **feature-heavy** when the change is cross-cutting or high risk) |
-| **iterate** | Prior Task already merged. Still wrong or incomplete | **fix-fast** on the new iterate Task |
-
-Default chain:
-
-```text
-architect → implement → test → restructure → review → ship
-```
-
-Optional prefixes, only when the binding says so: `research` and/or `model`
-(`side_paths`), then `sandbox` when `sandbox: inject`. Test and restructure
-stay in the chain unless the binding records a skip. Class **adopt** walks
-`characterize → architect → implement → test → restructure → review → ship`
-per area.
-
-```text
-setup → explore? → define → architect → [sandbox?] → implement → test → restructure → review → ship
-brownfield:  adopt (inventory, then that unit chain per area until Done)
-post-merge fix:  ship → iterate → test → restructure → review → ship
-post-merge inspect-loop:  ship → sandbox → implement → test → restructure → review → ship
-```
-
-## Concepts vs skills
-
-Concepts own **invariants**. Skills fill **extensions** only. See
-[`writing-for-agents`](skills/writing-for-agents/SKILL.md).
-
-Operator-directed replies follow
-[`CONCEPT_LANGUAGE`](skills/concepts/CONCEPT_LANGUAGE.md) whenever the skills are
-installed. Phrase and cadence tables stay in
-[`LANGUAGE-PHRASES`](skills/concepts/LANGUAGE-PHRASES.md) and
-[`LANGUAGE-HUMANIZER`](skills/concepts/LANGUAGE-HUMANIZER.md). Always-on
-extracts name those files; they do not copy the tables.
-
-Sub-agent routing:
-[`CONCEPT_DELEGATION`](skills/concepts/CONCEPT_DELEGATION.md) and the detected
-file under [`concepts/platforms/`](skills/concepts/platforms/cursor.md).
-
-## Architecture
-
-```
-skills/                         ← source of truth (Agent Skills layout)
-├── concepts/                   ← uninvokable CONCEPT_*.md + disclosed refs
-├── workflow/                   ← delivery contract (composed; not an entry point)
-├── workflows/                  ← model-invoked router
-├── help/                       ← model-invoked map (does not start work)
-├── explain/ guide/             ← teach the current step; walk a manual task
-├── setup/ explore/ define/     ← front doors
-├── bug/ tweak/ refine/ rework/ ← manual class overrides
-├── adopt/ research/ model/ sandbox/
-├── architect/ implement/ test/
-├── restructure/ harden/        ← harden aliases restructure
-├── review/ review-fix/         ← review-fix aliases review
-├── iterate/ ship/ summarise/
-├── tracker/ jira/              ← composed tracker (not entry points)
-├── manage-skills/              ← install, sync, and repo maintenance
-└── writing-for-agents/         ← model-invoked authoring guide
-
-.claude-plugin/                 ← optional Claude Code marketplace manifests
-scripts/                        ← validate, sync, install-from-git, arXiv helper
-templates/agent-install/        ← consumer AGENTS.md block + Cursor rule
-templates/project-sync/         ← startup sync script template
-```
-
-Short map, if you only want which front door to use: [`/help`](skills/help/SKILL.md).
+Short map only: [`/help`](skills/help/SKILL.md).
 
 ## Install
 
+Do not freestyle a different install layout. Agents follow [`agent-install.md`](skills/manage-skills/agent-install.md).
+
 ### Ask an agent (preferred)
 
-Use the prompt in [`agent-install.md`](skills/manage-skills/agent-install.md).
-Do not freestyle a different install layout.
+Paste this prompt in the consuming repository:
+
+```text
+Install marcuskrogh/skills into this repository from git using the canonical
+installer. Do not use another install method.
+
+1. From the project root, run exactly:
+   curl -fsSL https://raw.githubusercontent.com/marcuskrogh/skills/main/scripts/install-from-git.sh | bash
+2. If curl|bash is unavailable: shallow-clone
+   https://github.com/marcuskrogh/skills.git at ref main into a temp dir, then
+   run: bash <clone>/scripts/install-from-git.sh
+3. Commit the paths the script lists (.agents/skills/, AGENTS.md, CLAUDE.md,
+   .cursor/rules/github-skills.mdc).
+4. Confirm .agents/skills/.skills-version exists and
+   .agents/skills/workflows/SKILL.md is present.
+```
+
+Or run the script yourself from the consuming project root:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/marcuskrogh/skills/main/scripts/install-from-git.sh | bash
 ```
 
-The script replaces `.agents/skills/` (all skills + `concepts/`), stamps
-`.skills-version`, and wires prefer-workflow pointers.
+If `curl | bash` is unavailable:
+
+```bash
+git clone --depth 1 https://github.com/marcuskrogh/skills.git /tmp/marcuskrogh-skills
+bash /tmp/marcuskrogh-skills/scripts/install-from-git.sh
+```
+
+The script replaces `.agents/skills/` (all skills plus `concepts/`), stamps `.skills-version`, and wires prefer-workflow pointers in `AGENTS.md`, `CLAUDE.md`, and `.cursor/rules/github-skills.mdc`.
+
+Commit those paths in the consuming repo:
+
+```text
+.agents/skills/
+AGENTS.md
+CLAUDE.md
+.cursor/rules/github-skills.mdc
+```
+
+Confirm:
+
+```bash
+test -f .agents/skills/.skills-version
+test -f .agents/skills/workflows/SKILL.md
+test -d .agents/skills/concepts
+grep -q 'marcuskrogh/skills:begin' AGENTS.md
+```
+
+Optional environment variables (from [`agent-install.md`](skills/manage-skills/agent-install.md)):
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `PROJECT_ROOT` | cwd | Consuming repo root |
+| `SKILLS_REF` | `main` | Branch, tag, or commit |
+| `SKILLS_REPO` | `https://github.com/marcuskrogh/skills.git` | Source remote |
+| `SKILLS_CACHE` | `/tmp/marcuskrogh-skills` | Clone cache |
+| `SKIP_POINTERS` | unset | Set `1` to skip `AGENTS.md` / Cursor wiring |
+| `SKILLS_SOURCE` | unset | Use an existing checkout as-is (ignores `SKILLS_REF`; for local testing) |
+
+Pin a version:
+
+```bash
+SKILLS_REF=v1.2.0 bash /path/to/install-from-git.sh
+SKILLS_REF=<full-sha> bash /path/to/install-from-git.sh
+SKILLS_REF=main bash /path/to/install-from-git.sh
+```
+
+The tag `v1.2.0` is an example of the pin syntax. Use a tag or SHA that exists on this repository. This page does not claim a specific release exists.
 
 ### Or use skills.sh (`npx`)
 
@@ -205,14 +130,13 @@ The script replaces `.agents/skills/` (all skills + `concepts/`), stamps
 npx skills add marcuskrogh/skills
 ```
 
-`npx` does not write the prefer-workflow `AGENTS.md` block. Use the agent
-installer when you want that wiring.
+Non-interactive (CI, or an agent that was asked for npx):
 
-### Updating skills
+```bash
+npx skills add marcuskrogh/skills --all -y
+```
 
-How to advance an existing install: [`manage-skills`](skills/manage-skills/SKILL.md)
-(Updating an existing install). Pin with `SKILLS_REF=<tag-or-sha>` on
-`install-from-git.sh` or `.agents/sync-skills.sh`.
+`npx` does not write the prefer-workflow `AGENTS.md` block. Use the agent installer when you want that wiring. After an npx-only install, either run `install-from-git.sh` or copy the marked block from `templates/agent-install/AGENTS.block.md` into `AGENTS.md` manually. Language rules only apply when that block (or the Cursor rule) is present.
 
 ### Optional: Claude Code plugin
 
@@ -221,14 +145,29 @@ claude plugin marketplace add marcuskrogh/skills
 claude plugin install marcus-skills@marcuskrogh
 ```
 
+### Updating skills
+
+How to advance an existing install: [`manage-skills`](skills/manage-skills/SKILL.md) (Updating an existing install).
+
+| How skills were installed | Update to latest `main` |
+|---------------------------|-------------------------|
+| Agent-from-git (`install-from-git.sh`) | Re-run the same script (or the agent prompt), then commit |
+| skills.sh (project or global) | `npx skills update -y`, or `npx skills add marcuskrogh/skills -y` |
+| Startup sync (`.agents/sync-skills.sh`) | `SKILLS_REF=main bash .agents/sync-skills.sh` |
+| Copied via `install-to-project.ps1` | Re-run that script from an up-to-date clone, then commit `.agents/skills/` |
+| Claude plugin | Update or reinstall the plugin after we ship on `main` |
+
+After agent-from-git, startup sync, or `install-to-project`, check `.agents/skills/.skills-version` for `repo`, `ref`, and `sha`.
+
 ### Author setup (this repo)
+
+For people who edit this repository, not for consuming-project install:
 
 ```powershell
 .\scripts\setup.ps1
 ```
 
-Validates skills, mirrors them into local agent homes, and installs git hooks
-so `git pull` re-syncs.
+Validates skills, mirrors them into local agent homes, and installs git hooks so `git pull` re-syncs.
 
 ### Project sync (CI / cloud / VM)
 
@@ -236,38 +175,18 @@ so `git pull` re-syncs.
 .\scripts\setup-project-sync.ps1 -ProjectPath C:\path\to\repo
 ```
 
-Writes `.agents/sync-skills.sh` and gitignores `.agents/skills/`. For Cursor
-Cloud, also pass `-WireCursorCloud` so **install** and **start** both sync.
+Writes `.agents/sync-skills.sh` and gitignores `.agents/skills/`. For Cursor Cloud, also pass `-WireCursorCloud` so **install** and **start** both sync.
 
-## Workspace scopes
+### After install, start using it
 
-`/setup` writes a `WORKSPACE.md` at one of two scopes:
+In a consuming repo that has the pointers wired:
 
-| Scope | Path | Committed? | Applies to |
-|-------|------|-----------|------------|
-| **repository** | `docs/agents/WORKSPACE.md` | Yes | That repo and its collaborators |
-| **global** | `~/.agents/WORKSPACE.md` | Never | Every repo on this machine |
+1. Open the project in Cursor, Claude Code, Codex, Copilot, or another compatible harness.
+2. If this is a new repo with no `WORKSPACE.md`, ask the agent to run `/setup` before delivery work.
+3. Describe the work, or say `/help` if you only want the map.
+4. Foggy destination: expect **explore**. Concrete bug, tweak, refine, rework, or feature: expect **define**.
 
-Resolution order is in [`setup/format.md`](skills/setup/format.md). Repository
-fields override global fields one by one. Language is not a workspace field; a
-repo install writes the language extract into `AGENTS.md`, `CLAUDE.md`, and
-`.cursor/rules/github-skills.mdc`.
-
-### Keeping repos clean
-
-Global scope plus `Artifact location: external` runs the pipeline without adding
-agent files to a consuming repo. Artifact full content is pushed into the
-tracker issue. Only the code change lands in the repo, on the Task's delivery
-branch/PR.
-
-## Workflow for skill changes
-
-1. Edit `skills/<name>/` or `skills/concepts/` in this repo.
-2. `.\scripts\validate-skills.ps1`
-3. `.\scripts\sync-local.ps1 -Prune`
-4. `git commit` / `git push`
-
-Use `/manage-skills` for the full checklist.
+Workspace scopes and tracker credentials: [Install in more depth](docs/guide/install.md).
 
 ## Scripts
 
@@ -283,16 +202,13 @@ Use `/manage-skills` for the full checklist.
 | `templates/agent-install/` | Consumer `AGENTS.md` block, Cursor rule, global language pointers |
 | `setup-github.ps1` | First-time push to GitHub |
 | `arxiv_research.py` | arXiv search, lookup, and snowball for `/research` |
+| `test_pipelines.py` | Pipeline transition checks used in this repo |
 
-## Tracker credentials
+## Workflow for skill changes
 
-Configured by `/setup` in `docs/agents/WORKSPACE.md`.
+1. Edit `skills/<name>/` or `skills/concepts/` in this repo.
+2. `.\scripts\validate-skills.ps1`
+3. `.\scripts\sync-local.ps1 -Prune`
+4. `git commit` / `git push`
 
-| Provider | Needs |
-|----------|-------|
-| **markdown** | None (issues under `docs/agents/issues/`) |
-| **jira** | `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, project key |
-| **github** | Authenticated `gh` CLI |
-| **linear** | Linear MCP or `LINEAR_API_KEY` + team key |
-
-`review` and `ship` also need an authenticated `gh` CLI for PRs.
+Use `/manage-skills` for the full checklist.
