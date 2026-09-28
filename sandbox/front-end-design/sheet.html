@@ -3,827 +3,433 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Front-end design sheet — Heating Assistant elements</title>
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f3ebe3">
+  <title>Warm home — front-end design sheet</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script>if (location.hash === '#shot-kpi') document.documentElement.classList.add('shot-kpi');</script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,620&family=Outfit:wght@380;460;560&display=swap" rel="stylesheet">
+  <script>
+    if (location.hash === '#shot-home') document.documentElement.classList.add('shot-home');
+    if (location.hash === '#shot-guide') document.documentElement.classList.add('shot-guide');
+    if (location.hash === '#shot-pieces') document.documentElement.classList.add('shot-pieces');
+  </script>
   <style>
     :root {
-      --page: #f7f4ee;
-      --ink: #1a1916;
-      --mute: #5c5852;
-      --line: color-mix(in srgb, #1a1916 12%, #f7f4ee);
-      --font: Archivo, ui-sans-serif, system-ui, sans-serif;
-      /* Current — Heating Assistant industrial.css */
-      --c-bg: #1a1d23;
-      --c-card: #22262e;
-      --c-elev: #2a2f38;
-      --c-border: #363b44;
-      --c-text: #e8eaed;
-      --c-sec: #9aa0a8;
-      --c-dim: #6b7280;
-      --c-accent: #00d4aa;
-      --c-accent-dim: rgba(0, 212, 170, 0.15);
-      --c-warn: #f5a623;
-      --c-alarm: #e74c3c;
-      --c-good: #27ae60;
-      --c-exp: #b58bf2;
-      --c-chart-temp: #4fc3f7;
-      --c-chart-meas: #e57373;
-      --c-chart-power: #ffb74d;
-      --c-radius: 8px;
-      --c-radius-sm: 4px;
-      /* Proposed — warm */
-      --p-hull: #f0ece4;
-      --p-ink: #1a1916;
-      --p-mute: #6a6660;
-      --p-accent: #ef5a11;
-      --p-accent-hover: #d44e0e;
-      --p-panel: color-mix(in srgb, #fff 46%, #f0ece4);
-      --p-line: color-mix(in srgb, #1a1916 10%, #f0ece4);
-      --p-plum: #8b5e83;
-      --p-power: #d08a2b;
-      --p-radius: 1.5rem;
-      --p-font: Archivo, ui-sans-serif, sans-serif;
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --honey: #e3a15a;
+      --sage: #6d8b6f;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --line: color-mix(in srgb, #2a221c 10%, #f3ebe3);
+      --serif: Fraunces, "Iowan Old Style", Palatino, serif;
+      --sans: Outfit, ui-sans-serif, system-ui, sans-serif;
+      --radius: 1.75rem;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font: 15px/1.45 var(--font);
+      background: #efe6dc;
       color: var(--ink);
-      background: var(--page);
+      font: 400 17px/1.45 var(--sans);
     }
-    a { color: inherit; }
-    .wrap { width: min(72rem, calc(100% - 2rem)); margin: 0 auto; padding: 2rem 0 4rem; }
-    header.intro h1 { font-size: 1.75rem; letter-spacing: -0.03em; margin: 0 0 0.4rem; }
-    header.intro p { margin: 0 0 0.5rem; color: var(--mute); max-width: 46rem; }
-    header.intro .meta { font-size: 0.85rem; color: var(--mute); }
-    nav.toc {
-      display: flex; flex-wrap: wrap; gap: 0.35rem 0.5rem;
-      margin: 1.25rem 0 2rem; padding: 0; list-style: none;
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
+    .page { width: min(68rem, calc(100% - 2.5rem)); margin: 0 auto; padding: 2.5rem 0 4rem; }
+    .lede h1 {
+      margin: 0 0 0.4rem;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
     }
-    nav.toc a {
-      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
-      text-decoration: none; padding: 0.35rem 0.7rem; border-radius: 999px;
-      background: #fff; box-shadow: inset 0 0 0 1px var(--line);
+    .lede p { margin: 0; max-width: 38rem; color: var(--mute); }
+    .block { margin-top: 2.75rem; }
+    .block h2 {
+      margin: 0 0 0.35rem;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 1.7rem;
+      letter-spacing: -0.03em;
     }
-    h2.el {
-      margin: 2.4rem 0 0.35rem; font-size: 1.15rem; letter-spacing: -0.02em;
-      scroll-margin-top: 1rem;
-    }
-    .why { margin: 0 0 0.9rem; color: var(--mute); font-size: 0.92rem; max-width: 46rem; }
-    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    @media (max-width: 52rem) { .pair { grid-template-columns: 1fr; } }
-    .col { border-radius: 1.1rem; overflow: hidden; min-width: 0; }
-    .col__label {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; padding: 0.55rem 0.9rem;
-    }
-    .col--now .col__label { background: #1a1d23; color: #00d4aa; }
-    .col--next .col__label { background: #ef5a11; color: #fff; }
-    .stage { padding: 1rem; min-height: 8rem; }
-    .col--now .stage { background: var(--c-bg); color: var(--c-text); font-family: system-ui, sans-serif; }
-    .col--next .stage { background: var(--p-hull); color: var(--p-ink); font-family: var(--p-font); }
+    .block > .why { margin: 0 0 1.1rem; max-width: 40rem; color: var(--mute); }
 
-    /* ── Current industrial bits ── */
-    .c-nav {
-      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-      padding: 8px 12px; background: var(--c-card); border-bottom: 2px solid var(--c-accent);
-      position: relative;
+    .home {
+      background: var(--paper);
+      border-radius: 2rem;
+      padding: 1.35rem 1.5rem 1.6rem;
+      box-shadow: 0 24px 60px rgb(42 34 28 / 0.06);
     }
-    .c-nav::after {
-      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
-      background: linear-gradient(90deg, transparent, var(--c-accent), transparent);
+    .bar { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+    .mark {
+      font-family: var(--serif);
+      font-weight: 620;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+      margin-right: 0.6rem;
     }
-    .c-brand { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: var(--c-sec); }
-    .c-link {
-      font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: var(--c-dim);
-      text-decoration: none; padding: 6px 12px; border-radius: 4px;
+    .bar a {
+      color: var(--mute);
+      text-decoration: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
     }
-    .c-link.is-on { color: var(--c-accent); background: var(--c-accent-dim); }
-    .c-fill { flex: 1; }
-    .c-run {
-      width: 36px; height: 36px; border: 2px solid var(--c-accent); border-radius: 50%;
-      background: rgba(0,212,170,0.15); color: var(--c-accent); display: grid; place-items: center;
-      box-shadow: 0 0 12px rgba(0,212,170,0.4);
+    .bar a.on { background: var(--sheet); color: var(--ink); }
+    .grow { flex: 1; }
+    .live { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--sage); font-weight: 560; font-size: 0.92rem; }
+    .live i { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--sage); }
+    .stop {
+      border: 0; border-radius: 999px; background: var(--clay); color: #fff;
+      padding: 0.55rem 1.05rem; font-weight: 560;
     }
-    .c-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-accent); box-shadow: 0 0 6px var(--c-accent); }
-    .c-live { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: var(--c-dim); }
-    .c-section {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--c-dim); margin: 4px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--c-border);
-    }
-    .c-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    @media (max-width: 40rem) { .c-kpis { grid-template-columns: repeat(2, 1fr); } }
-    .c-gauge {
-      background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px;
-      padding: 12px 10px 10px; display: grid; gap: 8px; justify-items: center;
-    }
-    .c-gauge__bar {
-      width: 100%; height: 6px; background: var(--c-elev); border-radius: 2px; overflow: hidden;
-    }
-    .c-gauge__bar > i { display: block; height: 100%; background: var(--c-accent); }
-    .c-gauge__bar.is-warn > i { background: var(--c-warn); }
-    .c-gauge__val { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 20px; font-weight: 600; }
-    .c-gauge__lab { font-size: 11px; letter-spacing: 0.1em; color: var(--c-dim); text-transform: uppercase; }
-    .c-card {
-      background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px; padding: 12px;
-    }
-    .c-room {
-      display: grid; gap: 8px;
-    }
-    .c-room__top { display: flex; justify-content: space-between; align-items: center; }
-    .c-room__name { font-weight: 600; font-size: 14px; }
-    .c-chip { font-size: 10px; letter-spacing: 0.08em; color: var(--c-accent); border: 1px solid var(--c-accent); padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
-    .c-temp { font-size: 28px; font-variant-numeric: tabular-nums; }
-    .c-band { height: 8px; background: var(--c-elev); border-radius: 2px; position: relative; }
-    .c-band i { position: absolute; left: 38%; width: 24%; top: 0; bottom: 0; background: var(--c-accent-dim); }
-    .c-band b { position: absolute; left: 52%; top: -3px; width: 2px; height: 14px; background: var(--c-chart-meas); }
-    .c-plot { height: 140px; background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px; padding: 8px; }
-    .c-plot svg { width: 100%; height: 100%; display: block; }
-    .c-sched { display: grid; gap: 6px; font-size: 12px; color: var(--c-sec); }
-    .c-sched b { color: var(--c-accent); }
-    .c-field label { display: block; font-size: 11px; letter-spacing: 0.08em; color: var(--c-dim); text-transform: uppercase; margin-bottom: 4px; }
-    .c-field input {
-      width: 100%; background: var(--c-elev); border: 1px solid var(--c-border); color: var(--c-text);
-      border-radius: 4px; padding: 8px 10px; font: inherit;
-    }
-    .c-btn { background: var(--c-accent-dim); color: var(--c-accent); border: 1px solid var(--c-accent); border-radius: 4px; padding: 8px 14px; font-weight: 600; }
-    .c-banner {
-      border: 1px solid rgba(0,212,170,0.6); color: var(--c-accent); background: rgba(26,29,35,0.92);
-      border-radius: 999px; padding: 6px 12px; font-size: 12px;
-    }
-    .c-err { border-color: rgba(229,115,115,0.8); color: #e57373; }
-    .c-empty { color: var(--c-dim); font-size: 13px; padding: 1.2rem; text-align: center; border: 1px dashed var(--c-border); border-radius: 8px; }
+    .stop.is-off { background: transparent; color: var(--clay); box-shadow: inset 0 0 0 1.5px var(--clay); }
 
-    /* ── Proposed warm bits ── */
-    .p-nav {
-      display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
-      padding: 0.35rem 0 0.75rem; border-bottom: 1px solid var(--p-line);
+    .hero { display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 1rem; align-items: end; margin-top: 1.6rem; }
+    @media (max-width: 46rem) { .hero { grid-template-columns: 1fr; } }
+    .where { margin: 0; color: var(--mute); font-size: 0.95rem; }
+    .temp {
+      margin: 0.15rem 0 0;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(5.2rem, 11vw, 7.6rem);
+      letter-spacing: -0.045em;
+      line-height: 0.82;
+      font-variation-settings: "opsz" 144, "SOFT" 40, "WONK" 1;
     }
-    .p-brand { font-weight: 700; letter-spacing: -0.03em; display: flex; align-items: center; gap: 0.45rem; }
-    .p-link {
-      color: var(--p-mute); text-decoration: none; font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.06em; text-transform: uppercase; padding: 0.35rem 0.55rem; border-radius: 999px;
+    .temp span { color: var(--clay); font-size: 0.45em; margin-left: 0.02em; }
+    .state { margin: 0.7rem 0 0; font-size: 1.05rem; }
+    .state b { font-weight: 560; color: var(--clay); }
+    .state.is-idle b { color: var(--mute); }
+    .target { display: flex; align-items: center; gap: 0.55rem; margin-top: 1rem; }
+    .step {
+      width: 2.4rem; height: 2.4rem; border: 0; border-radius: 50%;
+      background: var(--sheet); font-size: 1.2rem;
     }
-    .p-link.is-on { color: var(--p-ink); background: color-mix(in srgb, #fff 55%, var(--p-hull)); }
-    .p-fill { flex: 1; }
-    .p-live { display: flex; align-items: center; gap: 0.35rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
-    .p-live i { width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--p-accent); }
-    .p-start {
-      min-width: 2.6rem; height: 1.5rem; border: 0; border-radius: 999px; background: var(--p-accent);
-      color: #fff; padding: 0 0.65rem; font-weight: 700; box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.12);
+    .target strong { font-variant-numeric: tabular-nums; font-weight: 560; min-width: 3.2rem; text-align: center; }
+    .band { margin-top: 1rem; height: 0.45rem; border-radius: 999px; background: color-mix(in srgb, var(--ink) 8%, var(--paper)); position: relative; }
+    .band i { position: absolute; left: 36%; width: 28%; top: 0; bottom: 0; border-radius: 999px; background: color-mix(in srgb, var(--clay) 28%, var(--paper)); }
+    .band b { position: absolute; left: 54%; top: -0.22rem; width: 0.35rem; height: 0.9rem; border-radius: 999px; background: var(--clay); }
+
+    .aside { display: grid; gap: 0.7rem; justify-items: start; }
+    .fact {
+      border: 0; background: transparent; text-align: left; padding: 0.2rem 0;
+      display: grid; gap: 0.1rem;
     }
-    .p-section { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--p-mute); margin: 0 0 0.65rem; }
-    .p-kpis, .c-kpi-grid, .p-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.65rem; }
-    .p-kpis { gap: 0.85rem 1.1rem; background: var(--p-panel); border-radius: var(--p-radius); padding: 1.1rem 1.2rem; }
-    .c-kpi-grid { gap: 10px; }
-    .kpi-hit {
-      display: block; width: 100%; margin: 0; padding: 0; text-align: left;
-      font: inherit; color: inherit; cursor: pointer; border: 0; background: transparent;
+    .fact span { color: var(--mute); font-size: 0.82rem; }
+    .fact strong {
+      font-family: var(--serif); font-weight: 500; font-size: 2rem;
+      letter-spacing: -0.03em; line-height: 1;
     }
-    .kpi-hit:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-    .c-kpi-grid .kpi-hit {
-      background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px; padding: 12px 10px 10px;
+    .fact.is-on strong { color: var(--clay); }
+    .unfold {
+      margin-top: 1.15rem;
+      background: var(--sheet);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem 1.05rem;
+      max-width: 36rem;
     }
-    .c-kpi-grid .kpi-hit:hover { border-color: var(--c-accent); }
-    .c-kpi-grid .kpi-hit.is-open { grid-column: 1 / -1; padding: 14px 14px 12px; }
-    .c-kpi-grid .kpi-hit.is-open .c-gauge { padding: 0; }
-    .c-detail, .p-detail { display: none; }
-    .kpi-hit.is-open .c-detail, .kpi-hit.is-open .p-detail { display: block; }
-    .c-detail {
-      margin-top: 14px; padding: 12px 14px 14px;
-      background: color-mix(in srgb, #1a1d23 78%, #000);
-      border: 1px solid color-mix(in srgb, #363b44 70%, #8892a0);
-      border-radius: 6px;
+    .unfold p { margin: 0; }
+    .unfold ul { margin: 0.65rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; color: var(--mute); font-size: 0.92rem; }
+    .unfold[hidden] { display: none; }
+
+    .rooms { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.35rem; }
+    .room {
+      border: 0; border-radius: 999px; background: var(--sheet);
+      padding: 0.55rem 0.9rem 0.55rem 0.7rem; display: inline-flex; align-items: baseline; gap: 0.45rem;
     }
-    .c-detail p { margin: 0 0 10px; font-size: 12px; line-height: 1.45; color: #9aa0a8; }
-    .c-detail h3, .p-detail h3 {
-      margin: 0 0 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase;
+    .room b { font-family: var(--serif); font-weight: 500; font-size: 1.15rem; }
+    .room.is-on { background: var(--ink); color: var(--paper); }
+    .day { margin-top: 1.25rem; display: grid; gap: 0.45rem; }
+    .day-label { color: var(--mute); font-size: 0.82rem; }
+    .track { display: grid; grid-template-columns: 1.1fr 1.6fr 1.2fr; gap: 0.35rem; }
+    .seg { background: var(--sheet); border-radius: 999px; padding: 0.45rem 0.8rem; font-size: 0.88rem; color: var(--mute); }
+    .seg.now { background: var(--ink); color: var(--paper); }
+    .plot { margin-top: 1.1rem; background: var(--sheet); border-radius: var(--radius); padding: 0.85rem 0.9rem 0.7rem; }
+    .plot svg { width: 100%; height: 140px; display: block; }
+    .legend { display: flex; gap: 1rem; color: var(--mute); font-size: 0.82rem; margin-top: 0.2rem; }
+    .legend i { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; margin-right: 0.3rem; vertical-align: -1px; }
+
+    .swatches { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+    .swatch { width: 7.2rem; }
+    .swatch b {
+      display: block; height: 4.4rem; border-radius: 1.2rem; margin-bottom: 0.35rem;
     }
-    .c-detail h3 { color: #6b7280; }
-    .c-detail dl, .p-detail dl { margin: 0; }
-    .c-detail .row, .p-detail .row {
-      display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: baseline;
-      padding: 6px 0;
+    .swatch span { display: block; font-size: 0.82rem; }
+    .swatch code { color: var(--mute); font-size: 0.75rem; }
+    .type-sample { display: grid; gap: 0.8rem; background: var(--paper); border-radius: var(--radius); padding: 1.3rem 1.4rem; }
+    .type-sample .big { font-family: var(--serif); font-size: 4.2rem; line-height: 0.85; letter-spacing: -0.04em; margin: 0; }
+    .type-sample .big span { color: var(--clay); }
+    .shapes { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+    .blob { background: var(--sheet); border-radius: var(--radius); padding: 1rem 1.2rem; }
+    .pill { background: var(--clay); color: #fff; border-radius: 999px; padding: 0.55rem 1rem; border: 0; font-weight: 560; }
+    .chip { background: var(--sheet); border-radius: 999px; padding: 0.4rem 0.75rem; }
+
+    .pieces { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    @media (max-width: 46rem) { .pieces { grid-template-columns: 1fr; } }
+    .piece { background: var(--paper); border-radius: var(--radius); padding: 1rem 1.1rem 1.1rem; }
+    .piece h3 { margin: 0 0 0.55rem; font-size: 0.82rem; font-weight: 560; color: var(--mute); }
+    .field { display: grid; gap: 0.35rem; }
+    .field input {
+      border: 0; background: var(--sheet); border-radius: 999px; padding: 0.6rem 0.9rem;
     }
-    .c-detail .row + .row { border-top: 1px solid color-mix(in srgb, #6b7280 18%, transparent); }
-    .c-detail dt { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #6b7280; }
-    .c-detail dd { margin: 0; font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 12px; }
-    .p-kpi-grid .kpi-hit {
-      background: var(--p-panel); border-radius: 1.15rem; padding: 0.9rem 1rem 0.85rem;
+    .banner { display: inline-block; background: var(--sheet); border-radius: 999px; padding: 0.4rem 0.8rem; }
+    .banner.warn { color: var(--clay); }
+    .empty { color: var(--mute); }
+    .exp { display: grid; gap: 0.35rem; }
+    .exp .barline { height: 0.4rem; border-radius: 999px; background: color-mix(in srgb, var(--ink) 8%, var(--paper)); overflow: hidden; }
+    .exp .barline i { display: block; width: 42%; height: 100%; background: var(--plum); border-radius: 999px; }
+
+    .today {
+      background: #1a1d23; color: #e8eaed; border-radius: 1rem; padding: 0.9rem 1rem;
+      font-family: system-ui, sans-serif; font-size: 13px;
     }
-    .p-kpi-grid .kpi-hit:hover { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--p-accent) 45%, transparent); }
-    .p-kpi-grid .kpi-hit.is-open { grid-column: 1 / -1; padding: 1.05rem 1.2rem 1.1rem; }
-    .p-kpi-face { display: grid; gap: 0.2rem; }
-    .p-kpi-grid .kpi-hit.is-open .p-kpi-face {
-      grid-template-columns: 1fr auto; align-items: end; gap: 0.4rem 1rem;
-    }
-    .p-kpi-face .hint { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--p-mute); }
-    .p-detail { margin-top: 0.85rem; padding: 0.15rem 0.1rem 0; }
-    .p-detail h3 { color: var(--p-mute); font-size: 0.62rem; }
-    .p-detail p { margin: 0 0 0.55rem; font-size: 0.92rem; line-height: 1.4; }
-    .p-detail dt { font-size: 0.85rem; color: var(--p-mute); }
-    .p-detail dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
-    .p-detail .row + .row { border-top: 1px solid var(--p-line); }
-    html.shot-kpi .wrap > :not(.shot-keep) { display: none !important; }
-    html.shot-kpi .wrap { padding-top: 1rem; padding-bottom: 1rem; }
-    @media (max-width: 40rem) {
-      .p-kpis, .c-kpi-grid, .p-kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    .p-kpi { display: grid; gap: 0.28rem; }
-    .p-kpi dt { margin: 0; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--p-mute); }
-    .p-kpi dd { margin: 0; font-weight: 700; font-size: 1.15rem; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-    .p-kpi.is-heat dd { color: var(--p-accent); }
-    .p-card {
-      background: var(--p-panel); border-radius: var(--p-radius); padding: 1.05rem 1.2rem 1.15rem;
-      display: grid; gap: 0.7rem;
-    }
-    .p-room__top { display: flex; justify-content: space-between; align-items: center; }
-    .p-room__name { font-weight: 700; font-size: 0.95rem; letter-spacing: -0.02em; }
-    .p-status { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--p-accent); }
-    .p-temp { font-size: 2rem; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; line-height: 1; }
-    .p-temp span { font-size: 0.85rem; color: var(--p-mute); margin-left: 0.15rem; }
-    .p-steps { display: flex; align-items: center; gap: 0.45rem; }
-    .p-step {
-      width: 1.7rem; height: 1.7rem; border: 0; border-radius: 50%;
-      background: color-mix(in srgb, #fff 40%, var(--p-hull)); color: var(--p-ink); font-size: 1rem;
-    }
-    .p-band { height: 0.55rem; background: color-mix(in srgb, var(--p-ink) 8%, var(--p-hull)); border-radius: 999px; position: relative; }
-    .p-band i { position: absolute; left: 38%; width: 24%; top: 0; bottom: 0; background: color-mix(in srgb, var(--p-accent) 28%, var(--p-hull)); border-radius: 999px; }
-    .p-band b { position: absolute; left: 52%; top: -0.2rem; width: 0.28rem; height: 0.95rem; background: var(--p-accent); border-radius: 999px; }
-    .p-plot { height: 140px; background: var(--p-panel); border-radius: var(--p-radius); padding: 0.7rem 0.8rem; }
-    .p-plot svg { width: 100%; height: 100%; display: block; }
-    .p-sched { display: grid; gap: 0.4rem; font-size: 0.85rem; }
-    .p-pill { display: inline-block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: var(--p-accent); color: #fff; border-radius: 999px; padding: 0.12rem 0.45rem; margin-right: 0.35rem; }
-    .p-mode { color: var(--p-mute); }
-    .p-field label { display: block; font-size: 0.7rem; font-weight: 600; color: var(--p-mute); margin-bottom: 0.3rem; }
-    .p-field input {
-      width: 100%; background: var(--p-panel); border: 0; color: var(--p-ink);
-      border-radius: 999px; padding: 0.55rem 0.9rem; font: inherit; box-shadow: inset 0 0 0 1px var(--p-line);
-    }
-    .p-btn { background: var(--p-accent); color: #fff; border: 0; border-radius: 999px; padding: 0.45rem 1rem; font-weight: 700; }
-    .p-banner { background: var(--p-panel); color: var(--p-ink); border-radius: 999px; padding: 0.4rem 0.9rem; font-size: 0.85rem; display: inline-block; }
-    .p-banner.is-err { color: var(--p-accent); }
-    .p-empty { color: var(--p-mute); font-size: 0.9rem; padding: 1.1rem 1.2rem; background: var(--p-panel); border-radius: var(--p-radius); }
-    .c-exp { height: 8px; background: var(--c-elev); border-radius: 2px; overflow: hidden; }
-    .c-exp > i { display: block; height: 100%; width: 42%; background: var(--c-exp); }
-    .p-exp { display: grid; gap: 0.35rem; }
-    .p-exp__lab { font-size: 0.7rem; color: var(--p-mute); }
-    .p-exp__bar { height: 0.55rem; background: color-mix(in srgb, var(--p-ink) 8%, var(--p-hull)); border-radius: 999px; overflow: hidden; }
-    .p-exp__bar > i { display: block; height: 100%; width: 42%; background: var(--p-plum); border-radius: 999px; }
-    .p-count { background: var(--p-panel); border-radius: var(--p-radius); padding: 1.1rem 1.25rem; display: grid; gap: 0.3rem; }
-    .p-count span { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--p-mute); }
-    .p-count b { font-size: 2rem; letter-spacing: -0.04em; color: var(--p-accent); font-variant-numeric: tabular-nums; line-height: 1; }
-    .c-count { background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 12px; }
-    .c-ring { width: 56px; height: 56px; }
-    .swatches { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .swatch { width: 3.2rem; height: 3.2rem; border-radius: 0.85rem; display: grid; place-items: end; padding: 0.25rem; font-size: 0.55rem; font-weight: 700; }
-    .type-row { display: grid; gap: 0.35rem; }
-    footer.note { margin-top: 3rem; color: var(--mute); font-size: 0.85rem; }
+    .today .k { color: #6b7280; letter-spacing: 0.08em; font-size: 11px; text-transform: uppercase; }
+    .today .row { display: flex; gap: 1rem; margin-top: 0.45rem; }
+    .today strong { font-family: ui-monospace, monospace; color: #00d4aa; }
+
+    html.shot-home .page > :not(#home) { display: none; }
+    html.shot-guide .page > :not(#guide) { display: none; }
+    html.shot-pieces .page > :not(#pieces) { display: none; }
+    html.shot-home .page, html.shot-guide .page, html.shot-pieces .page { padding-top: 1rem; }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="intro">
-      <h1>Front-end design sheet</h1>
-      <p>Every element the front-end design skill produces, taken from Heating Assistant. Left is the shipping industrial panel. Right is the proposed warm direction: simpler, less clutter, cream and terracotta, rounded modules.</p>
-      <p class="meta">Iterate here. Candidate: <code>marcuskrogh/HeatingAssistant</code> <code>heatingassistant/app/static/</code> (read only). Tokens live in the skill as <code>FRONTEND-WARM.md</code>.</p>
+  <div class="page">
+    <header class="lede">
+      <h1>A warmer home</h1>
+      <p>This pass leaves the industrial grid behind. One reading, a sentence when you ask for more, clay for heat, sage for calm. Heating Assistant stays the source of the jobs, not the layout.</p>
     </header>
-    <nav class="toc" aria-label="Elements">
-      <a href="#tokens">Tokens</a>
-      <a href="#type">Type</a>
-      <a href="#nav">Nav</a>
-      <a href="#start">Start</a>
-      <a href="#sections">Sections</a>
-      <a href="#kpi">KPI cards</a>
-      <a href="#countdown">Countdown</a>
-      <a href="#climate">Climate card</a>
-      <a href="#experiment">Experiment</a>
-      <a href="#band">Comfort band</a>
-      <a href="#plot">Plot</a>
-      <a href="#schedule">Schedule</a>
-      <a href="#form">Form</a>
-      <a href="#banner">Banner</a>
-      <a href="#empty">Empty and error</a>
-    </nav>
 
-    <h2 class="el" id="tokens">Colour tokens</h2>
-    <p class="why">Current hull is charcoal with teal <code>#00d4aa</code>. Proposed hull is cream <code>#f0ece4</code> with terracotta <code>#ef5a11</code>. Four to six named colours. No cyan series.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="swatches">
-            <div class="swatch" style="background:#1a1d23;color:#e8eaed">hull</div>
-            <div class="swatch" style="background:#22262e;color:#e8eaed">card</div>
-            <div class="swatch" style="background:#363b44;color:#e8eaed">border</div>
-            <div class="swatch" style="background:#00d4aa;color:#1a1d23">teal</div>
-            <div class="swatch" style="background:#4fc3f7;color:#1a1d23">cyan</div>
-            <div class="swatch" style="background:#e8eaed;color:#1a1d23">ink</div>
-          </div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="swatches">
-            <div class="swatch" style="background:#f0ece4;color:#1a1916">hull</div>
-            <div class="swatch" style="background:#f7f5f0;color:#1a1916">panel</div>
-            <div class="swatch" style="background:#1a1916;color:#f0ece4">ink</div>
-            <div class="swatch" style="background:#6a6660;color:#f0ece4">mute</div>
-            <div class="swatch" style="background:#ef5a11;color:#fff">accent</div>
-            <div class="swatch" style="background:#8b5e83;color:#fff">plum</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="type">Type</h2>
-    <p class="why">Current mixes system UI with JetBrains Mono on gauges. Proposed is Archivo for display and body. Label above the value. Tabular numerals on readings. No mono dashboard.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="type-row">
-            <span style="font:600 11px/1.2 system-ui;letter-spacing:.1em;color:#6b7280">OVERALL HEALTH</span>
-            <span style="font:600 24px/1 ui-monospace,monospace;color:#e8eaed">94%</span>
-            <span style="font:13px system-ui;color:#9aa0a8">system-ui · JetBrains Mono</span>
-          </div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="type-row">
-            <span style="font:600 .62rem/1.2 Archivo,sans-serif;letter-spacing:.1em;color:#6a6660">Comfort</span>
-            <span style="font:700 1.5rem/1 Archivo,sans-serif;letter-spacing:-.03em;font-variant-numeric:tabular-nums">94%</span>
-            <span style="font:0.85rem Archivo,sans-serif;color:#6a6660">Archivo · label above value</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="nav">Panel nav</h2>
-    <p class="why">Current live-bar is a teal wash and sweep on the whole strip, square-ish links, glowing round run button. Proposed is a quiet cream row, pill links, a small terracotta dot for Live.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage" style="padding:0">
-          <div class="c-nav">
-            <span class="c-brand">HEATING</span>
-            <a class="c-link is-on" href="#nav">Overview</a>
-            <a class="c-link" href="#nav">Rooms</a>
-            <a class="c-link" href="#nav">Schedules</a>
-            <span class="c-fill"></span>
-            <span class="c-dot"></span>
-            <span class="c-live">LIVE</span>
-            <span class="c-run" aria-hidden="true">⏹</span>
-          </div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="p-nav">
-            <span class="p-brand">
-              <svg width="22" height="14" viewBox="0 0 22 14" aria-hidden="true"><rect width="22" height="14" rx="7" fill="#ef5a11"/><rect x="1" y="1" width="20" height="12" rx="6" fill="#f0ece4"/><rect x="3" y="3.5" width="9" height="7" rx="3.5" fill="#ef5a11"/></svg>
-              Heating Assistant
-            </span>
-            <a class="p-link is-on" href="#nav">Overview</a>
-            <a class="p-link" href="#nav">Living room</a>
-            <a class="p-link" href="#nav">Schedules</a>
-            <span class="p-fill"></span>
-            <span class="p-live"><i></i> Live</span>
-            <button class="p-start" type="button">Stop</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="start">Start / Stop</h2>
-    <p class="why">Current is a 36px circular teal control with a pulse glow. Proposed is a terracotta pill. That pill is the page signature control. Stopped state is cream with a terracotta outline, no glow.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage" style="display:flex;gap:16px;align-items:center">
-          <span class="c-run">⏹</span>
-          <span class="c-run" style="border-color:#6b7280;color:#9aa0a8;background:#2a2f38;box-shadow:none">▶</span>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage" style="display:flex;gap:12px;align-items:center">
-          <button class="p-start" type="button">Stop</button>
-          <button class="p-start" type="button" style="background:var(--p-hull);color:var(--p-accent);box-shadow:inset 0 0 0 2px var(--p-accent)">Start</button>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="sections">Sections</h2>
-    <p class="why">Current: 11px uppercase kicker, hairline rule, tight 16px gap. Proposed: the same kicker, no rule farm, more air above the heading than inside the module. Sentence-case body under it.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="c-section">CONTROLLER KPIS</div>
-          <div class="c-card" style="color:#9aa0a8;font-size:12px">Eight gauges in a dense auto-fit grid.</div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="p-section">Controller</div>
-          <div class="p-card" style="color:var(--p-mute);font-size:0.9rem">Numbers for the jobs that change a decision. Hide a card with no value.</div>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el shot-keep" id="kpi">KPI cards</h2>
-    <p class="why shot-keep">Same job as <code>kpi-expand.js</code>: the card is a button. One card is open. It moves to the front of the grid, spans the row, and the description plus absolute values open under that same card. Click again, or press Escape, to close. Collapsed cards stay numbers only. Proposed detail is cream on cream. Current detail is the dark inset.</p>
-    <div class="pair shot-keep" id="kpi-stage">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="c-kpi-grid" data-kpi-grid>
-            <button class="kpi-hit is-open" type="button" data-key="power" aria-expanded="true">
-              <div class="c-gauge">
-                <div class="c-gauge__val">2.1 kW</div>
-                <div class="c-gauge__bar is-warn"><i style="width:42%"></i></div>
-                <div class="c-gauge__lab">Heating power</div>
-              </div>
-              <div class="c-detail">
-                <h3>Description</h3>
-                <p>Sum of measured heater power across the house.</p>
-                <dl>
-                  <div class="row"><dt>Live</dt><dd>2.1 kW</dd></div>
-                  <div class="row"><dt>Fill</dt><dd>42%</dd></div>
-                </dl>
-              </div>
-            </button>
-            <button class="kpi-hit" type="button" data-key="health" aria-expanded="false">
-              <div class="c-gauge">
-                <div class="c-gauge__val" style="color:#00d4aa">HEALTHY</div>
-                <div class="c-gauge__bar"><i style="width:100%"></i></div>
-                <div class="c-gauge__lab">Overall health</div>
-              </div>
-              <div class="c-detail">
-                <h3>Description</h3>
-                <p>Combined house quality from MQTT, tags, and identification history.</p>
-                <dl>
-                  <div class="row"><dt>Quality</dt><dd>HEALTHY</dd></div>
-                  <div class="row"><dt>Issue</dt><dd>No active issues</dd></div>
-                  <div class="row"><dt>MQTT</dt><dd>ok</dd></div>
-                </dl>
-              </div>
-            </button>
-            <button class="kpi-hit" type="button" data-key="load" aria-expanded="false">
-              <div class="c-gauge">
-                <div class="c-gauge__val">18%</div>
-                <div class="c-gauge__bar"><i style="width:18%"></i></div>
-                <div class="c-gauge__lab">MPC load</div>
-              </div>
-              <div class="c-detail">
-                <h3>Description</h3>
-                <p>Share of the sample-interval load budget used by the last planner solve. The budget is 10% of the sample interval.</p>
-                <dl>
-                  <div class="row"><dt>Load</dt><dd>18%</dd></div>
-                  <div class="row"><dt>Computing</dt><dd>no</dd></div>
-                </dl>
-              </div>
-            </button>
-            <button class="kpi-hit" type="button" data-key="comfort" aria-expanded="false">
-              <div class="c-gauge">
-                <div class="c-gauge__val">94%</div>
-                <div class="c-gauge__bar"><i style="width:94%"></i></div>
-                <div class="c-gauge__lab">Comfort</div>
-              </div>
-              <div class="c-detail">
-                <h3>Description</h3>
-                <p>Share of active rooms whose temperature is inside the comfort band.</p>
-                <dl>
-                  <div class="row"><dt>In band</dt><dd>94%</dd></div>
-                </dl>
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="p-kpi-grid" data-kpi-grid>
-            <button class="kpi-hit is-open" type="button" data-key="power" aria-expanded="true">
-              <div class="p-kpi-face">
-                <span class="hint">Heating power</span>
-                <strong class="p-temp" style="font-size:1.7rem;color:var(--p-accent)">2.1<span>kW</span></strong>
-              </div>
-              <div class="p-detail">
-                <h3>Description</h3>
-                <p>Sum of measured heater power across the house.</p>
-                <dl>
-                  <div class="row"><dt>Live</dt><dd>2.1 kW</dd></div>
-                  <div class="row"><dt>Fill</dt><dd>42%</dd></div>
-                </dl>
-              </div>
-            </button>
-            <button class="kpi-hit" type="button" data-key="health" aria-expanded="false">
-              <div class="p-kpi-face">
-                <span class="hint">Health</span>
-                <strong style="font-size:1.15rem">Healthy</strong>
-              </div>
-              <div class="p-detail">
-                <h3>Description</h3>
-                <p>Combined house quality from MQTT, tags, and identification history.</p>
-                <dl>
-                  <div class="row"><dt>Quality</dt><dd>Healthy</dd></div>
-                  <div class="row"><dt>Issue</dt><dd>No active issues</dd></div>
-                  <div class="row"><dt>MQTT</dt><dd>ok</dd></div>
-                </dl>
-              </div>
-            </button>
-            <button class="kpi-hit" type="button" data-key="load" aria-expanded="false">
-              <div class="p-kpi-face">
-                <span class="hint">MPC load</span>
-                <strong style="font-size:1.15rem">18%</strong>
-              </div>
-              <div class="p-detail">
-                <h3>Description</h3>
-                <p>Share of the sample-interval load budget used by the last planner solve. The budget is 10% of the sample interval.</p>
-                <dl>
-                  <div class="row"><dt>Load</dt><dd>18%</dd></div>
-                  <div class="row"><dt>Computing</dt><dd>no</dd></div>
-                </dl>
-              </div>
-            </button>
-            <button class="kpi-hit" type="button" data-key="comfort" aria-expanded="false">
-              <div class="p-kpi-face">
-                <span class="hint">Comfort</span>
-                <strong style="font-size:1.15rem">94%</strong>
-              </div>
-              <div class="p-detail">
-                <h3>Description</h3>
-                <p>Share of active rooms whose temperature is inside the comfort band.</p>
-                <dl>
-                  <div class="row"><dt>In band</dt><dd>94%</dd></div>
-                </dl>
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="countdown">Countdown — Next control</h2>
-    <p class="why">Current countdown sits in the KPI grid with a ring. Proposed: label above a large tabular time. This can be the Overview signature readout beside Start. No spinning ring.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="c-count">
-            <svg class="c-ring" viewBox="0 0 36 36" aria-hidden="true">
-              <circle cx="18" cy="18" r="15" fill="none" stroke="#2a2f38" stroke-width="3"/>
-              <circle cx="18" cy="18" r="15" fill="none" stroke="#00d4aa" stroke-width="3" stroke-dasharray="70 94" transform="rotate(-90 18 18)"/>
-            </svg>
-            <div>
-              <div class="c-gauge__lab">Next compute</div>
-              <div class="c-gauge__val">11:02</div>
+    <section class="block" id="home">
+      <h2>Home</h2>
+      <p class="why">Click a room to change the reading. Click Next or House to open the sentence under it. The detail stays in the flow. It does not jump to the top of a card grid.</p>
+      <article class="home" aria-label="Proposed home">
+        <header class="bar">
+          <span class="mark">Heating</span>
+          <a class="on" href="#home">Home</a>
+          <a href="#rooms">Rooms</a>
+          <a href="#day">Today</a>
+          <span class="grow"></span>
+          <span class="live"><i></i> Live</span>
+          <button class="stop" type="button" id="run" aria-pressed="true">Stop</button>
+        </header>
+        <div class="hero">
+          <div>
+            <p class="where" id="where">Living room</p>
+            <p class="temp" id="temp">21.4<span>°</span></p>
+            <p class="state" id="state"><b>Heating</b> · comfortable</p>
+            <div class="target">
+              <button class="step" type="button" id="down" aria-label="Lower target">−</button>
+              <strong id="target">21.0°</strong>
+              <button class="step" type="button" id="up" aria-label="Raise target">+</button>
             </div>
+            <div class="band" aria-hidden="true"><i></i><b></b></div>
+          </div>
+          <div class="aside">
+            <button class="fact" type="button" data-fold="next" aria-expanded="false">
+              <span>Next control</span>
+              <strong>11:02</strong>
+            </button>
+            <button class="fact is-on" type="button" data-fold="house" aria-expanded="true">
+              <span>House</span>
+              <strong>Healthy</strong>
+            </button>
+          </div>
+        </div>
+        <div class="unfold" id="unfold">
+          <p id="unfold-copy">The house is healthy. Heaters are drawing 2.1 kW, 42% of the range. Comfort is 94%.</p>
+          <ul id="unfold-facts">
+            <li>2.1 kW live</li>
+            <li>42% of range</li>
+            <li>MQTT ok</li>
+          </ul>
+        </div>
+        <div class="rooms" id="rooms">
+          <button class="room is-on" type="button" data-room="living">Living <b>21.4°</b></button>
+          <button class="room" type="button" data-room="kitchen">Kitchen <b>20.1°</b></button>
+          <button class="room" type="button" data-room="bedroom">Bedroom <b>19.6°</b></button>
+        </div>
+        <div class="plot" aria-label="Temperature this hour">
+          <svg viewBox="0 0 640 140" role="img">
+            <title>Living room temperature this hour</title>
+            <rect width="640" height="140" rx="22" fill="#fffaf6"/>
+            <path d="M24 96 C 80 90, 120 88, 170 80 S 260 70, 320 62 430 58, 500 48 580 46, 616 44" fill="none" stroke="#d4532b" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M24 70 H 616" fill="none" stroke="#2a221c" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="5 6"/>
+            <path d="M24 108 C 140 104, 240 100, 360 96 S 520 92, 616 90" fill="none" stroke="#e3a15a" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <div class="legend"><span><i style="background:#d4532b"></i>Measured</span><span><i style="background:#2a221c"></i>Setpoint</span><span><i style="background:#e3a15a"></i>Power</span></div>
+        </div>
+        <div class="day" id="day">
+          <div class="day-label">Today</div>
+          <div class="track">
+            <div class="seg now">Now · Comfort · 06–09</div>
+            <div class="seg">Setback · 09–16</div>
+            <div class="seg">Comfort · 16–22</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="block" id="guide">
+      <h2>Style guide</h2>
+      <p class="why">Paper, clay, sage, honey, plum. Fraunces carries the reading. Outfit carries the rest. Large radius, pills for actions, space instead of rules.</p>
+      <div class="swatches" aria-label="Colours">
+        <div class="swatch"><b style="background:#f3ebe3;box-shadow:inset 0 0 0 1px rgba(42,34,28,.08)"></b><span>Paper</span><code>#f3ebe3</code></div>
+        <div class="swatch"><b style="background:#fffaf6;box-shadow:inset 0 0 0 1px rgba(42,34,28,.08)"></b><span>Sheet</span><code>#fffaf6</code></div>
+        <div class="swatch"><b style="background:#2a221c"></b><span>Ink</span><code>#2a221c</code></div>
+        <div class="swatch"><b style="background:#d4532b"></b><span>Clay</span><code>#d4532b</code></div>
+        <div class="swatch"><b style="background:#6d8b6f"></b><span>Sage</span><code>#6d8b6f</code></div>
+        <div class="swatch"><b style="background:#e3a15a"></b><span>Honey</span><code>#e3a15a</code></div>
+        <div class="swatch"><b style="background:#8f5d78"></b><span>Plum</span><code>#8f5d78</code></div>
+        <div class="swatch"><b style="background:#8d7f74"></b><span>Mute</span><code>#8d7f74</code></div>
+      </div>
+      <div class="type-sample" style="margin-top:1rem">
+        <p class="big">21.4<span>°</span></p>
+        <p style="margin:0">Fraunces for the number you came to see. Outfit for names, buttons, and sentences. No mono dashboard, no tracked uppercase labels.</p>
+      </div>
+      <div class="shapes" style="margin-top:1rem">
+        <div class="blob">Surface · 1.75rem</div>
+        <button class="pill" type="button">Clay pill</button>
+        <span class="chip">Sheet chip</span>
+        <span class="chip" style="background:#2a221c;color:#f3ebe3">Selected</span>
+      </div>
+    </section>
+
+    <section class="block" id="pieces">
+      <h2>Pieces</h2>
+      <p class="why">The jobs remain: start and stop, a target, a plot, a schedule, a form, a banner, an empty state, an experiment. The frames are new.</p>
+      <div class="pieces">
+        <div class="piece">
+          <h3>Run</h3>
+          <button class="stop" type="button">Stop</button>
+          <button class="stop is-off" type="button" style="margin-left:.4rem">Start</button>
+        </div>
+        <div class="piece">
+          <h3>Experiment</h3>
+          <div class="exp">
+            <div>Parameter estimation · 12 min left</div>
+            <div class="barline" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+          </div>
+        </div>
+        <div class="piece">
+          <h3>Comfort target</h3>
+          <div class="field">
+            <label for="comfort">Comfort target</label>
+            <input id="comfort" value="21.0" inputmode="decimal">
+          </div>
+          <button class="pill" type="button" style="margin-top:.6rem">Save</button>
+        </div>
+        <div class="piece">
+          <h3>Status</h3>
+          <div style="display:grid;gap:.4rem;justify-items:start">
+            <span class="banner">App API connected</span>
+            <span class="banner warn">Panel boot failed. Retry.</span>
+            <p class="empty">No history for this hour. Widen the window, or wait for the next control.</p>
           </div>
         </div>
       </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="p-count"><span>Next control</span><b>11:02</b></div>
-        </div>
+      <p class="why" style="margin-top:1.4rem">Heating Assistant today, for scale. Charcoal, teal, mono. This sheet does not change that app.</p>
+      <div class="today" aria-label="Current industrial reference">
+        <div class="k">Overview · gauges</div>
+        <div class="row"><span>HEALTHY</span><span>18%</span><span>94%</span><strong>2.1 kW</strong></div>
       </div>
-    </div>
-
-    <h2 class="el" id="climate">Climate card / room tile</h2>
-    <p class="why">Same jobs as <code>climate-card.js</code> / <code>room-climate-tile.js</code>: name, status, current temperature, target stepper, band, today's schedule. Proposed drops the 8px dark card and the power glyph chrome. Temperature is the signature reading.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="c-card c-room">
-            <div class="c-room__top"><span class="c-room__name">Living room</span><span class="c-chip">Heating</span></div>
-            <div class="c-temp">21.4°</div>
-            <div style="font-size:12px;color:#9aa0a8">Target 21.0° · Band ±0.5°</div>
-            <div class="c-band"><i></i><b></b></div>
-            <div class="c-sched"><span><b>Now</b> 06:00–09:00 Comfort</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <article class="p-card">
-            <div class="p-room__top"><span class="p-room__name">Living room</span><span class="p-status">Heating</span></div>
-            <div><span style="display:block;font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--p-mute)">Current</span><div class="p-temp">21.4<span>°C</span></div></div>
-            <div class="p-steps">
-              <button class="p-step" type="button">−</button>
-              <strong>21.0°</strong>
-              <button class="p-step" type="button">+</button>
-              <span style="color:var(--p-mute);font-size:0.85rem">±0.5°</span>
-            </div>
-            <div class="p-band"><i></i><b></b></div>
-            <div class="p-sched"><div><span class="p-pill">Now</span> 06:00–09:00 <span class="p-mode">Comfort</span></div></div>
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="experiment">Experiment run</h2>
-    <p class="why">Climate card experiment: a named run, remaining time, and progress. Current is a violet industrial bar on charcoal. Proposed is a rounded plum capsule (<code>#8b5e83</code>), never teal.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="c-card" style="display:grid;gap:8px">
-            <div style="display:flex;justify-content:space-between;font-size:12px"><span>PE run · living</span><span style="color:#b58bf2">12 min left</span></div>
-            <div class="c-exp"><i></i></div>
-          </div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="p-card p-exp">
-            <div class="p-exp__lab">Parameter estimation · living room · 12 min left</div>
-            <div class="p-exp__bar" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"><i></i></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="band">Comfort band</h2>
-    <p class="why">Keep the track: comfort range, setpoint, current marker. Current is a thin square well on charcoal. Proposed is a rounded capsule on cream. Not a circular dial.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage"><div class="c-band" style="height:12px"><i></i><b></b></div><div style="font-size:11px;color:#6b7280;margin-top:8px">20.5 — 21.5 · current 21.4</div></div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage"><div class="p-band" style="height:0.7rem"><i></i><b></b></div><div style="font-size:0.75rem;color:var(--p-mute);margin-top:0.45rem">Comfort 20.5–21.5°</div></div>
-      </div>
-    </div>
-
-    <h2 class="el" id="plot">Time-series plot</h2>
-    <p class="why"><code>chart-theme.js</code> today: dark face, cyan measured series, grey grid, mono ticks. Proposed: cream face, terracotta measured, ink setpoint at half weight, amber power, mute outdoor. Round caps. No teal fill.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="c-plot">
-            <svg viewBox="0 0 320 120" aria-label="Industrial plot">
-              <rect width="320" height="120" fill="#22262e"/>
-              <g stroke="#363b44" stroke-width="1">
-                <line x1="32" y1="20" x2="32" y2="100"/><line x1="32" y1="100" x2="308" y2="100"/>
-                <line x1="32" y1="60" x2="308" y2="60" stroke-opacity=".5"/>
-              </g>
-              <polyline fill="none" stroke="#4fc3f7" stroke-width="2" points="32,72 80,64 128,70 176,48 224,52 272,40 308,44"/>
-              <polyline fill="none" stroke="#e57373" stroke-width="1.5" stroke-dasharray="5 5" points="32,58 80,58 128,58 176,50 224,50 272,50 308,50"/>
-              <text x="36" y="16" fill="#6b7280" font-size="10" font-family="ui-monospace,monospace">TEMP °C</text>
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="p-plot">
-            <svg viewBox="0 0 320 120" aria-label="Warm plot">
-              <rect width="320" height="120" rx="18" fill="#f7f5f0"/>
-              <g stroke="#1a1916" stroke-opacity=".08" stroke-width="1">
-                <line x1="32" y1="20" x2="32" y2="100"/><line x1="32" y1="100" x2="308" y2="100"/>
-                <line x1="32" y1="60" x2="308" y2="60"/>
-              </g>
-              <polyline fill="none" stroke="#ef5a11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="32,72 80,64 128,70 176,48 224,52 272,40 308,44"/>
-              <polyline fill="none" stroke="#1a1916" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="5 5" points="32,58 80,58 128,58 176,50 224,50 272,50 308,50"/>
-              <text x="36" y="16" fill="#6a6660" font-size="11" font-family="Archivo,sans-serif">Temperature</text>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="schedule">Schedule rows</h2>
-    <p class="why">Time range plus mode. Current Now is a teal word. Proposed Now is a terracotta pill. Comfort / Setback / Off stay words, not neon cells.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="c-card c-sched">
-            <div><b>NOW</b> 06:00–09:00 COMFORT</div>
-            <div>09:00–16:00 SETBACK</div>
-            <div>16:00–22:00 COMFORT</div>
-          </div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="p-card p-sched">
-            <div><span class="p-pill">Now</span> 06:00–09:00 <span class="p-mode">Comfort</span></div>
-            <div>09:00–16:00 <span class="p-mode">Setback</span></div>
-            <div>16:00–22:00 <span class="p-mode">Comfort</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="form">Form controls</h2>
-    <p class="why">Configuration and tuning. Current: dark elevated field, 4px radius, teal outline button. Proposed: label above, pill field on cream, terracotta submit.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage">
-          <div class="c-field" style="margin-bottom:10px"><label>Comfort target</label><input value="21.0"></div>
-          <button class="c-btn" type="button">Save</button>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage">
-          <div class="p-field" style="margin-bottom:10px"><label>Comfort target</label><input value="21.0"></div>
-          <button class="p-btn" type="button">Save</button>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="banner">Status banner</h2>
-    <p class="why">Ingress chip and identification running banner. Current is a teal (or red) capsule on charcoal. Proposed is ink on cream. Terracotta only for the state that must be seen. Do not wash the whole bar.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage" style="display:grid;gap:8px">
-          <span class="c-banner">App API connected</span>
-          <span class="c-banner c-err">Panel boot failed</span>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage" style="display:grid;gap:8px;justify-items:start">
-          <span class="p-banner">App API connected</span>
-          <span class="p-banner is-err">Panel boot failed — retry</span>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="el" id="empty">Empty, loading, error</h2>
-    <p class="why">Stay in the same module. Loading ends with an ellipsis. Empty and error name the next action. No dark overlay.</p>
-    <div class="pair">
-      <div class="col col--now">
-        <div class="col__label">Current</div>
-        <div class="stage" style="display:grid;gap:8px">
-          <div class="c-empty">Loading history...</div>
-          <div class="c-empty">No history for this range.</div>
-          <div class="c-empty" style="color:#e57373">Chart failed.</div>
-        </div>
-      </div>
-      <div class="col col--next">
-        <div class="col__label">Proposed</div>
-        <div class="stage" style="display:grid;gap:0.55rem">
-          <div class="p-empty">Loading history…</div>
-          <div class="p-empty">No history for this range. Widen the window, or wait for the next control.</div>
-          <div class="p-empty" style="color:var(--p-accent)">Could not draw the plot. Reload this room, or pick a shorter range.</div>
-        </div>
-      </div>
-    </div>
-
-    <footer class="note">
-      Radius current 8px / 4px. Radius proposed 1.5rem modules, pills for chips and nav. Experiment state uses plum <code>#8b5e83</code>, not violet-on-charcoal. This HTML is the iterate surface: change a token, reload. KPI cards in the comparison above are clickable.
-    </footer>
+    </section>
   </div>
   <script>
     (function () {
-      function closeAll(grid) {
-        grid.querySelectorAll('.kpi-hit').forEach(function (btn) {
-          btn.classList.remove('is-open');
-          btn.setAttribute('aria-expanded', 'false');
+      var rooms = {
+        living: { name: 'Living room', temp: '21.4', mode: 'Heating', note: 'comfortable', target: 21.0, idle: false },
+        kitchen: { name: 'Kitchen', temp: '20.1', mode: 'Idle', note: 'at rest', target: 20.0, idle: true },
+        bedroom: { name: 'Bedroom', temp: '19.6', mode: 'Heating', note: 'coming up', target: 20.0, idle: false }
+      };
+      var folds = {
+        house: {
+          copy: 'The house is healthy. Heaters are drawing 2.1 kW, 42% of the range. Comfort is 94%.',
+          facts: ['2.1 kW live', '42% of range', 'MQTT ok']
+        },
+        next: {
+          copy: 'The next control runs in 11 minutes. The planner is idle until then.',
+          facts: ['11:02 remaining', 'Sample interval on the hour', 'Computing: no']
+        }
+      };
+      var current = 'living';
+      var target = 21.0;
+      var whereEl = document.getElementById('where');
+      var tempEl = document.getElementById('temp');
+      var stateEl = document.getElementById('state');
+      var targetEl = document.getElementById('target');
+      var unfold = document.getElementById('unfold');
+      var copyEl = document.getElementById('unfold-copy');
+      var factsEl = document.getElementById('unfold-facts');
+
+      function paintRoom() {
+        var room = rooms[current];
+        target = room.target;
+        whereEl.textContent = room.name;
+        tempEl.innerHTML = room.temp + '<span>°</span>';
+        stateEl.innerHTML = '<b>' + room.mode + '</b> · ' + room.note;
+        stateEl.classList.toggle('is-idle', room.idle);
+        targetEl.textContent = target.toFixed(1) + '°';
+      }
+      function paintTarget() {
+        rooms[current].target = target;
+        targetEl.textContent = target.toFixed(1) + '°';
+      }
+      function openFold(key) {
+        var fold = folds[key];
+        if (!fold) {
+          unfold.hidden = true;
+          return;
+        }
+        copyEl.textContent = fold.copy;
+        factsEl.innerHTML = fold.facts.map(function (item) { return '<li>' + item + '</li>'; }).join('');
+        unfold.hidden = false;
+        document.querySelectorAll('.fact').forEach(function (btn) {
+          var on = btn.getAttribute('data-fold') === key;
+          btn.classList.toggle('is-on', on);
+          btn.setAttribute('aria-expanded', on ? 'true' : 'false');
         });
       }
-      document.querySelectorAll('[data-kpi-grid]').forEach(function (grid) {
-        grid.addEventListener('click', function (event) {
-          var btn = event.target.closest('.kpi-hit');
-          if (!btn || !grid.contains(btn)) return;
-          var wasOpen = btn.classList.contains('is-open');
-          closeAll(grid);
-          if (!wasOpen) {
-            btn.classList.add('is-open');
-            btn.setAttribute('aria-expanded', 'true');
-            grid.insertBefore(btn, grid.firstElementChild);
-          }
+      document.getElementById('rooms').addEventListener('click', function (event) {
+        var btn = event.target.closest('[data-room]');
+        if (!btn) return;
+        current = btn.getAttribute('data-room');
+        document.querySelectorAll('.room').forEach(function (el) {
+          el.classList.toggle('is-on', el === btn);
         });
+        paintRoom();
+      });
+      document.querySelector('.aside').addEventListener('click', function (event) {
+        var btn = event.target.closest('[data-fold]');
+        if (!btn) return;
+        var key = btn.getAttribute('data-fold');
+        if (btn.classList.contains('is-on')) openFold(null);
+        else openFold(key);
+      });
+      document.getElementById('down').addEventListener('click', function () {
+        target = Math.round((target - 0.5) * 10) / 10;
+        paintTarget();
+      });
+      document.getElementById('up').addEventListener('click', function () {
+        target = Math.round((target + 0.5) * 10) / 10;
+        paintTarget();
+      });
+      document.getElementById('run').addEventListener('click', function (event) {
+        var btn = event.currentTarget;
+        var on = btn.getAttribute('aria-pressed') === 'true';
+        btn.setAttribute('aria-pressed', on ? 'false' : 'true');
+        btn.textContent = on ? 'Start' : 'Stop';
+        btn.classList.toggle('is-off', on);
       });
       document.addEventListener('keydown', function (event) {
-        if (event.key !== 'Escape') return;
-        document.querySelectorAll('[data-kpi-grid]').forEach(closeAll);
+        if (event.key === 'Escape') openFold(null);
       });
     })();
   </script>

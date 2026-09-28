@@ -15,9 +15,9 @@ visual
 - Inspectables: sandbox/front-end-design/inspect/
 
 ## Representativeness
-- Relevant areas: runtime (static HTML/CSS, Archivo, Chrome render), data (dummy Heating Assistant jobs: KPIs, living-room climate, plot, schedule, form, banner, empty/error), neighbours (current industrial tokens beside proposed warm tokens), path (element jobs from `FRONTEND-ELEMENTS.md`, tokens from `industrial.css` vs `FRONTEND-WARM.md`), baseline (current column copies industrial hull `#1a1d23`, accent `#00d4aa`, radius `8px`)
-- How reproduced: `sheet.html` stages each element twice; current column uses industrial tokens; proposed column uses cream/terracotta/`1.5rem`
-- Gaps: live Heating Assistant websocket, real room history, and `industrial.css` host wiring. FLIP motion (220ms) and scroll-into-view are named, not played in this still. Operator scope: Heating Assistant is read-only. Those gaps cannot move a token verdict. The open-card layout is in the sheet.
+- Relevant areas: runtime (static HTML/CSS, Fraunces and Outfit, Chrome render), data (dummy house jobs: room temperature, next control, house health, plot, schedule, form), neighbours (a short industrial strip for scale only), path (jobs from Heating Assistant, layout invented for this pass), baseline (today strip uses hull `#1a1d23` and accent `#00d4aa`)
+- How reproduced: `sheet.html` leads with a composed home and a style guide. The industrial panel is a scale reference, not the template for the proposed layout.
+- Gaps: live Heating Assistant websocket, real room history, and `industrial.css` host wiring. Operator scope: Heating Assistant is read-only. Those gaps cannot move a verdict on this look.
 
 ## Bar
 - Scenario: the representative map above (not a simplified stand-in)
@@ -30,7 +30,8 @@ visual
 | N | Change | Inspectable | Verdict |
 |---|--------|-------------|---------|
 | 1 | initial extract | sandbox/front-end-design/inspect/01-tokens-nav-kpi.png, 01-countdown-climate-plot.png, 01-banner-empty.png, 01-sheet-top.png | delta: show the jobs, not only the resting look |
-| 2 | KPI expand: one open card moves first, spans the row, detail stays on the card. Current dark inset vs proposed cream detail. Clickable in `sheet.html`. | sandbox/front-end-design/inspect/02-kpi-expand.png | delta: waiting on whether this open state matches |
+| 2 | KPI expand: one open card moves first, spans the row, detail stays on the card. Current dark inset vs proposed cream detail. Clickable in `sheet.html`. | sandbox/front-end-design/inspect/02-kpi-expand.png | delta: do not stay bound to the current structure |
+| 3 | Free rethink: Fraunces reading, Outfit UI, paper/clay/sage, one home, detail as a sentence. Style guide and pieces. Industrial strip is scale only. | sandbox/front-end-design/inspect/03-home.png, 03-style-guide.png, 03-pieces.png | delta: waiting on whether this direction is written into the skill |
 
 ## Role
 Promotion input. Supportive isolation — not production source.
