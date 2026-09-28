@@ -62,9 +62,9 @@
 - Task: MD-1
 - Sub-tasks: MD-2, MD-3, MD-4, MD-5
 - Branch: cursor/skills-repository-guide-4766
-- PR:
+- PR: https://github.com/marcuskrogh/skills/pull/61
 - Classification: refine
 - Workflow: structure-safe
 
 ## Next
-`/implement MD-1` — write README and docs/guide pages
+`/ship MD-1` — merge remaining closeout when ready

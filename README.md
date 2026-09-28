@@ -37,6 +37,7 @@ The front page is an overview and an install guide. The pages below are the rest
 
 | Page | What it covers |
 |------|----------------|
+| [All guide pages](docs/guide/README.md) | Local map of the pages below |
 | [Structure](docs/guide/structure.md) | Tree, directories, scripts, templates, and what is not a skill |
 | [How it works](docs/guide/how-it-works.md) | Skills vs concepts, routing, classification, Next, tracker, language |
 | [Workflows](docs/guide/workflows.md) | Which workflow runs in which situation, templates, and chains |
@@ -202,7 +203,7 @@ Workspace scopes and tracker credentials: [Install in more depth](docs/guide/ins
 | `templates/agent-install/` | Consumer `AGENTS.md` block, Cursor rule, global language pointers |
 | `setup-github.ps1` | First-time push to GitHub |
 | `arxiv_research.py` | arXiv search, lookup, and snowball for `/research` |
-| `test_pipelines.py` | Pipeline transition checks used in this repo |
+| `test_pipelines.py` | Checks workflow transitions in `pipelines.md` and that independent skills do not name a successor |
 
 ## Workflow for skill changes
 

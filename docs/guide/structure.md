@@ -29,7 +29,7 @@ scripts/                        validate, sync, install-from-git, arXiv helper
 templates/agent-install/        consumer AGENTS.md block + Cursor rule
 templates/project-sync/         startup sync script template
 docs/agents/                    pipeline workspace and Task files for this repo
-docs/guide/                     this operator-facing guide
+docs/guide/                     this operator-facing guide (README.md is the local map)
 ```
 
 License: MIT (`LICENSE`). Copyright (c) 2026 Marcus Krogh Nielsen, Ph.D.
@@ -74,7 +74,7 @@ Those files tell the harness to load [`workflows`](../../skills/workflows/SKILL.
 | `setup-project-sync.ps1` | Wire `.agents/sync-skills.sh` (optional `-WireCursorCloud`) |
 | `setup-github.ps1` | First-time push to GitHub |
 | `arxiv_research.py` | arXiv search, lookup, and snowball for `/research` |
-| `test_pipelines.py` | Pipeline transition checks used in this repo |
+| `test_pipelines.py` | Checks workflow transitions in `pipelines.md` and that independent skills do not name a successor |
 
 ## `templates/`
 

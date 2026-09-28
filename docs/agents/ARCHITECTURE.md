@@ -14,6 +14,7 @@
 
 ```text
 README.md                 overview + full install
+docs/guide/README.md      local map of the linked pages
 docs/guide/structure.md   tree, what each directory is
 docs/guide/how-it-works.md  skills vs concepts, routing, Next, tracker
 docs/guide/workflows.md   catalog, templates, chains

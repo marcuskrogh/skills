@@ -3,14 +3,14 @@
 | Field | Value |
 |-------|-------|
 | Type | Task |
-| Status | In Progress |
+| Status | In Review |
 | Parent | |
 | Children | MD-2, MD-3, MD-4, MD-5 |
 | Artifact | docs/agents/PLAN.md |
 | Classification | refine |
 | Workflow | structure-safe |
 | Branch | cursor/skills-repository-guide-4766 |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/61 |
 | Created | 2026-09-28 |
 
 ## Summary
@@ -27,5 +27,14 @@ Define complete. Class refine, template structure-safe, `test.mode=skip`.
 ### 2026-09-28 (architect)
 `ARCHITECTURE.md` recorded. Outcome ready.
 
+### 2026-09-28 (implement)
+README and `docs/guide/` written. PR: https://github.com/marcuskrogh/skills/pull/61
+
+### 2026-09-28 (restructure)
+Added `docs/guide/README.md`. Task In Review.
+
+### 2026-09-28 (review)
+Focused review on the docs diff. Fixed `test_pipelines.py` row to match the script docstring. Outcome CLEAN.
+
 ## Next
-`/implement MD-1` — write README and docs/guide pages
+`/ship MD-1` — merge remaining closeout when ready

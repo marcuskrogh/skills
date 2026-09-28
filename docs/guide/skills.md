@@ -37,7 +37,7 @@ If a field is not stated in the skill file, this page says so instead of guessin
 | Field | |
 |-------|-|
 | What | Model-invoked router. Foggy → explore. Concrete → define (interview, then classify and bind). |
-| How to use | Automatic when you describe work to deliver. Do not need `/workflows`. |
+| How to use | Automatic when you describe work to deliver. The agent discovers this skill without a slash name. |
 | Where | Default entry for real work in this skills set. Also walkthroughs → guide, current-step teaching → explain. |
 | Output | None of its own. It discloses and runs the selected skill. |
 | Workflows | This skill *is* the catalog. It is not a row that other workflows invoke as a pipeline step. |
