@@ -65,14 +65,13 @@ room-detail history, identification/tuning canvases.
 
 The series fills the plot. Scale the axis to the data and the bounds, with
 about a 5% margin, the same way Heating Assistant sizes a room chart. The
-line sits in that range. The bands fill the rest of the frame.
+line sits in that range.
 
-Feasible and infeasible are areas, not extra lines. On temperature, the
-comfort corridor (between the lower and upper constraint) is a sage wash.
-Above the upper bound and below the lower bound is a clay wash, drawn to the
-edge of the plot, with no dashed boundary. On power, the same clay wash sits
-outside heating and cooling capacity; the sage wash is the deliverable range.
-The boundary datasets stay invisible.
+Feasible and infeasible are areas, not extra lines. The feasible band is the
+plain plot surface (`#fffaf6`), with no wash. Infeasible is an opaque plum
+fill (`#8f5d78`) from the bound out to the edge of the plot: on temperature,
+above the upper constraint and below the lower one; on power, outside heating
+and cooling capacity. No dashed boundary, and no translucent green or red.
 
 Cream plot face, warm ink ticks, hairline grid at low contrast. Series:
 measured temperature terracotta, setpoint ink, power amber (`#d08a2b`),

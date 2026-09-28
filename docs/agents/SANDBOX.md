@@ -33,7 +33,8 @@ visual
 | 2 | KPI expand: one open card moves first, spans the row, detail stays on the card. Current dark inset vs proposed cream detail. Clickable in `sheet.html`. | sandbox/front-end-design/inspect/02-kpi-expand.png | delta: do not stay bound to the current structure |
 | 3 | Free rethink: Fraunces reading, Outfit UI, paper/clay/sage, one home, detail as a sentence. Style guide and pieces. Industrial strip is scale only. | sandbox/front-end-design/inspect/03-home.png, 03-style-guide.png, 03-pieces.png | delta: one clear face for every value; drop the charcoal and teal strip |
 | 4 | Atkinson Hyperlegible for words and values. Weight 700, lining and tabular figures. Industrial strip removed. | sandbox/front-end-design/inspect/04-home.png, 04-style-guide.png, 04-pieces.png | delta: waiting on whether this type is the one to write into the skill |
-| 5 | Temperature and power plots fill the frame. Sage wash is feasible. Clay wash is infeasible, to the plot edge, with no boundary line. | sandbox/front-end-design/inspect/05-plots.png | delta: waiting on the bands |
+| 5 | Temperature and power plots fill the frame. Sage wash is feasible. Clay wash is infeasible, to the plot edge, with no boundary line. | sandbox/front-end-design/inspect/05-plots.png | delta: drop the green and red washes |
+| 6 | Infeasible is opaque plum to the plot edge. Feasible is the plain sheet, with no wash. | sandbox/front-end-design/inspect/06-plots.png | delta: waiting on the opaque bands |
 
 ## Role
 Promotion input. Supportive isolation — not production source.
