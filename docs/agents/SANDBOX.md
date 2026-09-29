@@ -50,4 +50,4 @@ Promotion input. Supportive isolation — not production source.
 - PR: — (sandbox never opens a PR)
 
 ## Next
-`/implement MD-1` — overview accepted; style guide is in FRONTEND-WARM and FRONTEND-ELEMENTS
+`/restructure MD-1` — style guide is written; four page tests are in the sandbox HTML
