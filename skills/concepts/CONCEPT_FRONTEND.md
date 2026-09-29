@@ -7,17 +7,17 @@ On-invoke pointer fires.
 ## Intent
 
 Every **product surface** looks like it belongs to this brief: named **tokens**,
-type that carries voice, structure that encodes the content, and copy that helps
-someone act. When the brief leaves stance free, the look is **warm** — simple,
-uncrowded, cream and terracotta, rounded modules. Usability comes from the craft
-floor. Outcome: working UI whose visual system can be stated in a short plan and
-checked against that plan.
+one typeface, structure that encodes the content, and copy that helps someone
+act. When the brief leaves stance free, the look is **warm**: paper and sheet,
+clay, sage, rounded modules, and a light first screen. Usability comes from the
+craft floor. Outcome: working UI whose visual system can be stated in a short
+plan and checked against that plan.
 
 ## Leading words
 
 - **direction** — named visual stance for this brief (palette, type, density, motion)
-- **warm** — default **direction**: cream paper, terracotta accent, generous
-  radius, sparse layout
+- **warm** — default **direction**: paper and sheet, clay accent, sage for a
+  calm state, Atkinson Hyperlegible, rounded surfaces, a light first screen
 - **signature** — the one element the page is remembered by
 - **token** — named color, type, space, or motion value the build derives from
 - **craft** — the quality floor: semantics, focus, contrast, reduced motion, small viewports
@@ -31,10 +31,10 @@ checked against that plan.
 - **Warm default.** When the brief leaves **direction** free, design **warm**.
   Catalog: [FRONTEND-WARM.md](FRONTEND-WARM.md). Recurring controls follow
   [FRONTEND-ELEMENTS.md](FRONTEND-ELEMENTS.md).
-- **Tokens first.** A compact system exists before CSS: 4–6 named colors, two or
-  more type roles (display with restraint, body, utility when data needs it), a
-  layout idea, and the **signature**. Every color and face in the build traces to
-  that system.
+- **Tokens first.** A compact system exists before CSS: the named colors in
+  [FRONTEND-WARM.md](FRONTEND-WARM.md), one typeface for words and values, a
+  layout idea, and the **signature**. Every color and face in the build traces
+  to that system.
 - **One signature.** Spend boldness in one place — usually one control or
   one readout. Surrounding architecture stays one family. Decoration earns its
   keep by serving the brief.
@@ -77,7 +77,7 @@ checked against that plan.
    each token is named and the **signature** is one sentence.
 3. **Check** — Read the plan against the brief, [FRONTEND-WARM.md](FRONTEND-WARM.md),
    and [FRONTEND-ELEMENTS.md](FRONTEND-ELEMENTS.md). Revise any part that would
-   appear for any similar page, or that would read as teal/grey industrial.
+   appear for any similar page, or that leaves the warm catalog.
    Done when the plan is specific to this **subject**.
 4. **Build** — Derive CSS and markup from the plan; apply **craft**. Done when
    the UI matches the tokens and the floor checklist.
@@ -98,6 +98,7 @@ Legitimate when the brief asks for them. Otherwise they are the unchosen look.
 
 ### Token plan (minimum)
 
-Color: 4–6 named hex values. Type: display, body, utility if needed. Layout:
-one-sentence idea plus a small ASCII wireframe when comparing options.
-**Signature:** one memorable element that embodies the brief.
+Color: the named values in [FRONTEND-WARM.md](FRONTEND-WARM.md). Type: Atkinson
+Hyperlegible for words and values. Layout: one-sentence idea plus a small ASCII
+wireframe when comparing options. **Signature:** one memorable element that
+embodies the brief.

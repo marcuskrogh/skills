@@ -37,7 +37,7 @@ visual
 | 6 | Infeasible is opaque plum to the plot edge. Feasible is the plain sheet, with no wash. | sandbox/front-end-design/inspect/06-plots.png | accept the opaque infeasible-only treatment |
 | 7 | Plot face is a rounded rectangle. Infeasible is opaque warm rose `#c48474`. | sandbox/front-end-design/inspect/07-plots.png | accept the rounded warm-rose plots |
 | 8 | One Heating Assistant overview page in the warm look: reading, rooms, start/stop, plots, schedule, controller jobs. | sandbox/front-end-design/inspect/08-example-home.png | delta: the first view is too busy |
-| 9 | Light overview: house running, three room temperatures. House, a room, or Schedules opens the rest. | sandbox/front-end-design/inspect/09-overview-light.png, 09-overview-room.png | delta: waiting on the lighter structure |
+| 9 | Light overview: house running, three room temperatures. House, a room, or Schedules opens the rest. | sandbox/front-end-design/inspect/09-overview-light.png, 09-overview-room.png | accept as the overview guide |
 
 ## Role
 Promotion input. Supportive isolation — not production source.
@@ -50,4 +50,4 @@ Promotion input. Supportive isolation — not production source.
 - PR: — (sandbox never opens a PR)
 
 ## Next
-`/sandbox MD-1` — inspect-loop; name a change, accept, or end
+`/implement MD-1` — overview accepted; style guide is in FRONTEND-WARM and FRONTEND-ELEMENTS

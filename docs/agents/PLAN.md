@@ -1,15 +1,13 @@
 # Implementation plan: Front-end design skill
 
 ## Summary
-- Add a **warm** front-end design skill for product-surface UI.
-- Ground it in Heating Assistant as a read-only candidate: simplicity, low clutter, cream and terracotta, rounded modules. Not the teal/grey industrial look.
-- Element references for plots, KPI cards, sections, climate cards, and the other recurring pieces in that app.
+- The **warm** front-end design skill is the accepted direction: a light first screen, Atkinson Hyperlegible, paper `#f3ebe3`, sheet `#fffaf6`, ink `#2a221c`, clay `#d4532b`, sage `#6d8b6f`, honey `#e3a15a`, plum `#8f5d78`, mute `#8d7f74`, rounded `1.75rem` surfaces, and opaque rose `#c48474` only on infeasible plot regions.
+- Style guide: `skills/concepts/FRONTEND-WARM.md` and `skills/concepts/FRONTEND-ELEMENTS.md`. Heating Assistant is read-only.
 
 ## Scope / Decisions / Constraints
 - In: `skills/frontend-design`, `CONCEPT_FRONTEND`, `FRONTEND-WARM.md`, `FRONTEND-ELEMENTS.md`, `FRONTEND-CRAFT.md`, calibration HTML under `examples/frontend-design/`.
 - Out: no edits, branches, or pull requests in Heating Assistant or other apps.
-- Preferences stated by the user: simpler, less clutter, warmer colours, more rounded and warm elements.
-- Prior skill on `cursor/frontend-design-concept-3aa3` still valid where it matches: tokens first, one signature, craft floor, Archivo, cream hull, terracotta accent, drop analog dials, air between groups. Default direction is **warm**, not retro-futuristic steel.
+- Preferences stated by the user, and accepted: light first screen; Atkinson Hyperlegible; the palette and rose plot rule above; deeper information on House, a room, Schedules, or a nav page. The earlier Archivo / cream-and-terracotta restyle is retired.
 
 ## Classification
 - Class: feature

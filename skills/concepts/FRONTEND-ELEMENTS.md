@@ -5,115 +5,90 @@ Load with that concept. Heat the **tokens** from [FRONTEND-WARM.md](FRONTEND-WAR
 Candidate: Heating Assistant
 (`marcuskrogh/HeatingAssistant`, `heatingassistant/app/static/`).
 
-These are build rules, not a screenshot of today's industrial panel. Keep the
-jobs and class names where they already exist; restyle them to **warm**.
+Build rules for the jobs in that app. Read it for page structure. Do not edit it.
 
 ## Shell
 
 **Where.** `index.html`, `industrial-dashboard.js` panel chrome, `.panel-nav`.
 
-Cream hull. Nav is a quiet row: brand, text links as pills, one terracotta
-Start/Stop. Live vs stopped is a short word plus a small round dot — not a
-teal sweep across the bar. Skip links land on the first job (`main` or Rooms).
+Paper page. Nav is a quiet row: brand, text links as pills, Healthy as a sage
+word with a round dot, Stop as a clay pill. Stopped is an outline pill labelled
+Start. Skip links land on the first job.
 
-## Sections
+Pages in the nav: Overview, Schedules, Tuning, Parameter estimation, System
+status, Configuration.
 
-**Where.** Overview (`pages/overview.js`): System status, Controller KPIs,
-Rooms. Room detail, schedules, configuration, system status, parameter
-estimation, tuning.
+## Overview
 
-A section is a heading plus its modules. Sentence case. No hairline rule
-farm. One heading scale. Space above the heading is larger than space inside
-the module. Do not nest a second card inside a card for the same job.
+**Where.** `pages/overview.js`.
 
-## KPI cards
+First view: House (Running or Stopped, Next), and one card per room (name,
+Heating / Idle / Off, temperature). That is the whole first screen besides
+the shell.
 
-**Where.** `.card.kpi`, `components/kpi-card.js`, overview `grid-kpi`.
+House opens overall health, MPC load, comfort, heating power, system COP,
+daily energy, tracking error, and model fit. A room opens the room page jobs
+below. Schedules opens today’s periods. One layer open at a time. Escape
+closes it.
 
-Large tabular number, short label under it, optional unit. One status word
-when it changes a decision (Healthy, Warning). No filled gauge well, no
-percentage bar behind the number, no mono tick strip. A grid of four to eight
-cards is enough on Overview; hide a card that has no value.
+Numbers are Atkinson Hyperlegible, weight 700, lining and tabular figures.
+A status word sits beside the number. Hide a reading that has no value.
 
-Expand (`components/kpi-expand.js`): details open under the same card, cream
-on cream, not a dark drawer. Copy names the next action.
+## Room
 
-## Gauges
+**Where.** `pages/room-detail.js`, `components/room-climate-tile.js`,
+`components/climate-card.js`.
 
-**Where.** `components/gauge.js` on Overview (health, MPC load, comfort,
-power, COP, daily energy, tracking error, model fit).
-
-Treat a gauge as a KPI card unless the brief asks for a band. Comfort band
-belongs on the climate card track, not as a circular dial. If a fill remains,
-it is a short rounded capsule in terracotta or mute, never cyan.
-
-## Climate cards / room tiles
-
-**Where.** `components/climate-card.js`, `components/room-climate-tile.js`,
-`css/pages/climate-card.css`. Overview room grid; room detail.
-
-Modules, top to bottom: name + status, current temperature (the **signature**
-reading on a room page), target stepper, comfort band, today's schedule
-rows. Heating / Idle / Off / Experiment as a short status word. Power is an
-icon button with an accessible name. Experiment is a named run, remaining
-time, and a rounded progress capsule in plum — not a violet industrial bar.
+This page is the deeper layer. It shows the current temperature (the
+**signature**), target stepper, comfort band, heating control, temperature
+plot, power plot, today’s periods, and the experiment when one is scheduled
+or running. Heating / Idle / Off / Experiment is a short status word.
+Experiment is a named run and a rounded plum capsule.
 
 ## Plots
 
-**Where.** `components/time-series-chart.js`, `chart-theme.js`, `chart-align.js`,
-room-detail history, identification/tuning canvases.
+**Where.** `components/time-series-chart.js`, `chart-theme.js`,
+room-detail history, identification and tuning canvases.
 
 The series fills the plot. Scale the axis to the data and the bounds, with
-about a 5% margin, the same way Heating Assistant sizes a room chart. The
-line sits in that range.
+about a 5% margin. The plot face is a rounded rectangle, about 32px in the
+chart frame, on sheet `#fffaf6`.
 
-Feasible and infeasible are areas, not extra lines. The feasible band is the
-plain plot surface (`#fffaf6`), with no wash. Infeasible is an opaque warm
-rose (`#c48474`) from the bound out to the edge of the plot: on temperature,
-above the upper constraint and below the lower one; on power, outside heating
-and cooling capacity. The plot face is a rounded rectangle (about 32px in the
-chart frame). No dashed boundary, and no translucent green or red.
+The feasible band is that plain sheet. Infeasible is opaque warm rose
+`#c48474` from the bound out to the rounded edge: on temperature, above the
+upper constraint and below the lower one; on power, outside heating and
+cooling capacity. Boundary lines stay invisible.
 
-Cream plot face, warm ink ticks, hairline grid at low contrast. Series:
-measured temperature terracotta, setpoint ink, power amber (`#d08a2b`),
-outdoor mute stone, solar a dusty gold, forecast a light terracotta dash.
-Line width 2 CSS pixels; round caps. No cyan, no teal fill under the line.
-Height stays `--chart-height-primary` (240px) / secondary (200px). Legend is
-sentence-case labels, not a mono key. Empty plot: one sentence that names
-the next step (wait for history, pick a range).
+Ticks are Atkinson Hyperlegible, weight 700, mute `#8d7f74`. Hairline grid in
+ink at low contrast. Series: measured temperature clay `#d4532b`, setpoint
+ink, power honey `#e3a15a`, forecast a lighter clay dash. Line width 2 CSS
+pixels; round caps. Legend is sentence-case labels. Empty plot: one sentence
+that names the next step (wait for history, pick a range).
 
-## Countdown
+## Schedules
 
-**Where.** `components/countdown.js` — Next control.
+**Where.** `pages/schedules.js`, `css/pages/schedules.css`.
 
-Label above a large tabular time. This may be the Overview **signature**
-readout beside Start. No spinning ring.
+The page’s job is the week and the day. Time range plus mode word (Comfort,
+Setback, Off). Now is an ink pill. Editors are rounded fields and pills. The
+live interval uses clay or ink, on sheet cells.
 
-## Schedule rows
+## Tuning and configuration
 
-**Where.** `components/schedule-overview.js`, `css/pages/schedules.css`.
+**Where.** `pages/tuning-controller.js`, `pages/configuration.js`.
 
-Time range + mode word (Comfort, Setback, Off). Now is a pill, not a neon
-marker. Editors stay rounded inputs and pills. Dense week grids still use
-cream cells and terracotta for the live interval.
+Label above the control. Rounded fields on sheet. The primary action is the
+clay pill. Errors sit next to the field and name the fix. Placeholders are
+examples that end with `…`.
 
-## Forms and configuration
+## System status and parameter estimation
 
-**Where.** `pages/configuration.js`, `css/pages/configuration.css`, tuning,
-parameter estimation.
+**Where.** `pages/system-status.js`, `pages/parameter-estimation.js`.
 
-Label above control. Rounded fields on cream. Primary submit is the
-terracotta pill. Errors sit next to the field and name the fix. Placeholders
-are examples that end with `…`.
+System status is health, connectivity, and the readings that explain them.
+Parameter estimation is the run: name, remaining time, plum progress capsule,
+and the plot for that run when the page’s job is the trace.
 
-## Status banners
-
-**Where.** Identification running banner, ingress status, system-status page.
-
-One rounded capsule, ink on cream, terracotta or plum only for the state that
-must be seen. Do not steal the Start control's colour for a background wash.
-
-## Empty, loading, error
-
-Loading copy ends with `…`. Empty and error states name the next action.
-Keep them in the same module; do not switch to a dark overlay.
+One rounded capsule for a banner. Clay or plum only for the state that must
+be seen. Loading copy ends with `…`. Empty and error states name the next
+action, on the same surface.
