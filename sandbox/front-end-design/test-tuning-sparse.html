@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3ebe3">
+  <title>Tuning, Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --honey: #e3a15a;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --rose: #c48474;
+      --radius: 1.75rem;
+      --font: "Atkinson Hyperlegible", sans-serif;
+    }
+
+    html {
+      background: var(--paper);
+      color: var(--ink);
+      color-scheme: light;
+      font-family: var(--font);
+      font-size: 100%;
+      font-weight: 400;
+      line-height: 1.5;
+      box-sizing: border-box;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    .skip {
+      position: absolute;
+      left: calc(0.75rem + env(safe-area-inset-left));
+      top: calc(0.75rem + env(safe-area-inset-top));
+      padding: 0.55rem 1rem;
+      background: var(--sheet);
+      color: var(--ink);
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transform: translateY(-200%);
+    }
+
+    .skip:focus-visible {
+      transform: none;
+    }
+
+    .bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+      padding: calc(0.85rem + env(safe-area-inset-top)) calc(1.25rem + env(safe-area-inset-right)) 0.85rem calc(1.25rem + env(safe-area-inset-left));
+    }
+
+    .brand {
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 1.125rem;
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .brand:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.18em;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 1rem;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+
+    .nav-link:hover {
+      background: var(--sheet);
+    }
+
+    .is-current {
+      background: var(--sheet);
+      font-weight: 700;
+    }
+
+    .cluster {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-left: auto;
+    }
+
+    .healthy {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0;
+      color: var(--sage);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .dot {
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 999px;
+      background: var(--sage);
+    }
+
+    .stop {
+      min-height: 44px;
+      padding: 0.45rem 1.15rem;
+      border-radius: 999px;
+      border: 2px solid var(--clay);
+      background: var(--clay);
+      color: var(--sheet);
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .stop:hover {
+      background: color-mix(in srgb, var(--clay) 84%, var(--ink));
+      border-color: color-mix(in srgb, var(--clay) 84%, var(--ink));
+    }
+
+    .is-stopped {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .is-stopped:hover {
+      background: color-mix(in srgb, var(--ink) 8%, var(--paper));
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .main {
+      padding: 3rem calc(1.25rem + env(safe-area-inset-right)) calc(3rem + env(safe-area-inset-bottom)) calc(1.25rem + env(safe-area-inset-left));
+    }
+
+    .fact {
+      margin: 0;
+      max-width: 16ch;
+      font-size: clamp(2.75rem, 7vw, 4.25rem);
+      font-weight: 400;
+      line-height: 1.08;
+      text-wrap: balance;
+      scroll-margin-top: 5rem;
+    }
+
+    .fact-button {
+      display: inline;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .fact-button:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.12em;
+    }
+
+    .fact-button:active {
+      opacity: 0.72;
+    }
+
+    .fact-name {
+      font-weight: 700;
+    }
+
+    .fact-rest {
+      font-weight: 700;
+      color: var(--sage);
+    }
+
+    .layer {
+      margin: auto;
+      padding: 0;
+      border: none;
+      background: var(--sheet);
+      color: var(--ink);
+      border-radius: var(--radius);
+      width: min(46rem, calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right) - 1rem));
+      max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1rem);
+      overflow: hidden;
+    }
+
+    .layer[open] {
+      display: flex;
+      flex-direction: column;
+      opacity: 1;
+      transition: opacity 180ms ease;
+    }
+
+    @starting-style {
+      .layer[open] {
+        opacity: 0;
+      }
+    }
+
+    .layer::backdrop {
+      background: color-mix(in srgb, var(--ink) 28%, transparent);
+    }
+
+    .layer-scroll {
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+      overscroll-behavior: contain;
+      padding: 1.5rem 1.5rem 1.25rem;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .layer-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .layer-title {
+      margin: 0;
+      min-width: 0;
+      font-size: 1.7rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-wrap: balance;
+    }
+
+    .block-title {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-wrap: balance;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 40rem;
+      font-size: 1.125rem;
+      line-height: 1.45;
+    }
+
+    .ghost {
+      flex-shrink: 0;
+      min-height: 44px;
+      padding: 0.45rem 1.05rem;
+      border-radius: 999px;
+      border: 2px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .ghost:hover {
+      background: color-mix(in srgb, var(--ink) 8%, var(--sheet));
+    }
+
+    .modes {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .mode {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+      min-width: 0;
+      padding: 1.1rem 1.15rem;
+      border-radius: var(--radius);
+      border: 2px solid transparent;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 1.05rem;
+      line-height: 1.45;
+      text-align: left;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .mode:hover {
+      background: color-mix(in srgb, var(--ink) 5%, var(--paper));
+    }
+
+    .is-selected {
+      border-color: var(--ink);
+    }
+
+    .mode-head {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      min-width: 0;
+    }
+
+    .mark {
+      flex-shrink: 0;
+      width: 1.15rem;
+      height: 1.15rem;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: transparent;
+    }
+
+    .is-marked {
+      background: var(--ink);
+    }
+
+    .mode-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 0.05rem;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .mode-name {
+      font-weight: 700;
+      font-size: 1.3rem;
+      line-height: 1.2;
+    }
+
+    .mode-sub {
+      color: var(--ink);
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+
+    .mode-badge {
+      flex-shrink: 0;
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.2;
+      text-align: right;
+    }
+
+    .is-live-badge {
+      color: var(--sage);
+    }
+
+    .is-draft-badge {
+      color: var(--ink);
+    }
+
+    .mode-body {
+      margin: 0;
+    }
+
+    .block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      min-width: 0;
+    }
+
+    .block[hidden] {
+      display: none;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem 1.5rem;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: var(--mute);
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.3;
+    }
+
+    .input {
+      width: 100%;
+      min-height: 3.25rem;
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius);
+      border: 2px solid color-mix(in srgb, var(--ink) 18%, var(--sheet));
+      background: var(--sheet);
+      color: var(--ink);
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 1.25rem;
+      font-variant-numeric: lining-nums tabular-nums;
+      touch-action: manipulation;
+    }
+
+    .input:hover {
+      background: color-mix(in srgb, var(--ink) 4%, var(--sheet));
+    }
+
+    .is-modified {
+      border-color: var(--clay);
+    }
+
+    .hint {
+      margin: 0.45rem 0 0;
+      color: var(--ink);
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .unit {
+      white-space: nowrap;
+    }
+
+    .degree {
+      color: var(--clay);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .error {
+      margin: 0;
+      color: var(--clay);
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.35;
+    }
+
+    .banner {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.35;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      flex: none;
+      min-width: 0;
+      padding: 0.85rem 1.5rem calc(1.15rem + env(safe-area-inset-bottom));
+      background: var(--sheet);
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .apply {
+      min-height: 44px;
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      border: 2px solid var(--clay);
+      background: var(--clay);
+      color: var(--sheet);
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .apply:hover {
+      background: color-mix(in srgb, var(--clay) 82%, var(--ink));
+      border-color: color-mix(in srgb, var(--clay) 82%, var(--ink));
+    }
+
+    .status {
+      margin: 0;
+      min-width: 0;
+      font-size: 1.05rem;
+      line-height: 1.4;
+    }
+
+    .status:empty {
+      display: none;
+    }
+
+    .preview-status {
+      margin: 0;
+      min-width: 0;
+      font-size: 1.05rem;
+      line-height: 1.4;
+    }
+
+    @media (min-width: 40rem) {
+      .modes {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .fields {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 52rem) {
+      .cluster {
+        margin-left: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .layer[open] {
+        transition: none;
+      }
+
+      .fact-button:active {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <a class="skip" href="#planner-open">Skip to tuning</a>
+    <div class="bar">
+      <a class="brand" href="#planner-open">Heating Assistant</a>
+      <nav class="nav" aria-label="Pages">
+        <a class="nav-link" href="#overview">Overview</a>
+        <a class="nav-link" href="#schedules">Schedules</a>
+        <a class="nav-link is-current" href="#tuning" aria-current="page">Tuning</a>
+        <a class="nav-link" href="#parameter-estimation">Parameter estimation</a>
+        <a class="nav-link" href="#system-status">System status</a>
+        <a class="nav-link" href="#configuration">Configuration</a>
+      </nav>
+      <div class="cluster">
+        <p class="healthy"><span class="dot" aria-hidden="true"></span>Healthy</p>
+        <button type="button" class="stop" id="stop" aria-pressed="false">Stop</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="main">
+    <h1 class="fact">
+      <button type="button" class="fact-button" id="planner-open" aria-haspopup="dialog" aria-expanded="false" aria-controls="planner-layer">
+        <span class="fact-name" id="planner-name">Nonlinear</span><span class="fact-rest"> is in use.</span>
+      </button>
+    </h1>
+  </main>
+
+  <dialog class="layer" id="planner-layer" aria-labelledby="layer-title">
+    <form class="layer-scroll" id="tuning-form" autocomplete="off" novalidate>
+      <div class="stack">
+        <div class="layer-head">
+          <h2 class="layer-title" id="layer-title">MPC Controller Parameters</h2>
+          <button type="button" class="ghost" id="close-layer">Close</button>
+        </div>
+
+        <p class="lede">Choose a planner, then Apply Changes to put it live. Shared knobs keep their values when you switch.</p>
+
+        <div class="modes" role="group" aria-label="Planner">
+          <button type="button" class="mode is-selected" id="mode-nmpc" data-mode="nmpc" aria-pressed="true">
+            <span class="mode-head">
+              <span class="mark is-marked" data-mark="nmpc" aria-hidden="true"></span>
+              <span class="mode-titles">
+                <span class="mode-name">Nonlinear</span>
+                <span class="mode-sub">model predictive control</span>
+              </span>
+              <span class="mode-badge is-live-badge" data-badge="nmpc">In use</span>
+            </span>
+            <span class="mode-body">Updates heater commands on a nonlinear program each sample — the same receding-horizon problem as Linear, without linearising the house model. Heavier compute.</span>
+          </button>
+          <button type="button" class="mode" id="mode-linear" data-mode="linear" aria-pressed="false">
+            <span class="mode-head">
+              <span class="mark" data-mark="linear" aria-hidden="true"></span>
+              <span class="mode-titles">
+                <span class="mode-name">Linear</span>
+                <span class="mode-sub">model predictive control</span>
+              </span>
+              <span class="mode-badge" data-badge="linear"></span>
+            </span>
+            <span class="mode-body">Updates heater commands on a quadratic program each sample. Faster to solve; the house model is linearised, so strong nonlinearities are approximated.</span>
+          </button>
+        </div>
+
+        <section class="block">
+          <h3 class="block-title">Shared with both planners</h3>
+          <p class="lede">Comfort band, electricity price, command smoothing, band-exit penalty, and max compute time. Applied on the next planning cycle after you save.</p>
+          <div class="fields">
+            <div class="field">
+              <label class="label" for="ctrl-comfort_offset">Comfort offset</label>
+              <input class="input" id="ctrl-comfort_offset" name="comfort_offset" type="number" inputmode="decimal" step="0.1" value="2" autocomplete="off" aria-describedby="hint-comfort_offset">
+              <p class="hint" id="hint-comfort_offset"><span class="unit"><span class="degree">°</span>C —</span> Half-width of the comfort band around the setpoint.</p>
+            </div>
+            <div class="field">
+              <label class="label" for="ctrl-energy_price_weight">Price sensitivity</label>
+              <input class="input" id="ctrl-energy_price_weight" name="energy_price_weight" type="number" inputmode="decimal" step="0.1" value="1" autocomplete="off" aria-describedby="hint-energy_price_weight">
+              <p class="hint" id="hint-energy_price_weight">How strongly a high electricity price pushes the plan toward less electrical heat (0 = ignore price).</p>
+            </div>
+            <div class="field">
+              <label class="label" for="ctrl-smoothing_weight">Output smoothing</label>
+              <input class="input" id="ctrl-smoothing_weight" name="smoothing_weight" type="number" inputmode="decimal" step="0.05" value="0.1" autocomplete="off" aria-describedby="hint-smoothing_weight">
+              <p class="hint" id="hint-smoothing_weight">Penalty on changing the heater command from one interval to the next.</p>
+            </div>
+            <div class="field">
+              <label class="label" for="ctrl-soft_constraint_weight">Comfort-band penalty</label>
+              <input class="input" id="ctrl-soft_constraint_weight" name="soft_constraint_weight" type="number" inputmode="decimal" step="1" value="10" autocomplete="off" aria-describedby="hint-soft_constraint_weight">
+              <p class="hint" id="hint-soft_constraint_weight">How hard leaving the comfort band is penalised. Larger values fight harder to stay inside.</p>
+            </div>
+            <div class="field">
+              <label class="label" for="ctrl-nmpc_max_compute_s">Max compute time</label>
+              <input class="input" id="ctrl-nmpc_max_compute_s" name="nmpc_max_compute_s" type="number" inputmode="decimal" step="1" value="60" autocomplete="off" aria-describedby="hint-nmpc_max_compute_s">
+              <p class="hint" id="hint-nmpc_max_compute_s">s — Wall-clock cap for one planner solve. The solver stops at this limit and keeps the best plan found so far (default 60).</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="block" id="linear-weights" hidden>
+          <h3 class="block-title">Linear MPC cost weights</h3>
+          <p class="lede">Extra terms on the linear quadratic program. The nonlinear planner does not use these.</p>
+          <div class="fields">
+            <div class="field">
+              <label class="label" for="ctrl-tracking_weight">Setpoint pull</label>
+              <input class="input" id="ctrl-tracking_weight" name="tracking_weight" type="number" inputmode="decimal" step="0.1" value="0" autocomplete="off" aria-describedby="hint-tracking_weight">
+              <p class="hint" id="hint-tracking_weight">How hard the linear planner pulls toward the exact setpoint while already inside the band (0 = stay inside the band only).</p>
+            </div>
+            <div class="field">
+              <label class="label" for="ctrl-energy_weight">Heater-effort penalty</label>
+              <input class="input" id="ctrl-energy_weight" name="energy_weight" type="number" inputmode="decimal" step="0.01" value="0.01" autocomplete="off" aria-describedby="hint-energy_weight">
+              <p class="hint" id="hint-energy_weight">Penalty on heater command size itself, separate from electricity price.</p>
+            </div>
+            <div class="field">
+              <label class="label" for="ctrl-soft_constraint_linear_weight">Outside-band linear penalty</label>
+              <input class="input" id="ctrl-soft_constraint_linear_weight" name="soft_constraint_linear_weight" type="number" inputmode="decimal" step="1" value="0" autocomplete="off" aria-describedby="hint-soft_constraint_linear_weight">
+              <p class="hint" id="hint-soft_constraint_linear_weight">Extra steadily growing penalty the further outside the band (0 = off).</p>
+            </div>
+            <div class="field">
+              <label class="label" for="ctrl-terminal_weight">End-of-horizon weight</label>
+              <input class="input" id="ctrl-terminal_weight" name="terminal_weight" type="number" inputmode="decimal" step="1" value="100" autocomplete="off" aria-describedby="hint-terminal_weight">
+              <p class="hint" id="hint-terminal_weight">How strongly the last predicted step should still be near the setpoint (must be at least 1).</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="block">
+          <h3 class="block-title">Timing</h3>
+          <p class="lede">Sample interval and look-ahead. Both planners use the same receding-horizon grid. Changing these rebuilds the planner when you Apply Changes.</p>
+          <div class="fields">
+            <div class="field">
+              <label class="label" for="ctrl-update_interval">Sample interval</label>
+              <input class="input" id="ctrl-update_interval" name="update_interval" type="number" inputmode="numeric" step="60" value="900" autocomplete="off" aria-describedby="hint-update_interval" aria-errormessage="err-timing">
+              <p class="hint" id="hint-update_interval">s — How often heater commands are applied (default 900 s).</p>
+            </div>
+            <div class="field">
+              <label class="label" for="ctrl-look_ahead_h">Look-ahead</label>
+              <input class="input" id="ctrl-look_ahead_h" name="look_ahead_h" type="number" inputmode="numeric" step="1" value="36" autocomplete="off" aria-describedby="hint-look_ahead_h" aria-errormessage="err-timing">
+              <p class="hint" id="hint-look_ahead_h">h — How far the plan covers (default 36 h). Must be a whole number of sample intervals.</p>
+            </div>
+          </div>
+          <p class="error" id="err-timing" hidden></p>
+          <input type="hidden" id="ctrl-horizon" name="horizon" value="144">
+          <input type="hidden" id="ctrl-nmpc_horizon_h" name="nmpc_horizon_h" value="36">
+          <input type="hidden" id="ctrl-nmpc_period" name="nmpc_period" value="900">
+          <input type="hidden" id="ctrl-nmpc_fast_substeps" name="nmpc_fast_substeps" value="1">
+        </section>
+
+        <section class="block">
+          <h3 class="block-title">Window Configuration</h3>
+          <p class="lede">Global parameters for window open/close detection. Changes affect all rooms.</p>
+          <div class="fields">
+            <div class="field">
+              <label class="label" for="win-window_open_debounce">Window Open Debounce</label>
+              <input class="input" id="win-window_open_debounce" name="window_open_debounce" type="number" inputmode="numeric" step="10" value="60" autocomplete="off" aria-describedby="hint-window_open_debounce">
+              <p class="hint" id="hint-window_open_debounce">s — Debounce before confirming window open</p>
+            </div>
+            <div class="field">
+              <label class="label" for="win-window_open_close_settle">Window Close Settle</label>
+              <input class="input" id="win-window_open_close_settle" name="window_open_close_settle" type="number" inputmode="numeric" step="10" value="30" autocomplete="off" aria-describedby="hint-window_open_close_settle">
+              <p class="hint" id="hint-window_open_close_settle">s — Settle time after window closes before resuming</p>
+            </div>
+            <div class="field">
+              <label class="label" for="win-window_open_q_inflation">Uncertainty Multiplier</label>
+              <input class="input" id="win-window_open_q_inflation" name="window_open_q_inflation" type="number" inputmode="decimal" step="1" value="10" autocomplete="off" aria-describedby="hint-window_open_q_inflation">
+              <p class="hint" id="hint-window_open_q_inflation">× — Covariance inflation when window is open</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="block">
+          <h3 class="block-title">Controller Preview</h3>
+          <p class="lede">Run a one-off solve with the values on this page, including a drafted planner. Apply Changes is what switches the live solver.</p>
+          <button type="button" class="ghost" id="preview">Preview Controller Behaviour</button>
+          <p class="preview-status" id="preview-status" role="status"></p>
+        </section>
+      </div>
+    </form>
+    <div class="actions">
+      <p class="banner" id="banner" role="status" hidden></p>
+      <div class="action-row">
+        <button type="submit" form="tuning-form" class="apply" id="apply" hidden>Apply Changes</button>
+        <button type="button" class="ghost" id="reset">Reset to Defaults</button>
+      </div>
+      <p class="status" id="status" role="status"></p>
+    </div>
+  </dialog>
+
+  <script>
+    const MPC_LINEAR = "linear";
+    const MPC_NMPC = "nmpc";
+
+    const DEFAULTS = {
+      mpc_mode: MPC_NMPC,
+      nmpc_period: 900,
+      nmpc_fast_substeps: 1,
+      nmpc_horizon_h: 36,
+      nmpc_max_compute_s: 60,
+      update_interval: 900,
+      comfort_offset: 2.0,
+      horizon: 144,
+      tracking_weight: 0.0,
+      energy_weight: 0.01,
+      energy_price_weight: 1.0,
+      smoothing_weight: 0.1,
+      soft_constraint_weight: 10.0,
+      soft_constraint_linear_weight: 0.0,
+      terminal_weight: 100.0,
+      window_open_debounce: 60,
+      window_open_close_settle: 30,
+      window_open_q_inflation: 10.0,
+    };
+
+    const asInt = (value) => parseInt(value, 10);
+
+    const DEFS = [
+      { key: "comfort_offset", id: "ctrl-comfort_offset", parse: parseFloat },
+      { key: "energy_price_weight", id: "ctrl-energy_price_weight", parse: parseFloat },
+      { key: "smoothing_weight", id: "ctrl-smoothing_weight", parse: parseFloat },
+      { key: "soft_constraint_weight", id: "ctrl-soft_constraint_weight", parse: parseFloat },
+      { key: "nmpc_max_compute_s", id: "ctrl-nmpc_max_compute_s", parse: parseFloat },
+      { key: "tracking_weight", id: "ctrl-tracking_weight", parse: parseFloat },
+      { key: "energy_weight", id: "ctrl-energy_weight", parse: parseFloat },
+      { key: "soft_constraint_linear_weight", id: "ctrl-soft_constraint_linear_weight", parse: parseFloat },
+      { key: "terminal_weight", id: "ctrl-terminal_weight", parse: parseFloat },
+      { key: "update_interval", id: "ctrl-update_interval", parse: parseFloat },
+      { key: "horizon", id: "ctrl-horizon", parse: asInt },
+      { key: "nmpc_horizon_h", id: "ctrl-nmpc_horizon_h", parse: parseFloat },
+      { key: "nmpc_period", id: "ctrl-nmpc_period", parse: parseFloat },
+      { key: "nmpc_fast_substeps", id: "ctrl-nmpc_fast_substeps", parse: asInt },
+      { key: "window_open_debounce", id: "win-window_open_debounce", parse: asInt },
+      { key: "window_open_close_settle", id: "win-window_open_close_settle", parse: asInt },
+      { key: "window_open_q_inflation", id: "win-window_open_q_inflation", parse: parseFloat },
+    ];
+
+    const RESTART_KEYS = ["update_interval", "horizon", "nmpc_horizon_h", "nmpc_period", "nmpc_fast_substeps"];
+
+    const inputs = {};
+    for (const def of DEFS) inputs[def.key] = document.getElementById(def.id);
+    const lookAhead = document.getElementById("ctrl-look_ahead_h");
+
+    const opener = document.getElementById("planner-open");
+    const plannerName = document.getElementById("planner-name");
+    const layer = document.getElementById("planner-layer");
+    const form = document.getElementById("tuning-form");
+    const linearWeights = document.getElementById("linear-weights");
+    const applyBtn = document.getElementById("apply");
+    const resetBtn = document.getElementById("reset");
+    const previewBtn = document.getElementById("preview");
+    const banner = document.getElementById("banner");
+    const statusEl = document.getElementById("status");
+    const previewStatus = document.getElementById("preview-status");
+    const timingErr = document.getElementById("err-timing");
+    const stopBtn = document.getElementById("stop");
+    const modeButtons = {
+      nmpc: document.getElementById("mode-nmpc"),
+      linear: document.getElementById("mode-linear"),
+    };
+
+    let applied = { ...DEFAULTS };
+    let selectedMode = DEFAULTS.mpc_mode;
+    let stopped = false;
+
+    function valuesEqual(a, b) {
+      const na = Number(a);
+      const nb = Number(b);
+      if (Number.isFinite(na) && Number.isFinite(nb)) {
+        return Math.abs(na - nb) <= 1e-9 * Math.max(1, Math.abs(na), Math.abs(nb));
+      }
+      return a === b;
+    }
+
+    function coerceMode(value) {
+      return String(value || "").toLowerCase() === MPC_LINEAR ? MPC_LINEAR : MPC_NMPC;
+    }
+
+    function modeLabel(mode) {
+      return coerceMode(mode) === MPC_LINEAR ? "Linear" : "Nonlinear";
+    }
+
+    function appliedLookAheadHours(config) {
+      const storedH = Number(config.nmpc_horizon_h);
+      if (Number.isFinite(storedH) && storedH > 0) return storedH;
+      const dt = Number(config.update_interval ?? DEFAULTS.update_interval);
+      const horizon = Number(config.horizon ?? DEFAULTS.horizon);
+      return dt > 0 ? horizon * dt / 3600 : DEFAULTS.nmpc_horizon_h;
+    }
+
+    function syncTimingAliases() {
+      const dt = Number(inputs.update_interval.value);
+      const hours = Number(lookAhead.value);
+      if (!(dt > 0) || !(hours > 0)) return;
+      const steps = hours * 3600 / dt;
+      const rounded = Math.round(steps);
+      if (Math.abs(steps - rounded) > 1e-6 || rounded < 1) return;
+      inputs.horizon.value = String(rounded);
+      inputs.nmpc_horizon_h.value = String(hours);
+      inputs.nmpc_period.value = String(dt);
+      inputs.nmpc_fast_substeps.value = "1";
+    }
+
+    function timingError() {
+      const dt = Number(inputs.update_interval.value);
+      const hours = Number(lookAhead.value);
+      if (!(dt > 0) || !(hours > 0)) {
+        return "Sample interval and look-ahead must be positive.";
+      }
+      const steps = hours * 3600 / dt;
+      if (Math.abs(steps - Math.round(steps)) > 1e-6 || Math.round(steps) < 1) {
+        return "Look-ahead must be a whole number of sample intervals.";
+      }
+      return null;
+    }
+
+    function collect() {
+      syncTimingAliases();
+      const cfg = { mpc_mode: selectedMode };
+      for (const def of DEFS) cfg[def.key] = def.parse(inputs[def.key].value);
+      return cfg;
+    }
+
+    function lookAheadDiffers() {
+      const hours = Number(lookAhead.value);
+      if (!Number.isFinite(hours)) return true;
+      return !valuesEqual(hours, appliedLookAheadHours(applied));
+    }
+
+    function hasPending() {
+      const configured = collect();
+      if (coerceMode(configured.mpc_mode) !== coerceMode(applied.mpc_mode)) return true;
+      if (DEFS.some((def) => !valuesEqual(configured[def.key], applied[def.key] ?? DEFAULTS[def.key]))) return true;
+      return lookAheadDiffers();
+    }
+
+    function hasRestart() {
+      const configured = collect();
+      if (coerceMode(configured.mpc_mode) !== coerceMode(applied.mpc_mode)) return true;
+      if (RESTART_KEYS.some((key) => !valuesEqual(configured[key], applied[key] ?? DEFAULTS[key]))) return true;
+      return lookAheadDiffers();
+    }
+
+    function syncModes() {
+      const live = coerceMode(applied.mpc_mode);
+      for (const mode of [MPC_NMPC, MPC_LINEAR]) {
+        const btn = modeButtons[mode];
+        const isLive = mode === live;
+        const isDraft = mode === selectedMode;
+        btn.classList.toggle("is-selected", isDraft);
+        btn.setAttribute("aria-pressed", isDraft ? "true" : "false");
+        const mark = btn.querySelector("[data-mark]");
+        mark.classList.toggle("is-marked", isDraft);
+        const badge = btn.querySelector("[data-badge]");
+        badge.classList.toggle("is-live-badge", isLive);
+        badge.classList.toggle("is-draft-badge", isDraft && !isLive);
+        if (isLive) badge.textContent = "In use";
+        else if (isDraft) badge.textContent = "Apply to switch";
+        else badge.textContent = "";
+      }
+      linearWeights.hidden = selectedMode !== MPC_LINEAR;
+    }
+
+    function syncModified(pending, configured) {
+      for (const def of DEFS) {
+        const input = inputs[def.key];
+        if (input.type === "hidden") continue;
+        const differs = pending && !valuesEqual(configured[def.key], applied[def.key] ?? DEFAULTS[def.key]);
+        input.classList.toggle("is-modified", differs);
+      }
+      lookAhead.classList.toggle("is-modified", pending && lookAheadDiffers());
+    }
+
+    function updatePending() {
+      const pending = hasPending();
+      const configured = collect();
+      applyBtn.hidden = !pending;
+      banner.hidden = !pending;
+      if (pending) {
+        banner.textContent = hasRestart()
+          ? "Unsaved changes include the planner mode or timing — applying will rebuild the controller."
+          : "Unsaved changes — penalty weights and window settings apply to the live controller on the next cycle.";
+      } else {
+        banner.textContent = "";
+      }
+      syncModified(pending, configured);
+      syncModes();
+    }
+
+    function clearTimingError() {
+      timingErr.hidden = true;
+      timingErr.textContent = "";
+      inputs.update_interval.removeAttribute("aria-invalid");
+      lookAhead.removeAttribute("aria-invalid");
+    }
+
+    function showTimingError(message) {
+      timingErr.textContent = message;
+      timingErr.hidden = false;
+      const dt = Number(inputs.update_interval.value);
+      const hours = Number(lookAhead.value);
+      const intervalBad = !(dt > 0);
+      const lookBad = !(hours > 0) || message.indexOf("Look-ahead") === 0;
+      inputs.update_interval.setAttribute("aria-invalid", intervalBad ? "true" : "false");
+      lookAhead.setAttribute("aria-invalid", lookBad ? "true" : "false");
+      (intervalBad ? inputs.update_interval : lookAhead).focus();
+    }
+
+    function writeConfig(config) {
+      selectedMode = coerceMode(config.mpc_mode);
+      for (const def of DEFS) {
+        if (config[def.key] !== undefined && config[def.key] !== null) {
+          inputs[def.key].value = config[def.key];
+        }
+      }
+      const hours = Number(inputs.nmpc_horizon_h.value);
+      if (Number.isFinite(hours) && hours > 0) lookAhead.value = String(hours);
+      syncTimingAliases();
+    }
+
+    function onEdit() {
+      clearTimingError();
+      syncTimingAliases();
+      updatePending();
+    }
+
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (link.getAttribute("aria-current") === "page") event.preventDefault();
+        else event.preventDefault();
+      });
+    });
+
+    document.querySelector(".brand").addEventListener("click", (event) => {
+      event.preventDefault();
+      opener.focus();
+    });
+
+    stopBtn.addEventListener("click", () => {
+      stopped = !stopped;
+      stopBtn.textContent = stopped ? "Start" : "Stop";
+      stopBtn.classList.toggle("is-stopped", stopped);
+      stopBtn.setAttribute("aria-pressed", stopped ? "true" : "false");
+    });
+
+    opener.addEventListener("click", () => {
+      if (layer.open) return;
+      layer.showModal();
+      opener.setAttribute("aria-expanded", "true");
+      const pressed = layer.querySelector('.mode[aria-pressed="true"]');
+      if (pressed) pressed.focus();
+    });
+
+    layer.addEventListener("close", () => {
+      opener.setAttribute("aria-expanded", "false");
+      opener.focus();
+    });
+
+    document.getElementById("close-layer").addEventListener("click", () => {
+      layer.close();
+    });
+
+    for (const mode of [MPC_NMPC, MPC_LINEAR]) {
+      modeButtons[mode].addEventListener("click", () => {
+        selectedMode = mode;
+        clearTimingError();
+        updatePending();
+      });
+    }
+
+    const watched = [...Object.values(inputs), lookAhead];
+    for (const input of watched) {
+      if (!input || input.type === "hidden") continue;
+      input.addEventListener("input", onEdit);
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (applyBtn.hidden) return;
+      const err = timingError();
+      if (err) {
+        statusEl.textContent = err;
+        showTimingError(err);
+        return;
+      }
+      clearTimingError();
+      applied = collect();
+      selectedMode = coerceMode(applied.mpc_mode);
+      plannerName.textContent = modeLabel(applied.mpc_mode);
+      statusEl.textContent = "Applied successfully.";
+      previewStatus.textContent = "";
+      updatePending();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      writeConfig(DEFAULTS);
+      clearTimingError();
+      statusEl.textContent = "Default values loaded — click Apply Changes to save.";
+      updatePending();
+    });
+
+    previewBtn.addEventListener("click", () => {
+      const err = timingError();
+      if (err) {
+        previewStatus.textContent = err;
+        showTimingError(err);
+        return;
+      }
+      clearTimingError();
+      previewStatus.textContent = "Outdoor temperature is unavailable. A current reading is required to run the preview.";
+    });
+
+    updatePending();
+  </script>
+</body>
+</html>

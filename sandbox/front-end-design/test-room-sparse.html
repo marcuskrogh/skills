@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3ebe3">
+  <meta name="color-scheme" content="light">
+  <title>Living room · Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --honey: #e3a15a;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --rose: #c48474;
+      --forecast: #e08568;
+      --grid: color-mix(in srgb, var(--ink) 16%, transparent);
+      --radius: 1.75rem;
+      --plot-radius: 32px;
+      --font: "Atkinson Hyperlegible", sans-serif;
+      --sheet-pad: 2rem;
+    }
+
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+
+    html { color-scheme: light; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 1.0625rem;
+      font-weight: 400;
+      line-height: 1.45;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    h1, h2, h3 {
+      text-wrap: balance;
+      scroll-margin-top: 1rem;
+      font-weight: 400;
+    }
+
+    button, a { font-family: inherit; }
+
+    button {
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .num { font-variant-numeric: lining-nums tabular-nums; }
+
+    .deg { color: var(--clay); }
+
+    .shell {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 0.5rem;
+      padding: 1.15rem 1.25rem;
+      padding-top: calc(1.15rem + env(safe-area-inset-top));
+      padding-left: calc(1.25rem + env(safe-area-inset-left));
+      padding-right: calc(1.25rem + env(safe-area-inset-right));
+    }
+
+    .skip {
+      --skip-shift: translateY(-8rem);
+      position: absolute;
+      z-index: 3;
+      left: 1rem;
+      top: 1rem;
+      transform: var(--skip-shift);
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--sheet);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .skip:focus-visible { --skip-shift: translateY(0); }
+
+    .brand {
+      margin: 0;
+      font-size: 1rem;
+      min-width: 0;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      min-width: 0;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 999px;
+      color: var(--ink);
+      text-decoration: none;
+      background: var(--nav-bg, transparent);
+    }
+
+    .nav a:hover { --nav-bg: var(--sheet); }
+
+    .health {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0 0 0 auto;
+      color: var(--sage);
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: var(--sage);
+    }
+
+    .stop {
+      --stop-bg: var(--clay);
+      --stop-fg: var(--sheet);
+      --stop-line: transparent;
+      min-height: 2.75rem;
+      padding: 0.35rem 1.15rem;
+      border: 1.5px solid var(--stop-line);
+      border-radius: 999px;
+      background: var(--stop-bg);
+      color: var(--stop-fg);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .stop[data-state="start"] {
+      --stop-bg: transparent;
+      --stop-fg: var(--ink);
+      --stop-line: var(--ink);
+    }
+
+    .stop:hover { --stop-bg: color-mix(in srgb, var(--clay) 84%, black); }
+    .stop[data-state="start"]:hover {
+      --stop-bg: var(--ink);
+      --stop-fg: var(--sheet);
+    }
+
+    main {
+      width: min(38rem, calc(100% - 2rem));
+      margin: 2.25rem auto 4rem;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    @media (max-width: 40rem) {
+      :root { --sheet-pad: 1.25rem; }
+      main {
+        width: min(38rem, calc(100% - 1.5rem));
+        margin-top: 1.25rem;
+      }
+    }
+
+    .sheet {
+      background: var(--sheet);
+      border-radius: var(--radius);
+      padding: var(--sheet-pad);
+    }
+
+    .room-name {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .readout {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem 1.25rem;
+      margin-top: 0.85rem;
+    }
+
+    .temp {
+      --temp: var(--ink);
+      display: inline-flex;
+      align-items: flex-start;
+      margin: 0;
+      padding: 0.05em 0.08em;
+      border: 0;
+      border-radius: 1rem;
+      background: transparent;
+      color: var(--temp);
+      font-size: clamp(4.75rem, 18vw, 7rem);
+      font-weight: 700;
+      line-height: 0.85;
+      letter-spacing: -0.03em;
+    }
+
+    .temp:hover { --temp: color-mix(in srgb, var(--ink) 72%, black); }
+
+    .temp .deg {
+      font-size: 0.42em;
+      line-height: 1;
+      margin-top: 0.14em;
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.35rem 0.75rem;
+      margin: 0;
+    }
+
+    .status {
+      color: var(--status, var(--sage));
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .status.is-quiet { --status: var(--mute); }
+
+    .experiment {
+      --word: var(--plum);
+      margin: 0;
+      padding: 0.15rem 0.35rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--word-bg, transparent);
+      color: var(--word);
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .experiment:hover { --word-bg: color-mix(in srgb, var(--plum) 12%, var(--sheet)); }
+
+    .look {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.85rem;
+    }
+
+    .pill {
+      --pill-bg: var(--paper);
+      --pill-fg: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.75rem;
+      min-height: 2.75rem;
+      padding: 0.35rem 1rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--pill-bg);
+      color: var(--pill-fg);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .pill:hover,
+    .pill:active,
+    .pill[aria-expanded="true"] {
+      --pill-bg: var(--ink);
+      --pill-fg: var(--sheet);
+    }
+
+    .pill-clay {
+      --pill-bg: var(--clay);
+      --pill-fg: var(--sheet);
+    }
+
+    .pill-clay:hover,
+    .pill-clay:active {
+      --pill-bg: color-mix(in srgb, var(--clay) 82%, black);
+      --pill-fg: var(--sheet);
+    }
+
+    .layer {
+      margin-top: 1.15rem;
+      opacity: 0;
+      transition: opacity 180ms linear;
+    }
+
+    .layer.is-on { opacity: 1; }
+
+    .layer[hidden],
+    .panel[hidden] { display: none !important; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .layer { transition: none; }
+    }
+
+    .layer h2 {
+      margin: 0 0 1rem;
+      font-size: 1.35rem;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .block h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .step-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+      margin: 0.35rem 0;
+      min-width: 0;
+    }
+
+    .step-name {
+      width: 4.5rem;
+      color: var(--mute);
+    }
+
+    .step-value {
+      min-width: 4.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .heat-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .heat-word {
+      margin: 0;
+      color: var(--heat, var(--sage));
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .heat-word.is-quiet { --heat: var(--mute); }
+
+    .charts {
+      display: flex;
+      flex-direction: column;
+      gap: 1.85rem;
+    }
+
+    figure { margin: 0; min-width: 0; }
+
+    figcaption {
+      margin: 0 0 0.55rem;
+      color: var(--mute);
+    }
+
+    .plot { width: 100%; min-width: 0; }
+
+    .plot svg { display: block; width: 100%; height: auto; }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem 1rem;
+      margin: 0.65rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .legend li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      min-width: 0;
+    }
+
+    .swatch {
+      width: 1.35rem;
+      border-top: 2px solid var(--swatch, var(--ink));
+      border-radius: 999px;
+    }
+
+    .swatch-dash { border-top-style: dashed; }
+    .swatch-clay { --swatch: var(--clay); }
+    .swatch-forecast { --swatch: var(--forecast); }
+    .swatch-ink { --swatch: var(--ink); }
+    .swatch-mute { --swatch: var(--mute); }
+    .swatch-honey { --swatch: var(--honey); }
+
+    .dot-swatch {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: var(--clay);
+    }
+
+    .periods {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .period {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem 0.9rem;
+      min-width: 0;
+      padding: 0.45rem 0.1rem;
+    }
+
+    .when { font-weight: 700; }
+
+    .mode {
+      color: var(--mode, var(--mute));
+      font-weight: 700;
+    }
+
+    .mode.is-live { --mode: var(--ink); }
+
+    .now-pill {
+      margin-left: auto;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--sheet);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .remain {
+      margin: 0.2rem 0 0;
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+
+    .capsule {
+      display: inline-flex;
+      align-items: center;
+      margin: 0.85rem 0 0;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      background: var(--plum);
+      color: var(--sheet);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <a class="skip" href="#room">Skip to living room</a>
+    <p class="brand">Heating Assistant</p>
+    <nav class="nav" aria-label="Pages">
+      <a href="#overview">Overview</a>
+      <a href="#schedules">Schedules</a>
+      <a href="#tuning">Tuning</a>
+      <a href="#parameter-estimation">Parameter estimation</a>
+      <a href="#system-status">System status</a>
+      <a href="#configuration">Configuration</a>
+    </nav>
+    <p class="health"><span class="dot" aria-hidden="true"></span>Healthy</p>
+    <button type="button" class="stop" id="stop" data-state="stop">Stop</button>
+  </header>
+
+  <main id="room">
+    <section class="sheet" aria-labelledby="room-name">
+      <h1 class="room-name" id="room-name">Living room</h1>
+      <div class="readout">
+        <button type="button" class="temp num" id="temp-open" aria-expanded="false" aria-controls="panel-temp">
+          <span id="temp-value">21.4</span><span class="deg" aria-hidden="true">°</span>
+          <span class="sr">degrees. Open target, comfort, and heating.</span>
+        </button>
+        <p class="status-row">
+          <span class="status" id="status">Heating</span>
+          <button type="button" class="experiment" id="exp-open" aria-expanded="false" aria-controls="panel-run">Step test</button>
+        </p>
+      </div>
+      <div class="look">
+        <button type="button" class="pill" id="hist-open" aria-expanded="false" aria-controls="panel-history">History</button>
+        <button type="button" class="pill" id="today-open" aria-expanded="false" aria-controls="panel-today">Today</button>
+      </div>
+    </section>
+
+    <div class="layer" id="layer" hidden>
+      <div class="panel sheet" id="panel-temp" hidden>
+        <h2 id="temp-heading" tabindex="-1">Target, comfort, and heating</h2>
+        <div class="stack">
+          <div class="block">
+            <h3>Target</h3>
+            <div class="step-row">
+              <button type="button" class="pill" data-step="setpoint" data-dir="-1" aria-label="Lower target">−</button>
+              <span class="step-value num"><span id="setpoint-value">21.0</span><span class="deg">°</span></span>
+              <button type="button" class="pill" data-step="setpoint" data-dir="1" aria-label="Raise target">+</button>
+            </div>
+          </div>
+          <div class="block">
+            <h3>Comfort</h3>
+            <div class="step-row">
+              <span class="step-name" id="lower-label">Lower</span>
+              <button type="button" class="pill" data-step="lower" data-dir="-1" aria-label="Lower comfort limit down">−</button>
+              <span class="step-value num"><span id="lower-value">20.0</span><span class="deg">°</span></span>
+              <button type="button" class="pill" data-step="lower" data-dir="1" aria-label="Lower comfort limit up">+</button>
+            </div>
+            <div class="step-row">
+              <span class="step-name" id="upper-label">Upper</span>
+              <button type="button" class="pill" data-step="upper" data-dir="-1" aria-label="Upper comfort limit down">−</button>
+              <span class="step-value num"><span id="upper-value">22.5</span><span class="deg">°</span></span>
+              <button type="button" class="pill" data-step="upper" data-dir="1" aria-label="Upper comfort limit up">+</button>
+            </div>
+            <div class="step-row">
+              <span class="step-name" id="offset-label">Offset</span>
+              <button type="button" class="pill" data-step="offset" data-dir="-1" aria-label="Decrease comfort offset">−</button>
+              <span class="step-value num"><span id="offset-value">0.5</span><span class="deg">°</span></span>
+              <button type="button" class="pill" data-step="offset" data-dir="1" aria-label="Increase comfort offset">+</button>
+            </div>
+          </div>
+          <div class="block">
+            <h3>Heating</h3>
+            <div class="heat-line">
+              <p class="heat-word" id="heat-word">On</p>
+              <button type="button" class="pill pill-clay" id="heat-toggle">Turn off</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-history" hidden>
+        <h2 id="history-heading" tabindex="-1">History</h2>
+        <div class="charts">
+          <figure>
+            <figcaption>Temperature</figcaption>
+            <div class="plot" id="plot-temp"></div>
+            <ul class="legend" aria-label="Temperature series">
+              <li><span class="swatch swatch-clay" aria-hidden="true"></span>Filtered</li>
+              <li><span class="dot-swatch" aria-hidden="true"></span>Measured</li>
+              <li><span class="swatch swatch-forecast swatch-dash" aria-hidden="true"></span>Forecast</li>
+              <li><span class="swatch swatch-mute swatch-dash" aria-hidden="true"></span>Linearised</li>
+              <li><span class="swatch swatch-ink" aria-hidden="true"></span>Setpoint</li>
+            </ul>
+          </figure>
+          <figure>
+            <figcaption>Heating power and price</figcaption>
+            <div class="plot" id="plot-power"></div>
+            <ul class="legend" aria-label="Heating power and price series">
+              <li><span class="swatch swatch-honey" aria-hidden="true"></span>Measured power</li>
+              <li><span class="swatch swatch-honey swatch-dash" aria-hidden="true"></span>Planned power</li>
+              <li><span class="swatch swatch-ink" aria-hidden="true"></span>Price</li>
+              <li><span class="swatch swatch-ink swatch-dash" aria-hidden="true"></span>Price forecast</li>
+            </ul>
+          </figure>
+        </div>
+      </div>
+
+      <div class="panel sheet" id="panel-today" hidden>
+        <h2 id="today-heading" tabindex="-1">Today</h2>
+        <ul class="periods" id="periods"></ul>
+      </div>
+
+      <div class="panel sheet" id="panel-run" hidden>
+        <h2 id="run-heading" tabindex="-1">Living room step test</h2>
+        <p class="remain num">18 min remaining</p>
+        <p class="capsule">Running</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var H = 3600000;
+      var NOW = Date.now();
+      var T0 = NOW - 12 * H;
+      var T1 = NOW + 6 * H;
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var SVG_NS = "http://www.w3.org/2000/svg";
+
+      var state = {
+        temp: 21.4,
+        setpoint: 21.0,
+        lower: 20.0,
+        upper: 22.5,
+        offset: 0.5,
+        heating: true,
+        heatCap: 2.0,
+        coolCap: -1.0
+      };
+
+      var steps = { setpoint: 0.5, lower: 0.5, upper: 0.5, offset: 0.1 };
+      var ranges = {
+        setpoint: [10, 30],
+        lower: [10, 30],
+        upper: [10, 30],
+        offset: [0, 3]
+      };
+
+      var PERIODS = [
+        { fromH: 0, fromM: 0, toH: 6, toM: 0, mode: "Off" },
+        { fromH: 6, fromM: 0, toH: 9, toM: 0, mode: "Comfort" },
+        { fromH: 9, fromM: 0, toH: 17, toM: 0, mode: "Off" },
+        { fromH: 17, fromM: 0, toH: 22, toM: 30, mode: "Comfort" },
+        { fromH: 22, fromM: 30, toH: 24, toM: 0, mode: "Off" }
+      ];
+
+      function at(hoursFromNow) { return NOW + hoursFromNow * H; }
+
+      function round2(n) { return Math.round(n * 100) / 100; }
+      function round1(n) { return Math.round(n * 10) / 10; }
+
+      var measured = [];
+      var filtered = [];
+      var i;
+      for (i = 0; i <= 48; i += 1) {
+        var h = -12 + i * 0.25;
+        var base = 21.15 + Math.sin(h / 2.5) * 0.42 + Math.sin(h / 0.8) * 0.05;
+        var y = Math.min(22.15, Math.max(20.45, base));
+        measured.push({ t: at(h), y: round2(y + Math.sin(i * 1.7) * 0.05) });
+        filtered.push({ t: at(h), y: round2(y) });
+      }
+      measured[measured.length - 1].y = 21.4;
+      filtered[filtered.length - 1].y = 21.4;
+
+      var forecast = [];
+      var linearised = [];
+      for (i = 0; i <= 24; i += 1) {
+        var hf = i * 0.25;
+        var yf = 21.4 + (21.0 - 21.4) * (hf / 6);
+        forecast.push({ t: at(hf), y: round2(yf) });
+        linearised.push({ t: at(hf), y: round2(yf - 0.18) });
+      }
+
+      var measuredPower = [];
+      for (i = 0; i <= 24; i += 1) {
+        var hp = -12 + i * 0.5;
+        measuredPower.push({ t: at(hp), y: round1(0.45 + (i % 6) * 0.18) });
+      }
+      measuredPower[measuredPower.length - 1].y = 1.1;
+
+      var planned = [];
+      for (i = 0; i <= 12; i += 1) {
+        var hq = i * 0.5;
+        planned.push({ t: at(hq), y: round1(Math.max(0.2, 1.1 - hq * 0.12)) });
+      }
+
+      var priceHist = [];
+      var priceFore = [];
+      for (i = 0; i <= 36; i += 1) {
+        var hr = -12 + i * 0.5;
+        var yp = round2(Math.max(0.25, 1.05 + 0.55 * Math.sin((hr + 1) / 2.5)));
+        var pt = { t: at(hr), y: yp };
+        if (hr <= 0) priceHist.push(pt);
+        if (hr >= 0) priceFore.push(pt);
+      }
+
+      function limits(values, bounds) {
+        var min = Infinity;
+        var max = -Infinity;
+        var all = values.concat(bounds);
+        all.forEach(function (v) {
+          if (v == null || !isFinite(v)) return;
+          if (v < min) min = v;
+          if (v > max) max = v;
+        });
+        var span = (max - min) || 1;
+        var margin = span * 0.05;
+        return { min: min - margin, max: max + margin };
+      }
+
+      function fmt(n) { return Number(n).toFixed(1); }
+
+      function paint() {
+        document.getElementById("temp-value").textContent = fmt(state.temp);
+        document.getElementById("setpoint-value").textContent = fmt(state.setpoint);
+        document.getElementById("lower-value").textContent = fmt(state.lower);
+        document.getElementById("upper-value").textContent = fmt(state.upper);
+        document.getElementById("offset-value").textContent = fmt(state.offset);
+        var status = document.getElementById("status");
+        status.textContent = state.heating ? "Heating" : "Off";
+        status.classList.toggle("is-quiet", !state.heating);
+        var heatWord = document.getElementById("heat-word");
+        heatWord.textContent = state.heating ? "On" : "Off";
+        heatWord.classList.toggle("is-quiet", !state.heating);
+        document.getElementById("heat-toggle").textContent = state.heating ? "Turn off" : "Turn on";
+      }
+
+      function nudge(key, dir) {
+        var next = round1(state[key] + dir * steps[key]);
+        var range = ranges[key];
+        if (next < range[0] || next > range[1]) return;
+        if (key === "lower" && next >= state.upper) return;
+        if (key === "upper" && next <= state.lower) return;
+        state[key] = next;
+        paint();
+      }
+
+      document.getElementById("panel-temp").addEventListener("click", function (event) {
+        var btn = event.target.closest("[data-step]");
+        if (!btn) return;
+        nudge(btn.dataset.step, Number(btn.dataset.dir));
+      });
+
+      document.getElementById("heat-toggle").addEventListener("click", function () {
+        state.heating = !state.heating;
+        paint();
+      });
+
+      document.getElementById("stop").addEventListener("click", function () {
+        var stop = document.getElementById("stop");
+        if (stop.dataset.state === "start") {
+          stop.dataset.state = "stop";
+          stop.textContent = "Stop";
+        } else {
+          stop.dataset.state = "start";
+          stop.textContent = "Start";
+        }
+      });
+
+      function hhmm(h, m) {
+        return String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+      }
+
+      function renderPeriods() {
+        var list = document.getElementById("periods");
+        var now = new Date();
+        var mins = now.getHours() * 60 + now.getMinutes();
+        list.replaceChildren();
+        PERIODS.forEach(function (p) {
+          var from = p.fromH * 60 + p.fromM;
+          var to = p.toH * 60 + p.toM;
+          var live = mins >= from && mins < to;
+          var li = document.createElement("li");
+          li.className = "period";
+          var when = document.createElement("span");
+          when.className = "when num";
+          when.textContent = hhmm(p.fromH, p.fromM) + "–" + hhmm(p.toH, p.toM);
+          var mode = document.createElement("span");
+          mode.className = live ? "mode is-live" : "mode";
+          mode.textContent = p.mode;
+          li.appendChild(when);
+          li.appendChild(mode);
+          if (live) {
+            var nowPill = document.createElement("span");
+            nowPill.className = "now-pill";
+            nowPill.textContent = "Now";
+            li.appendChild(nowPill);
+          }
+          list.appendChild(li);
+        });
+      }
+
+      function svgEl(name, attrs) {
+        var node = document.createElementNS(SVG_NS, name);
+        Object.keys(attrs).forEach(function (key) {
+          node.setAttribute(key, String(attrs[key]));
+        });
+        return node;
+      }
+
+      function yOf(v, scale) {
+        return scale.top + (scale.max - v) / (scale.max - scale.min) * scale.height;
+      }
+
+      function xOf(t, scale) {
+        return scale.left + (t - scale.t0) / (scale.t1 - scale.t0) * scale.width;
+      }
+
+      function linePath(points, scale, yScale) {
+        if (!points.length) return "";
+        var d = "M " + xOf(points[0].t, scale) + " " + yOf(points[0].y, yScale);
+        for (var n = 1; n < points.length; n += 1) {
+          d += " L " + xOf(points[n].t, scale) + " " + yOf(points[n].y, yScale);
+        }
+        return d;
+      }
+
+      function stepPath(points, scale, yScale) {
+        if (!points.length) return "";
+        var d = "M " + xOf(points[0].t, scale) + " " + yOf(points[0].y, yScale);
+        for (var n = 1; n < points.length; n += 1) {
+          var x = xOf(points[n].t, scale);
+          d += " L " + x + " " + yOf(points[n - 1].y, yScale);
+          d += " L " + x + " " + yOf(points[n].y, yScale);
+        }
+        return d;
+      }
+
+      function addPath(parent, d, color, dashed) {
+        if (!d) return;
+        var path = svgEl("path", {
+          d: d,
+          fill: "none",
+          stroke: color,
+          "stroke-width": 2,
+          "stroke-linecap": "round",
+          "stroke-linejoin": "round"
+        });
+        if (dashed) path.setAttribute("stroke-dasharray", "7 6");
+        parent.appendChild(path);
+      }
+
+      function hourTicks(t0, t1) {
+        var start = new Date(t0);
+        start.setMinutes(0, 0, 0);
+        if (start.getTime() < t0) start.setHours(start.getHours() + 1);
+        var ticks = [];
+        for (var t = start.getTime(); t <= t1; t += 3 * H) ticks.push(t);
+        return ticks;
+      }
+
+      function clock(ts) {
+        var d = new Date(ts);
+        return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+      }
+
+      function drawPlot(host, spec) {
+        var width = Math.max(280, host.clientWidth || 640);
+        var height = spec.height;
+        var padL = 58;
+        var padR = spec.y2 ? 58 : 16;
+        var padT = 16;
+        var padB = 32;
+        var faceX = padL;
+        var faceY = padT;
+        var faceW = Math.max(80, width - padL - padR);
+        var faceH = height - padT - padB;
+        var xScale = { left: faceX, width: faceW, t0: T0, t1: T1 };
+        var yScale = {
+          top: faceY,
+          height: faceH,
+          min: spec.y.min,
+          max: spec.y.max
+        };
+
+        host.replaceChildren();
+        var svg = svgEl("svg", {
+          viewBox: "0 0 " + width + " " + height,
+          width: width,
+          height: height,
+          role: "img"
+        });
+        svg.setAttribute("aria-label", spec.label);
+        var clipId = "face-" + spec.id;
+        var defs = svgEl("defs", {});
+        var clip = svgEl("clipPath", { id: clipId });
+        clip.appendChild(svgEl("rect", {
+          x: faceX,
+          y: faceY,
+          width: faceW,
+          height: faceH,
+          rx: 32,
+          ry: 32
+        }));
+        defs.appendChild(clip);
+        svg.appendChild(defs);
+
+        var face = svgEl("g", { "clip-path": "url(#" + clipId + ")" });
+        face.appendChild(svgEl("rect", {
+          x: faceX,
+          y: faceY,
+          width: faceW,
+          height: faceH,
+          rx: 32,
+          ry: 32,
+          fill: "#fffaf6"
+        }));
+
+        var yTop = yOf(spec.upper, yScale);
+        var yBot = yOf(spec.lower, yScale);
+        var roseTopH = Math.max(0, yTop - faceY);
+        var roseBotY = Math.min(faceY + faceH, yBot);
+        var roseBotH = Math.max(0, faceY + faceH - roseBotY);
+        if (roseTopH > 0) {
+          face.appendChild(svgEl("rect", {
+            x: faceX,
+            y: faceY,
+            width: faceW,
+            height: roseTopH,
+            fill: "#c48474",
+            "fill-opacity": 1,
+            "shape-rendering": "crispEdges"
+          }));
+        }
+        if (roseBotH > 0) {
+          face.appendChild(svgEl("rect", {
+            x: faceX,
+            y: roseBotY,
+            width: faceW,
+            height: roseBotH,
+            fill: "#c48474",
+            "fill-opacity": 1,
+            "shape-rendering": "crispEdges"
+          }));
+        }
+
+        var ticks = hourTicks(T0, T1);
+        ticks.forEach(function (t) {
+          if (t <= T0 + 1000 || t >= T1 - 1000) return;
+          var x = xOf(t, xScale);
+          face.appendChild(svgEl("line", {
+            x1: x,
+            x2: x,
+            y1: faceY,
+            y2: faceY + faceH,
+            stroke: "#2a221c",
+            "stroke-opacity": 0.16,
+            "stroke-width": 1
+          }));
+        });
+
+        if (spec.gridY != null) {
+          var gy = yOf(spec.gridY, yScale);
+          if (gy > faceY + 1 && gy < faceY + faceH - 1) {
+            face.appendChild(svgEl("line", {
+              x1: faceX,
+              x2: faceX + faceW,
+              y1: gy,
+              y2: gy,
+              stroke: "#2a221c",
+              "stroke-opacity": 0.16,
+              "stroke-width": 1
+            }));
+          }
+        }
+
+        var nowX = xOf(NOW, xScale);
+        face.appendChild(svgEl("line", {
+          x1: nowX,
+          x2: nowX,
+          y1: faceY,
+          y2: faceY + faceH,
+          stroke: "#2a221c",
+          "stroke-opacity": 0.28,
+          "stroke-width": 1
+        }));
+
+        spec.series.forEach(function (series) {
+          if (!series.dotsOnly) {
+            var d = series.step
+              ? stepPath(series.points, xScale, yScale)
+              : linePath(series.points, xScale, yScale);
+            addPath(face, d, series.color, series.dashed);
+          }
+          if (series.dotsOnly) {
+            series.points.forEach(function (p) {
+              face.appendChild(svgEl("circle", {
+                cx: xOf(p.t, xScale),
+                cy: yOf(p.y, yScale),
+                r: 2.5,
+                fill: series.color
+              }));
+            });
+          }
+        });
+
+        if (spec.y2series) {
+          spec.y2series.forEach(function (series) {
+            var d2 = series.step
+              ? stepPath(series.points, xScale, spec.y2scalePos)
+              : linePath(series.points, xScale, spec.y2scalePos);
+            addPath(face, d2, series.color, series.dashed);
+          });
+        }
+
+        svg.appendChild(face);
+
+        function label(text, x, y, anchor) {
+          var node = svgEl("text", {
+            x: x,
+            y: y,
+            fill: "#8d7f74",
+            "font-family": "Atkinson Hyperlegible, sans-serif",
+            "font-weight": 700,
+            "font-size": 13,
+            "font-variant-numeric": "lining-nums tabular-nums",
+            "text-anchor": anchor,
+            "dominant-baseline": "middle"
+          });
+          node.textContent = text;
+          svg.appendChild(node);
+        }
+
+        spec.yLabels.forEach(function (v) {
+          label(fmt(v), faceX - 8, yOf(v, yScale), "end");
+        });
+        if (spec.y2labels) {
+          spec.y2labels.forEach(function (v) {
+            label(fmt(v), faceX + faceW + 8, yOf(v, spec.y2scalePos), "start");
+          });
+        }
+        label(spec.unit, faceX - 8, 8, "end");
+
+        ticks.forEach(function (t, index) {
+          var anchor = "middle";
+          var x = xOf(t, xScale);
+          if (index === 0) anchor = "start";
+          if (index === ticks.length - 1) anchor = "end";
+          var node = svgEl("text", {
+            x: x,
+            y: faceY + faceH + 18,
+            fill: "#8d7f74",
+            "font-family": "Atkinson Hyperlegible, sans-serif",
+            "font-weight": 700,
+            "font-size": 13,
+            "font-variant-numeric": "lining-nums tabular-nums",
+            "text-anchor": anchor
+          });
+          node.textContent = clock(t);
+          svg.appendChild(node);
+        });
+
+        host.appendChild(svg);
+      }
+
+      function drawAll() {
+        var tempValues = filtered.map(function (p) { return p.y; })
+          .concat(measured.map(function (p) { return p.y; }))
+          .concat(forecast.map(function (p) { return p.y; }))
+          .concat(linearised.map(function (p) { return p.y; }))
+          .concat([state.setpoint]);
+        var tempY = limits(tempValues, [state.lower, state.upper]);
+        var y2pos = {
+          top: 16,
+          height: 300 - 16 - 32,
+          min: 0,
+          max: 1
+        };
+        drawPlot(document.getElementById("plot-temp"), {
+          id: "temp",
+          height: 300,
+          unit: "°C",
+          label: "Temperature. Rose marks readings outside the comfort limits.",
+          y: tempY,
+          upper: state.upper,
+          lower: state.lower,
+          gridY: (state.lower + state.upper) / 2,
+          yLabels: [state.upper, state.setpoint, state.lower],
+          series: [
+            { points: filtered, color: "#d4532b", dashed: false },
+            { points: linearised, color: "#8d7f74", dashed: true },
+            { points: forecast, color: "#e08568", dashed: true },
+            {
+              points: [{ t: T0, y: state.setpoint }, { t: T1, y: state.setpoint }],
+              color: "#2a221c",
+              dashed: false
+            },
+            { points: measured, color: "#d4532b", dotsOnly: true }
+          ]
+        });
+
+        var powerValues = measuredPower.map(function (p) { return p.y; })
+          .concat(planned.map(function (p) { return p.y; }));
+        var powerY = limits(powerValues, [state.heatCap, state.coolCap, 0]);
+        var priceValues = priceHist.map(function (p) { return p.y; })
+          .concat(priceFore.map(function (p) { return p.y; }));
+        var priceY = limits(priceValues, [0]);
+        var powerFaceH = 260 - 16 - 32;
+        var priceScale = { top: 16, height: powerFaceH, min: priceY.min, max: priceY.max };
+        var priceDataMin = Math.min.apply(null, priceValues);
+        var priceDataMax = Math.max.apply(null, priceValues);
+        var priceLabels = [priceDataMax, (priceDataMin + priceDataMax) / 2, priceDataMin];
+        drawPlot(document.getElementById("plot-power"), {
+          id: "power",
+          height: 260,
+          unit: "kW",
+          label: "Heating power and price. Rose marks power outside heating and cooling capacity.",
+          y: powerY,
+          upper: state.heatCap,
+          lower: state.coolCap,
+          gridY: 0,
+          y2: true,
+          yLabels: [state.heatCap, 0, state.coolCap],
+          y2labels: priceLabels,
+          y2scalePos: priceScale,
+          series: [
+            { points: measuredPower, color: "#e3a15a", dashed: false, step: true },
+            { points: planned, color: "#e3a15a", dashed: true, step: true }
+          ],
+          y2series: [
+            { points: priceHist, color: "#2a221c", dashed: false, step: true },
+            { points: priceFore, color: "#2a221c", dashed: true, step: true }
+          ]
+        });
+      }
+
+      var layer = document.getElementById("layer");
+      var panels = {
+        temp: document.getElementById("panel-temp"),
+        history: document.getElementById("panel-history"),
+        today: document.getElementById("panel-today"),
+        run: document.getElementById("panel-run")
+      };
+      var openers = {
+        temp: document.getElementById("temp-open"),
+        history: document.getElementById("hist-open"),
+        today: document.getElementById("today-open"),
+        run: document.getElementById("exp-open")
+      };
+      var headings = {
+        temp: document.getElementById("temp-heading"),
+        history: document.getElementById("history-heading"),
+        today: document.getElementById("today-heading"),
+        run: document.getElementById("run-heading")
+      };
+      var current = null;
+      var lastOpener = null;
+      var generation = 0;
+      var fadeGen = 0;
+
+      function setExpanded(name) {
+        Object.keys(openers).forEach(function (key) {
+          openers[key].setAttribute("aria-expanded", key === name ? "true" : "false");
+        });
+      }
+
+      function openLayer(name) {
+        generation += 1;
+        delete layer.dataset.closing;
+        if (current === name) {
+          closeLayer();
+          return;
+        }
+        Object.keys(panels).forEach(function (key) {
+          panels[key].hidden = key !== name;
+        });
+        var first = layer.hidden;
+        layer.hidden = false;
+        setExpanded(name);
+        current = name;
+        lastOpener = openers[name];
+        if (name === "history") drawAll();
+        if (name === "today") renderPeriods();
+        if (first) {
+          fadeGen += 1;
+          var myFade = fadeGen;
+          if (reduce) layer.classList.add("is-on");
+          else requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              if (myFade !== fadeGen) return;
+              layer.classList.add("is-on");
+            });
+          });
+        } else {
+          layer.classList.add("is-on");
+        }
+        headings[name].focus();
+      }
+
+      function closeLayer() {
+        if (!current || layer.dataset.closing === "1") return;
+        layer.dataset.closing = "1";
+        fadeGen += 1;
+        var gen = generation;
+        var returnTo = lastOpener;
+        setExpanded(null);
+        var finish = function () {
+          if (gen !== generation) return;
+          delete layer.dataset.closing;
+          layer.hidden = true;
+          layer.classList.remove("is-on");
+          Object.keys(panels).forEach(function (key) { panels[key].hidden = true; });
+          current = null;
+          if (returnTo) returnTo.focus();
+        };
+        if (reduce || !layer.classList.contains("is-on")) {
+          finish();
+          return;
+        }
+        layer.classList.remove("is-on");
+        var done = false;
+        var end = function (event) {
+          if (event.propertyName !== "opacity" || done) return;
+          done = true;
+          layer.removeEventListener("transitionend", end);
+          finish();
+        };
+        layer.addEventListener("transitionend", end);
+        setTimeout(function () {
+          if (!done) {
+            done = true;
+            layer.removeEventListener("transitionend", end);
+            finish();
+          }
+        }, 240);
+      }
+
+      Object.keys(openers).forEach(function (name) {
+        openers[name].addEventListener("click", function () { openLayer(name); });
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key !== "Escape" || !current) return;
+        event.preventDefault();
+        closeLayer();
+      });
+
+      window.addEventListener("resize", function () {
+        if (current === "history") drawAll();
+      });
+
+      paint();
+    }());
+  </script>
+</body>
+</html>

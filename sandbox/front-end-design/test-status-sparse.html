@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3ebe3">
+  <meta name="color-scheme" content="light">
+  <title>System status · Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --honey: #e3a15a;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --rose: #c48474;
+      --radius: 1.75rem;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: light;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Atkinson Hyperlegible", sans-serif;
+      font-weight: 400;
+      font-size: 100%;
+      line-height: 1.45;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    .skip {
+      position: absolute;
+      z-index: 2;
+      left: max(1rem, env(safe-area-inset-left));
+      top: 0.75rem;
+      padding: 0.5rem 0.9rem;
+      background: var(--ink);
+      color: var(--sheet);
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transform: translateY(var(--skip-shift, -160%));
+    }
+
+    .skip:focus-visible {
+      --skip-shift: 0%;
+    }
+
+    .shell {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+      padding-top: max(1rem, env(safe-area-inset-top));
+      padding-right: max(1.25rem, env(safe-area-inset-right));
+      padding-bottom: 0.25rem;
+      padding-left: max(1.25rem, env(safe-area-inset-left));
+    }
+
+    .brand {
+      margin: 0;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--nav-bg, transparent);
+      box-shadow: var(--nav-ring, none);
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+
+    .nav-link:hover,
+    .nav-link:active {
+      --nav-bg: var(--sheet);
+    }
+
+    .nav-current {
+      --nav-ring: inset 0 0 0 1.5px var(--ink);
+    }
+
+    .shell-end {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-left: auto;
+    }
+
+    .shell-health {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0;
+      color: var(--sage);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .dot {
+      width: var(--dot-size, 0.55rem);
+      height: var(--dot-size, 0.55rem);
+      border-radius: 50%;
+      background: var(--sage);
+      flex: none;
+    }
+
+    .dot-lg {
+      --dot-size: 0.85rem;
+    }
+
+    .control {
+      font: inherit;
+      touch-action: manipulation;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .stop {
+      min-height: 44px;
+      padding: 0.5rem 1.15rem;
+      border-radius: 999px;
+      background: var(--stop-bg);
+      color: var(--stop-fg);
+      box-shadow: var(--stop-ring, none);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .stop-run {
+      --stop-bg: var(--clay);
+      --stop-fg: var(--sheet);
+    }
+
+    .stop-halt {
+      --stop-bg: transparent;
+      --stop-fg: var(--ink);
+      --stop-ring: inset 0 0 0 1.5px var(--ink);
+    }
+
+    .stop-run:hover,
+    .stop-run:active {
+      --stop-bg: color-mix(in srgb, var(--clay) 86%, var(--ink));
+    }
+
+    .stop-halt:hover,
+    .stop-halt:active {
+      --stop-bg: var(--sheet);
+    }
+
+    .stage {
+      padding-top: clamp(4.5rem, 14vh, 8rem);
+      padding-right: max(1.25rem, env(safe-area-inset-right));
+      padding-bottom: max(3rem, env(safe-area-inset-bottom));
+      padding-left: max(1.25rem, env(safe-area-inset-left));
+    }
+
+    .fact-heading {
+      margin: 0;
+      font-size: inherit;
+      font-weight: 400;
+      text-wrap: balance;
+      scroll-margin-top: 1rem;
+    }
+
+    .fact {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin: 0;
+      padding: 0.2rem 0.7rem 0.2rem 0.35rem;
+      border-radius: 999px;
+      background: var(--fact-bg, transparent);
+      color: var(--sage);
+      font-weight: 700;
+      font-size: clamp(3rem, 8vw, 5.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+
+    .fact:hover,
+    .fact:active {
+      --fact-bg: var(--sheet);
+    }
+
+    .status-layer {
+      position: fixed;
+      top: var(--layer-top, 7rem);
+      left: var(--layer-left, max(1.25rem, env(safe-area-inset-left)));
+      width: min(28rem, calc(100vw - var(--layer-left, 1.25rem) - 1.25rem - env(safe-area-inset-right)));
+      max-height: min(36rem, calc(100dvh - var(--layer-top, 7rem) - 1rem - env(safe-area-inset-bottom)));
+      margin: 0;
+      padding: 0.55rem;
+      overflow: auto;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--sheet);
+      color: var(--ink);
+      box-shadow: 0 1.25rem 2.5rem color-mix(in srgb, var(--ink) 8%, transparent);
+    }
+
+    .status-layer::backdrop {
+      background: color-mix(in srgb, var(--paper) 62%, transparent);
+    }
+
+    .layer-body {
+      min-width: 0;
+    }
+
+    .layer-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .layer-list li {
+      margin: 0;
+      min-width: 0;
+    }
+
+    .layer-row {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 44px;
+      padding: 0.85rem 1.1rem;
+      border-radius: 999px;
+      background: var(--row-bg, transparent);
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 1.125rem;
+      text-align: left;
+    }
+
+    .layer-row:hover,
+    .layer-row:active {
+      --row-bg: var(--paper);
+    }
+
+    .layer-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.45rem 0.9rem 0.35rem;
+    }
+
+    .layer-title {
+      margin: 0;
+      min-width: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      text-wrap: balance;
+    }
+
+    .back {
+      flex: none;
+      min-height: 44px;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      background: var(--back-bg, transparent);
+      color: var(--ink);
+      box-shadow: inset 0 0 0 1.5px var(--ink);
+      font-weight: 700;
+    }
+
+    .back:hover,
+    .back:active {
+      --back-bg: var(--paper);
+    }
+
+    .readings {
+      margin: 0;
+    }
+
+    .reading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 0;
+      padding: 0.65rem 0.9rem;
+      min-width: 0;
+    }
+
+    .reading-label,
+    .reading-value {
+      margin: 0;
+    }
+
+    .reading-label {
+      min-width: 0;
+      color: var(--mute);
+      font-weight: 400;
+    }
+
+    .reading-value {
+      flex-shrink: 0;
+      color: var(--value-color, var(--ink));
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+      text-align: right;
+    }
+
+    .value-healthy {
+      --value-color: var(--sage);
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .layer-body {
+        animation: layer-in 160ms ease;
+      }
+    }
+
+    @keyframes layer-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#status">Skip to status</a>
+  <header class="shell">
+    <p class="brand">Heating Assistant</p>
+    <nav class="nav" aria-label="Pages">
+      <a class="nav-link" href="#overview">Overview</a>
+      <a class="nav-link" href="#schedules">Schedules</a>
+      <a class="nav-link" href="#tuning">Tuning</a>
+      <a class="nav-link" href="#parameter-estimation">Parameter estimation</a>
+      <a class="nav-link nav-current" href="#status" aria-current="page">System status</a>
+      <a class="nav-link" href="#configuration">Configuration</a>
+    </nav>
+    <div class="shell-end">
+      <p class="shell-health">
+        <span class="dot" aria-hidden="true"></span>
+        Healthy
+      </p>
+      <button class="control stop stop-run" type="button">Stop</button>
+    </div>
+  </header>
+  <main class="stage" id="status">
+    <h1 class="fact-heading">
+      <button class="control fact" type="button" id="fact" aria-expanded="false" aria-controls="status-layer">
+        <span class="dot dot-lg" aria-hidden="true"></span>
+        Healthy
+      </button>
+    </h1>
+    <dialog class="status-layer" id="status-layer" aria-labelledby="layer-title"></dialog>
+  </main>
+  <script>
+    (function () {
+      var sections = [
+        {
+          id: "overall",
+          name: "Overall",
+          readings: [
+            { label: "Quality", value: "HEALTHY", quality: "healthy" },
+            { label: "Uptime", value: "5h 12m" },
+            { label: "API", value: "connected", quality: "healthy" }
+          ]
+        },
+        {
+          id: "mqtt",
+          name: "MQTT",
+          readings: [
+            { label: "Connection", value: "ok", quality: "healthy" },
+            { label: "Bindings", value: "14" }
+          ]
+        },
+        {
+          id: "entities",
+          name: "Entities",
+          readings: [
+            { label: "HA catalog", value: "42" },
+            { label: "Panel states", value: "58" },
+            { label: "Rooms configured", value: "4" }
+          ]
+        },
+        {
+          id: "mpc",
+          name: "MPC",
+          readings: [
+            { label: "Planner", value: "nmpc" },
+            { label: "Mode", value: "mpc" },
+            { label: "Fallback", value: "none", quality: "healthy" },
+            { label: "MPC load", value: "5%" },
+            { label: "Last solve", value: "4.50 s" },
+            { label: "Sample interval", value: "900 s" },
+            { label: "Mean tracking err", value: "0.18" },
+            { label: "Last compute ts", value: "1790669700" }
+          ]
+        },
+        {
+          id: "identification",
+          name: "Identification",
+          readings: [
+            { label: "Last sample age", value: "45 s", quality: "healthy" },
+            { label: "Last durable append", value: "ok", quality: "healthy" },
+            { label: "Buffer\u2013disk lag", value: "8 s", quality: "healthy" }
+          ]
+        }
+      ];
+
+      var fact = document.getElementById("fact");
+      var dialog = document.getElementById("status-layer");
+      var stop = document.querySelector(".stop");
+      var stack = [];
+      var returnRow = null;
+
+      function sectionById(id) {
+        return sections.find(function (section) { return section.id === id; });
+      }
+
+      function place() {
+        var rect = fact.getBoundingClientRect();
+        var top = Math.round(rect.bottom + 12);
+        var left = Math.round(Math.max(rect.left, 12));
+        dialog.style.setProperty("--layer-top", top + "px");
+        dialog.style.setProperty("--layer-left", left + "px");
+      }
+
+      function paint() {
+        var top = stack[stack.length - 1];
+        dialog.replaceChildren();
+        if (!top) return;
+        if (top.kind === "list") paintList();
+        else paintReadings(top.id);
+      }
+
+      function paintList() {
+        var body = document.createElement("div");
+        body.className = "layer-body";
+        var title = document.createElement("h2");
+        title.id = "layer-title";
+        title.className = "visually-hidden";
+        title.textContent = "Healthy";
+        var list = document.createElement("ul");
+        list.className = "layer-list";
+        sections.forEach(function (section) {
+          var item = document.createElement("li");
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "control layer-row";
+          button.dataset.row = section.id;
+          button.textContent = section.name;
+          button.addEventListener("click", function () { openReadings(section.id); });
+          item.appendChild(button);
+          list.appendChild(item);
+        });
+        body.append(title, list);
+        dialog.appendChild(body);
+      }
+
+      function paintReadings(id) {
+        var section = sectionById(id);
+        var body = document.createElement("div");
+        body.className = "layer-body";
+        var head = document.createElement("div");
+        head.className = "layer-head";
+        var title = document.createElement("h2");
+        title.id = "layer-title";
+        title.className = "layer-title";
+        title.textContent = section.name;
+        var back = document.createElement("button");
+        back.type = "button";
+        back.className = "control back";
+        back.textContent = "Back";
+        back.addEventListener("click", function () { popLayer(); });
+        head.append(title, back);
+        var readings = document.createElement("dl");
+        readings.className = "readings";
+        section.readings.forEach(function (reading) {
+          var row = document.createElement("div");
+          row.className = "reading";
+          var label = document.createElement("dt");
+          label.className = "reading-label";
+          label.textContent = reading.label;
+          var value = document.createElement("dd");
+          value.className = "reading-value";
+          if (reading.quality === "healthy") value.classList.add("value-healthy");
+          value.textContent = reading.value;
+          row.append(label, value);
+          readings.appendChild(row);
+        });
+        body.append(head, readings);
+        dialog.appendChild(body);
+      }
+
+      function focusRow() {
+        var button = returnRow
+          ? dialog.querySelector('[data-row="' + returnRow + '"]')
+          : dialog.querySelector(".layer-row");
+        if (button) button.focus();
+      }
+
+      function openList() {
+        stack = [{ kind: "list" }];
+        returnRow = null;
+        place();
+        paint();
+        if (!dialog.open) dialog.showModal();
+        fact.setAttribute("aria-expanded", "true");
+        focusRow();
+      }
+
+      function openReadings(id) {
+        returnRow = id;
+        stack.push({ kind: "readings", id: id });
+        paint();
+        var back = dialog.querySelector(".back");
+        if (back) back.focus();
+      }
+
+      function popLayer() {
+        stack.pop();
+        if (stack.length === 0) {
+          if (dialog.open) dialog.close();
+          return;
+        }
+        paint();
+        focusRow();
+      }
+
+      fact.addEventListener("click", function () {
+        if (dialog.open) {
+          stack = [];
+          dialog.close();
+          return;
+        }
+        openList();
+      });
+
+      var escapeQueued = false;
+
+      function queueEscape() {
+        if (escapeQueued) return;
+        escapeQueued = true;
+        setTimeout(function () {
+          escapeQueued = false;
+          popLayer();
+        }, 0);
+      }
+
+      dialog.addEventListener("keydown", function (event) {
+        if (event.key !== "Escape") return;
+        event.preventDefault();
+        queueEscape();
+      });
+
+      dialog.addEventListener("cancel", function (event) {
+        event.preventDefault();
+        queueEscape();
+      });
+
+      dialog.addEventListener("close", function () {
+        stack = [];
+        fact.setAttribute("aria-expanded", "false");
+      });
+
+      dialog.addEventListener("click", function (event) {
+        if (event.target !== dialog) return;
+        popLayer();
+      });
+
+      window.addEventListener("resize", function () {
+        if (dialog.open) place();
+      });
+
+      stop.addEventListener("click", function () {
+        var running = stop.classList.contains("stop-run");
+        stop.classList.toggle("stop-run", !running);
+        stop.classList.toggle("stop-halt", running);
+        stop.textContent = running ? "Start" : "Stop";
+      });
+    }());
+  </script>
+</body>
+</html>
