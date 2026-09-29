@@ -36,25 +36,26 @@ temperatures, the rest behind a click.*
 - **Motion.** None, or a brief opacity when a layer opens. `transform` /
   `opacity` only. Still when `prefers-reduced-motion`.
 
-## First screen
+## First view
 
-Overview shows four things: the shell (brand, page pills, Healthy, Stop), a
-House card (Running or Stopped, and Next), and one card per room (name,
-Heating / Idle / Off, temperature).
+The shell is the frame: brand, page pills, Healthy, Stop. It is not content.
 
-House opens the controller readings: overall health, MPC load, comfort,
-heating power, system COP, daily energy, tracking error, model fit.
+Besides the shell, the first view states one fact. A chart, a week, a form,
+or a second card of readings on that view fails. The rest opens on the thing
+someone would look at. One layer at a time. Escape closes it.
 
-A room opens that room: current temperature, target, comfort band, heating
-control, temperature plot, power plot, today’s periods, experiment when one
-exists.
+| Page | The fact | Opens on |
+|------|----------|----------|
+| Overview | Running or Stopped, and each room’s temperature | House opens the controller readings. A room opens that room. |
+| Schedules | What is on now: one line per room, mode, until when | The line opens that day’s periods. The day opens the week. A period opens the editor. |
+| Room | The temperature, and Heating, Idle, or Off | The temperature opens target, comfort, and heating. History on that sheet opens the plots. Today opens the periods. A running experiment is a plum word beside the status, and that word opens the run. |
+| Tuning | Which planner is in use | The planner opens its parameters. Apply appears after a value changes. |
+| System status | Healthy, or the one issue | The word opens a short list: Overall, MQTT, Entities, MPC, Identification. A row opens its readings. |
+| Parameter estimation | The run name, and whether it is running | The name opens the trace and the rest of the run. |
+| Configuration | The section names, as a short list | A name opens that section’s fields. |
 
-Schedules opens today’s periods. Tuning, parameter estimation, system status,
-and configuration are their own pages. They do not appear as blocks on
-Overview.
-
-The same rule on every page: the first view is that page’s job. Other pages
-stay in the nav.
+Overview does not carry Tuning, parameter estimation, system status, or
+configuration. Those stay in the nav.
 
 ## Against the industrial panel
 

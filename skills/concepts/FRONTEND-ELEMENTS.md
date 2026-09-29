@@ -27,9 +27,9 @@ Heating / Idle / Off, temperature). That is the whole first screen besides
 the shell.
 
 House opens overall health, MPC load, comfort, heating power, system COP,
-daily energy, tracking error, and model fit. A room opens the room page jobs
-below. Schedules opens today’s periods. One layer open at a time. Escape
-closes it.
+daily energy, tracking error, and model fit. A room opens that room’s fact
+(the temperature). Schedules in the nav opens what is on now. One layer open
+at a time. Escape closes it.
 
 Numbers are Atkinson Hyperlegible, weight 700, lining and tabular figures.
 A status word sits beside the number. Hide a reading that has no value.
@@ -39,11 +39,14 @@ A status word sits beside the number. Hide a reading that has no value.
 **Where.** `pages/room-detail.js`, `components/room-climate-tile.js`,
 `components/climate-card.js`.
 
-This page is the deeper layer. It shows the current temperature (the
-**signature**), target stepper, comfort band, heating control, temperature
-plot, power plot, today’s periods, and the experiment when one is scheduled
-or running. Heating / Idle / Off / Experiment is a short status word.
-Experiment is a named run and a rounded plum capsule.
+First view: the name, Heating / Idle / Off, and the temperature (the
+**signature**). A running experiment is a plum word beside that status, not a
+panel.
+
+The temperature opens target, comfort band, and heating control. History on
+that sheet opens the temperature plot and the power plot. Today opens today’s
+periods. The plum word opens the run: name, remaining time, rounded plum
+capsule.
 
 ## Plots
 
@@ -54,10 +57,13 @@ The series fills the plot. Scale the axis to the data and the bounds, with
 about a 5% margin. The plot face is a rounded rectangle, about 32px in the
 chart frame, on sheet `#fffaf6`.
 
+Plots stay closed until History (or the page’s trace) is opened.
+
 The feasible band is that plain sheet. Infeasible is opaque warm rose
 `#c48474` from the bound out to the rounded edge: on temperature, above the
 upper constraint and below the lower one; on power, outside heating and
-cooling capacity. Boundary lines stay invisible.
+cooling capacity. The two bounds run across the time axis. Rose never covers
+the interior between them. Boundary lines stay invisible.
 
 Ticks are Atkinson Hyperlegible, weight 700, mute `#8d7f74`. Hairline grid in
 ink at low contrast. Series: measured temperature clay `#d4532b`, setpoint
@@ -69,26 +75,36 @@ that names the next step (wait for history, pick a range).
 
 **Where.** `pages/schedules.js`, `css/pages/schedules.css`.
 
-The page’s job is the week and the day. Time range plus mode word (Comfort,
-Setback, Off). Now is an ink pill. Editors are rounded fields and pills. The
-live interval uses clay or ink, on sheet cells.
+First view: one line per room. Mode word (Comfort, Off), and until when.
+Now is an ink pill on the opened day, not a board of every period.
+
+The line opens that day’s periods. The day opens the week. A period opens
+the editor: rounded fields and pills. The live interval uses clay or ink, on
+sheet cells. The week is not on the first view.
 
 ## Tuning and configuration
 
 **Where.** `pages/tuning-controller.js`, `pages/configuration.js`.
 
-Label above the control. Rounded fields on sheet. The primary action is the
-clay pill. Errors sit next to the field and name the fix. Placeholders are
+Tuning’s first view is the planner in use, one sentence. The planner opens
+its parameters: label above the control, rounded fields on sheet. Apply is
+the clay pill, and it appears after a value changes.
+
+Configuration’s first view is the section names. A name opens that section’s
+fields. Errors sit next to the field and name the fix. Placeholders are
 examples that end with `…`.
 
 ## System status and parameter estimation
 
 **Where.** `pages/system-status.js`, `pages/parameter-estimation.js`.
 
-System status is health, connectivity, and the readings that explain them.
-Parameter estimation is the run: name, remaining time, plum progress capsule,
-and the plot for that run when the page’s job is the trace.
+System status first view: Healthy, or the one issue, in one line. That word
+opens a short list — Overall, MQTT, Entities, MPC, Identification. A row
+opens its readings. The list is rows, not a grid of cards on the first view.
 
-One rounded capsule for a banner. Clay or plum only for the state that must
-be seen. Loading copy ends with `…`. Empty and error states name the next
-action, on the same surface.
+Parameter estimation first view: the run name, and whether it is running.
+The name opens remaining time, a rounded plum capsule, and the trace when
+the opened job is the plot.
+
+Loading copy ends with `…`. Empty and error states name the next action, on
+the same surface.

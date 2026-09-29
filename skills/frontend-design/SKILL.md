@@ -2,9 +2,9 @@
 name: frontend-design
 description: >-
   Warm frontend design for product surfaces. Applies CONCEPT_FRONTEND.
-  Style guide: FRONTEND-WARM and FRONTEND-ELEMENTS. Light first screen,
-  Atkinson Hyperlegible, paper and clay, rounded sheets, rose only on
-  infeasible plot regions. Use when designing or reshaping user-facing web
+  Style guide: FRONTEND-WARM and FRONTEND-ELEMENTS. The first view states
+  one fact; the rest opens on a click. Atkinson Hyperlegible, paper and clay,
+  rounded sheets, rose only on infeasible plot regions. Use when designing or reshaping user-facing web
   UI, or when implement packages touch product surfaces.
 ---
 
@@ -31,7 +31,7 @@ Do not edit it.
 |------|------------|
 | **Subject** | The page or product UI in the current brief |
 | **Artifact** | The UI files the brief names (app routes, HTML, components) |
-| **Stop condition** | Token plan matches the build; **signature** is one; **craft** checklist holds; the first view is that page’s job |
+| **Stop condition** | Token plan matches the build; **signature** is one; **craft** checklist holds; besides the shell, the first view is one fact |
 | **Direction** | **Warm** unless the brief names another look |
 | **Opening** | State **subject**, audience, job, then the token plan; then build |
 | **Readiness prompt** | "Does this warm direction match what you want, or should we change tokens or the first screen?" |
@@ -46,7 +46,9 @@ Do not edit it.
    ([FRONTEND-WARM.md](../concepts/FRONTEND-WARM.md),
    [FRONTEND-ELEMENTS.md](../concepts/FRONTEND-ELEMENTS.md)). Keep CSS
    specificity even: one selector family per property. Done when the UI traces
-   to the plan.
+   to the plan. Done when, besides the shell, the first view is the one fact
+   in [FRONTEND-WARM.md](../concepts/FRONTEND-WARM.md). A chart, a week, a
+   form, or a second card of readings on that view is not done.
 3. **Critique** — Flow step 5, then the readiness prompt. Done when the user
    accepts the **direction** or names the token or first-screen change.
 
