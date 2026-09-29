@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3ebe3">
+  <meta name="color-scheme" content="light">
+  <title>Living room, Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --honey: #e3a15a;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --rose: #c48474;
+      --clay-forecast: #eaa791;
+      --honey-plan: #edd091;
+      --grid: rgba(42, 34, 28, 0.14);
+      --rule: rgba(42, 34, 28, 0.1);
+      --font: "Atkinson Hyperlegible", sans-serif;
+      --radius: 1.75rem;
+    }
+
+    html {
+      color-scheme: light;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 1.125rem;
+      line-height: 1.45;
+    }
+
+    p {
+      text-wrap: pretty;
+    }
+
+    h1,
+    h2 {
+      text-wrap: balance;
+      scroll-margin-top: 1rem;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    #room:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    button {
+      font: inherit;
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+      border-radius: 999px;
+      touch-action: manipulation;
+      cursor: pointer;
+    }
+
+    .page {
+      max-width: 66rem;
+      margin: 0 auto;
+      padding: 1.25rem 1.25rem 3.5rem;
+      padding-left: max(1.25rem, env(safe-area-inset-left));
+      padding-right: max(1.25rem, env(safe-area-inset-right));
+      padding-bottom: max(3.5rem, env(safe-area-inset-bottom));
+    }
+
+    .skip {
+      position: absolute;
+      left: max(1rem, env(safe-area-inset-left));
+      top: max(1rem, env(safe-area-inset-top));
+      transform: translateY(-160%);
+      background: var(--ink);
+      color: var(--sheet);
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      transition: transform 150ms ease, opacity 150ms ease;
+    }
+
+    .skip:focus {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .shell {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .brand {
+      color: var(--ink);
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 0.45rem 0.15rem;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.15rem;
+      min-width: 0;
+    }
+
+    .navlink {
+      color: var(--ink);
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+    }
+
+    .navlink:hover,
+    .navlink:active {
+      background: var(--sheet);
+    }
+
+    .shell-side {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .healthy {
+      margin: 0;
+      color: var(--sage);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: var(--sage);
+      flex: none;
+    }
+
+    .stop,
+    .start {
+      min-height: 2.75rem;
+      padding: 0.55rem 1.15rem;
+      font-size: 1.05rem;
+    }
+
+    .stop {
+      background: var(--clay);
+      color: var(--sheet);
+      border: 0;
+    }
+
+    .start {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+    }
+
+    .stop:hover,
+    .stop:active,
+    .start:hover,
+    .start:active {
+      background: var(--ink);
+      color: var(--sheet);
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      min-width: 0;
+    }
+
+    .title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem 1.25rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 2.65rem);
+      font-weight: 700;
+      line-height: 1.1;
+      min-width: 0;
+    }
+
+    .title-status {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem 0.7rem;
+      min-width: 0;
+    }
+
+    .status {
+      margin: 0;
+      color: var(--plum);
+      font-weight: 700;
+    }
+
+    .capsule {
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--plum);
+      color: var(--sheet);
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
+    }
+
+    .capsule__state {
+      font-weight: 400;
+    }
+
+    .eyebrow {
+      margin: 1rem 0 0;
+      color: var(--mute);
+    }
+
+    .reading {
+      margin: 0;
+      font-weight: 700;
+      font-size: clamp(4.75rem, 12vw, 7.25rem);
+      line-height: 0.85;
+      letter-spacing: -0.03em;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .reading__mark {
+      color: var(--clay);
+      font-size: 0.42em;
+      letter-spacing: 0;
+    }
+
+    .sheet {
+      background: var(--sheet);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem 1.15rem;
+      min-width: 0;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) auto;
+      gap: 1.25rem 1.75rem;
+      align-items: start;
+    }
+
+    .control__label {
+      margin: 0;
+      color: var(--mute);
+    }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.45rem;
+    }
+
+    .step {
+      width: 2.75rem;
+      height: 2.75rem;
+      background: var(--paper);
+      color: var(--ink);
+      border: 0;
+      font-size: 1.4rem;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .step:hover,
+    .step:active {
+      background: var(--ink);
+      color: var(--sheet);
+    }
+
+    .step:disabled {
+      background: var(--paper);
+      color: var(--mute);
+      cursor: default;
+    }
+
+    .step:disabled:hover,
+    .step:disabled:active {
+      background: var(--paper);
+      color: var(--mute);
+    }
+
+    .stepper__value {
+      margin: 0;
+      min-width: 5.6rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.7rem;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .band {
+      margin: 0.55rem 0 0;
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .heat {
+      margin-top: 0.45rem;
+      min-height: 2.75rem;
+      padding: 0.55rem 1.15rem;
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+      font-size: 1.05rem;
+    }
+
+    .heat:hover,
+    .heat:active {
+      background: var(--ink);
+      color: var(--sheet);
+    }
+
+    .plot-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem 1.25rem;
+      margin-bottom: 0.65rem;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .unit {
+      color: var(--mute);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 1rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      min-width: 0;
+    }
+
+    .legend li {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .swatch {
+      width: 1.35rem;
+      height: 0;
+      border-top: 2px solid var(--clay);
+      border-radius: 999px;
+      display: inline-block;
+      flex: none;
+    }
+
+    .swatch--set {
+      border-top-color: var(--ink);
+    }
+
+    .swatch--forecast {
+      border-top-color: var(--clay-forecast);
+      border-top-style: dashed;
+    }
+
+    .swatch--power {
+      border-top-color: var(--honey);
+    }
+
+    .swatch--planned {
+      border-top-color: var(--honey-plan);
+      border-top-style: dashed;
+    }
+
+    .swatch--rose {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-top: 0;
+      border-radius: 999px;
+      background: var(--rose);
+    }
+
+    .plot__svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .face {
+      fill: var(--sheet);
+    }
+
+    .rose {
+      fill: var(--rose);
+      stroke: none;
+    }
+
+    .grid {
+      stroke: var(--grid);
+      stroke-width: 1px;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .series {
+      fill: none;
+      stroke-width: 2px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .series--temp {
+      stroke: var(--clay);
+    }
+
+    .series--set {
+      stroke: var(--ink);
+    }
+
+    .series--forecast {
+      stroke: var(--clay-forecast);
+      stroke-dasharray: 7 6;
+    }
+
+    .series--power {
+      stroke: var(--honey);
+    }
+
+    .series--planned {
+      stroke: var(--honey-plan);
+      stroke-dasharray: 7 6;
+    }
+
+    .tick {
+      fill: var(--mute);
+      font-family: var(--font);
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .periods {
+      list-style: none;
+      margin: 0.35rem 0 0;
+      padding: 0;
+    }
+
+    .period {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1rem;
+      padding: 0.9rem 0;
+      min-width: 0;
+    }
+
+    .period + .period {
+      border-top: 1px solid var(--rule);
+    }
+
+    .when {
+      font-variant-numeric: lining-nums tabular-nums;
+      min-width: 9.5rem;
+    }
+
+    .when--live,
+    .mode--live {
+      font-weight: 700;
+    }
+
+    .mode--quiet {
+      color: var(--mute);
+    }
+
+    .now {
+      margin-left: auto;
+      background: var(--ink);
+      color: var(--sheet);
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 720px) {
+      .shell-side {
+        margin-left: 0;
+      }
+
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .now {
+        margin-left: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .skip {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body class="page">
+  <a class="skip" href="#room">Skip to Living room</a>
+  <header class="shell">
+    <a class="brand" href="#overview">Heating Assistant</a>
+    <nav class="nav" aria-label="Pages">
+      <a class="navlink" href="#overview">Overview</a>
+      <a class="navlink" href="#schedules">Schedules</a>
+      <a class="navlink" href="#tuning">Tuning</a>
+      <a class="navlink" href="#parameter-estimation">Parameter estimation</a>
+      <a class="navlink" href="#system-status">System status</a>
+      <a class="navlink" href="#configuration">Configuration</a>
+    </nav>
+    <div class="shell-side">
+      <p class="healthy"><span class="dot" aria-hidden="true"></span>Healthy</p>
+      <button class="stop" id="system" type="button">Stop</button>
+    </div>
+  </header>
+
+  <main id="room" tabindex="-1">
+    <div class="hero">
+      <div class="title-row">
+        <h1>Living room</h1>
+        <div class="title-status">
+          <p class="status">Experiment</p>
+          <p class="capsule" aria-label="Identification, running"><span aria-hidden="true">Identification</span><span class="capsule__state" aria-hidden="true">Running</span></p>
+        </div>
+      </div>
+      <p class="eyebrow">Current</p>
+      <p class="reading" aria-label="21.1 degrees Celsius"><span class="reading__num">21.1</span><span class="reading__mark" aria-hidden="true">°</span></p>
+    </div>
+
+    <section class="sheet" aria-label="Heating controls">
+      <div class="controls">
+        <div class="control">
+          <p class="control__label" id="target-label">Target</p>
+          <div class="stepper" role="group" aria-labelledby="target-label">
+            <button class="step" id="target-down" type="button" aria-label="Lower target">−</button>
+            <p class="stepper__value" id="target-value" aria-live="polite">22.0°</p>
+            <button class="step" id="target-up" type="button" aria-label="Raise target">+</button>
+          </div>
+        </div>
+        <div class="control">
+          <p class="control__label" id="comfort-label">Comfort band</p>
+          <div class="stepper" role="group" aria-labelledby="comfort-label">
+            <button class="step" id="offset-down" type="button" aria-label="Narrow comfort band">−</button>
+            <p class="stepper__value" id="offset-value" aria-live="polite">±2.0°</p>
+            <button class="step" id="offset-up" type="button" aria-label="Widen comfort band">+</button>
+          </div>
+          <p class="band" id="band-value">20.0° to 24.0°</p>
+        </div>
+        <div class="control">
+          <p class="control__label" id="heat-label">Heating</p>
+          <button class="heat" id="heat" type="button" aria-label="Turn heating off">Turn off</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="sheet" aria-labelledby="temp-heading">
+      <div class="plot-head">
+        <h2 id="temp-heading">Temperature <span class="unit">°C</span></h2>
+        <ul class="legend">
+          <li><span class="swatch" aria-hidden="true"></span>Measured</li>
+          <li><span class="swatch swatch--set" aria-hidden="true"></span>Setpoint</li>
+          <li><span class="swatch swatch--forecast" aria-hidden="true"></span>Forecast</li>
+          <li><span class="swatch swatch--rose" aria-hidden="true"></span>Infeasible</li>
+        </ul>
+      </div>
+      <figure>
+        <svg class="plot__svg" id="temp-plot" role="img" aria-hidden="true"></svg>
+      </figure>
+      <p class="sr-only" id="temp-summary"></p>
+    </section>
+
+    <section class="sheet" aria-labelledby="power-heading">
+      <div class="plot-head">
+        <h2 id="power-heading">Power <span class="unit">kW</span></h2>
+        <ul class="legend">
+          <li><span class="swatch swatch--power" aria-hidden="true"></span>Measured</li>
+          <li><span class="swatch swatch--planned" aria-hidden="true"></span>Planned</li>
+          <li><span class="swatch swatch--rose" aria-hidden="true"></span>Infeasible</li>
+        </ul>
+      </div>
+      <figure>
+        <svg class="plot__svg" id="power-plot" role="img" aria-hidden="true"></svg>
+      </figure>
+      <p class="sr-only" id="power-summary"></p>
+    </section>
+
+    <section class="sheet" aria-labelledby="today-heading">
+      <h2 id="today-heading">Today</h2>
+      <ul class="periods">
+        <li class="period">
+          <span class="when">00:00–06:30</span>
+          <span class="mode mode--quiet">Setback</span>
+        </li>
+        <li class="period">
+          <span class="when when--live">06:30–22:30</span>
+          <span class="mode mode--live">Comfort</span>
+          <span class="now">Now</span>
+        </li>
+        <li class="period">
+          <span class="when">22:30–24:00</span>
+          <span class="mode mode--quiet">Setback</span>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var T0 = 0.5;
+      var T1 = 18.5;
+      var NOW = 12.5;
+      var COMFORT_AT = 6.5;
+      var SETBACK = 18;
+      var NOW_TEMP = 21.1;
+      var SP_STEP = 0.5;
+      var SP_MIN = 5;
+      var SP_MAX = 30;
+      var OFFSET_STEP = 0.1;
+      var OFFSET_MIN = 0.1;
+      var OFFSET_MAX = 5;
+
+      var measured = [
+        [0.5, 17.8],
+        [2, 17.5],
+        [3.5, 17.2],
+        [5, 17.4],
+        [6.5, 18.2],
+        [7.5, 18.7],
+        [8.5, 19.2],
+        [9.5, 19.7],
+        [10.5, 20.4],
+        [11.5, 20.8],
+        [12.5, 21.1]
+      ];
+
+      var powerMeasured = [
+        { t: 0.5, v: 0.4 },
+        { t: 5, v: 0.8 },
+        { t: 6.5, v: 1.5 },
+        { t: 9.5, v: 1.1 },
+        { t: 11.5, v: 0.8 }
+      ];
+
+      var state = {
+        target: 22,
+        offset: 2,
+        heating: true,
+        running: true
+      };
+
+      var els = {
+        system: document.getElementById("system"),
+        targetDown: document.getElementById("target-down"),
+        targetUp: document.getElementById("target-up"),
+        targetValue: document.getElementById("target-value"),
+        offsetDown: document.getElementById("offset-down"),
+        offsetUp: document.getElementById("offset-up"),
+        offsetValue: document.getElementById("offset-value"),
+        bandValue: document.getElementById("band-value"),
+        heat: document.getElementById("heat"),
+        tempPlot: document.getElementById("temp-plot"),
+        powerPlot: document.getElementById("power-plot"),
+        tempSummary: document.getElementById("temp-summary"),
+        powerSummary: document.getElementById("power-summary")
+      };
+
+      function snap(value, step, min, max) {
+        var snapped = Math.round(value / step) * step;
+        var fixed = Math.round(snapped * 10) / 10;
+        return Math.max(min, Math.min(max, fixed));
+      }
+
+      function oneDecimal(value) {
+        return (Math.round(value * 10) / 10).toFixed(1);
+      }
+
+      function fmtClock(hours) {
+        var hh = Math.floor(hours);
+        var mm = Math.round((hours - hh) * 60);
+        return String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0");
+      }
+
+      function limits(values) {
+        var min = Infinity;
+        var max = -Infinity;
+        for (var i = 0; i < values.length; i += 1) {
+          var v = values[i];
+          if (v == null || isNaN(v)) continue;
+          if (v < min) min = v;
+          if (v > max) max = v;
+        }
+        var range = (max - min) || 1;
+        var margin = range * 0.05;
+        return { yMin: min - margin, yMax: max + margin };
+      }
+
+      function chooseStep(span) {
+        var rough = span / 6;
+        if (!(rough > 0)) return 1;
+        var mag = Math.pow(10, Math.floor(Math.log10(rough)));
+        var n = rough / mag;
+        var nice = n >= 5 ? 5 : n >= 2 ? 2 : 1;
+        return nice * mag;
+      }
+
+      function tickValues(min, max, step) {
+        var out = [];
+        var start = Math.ceil((min + step * 1e-6) / step) * step;
+        for (var v = start; v < max - step * 1e-6; v += step) {
+          out.push(Math.round(v * 1000) / 1000);
+        }
+        return out;
+      }
+
+      function forecastPoints(target) {
+        var arrive = 16;
+        var times = [12.5, 13.5, 14.5, 16, 17.5, 18.5];
+        return times.map(function (t) {
+          var u = Math.min(1, Math.max(0, (t - NOW) / (arrive - NOW)));
+          var s = u * u * (3 - 2 * u);
+          return [t, NOW_TEMP + (target - NOW_TEMP) * s];
+        });
+      }
+
+      function bandSegments(target, offset) {
+        return [
+          { t0: T0, t1: COMFORT_AT, lo: SETBACK - offset, hi: SETBACK + offset },
+          { t0: COMFORT_AT, t1: T1, lo: target - offset, hi: target + offset }
+        ];
+      }
+
+      function renderChart(svg, model) {
+        var W = 800;
+        var narrow = window.matchMedia("(max-width: 720px)").matches;
+        var H = narrow ? model.narrowHeight : model.wideHeight;
+        var widthPx = svg.clientWidth || W;
+        var scale = widthPx / W;
+        var fontUser = 13 / scale;
+        var gL = Math.max(56, fontUser * 3.6);
+        var gR = Math.max(28, fontUser * 2.1);
+        var gT = 14 / scale;
+        var gB = Math.max(36, fontUser * 2.5);
+        var faceX = gL;
+        var faceY = gT;
+        var faceW = W - gL - gR;
+        var faceH = H - gT - gB;
+        var faceBottom = faceY + faceH;
+        var yMin = model.yMin;
+        var yMax = model.yMax;
+        var rx = Math.min(faceH / 2, faceW / 2, 32 / scale);
+
+        function x(t) {
+          return faceX + ((t - T0) / (T1 - T0)) * faceW;
+        }
+
+        function y(v) {
+          return faceBottom - ((v - yMin) / (yMax - yMin)) * faceH;
+        }
+
+        function n(v) {
+          return (Math.round(v * 10) / 10).toFixed(1);
+        }
+
+        function poly(points) {
+          return points.map(function (p) {
+            return n(p[0]) + "," + n(p[1]);
+          }).join(" ");
+        }
+
+        function roseAbove(segments) {
+          var top = faceY;
+          var pts = [[x(T0), top], [x(T1), top], [x(T1), y(segments[segments.length - 1].hi)]];
+          for (var i = segments.length - 1; i >= 0; i -= 1) {
+            pts.push([x(segments[i].t0), y(segments[i].hi)]);
+            if (i > 0) pts.push([x(segments[i].t0), y(segments[i - 1].hi)]);
+          }
+          return '<polygon class="rose" points="' + poly(pts) + '"/>';
+        }
+
+        function roseBelow(segments) {
+          var bottom = faceBottom;
+          var pts = [[x(T0), bottom], [x(T0), y(segments[0].lo)]];
+          for (var i = 0; i < segments.length; i += 1) {
+            pts.push([x(segments[i].t1), y(segments[i].lo)]);
+            if (i < segments.length - 1) pts.push([x(segments[i].t1), y(segments[i + 1].lo)]);
+          }
+          pts.push([x(T1), bottom]);
+          return '<polygon class="rose" points="' + poly(pts) + '"/>';
+        }
+
+        function smooth(points) {
+          return points.map(function (p, i) {
+            return (i ? "L" : "M") + n(x(p[0])) + " " + n(y(p[1]));
+          }).join(" ");
+        }
+
+        function stepped(points, until) {
+          var d = "M" + n(x(points[0].t)) + " " + n(y(points[0].v));
+          var v = points[0].v;
+          for (var i = 1; i < points.length; i += 1) {
+            d += " L" + n(x(points[i].t)) + " " + n(y(v));
+            d += " L" + n(x(points[i].t)) + " " + n(y(points[i].v));
+            v = points[i].v;
+          }
+          d += " L" + n(x(until)) + " " + n(y(v));
+          return d;
+        }
+
+        var yTicks = tickValues(yMin, yMax, model.yStep);
+        var xTicks = [3, 6, 9, 12, 15, 18];
+        var clip = model.clip;
+
+        function onBound(v) {
+          for (var b = 0; b < model.bands.length; b += 1) {
+            if (Math.abs(v - model.bands[b].hi) < 0.12) return true;
+            if (Math.abs(v - model.bands[b].lo) < 0.12) return true;
+          }
+          return false;
+        }
+
+        var html = "";
+        html += '<rect class="face" x="' + n(faceX) + '" y="' + n(faceY) + '" width="' + n(faceW) + '" height="' + n(faceH) + '" rx="' + n(rx) + '" ry="' + n(rx) + '"/>';
+        html += '<clipPath id="' + clip + '"><rect x="' + n(faceX) + '" y="' + n(faceY) + '" width="' + n(faceW) + '" height="' + n(faceH) + '" rx="' + n(rx) + '" ry="' + n(rx) + '"/></clipPath>';
+        html += '<g clip-path="url(#' + clip + ')">';
+        html += roseAbove(model.bands);
+        html += roseBelow(model.bands);
+        for (var g = 0; g < yTicks.length; g += 1) {
+          if (onBound(yTicks[g])) continue;
+          var gy = y(yTicks[g]);
+          html += '<line class="grid" x1="' + n(faceX) + '" y1="' + n(gy) + '" x2="' + n(faceX + faceW) + '" y2="' + n(gy) + '"/>';
+        }
+        for (var s = 0; s < model.series.length; s += 1) {
+          var series = model.series[s];
+          var d = series.step ? stepped(series.points, series.until) : smooth(series.points);
+          html += '<path class="series ' + series.cls + '" d="' + d + '"/>';
+        }
+        html += "</g>";
+        for (var yt = 0; yt < yTicks.length; yt += 1) {
+          html += '<text class="tick" x="' + n(faceX - fontUser * 0.45) + '" y="' + n(y(yTicks[yt])) + '" text-anchor="end" dominant-baseline="middle" font-size="' + n(fontUser) + '">' + model.formatY(yTicks[yt]) + "</text>";
+        }
+        for (var xt = 0; xt < xTicks.length; xt += 1) {
+          html += '<text class="tick" x="' + n(x(xTicks[xt])) + '" y="' + n(faceBottom + fontUser * 0.55) + '" text-anchor="middle" dominant-baseline="hanging" font-size="' + n(fontUser) + '">' + fmtClock(xTicks[xt]) + "</text>";
+        }
+
+        svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+        svg.innerHTML = html;
+      }
+
+      function render() {
+        var target = state.target;
+        var offset = state.offset;
+        var lo = target - offset;
+        var hi = target + offset;
+        var forecast = forecastPoints(target);
+        var bands = bandSegments(target, offset);
+        var tempValues = [SETBACK, target, SETBACK - offset, SETBACK + offset, lo, hi];
+        measured.forEach(function (p) { tempValues.push(p[1]); });
+        forecast.forEach(function (p) { tempValues.push(p[1]); });
+        var tempLim = limits(tempValues);
+        var tempSpan = tempLim.yMax - tempLim.yMin;
+
+        var planned = state.heating
+          ? [{ t: NOW, v: 0.8 }, { t: 14.5, v: 0.5 }, { t: 16.5, v: 0.3 }]
+          : [{ t: NOW, v: 0 }];
+        var powerBands = [
+          { t0: T0, t1: 15, lo: -0.7, hi: 1.8 },
+          { t0: 15, t1: T1, lo: -0.7, hi: 2 }
+        ];
+        var powerValues = [0, -0.7, 1.8, 2];
+        powerMeasured.forEach(function (p) { powerValues.push(p.v); });
+        planned.forEach(function (p) { powerValues.push(p.v); });
+        var powerLim = limits(powerValues);
+
+        renderChart(els.tempPlot, {
+          clip: "temp-clip",
+          wideHeight: 340,
+          narrowHeight: 520,
+          yMin: tempLim.yMin,
+          yMax: tempLim.yMax,
+          yStep: chooseStep(tempSpan),
+          bands: bands,
+          formatY: function (v) { return oneDecimal(v); },
+          series: [
+            { cls: "series--forecast", points: forecast },
+            { cls: "series--temp", points: measured },
+            {
+              cls: "series--set",
+              step: true,
+              until: T1,
+              points: [{ t: T0, v: SETBACK }, { t: COMFORT_AT, v: target }]
+            }
+          ]
+        });
+
+        renderChart(els.powerPlot, {
+          clip: "power-clip",
+          wideHeight: 300,
+          narrowHeight: 460,
+          yMin: powerLim.yMin,
+          yMax: powerLim.yMax,
+          yStep: 0.5,
+          bands: powerBands,
+          formatY: function (v) { return oneDecimal(v); },
+          series: [
+            { cls: "series--planned", step: true, until: T1, points: planned },
+            { cls: "series--power", step: true, until: NOW, points: powerMeasured }
+          ]
+        });
+
+        els.targetValue.textContent = oneDecimal(target) + "°";
+        els.offsetValue.textContent = "±" + oneDecimal(offset) + "°";
+        els.bandValue.textContent = oneDecimal(lo) + "° to " + oneDecimal(hi) + "°";
+        els.targetDown.disabled = !state.heating || target <= SP_MIN;
+        els.targetUp.disabled = !state.heating || target >= SP_MAX;
+        els.offsetDown.disabled = !state.heating || offset <= OFFSET_MIN;
+        els.offsetUp.disabled = !state.heating || offset >= OFFSET_MAX;
+        els.heat.textContent = state.heating ? "Turn off" : "Turn on";
+        els.heat.setAttribute("aria-label", state.heating ? "Turn heating off" : "Turn heating on");
+        els.system.textContent = state.running ? "Stop" : "Start";
+        els.system.className = state.running ? "stop" : "start";
+
+        var place = NOW_TEMP < lo ? "below" : NOW_TEMP > hi ? "above" : "inside";
+        els.tempSummary.textContent = "At 12:30 the measured temperature is 21.1 degrees, " + place + " the comfort band of " + oneDecimal(lo) + " to " + oneDecimal(hi) + " degrees. The target is " + oneDecimal(target) + " degrees. The dashed line is the forecast. Rose is outside the comfort band.";
+        els.powerSummary.textContent = state.heating
+          ? "At 12:30 heating power is 0.8 kilowatts. The dashed line is planned power. Rose is outside the heating and cooling capacity."
+          : "Heating is off. Planned power is 0 kilowatts. Rose is outside the heating and cooling capacity.";
+      }
+
+      els.targetDown.addEventListener("click", function () {
+        state.target = snap(state.target - SP_STEP, SP_STEP, SP_MIN, SP_MAX);
+        render();
+      });
+      els.targetUp.addEventListener("click", function () {
+        state.target = snap(state.target + SP_STEP, SP_STEP, SP_MIN, SP_MAX);
+        render();
+      });
+      els.offsetDown.addEventListener("click", function () {
+        state.offset = snap(state.offset - OFFSET_STEP, OFFSET_STEP, OFFSET_MIN, OFFSET_MAX);
+        render();
+      });
+      els.offsetUp.addEventListener("click", function () {
+        state.offset = snap(state.offset + OFFSET_STEP, OFFSET_STEP, OFFSET_MIN, OFFSET_MAX);
+        render();
+      });
+      els.heat.addEventListener("click", function () {
+        state.heating = !state.heating;
+        render();
+      });
+      els.system.addEventListener("click", function () {
+        state.running = !state.running;
+        render();
+      });
+
+      var resizeTimer = 0;
+      window.addEventListener("resize", function () {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(render, 120);
+      });
+
+      render();
+    }());
+  </script>
+</body>
+</html>

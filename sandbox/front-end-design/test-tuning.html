@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f3ebe3">
+  <title>Controller tuning, Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --honey: #e3a15a;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --rose: #c48474;
+      --radius: 1.75rem;
+      --forecast: color-mix(in srgb, var(--clay) 68%, var(--sheet));
+      --line: color-mix(in srgb, var(--ink) 14%, transparent);
+      --grid: color-mix(in srgb, var(--ink) 16%, transparent);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: light;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Atkinson Hyperlegible", sans-serif;
+      font-weight: 400;
+      font-size: 1.0625rem;
+      line-height: 1.5;
+      padding:
+        env(safe-area-inset-top)
+        env(safe-area-inset-right)
+        env(safe-area-inset-bottom)
+        env(safe-area-inset-left);
+    }
+
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    a,
+    button,
+    summary,
+    input,
+    label {
+      touch-action: manipulation;
+    }
+
+    button,
+    input,
+    summary {
+      font: inherit;
+      color: var(--ink);
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    h1,
+    h2,
+    h3 {
+      scroll-margin-top: 5.5rem;
+      text-wrap: balance;
+      font-weight: 700;
+    }
+
+    .skip {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      z-index: 4;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--sheet);
+      font-weight: 700;
+      text-decoration: none;
+      transform: translateY(-180%);
+    }
+
+    .skip:focus-visible {
+      transform: translateY(0);
+    }
+
+    .shell {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: var(--paper);
+    }
+
+    .shell-inner,
+    .page {
+      width: min(72rem, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .shell-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1rem;
+      padding: 0.9rem 0 0.85rem;
+    }
+
+    .brand {
+      color: var(--ink);
+      font-weight: 700;
+      text-decoration: none;
+      margin-right: 0.25rem;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .nav a {
+      color: var(--ink);
+      text-decoration: none;
+      border: 2px solid transparent;
+      border-radius: 999px;
+      padding: 0.35rem 0.8rem;
+    }
+
+    .nav a:hover,
+    .nav a:active {
+      background: color-mix(in srgb, var(--ink) 8%, var(--sheet));
+    }
+
+    .nav a[aria-current="page"] {
+      border-color: var(--ink);
+      background: var(--sheet);
+      font-weight: 700;
+    }
+
+    .shell-status {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-left: auto;
+    }
+
+    .healthy {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0;
+      color: var(--sage);
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: var(--sage);
+      flex: none;
+    }
+
+    .stop,
+    .primary,
+    .secondary,
+    .toggle {
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .stop,
+    .primary {
+      border: 2px solid var(--clay);
+      background: var(--clay);
+      color: var(--sheet);
+      font-size: 1.1875rem;
+      padding: 0.45rem 1.1rem;
+    }
+
+    .stop.is-start,
+    .secondary,
+    .toggle {
+      border: 2px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .stop:hover,
+    .primary:hover,
+    .stop:active,
+    .primary:active {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+    }
+
+    .secondary,
+    .toggle {
+      padding: 0.4rem 0.95rem;
+    }
+
+    .secondary:hover,
+    .toggle:hover,
+    .secondary:active,
+    .toggle:active {
+      background: color-mix(in srgb, var(--ink) 8%, var(--sheet));
+    }
+
+    .page {
+      padding: 1.75rem 0 4rem;
+    }
+
+    h1 {
+      margin: 0 0 0.6rem;
+      font-size: 2rem;
+      line-height: 1.15;
+    }
+
+    .lead,
+    .desc,
+    .hint,
+    .mode-body {
+      margin: 0;
+      text-wrap: pretty;
+    }
+
+    .lead {
+      max-width: 38rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .modes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .mode-card {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.85rem;
+      min-height: 12.5rem;
+      text-align: left;
+      padding: 1.25rem 1.3rem 1.3rem;
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--sheet);
+    }
+
+    .mode-card:hover {
+      border-color: var(--ink);
+    }
+
+    .mode-card.is-live,
+    .mode-card.is-live:hover {
+      border-color: var(--sage);
+    }
+
+    .mode-card.is-draft,
+    .mode-card.is-draft:hover {
+      border-color: var(--clay);
+    }
+
+    .mode-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .radio {
+      width: 1.15rem;
+      height: 1.15rem;
+      margin-top: 0.35rem;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex: none;
+    }
+
+    .radio::after {
+      content: "";
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: transparent;
+    }
+
+    .mode-card[aria-pressed="true"].is-live .radio::after {
+      background: var(--sage);
+    }
+
+    .mode-card[aria-pressed="true"].is-draft .radio::after {
+      background: var(--clay);
+    }
+
+    .mode-titles {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .mode-name {
+      font-size: 1.55rem;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .mode-card.is-live .mode-name {
+      font-size: 1.85rem;
+    }
+
+    .mode-sub {
+      color: var(--mute);
+      margin-top: 0.15rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex: none;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .badge:empty,
+    .badge[hidden] {
+      display: none;
+    }
+
+    .badge-live {
+      color: var(--sage);
+    }
+
+    .badge-draft {
+      color: var(--clay);
+    }
+
+    .mode-body {
+      line-height: 1.5;
+    }
+
+    .banner {
+      margin: 0 0 1rem;
+      padding: 0.9rem 1.15rem;
+      border: 2px solid var(--clay);
+      border-radius: var(--radius);
+      background: var(--sheet);
+    }
+
+    .banner[hidden] {
+      display: none;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .status {
+      margin: 0 0 0 auto;
+      min-width: 0;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .status.is-running,
+    .status.is-success {
+      color: var(--sage);
+      font-weight: 700;
+    }
+
+    .status.is-error {
+      color: var(--clay);
+      font-weight: 700;
+    }
+
+    .section {
+      background: var(--sheet);
+      border-radius: var(--radius);
+      padding: 0.85rem 1.3rem 1.15rem;
+    }
+
+    .section + .section {
+      margin-top: 0.85rem;
+    }
+
+    summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 3.25rem;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      line-height: 1.25;
+    }
+
+    .toggle-hide,
+    details[open] .toggle-show {
+      display: none;
+    }
+
+    details[open] .toggle-hide {
+      display: inline;
+    }
+
+    .panel {
+      padding-bottom: 0.35rem;
+    }
+
+    details[open] .panel {
+      animation: reveal 180ms ease;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .subsection + .subsection {
+      margin-top: 1.75rem;
+    }
+
+    h3 {
+      margin: 0 0 0.3rem;
+      font-size: 1.05rem;
+    }
+
+    .desc {
+      margin-bottom: 0.9rem;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+      gap: 1.15rem 1.25rem;
+    }
+
+    .field {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      font-weight: 700;
+    }
+
+    .field input {
+      width: 100%;
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--sheet);
+      color: var(--ink);
+      padding: 0.65rem 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .field input:hover,
+    .field input:active {
+      border-color: var(--ink);
+    }
+
+    .field input.is-modified,
+    .field input.is-modified:hover {
+      border-color: var(--clay);
+    }
+
+    .hint {
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    .degree {
+      color: var(--clay);
+      fill: var(--clay);
+    }
+
+    .error {
+      margin: 0.85rem 0 0;
+      color: var(--clay);
+      font-weight: 700;
+    }
+
+    .error[hidden] {
+      display: none;
+    }
+
+    .preview-actions {
+      margin-bottom: 0.75rem;
+    }
+
+    .charts {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .charts[hidden] {
+      display: none;
+    }
+
+    .plot {
+      margin: 0;
+      min-width: 0;
+    }
+
+    .plot figcaption {
+      margin: 0 0 0.65rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-wrap: balance;
+    }
+
+    .unit {
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .plot-frame {
+      padding: 2rem;
+      border-radius: var(--radius);
+      background: var(--sheet);
+    }
+
+    .plot svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .tick {
+      font-family: "Atkinson Hyperlegible", sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      fill: var(--mute);
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .grid line {
+      stroke: var(--grid);
+      stroke-width: 1;
+    }
+
+    .series {
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .series-forecast {
+      stroke: var(--forecast);
+      stroke-dasharray: 7 6;
+    }
+
+    .series-setpoint,
+    .series-price,
+    .series-outdoor {
+      stroke: var(--ink);
+    }
+
+    .series-power,
+    .series-solar {
+      stroke: var(--honey);
+    }
+
+    .infeasible {
+      fill: var(--rose);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem 1.25rem;
+      margin: 0.75rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .legend li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .swatch {
+      width: 1.35rem;
+      height: 0;
+      border-top: 2px solid var(--ink);
+      display: inline-block;
+    }
+
+    .swatch-forecast {
+      border-top-color: var(--forecast);
+      border-top-style: dashed;
+    }
+
+    .swatch-power,
+    .swatch-solar {
+      border-top-color: var(--honey);
+    }
+
+    @media (max-width: 40rem) {
+      .modes {
+        grid-template-columns: 1fr;
+      }
+
+      .status {
+        margin-left: 0;
+        flex-basis: 100%;
+      }
+
+      .shell-status {
+        margin-left: 0;
+      }
+
+      .plot-frame {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .skip,
+      details[open] .panel {
+        transition: none;
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#controller-tuning">Skip to controller tuning</a>
+  <header class="shell">
+    <div class="shell-inner">
+      <a class="brand" href="#controller-tuning">Heating Assistant</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="#overview">Overview</a>
+        <a href="#schedules">Schedules</a>
+        <a href="#controller-tuning" aria-current="page">Tuning</a>
+        <a href="#parameter-estimation">Parameter estimation</a>
+        <a href="#system-status">System status</a>
+        <a href="#configuration">Configuration</a>
+      </nav>
+      <div class="shell-status">
+        <p class="healthy"><span class="dot" aria-hidden="true"></span>Healthy</p>
+        <button type="button" class="stop" id="stop-button">Stop</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page" id="controller-tuning">
+    <h1>Controller tuning</h1>
+    <p class="lead">Choose a planner, then Apply Changes to put it live. Shared knobs keep their values when you switch.</p>
+
+    <form id="tuning-form" novalidate>
+      <div class="modes" role="group" aria-label="Planner">
+        <button type="button" class="mode-card is-live" data-mode="nmpc" aria-pressed="true">
+          <span class="mode-head">
+            <span class="radio" aria-hidden="true"></span>
+            <span class="mode-titles">
+              <span class="mode-name">Nonlinear</span>
+              <span class="mode-sub">model predictive control</span>
+            </span>
+            <span class="badge badge-live"><span class="dot" aria-hidden="true"></span><span class="badge-text">In use</span></span>
+          </span>
+          <span class="mode-body">Updates heater commands on a nonlinear program each sample — the same receding-horizon problem as Linear, without linearising the house model. Heavier compute.</span>
+        </button>
+        <button type="button" class="mode-card" data-mode="linear" aria-pressed="false">
+          <span class="mode-head">
+            <span class="radio" aria-hidden="true"></span>
+            <span class="mode-titles">
+              <span class="mode-name">Linear</span>
+              <span class="mode-sub">model predictive control</span>
+            </span>
+            <span class="badge" hidden><span class="dot" aria-hidden="true" hidden></span><span class="badge-text"></span></span>
+          </span>
+          <span class="mode-body">Updates heater commands on a quadratic program each sample. Faster to solve; the house model is linearised, so strong nonlinearities are approximated.</span>
+        </button>
+      </div>
+
+      <p class="banner" id="pending-banner" hidden></p>
+
+      <div class="actions">
+        <button type="submit" class="primary" id="btn-apply-all">Apply Changes</button>
+        <button type="button" class="secondary" id="btn-reset-all">Reset to Defaults</button>
+        <p class="status" id="tuning-status" role="status"></p>
+      </div>
+
+      <details class="section" open>
+        <summary>
+          <h2>MPC Controller Parameters</h2>
+          <span class="toggle"><span class="toggle-show">Show</span><span class="toggle-hide">Hide</span></span>
+        </summary>
+        <div class="panel">
+          <div class="subsection">
+            <h3>Shared with both planners</h3>
+            <p class="desc">Comfort band, electricity price, command smoothing, band-exit penalty, and max compute time. Applied on the next planning cycle after you save.</p>
+            <div class="fields">
+              <div class="field">
+                <label for="ctrl-comfort_offset">Comfort offset</label>
+                <input id="ctrl-comfort_offset" name="comfort_offset" data-key="comfort_offset" data-kind="live" type="number" inputmode="decimal" step="0.1" value="2" autocomplete="off" aria-describedby="hint-comfort_offset">
+                <p class="hint" id="hint-comfort_offset"><span class="degree">°</span>C — Half-width of the comfort band around the setpoint.</p>
+              </div>
+              <div class="field">
+                <label for="ctrl-energy_price_weight">Price sensitivity</label>
+                <input id="ctrl-energy_price_weight" name="energy_price_weight" data-key="energy_price_weight" data-kind="live" type="number" inputmode="decimal" step="0.1" value="1" autocomplete="off" aria-describedby="hint-energy_price_weight">
+                <p class="hint" id="hint-energy_price_weight">How strongly a high electricity price pushes the plan toward less electrical heat (0 = ignore price).</p>
+              </div>
+              <div class="field">
+                <label for="ctrl-smoothing_weight">Output smoothing</label>
+                <input id="ctrl-smoothing_weight" name="smoothing_weight" data-key="smoothing_weight" data-kind="live" type="number" inputmode="decimal" step="0.05" value="0.1" autocomplete="off" aria-describedby="hint-smoothing_weight">
+                <p class="hint" id="hint-smoothing_weight">Penalty on changing the heater command from one interval to the next.</p>
+              </div>
+              <div class="field">
+                <label for="ctrl-soft_constraint_weight">Comfort-band penalty</label>
+                <input id="ctrl-soft_constraint_weight" name="soft_constraint_weight" data-key="soft_constraint_weight" data-kind="live" type="number" inputmode="decimal" step="1" value="10" autocomplete="off" aria-describedby="hint-soft_constraint_weight">
+                <p class="hint" id="hint-soft_constraint_weight">How hard leaving the comfort band is penalised. Larger values fight harder to stay inside.</p>
+              </div>
+              <div class="field">
+                <label for="ctrl-nmpc_max_compute_s">Max compute time</label>
+                <input id="ctrl-nmpc_max_compute_s" name="nmpc_max_compute_s" data-key="nmpc_max_compute_s" data-kind="live" type="number" inputmode="decimal" step="1" value="60" autocomplete="off" aria-describedby="hint-nmpc_max_compute_s">
+                <p class="hint" id="hint-nmpc_max_compute_s">s — Wall-clock cap for one planner solve. The solver stops at this limit and keeps the best plan found so far (default 60).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="subsection" id="linear-weights" hidden>
+            <h3>Linear MPC cost weights</h3>
+            <p class="desc">Extra terms on the linear quadratic program. The nonlinear planner does not use these.</p>
+            <div class="fields">
+              <div class="field">
+                <label for="ctrl-tracking_weight">Setpoint pull</label>
+                <input id="ctrl-tracking_weight" name="tracking_weight" data-key="tracking_weight" data-kind="live" type="number" inputmode="decimal" step="0.1" value="0" autocomplete="off" aria-describedby="hint-tracking_weight">
+                <p class="hint" id="hint-tracking_weight">How hard the linear planner pulls toward the exact setpoint while already inside the band (0 = stay inside the band only).</p>
+              </div>
+              <div class="field">
+                <label for="ctrl-energy_weight">Heater-effort penalty</label>
+                <input id="ctrl-energy_weight" name="energy_weight" data-key="energy_weight" data-kind="live" type="number" inputmode="decimal" step="0.01" value="0.01" autocomplete="off" aria-describedby="hint-energy_weight">
+                <p class="hint" id="hint-energy_weight">Penalty on heater command size itself, separate from electricity price.</p>
+              </div>
+              <div class="field">
+                <label for="ctrl-soft_constraint_linear_weight">Outside-band linear penalty</label>
+                <input id="ctrl-soft_constraint_linear_weight" name="soft_constraint_linear_weight" data-key="soft_constraint_linear_weight" data-kind="live" type="number" inputmode="decimal" step="1" value="0" autocomplete="off" aria-describedby="hint-soft_constraint_linear_weight">
+                <p class="hint" id="hint-soft_constraint_linear_weight">Extra steadily growing penalty the further outside the band (0 = off).</p>
+              </div>
+              <div class="field">
+                <label for="ctrl-terminal_weight">End-of-horizon weight</label>
+                <input id="ctrl-terminal_weight" name="terminal_weight" data-key="terminal_weight" data-kind="live" type="number" inputmode="decimal" step="1" value="100" autocomplete="off" aria-describedby="hint-terminal_weight">
+                <p class="hint" id="hint-terminal_weight">How strongly the last predicted step should still be near the setpoint (must be at least 1).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3>Timing</h3>
+            <p class="desc">Sample interval and look-ahead. Both planners use the same receding-horizon grid. Changing these rebuilds the planner when you Apply Changes.</p>
+            <div class="fields">
+              <div class="field">
+                <label for="ctrl-update_interval">Sample interval</label>
+                <input id="ctrl-update_interval" name="update_interval" data-key="update_interval" data-kind="restart" type="number" inputmode="decimal" step="60" value="900" autocomplete="off" aria-describedby="hint-update_interval timing-error">
+                <p class="hint" id="hint-update_interval">s — How often heater commands are applied (default 900&nbsp;s).</p>
+              </div>
+              <div class="field">
+                <label for="ctrl-look_ahead_h">Look-ahead</label>
+                <input id="ctrl-look_ahead_h" name="look_ahead_h" data-key="look_ahead_h" data-kind="restart" type="number" inputmode="decimal" step="1" value="36" autocomplete="off" aria-describedby="hint-look_ahead_h timing-error">
+                <p class="hint" id="hint-look_ahead_h">h — How far the plan covers (default 36&nbsp;h). Must be a whole number of sample intervals.</p>
+              </div>
+            </div>
+            <p class="error" id="timing-error" hidden></p>
+          </div>
+        </div>
+      </details>
+
+      <details class="section">
+        <summary>
+          <h2>Window Configuration</h2>
+          <span class="toggle"><span class="toggle-show">Show</span><span class="toggle-hide">Hide</span></span>
+        </summary>
+        <div class="panel">
+          <p class="desc">Global parameters for window open/close detection. Changes affect all rooms.</p>
+          <div class="fields">
+            <div class="field">
+              <label for="win-window_open_debounce">Window Open Debounce</label>
+              <input id="win-window_open_debounce" name="window_open_debounce" data-key="window_open_debounce" data-kind="live" type="number" inputmode="decimal" step="10" value="60" autocomplete="off" aria-describedby="hint-window_open_debounce">
+              <p class="hint" id="hint-window_open_debounce">s — Debounce before confirming window open</p>
+            </div>
+            <div class="field">
+              <label for="win-window_open_close_settle">Window Close Settle</label>
+              <input id="win-window_open_close_settle" name="window_open_close_settle" data-key="window_open_close_settle" data-kind="live" type="number" inputmode="decimal" step="10" value="30" autocomplete="off" aria-describedby="hint-window_open_close_settle">
+              <p class="hint" id="hint-window_open_close_settle">s — Settle time after window closes before resuming</p>
+            </div>
+            <div class="field">
+              <label for="win-window_open_q_inflation">Uncertainty Multiplier</label>
+              <input id="win-window_open_q_inflation" name="window_open_q_inflation" data-key="window_open_q_inflation" data-kind="live" type="number" inputmode="decimal" step="1" value="10" autocomplete="off" aria-describedby="hint-window_open_q_inflation">
+              <p class="hint" id="hint-window_open_q_inflation">× — Covariance inflation when window is open</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="section">
+        <summary>
+          <h2>Controller Preview</h2>
+          <span class="toggle"><span class="toggle-show">Show</span><span class="toggle-hide">Hide</span></span>
+        </summary>
+        <div class="panel">
+          <p class="desc">Run a one-off solve with the values on this page, including a drafted planner. Apply Changes is what switches the live solver.</p>
+          <div class="actions preview-actions">
+            <button type="button" class="primary" id="btn-preview">Preview Controller Behaviour</button>
+            <p class="status" id="preview-status" role="status"></p>
+          </div>
+          <div class="charts" id="preview-charts" hidden>
+            <figure class="plot">
+              <figcaption>Temperature <span class="unit"><span class="degree">°</span>C</span></figcaption>
+              <div class="plot-frame">
+                <svg viewBox="0 0 740 268" role="img" aria-label="Forecast temperature inside the comfort band. Infeasible regions sit above the upper bound and below the lower bound.">
+                  <clipPath id="temp-face">
+                    <rect x="78" y="20" width="600" height="200" rx="28" ry="28"/>
+                  </clipPath>
+                  <g clip-path="url(#temp-face)">
+                    <rect class="infeasible" x="78" y="20" width="600" height="17"/>
+                    <rect class="infeasible" x="78" y="203" width="600" height="17"/>
+                    <g class="grid" aria-hidden="true">
+                      <line x1="78" y1="78" x2="678" y2="78"/>
+                      <line x1="78" y1="162" x2="678" y2="162"/>
+                    </g>
+                    <path class="series series-forecast" d="M 78 145 C 120 138, 150 128, 178 124 C 220 108, 250 94, 278 95 C 320 100, 350 116, 378 120 C 420 128, 450 144, 478 141 C 520 124, 550 110, 578 108 C 620 104, 650 103, 678 103"/>
+                    <line class="series series-setpoint" x1="78" y1="120" x2="678" y2="120"/>
+                  </g>
+                  <g class="tick" aria-hidden="true">
+                    <text x="70" y="40" text-anchor="end">23</text>
+                    <text x="70" y="124" text-anchor="end">21</text>
+                    <text x="70" y="208" text-anchor="end">19</text>
+                    <text x="78" y="248" text-anchor="start">0h</text>
+                    <text x="278" y="248" text-anchor="middle">12h</text>
+                    <text x="478" y="248" text-anchor="middle">24h</text>
+                    <text x="678" y="248" text-anchor="end">36h</text>
+                  </g>
+                </svg>
+              </div>
+              <ul class="legend">
+                <li><span class="swatch swatch-forecast" aria-hidden="true"></span> Forecast</li>
+                <li><span class="swatch swatch-setpoint" aria-hidden="true"></span> Setpoint</li>
+              </ul>
+            </figure>
+
+            <figure class="plot">
+              <figcaption>Heating power &amp; price <span class="unit">kW</span></figcaption>
+              <div class="plot-frame">
+                <svg viewBox="0 0 800 248" role="img" aria-label="Planned heating power and electricity price. Infeasible regions sit outside heating and cooling capacity.">
+                  <clipPath id="power-face">
+                    <rect x="80" y="16" width="560" height="180" rx="28" ry="28"/>
+                  </clipPath>
+                  <g clip-path="url(#power-face)">
+                    <rect class="infeasible" x="80" y="16" width="560" height="13"/>
+                    <rect class="infeasible" x="80" y="183" width="560" height="13"/>
+                    <g class="grid" aria-hidden="true">
+                      <line x1="80" y1="79" x2="640" y2="79"/>
+                      <line x1="80" y1="121" x2="640" y2="121"/>
+                      <line x1="80" y1="163" x2="640" y2="163"/>
+                    </g>
+                    <path class="series series-power" d="M 80 62 H 173 V 137 H 267 V 104 H 360 V 54 H 453 V 129 H 547 V 87 H 640"/>
+                    <path class="series series-price" d="M 80 142 H 204 V 117 H 329 V 52 H 422 V 88 H 516 V 138 H 640"/>
+                  </g>
+                  <g class="tick" aria-hidden="true">
+                    <text x="72" y="40" text-anchor="end">3</text>
+                    <text x="72" y="83" text-anchor="end">2</text>
+                    <text x="72" y="125" text-anchor="end">1</text>
+                    <text x="72" y="167" text-anchor="end">0</text>
+                    <text x="656" y="56" text-anchor="start">0.4</text>
+                    <text x="656" y="92" text-anchor="start">0.3</text>
+                    <text x="656" y="128" text-anchor="start">0.2</text>
+                    <text x="656" y="164" text-anchor="start">0.1</text>
+                    <text x="80" y="228" text-anchor="start">0h</text>
+                    <text x="267" y="228" text-anchor="middle">12h</text>
+                    <text x="453" y="228" text-anchor="middle">24h</text>
+                    <text x="640" y="228" text-anchor="end">36h</text>
+                  </g>
+                </svg>
+              </div>
+              <ul class="legend">
+                <li><span class="swatch swatch-power" aria-hidden="true"></span> Planned power</li>
+                <li><span class="swatch swatch-setpoint" aria-hidden="true"></span> Price</li>
+              </ul>
+            </figure>
+
+            <figure class="plot">
+              <figcaption>Disturbances <span class="unit"><span class="degree">°</span>C, kW</span></figcaption>
+              <div class="plot-frame">
+                <svg viewBox="0 0 800 248" role="img" aria-label="Outdoor temperature and solar gain across the look-ahead.">
+                  <clipPath id="disturb-face">
+                    <rect x="80" y="16" width="560" height="180" rx="28" ry="28"/>
+                  </clipPath>
+                  <g clip-path="url(#disturb-face)">
+                    <g class="grid" aria-hidden="true">
+                      <line x1="80" y1="35" x2="640" y2="35"/>
+                      <line x1="80" y1="90" x2="640" y2="90"/>
+                      <line x1="80" y1="144" x2="640" y2="144"/>
+                    </g>
+                    <path class="series series-outdoor" d="M 80 150 C 115 160, 145 182, 173 182 C 215 175, 240 90, 267 57 C 300 28, 330 22, 360 24 C 400 40, 425 110, 453 142 C 500 175, 525 188, 547 188 C 590 160, 615 110, 640 90"/>
+                    <path class="series series-solar" d="M 80 196 H 158 C 180 196, 192 170, 204 148 C 225 100, 245 34, 267 34 C 295 34, 315 120, 329 160 C 345 185, 360 196, 376 196 H 484 C 510 196, 530 150, 547 112 C 570 80, 585 55, 593 58 C 615 70, 630 140, 640 172"/>
+                  </g>
+                  <g class="tick" aria-hidden="true">
+                    <text x="72" y="39" text-anchor="end">9</text>
+                    <text x="72" y="94" text-anchor="end">7</text>
+                    <text x="72" y="148" text-anchor="end">5</text>
+                    <text x="656" y="56" text-anchor="start">1.2</text>
+                    <text x="656" y="104" text-anchor="start">0.8</text>
+                    <text x="656" y="152" text-anchor="start">0.4</text>
+                    <text x="80" y="228" text-anchor="start">0h</text>
+                    <text x="267" y="228" text-anchor="middle">12h</text>
+                    <text x="453" y="228" text-anchor="middle">24h</text>
+                    <text x="640" y="228" text-anchor="end">36h</text>
+                  </g>
+                </svg>
+              </div>
+              <ul class="legend">
+                <li><span class="swatch swatch-setpoint" aria-hidden="true"></span> Outdoor temperature</li>
+                <li><span class="swatch swatch-solar" aria-hidden="true"></span> Solar gain</li>
+              </ul>
+            </figure>
+          </div>
+        </div>
+      </details>
+    </form>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById("tuning-form");
+      var cards = Array.prototype.slice.call(document.querySelectorAll(".mode-card"));
+      var inputs = Array.prototype.slice.call(form.querySelectorAll("input[data-key]"));
+      var linearBlock = document.getElementById("linear-weights");
+      var banner = document.getElementById("pending-banner");
+      var statusEl = document.getElementById("tuning-status");
+      var previewStatus = document.getElementById("preview-status");
+      var timingError = document.getElementById("timing-error");
+      var charts = document.getElementById("preview-charts");
+      var applyBtn = document.getElementById("btn-apply-all");
+      var previewBtn = document.getElementById("btn-preview");
+      var sampleInput = document.getElementById("ctrl-update_interval");
+      var lookInput = document.getElementById("ctrl-look_ahead_h");
+      var selectedMode = "nmpc";
+      var applied = { mode: "nmpc" };
+      var defaults = { mode: "nmpc" };
+
+      inputs.forEach(function (input) {
+        applied[input.dataset.key] = input.value;
+        defaults[input.dataset.key] = input.value;
+      });
+
+      function valuesEqual(a, b) {
+        var na = Number(a);
+        var nb = Number(b);
+        if (Number.isFinite(na) && Number.isFinite(nb)) {
+          return Math.abs(na - nb) <= 1e-9 * Math.max(1, Math.abs(na), Math.abs(nb));
+        }
+        return String(a) === String(b);
+      }
+
+      function setStatus(el, text, type) {
+        el.textContent = text;
+        el.className = "status" + (type ? " is-" + type : "");
+      }
+
+      function clearTimingError() {
+        timingError.hidden = true;
+        timingError.textContent = "";
+        sampleInput.removeAttribute("aria-invalid");
+        lookInput.removeAttribute("aria-invalid");
+      }
+
+      function showTimingError(message, field) {
+        timingError.hidden = false;
+        timingError.textContent = message;
+        sampleInput.setAttribute("aria-invalid", field === sampleInput ? "true" : "false");
+        lookInput.setAttribute("aria-invalid", field === lookInput ? "true" : "false");
+        var details = field.closest("details");
+        if (details) details.open = true;
+        field.focus();
+      }
+
+      function readTimingError() {
+        var dt = Number(sampleInput.value);
+        var hours = Number(lookInput.value);
+        if (!(dt > 0) || !(hours > 0)) {
+          return {
+            message: "Sample interval and look-ahead must be positive.",
+            field: !(dt > 0) ? sampleInput : lookInput
+          };
+        }
+        var steps = hours * 3600 / dt;
+        if (Math.abs(steps - Math.round(steps)) > 1e-6 || Math.round(steps) < 1) {
+          return {
+            message: "Look-ahead must be a whole number of sample intervals.",
+            field: lookInput
+          };
+        }
+        return null;
+      }
+
+      function syncModes() {
+        cards.forEach(function (card) {
+          var live = card.dataset.mode === applied.mode;
+          var draft = card.dataset.mode === selectedMode;
+          card.classList.toggle("is-live", live);
+          card.classList.toggle("is-draft", draft && !live);
+          card.setAttribute("aria-pressed", draft ? "true" : "false");
+          var badge = card.querySelector(".badge");
+          var text = badge.querySelector(".badge-text");
+          var dot = badge.querySelector(".dot");
+          badge.classList.remove("badge-live", "badge-draft");
+          if (live) {
+            badge.hidden = false;
+            dot.hidden = false;
+            text.textContent = "In use";
+            badge.classList.add("badge-live");
+          } else if (draft) {
+            badge.hidden = false;
+            dot.hidden = true;
+            text.textContent = "Apply to switch";
+            badge.classList.add("badge-draft");
+          } else {
+            badge.hidden = true;
+            dot.hidden = true;
+            text.textContent = "";
+          }
+        });
+        linearBlock.hidden = selectedMode !== "linear";
+      }
+
+      function syncPending() {
+        var modeChanged = selectedMode !== applied.mode;
+        var fieldChanged = false;
+        var restartField = false;
+        inputs.forEach(function (input) {
+          var changed = !valuesEqual(input.value, applied[input.dataset.key]);
+          input.classList.toggle("is-modified", changed);
+          if (!changed) return;
+          fieldChanged = true;
+          if (input.dataset.kind === "restart") restartField = true;
+        });
+        var pending = modeChanged || fieldChanged;
+        if (!pending) {
+          banner.hidden = true;
+          banner.textContent = "";
+          return;
+        }
+        banner.hidden = false;
+        banner.textContent = (modeChanged || restartField)
+          ? "Unsaved changes include the planner mode or timing — applying will rebuild the controller."
+          : "Unsaved changes — penalty weights and window settings apply to the live controller on the next cycle.";
+      }
+
+      cards.forEach(function (card) {
+        card.addEventListener("click", function () {
+          selectedMode = card.dataset.mode;
+          syncModes();
+          syncPending();
+        });
+      });
+
+      inputs.forEach(function (input) {
+        input.addEventListener("input", function () {
+          clearTimingError();
+          syncPending();
+        });
+      });
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var problem = readTimingError();
+        if (problem) {
+          showTimingError(problem.message, problem.field);
+          setStatus(statusEl, problem.message, "error");
+          return;
+        }
+        clearTimingError();
+        setStatus(statusEl, "Applying…", "running");
+        applyBtn.disabled = true;
+        window.setTimeout(function () {
+          applied.mode = selectedMode;
+          inputs.forEach(function (input) {
+            applied[input.dataset.key] = input.value;
+          });
+          syncModes();
+          syncPending();
+          charts.hidden = true;
+          setStatus(previewStatus, "", "");
+          setStatus(statusEl, "Applied successfully.", "success");
+          applyBtn.disabled = false;
+        }, 500);
+      });
+
+      document.getElementById("btn-reset-all").addEventListener("click", function () {
+        selectedMode = defaults.mode;
+        inputs.forEach(function (input) {
+          input.value = defaults[input.dataset.key];
+        });
+        clearTimingError();
+        syncModes();
+        syncPending();
+        setStatus(statusEl, "Default values loaded — click Apply Changes to save.", "");
+      });
+
+      previewBtn.addEventListener("click", function () {
+        var problem = readTimingError();
+        if (problem) {
+          showTimingError(problem.message, problem.field);
+          setStatus(previewStatus, problem.message, "error");
+          return;
+        }
+        clearTimingError();
+        setStatus(previewStatus, "Computing control plan…", "running");
+        previewBtn.disabled = true;
+        charts.hidden = true;
+        window.setTimeout(function () {
+          charts.hidden = false;
+          setStatus(previewStatus, "Preview complete.", "success");
+          previewBtn.disabled = false;
+        }, 500);
+      });
+
+      document.getElementById("stop-button").addEventListener("click", function () {
+        var button = this;
+        var stopped = button.classList.toggle("is-start");
+        button.textContent = stopped ? "Start" : "Stop";
+      });
+
+      Array.prototype.forEach.call(document.querySelectorAll(".nav a"), function (link) {
+        if (link.getAttribute("aria-current") === "page") return;
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+        });
+      });
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3ebe3">
+  <title>Schedules · Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --radius: 1.75rem;
+      --font: "Atkinson Hyperlegible", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { color-scheme: light; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.5;
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+
+    [hidden] { display: none !important; }
+
+    h1, h2, h3 {
+      text-wrap: balance;
+      scroll-margin-top: 1rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    p { text-wrap: pretty; }
+
+    a, button, input, summary, label { touch-action: manipulation; }
+
+    button, input { font: inherit; color: inherit; }
+
+    button { cursor: pointer; }
+
+    :focus { outline: none; }
+
+    :focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    .skip {
+      position: absolute;
+      left: 1rem;
+      top: -4rem;
+      background: var(--ink);
+      color: var(--sheet);
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+      font-weight: 700;
+      z-index: 3;
+    }
+
+    .skip:focus { top: 1rem; }
+
+    .wrap {
+      max-width: 76rem;
+      margin: 0 auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .shell { padding-top: 1.25rem; padding-bottom: 0.5rem; }
+
+    .shell-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1rem;
+    }
+
+    .brand {
+      color: var(--ink);
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.45rem 0.15rem;
+      border-radius: 999px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .nav a {
+      color: var(--ink);
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 0.45rem 0.85rem;
+      border: 2px solid transparent;
+    }
+
+    .nav a:hover,
+    .nav a[aria-current="page"] {
+      border-color: var(--ink);
+      background: var(--sheet);
+      font-weight: 700;
+    }
+
+    .nav a:active {
+      background: var(--ink);
+      color: var(--sheet);
+    }
+
+    .status {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .healthy {
+      margin: 0;
+      color: var(--sage);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .dot {
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 999px;
+      background: var(--sage);
+    }
+
+    .stop {
+      background: var(--clay);
+      color: var(--sheet);
+      border: 2px solid var(--clay);
+      border-radius: 999px;
+      font-weight: 700;
+      min-height: 44px;
+      padding: 0.45rem 1.1rem;
+    }
+
+    .stop:hover { background: var(--ink); border-color: var(--ink); }
+
+    .stop-off {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+
+    main { padding-top: 1.25rem; padding-bottom: 3rem; }
+
+    h1 { font-size: clamp(2rem, 4vw, 2.75rem); margin: 0 0 0.4rem; }
+
+    .lede { margin: 0 0 1.5rem; max-width: 38rem; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .rooms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .room {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0.45rem 0.95rem;
+      background: var(--sheet);
+      border-radius: 999px;
+      border: 2px solid transparent;
+    }
+
+    .room input {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .room-on { border-color: var(--ink); font-weight: 700; }
+
+    .enable { display: inline-flex; align-items: center; gap: 0.55rem; }
+
+    .enable span { font-weight: 700; }
+
+    .toggle {
+      min-height: 44px;
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
+      border: 2px solid var(--ink);
+      background: var(--sheet);
+      font-weight: 700;
+    }
+
+    .toggle-on { color: var(--sage); border-color: var(--sage); }
+
+    .toggle-on:hover,
+    .toggle-off:hover { color: var(--ink); border-color: var(--ink); }
+
+    .section { margin-top: 2rem; }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1rem;
+    }
+
+    h2 { font-size: 1.5rem; margin: 0; }
+
+    .clock {
+      margin: 0;
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .banner, .sheet, .empty, .editor, .day-col {
+      background: var(--sheet);
+      border-radius: var(--radius);
+    }
+
+    .banner, .empty {
+      margin: 0 0 0.75rem;
+      padding: 1rem 1.15rem;
+    }
+
+    .day-track {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      padding: 0.85rem;
+    }
+
+    .slice, .week-row {
+      display: flex;
+      text-align: left;
+      background: var(--paper);
+      border: 2px solid transparent;
+      color: var(--ink);
+      min-width: 0;
+      min-height: 44px;
+    }
+
+    .slice {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
+      border-radius: 1.25rem;
+      padding: 0.8rem 0.95rem;
+      flex: 1 1 8.5rem;
+    }
+
+    .slice:hover, .week-row:hover { border-color: var(--ink); }
+
+    .slice-live, .week-row-live { border-color: var(--ink); }
+
+    .now {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--sheet);
+      border-radius: 999px;
+      font-weight: 700;
+      padding: 0.12rem 0.65rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .time, .setpoint, .date-num {
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+      white-space: nowrap;
+    }
+
+    .time-live { color: var(--clay); }
+
+    .mode { font-weight: 700; }
+
+    .deg { color: var(--clay); }
+
+    .kind, .foot p, .gap {
+      color: var(--mute);
+    }
+
+    .week {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .day-col {
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      min-width: 0;
+    }
+
+    .day-col h3 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .today-mark { margin: 0; font-weight: 700; }
+
+    .week-row {
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.15rem 0.45rem;
+      width: 100%;
+      border-radius: 1.15rem;
+      padding: 0.45rem 0.65rem;
+      font-size: 0.95rem;
+    }
+
+    .week-row .name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .gap { margin: 0; padding: 0.35rem 0.15rem; }
+
+    .add {
+      min-height: 44px;
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      border: 2px solid var(--ink);
+      background: var(--sheet);
+      font-weight: 700;
+    }
+
+    .add:hover { background: var(--ink); color: var(--sheet); }
+
+    .capsule {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem 0.75rem;
+      max-width: 100%;
+      background: var(--plum);
+      color: var(--sheet);
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem 0.35rem 0.35rem;
+      font-weight: 700;
+    }
+
+    .capsule span:last-child { font-weight: 400; }
+
+    .pill {
+      background: var(--sheet);
+      color: var(--plum);
+      border-radius: 999px;
+      padding: 0.28rem 0.7rem;
+    }
+
+    .quiet { margin: 0; }
+
+    .inactive { margin-top: 1.5rem; }
+
+    .inactive summary {
+      cursor: pointer;
+      font-weight: 700;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+
+    .inactive-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.75rem;
+      padding: 0.55rem 0;
+    }
+
+    .editor { margin-top: 1.5rem; padding: 1.25rem; }
+
+    .editor h2 { margin-bottom: 0.25rem; }
+
+    .unsaved { margin: 0.35rem 0 0; font-weight: 700; color: var(--clay); }
+
+    .block { display: grid; gap: 0.4rem; margin-top: 1.1rem; }
+
+    .block h3 {
+      margin: 0;
+      font-size: 0.95rem;
+      letter-spacing: 0;
+    }
+
+    .hint { margin: 0; color: var(--mute); }
+
+    .group { display: grid; gap: 0.35rem; min-width: 0; }
+
+    .pair {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    input[type="text"],
+    input[type="time"],
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="number"] {
+      width: 100%;
+      min-height: 44px;
+      background: var(--paper);
+      color: var(--ink);
+      border: 2px solid transparent;
+      border-radius: 999px;
+      padding: 0.65rem 1rem;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    input::placeholder { color: var(--mute); }
+
+    .error { margin: 0; color: var(--clay); font-weight: 700; }
+
+    .segments, .days { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+    .segments {
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 0.25rem;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .segment, .day-btn {
+      min-height: 44px;
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background: transparent;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .day-btn { background: var(--paper); }
+
+    .segment-on, .day-on { border-color: var(--ink); font-weight: 700; background: var(--sheet); }
+
+    .segment:hover, .day-btn:hover { border-color: var(--ink); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .primary {
+      background: var(--clay);
+      color: var(--sheet);
+      border: 2px solid var(--clay);
+      border-radius: 999px;
+      font-weight: 700;
+      min-height: 44px;
+      padding: 0.55rem 1.15rem;
+    }
+
+    .primary:hover { background: var(--ink); border-color: var(--ink); }
+
+    .quiet-btn {
+      background: transparent;
+      border: 2px solid transparent;
+      border-radius: 999px;
+      font-weight: 700;
+      min-height: 44px;
+      padding: 0.55rem 0.9rem;
+    }
+
+    .quiet-btn:hover { border-color: var(--ink); }
+
+    .save-status { margin: 0.6rem 0 0; font-weight: 700; }
+
+    .foot { padding-bottom: 2rem; }
+
+    .foot p { margin: 0; }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 1100px) {
+      .week { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { padding-left: 1rem; padding-right: 1rem; }
+      .status { margin-left: 0; }
+      .week, .pair { grid-template-columns: 1fr; }
+      .day-track { flex-direction: column; }
+      .slice { flex: 1 1 auto; width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .stage { transition: none; }
+    }
+
+    .stage { transition: opacity 160ms ease; }
+
+    .stage-out { opacity: 0; }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#schedules-main">Skip to schedules</a>
+  <header class="shell wrap">
+    <div class="shell-row">
+      <a class="brand" href="#schedules-main">Heating Assistant</a>
+      <nav class="nav" aria-label="Heating Assistant">
+        <a href="#overview">Overview</a>
+        <a href="#schedules-main" aria-current="page">Schedules</a>
+        <a href="#tuning">Tuning</a>
+        <a href="#parameter-estimation">Parameter estimation</a>
+        <a href="#system-status">System status</a>
+        <a href="#configuration">Configuration</a>
+      </nav>
+      <div class="status">
+        <p class="healthy"><span class="dot" aria-hidden="true"></span>Healthy</p>
+        <button class="stop" type="button" id="run-toggle" aria-pressed="true">Stop</button>
+      </div>
+    </div>
+  </header>
+  <main class="wrap" id="schedules-main">
+    <h1>Schedules</h1>
+    <p class="lede">Today’s periods, and the week, for one room.</p>
+    <div class="toolbar">
+      <div class="rooms" id="rooms" role="radiogroup" aria-label="Room"></div>
+      <div class="enable">
+        <span id="schedule-caption">Schedule</span>
+        <button class="toggle" type="button" id="schedule-toggle" aria-describedby="schedule-caption">Enabled</button>
+      </div>
+    </div>
+    <p class="visually-hidden" id="room-status" aria-live="polite"></p>
+    <div class="stage" id="stage">
+      <section aria-labelledby="today-heading">
+        <div class="section-head">
+          <h2 id="today-heading">Today</h2>
+          <div class="section-tools">
+            <p class="clock" id="clock"></p>
+            <button class="add" type="button" id="add-period">Add period</button>
+          </div>
+        </div>
+        <p class="banner" id="notice" hidden></p>
+        <div id="day"></div>
+      </section>
+      <section class="section" aria-labelledby="week-heading">
+        <div class="section-head">
+          <h2 id="week-heading">Week</h2>
+          <p class="clock" id="week-range"></p>
+        </div>
+        <div class="week" id="week"></div>
+      </section>
+      <section class="section" aria-labelledby="exp-heading">
+        <h2 id="exp-heading">Experiments</h2>
+        <div id="experiments"></div>
+      </section>
+      <details class="inactive" id="inactive">
+        <summary id="inactive-summary">Inactive</summary>
+        <div id="inactive-list"></div>
+      </details>
+      <section class="editor" id="editor" hidden aria-labelledby="editor-heading"></section>
+    </div>
+  </main>
+  <footer class="foot wrap">
+    <p>The first matching period wins.</p>
+  </footer>
+  <noscript>
+    <p class="wrap">Turn on JavaScript to see today’s periods and the week.</p>
+  </noscript>
+  <script>
+    const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const DASH = "\u2013";
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+
+    function tonightWindow() {
+      const now = new Date();
+      const start = new Date(now);
+      start.setHours(23, 0, 0, 0);
+      if (start <= now) start.setDate(start.getDate() + 1);
+      const end = new Date(start.getTime() + 6 * 3600 * 1000);
+      return { start, end };
+    }
+
+    function runningWindow() {
+      const start = new Date();
+      start.setMinutes(0, 0, 0);
+      start.setHours(start.getHours() - 1);
+      const end = new Date(start.getTime() + 6 * 3600 * 1000);
+      return { start, end };
+    }
+
+    function fmtStamp(d) {
+      const day = d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+      return day + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+    }
+
+    function fmtWindow(start, end) {
+      const same = start.toDateString() === end.toDateString();
+      const a = fmtStamp(start);
+      const b = same
+        ? pad(end.getHours()) + ":" + pad(end.getMinutes())
+        : fmtStamp(end);
+      return a + " \u2192 " + b;
+    }
+
+    function isoDate(d) {
+      return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+    }
+
+    function mondayIndex(date) { return (date.getDay() + 6) % 7; }
+
+    function startOfWeek(date) {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() - mondayIndex(d));
+      return d;
+    }
+
+    const weekAnchor = startOfWeek(new Date());
+    const guestStart = new Date(weekAnchor);
+    guestStart.setDate(weekAnchor.getDate() + 5);
+    const guestEnd = new Date(weekAnchor);
+    guestEnd.setDate(weekAnchor.getDate() + 6);
+    const travelStart = new Date(weekAnchor);
+    travelStart.setDate(weekAnchor.getDate() + 2);
+    travelStart.setHours(12, 0, 0, 0);
+    const travelEnd = new Date(weekAnchor);
+    travelEnd.setDate(weekAnchor.getDate() + 4);
+    travelEnd.setHours(18, 0, 0, 0);
+
+    const night = tonightWindow();
+    const liveExp = runningWindow();
+
+    const rooms = [
+      {
+        slug: "living-room",
+        name: "Living room",
+        enabled: true,
+        periods: [
+          { id: "lr-night", name: "Night", mode: "off", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4, 5, 6], start: "23:00", end: "06:00", enabled: true },
+          { id: "lr-morning", name: "Morning", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4], start: "06:00", end: "09:00", enabled: true, setpoint: 21 },
+          { id: "lr-away", name: "Away", mode: "off", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4], start: "09:00", end: "16:00", enabled: true },
+          { id: "lr-evening", name: "Evening", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4], start: "16:00", end: "23:00", enabled: true, setpoint: 21 },
+          { id: "lr-weekend", name: "Weekend", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: [5, 6], start: "08:00", end: "23:00", enabled: true, setpoint: 21 },
+          { id: "lr-old", name: "Old afternoon", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4], start: "14:00", end: "16:00", enabled: false, setpoint: 21 }
+        ],
+        experiments: [
+          { name: "Living room overnight", status: "Scheduled", signal: "PRBS", window: fmtWindow(night.start, night.end) }
+        ]
+      },
+      {
+        slug: "kitchen",
+        name: "Kitchen",
+        enabled: false,
+        periods: [
+          { id: "k-guests", name: "Guests", mode: "comfort", schedule_type: "date_range", time_mode: "window", start_date: isoDate(guestStart), end_date: isoDate(guestEnd), start: "10:00", end: "22:00", enabled: true, setpoint: 21 },
+          { id: "k-breakfast", name: "Breakfast", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4, 5, 6], start: "07:00", end: "09:30", enabled: true, setpoint: 20 },
+          { id: "k-day", name: "Day", mode: "off", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4], start: "09:30", end: "17:00", enabled: true },
+          { id: "k-evening", name: "Evening", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4, 5, 6], start: "17:00", end: "21:00", enabled: true, setpoint: 20.5 },
+          { id: "k-night", name: "Night", mode: "off", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4, 5, 6], start: "21:00", end: "07:00", enabled: true }
+        ],
+        experiments: []
+      },
+      {
+        slug: "bedroom",
+        name: "Bedroom",
+        enabled: true,
+        periods: [
+          { id: "b-travel", name: "Travel", mode: "off", schedule_type: "continuous", time_mode: "window", start_at: toLocalInput(travelStart), end_at: toLocalInput(travelEnd), enabled: true },
+          { id: "b-sleep", name: "Sleep", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4, 5, 6], start: "21:00", end: "07:00", enabled: true, setpoint: 19 },
+          { id: "b-day", name: "Day", mode: "off", schedule_type: "weekly", time_mode: "window", days: [0, 1, 2, 3, 4], start: "07:00", end: "21:00", enabled: true },
+          { id: "b-weekend", name: "Weekend", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: [5, 6], start: "08:00", end: "21:00", enabled: true, setpoint: 20 },
+          { id: "b-nap", name: "Nap", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: [5, 6], start: "13:00", end: "15:00", enabled: false, setpoint: 20 }
+        ],
+        experiments: [
+          { name: "Bedroom response", status: "Running", signal: "Step (recommended)", window: fmtWindow(liveExp.start, liveExp.end) }
+        ]
+      },
+      {
+        slug: "study",
+        name: "Study",
+        enabled: true,
+        periods: [],
+        experiments: []
+      }
+    ];
+
+    function toLocalInput(d) {
+      return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + "T" + pad(d.getHours()) + ":" + pad(d.getMinutes());
+    }
+
+    let selected = "living-room";
+    let draft = null;
+    let draftId = null;
+    let adding = false;
+    let dirty = false;
+    let lastFocus = null;
+    let nowKey = "";
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const narrowQuery = window.matchMedia("(max-width: 640px)");
+
+    function room() { return rooms.find((item) => item.slug === selected); }
+
+    function minutes(hhmm) {
+      const parts = String(hhmm || "00:00").split(":");
+      return Number(parts[0]) * 60 + Number(parts[1]);
+    }
+
+    function fmtMin(mins) {
+      if (mins === 1440) return "24:00";
+      return pad(Math.floor(mins / 60)) + ":" + pad(mins % 60);
+    }
+
+    function rangeText(start, end) { return fmtMin(start) + DASH + fmtMin(end); }
+
+    function dateKey(date) {
+      return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate());
+    }
+
+    function sameDay(a, b) {
+      return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+    }
+
+    function modeLabel(mode) { return mode === "off" ? "Off" : "Comfort"; }
+
+    function typeLabel(type) {
+      if (type === "date_range") return "Date range";
+      if (type === "continuous") return "Continuous span";
+      return "Weekly recurring";
+    }
+
+    function fmtTemp(n) {
+      const num = Number(n);
+      return Number.isInteger(num) ? String(num) : num.toFixed(1);
+    }
+
+    function timeWindowMatch(period, minute) {
+      if ((period.time_mode || "window") === "all_day") return true;
+      const start = minutes(period.start);
+      const end = minutes(period.end);
+      if (start === end) return true;
+      if (start < end) return minute >= start && minute < end;
+      return minute >= start || minute < end;
+    }
+
+    function weeklyMatch(period, date, minute) {
+      const days = period.days || [0, 1, 2, 3, 4, 5, 6];
+      const di = mondayIndex(date);
+      if ((period.time_mode || "window") === "all_day") return days.includes(di);
+      const start = minutes(period.start);
+      const end = minutes(period.end);
+      if (start < end) return days.includes(di) && minute >= start && minute < end;
+      if (start === end) return days.includes(di);
+      if (minute >= start && days.includes(di)) return true;
+      const prev = (di + 6) % 7;
+      return minute < end && days.includes(prev);
+    }
+
+    function periodMatches(period, date, minute) {
+      if (period.enabled === false) return false;
+      const type = period.schedule_type || "weekly";
+      if (type === "weekly") return weeklyMatch(period, date, minute);
+      if (type === "date_range") {
+        const key = dateKey(date);
+        if (!period.start_date || !period.end_date) return false;
+        if (key < period.start_date || key > period.end_date) return false;
+        return timeWindowMatch(period, minute);
+      }
+      if (type === "continuous") {
+        if (!period.start_at || !period.end_at) return false;
+        const t = new Date(date);
+        t.setHours(Math.floor(minute / 60), minute % 60, 0, 0);
+        return t >= new Date(period.start_at) && t < new Date(period.end_at);
+      }
+      return false;
+    }
+
+    function slicesFor(date, periods) {
+      const bounds = new Set([0, 1440]);
+      periods.forEach((period) => {
+        if (period.enabled === false) return;
+        const type = period.schedule_type || "weekly";
+        if (type === "continuous") {
+          const s = new Date(period.start_at);
+          const e = new Date(period.end_at);
+          if (sameDay(s, date)) bounds.add(s.getHours() * 60 + s.getMinutes());
+          if (sameDay(e, date)) bounds.add(e.getHours() * 60 + e.getMinutes());
+          return;
+        }
+        if (type === "date_range") {
+          const key = dateKey(date);
+          if (key < period.start_date || key > period.end_date) return;
+        }
+        if ((period.time_mode || "window") === "all_day") return;
+        bounds.add(minutes(period.start));
+        bounds.add(minutes(period.end));
+      });
+      const sorted = [...bounds].sort((a, b) => a - b);
+      const out = [];
+      for (let i = 0; i < sorted.length - 1; i += 1) {
+        const a = sorted[i];
+        const b = sorted[i + 1];
+        if (a === b) continue;
+        const mid = Math.floor(a + (b - a) / 2);
+        let match = null;
+        for (const period of periods) {
+          if (periodMatches(period, date, mid)) { match = period; break; }
+        }
+        const last = out[out.length - 1];
+        if (last && last.period === match) last.end = b;
+        else out.push({ start: a, end: b, period: match, isNow: false, isNext: false });
+      }
+      return out;
+    }
+
+    function buildWeek(date) {
+      const start = startOfWeek(date);
+      const days = [];
+      for (let i = 0; i < 7; i += 1) {
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
+        days.push({ date: d, slices: slicesFor(d, room().periods) });
+      }
+      const now = date.getTime();
+      let seenNow = false;
+      days.forEach((day) => {
+        day.slices.forEach((slice) => {
+          const startT = day.date.getTime() + slice.start * 60000;
+          const endT = day.date.getTime() + slice.end * 60000;
+          if (!seenNow && now >= startT && now < endT) {
+            slice.isNow = true;
+            seenNow = true;
+            return;
+          }
+          if (seenNow && slice.period && !days.some((item) => item.slices.some((s) => s.isNext))) {
+            slice.isNext = true;
+          }
+        });
+      });
+      return days;
+    }
+
+    function currentNowKey(days) {
+      for (const day of days) {
+        for (const slice of day.slices) {
+          if (slice.isNow) return (slice.period ? slice.period.id : "gap") + "@" + slice.start;
+        }
+      }
+      return "";
+    }
+
+    function node(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text !== undefined) el.textContent = text;
+      return el;
+    }
+
+    function setpointNode(period) {
+      if (!period || period.mode === "off" || period.setpoint === undefined || period.setpoint === null) return null;
+      const wrap = node("span", "setpoint");
+      wrap.append(document.createTextNode(fmtTemp(period.setpoint)));
+      wrap.append(node("span", "deg", "\u00b0"));
+      return wrap;
+    }
+
+    function fillSlice(button, slice) {
+      if (slice.isNow) button.append(node("span", "now", "Now"));
+      if (slice.isNext) button.append(node("span", "next-word", "Next"));
+      const time = node("span", slice.isNow ? "time time-live" : "time", rangeText(slice.start, slice.end));
+      button.append(time);
+      if (!slice.period) {
+        button.append(node("span", "gap", "No period"));
+        return;
+      }
+      button.append(node("span", "name", slice.period.name || "Period"));
+      const meta = node("span", "mode");
+      meta.append(document.createTextNode(modeLabel(slice.period.mode)));
+      const temp = setpointNode(slice.period);
+      if (temp) {
+        meta.append(document.createTextNode(" "));
+        meta.append(temp);
+      }
+      button.append(meta);
+      const type = slice.period.schedule_type || "weekly";
+      if (type !== "weekly") button.append(node("span", "kind", typeLabel(type)));
+    }
+
+    function renderRooms() {
+      const group = document.getElementById("rooms");
+      if (!group.childElementCount) {
+        rooms.forEach((item) => {
+          const label = node("label", "room");
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "room";
+          input.value = item.slug;
+          input.addEventListener("change", () => {
+            if (!input.checked) return;
+            selected = item.slug;
+            closeEditor(false);
+            announce(item.name);
+            paint(true);
+          });
+          label.append(input, node("span", "", item.name));
+          group.append(label);
+        });
+      }
+      group.querySelectorAll(".room").forEach((label) => {
+        const input = label.querySelector("input");
+        const on = input.value === selected;
+        label.classList.toggle("room-on", on);
+        input.checked = on;
+      });
+    }
+
+    function announce(name) {
+      document.getElementById("room-status").textContent = name + " periods.";
+    }
+
+    function renderToggle() {
+      const button = document.getElementById("schedule-toggle");
+      const on = room().enabled !== false;
+      button.textContent = on ? "Enabled" : "Disabled";
+      button.className = on ? "toggle toggle-on" : "toggle toggle-off";
+      button.setAttribute("aria-pressed", on ? "true" : "false");
+    }
+
+    function renderClock() {
+      const now = new Date();
+      const date = now.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+      document.getElementById("clock").textContent = date + ", " + pad(now.getHours()) + ":" + pad(now.getMinutes());
+    }
+
+    function renderNotice() {
+      const notice = document.getElementById("notice");
+      if (room().enabled === false && room().periods.length > 0) {
+        notice.hidden = false;
+        notice.textContent = "This schedule is disabled. Enable it to run these periods.";
+      } else {
+        notice.hidden = true;
+        notice.textContent = "";
+      }
+    }
+
+    function renderDay(days) {
+      const host = document.getElementById("day");
+      host.innerHTML = "";
+      const today = days.find((day) => sameDay(day.date, new Date()));
+      const active = room().periods.filter((period) => period.enabled !== false);
+      if (active.length === 0) {
+        const empty = node("div", "empty");
+        empty.append(node("p", "quiet", "No periods configured for " + room().name + ". Add a period to set the day."));
+        host.append(empty);
+        return;
+      }
+      const track = node("div", "sheet day-track");
+      today.slices.forEach((slice) => {
+        if (!slice.period) {
+          const gap = node("div", "slice");
+          fillSlice(gap, slice);
+          if (!narrowQuery.matches) gap.style.flex = (slice.end - slice.start) + " 1 8.5rem";
+          track.append(gap);
+          return;
+        }
+        const button = node("button", slice.isNow ? "slice slice-live" : "slice");
+        button.type = "button";
+        if (slice.isNow) button.setAttribute("aria-current", "true");
+        fillSlice(button, slice);
+        if (!narrowQuery.matches) button.style.flex = (slice.end - slice.start) + " 1 8.5rem";
+        button.addEventListener("click", () => openEditor(slice.period));
+        track.append(button);
+      });
+      host.append(track);
+    }
+
+    function renderWeek(days) {
+      const host = document.getElementById("week");
+      const start = days[0].date;
+      const end = days[6].date;
+      const fmt = { day: "numeric", month: "long" };
+      document.getElementById("week-range").textContent = start.toLocaleDateString("en-GB", fmt) + " to " + end.toLocaleDateString("en-GB", fmt);
+      host.innerHTML = "";
+      const active = room().periods.filter((period) => period.enabled !== false);
+      days.forEach((day) => {
+        const col = node("article", "day-col");
+        const title = node("h3");
+        title.append(document.createTextNode(DAY_NAMES[mondayIndex(day.date)] + " "));
+        title.append(node("span", "date-num", String(day.date.getDate())));
+        col.append(title);
+        if (sameDay(day.date, new Date())) col.append(node("p", "today-mark", "Today"));
+        if (active.length === 0) {
+          col.append(node("p", "gap", "No period"));
+        } else {
+          day.slices.forEach((slice) => {
+            if (!slice.period) {
+              if (slice.end - slice.start < 30) return;
+              const gap = node("p", "gap");
+              gap.append(node("span", "time", rangeText(slice.start, slice.end)));
+              gap.append(document.createTextNode(" No period"));
+              col.append(gap);
+              return;
+            }
+            const button = node("button", slice.isNow ? "week-row week-row-live" : "week-row");
+            button.type = "button";
+            if (slice.isNow) button.setAttribute("aria-current", "true");
+            fillSlice(button, slice);
+            button.addEventListener("click", () => openEditor(slice.period));
+            col.append(button);
+          });
+        }
+        host.append(col);
+      });
+    }
+
+    function renderExperiments() {
+      const host = document.getElementById("experiments");
+      host.innerHTML = "";
+      const list = room().experiments || [];
+      if (list.length === 0) {
+        host.append(node("p", "quiet", "No experiments scheduled for this room."));
+        return;
+      }
+      list.forEach((exp) => {
+        const cap = node("p", "capsule");
+        cap.append(node("span", "pill", exp.status));
+        cap.append(node("span", "", exp.name));
+        cap.append(node("span", "", exp.signal));
+        cap.append(node("span", "", exp.window));
+        host.append(cap);
+      });
+    }
+
+    function renderInactive() {
+      const details = document.getElementById("inactive");
+      const list = document.getElementById("inactive-list");
+      const summary = document.getElementById("inactive-summary");
+      const inactive = room().periods.filter((period) => period.enabled === false);
+      list.innerHTML = "";
+      if (inactive.length === 0) {
+        details.hidden = true;
+        return;
+      }
+      details.hidden = false;
+      summary.textContent = "Inactive (" + inactive.length + ")";
+      inactive.forEach((period) => {
+        const row = node("div", "inactive-row");
+        row.append(node("span", "name", period.name || "Period"));
+        row.append(node("span", "time", timingOf(period)));
+        row.append(node("span", "mode", modeLabel(period.mode)));
+        const enable = node("button", "add", "Enable period");
+        enable.type = "button";
+        enable.addEventListener("click", () => {
+          period.enabled = true;
+          closeEditor(false);
+          paint(false);
+        });
+        row.append(enable);
+        list.append(row);
+      });
+    }
+
+    function timingOf(period) {
+      const type = period.schedule_type || "weekly";
+      if (type === "continuous") {
+        return String(period.start_at || "").replace("T", " ") + " " + DASH + " " + String(period.end_at || "").replace("T", " ");
+      }
+      const times = (period.time_mode || "window") === "all_day" ? "All day" : (period.start || "08:00") + DASH + (period.end || "22:00");
+      if (type === "date_range") return (period.start_date || "") + " to " + (period.end_date || "") + ", " + times;
+      const days = (period.days || []).map((d) => DAY_NAMES[d]).join(" ");
+      return (days ? days + " " : "") + times;
+    }
+
+    function blankDraft() {
+      const now = new Date();
+      const later = new Date(now.getTime() + 8 * 3600 * 1000);
+      return {
+        id: "p-" + Date.now(),
+        name: "",
+        mode: "comfort",
+        schedule_type: "weekly",
+        time_mode: "window",
+        days: [0, 1, 2, 3, 4, 5, 6],
+        start: "08:00",
+        end: "22:00",
+        start_date: isoDate(now),
+        end_date: isoDate(now),
+        start_at: toLocalInput(now),
+        end_at: toLocalInput(later),
+        enabled: true,
+        setpoint: 21
+      };
+    }
+
+    function clonePeriod(period) {
+      return {
+        id: period.id,
+        name: period.name || "",
+        mode: period.mode === "off" ? "off" : "comfort",
+        schedule_type: period.schedule_type || "weekly",
+        time_mode: period.time_mode || "window",
+        days: [...(period.days || [0, 1, 2, 3, 4, 5, 6])],
+        start: period.start || "08:00",
+        end: period.end || "22:00",
+        start_date: period.start_date || isoDate(new Date()),
+        end_date: period.end_date || isoDate(new Date()),
+        start_at: period.start_at || toLocalInput(new Date()),
+        end_at: period.end_at || toLocalInput(new Date()),
+        enabled: period.enabled !== false,
+        setpoint: period.setpoint !== undefined && period.setpoint !== null ? period.setpoint : 21
+      };
+    }
+
+    function openEditor(period) {
+      lastFocus = document.activeElement;
+      adding = !period;
+      draft = period ? clonePeriod(period) : blankDraft();
+      draftId = draft.id;
+      dirty = false;
+      renderEditor();
+      const editor = document.getElementById("editor");
+      editor.hidden = false;
+      const name = document.getElementById("period-name");
+      if (name) name.focus();
+      editor.scrollIntoView({ block: "nearest" });
+    }
+
+    function closeEditor(restore) {
+      draft = null;
+      draftId = null;
+      adding = false;
+      dirty = false;
+      const editor = document.getElementById("editor");
+      editor.hidden = true;
+      editor.innerHTML = "";
+      if (restore && lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    }
+
+    function markDirty() {
+      dirty = true;
+      const line = document.getElementById("unsaved");
+      if (line) line.hidden = false;
+    }
+
+    function readDraft() {
+      const name = document.getElementById("period-name");
+      if (!name || !draft) return;
+      draft.name = name.value;
+      const start = document.getElementById("period-start");
+      const end = document.getElementById("period-end");
+      const startDate = document.getElementById("period-start-date");
+      const endDate = document.getElementById("period-end-date");
+      const startAt = document.getElementById("period-start-at");
+      const endAt = document.getElementById("period-end-at");
+      const setpoint = document.getElementById("period-setpoint");
+      if (start) draft.start = start.value || draft.start;
+      if (end) draft.end = end.value || draft.end;
+      if (startDate) draft.start_date = startDate.value;
+      if (endDate) draft.end_date = endDate.value;
+      if (startAt) draft.start_at = startAt.value;
+      if (endAt) draft.end_at = endAt.value;
+      if (setpoint && draft.mode !== "off") draft.setpoint = setpoint.value;
+    }
+
+    function renderEditor() {
+      const editor = document.getElementById("editor");
+      const type = draft.schedule_type || "weekly";
+      editor.innerHTML = "";
+      editor.append(node("h2", "", adding ? "Add period" : "Edit period"));
+      editor.append(node("p", "hint", "Daily comfort windows that set the target temperature and the mode for this room."));
+      const unsaved = node("p", "unsaved", "Unsaved changes. Save to keep them.");
+      unsaved.id = "unsaved";
+      unsaved.hidden = !dirty;
+      editor.append(unsaved);
+
+      const nameBlock = node("div", "block");
+      nameBlock.append(node("h3", "", "Name"));
+      const nameGroup = node("div", "group");
+      const nameLabel = node("label", "", "Name");
+      nameLabel.htmlFor = "period-name";
+      const nameInput = document.createElement("input");
+      nameInput.id = "period-name";
+      nameInput.type = "text";
+      nameInput.value = draft.name;
+      nameInput.placeholder = "Morning\u2026";
+      nameInput.autocomplete = "off";
+      nameInput.addEventListener("input", markDirty);
+      const nameError = node("p", "error", "");
+      nameError.id = "name-error";
+      nameError.hidden = true;
+      nameGroup.append(nameLabel, nameInput, nameError);
+      nameBlock.append(nameGroup);
+      editor.append(nameBlock);
+
+      editor.append(segmentBlock("Type", "schedule_type", [
+        ["weekly", "Weekly recurring"],
+        ["date_range", "Date range"],
+        ["continuous", "Continuous span"]
+      ]));
+
+      const when = node("div", "block");
+      const whenTitle = node("h3", "", "When");
+      when.append(whenTitle);
+      when.append(node("p", "hint", typeLabel(type)));
+
+      if (type === "weekly") {
+        when.append(dayButtons());
+        when.append(timeModeControl());
+        when.append(timeFields());
+      } else if (type === "date_range") {
+        when.append(dateFields());
+        when.append(timeModeControl());
+        when.append(timeFields());
+      } else {
+        when.append(dateTimeFields());
+      }
+      editor.append(when);
+
+      editor.append(segmentBlock("Behaviour", "mode", [
+        ["comfort", "Comfort"],
+        ["off", "Off"]
+      ]));
+
+      if (draft.mode !== "off") {
+        const tempBlock = node("div", "block");
+        tempBlock.append(node("h3", "", "Target temperature"));
+        const group = node("div", "group");
+        const label = node("label", "", "Target temperature (\u00b0C)");
+        label.htmlFor = "period-setpoint";
+        const input = document.createElement("input");
+        input.id = "period-setpoint";
+        input.type = "number";
+        input.step = "0.5";
+        input.inputMode = "decimal";
+        input.value = draft.setpoint;
+        input.addEventListener("input", markDirty);
+        const err = node("p", "error", "");
+        err.id = "setpoint-error";
+        err.hidden = true;
+        group.append(label, input, err);
+        tempBlock.append(group);
+        editor.append(tempBlock);
+      }
+
+      const periodBlock = node("div", "block");
+      periodBlock.append(node("h3", "", "Period"));
+      const onBtn = node("button", draft.enabled ? "toggle toggle-on" : "toggle toggle-off", draft.enabled ? "On" : "Off");
+      onBtn.type = "button";
+      onBtn.setAttribute("aria-pressed", draft.enabled ? "true" : "false");
+      onBtn.title = draft.enabled ? "Disable period" : "Enable period";
+      onBtn.addEventListener("click", () => {
+        readDraft();
+        draft.enabled = !draft.enabled;
+        dirty = true;
+        renderEditor();
+        document.querySelector("#editor button[title]").focus();
+      });
+      periodBlock.append(onBtn);
+      editor.append(periodBlock);
+
+      const actions = node("div", "actions");
+      const save = node("button", "primary", "Save changes");
+      save.type = "button";
+      save.addEventListener("click", saveDraft);
+      const close = node("button", "quiet-btn", "Close");
+      close.type = "button";
+      close.addEventListener("click", () => closeEditor(true));
+      actions.append(save, close);
+      if (!adding) {
+        const del = node("button", "quiet-btn", "Delete period");
+        del.type = "button";
+        del.addEventListener("click", () => {
+          room().periods = room().periods.filter((period) => period.id !== draftId);
+          closeEditor(false);
+          paint(false);
+        });
+        actions.append(del);
+      }
+      editor.append(actions);
+      const status = node("p", "save-status", "");
+      status.id = "save-status";
+      editor.append(status);
+    }
+
+    function segmentBlock(title, field, options) {
+      const block = node("div", "block");
+      block.append(node("h3", "", title));
+      const row = node("div", "segments");
+      options.forEach(([value, label]) => {
+        const button = node("button", value === draft[field] ? "segment segment-on" : "segment", label);
+        button.type = "button";
+        button.setAttribute("aria-pressed", value === draft[field] ? "true" : "false");
+        button.addEventListener("click", () => {
+          readDraft();
+          draft[field] = value;
+          dirty = true;
+          renderEditor();
+          const buttons = document.querySelectorAll("#editor .segment");
+          buttons.forEach((item) => {
+            if (item.textContent === label) item.focus();
+          });
+        });
+        row.append(button);
+      });
+      block.append(row);
+      return block;
+    }
+
+    function dayButtons() {
+      const row = node("div", "days");
+      DAY_NAMES.forEach((name, index) => {
+        const on = draft.days.includes(index);
+        const button = node("button", on ? "day-btn day-on" : "day-btn", name);
+        button.type = "button";
+        button.setAttribute("aria-pressed", on ? "true" : "false");
+        button.addEventListener("click", () => {
+          readDraft();
+          if (draft.days.includes(index)) draft.days = draft.days.filter((d) => d !== index);
+          else draft.days = [...draft.days, index].sort((a, b) => a - b);
+          dirty = true;
+          renderEditor();
+          const buttons = document.querySelectorAll("#editor .day-btn");
+          if (buttons[index]) buttons[index].focus();
+        });
+        row.append(button);
+      });
+      const err = node("p", "error", "");
+      err.id = "days-error";
+      err.hidden = true;
+      const wrap = node("div", "group");
+      wrap.append(row, err);
+      return wrap;
+    }
+
+    function timeModeControl() {
+      const row = node("div", "segments");
+      [["all_day", "All day"], ["window", "Time window"]].forEach(([value, label]) => {
+        const button = node("button", draft.time_mode === value ? "segment segment-on" : "segment", label);
+        button.type = "button";
+        button.setAttribute("aria-pressed", draft.time_mode === value ? "true" : "false");
+        button.addEventListener("click", () => {
+          readDraft();
+          draft.time_mode = value;
+          dirty = true;
+          renderEditor();
+        });
+        row.append(button);
+      });
+      return row;
+    }
+
+    function timeFields() {
+      const pair = node("div", "pair");
+      pair.hidden = draft.time_mode === "all_day";
+      pair.append(labeledTime("Start time", "period-start", draft.start));
+      pair.append(labeledTime("End time", "period-end", draft.end));
+      return pair;
+    }
+
+    function labeledTime(labelText, id, value) {
+      const group = node("div", "group");
+      const label = node("label", "", labelText);
+      label.htmlFor = id;
+      const input = document.createElement("input");
+      input.type = "time";
+      input.id = id;
+      input.value = value;
+      input.addEventListener("input", markDirty);
+      group.append(label, input);
+      return group;
+    }
+
+    function dateFields() {
+      const pair = node("div", "pair");
+      pair.append(labeledDate("Start date", "period-start-date", "date", draft.start_date));
+      pair.append(labeledDate("End date", "period-end-date", "date", draft.end_date));
+      const err = node("p", "error", "");
+      err.id = "date-error";
+      err.hidden = true;
+      const wrap = node("div", "group");
+      wrap.append(pair, err);
+      return wrap;
+    }
+
+    function dateTimeFields() {
+      const pair = node("div", "pair");
+      pair.append(labeledDate("Start datetime", "period-start-at", "datetime-local", draft.start_at));
+      pair.append(labeledDate("End datetime", "period-end-at", "datetime-local", draft.end_at));
+      const err = node("p", "error", "");
+      err.id = "span-error";
+      err.hidden = true;
+      const wrap = node("div", "group");
+      wrap.append(pair, err);
+      return wrap;
+    }
+
+    function labeledDate(labelText, id, type, value) {
+      const group = node("div", "group");
+      const label = node("label", "", labelText);
+      label.htmlFor = id;
+      const input = document.createElement("input");
+      input.type = type;
+      input.id = id;
+      input.value = value;
+      input.addEventListener("input", markDirty);
+      group.append(label, input);
+      return group;
+    }
+
+    function showError(id, inputId, message) {
+      const err = document.getElementById(id);
+      const input = document.getElementById(inputId);
+      if (err) {
+        err.hidden = false;
+        err.textContent = message;
+      }
+      if (input) {
+        input.setAttribute("aria-invalid", "true");
+        input.setAttribute("aria-describedby", id);
+        input.focus();
+      }
+    }
+
+    function saveDraft() {
+      readDraft();
+      document.querySelectorAll("#editor .error").forEach((err) => {
+        err.hidden = true;
+        err.textContent = "";
+      });
+      document.querySelectorAll("#editor [aria-invalid]").forEach((input) => input.removeAttribute("aria-invalid"));
+      if (!draft.name.trim()) {
+        showError("name-error", "period-name", "Name the period, then save.");
+        return;
+      }
+      if ((draft.schedule_type || "weekly") === "weekly" && draft.days.length === 0) {
+        const err = document.getElementById("days-error");
+        err.hidden = false;
+        err.textContent = "Choose at least one day.";
+        document.querySelector("#editor .day-btn").focus();
+        return;
+      }
+      if (draft.schedule_type === "date_range" && draft.end_date < draft.start_date) {
+        showError("date-error", "period-end-date", "End date must be on or after the start date.");
+        return;
+      }
+      if (draft.schedule_type === "continuous") {
+        const start = new Date(draft.start_at);
+        const end = new Date(draft.end_at);
+        if (!isFinite(start.getTime()) || !isFinite(end.getTime()) || end <= start) {
+          showError("span-error", "period-end-at", "End must be after start.");
+          return;
+        }
+      }
+      if (draft.mode !== "off") {
+        const value = Number(draft.setpoint);
+        if (!isFinite(value)) {
+          showError("setpoint-error", "period-setpoint", "Enter a target temperature.");
+          return;
+        }
+        draft.setpoint = value;
+      } else {
+        delete draft.setpoint;
+      }
+      const next = {
+        id: draft.id,
+        name: draft.name.trim(),
+        mode: draft.mode,
+        schedule_type: draft.schedule_type,
+        time_mode: draft.time_mode,
+        days: [...draft.days],
+        start: draft.start,
+        end: draft.end,
+        start_date: draft.start_date,
+        end_date: draft.end_date,
+        start_at: draft.start_at,
+        end_at: draft.end_at,
+        enabled: draft.enabled !== false
+      };
+      if (draft.mode !== "off") next.setpoint = draft.setpoint;
+      const list = room().periods;
+      const index = list.findIndex((period) => period.id === draft.id);
+      if (index >= 0) list[index] = next;
+      else list.push(next);
+      const savedName = next.name;
+      closeEditor(false);
+      paint(false);
+      const statusHost = document.getElementById("room-status");
+      statusHost.textContent = "Saved " + savedName + ".";
+    }
+
+    function paint(fade) {
+      const stage = document.getElementById("stage");
+      const run = () => {
+        const now = new Date();
+        const days = buildWeek(now);
+        nowKey = currentNowKey(days);
+        renderRooms();
+        renderToggle();
+        renderClock();
+        renderNotice();
+        renderDay(days);
+        renderWeek(days);
+        renderExperiments();
+        renderInactive();
+        stage.classList.remove("stage-out");
+      };
+      if (fade && !reduceMotion) {
+        stage.classList.add("stage-out");
+        window.setTimeout(run, 160);
+      } else {
+        run();
+      }
+    }
+
+    document.getElementById("add-period").addEventListener("click", () => openEditor(null));
+
+    document.getElementById("schedule-toggle").addEventListener("click", () => {
+      room().enabled = room().enabled === false;
+      renderToggle();
+      renderNotice();
+    });
+
+    document.getElementById("run-toggle").addEventListener("click", (event) => {
+      const button = event.currentTarget;
+      const running = button.getAttribute("aria-pressed") !== "true";
+      button.setAttribute("aria-pressed", running ? "true" : "false");
+      button.textContent = running ? "Stop" : "Start";
+      button.classList.toggle("stop-off", !running);
+    });
+
+    document.querySelectorAll(".nav a").forEach((link) => {
+      if (link.getAttribute("aria-current") === "page") return;
+      link.addEventListener("click", (event) => event.preventDefault());
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && draft) closeEditor(true);
+    });
+
+    narrowQuery.addEventListener("change", () => paint(false));
+
+    window.setInterval(() => {
+      renderClock();
+      const days = buildWeek(new Date());
+      const key = currentNowKey(days);
+      if (key !== nowKey) paint(false);
+    }, 15000);
+
+    paint(false);
+  </script>
+</body>
+</html>
