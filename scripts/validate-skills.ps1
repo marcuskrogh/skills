@@ -643,13 +643,46 @@ function Test-CodexCatalog {
     }
 }
 
+function Get-InventBannedSlugs {
+    return @('gpt-6-terra', 'haiku-5-5', 'claude-haiku-5')
+}
+
+function Test-InventBanContract {
+    $slugs = @(Get-InventBannedSlugs)
+    foreach ($dropped in @('sonnet-5-5', 'claude-sonnet-5-5')) {
+        if ($slugs -contains $dropped) {
+            Write-Host "FAIL: validate-skills.ps1 invent-ban list must drop $dropped"
+            $script:errors++
+        } else {
+            Write-Host "OK: validate-skills.ps1 invent-ban list drops $dropped"
+        }
+    }
+    foreach ($kept in @('gpt-6-terra', 'haiku-5-5', 'claude-haiku-5')) {
+        if ($slugs -notcontains $kept) {
+            Write-Host "FAIL: validate-skills.ps1 invent-ban list must keep $kept"
+            $script:errors++
+        } else {
+            Write-Host "OK: validate-skills.ps1 invent-ban list keeps $kept"
+        }
+    }
+    $inventPhrase = 'do not ' + 'invent'
+    $sonnetLabel = 'Sonnet ' + '5.5'
+    $inventOk = @(Select-String -Path $PSCommandPath -Pattern $inventPhrase | Where-Object { $_.Line -match 'Write-Host' })
+    if ($inventOk.Count -ne 1 -or $inventOk[0].Line.IndexOf($sonnetLabel) -ge 0) {
+        Write-Host "FAIL: validate-skills.ps1 success line must not call Sonnet 5.5 invented"
+        $script:errors++
+    } else {
+        Write-Host "OK: validate-skills.ps1 success line does not call Sonnet 5.5 invented"
+    }
+}
+
 function Test-BannedPlatformSlugs {
     param([string]$PlatformsDir)
 
     $bannedHits = 0
     foreach ($plat in (Get-ChildItem -Path $PlatformsDir -Filter "*.md")) {
         $platText = Get-Content -Path $plat.FullName -Raw
-        foreach ($banned in @('gpt-6-terra', 'haiku-5-5', 'claude-haiku-5')) {
+        foreach ($banned in (Get-InventBannedSlugs)) {
             if ($platText.IndexOf($banned) -ge 0) {
                 Write-Host "FAIL: $($plat.Name) invents banned slug $banned"
                 $script:errors++
@@ -660,6 +693,7 @@ function Test-BannedPlatformSlugs {
     if ($bannedHits -eq 0) {
         Write-Host "OK: platform files do not invent gpt-6-terra or Haiku 5.5"
     }
+    Test-InventBanContract
 }
 
 function Test-StalePreferSlugs {
@@ -726,12 +760,50 @@ function Test-HighStaysOpus {
     }
 }
 
+function Test-SectionOmits {
+    param([string]$Section, [string]$Needle, [string]$FailLabel, [string]$OkLabel)
+
+    if ($Section.IndexOf($Needle) -ge 0) {
+        Write-Host "FAIL: $FailLabel"
+        $script:errors++
+    } else {
+        Write-Host "OK: $OkLabel"
+    }
+}
+
+function Test-PickerSonnetMid {
+    param(
+        [string]$Text,
+        [string]$Label,
+        [string]$RankRow,
+        [string]$RankFail,
+        [string]$RankOk,
+        [switch]$ForbidSlugColumn
+    )
+
+    $high = Get-HeadingSlice -Text $Text -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
+    $mid = Get-HeadingSlice -Text $Text -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+    $low = Get-HeadingSlice -Text $Text -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
+    Test-HighStaysOpus -Section $high -Label $Label
+    Test-NeedleCount -Section $mid -Needle 'Claude Sonnet 5.5' -Expected 1 -Label "$Label mid names Claude Sonnet 5.5 once"
+    Test-NeedleCount -Section $low -Needle 'Claude Sonnet 5.5' -Expected 0 -Label "$Label low omits Claude Sonnet 5.5"
+    if ($mid.IndexOf($RankRow) -lt 0) {
+        Write-Host "FAIL: $RankFail"
+        $script:errors++
+    } else {
+        Write-Host "OK: $RankOk"
+    }
+    if ($ForbidSlugColumn) {
+        Test-SectionOmits -Section $mid -Needle '`' -FailLabel "$Label mid section must not gain a slug column" -OkLabel "$Label mid section has no slug column"
+    }
+}
+
 function Test-PromotedSonnet55 {
-    param([string]$PlatformsDir, [string]$ValidatorPath)
+    param([string]$PlatformsDir)
 
     $claudeText = Read-CatalogueText -Path (Join-Path $PlatformsDir "claude-code.md")
     if ($null -ne $claudeText) {
-    $high = Get-HeadingSlice -Text $claudeText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback ''
+    $high = Get-HeadingSlice -Text $claudeText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
     $mid = Get-HeadingSlice -Text $claudeText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
     $low = Get-HeadingSlice -Text $claudeText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
     Test-HighStaysOpus -Section $high -Label 'claude-code.md'
@@ -759,82 +831,24 @@ function Test-PromotedSonnet55 {
             '`sonnet`',
             '`claude-sonnet-5`'
         )
-        if ($section.IndexOf('claude-sonnet-4-6') -ge 0) {
-            Write-Host "FAIL: claude-code.md $sectionName still falls back to claude-sonnet-4-6"
-            $script:errors++
-        } else {
-            Write-Host "OK: claude-code.md $sectionName does not fall back to claude-sonnet-4-6"
-        }
+        Test-SectionOmits -Section $section -Needle 'claude-sonnet-4-6' -FailLabel "claude-code.md $sectionName still falls back to claude-sonnet-4-6" -OkLabel "claude-code.md $sectionName does not fall back to claude-sonnet-4-6"
     }
     }
 
     $copilotText = Read-CatalogueText -Path (Join-Path $PlatformsDir "github-copilot.md")
     if ($null -ne $copilotText) {
-    $copilotHigh = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback ''
-    $copilotMid = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
-    $copilotLow = Get-HeadingSlice -Text $copilotText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
-    Test-HighStaysOpus -Section $copilotHigh -Label 'github-copilot.md'
-    Test-NeedleCount -Section $copilotMid -Needle 'Claude Sonnet 5.5' -Expected 1 -Label 'github-copilot.md mid names Claude Sonnet 5.5 once'
-    Test-NeedleCount -Section $copilotLow -Needle 'Claude Sonnet 5.5' -Expected 0 -Label 'github-copilot.md low omits Claude Sonnet 5.5'
-    $copilotRow = '| 3 | Anthropic | Claude Sonnet 5.5 | when the OpenAI rows are absent |'
-    if ($copilotMid.IndexOf($copilotRow) -lt 0) {
-        Write-Host "FAIL: github-copilot.md mid rank 3 must name Claude Sonnet 5.5 and keep the OpenAI-absent note"
-        $script:errors++
-    } else {
-        Write-Host "OK: github-copilot.md mid rank 3 names Claude Sonnet 5.5"
-    }
-    if ($copilotMid.IndexOf('`') -ge 0) {
-        Write-Host "FAIL: github-copilot.md mid section must not gain a slug column"
-        $script:errors++
-    } else {
-        Write-Host "OK: github-copilot.md mid section has no slug column"
-    }
+        Test-PickerSonnetMid -Text $copilotText -Label 'github-copilot.md' -ForbidSlugColumn `
+            -RankRow '| 3 | Anthropic | Claude Sonnet 5.5 | when the OpenAI rows are absent |' `
+            -RankFail 'github-copilot.md mid rank 3 must name Claude Sonnet 5.5 and keep the OpenAI-absent note' `
+            -RankOk 'github-copilot.md mid rank 3 names Claude Sonnet 5.5'
     }
 
     $generalText = Read-CatalogueText -Path (Join-Path $PlatformsDir "general.md")
     if ($null -ne $generalText) {
-    $generalHigh = Get-HeadingSlice -Text $generalText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback ''
-    $generalMid = Get-HeadingSlice -Text $generalText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
-    $generalLow = Get-HeadingSlice -Text $generalText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
-    Test-HighStaysOpus -Section $generalHigh -Label 'general.md'
-    Test-NeedleCount -Section $generalMid -Needle 'Claude Sonnet 5.5' -Expected 1 -Label 'general.md mid names Claude Sonnet 5.5 once'
-    Test-NeedleCount -Section $generalLow -Needle 'Claude Sonnet 5.5' -Expected 0 -Label 'general.md low omits Claude Sonnet 5.5'
-    $generalRow = '| 4 | Anthropic | Claude Sonnet 5.5 | `claude-sonnet-5-5`, `sonnet`, `claude-sonnet-5` |'
-    if ($generalMid.IndexOf($generalRow) -lt 0) {
-        Write-Host "FAIL: general.md mid rank 4 must name Claude Sonnet 5.5 with claude-sonnet-5-5, sonnet, and claude-sonnet-5"
-        $script:errors++
-    } else {
-        Write-Host "OK: general.md mid rank 4 names Claude Sonnet 5.5"
-    }
-    }
-
-    $banLines = @(Select-String -Path $ValidatorPath -Pattern 'foreach \(\$banned in @')
-    $banLine = $null
-    if ($banLines.Count -eq 1) {
-        $banLine = $banLines[0].Line
-    }
-    if ($null -eq $banLine -or $banLine.IndexOf('sonnet-5-5') -ge 0) {
-        Write-Host "FAIL: validate-skills.ps1 invent-ban list must drop sonnet-5-5 and claude-sonnet-5-5"
-        $script:errors++
-    } else {
-        Write-Host "OK: validate-skills.ps1 invent-ban list drops Sonnet 5.5 slugs"
-    }
-    foreach ($kept in @('gpt-6-terra', 'haiku-5-5', 'claude-haiku-5')) {
-        if ($null -eq $banLine -or $banLine.IndexOf($kept) -lt 0) {
-            Write-Host "FAIL: validate-skills.ps1 invent-ban list must keep $kept"
-            $script:errors++
-        } else {
-            Write-Host "OK: validate-skills.ps1 invent-ban list keeps $kept"
-        }
-    }
-    $inventPhrase = 'do not ' + 'invent'
-    $sonnetLabel = 'Sonnet ' + '5.5'
-    $inventOk = @(Select-String -Path $ValidatorPath -Pattern $inventPhrase | Where-Object { $_.Line -match 'Write-Host' })
-    if ($inventOk.Count -ne 1 -or $inventOk[0].Line.IndexOf($sonnetLabel) -ge 0) {
-        Write-Host "FAIL: validate-skills.ps1 success line must not call Sonnet 5.5 invented"
-        $script:errors++
-    } else {
-        Write-Host "OK: validate-skills.ps1 success line does not call Sonnet 5.5 invented"
+        Test-PickerSonnetMid -Text $generalText -Label 'general.md' `
+            -RankRow '| 4 | Anthropic | Claude Sonnet 5.5 | `claude-sonnet-5-5`, `sonnet`, `claude-sonnet-5` |' `
+            -RankFail 'general.md mid rank 4 must name Claude Sonnet 5.5 with claude-sonnet-5-5, sonnet, and claude-sonnet-5' `
+            -RankOk 'general.md mid rank 4 names Claude Sonnet 5.5'
     }
 }
 
@@ -843,7 +857,7 @@ $platformsDir = Join-Path $ConceptsDir "platforms"
 Test-GeneralLockedRows -PlatformsDir $platformsDir
 Test-ClaudeCodeCatalog -ClaudePlatform (Join-Path $platformsDir "claude-code.md")
 Test-CopilotCatalog -CopilotPlatform (Join-Path $platformsDir "github-copilot.md")
-Test-PromotedSonnet55 -PlatformsDir $platformsDir -ValidatorPath $PSCommandPath
+Test-PromotedSonnet55 -PlatformsDir $platformsDir
 Test-CodexCatalog -CodexPlatform (Join-Path $platformsDir "codex.md")
 Test-BannedPlatformSlugs -PlatformsDir $platformsDir
 Test-StalePreferSlugs -Roots @($ConceptsDir, (Join-Path $RepoRoot "scripts"))
