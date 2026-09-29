@@ -24,7 +24,7 @@ or Sol is insufficient on the same package.
 |------|----------|-------|--------|
 | 1 | OpenAI | GPT-5.6 Terra | efficient workhorse |
 | 2 | OpenAI | GPT-6 Sol | when Terra is absent |
-| 3 | Anthropic | Claude Sonnet 5 | when the OpenAI rows are absent |
+| 3 | Anthropic | Claude Sonnet 5.5 | when the OpenAI rows are absent |
 
 ## Low-capability (ranked)
 
