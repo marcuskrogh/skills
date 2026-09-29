@@ -687,6 +687,17 @@ function Test-StalePreferSlugs {
     }
 }
 
+function Test-HighStaysOpus {
+    param([string]$Section, [string]$Label)
+
+    if ($Section.IndexOf('Claude Opus 5.5') -lt 0 -or $Section.IndexOf('Claude Sonnet') -ge 0) {
+        Write-Host "FAIL: $Label high section must stay Claude Opus 5.5"
+        $script:errors++
+    } else {
+        Write-Host "OK: $Label high section stays Claude Opus 5.5"
+    }
+}
+
 function Test-PromotedSonnet55 {
     param([string]$PlatformsDir, [string]$ValidatorPath)
 
@@ -694,12 +705,7 @@ function Test-PromotedSonnet55 {
     $high = Get-HeadingSlice -Text $claudeText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback ''
     $mid = Get-HeadingSlice -Text $claudeText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
     $low = Get-HeadingSlice -Text $claudeText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
-    if ($high.IndexOf('Claude Opus 5.5') -lt 0 -or $high.IndexOf('Claude Sonnet') -ge 0) {
-        Write-Host "FAIL: claude-code.md high section must stay Claude Opus 5.5"
-        $script:errors++
-    } else {
-        Write-Host "OK: claude-code.md high section stays Claude Opus 5.5"
-    }
+    Test-HighStaysOpus -Section $high -Label 'claude-code.md'
     if ($claudeText.IndexOf('Anthropic-only') -lt 0) {
         Write-Host "FAIL: claude-code.md must stay Anthropic-only"
         $script:errors++
@@ -733,7 +739,9 @@ function Test-PromotedSonnet55 {
     }
 
     $copilotText = Get-Content -Path (Join-Path $PlatformsDir "github-copilot.md") -Raw
+    $copilotHigh = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback ''
     $copilotMid = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+    Test-HighStaysOpus -Section $copilotHigh -Label 'github-copilot.md'
     $copilotRow = '| 3 | Anthropic | Claude Sonnet 5.5 | when the OpenAI rows are absent |'
     if ($copilotMid.IndexOf($copilotRow) -lt 0) {
         Write-Host "FAIL: github-copilot.md mid rank 3 must name Claude Sonnet 5.5 and keep the OpenAI-absent note"
@@ -749,7 +757,9 @@ function Test-PromotedSonnet55 {
     }
 
     $generalText = Get-Content -Path (Join-Path $PlatformsDir "general.md") -Raw
+    $generalHigh = Get-HeadingSlice -Text $generalText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback ''
     $generalMid = Get-HeadingSlice -Text $generalText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+    Test-HighStaysOpus -Section $generalHigh -Label 'general.md'
     $generalRow = '| 4 | Anthropic | Claude Sonnet 5.5 | `claude-sonnet-5-5`, `sonnet`, `claude-sonnet-5` |'
     if ($generalMid.IndexOf($generalRow) -lt 0) {
         Write-Host "FAIL: general.md mid rank 4 must name Claude Sonnet 5.5 with claude-sonnet-5-5, sonnet, and claude-sonnet-5"
@@ -759,14 +769,18 @@ function Test-PromotedSonnet55 {
     }
 
     $banLines = @(Select-String -Path $ValidatorPath -Pattern 'foreach \(\$banned in @')
-    if ($banLines.Count -ne 1 -or $banLines[0].Line.IndexOf('sonnet-5-5') -ge 0) {
+    $banLine = $null
+    if ($banLines.Count -eq 1) {
+        $banLine = $banLines[0].Line
+    }
+    if ($null -eq $banLine -or $banLine.IndexOf('sonnet-5-5') -ge 0) {
         Write-Host "FAIL: validate-skills.ps1 invent-ban list must drop sonnet-5-5 and claude-sonnet-5-5"
         $script:errors++
     } else {
         Write-Host "OK: validate-skills.ps1 invent-ban list drops Sonnet 5.5 slugs"
     }
     foreach ($kept in @('gpt-6-terra', 'haiku-5-5', 'claude-haiku-5')) {
-        if ($banLines.Count -ne 1 -or $banLines[0].Line.IndexOf($kept) -lt 0) {
+        if ($null -eq $banLine -or $banLine.IndexOf($kept) -lt 0) {
             Write-Host "FAIL: validate-skills.ps1 invent-ban list must keep $kept"
             $script:errors++
         } else {

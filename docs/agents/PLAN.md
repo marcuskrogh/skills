@@ -64,4 +64,4 @@
 - Workflow: delta-fast
 
 ## Next
-`/test MD-1` — dedicated pass on the delivery diff
+`/review MD-1` — focused sequential lasers, then code review

@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Task |
-| Status | In Progress |
+| Status | In Review |
 | Parent | |
 | Children | MD-2 |
 | Artifact | docs/agents/PLAN.md |
@@ -38,5 +38,11 @@ seams: heading slices and the invent-ban line, already in the script
 exceptions: none
 working_surfaces: none. These files are catalogues and a checker. No startable app.
 
+### 2026-09-29
+Testing pass. `scripts/validate-skills.ps1` exits 0. Spec locks live in `Test-PromotedSonnet55` and the Copilot mid needle. They were red (10 errors) before the catalogue text changed. Copilot and General high rows are locked to Claude Opus 5.5. A missing invent-ban line fails instead of throwing. `cursor.md` and `codex.md` have an empty diff against `origin/main`. CRAP: `skills/test/tools/crap.py` parses Python only, so the PowerShell functions were counted by hand. `Test-HighStaysOpus` is a flat or (complexity about 3). `Test-PromotedSonnet55` is a sequence of checks with one loop level. Working surfaces: none.
+
+### 2026-09-29
+Restructure pass. The repeated high-row check is `Test-HighStaysOpus`. Catalogue behaviour is unchanged. Validator still exits 0. Task is In Review.
+
 ## Next
-`/test MD-1` — dedicated pass on the delivery diff
+`/review MD-1` — focused sequential lasers, then code review
