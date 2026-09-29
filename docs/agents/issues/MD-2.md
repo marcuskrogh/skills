@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Sub-task |
-| Status | To Do |
+| Status | Done |
 | Parent | MD-1 |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
@@ -23,5 +23,8 @@ Matches the pass criteria on `docs/agents/PLAN.md`.
 ### 2026-09-29
 Opened with MD-1. Single work package.
 
+### 2026-09-29
+Rows and validator checks are on the pull request. Done.
+
 ## Next
-`/implement MD-1` — catalogue rows and validator, on the same pull request
+`/test MD-1` — dedicated pass on the delivery diff

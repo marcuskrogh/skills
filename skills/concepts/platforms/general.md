@@ -25,7 +25,7 @@ Hard exclusions (Fable 5, Haiku) live in the catalog index.
 | 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` |
 | 2 | OpenAI | GPT-6 Sol | `gpt-6-sol` |
 | 3 | Google | Gemini 3.8 Flash | `gemini-3.8-flash`, `gemini-3.6-flash` |
-| 4 | Anthropic | Claude Sonnet 5 | `sonnet`, `claude-sonnet-5` |
+| 4 | Anthropic | Claude Sonnet 5.5 | `claude-sonnet-5-5`, `sonnet`, `claude-sonnet-5` |
 | 5 | Alibaba | Qwen3.8-Max | `qwen3.8-max`, `qwen3-coder` |
 | 6 | Meta | Muse Spark 1.3 | `muse-spark-1.3`, `meta/muse-spark-1.3`, `llama-4-maverick` |
 

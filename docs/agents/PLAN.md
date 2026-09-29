@@ -64,4 +64,4 @@
 - Workflow: delta-fast
 
 ## Next
-`/implement MD-1` — catalogue rows and validator, on the same pull request
+`/test MD-1` — dedicated pass on the delivery diff

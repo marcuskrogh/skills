@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Task |
-| Status | To Do |
+| Status | In Progress |
 | Parent | |
 | Children | MD-2 |
 | Artifact | docs/agents/PLAN.md |
@@ -28,5 +28,15 @@ Plan approved by the catalogue owner. Classification tweak, template delta-fast.
 ### 2026-09-29
 `docs/agents/ARCHITECTURE.md` is on the delivery branch. Outcome ready. Task stays To Do.
 
+### 2026-09-29
+Implementation is on the branch. `scripts/validate-skills.ps1` was red (10 errors) on the old rows, then green. Sub-task MD-2 is Done. Task stays In Progress.
+
+structure_notes: catalogue tables and one validator function. Names match the rows. No new layer. meets.
+crap: evaluated in the testing pass on `scripts/validate-skills.ps1`.
+smells_fixed: none
+seams: heading slices and the invent-ban line, already in the script
+exceptions: none
+working_surfaces: none. These files are catalogues and a checker. No startable app.
+
 ## Next
-`/implement MD-1` — catalogue rows and validator, on the same pull request
+`/test MD-1` — dedicated pass on the delivery diff
