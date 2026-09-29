@@ -687,6 +687,34 @@ function Test-StalePreferSlugs {
     }
 }
 
+function Read-CatalogueText {
+    param([string]$Path)
+
+    if (-not (Test-Path $Path)) {
+        Write-Host "FAIL: Missing $Path"
+        $script:errors++
+        return $null
+    }
+    return Get-Content -Path $Path -Raw
+}
+
+function Test-NeedleCount {
+    param([string]$Section, [string]$Needle, [int]$Expected, [string]$Label)
+
+    $count = 0
+    $from = 0
+    while (($at = $Section.IndexOf($Needle, $from)) -ge 0) {
+        $count++
+        $from = $at + $Needle.Length
+    }
+    if ($count -ne $Expected) {
+        Write-Host "FAIL: $Label (found $count, expected $Expected)"
+        $script:errors++
+    } else {
+        Write-Host "OK: $Label"
+    }
+}
+
 function Test-HighStaysOpus {
     param([string]$Section, [string]$Label)
 
@@ -701,7 +729,8 @@ function Test-HighStaysOpus {
 function Test-PromotedSonnet55 {
     param([string]$PlatformsDir, [string]$ValidatorPath)
 
-    $claudeText = Get-Content -Path (Join-Path $PlatformsDir "claude-code.md") -Raw
+    $claudeText = Read-CatalogueText -Path (Join-Path $PlatformsDir "claude-code.md")
+    if ($null -ne $claudeText) {
     $high = Get-HeadingSlice -Text $claudeText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback ''
     $mid = Get-HeadingSlice -Text $claudeText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
     $low = Get-HeadingSlice -Text $claudeText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
@@ -737,11 +766,16 @@ function Test-PromotedSonnet55 {
             Write-Host "OK: claude-code.md $sectionName does not fall back to claude-sonnet-4-6"
         }
     }
+    }
 
-    $copilotText = Get-Content -Path (Join-Path $PlatformsDir "github-copilot.md") -Raw
+    $copilotText = Read-CatalogueText -Path (Join-Path $PlatformsDir "github-copilot.md")
+    if ($null -ne $copilotText) {
     $copilotHigh = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback ''
     $copilotMid = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+    $copilotLow = Get-HeadingSlice -Text $copilotText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
     Test-HighStaysOpus -Section $copilotHigh -Label 'github-copilot.md'
+    Test-NeedleCount -Section $copilotMid -Needle 'Claude Sonnet 5.5' -Expected 1 -Label 'github-copilot.md mid names Claude Sonnet 5.5 once'
+    Test-NeedleCount -Section $copilotLow -Needle 'Claude Sonnet 5.5' -Expected 0 -Label 'github-copilot.md low omits Claude Sonnet 5.5'
     $copilotRow = '| 3 | Anthropic | Claude Sonnet 5.5 | when the OpenAI rows are absent |'
     if ($copilotMid.IndexOf($copilotRow) -lt 0) {
         Write-Host "FAIL: github-copilot.md mid rank 3 must name Claude Sonnet 5.5 and keep the OpenAI-absent note"
@@ -755,17 +789,23 @@ function Test-PromotedSonnet55 {
     } else {
         Write-Host "OK: github-copilot.md mid section has no slug column"
     }
+    }
 
-    $generalText = Get-Content -Path (Join-Path $PlatformsDir "general.md") -Raw
+    $generalText = Read-CatalogueText -Path (Join-Path $PlatformsDir "general.md")
+    if ($null -ne $generalText) {
     $generalHigh = Get-HeadingSlice -Text $generalText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback ''
     $generalMid = Get-HeadingSlice -Text $generalText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+    $generalLow = Get-HeadingSlice -Text $generalText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
     Test-HighStaysOpus -Section $generalHigh -Label 'general.md'
+    Test-NeedleCount -Section $generalMid -Needle 'Claude Sonnet 5.5' -Expected 1 -Label 'general.md mid names Claude Sonnet 5.5 once'
+    Test-NeedleCount -Section $generalLow -Needle 'Claude Sonnet 5.5' -Expected 0 -Label 'general.md low omits Claude Sonnet 5.5'
     $generalRow = '| 4 | Anthropic | Claude Sonnet 5.5 | `claude-sonnet-5-5`, `sonnet`, `claude-sonnet-5` |'
     if ($generalMid.IndexOf($generalRow) -lt 0) {
         Write-Host "FAIL: general.md mid rank 4 must name Claude Sonnet 5.5 with claude-sonnet-5-5, sonnet, and claude-sonnet-5"
         $script:errors++
     } else {
         Write-Host "OK: general.md mid rank 4 names Claude Sonnet 5.5"
+    }
     }
 
     $banLines = @(Select-String -Path $ValidatorPath -Pattern 'foreach \(\$banned in @')
