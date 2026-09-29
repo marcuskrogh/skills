@@ -667,8 +667,8 @@ function Test-InventBanContract {
     }
     $inventPhrase = 'do not ' + 'invent'
     $sonnetLabel = 'Sonnet ' + '5.5'
-    $inventOk = @(Select-String -Path $PSCommandPath -Pattern $inventPhrase | Where-Object { $_.Line -match 'Write-Host' })
-    if ($inventOk.Count -ne 1 -or $inventOk[0].Line.IndexOf($sonnetLabel) -ge 0) {
+    $inventSuccessLines = @(Select-String -Path $PSCommandPath -Pattern $inventPhrase | Where-Object { $_.Line -match 'Write-Host' })
+    if ($inventSuccessLines.Count -ne 1 -or $inventSuccessLines[0].Line.IndexOf($sonnetLabel) -ge 0) {
         Write-Host "FAIL: validate-skills.ps1 success line must not call Sonnet 5.5 invented"
         $script:errors++
     } else {
@@ -721,7 +721,7 @@ function Test-StalePreferSlugs {
     }
 }
 
-function Read-CatalogueText {
+function Get-CatalogText {
     param([string]$Path)
 
     if (-not (Test-Path $Path)) {
@@ -787,12 +787,7 @@ function Test-PickerSonnetMid {
     Test-HighStaysOpus -Section $high -Label $Label
     Test-NeedleCount -Section $mid -Needle 'Claude Sonnet 5.5' -Expected 1 -Label "$Label mid names Claude Sonnet 5.5 once"
     Test-NeedleCount -Section $low -Needle 'Claude Sonnet 5.5' -Expected 0 -Label "$Label low omits Claude Sonnet 5.5"
-    if ($mid.IndexOf($RankRow) -lt 0) {
-        Write-Host "FAIL: $RankFail"
-        $script:errors++
-    } else {
-        Write-Host "OK: $RankOk"
-    }
+    Test-SectionLists -Section $mid -FailPrefix $RankFail -OkPrefix $RankOk -Needles @($RankRow)
     if ($ForbidSlugColumn) {
         Test-SectionOmits -Section $mid -Needle '`' -FailLabel "$Label mid section must not gain a slug column" -OkLabel "$Label mid section has no slug column"
     }
@@ -801,54 +796,45 @@ function Test-PickerSonnetMid {
 function Test-PromotedSonnet55 {
     param([string]$PlatformsDir)
 
-    $claudeText = Read-CatalogueText -Path (Join-Path $PlatformsDir "claude-code.md")
+    $claudePath = Join-Path $PlatformsDir "claude-code.md"
+    $claudeText = Get-CatalogText -Path $claudePath
     if ($null -ne $claudeText) {
-    $high = Get-HeadingSlice -Text $claudeText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
-    $mid = Get-HeadingSlice -Text $claudeText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
-    $low = Get-HeadingSlice -Text $claudeText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
-    Test-HighStaysOpus -Section $high -Label 'claude-code.md'
-    if ($claudeText.IndexOf('Anthropic-only') -lt 0) {
-        Write-Host "FAIL: claude-code.md must stay Anthropic-only"
-        $script:errors++
-    } else {
-        Write-Host "OK: claude-code.md stays Anthropic-only"
-    }
-    if ($claudeText.IndexOf('Sonnet 5.5 for Routine and Moderate') -lt 0) {
-        Write-Host "FAIL: claude-code.md cost split must name Sonnet 5.5 for Routine and Moderate"
-        $script:errors++
-    } else {
-        Write-Host "OK: claude-code.md cost split names Sonnet 5.5 for Routine and Moderate"
-    }
-    foreach ($pair in @(
-            @{ Name = 'mid'; Section = $mid },
-            @{ Name = 'low'; Section = $low }
-        )) {
-        $sectionName = $pair.Name
-        $section = $pair.Section
-        Test-SectionLists -Section $section -FailPrefix "claude-code.md $sectionName must list " -OkPrefix "claude-code.md $sectionName lists " -Needles @(
-            'Claude Sonnet 5.5',
-            '`claude-sonnet-5-5`',
-            '`sonnet`',
-            '`claude-sonnet-5`'
-        )
-        Test-SectionOmits -Section $section -Needle 'claude-sonnet-4-6' -FailLabel "claude-code.md $sectionName still falls back to claude-sonnet-4-6" -OkLabel "claude-code.md $sectionName does not fall back to claude-sonnet-4-6"
-    }
+        $high = Get-HeadingSlice -Text $claudeText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
+        $mid = Get-HeadingSlice -Text $claudeText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+        $low = Get-HeadingSlice -Text $claudeText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
+        Test-HighStaysOpus -Section $high -Label 'claude-code.md'
+        Test-FileContains -Path $claudePath -Needle 'Anthropic-only' -Label 'claude-code.md stays Anthropic-only'
+        Test-FileContains -Path $claudePath -Needle 'Sonnet 5.5 for Routine and Moderate' -Label 'claude-code.md cost split names Sonnet 5.5 for Routine and Moderate'
+        foreach ($pair in @(
+                @{ Name = 'mid'; Section = $mid },
+                @{ Name = 'low'; Section = $low }
+            )) {
+            $sectionName = $pair.Name
+            $section = $pair.Section
+            Test-SectionLists -Section $section -FailPrefix "claude-code.md $sectionName must list " -OkPrefix "claude-code.md $sectionName lists " -Needles @(
+                'Claude Sonnet 5.5',
+                '`claude-sonnet-5-5`',
+                '`sonnet`',
+                '`claude-sonnet-5`'
+            )
+            Test-SectionOmits -Section $section -Needle 'claude-sonnet-4-6' -FailLabel "claude-code.md $sectionName still falls back to claude-sonnet-4-6" -OkLabel "claude-code.md $sectionName does not fall back to claude-sonnet-4-6"
+        }
     }
 
-    $copilotText = Read-CatalogueText -Path (Join-Path $PlatformsDir "github-copilot.md")
+    $copilotText = Get-CatalogText -Path (Join-Path $PlatformsDir "github-copilot.md")
     if ($null -ne $copilotText) {
         Test-PickerSonnetMid -Text $copilotText -Label 'github-copilot.md' -ForbidSlugColumn `
             -RankRow '| 3 | Anthropic | Claude Sonnet 5.5 | when the OpenAI rows are absent |' `
-            -RankFail 'github-copilot.md mid rank 3 must name Claude Sonnet 5.5 and keep the OpenAI-absent note' `
-            -RankOk 'github-copilot.md mid rank 3 names Claude Sonnet 5.5'
+            -RankFail 'github-copilot.md mid rank 3 must list ' `
+            -RankOk 'github-copilot.md mid rank 3 lists '
     }
 
-    $generalText = Read-CatalogueText -Path (Join-Path $PlatformsDir "general.md")
+    $generalText = Get-CatalogText -Path (Join-Path $PlatformsDir "general.md")
     if ($null -ne $generalText) {
         Test-PickerSonnetMid -Text $generalText -Label 'general.md' `
             -RankRow '| 4 | Anthropic | Claude Sonnet 5.5 | `claude-sonnet-5-5`, `sonnet`, `claude-sonnet-5` |' `
-            -RankFail 'general.md mid rank 4 must name Claude Sonnet 5.5 with claude-sonnet-5-5, sonnet, and claude-sonnet-5' `
-            -RankOk 'general.md mid rank 4 names Claude Sonnet 5.5'
+            -RankFail 'general.md mid rank 4 must list ' `
+            -RankOk 'general.md mid rank 4 lists '
     }
 }
 
