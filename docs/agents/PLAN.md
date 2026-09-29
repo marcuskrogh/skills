@@ -59,9 +59,9 @@
 - Task: MD-1
 - Sub-tasks: MD-2
 - Branch: md-1-promote-sonnet-5-5
-- PR:
+- PR: https://github.com/marcuskrogh/skills/pull/62
 - Classification: tweak
 - Workflow: delta-fast
 
 ## Next
-`/architect MD-1` — shape stamp, then the bound chain continues
+`/implement MD-1` — catalogue rows and validator, on the same pull request

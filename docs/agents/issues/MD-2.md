@@ -7,7 +7,7 @@
 | Parent | MD-1 |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/62 |
 | Created | 2026-09-29 |
 
 ## Summary
@@ -24,4 +24,4 @@ Matches the pass criteria on `docs/agents/PLAN.md`.
 Opened with MD-1. Single work package.
 
 ## Next
-`/architect MD-1` — shape stamp, then the bound chain continues
+`/implement MD-1` — catalogue rows and validator, on the same pull request

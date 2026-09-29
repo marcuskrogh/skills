@@ -7,7 +7,7 @@
 | Parent | |
 | Children | MD-2 |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/62 |
 | Created | 2026-09-29 |
 
 ## Summary
@@ -23,7 +23,10 @@ Promote Claude Sonnet 5.5 over Claude Sonnet 5 on the mid and low Anthropic cata
 ## Comments
 
 ### 2026-09-29
-Plan approved by the catalogue owner. Classification tweak, template delta-fast. Branch `md-1-promote-sonnet-5-5`.
+Plan approved by the catalogue owner. Classification tweak, template delta-fast. Branch `md-1-promote-sonnet-5-5`. Pull request https://github.com/marcuskrogh/skills/pull/62.
+
+### 2026-09-29
+`docs/agents/ARCHITECTURE.md` is on the delivery branch. Outcome ready. Task stays To Do.
 
 ## Next
-`/architect MD-1` — shape stamp, then the bound chain continues
+`/implement MD-1` — catalogue rows and validator, on the same pull request
