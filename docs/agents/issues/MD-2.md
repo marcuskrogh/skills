@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Sub-task |
-| Status | To Do |
+| Status | Done |
 | Parent | MD-1 |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
@@ -19,4 +19,4 @@ Update Codex, Copilot, and General prefer rows, the catalogue index sentence tha
 ## Comments
 
 ### 2026-09-30
-Opened with MD-1. Not started.
+Prefer rows and validator locks landed. Validator exit 0.

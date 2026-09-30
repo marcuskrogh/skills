@@ -16,4 +16,4 @@
 - PR: https://github.com/marcuskrogh/skills/pull/63
 
 ## Next
-`/implement MD-1` — promote the prefer rows and lock them
+`/test MD-1` — audit the prefer locks against the pass criteria

@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Task |
-| Status | To Do |
+| Status | In Progress |
 | Parent | |
 | Children | MD-2 |
 | Artifact | docs/agents/PLAN.md |
@@ -24,5 +24,16 @@ Definition bound from the stated catalogue deltas. Classification: tweak. Workfl
 ### 2026-09-30
 Shape stamp in `docs/agents/ARCHITECTURE.md`. Task stays To Do. PR: https://github.com/marcuskrogh/skills/pull/63
 
+### 2026-09-30
+Package MD-2 built. Prefer rows and validator locks are on the branch. `pwsh -NoProfile -File scripts/validate-skills.ps1` exited 0. The new prefer locks were red on the previous rows, then green after the edit.
+
+tests_added_or_updated: scripts/validate-skills.ps1
+spec_locks: pass criteria rows → Test-PromotedGpt61Sol and the Copilot high needle in scripts/validate-skills.ps1
+how_to_run: pwsh -NoProfile -File scripts/validate-skills.ps1
+result: pass
+working_surfaces: none — catalogue markdown and a local validator, no startable app
+coverage_notes: prefer rows, index sentence, invent-ban, and untouched Cursor/Claude Code slug absence
+testability_notes: no new seam; existing heading slices
+
 ## Next
-`/implement MD-1` — promote the prefer rows and lock them
+`/test MD-1` — audit the prefer locks against the pass criteria
