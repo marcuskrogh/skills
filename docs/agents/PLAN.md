@@ -65,9 +65,9 @@
 - Task: MD-1
 - Sub-tasks: MD-2
 - Branch: cursor/gpt-6-1-sol-prefer-e7ee
-- PR:
+- PR: https://github.com/marcuskrogh/skills/pull/63
 - Classification: tweak
 - Workflow: delta-fast
 
 ## Next
-`/architect MD-1` — record where the prefer-row edit sits
+`/implement MD-1` — promote the prefer rows and lock them
