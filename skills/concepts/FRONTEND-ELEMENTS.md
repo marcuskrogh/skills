@@ -27,8 +27,8 @@ Heating / Idle / Off, temperature). That is the whole first screen besides
 the shell.
 
 House opens overall health, MPC load, comfort, heating power, system COP,
-daily energy, tracking error, and model fit. A room opens that room’s fact
-(the temperature). Schedules in the nav opens what is on now. One layer open
+daily energy, tracking error, and model fit. A room opens that room’s reading,
+target, and status. Schedules in the nav opens today’s shape. One layer open
 at a time. Escape closes it.
 
 Numbers are Atkinson Hyperlegible, weight 700, lining and tabular figures.
@@ -39,12 +39,11 @@ A status word sits beside the number. Hide a reading that has no value.
 **Where.** `pages/room-detail.js`, `components/room-climate-tile.js`,
 `components/climate-card.js`.
 
-First view: the name, Heating / Idle / Off, and the temperature (the
-**signature**). A running experiment is a plum word beside that status, not a
-panel.
+First view: the name, the temperature (the **signature**), the target, and
+Heating / Idle / Off. Comfort sits with the target. History, Today, and a
+plum experiment word are the way in. They are not panels.
 
-The temperature opens target, comfort band, and heating control. History on
-that sheet opens the temperature plot and the power plot. Today opens today’s
+History opens the temperature plot and the power plot. Today opens today’s
 periods. The plum word opens the run: name, remaining time, rounded plum
 capsule.
 
@@ -75,36 +74,35 @@ that names the next step (wait for history, pick a range).
 
 **Where.** `pages/schedules.js`, `css/pages/schedules.css`.
 
-First view: one line per room. Mode word (Comfort, Off), and until when.
-Now is an ink pill on the opened day, not a board of every period.
+First view: today’s shape. One line per room shows what is on now and the
+next change. Now is an ink pill on the current interval.
 
-The line opens that day’s periods. The day opens the week. A period opens
-the editor: rounded fields and pills. The live interval uses clay or ink, on
-sheet cells. The week is not on the first view.
+The week editor and the per-interval controls open from that line. Editors
+are rounded fields and pills. The live interval uses clay or ink, on sheet
+cells. The week grid is not on the first view.
 
 ## Tuning and configuration
 
 **Where.** `pages/tuning-controller.js`, `pages/configuration.js`.
 
-Tuning’s first view is the planner in use, one sentence. The planner opens
-its parameters: label above the control, rounded fields on sheet. Apply is
-the clay pill, and it appears after a value changes.
+Tuning’s first view is the planner in use and the few parameters that define
+it. Label above the control. Rounded fields on sheet. Show opens the rest of
+the form. Apply is the clay pill.
 
-Configuration’s first view is the section names. A name opens that section’s
-fields. Errors sit next to the field and name the fix. Placeholders are
-examples that end with `…`.
+Configuration’s first view is the open section’s few fields. Other sections
+open from their names. Errors sit next to the field and name the fix.
+Placeholders are examples that end with `…`.
 
 ## System status and parameter estimation
 
 **Where.** `pages/system-status.js`, `pages/parameter-estimation.js`.
 
-System status first view: Healthy, or the one issue, in one line. That word
-opens a short list — Overall, MQTT, Entities, MPC, Identification. A row
-opens its readings. The list is rows, not a grid of cards on the first view.
+System status first view: Healthy or not, and the short list that explains
+it — overall, MQTT, entities, MPC — as rows, not a wall of cards.
+Identification history opens from that list.
 
-Parameter estimation first view: the run name, and whether it is running.
-The name opens remaining time, a rounded plum capsule, and the trace when
-the opened job is the plot.
+Parameter estimation first view: the run name, whether it is running, and
+the time remaining. The name opens a rounded plum capsule and the trace.
 
 Loading copy ends with `…`. Empty and error states name the next action, on
 the same surface.

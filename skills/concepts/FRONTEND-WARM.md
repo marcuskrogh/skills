@@ -40,19 +40,22 @@ temperatures, the rest behind a click.*
 
 The shell is the frame: brand, page pills, Healthy, Stop. It is not content.
 
-Besides the shell, the first view states one fact. A chart, a week, a form,
-or a second card of readings on that view fails. The rest opens on the thing
-someone would look at. One layer at a time. Escape closes it.
+The first view shows the small set of facts a person needs to understand that
+page’s job, in a light layout. Deeper material opens where they would look or
+click. One layer at a time. Escape closes it.
 
-| Page | The fact | Opens on |
-|------|----------|----------|
+A single word, with the rest of the job hidden, is not done. Every reading,
+control, and chart on the first view is not done.
+
+| Page | On the first view | Opens from there |
+|------|-------------------|------------------|
 | Overview | Running or Stopped, and each room’s temperature | House opens the controller readings. A room opens that room. |
-| Schedules | What is on now: one line per room, mode, until when | The line opens that day’s periods. The day opens the week. A period opens the editor. |
-| Room | The temperature, and Heating, Idle, or Off | The temperature opens target, comfort, and heating. History on that sheet opens the plots. Today opens the periods. A running experiment is a plum word beside the status, and that word opens the run. |
-| Tuning | Which planner is in use | The planner opens its parameters. Apply appears after a value changes. |
-| System status | Healthy, or the one issue | The word opens a short list: Overall, MQTT, Entities, MPC, Identification. A row opens its readings. |
-| Parameter estimation | The run name, and whether it is running | The name opens the trace and the rest of the run. |
-| Configuration | The section names, as a short list | A name opens that section’s fields. |
+| Schedules | Today’s shape: what is on now, and the next change, per room | The week editor and the per-interval controls |
+| Room | The reading, the target, and Heating, Idle, or Off | History opens the plots. Today opens the periods. The experiment word opens the run. |
+| Tuning | Which planner is in use, and the few parameters that define it | Show opens the rest of the form |
+| System status | Healthy or not, and the short list that explains it: overall, MQTT, entities, MPC | Identification history |
+| Parameter estimation | The run name, whether it is running, and the time remaining | The name opens the trace and the rest of the run |
+| Configuration | The open section’s few fields | Other sections open from their names |
 
 Overview does not carry Tuning, parameter estimation, system status, or
 configuration. Those stay in the nav.

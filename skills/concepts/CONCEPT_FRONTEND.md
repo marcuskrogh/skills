@@ -38,10 +38,10 @@ plan and checked against that plan.
 - **One signature.** Spend boldness in one place — usually one control or
   one readout. Surrounding architecture stays one family. Decoration earns its
   keep by serving the brief.
-- **Simple.** The first view states one fact. The rest of that page’s job
-  opens where someone would look or click. One job per module. Space between
-  groups is part of the design. A control that restates a number already on
-  screen is extra.
+- **Simple.** The first view shows the small set of facts a person needs to
+  understand that page’s job, in a light layout. Deeper material opens where
+  they would look or click. One job per module. Space between groups is part
+  of the design. A control that restates a number already on screen is extra.
 - **Structure informs.** Numbering, eyebrows, dividers, and labels encode a real
   property of the content (sequence, hierarchy, status). They do not decorate.
 - **Type as voice.** Display and body are a deliberate pair for this brief. The
