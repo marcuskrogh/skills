@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Task |
-| Status | In Progress |
+| Status | In Review |
 | Parent | |
 | Children | MD-2 |
 | Artifact | docs/agents/PLAN.md |
@@ -35,5 +35,11 @@ working_surfaces: none — catalogue markdown and a local validator, no startabl
 coverage_notes: prefer rows, index sentence, invent-ban, and untouched Cursor/Claude Code slug absence
 testability_notes: no new seam; existing heading slices
 
+### 2026-09-30
+Testing pass. `pwsh -NoProfile -File scripts/validate-skills.ps1` exited 0 on the delivery head. Each pass-criteria row maps to a lock in `Test-PromotedGpt61Sol` or the Copilot high needle. `cursor.md` and `claude-code.md` have no diff against `main`. CRAP on `Test-PromotedGpt61Sol`: a handful of null checks, the function runs in the validator, score stays under 8. No working surface.
+
+### 2026-09-30
+Restructure pass. Split the Copilot high lock labels so rank 1 and rank 3 do not reuse the rank 2 prefix. No catalogue behaviour change. Validator exit 0. No other catalog breach on the touched rows. Task is In Review.
+
 ## Next
-`/test MD-1` — audit the prefer locks against the pass criteria
+`/review MD-1` — focused sequential review of the prefer rows

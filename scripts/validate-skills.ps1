@@ -864,8 +864,12 @@ function Test-PromotedGpt61Sol {
         $high = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
         $mid = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
         Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 2 must list ' -OkPrefix 'github-copilot.md high rank 2 lists ' -Needles @(
-            '| 2 | OpenAI | GPT-6.1 Sol | efficient OpenAI demanding pick |',
-            '| 1 | xAI | Grok 4.7 | efficient frontier pick |',
+            '| 2 | OpenAI | GPT-6.1 Sol | efficient OpenAI demanding pick |'
+        )
+        Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 1 must list ' -OkPrefix 'github-copilot.md high rank 1 lists ' -Needles @(
+            '| 1 | xAI | Grok 4.7 | efficient frontier pick |'
+        )
+        Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 3 must list ' -OkPrefix 'github-copilot.md high rank 3 lists ' -Needles @(
             '| 3 | Anthropic | Claude Opus 5.5 | ceiling after Grok or GPT-6.1 Sol is insufficient |'
         )
         Test-SectionLists -Section $mid -FailPrefix 'github-copilot.md mid rank 2 must list ' -OkPrefix 'github-copilot.md mid rank 2 lists ' -Needles @(

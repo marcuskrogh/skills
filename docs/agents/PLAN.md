@@ -70,4 +70,4 @@
 - Workflow: delta-fast
 
 ## Next
-`/test MD-1` — audit the prefer locks against the pass criteria
+`/review MD-1` — focused sequential review of the prefer rows
