@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3ebe3">
+  <meta name="color-scheme" content="light">
+  <title>Living room · Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --honey: #e3a15a;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --rose: #c48474;
+      --forecast: color-mix(in srgb, var(--clay) 80%, var(--sheet));
+      --grid: color-mix(in srgb, var(--ink) 16%, transparent);
+      --radius: 1.75rem;
+      --plot-radius: 32px;
+      color-scheme: light;
+      background: var(--paper);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: var(--paper); }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Atkinson Hyperlegible", sans-serif;
+      font-weight: 400;
+      font-size: 1.125rem;
+      line-height: 1.45;
+    }
+
+    p, ul, ol, figure { margin: 0; }
+
+    h1, h2 {
+      margin: 0;
+      text-wrap: balance;
+      scroll-margin-top: 1.5rem;
+      overflow-wrap: anywhere;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: var(--control-size, 1.0625rem);
+      font-weight: 700;
+      line-height: inherit;
+      color: var(--control-color, var(--ink));
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    a { touch-action: manipulation; }
+
+    a:focus-visible,
+    button:focus-visible,
+    main:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    .skip {
+      position: absolute;
+      left: calc(1rem + env(safe-area-inset-left));
+      top: calc(0.75rem + env(safe-area-inset-top));
+      z-index: 3;
+      transform: translateY(var(--skip-shift, -160%));
+      background: var(--ink);
+      color: var(--paper);
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+    }
+
+    .skip:focus { --skip-shift: 0%; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .layer,
+      .layer::backdrop {
+        transition: opacity 180ms ease;
+      }
+    }
+
+    .shell {
+      padding-top: calc(0.75rem + env(safe-area-inset-top));
+      padding-right: calc(1.25rem + env(safe-area-inset-right));
+      padding-bottom: 0.25rem;
+      padding-left: calc(1.25rem + env(safe-area-inset-left));
+    }
+
+    .shell-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1rem;
+    }
+
+    .brand {
+      font-size: 1.125rem;
+      font-weight: 400;
+    }
+
+    .shell-nav { flex: 1 1 24rem; min-width: 0; }
+
+    .nav-list, .legend, .periods {
+      list-style: none;
+      padding: 0;
+    }
+
+    .nav-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.15rem 0.2rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--pill-bg, transparent);
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+    }
+
+    .pill:hover,
+    .pill:active { --pill-bg: var(--sheet); }
+
+    .shell-status {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-left: auto;
+    }
+
+    .healthy, .status {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--sage);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .healthy-dot, .status-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: var(--sage);
+      flex: none;
+    }
+
+    .shell-run, .way, .layer-close {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shell-run {
+      --control-size: 1.25rem;
+      --control-color: var(--run-fg, var(--paper));
+      background: var(--run-bg, var(--clay));
+      border-radius: 999px;
+      padding: 0.35rem 1.15rem;
+      box-shadow: inset 0 0 0 var(--run-ring, 0) var(--ink);
+    }
+
+    .shell-run[data-running="true"] {
+      --run-bg: var(--clay);
+      --run-fg: var(--paper);
+      --run-ring: 0px;
+    }
+
+    .shell-run[data-running="false"] {
+      --run-bg: transparent;
+      --run-fg: var(--ink);
+      --run-ring: 1.5px;
+    }
+
+    .shell-run[data-running="true"]:hover,
+    .shell-run[data-running="true"]:active {
+      --run-bg: color-mix(in srgb, var(--clay) 84%, var(--ink));
+    }
+
+    .shell-run[data-running="false"]:hover,
+    .shell-run[data-running="false"]:active {
+      --run-bg: var(--sheet);
+    }
+
+    .room {
+      min-height: calc(100dvh - 6.5rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: safe center;
+      text-align: center;
+      gap: 1.5rem;
+      padding: 1rem 1.25rem calc(2rem + env(safe-area-inset-bottom));
+    }
+
+    .readout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .room-name {
+      font-weight: 400;
+      font-size: clamp(1.75rem, 3vw, 2rem);
+    }
+
+    .reading {
+      font-size: clamp(5rem, 16vw, 8rem);
+      line-height: 0.92;
+    }
+
+    .num {
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .deg {
+      color: var(--clay);
+      font-weight: 700;
+    }
+
+    .reading .deg {
+      font-size: 0.42em;
+      line-height: 1;
+      vertical-align: 0.72em;
+    }
+
+    .target {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: baseline;
+      gap: 0.35rem 1rem;
+      font-size: 1.35rem;
+    }
+
+    .ways {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.35rem 0.5rem;
+    }
+
+    .way {
+      --control-size: 1.1875rem;
+      --control-color: var(--way-color, var(--ink));
+      border-radius: 999px;
+      padding: 0.35rem 1rem;
+      background: var(--way-bg, transparent);
+    }
+
+    .way:hover,
+    .way:active { --way-bg: var(--sheet); }
+
+    .way-experiment { --way-color: var(--plum); }
+
+    .way-experiment:hover,
+    .way-experiment:active {
+      --way-color: color-mix(in srgb, var(--plum) 78%, var(--ink));
+    }
+
+    .layer {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      padding: 1rem;
+      padding-top: calc(1rem + env(safe-area-inset-top));
+      padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+      border: 0;
+      background: transparent;
+      opacity: var(--layer-opacity, 0);
+    }
+
+    dialog.layer[open] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .layer.is-open { --layer-opacity: 1; }
+
+    .layer::backdrop {
+      background: color-mix(in srgb, var(--ink) 28%, transparent);
+      opacity: var(--layer-opacity, 0);
+    }
+
+    .layer-sheet {
+      width: min(var(--sheet-width, 40rem), 100%);
+      max-height: 100%;
+      overflow: auto;
+      overscroll-behavior: contain;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      background: var(--sheet);
+      color: var(--ink);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.35rem 1.5rem;
+    }
+
+    .layer[data-layer="history"] { --sheet-width: 52rem; }
+    .layer[data-layer="today"] { --sheet-width: 36rem; }
+    .layer[data-layer="experiment"] { --sheet-width: 28rem; }
+
+    .layer-head {
+      display: flex;
+      align-items: center;
+      justify-content: var(--head-justify, space-between);
+      gap: 1rem;
+    }
+
+    .layer-head-end { --head-justify: flex-end; }
+
+    .layer-title {
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .layer-close {
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      background: var(--close-bg, transparent);
+    }
+
+    .layer-close:hover,
+    .layer-close:active { --close-bg: var(--paper); }
+
+    .charts {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .chart {
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: clamp(1rem, 4vw, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .chart-title {
+      font-weight: 700;
+      font-size: 1.25rem;
+      text-wrap: balance;
+    }
+
+    .unit {
+      color: var(--mute);
+      font-weight: 700;
+      font-size: 1.1875rem;
+    }
+
+    .plot { width: 100%; min-width: 0; }
+
+    .plot-temperature { --plot-h: 320px; }
+    .plot-power { --plot-h: 270px; }
+
+    .plot svg {
+      display: block;
+      width: 100%;
+      height: var(--plot-h);
+    }
+
+    .tick {
+      fill: var(--mute);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 19px;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem 1.1rem;
+    }
+
+    .legend li {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      min-width: 0;
+    }
+
+    .swatch {
+      width: 1.35rem;
+      height: 0;
+      border-top: 2px var(--swatch-style, solid) var(--swatch, var(--ink));
+      border-radius: 2px;
+      flex: none;
+    }
+
+    .swatch-measured { --swatch: var(--clay); }
+    .swatch-setpoint { --swatch: var(--ink); }
+    .swatch-forecast { --swatch: var(--forecast); --swatch-style: dashed; }
+    .swatch-power { --swatch: var(--honey); }
+    .swatch-planned { --swatch: var(--honey); --swatch-style: dashed; }
+    .swatch-price { --swatch: var(--ink); }
+    .swatch-price-forecast { --swatch: var(--ink); --swatch-style: dashed; }
+
+    .periods {
+      display: grid;
+      grid-template-columns: max-content max-content max-content max-content;
+      column-gap: clamp(0.75rem, 3vw, 1.5rem);
+      row-gap: 0.9rem;
+      align-items: center;
+      justify-content: start;
+    }
+
+    .period {
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-column: 1 / -1;
+      align-items: center;
+    }
+
+    .period-time, .period-target {
+      font-size: 1.25rem;
+      white-space: nowrap;
+    }
+
+    .mode {
+      font-weight: 700;
+      font-size: 1.1875rem;
+      white-space: nowrap;
+    }
+
+    .mode-heating { color: var(--sage); }
+    .mode-idle { color: var(--mute); }
+
+    .now-pill {
+      display: inline-flex;
+      align-items: center;
+      background: var(--ink);
+      color: var(--paper);
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+    }
+
+    .capsule {
+      background: var(--plum);
+      color: var(--sheet);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.5rem 1.45rem;
+    }
+
+    .capsule-time {
+      margin-top: 0.35rem;
+      font-size: 1.1875rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#room">Skip to the living room</a>
+  <header class="shell">
+    <div class="shell-bar">
+      <p class="brand">Heating Assistant</p>
+      <nav class="shell-nav" aria-label="Pages">
+        <ul class="nav-list">
+          <li><a class="pill" href="#overview">Overview</a></li>
+          <li><a class="pill" href="#schedules">Schedules</a></li>
+          <li><a class="pill" href="#tuning">Tuning</a></li>
+          <li><a class="pill" href="#parameter-estimation">Parameter estimation</a></li>
+          <li><a class="pill" href="#system-status">System status</a></li>
+          <li><a class="pill" href="#configuration">Configuration</a></li>
+        </ul>
+      </nav>
+      <div class="shell-status">
+        <p class="healthy"><span class="healthy-dot" aria-hidden="true"></span>Healthy</p>
+        <button type="button" class="shell-run" data-running="true">Stop</button>
+      </div>
+    </div>
+  </header>
+  <main id="room" tabindex="-1" class="room">
+    <div class="readout">
+      <h1 class="room-name">Living room</h1>
+      <p class="reading num">21.4<span class="deg">°</span></p>
+      <p class="target">
+        <span>Target <span class="num">21.5<span class="deg">°</span></span></span>
+        <span>Comfort <span class="num">20.5–22.5<span class="deg">°</span></span></span>
+      </p>
+      <p class="status"><span class="status-dot" aria-hidden="true"></span>Heating</p>
+    </div>
+    <div class="ways" role="group" aria-label="Room details">
+      <button type="button" class="way" data-layer="history" aria-expanded="false" aria-controls="layer">History</button>
+      <button type="button" class="way" data-layer="today" aria-expanded="false" aria-controls="layer">Today</button>
+      <button type="button" class="way way-experiment" data-layer="experiment" aria-expanded="false" aria-controls="layer">Experiment</button>
+    </div>
+  </main>
+  <p class="sr-only run-live" aria-live="polite"></p>
+  <dialog class="layer" id="layer" aria-labelledby="layer-title">
+    <div class="layer-sheet" id="layer-sheet"></div>
+  </dialog>
+  <script>
+    const SVG = "http://www.w3.org/2000/svg";
+    const NOW = 18 * 60 + 40;
+    const T0 = NOW - 12 * 60;
+    const T1 = 22 * 60;
+    const COMFORT_LOW = 20.5;
+    const COMFORT_HIGH = 22.5;
+    const HEAT_CAP = 2.4;
+    const COOL_CAP = -0.8;
+
+    const measured = [
+      [400, 20.8], [430, 21.0], [460, 21.2], [490, 21.35], [520, 21.45],
+      [550, 21.45], [580, 21.35], [610, 21.25], [640, 21.15], [670, 21.08],
+      [700, 21.05], [730, 21.02], [760, 21.0], [790, 21.0], [820, 21.02],
+      [850, 21.05], [880, 21.08], [910, 21.1], [940, 21.12], [970, 21.15],
+      [1000, 21.22], [1030, 21.28], [1060, 21.33], [1090, 21.37], [1120, 21.4]
+    ].map(([x, y]) => ({ x, y }));
+
+    const forecast = [
+      [1120, 21.4], [1150, 21.44], [1180, 21.47], [1210, 21.49],
+      [1240, 21.5], [1270, 21.5], [1300, 21.5], [1320, 21.5]
+    ].map(([x, y]) => ({ x, y }));
+
+    const setpoint = [
+      [T0, 21.5], [9 * 60, 21.0], [16 * 60, 21.5], [T1, 21.5]
+    ].map(([x, y]) => ({ x, y }));
+
+    const measuredPower = [
+      [T0, 1.35], [8 * 60, 1.1], [8 * 60 + 40, 0.7], [9 * 60, 0.15],
+      [16 * 60, 1.2], [17 * 60 + 30, 0.95], [NOW, 0.8]
+    ].map(([x, y]) => ({ x, y }));
+
+    const plannedPower = [
+      [NOW, 0.8], [19 * 60 + 30, 0.55], [20 * 60 + 10, 0.3],
+      [20 * 60 + 40, 0.2], [T1, 0.15]
+    ].map(([x, y]) => ({ x, y }));
+
+    const priceHistory = [
+      [T0, 1.05], [9 * 60, 0.82], [12 * 60, 0.64], [15 * 60, 0.78],
+      [18 * 60, 1.22], [NOW, 1.4]
+    ].map(([x, y]) => ({ x, y }));
+
+    const priceForecast = [
+      [NOW, 1.4], [20 * 60, 1.68], [T1, 1.85]
+    ].map(([x, y]) => ({ x, y }));
+
+    const periods = [
+      { start: "00:00", end: "06:30", target: "18.0", mode: "Off", kind: "off" },
+      { start: "06:30", end: "09:00", target: "21.5", mode: "Heating", kind: "heating" },
+      { start: "09:00", end: "16:00", target: "21.0", mode: "Idle", kind: "idle" },
+      { start: "16:00", end: "22:30", target: "21.5", mode: "Heating", kind: "heating", now: true },
+      { start: "22:30", end: "24:00", target: "18.0", mode: "Off", kind: "off" }
+    ];
+
+    function computeYLimits(allDataPoints, bounds, marginFraction = 0.05) {
+      let minVal = Infinity;
+      let maxVal = -Infinity;
+      for (const points of allDataPoints) {
+        for (const p of points) {
+          if (p && p.y != null && Number.isFinite(p.y)) {
+            if (p.y < minVal) minVal = p.y;
+            if (p.y > maxVal) maxVal = p.y;
+          }
+        }
+      }
+      for (const b of bounds) {
+        if (b != null && Number.isFinite(b)) {
+          if (b < minVal) minVal = b;
+          if (b > maxVal) maxVal = b;
+        }
+      }
+      const range = (maxVal - minVal) || 1;
+      const margin = range * marginFraction;
+      return { yMin: minVal - margin, yMax: maxVal + margin };
+    }
+
+    function el(name, className, text) {
+      const node = document.createElement(name);
+      if (className) node.className = className;
+      if (text != null) node.textContent = text;
+      return node;
+    }
+
+    function reading(value) {
+      const wrap = el("span", "num");
+      wrap.append(value, el("span", "deg", "°"));
+      return wrap;
+    }
+
+    function renderHistory() {
+      const charts = el("div", "charts");
+      charts.append(
+        chartFigure(
+          "temperature",
+          "Temperature",
+          "°C",
+          "Measured, setpoint, and forecast from 06:40 to 22:00. Rose is outside 20.5 and 22.5 degrees.",
+          [
+            ["swatch-measured", "Measured"],
+            ["swatch-setpoint", "Setpoint"],
+            ["swatch-forecast", "Forecast"]
+          ],
+          "plot-temperature"
+        ),
+        chartFigure(
+          "power",
+          "Heating power & price",
+          "kW",
+          "Measured power, planned power, and price from 06:40 to 22:00. Rose is outside the heating and cooling capacity.",
+          [
+            ["swatch-power", "Measured power"],
+            ["swatch-planned", "Planned power"],
+            ["swatch-price", "Price"],
+            ["swatch-price-forecast", "Price forecast"]
+          ],
+          "plot-power"
+        )
+      );
+      return charts;
+    }
+
+    function chartFigure(plot, title, unit, summary, items, plotClass) {
+      const figure = el("figure", "chart");
+      const caption = el("figcaption", "chart-title");
+      caption.append(title + " ", el("span", "unit", unit));
+      const note = el("p", "sr-only", summary);
+      const plotHost = el("div", "plot " + plotClass);
+      plotHost.dataset.plot = plot;
+      const list = el("ul", "legend");
+      for (const [swatch, label] of items) {
+        const item = el("li");
+        const mark = el("span", "swatch " + swatch);
+        mark.setAttribute("aria-hidden", "true");
+        item.append(mark, document.createTextNode(label));
+        list.append(item);
+      }
+      figure.append(caption, note, plotHost, list);
+      return figure;
+    }
+
+    function renderToday() {
+      const list = el("ol", "periods");
+      for (const period of periods) {
+        const item = el("li", "period");
+        if (period.now) item.setAttribute("aria-current", "time");
+        const time = el("span", "period-time num", period.start + "–" + period.end);
+        const target = el("span", "period-target");
+        target.append(reading(period.target));
+        const mode = el("span", period.kind === "off" ? "mode" : "mode mode-" + period.kind, period.mode);
+        item.append(time, target, mode);
+        if (period.now) item.append(el("span", "now-pill", "Now"));
+        list.append(item);
+      }
+      return list;
+    }
+
+    function renderExperiment() {
+      const capsule = el("div", "capsule");
+      const title = el("h2", "layer-title", "Living room identification");
+      title.id = "layer-title";
+      const time = el("p", "capsule-time");
+      time.append(el("span", "num", "26"), document.createTextNode("\u00a0min remaining"));
+      capsule.append(title, time);
+      return capsule;
+    }
+
+    function layerHead(titleText, end) {
+      const head = el("div", end ? "layer-head layer-head-end" : "layer-head");
+      if (!end) {
+        const title = el("h2", "layer-title", titleText);
+        title.id = "layer-title";
+        head.append(title);
+      }
+      const close = el("button", "layer-close", "Close");
+      close.type = "button";
+      close.autofocus = true;
+      head.append(close);
+      return head;
+    }
+
+    const layer = document.getElementById("layer");
+    const sheet = document.getElementById("layer-sheet");
+    const ways = document.querySelectorAll(".way");
+    let closing = false;
+    let closeTimer = 0;
+
+    function setExpanded(kind) {
+      ways.forEach((button) => {
+        button.setAttribute("aria-expanded", button.dataset.layer === kind ? "true" : "false");
+      });
+    }
+
+    function drawPlots() {
+      document.querySelectorAll("[data-plot]").forEach((host) => drawPlot(host, host.dataset.plot));
+    }
+
+    function openLayer(kind) {
+      if (closing) return;
+      sheet.replaceChildren();
+      if (kind === "experiment") {
+        sheet.append(layerHead("", true), renderExperiment());
+      } else if (kind === "today") {
+        sheet.append(layerHead("Today", false), renderToday());
+      } else {
+        sheet.append(layerHead("History", false), renderHistory());
+      }
+      layer.dataset.layer = kind;
+      setExpanded(kind);
+      if (!layer.open) layer.showModal();
+      requestAnimationFrame(() => {
+        drawPlots();
+        requestAnimationFrame(() => layer.classList.add("is-open"));
+      });
+    }
+
+    function finishClose() {
+      if (!closing) return;
+      closing = false;
+      window.clearTimeout(closeTimer);
+      layer.removeEventListener("transitionend", onLayerFade);
+      if (layer.open) layer.close();
+      layer.classList.remove("is-open");
+      sheet.replaceChildren();
+      layer.removeAttribute("data-layer");
+      setExpanded("");
+    }
+
+    function onLayerFade(event) {
+      if (event.target === layer && event.propertyName === "opacity") finishClose();
+    }
+
+    function closeLayer() {
+      if (!layer.open || closing) return;
+      closing = true;
+      layer.classList.remove("is-open");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) {
+        finishClose();
+        return;
+      }
+      layer.addEventListener("transitionend", onLayerFade);
+      closeTimer = window.setTimeout(finishClose, 240);
+    }
+
+    ways.forEach((button) => {
+      button.addEventListener("click", () => openLayer(button.dataset.layer));
+    });
+
+    layer.addEventListener("click", (event) => {
+      if (event.target === layer) closeLayer();
+    });
+
+    layer.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeLayer();
+    });
+
+    sheet.addEventListener("click", (event) => {
+      if (event.target.closest(".layer-close")) closeLayer();
+    });
+
+    window.addEventListener("resize", () => {
+      if (layer.open && layer.dataset.layer === "history") drawPlots();
+    });
+
+    const runButton = document.querySelector(".shell-run");
+    const runLive = document.querySelector(".run-live");
+    runButton.addEventListener("click", () => {
+      const running = runButton.dataset.running === "true";
+      runButton.dataset.running = running ? "false" : "true";
+      runButton.textContent = running ? "Start" : "Stop";
+      runLive.textContent = running ? "Stopped." : "Running.";
+    });
+
+    function drawPlot(host, kind) {
+      const width = Math.max(280, Math.round(host.clientWidth));
+      const height = kind === "power" ? 270 : 320;
+      host.replaceChildren();
+      const svg = document.createElementNS(SVG, "svg");
+      svg.setAttribute("viewBox", "0 0 " + width + " " + height);
+      svg.setAttribute("width", String(width));
+      svg.setAttribute("height", String(height));
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-hidden", "true");
+      host.append(svg);
+
+      const padL = 58;
+      const padR = kind === "power" ? 58 : 18;
+      const padT = 12;
+      const padB = 36;
+      const face = {
+        x: padL,
+        y: padT,
+        w: Math.max(40, width - padL - padR),
+        h: Math.max(40, height - padT - padB)
+      };
+
+      const tempLimits = computeYLimits([measured, forecast, setpoint], [COMFORT_LOW, COMFORT_HIGH]);
+      const powerLimits = computeYLimits(
+        [measuredPower, plannedPower],
+        [HEAT_CAP, COOL_CAP, 0]
+      );
+      const priceLimits = computeYLimits([priceHistory, priceForecast], [0]);
+      const yLim = kind === "power" ? powerLimits : tempLimits;
+
+      const xOf = (x) => face.x + ((x - T0) / (T1 - T0)) * face.w;
+      const yOf = (y) => face.y + ((yLim.yMax - y) / (yLim.yMax - yLim.yMin)) * face.h;
+      const y2Of = (y) => face.y + ((priceLimits.yMax - y) / (priceLimits.yMax - priceLimits.yMin)) * face.h;
+
+      const clipId = "face-" + kind;
+      const defs = document.createElementNS(SVG, "defs");
+      const clip = document.createElementNS(SVG, "clipPath");
+      clip.id = clipId;
+      const clipRect = document.createElementNS(SVG, "rect");
+      clipRect.setAttribute("x", String(face.x));
+      clipRect.setAttribute("y", String(face.y));
+      clipRect.setAttribute("width", String(face.w));
+      clipRect.setAttribute("height", String(face.h));
+      clipRect.setAttribute("rx", "32");
+      clipRect.setAttribute("ry", "32");
+      clip.append(clipRect);
+      defs.append(clip);
+      svg.append(defs);
+
+      const faceShape = document.createElementNS(SVG, "rect");
+      faceShape.setAttribute("x", String(face.x));
+      faceShape.setAttribute("y", String(face.y));
+      faceShape.setAttribute("width", String(face.w));
+      faceShape.setAttribute("height", String(face.h));
+      faceShape.setAttribute("rx", "32");
+      faceShape.setAttribute("ry", "32");
+      faceShape.setAttribute("fill", "var(--sheet)");
+      svg.append(faceShape);
+
+      const plot = document.createElementNS(SVG, "g");
+      plot.setAttribute("clip-path", "url(#" + clipId + ")");
+
+      if (kind === "temperature") {
+        roseBand(plot, face, yOf(COMFORT_HIGH), "above");
+        roseBand(plot, face, yOf(COMFORT_LOW), "below");
+      } else {
+        roseBand(plot, face, yOf(HEAT_CAP), "above");
+        roseBand(plot, face, yOf(COOL_CAP), "below");
+      }
+
+      const yTicks = kind === "temperature" ? [21, 22] : [0, 1, 2];
+      for (const tick of yTicks) {
+        gridLine(plot, face.x, yOf(tick), face.x + face.w, yOf(tick));
+      }
+      const xTicks = timeTicks(face.w);
+      for (const tick of xTicks) {
+        gridLine(plot, xOf(tick), face.y, xOf(tick), face.y + face.h);
+      }
+
+      if (kind === "temperature") {
+        stroke(plot, linePath(measured, xOf, yOf, false), "var(--clay)", false);
+        stroke(plot, linePath(setpoint, xOf, yOf, true), "var(--ink)", false);
+        stroke(plot, linePath(forecast, xOf, yOf, false), "var(--forecast)", true);
+      } else {
+        stroke(plot, linePath(measuredPower, xOf, yOf, true), "var(--honey)", false);
+        stroke(plot, linePath(plannedPower, xOf, yOf, true), "var(--honey)", true);
+        stroke(plot, linePath(priceHistory, xOf, y2Of, true), "var(--ink)", false);
+        stroke(plot, linePath(priceForecast, xOf, y2Of, true), "var(--ink)", true);
+      }
+      svg.append(plot);
+
+      for (const tick of yTicks) {
+        svg.append(tickText(face.x - 8, yOf(tick) + 6, tick.toFixed(kind === "temperature" ? 0 : 1), "end"));
+      }
+      if (kind === "power") {
+        for (const tick of [0, 1, 1.5]) {
+          svg.append(tickText(face.x + face.w + 8, y2Of(tick) + 6, tick.toFixed(1), "start"));
+        }
+      }
+      for (const tick of xTicks) {
+        const x = xOf(tick);
+        let anchor = "middle";
+        let px = x;
+        if (x < face.x + 28) {
+          anchor = "start";
+          px = face.x;
+        } else if (x > face.x + face.w - 28) {
+          anchor = "end";
+          px = face.x + face.w;
+        }
+        svg.append(tickText(px, height - 10, formatMinute(tick), anchor));
+      }
+    }
+
+    function roseBand(parent, face, y, side) {
+      const rect = document.createElementNS(SVG, "rect");
+      const extra = 8;
+      rect.setAttribute("x", String(face.x - extra));
+      rect.setAttribute("width", String(face.w + extra * 2));
+      rect.setAttribute("fill", "var(--rose)");
+      if (side === "above") {
+        const top = face.y - extra;
+        const h = y - top;
+        if (h <= 0) return;
+        rect.setAttribute("y", String(top));
+        rect.setAttribute("height", String(h));
+      } else {
+        const bottom = face.y + face.h + extra;
+        const h = bottom - y;
+        if (h <= 0) return;
+        rect.setAttribute("y", String(y));
+        rect.setAttribute("height", String(h));
+      }
+      parent.append(rect);
+    }
+
+    function gridLine(parent, x1, y1, x2, y2) {
+      const line = document.createElementNS(SVG, "line");
+      line.setAttribute("x1", String(x1));
+      line.setAttribute("y1", String(y1));
+      line.setAttribute("x2", String(x2));
+      line.setAttribute("y2", String(y2));
+      line.setAttribute("stroke", "var(--grid)");
+      line.setAttribute("stroke-width", "1");
+      parent.append(line);
+    }
+
+    function linePath(points, xOf, yOf, stepped) {
+      if (!points.length) return "";
+      let d = "M " + xOf(points[0].x) + " " + yOf(points[0].y);
+      for (let i = 1; i < points.length; i += 1) {
+        const x = xOf(points[i].x);
+        const y = yOf(points[i].y);
+        if (stepped) d += " H " + x + " V " + y;
+        else d += " L " + x + " " + y;
+      }
+      return d;
+    }
+
+    function stroke(parent, d, color, dashed) {
+      const path = document.createElementNS(SVG, "path");
+      path.setAttribute("d", d);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", color);
+      path.setAttribute("stroke-width", "2");
+      path.setAttribute("stroke-linecap", "round");
+      path.setAttribute("stroke-linejoin", "round");
+      if (dashed) path.setAttribute("stroke-dasharray", "7 6");
+      parent.append(path);
+    }
+
+    function tickText(x, y, value, anchor) {
+      const text = document.createElementNS(SVG, "text");
+      text.setAttribute("class", "tick");
+      text.setAttribute("x", String(x));
+      text.setAttribute("y", String(y));
+      text.setAttribute("text-anchor", anchor);
+      text.textContent = value;
+      return text;
+    }
+
+    function timeTicks(faceWidth) {
+      const hours = [8, 10, 12, 14, 16, 18, 20, 22];
+      const maxLabels = Math.max(2, Math.floor(faceWidth / 76));
+      const step = Math.ceil(hours.length / maxLabels);
+      const ticks = [];
+      for (let i = 0; i < hours.length; i += step) ticks.push(hours[i] * 60);
+      return ticks;
+    }
+
+    function formatMinute(minute) {
+      const h = Math.floor(minute / 60) % 24;
+      const m = minute % 60;
+      return String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+    }
+  </script>
+</body>
+</html>

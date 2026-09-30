@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3ebe3">
+  <title>System status — Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --mute: #8d7f74;
+      --radius: 1.75rem;
+      --font: "Atkinson Hyperlegible", sans-serif;
+    }
+
+    html {
+      color-scheme: light;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.45;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    .skip {
+      position: absolute;
+      left: max(0.75rem, env(safe-area-inset-left));
+      top: 0.75rem;
+      z-index: 3;
+      padding: 0.5rem 0.9rem;
+      background: var(--sheet);
+      color: var(--ink);
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transform: translateY(-200%);
+    }
+
+    .skip:focus-visible {
+      transform: translateY(0);
+    }
+
+    .shell {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1rem;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1.25rem, env(safe-area-inset-right))
+        0.25rem
+        max(1.25rem, env(safe-area-inset-left));
+    }
+
+    .brand {
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+
+    .nav a:hover {
+      background: var(--sheet);
+    }
+
+    .nav a[aria-current="page"] {
+      background: var(--ink);
+      color: var(--sheet);
+    }
+
+    .shell-status {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-left: auto;
+    }
+
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0;
+      color: var(--sage);
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 999px;
+      background: var(--sage);
+    }
+
+    button {
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 1.25rem;
+      line-height: 1.2;
+      touch-action: manipulation;
+    }
+
+    .stop {
+      min-height: 2.75rem;
+      padding: 0.4rem 1.15rem;
+      border: 2px solid var(--clay);
+      border-radius: 999px;
+      background: var(--clay);
+      color: var(--sheet);
+    }
+
+    .stop[data-state="stopped"] {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .stop:hover {
+      background: var(--ink);
+      color: var(--sheet);
+      border-color: var(--ink);
+    }
+
+    main {
+      width: min(40rem, 100%);
+      margin-inline: auto;
+      padding:
+        1.25rem
+        max(1.25rem, env(safe-area-inset-right))
+        max(2.5rem, env(safe-area-inset-bottom))
+        max(1.25rem, env(safe-area-inset-left));
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      text-wrap: balance;
+      scroll-margin-top: 1rem;
+    }
+
+    .verdict {
+      margin: 0.2rem 0 0;
+      color: var(--sage);
+      font-size: clamp(2.5rem, 8vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.05;
+      text-wrap: balance;
+    }
+
+    .issue {
+      margin: 0.45rem 0 1.35rem;
+    }
+
+    .sheet {
+      padding: 1.35rem 1.35rem 1.2rem;
+      border-radius: var(--radius);
+      background: var(--sheet);
+    }
+
+    .group {
+      margin-top: 1.6rem;
+    }
+
+    .group:first-child {
+      margin-top: 0;
+    }
+
+    h2 {
+      margin: 0 0 0.2rem;
+      font-size: 1rem;
+      font-weight: 700;
+      text-wrap: balance;
+      scroll-margin-top: 1rem;
+    }
+
+    dl {
+      margin: 0;
+    }
+
+    .pair {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      min-width: 0;
+      padding-block: 0.38rem;
+    }
+
+    dt,
+    dd {
+      margin: 0;
+      min-width: 0;
+    }
+
+    dt {
+      flex: 0 0 auto;
+    }
+
+    dd {
+      font-size: 1.25rem;
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+      text-align: end;
+      overflow-wrap: anywhere;
+    }
+
+    .calm {
+      color: var(--sage);
+    }
+
+    .open,
+    .close {
+      min-height: 2.75rem;
+      padding: 0.4rem 1rem;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .open {
+      margin-top: 1.6rem;
+    }
+
+    .open:hover,
+    .open:active,
+    .close:hover,
+    .close:active {
+      background: var(--ink);
+      color: var(--sheet);
+    }
+
+    .layer {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      padding:
+        max(1.25rem, env(safe-area-inset-top))
+        max(1.25rem, env(safe-area-inset-right))
+        max(1.25rem, env(safe-area-inset-bottom))
+        max(1.25rem, env(safe-area-inset-left));
+      background: rgb(42 34 28 / 0.28);
+      opacity: 0;
+      transition: opacity 160ms ease;
+    }
+
+    .layer.is-open {
+      opacity: 1;
+    }
+
+    .layer[hidden] {
+      display: none;
+    }
+
+    .layer-sheet {
+      width: min(32rem, 100%);
+      padding: 1.35rem;
+      border-radius: var(--radius);
+      background: var(--sheet);
+      color: var(--ink);
+    }
+
+    .layer-sheet h2 {
+      margin-bottom: 0.85rem;
+      font-size: 1.5rem;
+    }
+
+    .close {
+      margin-top: 1.15rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .layer {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#status">Skip to system status</a>
+  <header class="shell">
+    <a class="brand" href="#status">Heating Assistant</a>
+    <nav class="nav" aria-label="Pages">
+      <a href="#overview">Overview</a>
+      <a href="#schedules">Schedules</a>
+      <a href="#tuning">Tuning</a>
+      <a href="#estimation">Parameter estimation</a>
+      <a href="#status" aria-current="page">System status</a>
+      <a href="#configuration">Configuration</a>
+    </nav>
+    <div class="shell-status">
+      <p class="live"><span class="dot" aria-hidden="true"></span>Healthy</p>
+      <button type="button" class="stop" id="stop">Stop</button>
+    </div>
+  </header>
+  <main id="status">
+    <h1>System status</h1>
+    <p class="verdict">Healthy</p>
+    <p class="issue">No active issues.</p>
+    <div class="sheet">
+      <section class="group" aria-labelledby="overall-heading">
+        <h2 id="overall-heading">Overall</h2>
+        <dl>
+          <div class="pair">
+            <dt>Quality</dt>
+            <dd class="calm">HEALTHY</dd>
+          </div>
+          <div class="pair">
+            <dt>Uptime</dt>
+            <dd>18h 42m</dd>
+          </div>
+          <div class="pair">
+            <dt>API</dt>
+            <dd class="calm">connected</dd>
+          </div>
+        </dl>
+      </section>
+      <section class="group" aria-labelledby="mqtt-heading">
+        <h2 id="mqtt-heading">MQTT</h2>
+        <dl>
+          <div class="pair">
+            <dt>Connection</dt>
+            <dd class="calm">ok</dd>
+          </div>
+          <div class="pair">
+            <dt>Bindings</dt>
+            <dd>18</dd>
+          </div>
+        </dl>
+      </section>
+      <section class="group" aria-labelledby="entities-heading">
+        <h2 id="entities-heading">Entities</h2>
+        <dl>
+          <div class="pair">
+            <dt>HA catalog</dt>
+            <dd>64</dd>
+          </div>
+          <div class="pair">
+            <dt>Panel states</dt>
+            <dd>128</dd>
+          </div>
+          <div class="pair">
+            <dt>Rooms configured</dt>
+            <dd>4</dd>
+          </div>
+        </dl>
+      </section>
+      <section class="group" aria-labelledby="mpc-heading">
+        <h2 id="mpc-heading">MPC</h2>
+        <dl>
+          <div class="pair">
+            <dt>Planner</dt>
+            <dd>nmpc</dd>
+          </div>
+          <div class="pair">
+            <dt>Mode</dt>
+            <dd>mpc</dd>
+          </div>
+          <div class="pair">
+            <dt>Fallback</dt>
+            <dd class="calm">none</dd>
+          </div>
+          <div class="pair">
+            <dt>MPC load</dt>
+            <dd>14%</dd>
+          </div>
+          <div class="pair">
+            <dt>Last solve</dt>
+            <dd>4.20&nbsp;s</dd>
+          </div>
+          <div class="pair">
+            <dt>Sample interval</dt>
+            <dd>300&nbsp;s</dd>
+          </div>
+          <div class="pair">
+            <dt>Mean tracking err</dt>
+            <dd>0.18</dd>
+          </div>
+          <div class="pair">
+            <dt>Last compute ts</dt>
+            <dd>2026-09-30 08:12:04</dd>
+          </div>
+        </dl>
+      </section>
+      <button type="button" class="open" id="open-history" aria-haspopup="dialog" aria-controls="history-layer" aria-expanded="false">Identification history</button>
+    </div>
+  </main>
+  <div class="layer" id="history-layer" hidden>
+    <div class="layer-sheet" role="dialog" aria-modal="true" aria-labelledby="history-title" tabindex="-1">
+      <h2 id="history-title">Identification history</h2>
+      <dl>
+        <div class="pair">
+          <dt>Last sample age</dt>
+          <dd class="calm">42&nbsp;s</dd>
+        </div>
+        <div class="pair">
+          <dt>Last durable append</dt>
+          <dd class="calm">2026-09-30 08:11:19</dd>
+        </div>
+        <div class="pair">
+          <dt>Buffer–disk lag</dt>
+          <dd class="calm">8&nbsp;s</dd>
+        </div>
+      </dl>
+      <button type="button" class="close" id="close-history">Close</button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var opener = document.getElementById('open-history');
+      var layer = document.getElementById('history-layer');
+      var sheet = layer.querySelector('.layer-sheet');
+      var closer = document.getElementById('close-history');
+      var stop = document.getElementById('stop');
+      var closing = false;
+      var epoch = 0;
+
+      function finishClose(token) {
+        if (token !== epoch || layer.hidden) return;
+        layer.hidden = true;
+        layer.classList.remove('is-open');
+        document.documentElement.style.overflow = '';
+        closing = false;
+        opener.setAttribute('aria-expanded', 'false');
+        opener.focus();
+      }
+
+      function closeLayer() {
+        if (layer.hidden || closing) return;
+        closing = true;
+        var token = epoch;
+        opener.setAttribute('aria-expanded', 'false');
+        layer.classList.remove('is-open');
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) {
+          finishClose(token);
+          return;
+        }
+        var timer = window.setTimeout(function () { finishClose(token); }, 220);
+        layer.addEventListener('transitionend', function (event) {
+          if (event.propertyName !== 'opacity') return;
+          window.clearTimeout(timer);
+          finishClose(token);
+        }, { once: true });
+      }
+
+      function openLayer() {
+        if (!layer.hidden) return;
+        epoch += 1;
+        closing = false;
+        layer.hidden = false;
+        document.documentElement.style.overflow = 'hidden';
+        opener.setAttribute('aria-expanded', 'true');
+        window.requestAnimationFrame(function () {
+          layer.classList.add('is-open');
+          sheet.focus();
+        });
+      }
+
+      opener.addEventListener('click', openLayer);
+      closer.addEventListener('click', closeLayer);
+      layer.addEventListener('click', function (event) {
+        if (event.target === layer) closeLayer();
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (layer.hidden) return;
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          closeLayer();
+          return;
+        }
+        if (event.key !== 'Tab') return;
+        var nodes = Array.prototype.slice.call(
+          sheet.querySelectorAll('button, a[href], input, select, textarea')
+        );
+        if (!nodes.length) return;
+        var first = nodes[0];
+        var last = nodes[nodes.length - 1];
+        if (document.activeElement === sheet) {
+          event.preventDefault();
+          (event.shiftKey ? last : first).focus();
+          return;
+        }
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+
+      stop.addEventListener('click', function () {
+        var stopped = stop.getAttribute('data-state') === 'stopped';
+        if (stopped) {
+          stop.removeAttribute('data-state');
+          stop.textContent = 'Stop';
+        } else {
+          stop.setAttribute('data-state', 'stopped');
+          stop.textContent = 'Start';
+        }
+      });
+
+      document.querySelectorAll('.nav a').forEach(function (link) {
+        if (link.getAttribute('aria-current') === 'page') return;
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
+        });
+      });
+    }());
+  </script>
+</body>
+</html>

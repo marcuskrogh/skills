@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3ebe3">
+  <title>Schedules · Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --honey: #e3a15a;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --rose: #c48474;
+      --radius: 1.75rem;
+      --focus: var(--ink);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      background: var(--paper);
+      color-scheme: light;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Atkinson Hyperlegible", sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 400;
+      line-height: 1.45;
+      padding:
+        env(safe-area-inset-top)
+        env(safe-area-inset-right)
+        env(safe-area-inset-bottom)
+        env(safe-area-inset-left);
+    }
+
+    .frame {
+      width: min(72rem, 100%);
+      margin: 0 auto;
+      padding: 1.25rem;
+    }
+
+    main.frame {
+      padding-bottom: 4rem;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1, h2, h3 { text-wrap: balance; scroll-margin-top: 1rem; }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    .skip {
+      position: absolute;
+      left: 0.75rem;
+      top: 0.75rem;
+      z-index: 2;
+      transform: translateY(var(--skip-y, -200%));
+      background: var(--ink);
+      color: var(--sheet);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .skip:focus { --skip-y: 0%; }
+
+    .shell { position: relative; }
+
+    .bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1rem;
+    }
+
+    .brand { font-size: 1.0625rem; }
+
+    .pages {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    a { touch-action: manipulation; }
+
+    .nav-link {
+      display: inline-block;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.4rem 0.85rem;
+    }
+
+    .nav-link[aria-current="page"] {
+      box-shadow: inset 0 0 0 1.5px var(--ink);
+    }
+
+    .status-cluster {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .health {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--sage);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: var(--sage);
+    }
+
+    button, input, select {
+      font-family: inherit;
+      touch-action: manipulation;
+    }
+
+    button, a, input, select { outline: none; }
+
+    button:hover,
+    a:hover,
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 2px solid var(--focus, var(--ink));
+      outline-offset: 3px;
+    }
+
+    button {
+      align-self: flex-start;
+      background: var(--fill, transparent);
+      color: var(--label, var(--ink));
+      border: 0;
+      border-radius: var(--corner, 999px);
+      padding: var(--pad, 0);
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      cursor: pointer;
+      text-align: left;
+      box-shadow: inset 0 0 0 var(--ring, 0) var(--ink);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    .pill { --pad: 0.5rem 0.9rem; --ring: 1.5px; }
+
+    .seg,
+    .day-btn { --ring: 0px; }
+
+    .stop { --pad: 0.55rem 1.15rem; font-size: 1.2rem; }
+
+    .stop.is-running {
+      --fill: var(--clay);
+      --label: var(--sheet);
+      --ring: 0px;
+    }
+
+    .stop.is-stopped {
+      --ring: 1.5px;
+    }
+
+    .pill-clay {
+      --fill: var(--clay);
+      --label: var(--sheet);
+      --pad: 0.6rem 1.15rem;
+      --ring: 0px;
+      font-size: 1.2rem;
+    }
+
+    .date-line {
+      margin-top: 0.35rem;
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .rooms {
+      list-style: none;
+      margin: 1.5rem 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .room {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+      background: var(--sheet);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.25rem;
+      min-width: 0;
+    }
+
+    .room-name {
+      flex: 0 1 11rem;
+      min-width: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .shape {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+      flex: 1 1 24rem;
+      min-width: 0;
+    }
+
+    .interval,
+    .next {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.65rem;
+      max-width: 100%;
+      min-width: 0;
+      --fill: var(--paper);
+      --corner: 999px;
+    }
+
+    .interval { --pad: 0.35rem 0.95rem 0.35rem 0.35rem; }
+
+    .next { --pad: 0.5rem 0.95rem; }
+
+    .now {
+      background: var(--now-fill, var(--ink));
+      color: var(--now-label, var(--sheet));
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .next-word {
+      color: var(--mute);
+      font-size: 1.2rem;
+    }
+
+    .num { font-variant-numeric: lining-nums tabular-nums; }
+
+    .week-open { margin-left: auto; --ring: 1.5px; }
+
+    .lede {
+      margin-top: 1.5rem;
+    }
+
+    dialog {
+      border: 0;
+      padding: 0;
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: var(--radius);
+      width: min(var(--layer-max, 72rem), calc(100vw - 2rem));
+      max-height: calc(100dvh - 2rem);
+      overflow: auto;
+      opacity: var(--layer-opacity, 1);
+    }
+
+    dialog[data-kind="period"] { --layer-max: 40rem; }
+
+    dialog[data-kind="week"] { --layer-max: 72rem; }
+
+    dialog::backdrop { background: rgba(42, 34, 28, 0.28); }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 1.5rem;
+      min-width: 0;
+    }
+
+    .layer-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem 1rem;
+    }
+
+    .layer-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+
+    .hint { font-size: 1rem; }
+
+    .week-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1rem;
+    }
+
+    .range { font-weight: 700; }
+
+    .week {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(8.5rem, 1fr));
+      gap: 0.75rem;
+      overflow-x: auto;
+    }
+
+    .day {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .day-name { font-size: 1.05rem; font-weight: 700; }
+
+    .today-mark {
+      color: var(--sage);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .cell {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+      width: 100%;
+      --fill: var(--sheet);
+      --pad: 0.85rem 0.95rem;
+      --corner: var(--radius);
+    }
+
+    .cell-live {
+      --fill: var(--ink);
+      --label: var(--sheet);
+      --now-fill: var(--sheet);
+      --now-label: var(--ink);
+      --focus: var(--sheet);
+      --type-ink: var(--sheet);
+    }
+
+    .cell-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem 0.5rem;
+    }
+
+    .cell-type { font-size: 1.2rem; font-weight: 700; color: var(--type-ink, var(--mute)); }
+
+    .empty-day { font-size: 1rem; }
+
+    .inactive-list, .order-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .wide {
+      width: 100%;
+      --fill: var(--sheet);
+      --pad: 0.8rem 0.95rem;
+      --corner: var(--radius);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .block { display: flex; flex-direction: column; gap: 0.55rem; min-width: 0; }
+
+    .block-title { font-size: 1.05rem; font-weight: 700; }
+
+    .sub {
+      color: var(--mute);
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .segs, .days {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .seg[aria-pressed="true"],
+    .day-btn[aria-pressed="true"] {
+      --ring: 1.5px;
+    }
+
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+
+    .field-label { font-weight: 700; }
+
+    .field input,
+    .field select {
+      width: 100%;
+      background: var(--sheet);
+      color: var(--ink);
+      border: 0;
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .error {
+      color: var(--clay);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .degree { color: var(--clay); }
+
+    .status { font-weight: 700; font-size: 1.2rem; min-height: 1.4em; }
+
+    .status.is-saved { color: var(--sage); }
+
+    @media (min-width: 40rem) {
+      .pair { grid-template-columns: 1fr 1fr; }
+    }
+
+    select {
+      background: var(--sheet);
+      color: var(--ink);
+      border: 0;
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 40rem) {
+      .week { grid-template-columns: 1fr; }
+      h1 { font-size: 1.85rem; }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      dialog { transition: opacity 160ms ease; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#today">Skip to today</a>
+  <header class="shell">
+    <div class="frame bar">
+      <p class="brand">Heating Assistant</p>
+      <nav class="pages" aria-label="Pages">
+        <a class="nav-link" href="#overview">Overview</a>
+        <a class="nav-link" href="#today" aria-current="page">Schedules</a>
+        <a class="nav-link" href="#tuning">Tuning</a>
+        <a class="nav-link" href="#parameter-estimation">Parameter estimation</a>
+        <a class="nav-link" href="#system-status">System status</a>
+        <a class="nav-link" href="#configuration">Configuration</a>
+      </nav>
+      <div class="status-cluster">
+        <p class="health"><span class="dot" aria-hidden="true"></span>Healthy</p>
+        <button type="button" class="pill stop is-running" id="stop-button" aria-pressed="false">Stop</button>
+      </div>
+    </div>
+  </header>
+  <main id="today" class="frame" tabindex="-1">
+    <h1>Today</h1>
+    <p class="date-line num" id="today-date"></p>
+    <noscript><p class="lede">Turn on JavaScript to see today’s schedules.</p></noscript>
+    <ul class="rooms" id="rooms"></ul>
+  </main>
+  <dialog id="layer" aria-labelledby="layer-title"></dialog>
+  <script>
+    (function () {
+      var DAY_SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      var DAY_LONG = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+      var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var WEEKDAYS = [0, 1, 2, 3, 4];
+      var WEEKEND = [5, 6];
+      var ALL_DAYS = [0, 1, 2, 3, 4, 5, 6];
+      var OVERRIDE_META = {
+        setpoint: { label: "Setpoint", unit: "C", min: 5, max: 30, step: "0.5", hint: "Target temperature for this period" },
+        comfort_offset: { label: "Comfort offset", unit: "C", min: 0, max: 5, step: "0.1", hint: "Half-width of the comfort band" },
+        tracking_weight: { label: "Tracking weight", unit: "", min: 0, max: 10, step: "0.1", hint: "How strongly this period tracks the setpoint" },
+        energy_weight: { label: "Energy weight", unit: "", min: 0, max: 10, step: "0.1", hint: "How strongly this period avoids extra heating" },
+        frost_protection: { label: "Frost protection", unit: "C", min: 5, max: 20, step: "0.5", hint: "Lowest temperature this period allows" }
+      };
+      var COMFORT_FIELDS = ["setpoint", "comfort_offset", "tracking_weight", "energy_weight", "frost_protection"];
+      var OFF_FIELDS = ["frost_protection"];
+      var rooms = [];
+      var running = true;
+      var returnFocus = null;
+      var session = { kind: null, slug: null, periodId: null, draft: null, adding: false, returnTo: null, weekStart: null, errors: {}, status: "", saved: false };
+      var dialog = document.getElementById("layer");
+      var roomsEl = document.getElementById("rooms");
+      var dateEl = document.getElementById("today-date");
+      var stopButton = document.getElementById("stop-button");
+      var seq = 20;
+
+      function pad(n) { return String(n).padStart(2, "0"); }
+
+      function esc(value) {
+        return String(value == null ? "" : value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function atMidnight(date) {
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+      }
+
+      function addDays(date, n) {
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate() + n, date.getHours(), date.getMinutes(), 0, 0);
+      }
+
+      function dayIndex(date) { return (date.getDay() + 6) % 7; }
+
+      function mondayOf(date) {
+        var d = atMidnight(date);
+        return addDays(d, -dayIndex(d));
+      }
+
+      function isoDate(date) {
+        return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate());
+      }
+
+      function sameDay(a, b) { return isoDate(a) === isoDate(b); }
+
+      function minutes(value) {
+        var parts = String(value || "00:00").split(":");
+        return Number(parts[0]) * 60 + Number(parts[1] || 0);
+      }
+
+      function parseLocal(value) {
+        var parts = String(value || "").split("T");
+        var d = (parts[0] || "").split("-");
+        var t = (parts[1] || "00:00").split(":");
+        return new Date(Number(d[0]), Number(d[1]) - 1, Number(d[2]), Number(t[0]), Number(t[1] || 0), 0, 0);
+      }
+
+      function formatLong(date) {
+        return DAY_LONG[dayIndex(date)] + " " + date.getDate() + " " + MONTHS[date.getMonth()];
+      }
+
+      function formatDayMonth(date) {
+        return date.getDate() + " " + MONTHS[date.getMonth()];
+      }
+
+      function formatClock(date) {
+        return pad(date.getHours()) + ":" + pad(date.getMinutes());
+      }
+
+      function formatWhen(date, now) {
+        var time = formatClock(date);
+        if (sameDay(date, now)) return time;
+        var tomorrow = addDays(atMidnight(now), 1);
+        if (sameDay(date, tomorrow)) return "tomorrow " + time;
+        return DAY_SHORT[dayIndex(date)] + " " + time;
+      }
+
+      function modeLabel(period) {
+        if (!period) return "Off";
+        return period.mode === "off" ? "Off" : "Comfort";
+      }
+
+      function typeLabel(type) {
+        if (type === "date_range") return "Date range";
+        if (type === "continuous") return "Continuous span";
+        return "Weekly recurring";
+      }
+
+      function fieldsFor(mode) {
+        return mode === "off" ? OFF_FIELDS : COMFORT_FIELDS;
+      }
+
+      function weeklyCovers(period, date) {
+        var days = period.days || [];
+        var dow = dayIndex(date);
+        if (period.time_mode === "all_day") return days.indexOf(dow) !== -1;
+        var start = minutes(period.start);
+        var end = minutes(period.end);
+        var mins = date.getHours() * 60 + date.getMinutes();
+        if (start === end) return false;
+        if (start < end) return days.indexOf(dow) !== -1 && mins >= start && mins < end;
+        if (mins >= start && days.indexOf(dow) !== -1) return true;
+        return mins < end && days.indexOf((dow + 6) % 7) !== -1;
+      }
+
+      function dateRangeCovers(period, date) {
+        var key = isoDate(date);
+        if (period.time_mode === "all_day") return key >= period.start_date && key <= period.end_date;
+        var start = minutes(period.start);
+        var end = minutes(period.end);
+        var mins = date.getHours() * 60 + date.getMinutes();
+        if (start < end) return key >= period.start_date && key <= period.end_date && mins >= start && mins < end;
+        if (key >= period.start_date && key <= period.end_date && mins >= start) return true;
+        var prev = isoDate(addDays(date, -1));
+        return prev >= period.start_date && prev <= period.end_date && mins < end;
+      }
+
+      function covers(period, date) {
+        if (!period || period.enabled === false) return false;
+        if (period.schedule_type === "continuous") {
+          if (!period.start_at || !period.end_at) return false;
+          return date >= parseLocal(period.start_at) && date < parseLocal(period.end_at);
+        }
+        if (period.schedule_type === "date_range") return dateRangeCovers(period, date);
+        return weeklyCovers(period, date);
+      }
+
+      function activePeriod(room, date) {
+        if (room.enabled === false) return null;
+        for (var i = 0; i < room.periods.length; i++) {
+          if (covers(room.periods[i], date)) return room.periods[i];
+        }
+        return null;
+      }
+
+      function nextChange(room, from) {
+        var current = activePeriod(room, from);
+        var currentId = current ? current.id : "";
+        var cursor = new Date(from.getFullYear(), from.getMonth(), from.getDate(), from.getHours(), from.getMinutes(), 0, 0);
+        cursor.setMinutes(cursor.getMinutes() + 1);
+        var limit = from.getTime() + 14 * 24 * 60 * 60 * 1000;
+        while (cursor.getTime() < limit) {
+          var next = activePeriod(room, cursor);
+          var nextId = next ? next.id : "";
+          if (nextId !== currentId) return { at: new Date(cursor.getTime()), period: next };
+          cursor.setMinutes(cursor.getMinutes() + 1);
+        }
+        return null;
+      }
+
+      function shapeOf(room, now) {
+        if (room.enabled === false) {
+          var forced = { enabled: true, periods: room.periods };
+          var would = activePeriod(forced, now);
+          if (would) return { current: null, disabled: true, next: { period: would, paused: true, at: now } };
+          var later = nextChange(forced, now);
+          return { current: null, disabled: true, next: later ? { period: later.period, paused: true, at: later.at } : null };
+        }
+        return { current: activePeriod(room, now), disabled: false, next: nextChange(room, now) };
+      }
+
+      function intersectsDay(period, day) {
+        if (!period || period.enabled === false) return false;
+        var startOfDay = atMidnight(day);
+        var endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
+        if (period.schedule_type === "continuous") {
+          if (!period.start_at || !period.end_at) return false;
+          return parseLocal(period.start_at) < endOfDay && parseLocal(period.end_at) > startOfDay;
+        }
+        if (period.schedule_type === "date_range") {
+          var key = isoDate(day);
+          var prevKey = isoDate(addDays(day, -1));
+          var inDay = key >= period.start_date && key <= period.end_date;
+          var prevIn = prevKey >= period.start_date && prevKey <= period.end_date;
+          if (period.time_mode === "all_day") return inDay;
+          var start = minutes(period.start);
+          var end = minutes(period.end);
+          if (start < end) return inDay;
+          return inDay || prevIn;
+        }
+        var days = period.days || [];
+        var dow = dayIndex(day);
+        if (period.time_mode === "all_day") return days.indexOf(dow) !== -1;
+        var startM = minutes(period.start);
+        var endM = minutes(period.end);
+        if (startM === endM) return false;
+        if (startM < endM) return days.indexOf(dow) !== -1;
+        return days.indexOf(dow) !== -1 || days.indexOf((dow + 6) % 7) !== -1;
+      }
+
+      function timingLabel(period) {
+        if (period.schedule_type === "continuous") {
+          if (!period.start_at || !period.end_at) return "Continuous span";
+          return formatStamp(period.start_at) + " to " + formatStamp(period.end_at);
+        }
+        if (period.time_mode === "all_day") return "All day";
+        return (period.start || "") + "–" + (period.end || "");
+      }
+
+      function formatStamp(value) {
+        var date = parseLocal(value);
+        return DAY_SHORT[dayIndex(date)] + " " + formatClock(date);
+      }
+
+      function roomBySlug(slug) {
+        for (var i = 0; i < rooms.length; i++) if (rooms[i].slug === slug) return rooms[i];
+        return null;
+      }
+
+      function periodById(room, id) {
+        for (var i = 0; i < room.periods.length; i++) if (room.periods[i].id === id) return room.periods[i];
+        return null;
+      }
+
+      function enabledPeriods(room) {
+        return room.periods.filter(function (period) { return period.enabled !== false; });
+      }
+
+      function baseDefaults(setpoint) {
+        return { setpoint: setpoint, comfort_offset: 2, tracking_weight: 1, energy_weight: 1, frost_protection: 12 };
+      }
+
+      function buildRooms() {
+        var now = new Date();
+        var monday = mondayOf(now);
+        var saturday = addDays(monday, 5);
+        var sunday = addDays(monday, 6);
+        var travelStart = addDays(monday, 3);
+        travelStart.setHours(15, 0, 0, 0);
+        var travelEnd = addDays(monday, 5);
+        travelEnd.setHours(10, 0, 0, 0);
+        function localInput(date) { return isoDate(date) + "T" + formatClock(date); }
+
+        rooms = [
+          {
+            slug: "living-room",
+            name: "Living room",
+            enabled: true,
+            defaults: baseDefaults(21),
+            periods: [
+              { id: "lr-morning", name: "Morning", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: WEEKDAYS.slice(), start: "06:00", end: "09:00", enabled: true },
+              { id: "lr-away", name: "Away", mode: "off", schedule_type: "weekly", time_mode: "window", days: WEEKDAYS.slice(), start: "09:00", end: "16:00", enabled: true },
+              { id: "lr-weekend", name: "Weekend", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: WEEKEND.slice(), start: "06:00", end: "16:00", enabled: true, setpoint: 21 },
+              { id: "lr-evening", name: "Evening", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: ALL_DAYS.slice(), start: "16:00", end: "23:00", enabled: true, setpoint: 21.5 },
+              { id: "lr-night", name: "Night", mode: "off", schedule_type: "weekly", time_mode: "window", days: ALL_DAYS.slice(), start: "23:00", end: "06:00", enabled: true, frost_protection: 10 },
+              { id: "lr-old", name: "Old afternoon", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: WEEKDAYS.slice(), start: "14:00", end: "16:00", enabled: false, setpoint: 21 }
+            ]
+          },
+          {
+            slug: "kitchen",
+            name: "Kitchen",
+            enabled: true,
+            defaults: baseDefaults(20),
+            periods: [
+              { id: "k-guests", name: "Guests", mode: "comfort", schedule_type: "date_range", time_mode: "window", start_date: isoDate(saturday), end_date: isoDate(sunday), start: "10:00", end: "22:00", enabled: true, setpoint: 22 },
+              { id: "k-breakfast", name: "Breakfast", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: ALL_DAYS.slice(), start: "07:00", end: "09:30", enabled: true, setpoint: 20 },
+              { id: "k-day", name: "Day", mode: "off", schedule_type: "weekly", time_mode: "window", days: WEEKDAYS.slice(), start: "09:30", end: "17:00", enabled: true },
+              { id: "k-daytime", name: "Daytime", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: WEEKEND.slice(), start: "09:30", end: "17:00", enabled: true, setpoint: 20.5 },
+              { id: "k-evening", name: "Evening", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: ALL_DAYS.slice(), start: "17:00", end: "21:30", enabled: true, setpoint: 20.5 },
+              { id: "k-night", name: "Night", mode: "off", schedule_type: "weekly", time_mode: "window", days: ALL_DAYS.slice(), start: "21:30", end: "07:00", enabled: true }
+            ]
+          },
+          {
+            slug: "bedroom",
+            name: "Bedroom",
+            enabled: true,
+            defaults: baseDefaults(19),
+            periods: [
+              { id: "b-travel", name: "Travel", mode: "off", schedule_type: "continuous", start_at: localInput(travelStart), end_at: localInput(travelEnd), enabled: true },
+              { id: "b-sleep", name: "Sleep", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: ALL_DAYS.slice(), start: "22:00", end: "07:00", enabled: true, setpoint: 19, comfort_offset: 1.5 },
+              { id: "b-day", name: "Day", mode: "off", schedule_type: "weekly", time_mode: "window", days: WEEKDAYS.slice(), start: "07:00", end: "22:00", enabled: true },
+              { id: "b-weekend", name: "Weekend", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: WEEKEND.slice(), start: "07:00", end: "22:00", enabled: true, setpoint: 20 },
+              { id: "b-nap", name: "Nap", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: WEEKEND.slice(), start: "13:00", end: "15:00", enabled: false, setpoint: 20 }
+            ]
+          },
+          {
+            slug: "study",
+            name: "Study",
+            enabled: true,
+            defaults: baseDefaults(21),
+            periods: [
+              { id: "s-work", name: "Work", mode: "comfort", schedule_type: "weekly", time_mode: "window", days: WEEKDAYS.slice(), start: "08:30", end: "17:30", enabled: true, setpoint: 21, tracking_weight: 1.4 },
+              { id: "s-weekend", name: "Weekend", mode: "off", schedule_type: "weekly", time_mode: "window", days: WEEKEND.slice(), start: "08:30", end: "17:30", enabled: true },
+              { id: "s-closed", name: "Closed", mode: "off", schedule_type: "weekly", time_mode: "window", days: ALL_DAYS.slice(), start: "17:30", end: "08:30", enabled: true }
+            ]
+          }
+        ];
+      }
+
+      function renderDate(now) {
+        dateEl.textContent = formatLong(now) + ", " + formatClock(now);
+      }
+
+      function intervalButton(room, period, kind, whenText, extra) {
+        var mode = modeLabel(period);
+        var name = period ? period.name : (extra || "No period");
+        var action = period ? "period" : "week";
+        var periodId = period ? period.id : "";
+        var label = room.name + ", " + (kind === "now" ? "now" : "next change") + " " + mode + ", " + name + (whenText ? ", " + whenText : "") + (period ? ". Edit this period" : ". Open the week");
+        var inner = kind === "now"
+          ? '<span class="now">Now</span><span>' + esc(mode) + '</span><span>' + esc(name) + '</span>' + (whenText ? '<span class="num">' + esc(whenText) + '</span>' : "")
+          : '<span class="next-word">Next</span><span>' + esc(mode) + '</span><span>' + esc(name) + '</span>' + (whenText ? '<span class="num">' + esc(whenText) + '</span>' : "");
+        return '<button type="button" class="' + (kind === "now" ? "interval" : "next") + '" data-action="' + action + '" data-room="' + esc(room.slug) + '" data-period="' + esc(periodId) + '" aria-haspopup="dialog" aria-label="' + esc(label) + '">' + inner + "</button>";
+      }
+
+      function renderBoard() {
+        var now = new Date();
+        renderDate(now);
+        var html = "";
+        rooms.forEach(function (room) {
+          var shape = shapeOf(room, now);
+          var nowPeriod = shape.current;
+          var nowWhen = "";
+          if (!shape.disabled && shape.next && shape.next.at) nowWhen = "until " + formatWhen(shape.next.at, now);
+          var next = shape.next;
+          var nextWhen = "";
+          var nextPeriod = next ? next.period : null;
+          if (next && next.paused) nextWhen = "paused";
+          else if (next && next.at) nextWhen = "at " + formatWhen(next.at, now);
+          var nextButton = next
+            ? intervalButton(room, nextPeriod, "next", nextWhen, "")
+            : '<button type="button" class="next" data-action="week" data-room="' + esc(room.slug) + '" aria-haspopup="dialog" aria-label="' + esc(room.name + ", next change. Open the week to add a period") + '"><span class="next-word">Next</span><span>Add a period with an end</span></button>';
+          var nowButton = shape.disabled
+            ? '<button type="button" class="interval" data-action="week" data-room="' + esc(room.slug) + '" aria-haspopup="dialog" aria-label="' + esc(room.name + ", now Off, schedule disabled. Open the week") + '"><span class="now">Now</span><span>Off</span><span>Schedule disabled</span></button>'
+            : intervalButton(room, nowPeriod, "now", nowWhen, nowPeriod ? "" : "No period");
+          html += '<li class="room"><h2 class="room-name">' + esc(room.name) + '</h2><div class="shape">' + nowButton + nextButton + '</div><button type="button" class="pill week-open" data-action="week" data-room="' + esc(room.slug) + '" aria-haspopup="dialog" aria-label="' + esc(room.name + " week") + '">Week</button></li>';
+        });
+        roomsEl.innerHTML = html;
+      }
+
+      function remember(room, action, period) {
+        returnFocus = { room: room, action: action, period: period || "" };
+      }
+
+      function restoreFocus() {
+        if (!returnFocus) return;
+        var sel = '[data-room="' + CSS.escape(returnFocus.room) + '"][data-action="' + CSS.escape(returnFocus.action) + '"]';
+        if (returnFocus.period) sel += '[data-period="' + CSS.escape(returnFocus.period) + '"]';
+        var el = document.querySelector(sel);
+        if (!el) el = document.querySelector('[data-room="' + CSS.escape(returnFocus.room) + '"][data-action="week"]');
+        returnFocus = null;
+        if (el) el.focus();
+      }
+
+      function showDialog() {
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!dialog.open) {
+          dialog.style.setProperty("--layer-opacity", reduce ? "1" : "0");
+          dialog.showModal();
+          if (!reduce) {
+            requestAnimationFrame(function () {
+              dialog.style.setProperty("--layer-opacity", "1");
+            });
+          }
+        }
+      }
+
+      function finishPaint(selector) {
+        showDialog();
+        var el = selector ? dialog.querySelector(selector) : dialog.querySelector("[data-autofocus]");
+        if (el) el.focus();
+      }
+
+      function closeLayer() {
+        if (dialog.open) dialog.close();
+      }
+
+      function clonePeriod(period) {
+        return {
+          id: period.id,
+          name: period.name || "",
+          mode: period.mode === "off" ? "off" : "comfort",
+          schedule_type: period.schedule_type || "weekly",
+          time_mode: period.time_mode || "window",
+          days: (period.days || ALL_DAYS).slice(),
+          start: period.start || "08:00",
+          end: period.end || "22:00",
+          start_date: period.start_date || "",
+          end_date: period.end_date || "",
+          start_at: period.start_at || "",
+          end_at: period.end_at || "",
+          enabled: period.enabled !== false,
+          setpoint: period.setpoint,
+          comfort_offset: period.comfort_offset,
+          tracking_weight: period.tracking_weight,
+          energy_weight: period.energy_weight,
+          frost_protection: period.frost_protection
+        };
+      }
+
+      function blankPeriod(room) {
+        seq += 1;
+        var start = session.weekStart ? new Date(session.weekStart.getTime()) : mondayOf(new Date());
+        var end = addDays(start, 6);
+        return {
+          id: "period-" + seq,
+          name: "Period " + (room.periods.length + 1),
+          mode: "comfort",
+          schedule_type: "weekly",
+          time_mode: "window",
+          days: ALL_DAYS.slice(),
+          start: "08:00",
+          end: "22:00",
+          start_date: isoDate(start),
+          end_date: isoDate(end),
+          start_at: isoDate(start) + "T08:00",
+          end_at: isoDate(end) + "T22:00",
+          enabled: true
+        };
+      }
+
+      function openWeek(slug, selector) {
+        var room = roomBySlug(slug);
+        if (!room) return;
+        remember(slug, "week", "");
+        session.kind = "week";
+        session.slug = slug;
+        session.draft = null;
+        session.adding = false;
+        session.returnTo = null;
+        session.errors = {};
+        if (!session.weekStart) session.weekStart = mondayOf(new Date());
+        dialog.dataset.kind = "week";
+        dialog.innerHTML = weekHtml(room);
+        finishPaint(selector || "[data-autofocus]");
+      }
+
+      function openPeriod(slug, id, fromWeek) {
+        var room = roomBySlug(slug);
+        if (!room) return;
+        var period = id ? periodById(room, id) : null;
+        if (id && !period) return;
+        remember(slug, fromWeek ? "week" : "period", fromWeek ? "" : (id || ""));
+        session.kind = "period";
+        session.slug = slug;
+        session.periodId = id || null;
+        session.adding = !period;
+        session.returnTo = fromWeek ? "week" : null;
+        session.errors = {};
+        session.status = "";
+        session.saved = false;
+        session.draft = period ? clonePeriod(period) : blankPeriod(room);
+        dialog.dataset.kind = "period";
+        dialog.innerHTML = periodHtml(room);
+        finishPaint("[data-autofocus]");
+      }
+
+      function weekHtml(room) {
+        var now = new Date();
+        var start = session.weekStart || mondayOf(now);
+        var days = "";
+        for (var d = 0; d < 7; d++) {
+          var day = addDays(start, d);
+          var today = sameDay(day, now);
+          var cells = "";
+          room.periods.forEach(function (period) {
+            if (!intersectsDay(period, day)) return;
+            var live = today && activePeriod(room, now) === period;
+            cells += '<button type="button" class="cell' + (live ? " cell-live" : "") + '" data-action="open-period" data-period="' + esc(period.id) + '"' + (live ? ' aria-current="true"' : "") + ">" +
+              (live ? '<span class="now">Now</span>' : "") +
+              '<span class="cell-line"><span>' + esc(modeLabel(period)) + "</span><span>" + esc(period.name) + "</span></span>" +
+              (period.schedule_type && period.schedule_type !== "weekly" ? '<span class="cell-type">' + esc(typeLabel(period.schedule_type)) + "</span>" : "") +
+              '<span class="num">' + esc(timingLabel(period)) + "</span></button>";
+          });
+          if (!cells) cells = '<p class="empty-day">No period. Add one below.</p>';
+          days += '<section class="day" aria-labelledby="day-' + d + '"><h3 class="day-name" id="day-' + d + '">' + DAY_SHORT[d] + " " + day.getDate() + "</h3>" +
+            (today ? '<p class="today-mark">Today</p>' : "") + cells + "</section>";
+        }
+        var inactive = room.periods.filter(function (period) { return period.enabled === false; });
+        var inactiveHtml = "";
+        if (inactive.length) {
+          inactiveHtml = '<section class="block" aria-labelledby="inactive-title"><h3 class="block-title" id="inactive-title">Inactive periods</h3><ul class="inactive-list">';
+          inactive.forEach(function (period) {
+            inactiveHtml += '<li><button type="button" class="wide" data-action="open-period" data-period="' + esc(period.id) + '"><span class="cell-line"><span>' + esc(period.name) + "</span><span>" + esc(modeLabel(period)) + '</span><span class="num">' + esc(timingLabel(period)) + "</span><span>Disabled</span></span></button></li>";
+          });
+          inactiveHtml += "</ul></section>";
+        }
+        var scheduleOn = room.enabled !== false;
+        return '<div class="stack"><div class="layer-head"><div><h2 class="layer-title" id="layer-title">' + esc(room.name) + '</h2><p class="hint">Listed in priority order. The first match wins.</p></div><button type="button" class="pill" data-action="close" data-autofocus>Close</button></div>' +
+          '<button type="button" class="pill" data-action="toggle-schedule" aria-pressed="' + (scheduleOn ? "true" : "false") + '">' + (scheduleOn ? "Schedule enabled" : "Schedule disabled") + "</button>" +
+          (scheduleOn ? "" : '<p class="hint">This room stays Off until you enable the schedule.</p>') +
+          '<div class="week-nav"><button type="button" class="pill" data-action="prev-week">Previous week</button><p class="range num">' + esc(formatDayMonth(start) + " to " + formatDayMonth(addDays(start, 6))) + '</p><button type="button" class="pill" data-action="next-week">Next week</button></div>' +
+          '<div class="week">' + days + "</div>" + inactiveHtml +
+          '<div class="actions"><button type="button" class="pill pill-clay" data-action="add-period">Add period</button></div></div>';
+      }
+
+      function unitHtml(meta) {
+        if (!meta.unit) return "";
+        return ' <span class="degree">°</span>C';
+      }
+
+      function segments(field, value, options, label) {
+        return '<div class="segs" role="group" aria-label="' + esc(label) + '">' + options.map(function (opt) {
+          var on = value === opt.value;
+          return '<button type="button" class="pill seg" data-action="segment" data-field="' + esc(field) + '" data-value="' + esc(opt.value) + '" aria-pressed="' + (on ? "true" : "false") + '">' + esc(opt.label) + "</button>";
+        }).join("") + "</div>";
+      }
+
+      function whenHtml(draft) {
+        if (draft.schedule_type === "continuous") {
+          return '<div class="pair"><div class="field"><label class="field-label" for="start-at">Start datetime</label><input id="start-at" name="start-at" type="datetime-local" data-when="start_at" value="' + esc(draft.start_at) + '"></div><div class="field"><label class="field-label" for="end-at">End datetime</label><input id="end-at" name="end-at" type="datetime-local" data-when="end_at" value="' + esc(draft.end_at) + '"></div></div>' + errorHtml("start_at") + errorHtml("end_at");
+        }
+        var timeMode = segments("time_mode", draft.time_mode === "all_day" ? "all_day" : "window", [
+          { value: "all_day", label: "All day" },
+          { value: "window", label: "Time window" }
+        ], "Time");
+        var times = draft.time_mode === "all_day" ? "" : '<div class="pair"><div class="field"><label class="field-label" for="start-time">Start time</label><input id="start-time" name="start-time" type="time" data-when="start" value="' + esc(draft.start) + '"></div><div class="field"><label class="field-label" for="end-time">End time</label><input id="end-time" name="end-time" type="time" data-when="end" value="' + esc(draft.end) + '"></div></div>' + errorHtml("start") + errorHtml("end");
+        if (draft.schedule_type === "date_range") {
+          return '<div class="pair"><div class="field"><label class="field-label" for="start-date">Start date</label><input id="start-date" name="start-date" type="date" data-when="start_date" value="' + esc(draft.start_date) + '"></div><div class="field"><label class="field-label" for="end-date">End date</label><input id="end-date" name="end-date" type="date" data-when="end_date" value="' + esc(draft.end_date) + '"></div></div>' + errorHtml("start_date") + errorHtml("end_date") + timeMode + times;
+        }
+        var days = '<div class="days" role="group" aria-label="Days">' + DAY_SHORT.map(function (name, index) {
+          var on = (draft.days || []).indexOf(index) !== -1;
+          return '<button type="button" class="pill day-btn" data-action="day" data-day="' + index + '" aria-pressed="' + (on ? "true" : "false") + '">' + name + "</button>";
+        }).join("") + "</div>" + errorHtml("days");
+        return days + timeMode + times;
+      }
+
+      function errorHtml(key) {
+        if (!session.errors[key]) return "";
+        return '<p class="error" id="err-' + key + '" data-error-for="' + key + '">' + esc(session.errors[key]) + "</p>";
+      }
+
+      function hasOverride(draft, field) {
+        return draft[field] !== undefined && draft[field] !== null && draft[field] !== "";
+      }
+
+      function overridesHtml(draft, defaults) {
+        var fields = fieldsFor(draft.mode);
+        var shown = fields.filter(function (field) { return hasOverride(draft, field); });
+        var addable = fields.filter(function (field) { return !hasOverride(draft, field); });
+        var rows = shown.map(function (field) {
+          var meta = OVERRIDE_META[field];
+          var described = "hint-" + field + (session.errors[field] ? " err-" + field : "");
+          return '<div class="field" data-override="' + field + '"><label class="field-label" for="ov-' + field + '">' + esc(meta.label) + '</label><input id="ov-' + field + '" name="' + field + '" type="number" inputmode="decimal" step="' + meta.step + '" min="' + meta.min + '" max="' + meta.max + '" data-field="' + field + '" value="' + esc(draft[field]) + '" aria-describedby="' + described + '"' + (session.errors[field] ? ' aria-invalid="true"' : "") + '><p class="hint" id="hint-' + field + '">' + esc(meta.hint) + "." + unitHtml(meta) + '</p>' + errorHtml(field) + '<button type="button" class="pill" data-action="remove-override" data-field="' + field + '" title="Return to inherit">Remove</button></div>';
+        }).join("");
+        var empty = shown.length ? "" : '<p class="hint">No overrides. This period inherits room/default values.</p>';
+        var picker = addable.length
+          ? '<div class="actions"><select data-action="override-picker" aria-label="Override to add">' + addable.map(function (field) {
+            return '<option value="' + field + '">' + esc(OVERRIDE_META[field].label) + "</option>";
+          }).join("") + '</select><button type="button" class="pill" data-action="add-override">Add override</button></div>'
+          : '<p class="hint">All overrides for this mode are shown.</p>';
+        return empty + rows + picker;
+      }
+
+      function periodHtml(room) {
+        var draft = session.draft;
+        var title = session.adding ? "New period" : (draft.name || "Period");
+        var back = session.returnTo === "week" ? '<button type="button" class="pill" data-action="back">Back</button>' : "";
+        var enabledList = enabledPeriods(room);
+        var index = enabledList.findIndex(function (period) { return period.id === draft.id; });
+        var move = "";
+        if (!session.adding && draft.enabled !== false && index !== -1) {
+          move = '<div class="actions"><button type="button" class="pill" data-action="earlier"' + (index === 0 ? " disabled" : "") + ' aria-label="Move ' + esc(draft.name) + ' earlier">Earlier</button><button type="button" class="pill" data-action="later"' + (index === enabledList.length - 1 ? " disabled" : "") + ' aria-label="Move ' + esc(draft.name) + ' later">Later</button></div><p class="hint">Earlier wins when periods overlap.</p>';
+        } else if (!session.adding && draft.enabled === false) {
+          move = '<p class="hint">Enable this period to place it in the order.</p>';
+        }
+        var statusClass = session.saved ? "status is-saved" : "status";
+        return '<div class="stack"><div class="layer-head"><h2 class="layer-title" id="layer-title">' + esc(title) + '</h2><div class="actions">' + back + '<button type="button" class="pill" data-action="close">Close</button></div></div>' +
+          '<form id="period-form" class="stack" novalidate><div class="block"><h3 class="block-title">Type</h3>' +
+          segments("schedule_type", draft.schedule_type, [
+            { value: "weekly", label: "Weekly recurring" },
+            { value: "date_range", label: "Date range" },
+            { value: "continuous", label: "Continuous span" }
+          ], "Type") + '</div><div class="block"><h3 class="block-title">Name</h3><div class="field"><label class="field-label" for="period-name">Name</label><input id="period-name" name="period-name" type="text" data-field="name" data-autofocus value="' + esc(draft.name) + '"' + (session.errors.name ? ' aria-invalid="true" aria-describedby="err-name"' : "") + ">" + errorHtml("name") + "</div></div>" +
+          '<div class="block"><h3 class="block-title">When <span class="sub">' + esc(typeLabel(draft.schedule_type)) + "</span></h3>" + whenHtml(draft) + "</div>" +
+          '<div class="block"><h3 class="block-title">Behaviour</h3>' +
+          segments("mode", draft.mode === "off" ? "off" : "comfort", [
+            { value: "comfort", label: "Comfort" },
+            { value: "off", label: "Off" }
+          ], "Behaviour") + "</div>" +
+          '<div class="block"><h3 class="block-title">Overrides</h3>' + overridesHtml(draft, room.defaults) + "</div>" +
+          move +
+          '<div class="actions"><button type="button" class="pill" data-action="toggle-enabled" aria-pressed="' + (draft.enabled !== false ? "true" : "false") + '">' + (draft.enabled !== false ? "Enabled" : "Disabled") + '</button></div>' +
+          '<div class="actions"><button type="submit" class="pill pill-clay">Save changes</button><button type="button" class="pill" data-action="delete">Delete period</button></div>' +
+          '<p class="' + statusClass + '" data-status aria-live="polite">' + esc(session.status) + "</p></form></div>";
+      }
+
+      function repaintPeriod(selector) {
+        var room = roomBySlug(session.slug);
+        if (!room) return;
+        dialog.innerHTML = periodHtml(room);
+        finishPaint(selector || "[data-autofocus]");
+      }
+
+      function validate(draft) {
+        var errors = {};
+        if (!String(draft.name || "").trim()) errors.name = "Name this period.";
+        if (draft.schedule_type === "weekly" && (!draft.days || draft.days.length === 0)) errors.days = "Choose at least one day.";
+        if (draft.schedule_type !== "continuous" && draft.time_mode !== "all_day") {
+          if (!draft.start) errors.start = "Choose a start time.";
+          if (!draft.end) errors.end = "Choose an end time.";
+          if (draft.start && draft.end && draft.start === draft.end) errors.end = "End time matches the start. Choose another end.";
+        }
+        if (draft.schedule_type === "date_range") {
+          if (!draft.start_date) errors.start_date = "Choose a start date.";
+          if (!draft.end_date) errors.end_date = "Choose an end date.";
+          if (draft.start_date && draft.end_date && draft.end_date < draft.start_date) errors.end_date = "End date is before the start. Choose a later end date.";
+        }
+        if (draft.schedule_type === "continuous") {
+          if (!draft.start_at) errors.start_at = "Choose a start.";
+          if (!draft.end_at) errors.end_at = "Choose an end.";
+          if (draft.start_at && draft.end_at && parseLocal(draft.end_at) <= parseLocal(draft.start_at)) errors.end_at = "End is not after the start. Choose a later end.";
+        }
+        fieldsFor(draft.mode).forEach(function (field) {
+          if (!hasOverride(draft, field)) return;
+          var meta = OVERRIDE_META[field];
+          var value = Number(draft[field]);
+          if (!Number.isFinite(value)) errors[field] = "Enter a " + meta.label.toLowerCase() + ".";
+          else if (value < meta.min || value > meta.max) errors[field] = meta.label + " stays between " + meta.min + " and " + meta.max + ".";
+        });
+        return errors;
+      }
+
+      function serialize(draft) {
+        var saved = {
+          id: draft.id,
+          name: String(draft.name || "").trim(),
+          mode: draft.mode === "off" ? "off" : "comfort",
+          schedule_type: draft.schedule_type || "weekly",
+          enabled: draft.enabled !== false
+        };
+        if (saved.schedule_type === "continuous") {
+          saved.start_at = draft.start_at;
+          saved.end_at = draft.end_at;
+        } else {
+          saved.time_mode = draft.time_mode === "all_day" ? "all_day" : "window";
+          if (saved.time_mode !== "all_day") {
+            saved.start = draft.start;
+            saved.end = draft.end;
+          }
+          if (saved.schedule_type === "date_range") {
+            saved.start_date = draft.start_date;
+            saved.end_date = draft.end_date;
+          } else {
+            saved.days = (draft.days || []).slice().sort(function (a, b) { return a - b; });
+          }
+        }
+        fieldsFor(saved.mode).forEach(function (field) {
+          if (hasOverride(draft, field)) saved[field] = Number(draft[field]);
+        });
+        return saved;
+      }
+
+      function insertEnabled(room, period) {
+        var index = room.periods.findIndex(function (item) { return item.enabled === false; });
+        if (index < 0) room.periods.push(period);
+        else room.periods.splice(index, 0, period);
+      }
+
+      function saveDraft() {
+        session.errors = validate(session.draft);
+        var keys = Object.keys(session.errors);
+        if (keys.length) {
+          session.status = "";
+          session.saved = false;
+          var focusKey = keys[0];
+          var focusMap = {
+            name: "#period-name",
+            days: "[data-action='day']",
+            start: "#start-time",
+            end: "#end-time",
+            start_date: "#start-date",
+            end_date: "#end-date",
+            start_at: "#start-at",
+            end_at: "#end-at"
+          };
+          if (OVERRIDE_META[focusKey]) focusMap[focusKey] = "#ov-" + focusKey;
+          repaintPeriod(focusMap[focusKey] || "#period-name");
+          return;
+        }
+        var room = roomBySlug(session.slug);
+        var saved = serialize(session.draft);
+        if (session.adding) {
+          if (saved.enabled === false) room.periods.push(saved);
+          else insertEnabled(room, saved);
+          session.adding = false;
+          session.periodId = saved.id;
+        } else {
+          var index = room.periods.findIndex(function (period) { return period.id === saved.id; });
+          var previous = room.periods[index];
+          var wasEnabled = previous && previous.enabled !== false;
+          room.periods[index] = saved;
+          if (wasEnabled && saved.enabled === false) {
+            room.periods.splice(index, 1);
+            room.periods.push(saved);
+          } else if (!wasEnabled && saved.enabled !== false) {
+            room.periods.splice(index, 1);
+            insertEnabled(room, saved);
+          }
+        }
+        session.draft = clonePeriod(saved);
+        session.status = "Saved.";
+        session.saved = true;
+        renderBoard();
+        repaintPeriod("[type='submit']");
+      }
+
+      function deleteDraft() {
+        if (!session.adding) {
+          var room = roomBySlug(session.slug);
+          room.periods = room.periods.filter(function (period) { return period.id !== session.periodId; });
+          renderBoard();
+        }
+        if (session.returnTo === "week") openWeek(session.slug, "[data-action='add-period']");
+        else closeLayer();
+      }
+
+      function moveDraft(dir) {
+        var room = roomBySlug(session.slug);
+        var enabled = enabledPeriods(room);
+        var index = enabled.findIndex(function (period) { return period.id === session.draft.id; });
+        var target = index + dir;
+        if (index < 0 || target < 0 || target >= enabled.length) return;
+        var from = room.periods.indexOf(enabled[index]);
+        var to = room.periods.indexOf(enabled[target]);
+        var hold = room.periods[from];
+        room.periods[from] = room.periods[to];
+        room.periods[to] = hold;
+        renderBoard();
+        repaintPeriod(dir < 0 ? "[data-action='earlier']" : "[data-action='later']");
+      }
+
+      function onDialogClick(event) {
+        if (event.target === dialog) {
+          closeLayer();
+          return;
+        }
+        var button = event.target.closest("[data-action]");
+        if (!button || !dialog.contains(button)) return;
+        var action = button.dataset.action;
+        var room = roomBySlug(session.slug);
+        if (action === "close") closeLayer();
+        else if (action === "back") openWeek(session.slug);
+        else if (action === "toggle-schedule" && room) {
+          room.enabled = room.enabled === false;
+          renderBoard();
+          openWeek(session.slug, "[data-action='toggle-schedule']");
+        } else if (action === "prev-week") {
+          session.weekStart = addDays(session.weekStart, -7);
+          openWeek(session.slug, "[data-action='prev-week']");
+        } else if (action === "next-week") {
+          session.weekStart = addDays(session.weekStart, 7);
+          openWeek(session.slug, "[data-action='next-week']");
+        } else if (action === "open-period") openPeriod(session.slug, button.dataset.period, true);
+        else if (action === "add-period") openPeriod(session.slug, null, true);
+        else if (action === "segment" && session.draft) {
+          var field = button.dataset.field;
+          var value = button.dataset.value;
+          if (field === "mode") session.draft.mode = value;
+          else if (field === "time_mode") session.draft.time_mode = value;
+          else if (field === "schedule_type") session.draft.schedule_type = value;
+          session.saved = false;
+          session.status = "Unsaved changes";
+          repaintPeriod('[data-field="' + field + '"][data-value="' + value + '"]');
+        } else if (action === "day" && session.draft) {
+          var day = Number(button.dataset.day);
+          var days = session.draft.days || (session.draft.days = []);
+          var at = days.indexOf(day);
+          if (at >= 0) days.splice(at, 1);
+          else days.push(day);
+          days.sort(function (a, b) { return a - b; });
+          session.saved = false;
+          session.status = "Unsaved changes";
+          repaintPeriod('[data-day="' + day + '"]');
+        } else if (action === "add-override" && session.draft) {
+          var picker = dialog.querySelector("[data-action='override-picker']");
+          var override = picker ? picker.value : "";
+          if (!override) return;
+          var defaults = room.defaults;
+          session.draft[override] = defaults[override];
+          session.saved = false;
+          session.status = "Unsaved changes";
+          repaintPeriod("#ov-" + override);
+        } else if (action === "remove-override" && session.draft) {
+          delete session.draft[button.dataset.field];
+          session.saved = false;
+          session.status = "Unsaved changes";
+          repaintPeriod("[data-action='add-override']");
+        } else if (action === "toggle-enabled" && session.draft) {
+          session.draft.enabled = session.draft.enabled === false;
+          session.saved = false;
+          session.status = "Unsaved changes";
+          repaintPeriod("[data-action='toggle-enabled']");
+        } else if (action === "delete") deleteDraft();
+        else if (action === "earlier") moveDraft(-1);
+        else if (action === "later") moveDraft(1);
+      }
+
+      function onDialogInput(event) {
+        if (!session.draft) return;
+        var el = event.target;
+        if (el.dataset.field === "name") session.draft.name = el.value;
+        else if (el.dataset.field && OVERRIDE_META[el.dataset.field]) session.draft[el.dataset.field] = el.value;
+        else if (el.dataset.when) session.draft[el.dataset.when] = el.value;
+        else return;
+        session.saved = false;
+        session.status = "Unsaved changes";
+        var status = dialog.querySelector("[data-status]");
+        if (status) {
+          status.textContent = "Unsaved changes";
+          status.className = "status";
+        }
+      }
+
+      document.getElementById("rooms").addEventListener("click", function (event) {
+        var button = event.target.closest("[data-action]");
+        if (!button) return;
+        var slug = button.dataset.room;
+        if (button.dataset.action === "week") openWeek(slug);
+        else if (button.dataset.action === "period") openPeriod(slug, button.dataset.period, false);
+      });
+
+      dialog.addEventListener("click", onDialogClick);
+      dialog.addEventListener("input", onDialogInput);
+      dialog.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (session.kind === "period") saveDraft();
+      });
+      dialog.addEventListener("close", function () {
+        session.kind = null;
+        session.draft = null;
+        renderBoard();
+        restoreFocus();
+      });
+
+      document.querySelectorAll(".nav-link").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          if (link.getAttribute("aria-current") === "page") document.getElementById("today").focus();
+        });
+      });
+
+      stopButton.addEventListener("click", function () {
+        running = !running;
+        stopButton.className = running ? "pill stop is-running" : "pill stop is-stopped";
+        stopButton.textContent = running ? "Stop" : "Start";
+        stopButton.setAttribute("aria-pressed", running ? "false" : "true");
+      });
+
+      buildRooms();
+      renderBoard();
+      setInterval(function () {
+        if (dialog.open) renderDate(new Date());
+        else renderBoard();
+      }, 30000);
+    })();
+  </script>
+</body>
+</html>

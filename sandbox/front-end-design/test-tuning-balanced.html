@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3ebe3">
+  <meta name="color-scheme" content="light">
+  <title>Tuning · Heating Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3ebe3;
+      --sheet: #fffaf6;
+      --ink: #2a221c;
+      --clay: #d4532b;
+      --sage: #6d8b6f;
+      --honey: #e3a15a;
+      --plum: #8f5d78;
+      --mute: #8d7f74;
+      --rose: #c48474;
+      --radius: 1.75rem;
+      --font: "Atkinson Hyperlegible", sans-serif;
+      color-scheme: light;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: var(--paper);
+      color-scheme: light;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 1.0625rem;
+      line-height: 1.45;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    .skip {
+      position: absolute;
+      left: calc(0.75rem + env(safe-area-inset-left));
+      top: calc(0.75rem + env(safe-area-inset-top));
+      z-index: 2;
+      transform: translateY(var(--skip-y, -160%));
+      background-color: var(--sheet);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 0.5rem 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .skip:focus-visible {
+      --skip-y: 0%;
+    }
+
+    .frame {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding-top: calc(1.35rem + env(safe-area-inset-top));
+      padding-right: calc(1.15rem + env(safe-area-inset-right));
+      padding-bottom: calc(3rem + env(safe-area-inset-bottom));
+      padding-left: calc(1.15rem + env(safe-area-inset-left));
+      overflow-wrap: break-word;
+    }
+
+    .top {
+      display: grid;
+      grid-template-columns: var(--top-columns, 1fr auto);
+      align-items: center;
+      column-gap: 0.75rem;
+      row-gap: 0.7rem;
+      margin-bottom: 2.75rem;
+    }
+
+    .top > * {
+      min-width: 0;
+    }
+
+    .brand {
+      margin: 0;
+      grid-column: 1;
+      grid-row: 1;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.2rem;
+      grid-column: var(--nav-col, 1 / -1);
+      grid-row: var(--nav-row, 2);
+    }
+
+    .nav a {
+      color: var(--nav-ink, var(--ink));
+      background-color: var(--nav-bg, transparent);
+      border-radius: 999px;
+      padding: 0.3rem 0.55rem;
+      font-size: 1rem;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+
+    .nav a[aria-current="page"],
+    .nav a:hover {
+      --nav-bg: var(--sheet);
+    }
+
+    .nav a:active {
+      --nav-bg: var(--ink);
+      --nav-ink: var(--sheet);
+    }
+
+    .cluster {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-left: 0;
+      grid-column: var(--cluster-col, 2);
+      grid-row: 1;
+    }
+
+    .healthy {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0;
+      color: var(--sage);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .dot {
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 50%;
+      background-color: var(--sage);
+      flex: 0 0 auto;
+    }
+
+    .dot:not([hidden]) {
+      display: inline-block;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+      touch-action: manipulation;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 2px solid var(--pill-line, var(--clay));
+      background-color: var(--pill-bg, var(--clay));
+      color: var(--pill-ink, var(--sheet));
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.2;
+      padding: 0.6rem 1.15rem;
+      min-height: 2.75rem;
+      box-shadow: var(--pill-shadow, none);
+    }
+
+    .pill:hover {
+      --pill-shadow: 0 0 0 2px var(--ink);
+    }
+
+    .pill:active {
+      --pill-shadow: inset 0 0 0 2px var(--ink);
+    }
+
+    .pill-quiet,
+    .pill.is-start {
+      --pill-bg: var(--sheet);
+      --pill-ink: var(--ink);
+      --pill-line: var(--ink);
+    }
+
+    h1,
+    h2,
+    h3 {
+      text-wrap: balance;
+      scroll-margin-top: 1rem;
+      font-weight: 400;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .lede,
+    .timing-note,
+    .section-note {
+      max-width: 40rem;
+      text-wrap: pretty;
+    }
+
+    .lede {
+      margin-bottom: 1.75rem;
+    }
+
+    .planners {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .planner {
+      min-width: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+      text-align: left;
+      background-color: var(--sheet);
+      color: var(--ink);
+      border: 2px solid var(--planner-line, transparent);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.25rem 1.25rem;
+      box-shadow: var(--planner-shadow, none);
+      font-weight: 400;
+      font-size: 1rem;
+    }
+
+    .planner[aria-pressed="true"],
+    .planner:hover {
+      --planner-line: var(--ink);
+    }
+
+    .planner:active {
+      --planner-shadow: inset 0 0 0 2px var(--ink);
+    }
+
+    .radio {
+      width: 1.05rem;
+      height: 1.05rem;
+      border-radius: 50%;
+      border: 2px solid var(--ink);
+      background-color: var(--radio-fill, transparent);
+      display: inline-block;
+    }
+
+    .planner[aria-pressed="true"] .radio {
+      --radio-fill: var(--ink);
+    }
+
+    .planner-name {
+      font-size: var(--name-size, 1.5rem);
+      font-weight: var(--name-weight, 400);
+      text-wrap: balance;
+      line-height: 1.15;
+    }
+
+    .planner.is-live .planner-name {
+      --name-size: 2.75rem;
+      --name-weight: 700;
+    }
+
+    .planner-sub {
+      color: var(--ink);
+    }
+
+    .badge {
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--badge-ink, var(--ink));
+    }
+
+    .badge:not([hidden]) {
+      display: inline-flex;
+    }
+
+    .planner.is-live .badge {
+      --badge-ink: var(--sage);
+    }
+
+    .timing-note {
+      margin-bottom: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.15rem;
+    }
+
+    .define {
+      margin-bottom: 1.5rem;
+    }
+
+    .field {
+      display: block;
+      min-width: 0;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .field input {
+      display: block;
+      width: 100%;
+      min-height: 2.75rem;
+      background-color: var(--sheet);
+      color: var(--ink);
+      border: 2px solid var(--field-line, var(--ink));
+      border-radius: var(--radius);
+      padding: 0.65rem 1rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+      font-variant-numeric: lining-nums tabular-nums;
+      line-height: 1.2;
+      appearance: textfield;
+    }
+
+    .field input::-webkit-outer-spin-button,
+    .field input::-webkit-inner-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+
+    .field input.is-modified {
+      --field-line: var(--clay);
+    }
+
+    .hint,
+    .section-note {
+      display: block;
+      margin-top: 0.4rem;
+    }
+
+    .mark {
+      color: var(--clay);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .banner,
+    .notice {
+      background-color: var(--sheet);
+      border-radius: var(--radius);
+      padding: 0.85rem 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .error {
+      color: var(--clay);
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin: 0.75rem 0 0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .status {
+      margin-top: 0.85rem;
+      min-height: 1.4rem;
+    }
+
+    dialog {
+      position: static;
+      display: var(--dialog-display, none);
+      inset: auto;
+      width: auto;
+      height: auto;
+      max-width: none;
+      margin: 1.5rem 0 0;
+      padding: 1.35rem 1.25rem 1.5rem;
+      border: none;
+      border-radius: var(--radius);
+      background-color: var(--sheet);
+      color: var(--ink);
+    }
+
+    dialog[open] {
+      --dialog-display: block;
+      opacity: 1;
+      animation: var(--layer-anim, layer-in 160ms linear);
+    }
+
+    dialog .grid,
+    dialog .section-note {
+      margin-top: 0.85rem;
+    }
+
+    .layer-block {
+      margin-top: 1.75rem;
+    }
+
+    .layer-block:first-of-type {
+      margin-top: 0.25rem;
+    }
+
+    .layer-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+    }
+
+    .layer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    @media (min-width: 42rem) {
+      .planners,
+      .cols-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 70rem) {
+      .top {
+        --top-columns: auto minmax(0, 1fr) auto;
+      }
+
+      .nav {
+        --nav-col: 2;
+        --nav-row: 1;
+      }
+
+      .cluster {
+        --cluster-col: 3;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      dialog[open] {
+        --layer-anim: none;
+      }
+    }
+
+    @keyframes layer-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#planner">Skip to planner</a>
+  <div class="frame">
+    <header class="top">
+      <a class="brand" href="#main">Heating Assistant</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="#overview">Overview</a>
+        <a href="#schedules">Schedules</a>
+        <a href="#tuning" aria-current="page">Tuning</a>
+        <a href="#parameter-estimation">Parameter estimation</a>
+        <a href="#system-status">System status</a>
+        <a href="#configuration">Configuration</a>
+      </nav>
+      <div class="cluster">
+        <p class="healthy"><span class="dot" aria-hidden="true"></span>Healthy</p>
+        <button type="button" class="pill" id="power">Stop</button>
+      </div>
+    </header>
+
+    <main id="main">
+      <h1>Tuning</h1>
+      <p class="lede">Choose a planner, then Apply Changes to put it live. Shared knobs keep their values when you switch.</p>
+
+      <form id="tuning-form" novalidate>
+        <div class="planners" id="planner" role="group" aria-label="Planner" tabindex="-1">
+          <button type="button" class="planner is-live" data-mode="nmpc" aria-pressed="true">
+            <span class="radio" aria-hidden="true"></span>
+            <span class="planner-name">Nonlinear</span>
+            <span class="planner-sub">model predictive control</span>
+            <span class="badge"><span class="dot" data-live-dot aria-hidden="true"></span><span data-badge>In use</span></span>
+            <span class="planner-body">Updates heater commands on a nonlinear program each sample — the same receding-horizon problem as Linear, without linearising the house model. Heavier compute.</span>
+          </button>
+          <button type="button" class="planner" data-mode="linear" aria-pressed="false">
+            <span class="radio" aria-hidden="true"></span>
+            <span class="planner-name">Linear</span>
+            <span class="planner-sub">model predictive control</span>
+            <span class="badge" hidden><span class="dot" data-live-dot hidden aria-hidden="true"></span><span data-badge></span></span>
+            <span class="planner-body">Updates heater commands on a quadratic program each sample. Faster to solve; the house model is linearised, so strong nonlinearities are approximated.</span>
+          </button>
+        </div>
+
+        <p class="timing-note">Sample interval and look-ahead. Both planners use the same receding-horizon grid. Changing these rebuilds the planner when you Apply Changes.</p>
+
+        <div class="grid cols-2 define">
+          <label class="field" for="ctrl-update_interval">
+            <span class="field-label">Sample interval</span>
+            <input id="ctrl-update_interval" name="update_interval" type="number" inputmode="decimal" autocomplete="off" step="60" value="900" data-applied="update_interval" data-restart="true" aria-describedby="hint-update_interval timing-error">
+            <span class="hint" id="hint-update_interval">s — How often heater commands are applied (default 900 s).</span>
+          </label>
+          <label class="field" for="ctrl-look_ahead_h">
+            <span class="field-label">Look-ahead</span>
+            <input id="ctrl-look_ahead_h" name="look_ahead_h" type="number" inputmode="decimal" autocomplete="off" step="1" value="36" data-applied="nmpc_horizon_h" data-restart="true" aria-describedby="hint-look_ahead_h timing-error">
+            <span class="hint" id="hint-look_ahead_h">h — How far the plan covers (default 36 h). Must be a whole number of sample intervals.</span>
+          </label>
+        </div>
+        <p class="error" id="timing-error" hidden></p>
+
+        <input type="hidden" id="ctrl-horizon" name="horizon" value="144">
+        <input type="hidden" id="ctrl-nmpc_horizon_h" name="nmpc_horizon_h" value="36">
+        <input type="hidden" id="ctrl-nmpc_period" name="nmpc_period" value="900">
+        <input type="hidden" id="ctrl-nmpc_fast_substeps" name="nmpc_fast_substeps" value="1">
+
+        <p class="banner" id="banner" role="status" hidden></p>
+
+        <div class="actions">
+          <button type="button" class="pill pill-quiet" id="show" aria-expanded="false" aria-controls="rest">Show</button>
+          <button type="submit" class="pill" id="apply">Apply Changes</button>
+        </div>
+        <p class="status" id="tuning-status" role="status"></p>
+
+        <dialog id="rest" aria-labelledby="rest-title" aria-modal="false">
+          <div class="layer-head">
+            <h2 id="rest-title">MPC Controller Parameters</h2>
+            <button type="button" class="pill pill-quiet" id="close-rest">Close</button>
+          </div>
+          <p class="banner" id="banner-layer" role="status" hidden></p>
+
+          <section class="layer-block">
+            <h3>Shared with both planners</h3>
+            <p class="section-note">Comfort band, electricity price, command smoothing, band-exit penalty, and max compute time. Applied on the next planning cycle after you save.</p>
+            <div class="grid cols-2">
+              <label class="field" for="ctrl-comfort_offset">
+                <span class="field-label">Comfort offset</span>
+                <input id="ctrl-comfort_offset" name="comfort_offset" type="number" inputmode="decimal" autocomplete="off" step="0.1" value="2.0" data-applied="comfort_offset" aria-describedby="hint-comfort_offset">
+                <span class="hint" id="hint-comfort_offset"><span class="mark">°</span>C — Half-width of the comfort band around the setpoint.</span>
+              </label>
+              <label class="field" for="ctrl-energy_price_weight">
+                <span class="field-label">Price sensitivity</span>
+                <input id="ctrl-energy_price_weight" name="energy_price_weight" type="number" inputmode="decimal" autocomplete="off" step="0.1" value="1.0" data-applied="energy_price_weight" aria-describedby="hint-energy_price_weight">
+                <span class="hint" id="hint-energy_price_weight">How strongly a high electricity price pushes the plan toward less electrical heat (0 = ignore price).</span>
+              </label>
+              <label class="field" for="ctrl-smoothing_weight">
+                <span class="field-label">Output smoothing</span>
+                <input id="ctrl-smoothing_weight" name="smoothing_weight" type="number" inputmode="decimal" autocomplete="off" step="0.05" value="0.1" data-applied="smoothing_weight" aria-describedby="hint-smoothing_weight">
+                <span class="hint" id="hint-smoothing_weight">Penalty on changing the heater command from one interval to the next.</span>
+              </label>
+              <label class="field" for="ctrl-soft_constraint_weight">
+                <span class="field-label">Comfort-band penalty</span>
+                <input id="ctrl-soft_constraint_weight" name="soft_constraint_weight" type="number" inputmode="decimal" autocomplete="off" step="1" value="10" data-applied="soft_constraint_weight" aria-describedby="hint-soft_constraint_weight">
+                <span class="hint" id="hint-soft_constraint_weight">How hard leaving the comfort band is penalised. Larger values fight harder to stay inside.</span>
+              </label>
+              <label class="field" for="ctrl-nmpc_max_compute_s">
+                <span class="field-label">Max compute time</span>
+                <input id="ctrl-nmpc_max_compute_s" name="nmpc_max_compute_s" type="number" inputmode="decimal" autocomplete="off" step="1" value="60" data-applied="nmpc_max_compute_s" aria-describedby="hint-nmpc_max_compute_s">
+                <span class="hint" id="hint-nmpc_max_compute_s">s — Wall-clock cap for one planner solve. The solver stops at this limit and keeps the best plan found so far (default 60).</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="layer-block" id="linear-weights" hidden>
+            <h3>Linear MPC cost weights</h3>
+            <p class="section-note">Extra terms on the linear quadratic program. The nonlinear planner does not use these.</p>
+            <div class="grid cols-2">
+              <label class="field" for="ctrl-tracking_weight">
+                <span class="field-label">Setpoint pull</span>
+                <input id="ctrl-tracking_weight" name="tracking_weight" type="number" inputmode="decimal" autocomplete="off" step="0.1" value="0" data-applied="tracking_weight" aria-describedby="hint-tracking_weight">
+                <span class="hint" id="hint-tracking_weight">How hard the linear planner pulls toward the exact setpoint while already inside the band (0 = stay inside the band only).</span>
+              </label>
+              <label class="field" for="ctrl-energy_weight">
+                <span class="field-label">Heater-effort penalty</span>
+                <input id="ctrl-energy_weight" name="energy_weight" type="number" inputmode="decimal" autocomplete="off" step="0.01" value="0.01" data-applied="energy_weight" aria-describedby="hint-energy_weight">
+                <span class="hint" id="hint-energy_weight">Penalty on heater command size itself, separate from electricity price.</span>
+              </label>
+              <label class="field" for="ctrl-soft_constraint_linear_weight">
+                <span class="field-label">Outside-band linear penalty</span>
+                <input id="ctrl-soft_constraint_linear_weight" name="soft_constraint_linear_weight" type="number" inputmode="decimal" autocomplete="off" step="1" value="0" data-applied="soft_constraint_linear_weight" aria-describedby="hint-soft_constraint_linear_weight">
+                <span class="hint" id="hint-soft_constraint_linear_weight">Extra steadily growing penalty the further outside the band (0 = off).</span>
+              </label>
+              <label class="field" for="ctrl-terminal_weight">
+                <span class="field-label">End-of-horizon weight</span>
+                <input id="ctrl-terminal_weight" name="terminal_weight" type="number" inputmode="decimal" autocomplete="off" step="1" value="100" data-applied="terminal_weight" aria-describedby="hint-terminal_weight">
+                <span class="hint" id="hint-terminal_weight">How strongly the last predicted step should still be near the setpoint (must be at least 1).</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="layer-block">
+            <h2>Window Configuration</h2>
+            <p class="section-note">Global parameters for window open/close detection. Changes affect all rooms.</p>
+            <div class="grid cols-2">
+              <label class="field" for="win-window_open_debounce">
+                <span class="field-label">Window Open Debounce</span>
+                <input id="win-window_open_debounce" name="window_open_debounce" type="number" inputmode="numeric" autocomplete="off" step="10" value="60" data-applied="window_open_debounce" aria-describedby="hint-window_open_debounce">
+                <span class="hint" id="hint-window_open_debounce">s — Debounce before confirming window open</span>
+              </label>
+              <label class="field" for="win-window_open_close_settle">
+                <span class="field-label">Window Close Settle</span>
+                <input id="win-window_open_close_settle" name="window_open_close_settle" type="number" inputmode="numeric" autocomplete="off" step="10" value="30" data-applied="window_open_close_settle" aria-describedby="hint-window_open_close_settle">
+                <span class="hint" id="hint-window_open_close_settle">s — Settle time after window closes before resuming</span>
+              </label>
+              <label class="field" for="win-window_open_q_inflation">
+                <span class="field-label">Uncertainty Multiplier</span>
+                <input id="win-window_open_q_inflation" name="window_open_q_inflation" type="number" inputmode="decimal" autocomplete="off" step="1" value="10" data-applied="window_open_q_inflation" aria-describedby="hint-window_open_q_inflation">
+                <span class="hint" id="hint-window_open_q_inflation">× — Covariance inflation when window is open</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="layer-block">
+            <h2>Controller Preview</h2>
+            <p class="section-note">Run a one-off solve with the values on this page, including a drafted planner. Apply Changes is what switches the live solver.</p>
+            <div class="layer-actions">
+              <button type="button" class="pill pill-quiet" id="preview">Preview Controller Behaviour</button>
+              <button type="button" class="pill pill-quiet" id="reset">Reset to Defaults</button>
+            </div>
+            <p class="status" id="preview-status" role="status"></p>
+          </section>
+        </dialog>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const DEFAULTS = {
+        mpc_mode: "nmpc",
+        nmpc_period: 900,
+        nmpc_fast_substeps: 1,
+        nmpc_horizon_h: 36,
+        nmpc_max_compute_s: 60,
+        update_interval: 900,
+        comfort_offset: 2.0,
+        horizon: 144,
+        tracking_weight: 0.0,
+        energy_weight: 0.01,
+        energy_price_weight: 1.0,
+        smoothing_weight: 0.1,
+        soft_constraint_weight: 10.0,
+        soft_constraint_linear_weight: 0.0,
+        terminal_weight: 100.0,
+        window_open_debounce: 60,
+        window_open_close_settle: 30,
+        window_open_q_inflation: 10.0
+      };
+
+      const RESTART_BANNER = "Unsaved changes include the planner mode or timing — applying will rebuild the controller.";
+      const LIVE_BANNER = "Unsaved changes — penalty weights and window settings apply to the live controller on the next cycle.";
+
+      const form = document.getElementById("tuning-form");
+      const rest = document.getElementById("rest");
+      const showBtn = document.getElementById("show");
+      const closeBtn = document.getElementById("close-rest");
+      const power = document.getElementById("power");
+      const statusEl = document.getElementById("tuning-status");
+      const previewStatus = document.getElementById("preview-status");
+      const errorEl = document.getElementById("timing-error");
+      const banners = [
+        document.getElementById("banner"),
+        document.getElementById("banner-layer")
+      ];
+      const linearSection = document.getElementById("linear-weights");
+      const planners = Array.from(document.querySelectorAll(".planner"));
+      const sample = document.getElementById("ctrl-update_interval");
+      const look = document.getElementById("ctrl-look_ahead_h");
+      const horizon = document.getElementById("ctrl-horizon");
+      const horizonH = document.getElementById("ctrl-nmpc_horizon_h");
+      const period = document.getElementById("ctrl-nmpc_period");
+      const substeps = document.getElementById("ctrl-nmpc_fast_substeps");
+      const watched = Array.from(form.querySelectorAll("input[data-applied]"));
+
+      let selectedMode = DEFAULTS.mpc_mode;
+      let applied = Object.assign({}, DEFAULTS);
+      let heating = true;
+
+      function valuesEqual(a, b) {
+        const na = Number(a);
+        const nb = Number(b);
+        if (Number.isFinite(na) && Number.isFinite(nb)) {
+          return Math.abs(na - nb) <= 1e-9 * Math.max(1, Math.abs(na), Math.abs(nb));
+        }
+        return a === b;
+      }
+
+      function syncTiming() {
+        const dt = Number(sample.value);
+        const hours = Number(look.value);
+        if (!(dt > 0) || !(hours > 0)) return;
+        const steps = hours * 3600 / dt;
+        const rounded = Math.round(steps);
+        if (Math.abs(steps - rounded) > 1e-6 || rounded < 1) return;
+        horizon.value = String(rounded);
+        horizonH.value = String(hours);
+        period.value = String(dt);
+        substeps.value = "1";
+      }
+
+      function timingError() {
+        const dt = Number(sample.value);
+        const hours = Number(look.value);
+        if (!(dt > 0) || !(hours > 0)) {
+          return "Sample interval and look-ahead must be positive.";
+        }
+        const steps = hours * 3600 / dt;
+        if (Math.abs(steps - Math.round(steps)) > 1e-6 || Math.round(steps) < 1) {
+          return "Look-ahead must be a whole number of sample intervals.";
+        }
+        return "";
+      }
+
+      function showError(message) {
+        if (!message) {
+          errorEl.hidden = true;
+          errorEl.textContent = "";
+          sample.removeAttribute("aria-invalid");
+          look.removeAttribute("aria-invalid");
+          return;
+        }
+        errorEl.hidden = false;
+        errorEl.textContent = message;
+        const dt = Number(sample.value);
+        const target = !(dt > 0) ? sample : look;
+        sample.setAttribute("aria-invalid", target === sample ? "true" : "false");
+        look.setAttribute("aria-invalid", target === look ? "true" : "false");
+        target.focus();
+      }
+
+      function syncCards() {
+        planners.forEach(function (btn) {
+          const mode = btn.dataset.mode;
+          const isLive = mode === applied.mpc_mode;
+          const isDraft = mode === selectedMode;
+          btn.classList.toggle("is-live", isLive);
+          btn.setAttribute("aria-pressed", isDraft ? "true" : "false");
+          const badge = btn.querySelector(".badge");
+          const text = btn.querySelector("[data-badge]");
+          const dot = btn.querySelector("[data-live-dot]");
+          if (isLive) text.textContent = "In use";
+          else if (isDraft) text.textContent = "Apply to switch";
+          else text.textContent = "";
+          badge.hidden = !(isLive || isDraft);
+          dot.hidden = !isLive;
+        });
+        linearSection.hidden = selectedMode !== "linear";
+      }
+
+      function setBanners(text) {
+        banners.forEach(function (el) {
+          el.hidden = !text;
+          el.textContent = text || "";
+        });
+      }
+
+      function updatePending() {
+        syncTiming();
+        let restart = selectedMode !== applied.mpc_mode;
+        let pending = restart;
+        watched.forEach(function (input) {
+          const key = input.dataset.applied;
+          const changed = !valuesEqual(input.value, applied[key]);
+          input.classList.toggle("is-modified", changed);
+          if (changed) pending = true;
+          if (changed && input.dataset.restart === "true") restart = true;
+        });
+        if (!pending) {
+          setBanners("");
+          return;
+        }
+        setBanners(restart ? RESTART_BANNER : LIVE_BANNER);
+      }
+
+      function fillDefaults() {
+        selectedMode = DEFAULTS.mpc_mode;
+        watched.forEach(function (input) {
+          const key = input.dataset.applied;
+          input.value = String(DEFAULTS[key]);
+        });
+        syncTiming();
+        syncCards();
+        updatePending();
+      }
+
+      function applyChanges() {
+        const message = timingError();
+        if (message) {
+          showError(message);
+          statusEl.textContent = "";
+          return;
+        }
+        showError("");
+        syncTiming();
+        applied.mpc_mode = selectedMode;
+        watched.forEach(function (input) {
+          applied[input.dataset.applied] = Number(input.value);
+        });
+        applied.horizon = Number(horizon.value);
+        applied.nmpc_horizon_h = Number(horizonH.value);
+        applied.nmpc_period = Number(period.value);
+        applied.nmpc_fast_substeps = Number(substeps.value);
+        syncCards();
+        updatePending();
+        statusEl.textContent = "Applied successfully.";
+      }
+
+      planners.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          selectedMode = btn.dataset.mode;
+          syncCards();
+          updatePending();
+        });
+      });
+
+      watched.forEach(function (input) {
+        input.addEventListener("input", function () {
+          showError("");
+          updatePending();
+        });
+      });
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        applyChanges();
+      });
+
+      document.getElementById("reset").addEventListener("click", function () {
+        fillDefaults();
+        showError("");
+        previewStatus.textContent = "";
+        statusEl.textContent = "Default values loaded — click Apply Changes to save.";
+      });
+
+      document.getElementById("preview").addEventListener("click", function () {
+        const message = timingError();
+        if (message) {
+          previewStatus.textContent = message;
+          showError(message);
+          return;
+        }
+        previewStatus.textContent = "Outdoor temperature is unavailable. A current reading is required to run the preview.";
+      });
+
+      function openRest() {
+        if (typeof rest.show === "function") rest.show();
+        else rest.setAttribute("open", "");
+        showBtn.setAttribute("aria-expanded", "true");
+        const first = rest.querySelector("input:not([type='hidden'])");
+        if (first) first.focus();
+      }
+
+      function closeRest() {
+        showBtn.setAttribute("aria-expanded", "false");
+        if (rest.open && typeof rest.close === "function") rest.close();
+        else rest.removeAttribute("open");
+        showBtn.focus();
+      }
+
+      rest.addEventListener("cancel", function (event) {
+        event.preventDefault();
+        closeRest();
+      });
+
+      showBtn.addEventListener("click", function () {
+        if (rest.open) closeRest();
+        else openRest();
+      });
+
+      closeBtn.addEventListener("click", closeRest);
+
+      rest.addEventListener("close", function () {
+        showBtn.setAttribute("aria-expanded", "false");
+        showBtn.focus();
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key !== "Escape" || !rest.open) return;
+        event.preventDefault();
+        closeRest();
+      });
+
+      power.addEventListener("click", function () {
+        heating = !heating;
+        power.textContent = heating ? "Stop" : "Start";
+        power.classList.toggle("is-start", !heating);
+      });
+
+      document.querySelectorAll(".nav a").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          if (link.getAttribute("aria-current") === "page") return;
+          event.preventDefault();
+        });
+      });
+
+      syncCards();
+      syncTiming();
+      updatePending();
+    }());
+  </script>
+</body>
+</html>
