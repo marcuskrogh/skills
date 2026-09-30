@@ -8,15 +8,15 @@ or Claude Haiku.
 
 **Cost split:** Luna for Routine; Terra / Sol for Moderate; Grok for Demanding.
 Opus 5.5 and GPT-6 Astra are capability ceilings: choose one only after Grok
-or Sol is insufficient on the same package.
+or GPT-6.1 Sol is insufficient on the same package.
 
 ## High-capability (ranked)
 
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
 | 1 | xAI | Grok 4.7 | efficient frontier pick |
-| 2 | OpenAI | GPT-6 Sol | efficient OpenAI demanding pick |
-| 3 | Anthropic | Claude Opus 5.5 | ceiling after Grok or Sol is insufficient |
+| 2 | OpenAI | GPT-6.1 Sol | efficient OpenAI demanding pick |
+| 3 | Anthropic | Claude Opus 5.5 | ceiling after Grok or GPT-6.1 Sol is insufficient |
 
 ## Mid-capability (ranked)
 

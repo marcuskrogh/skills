@@ -617,7 +617,7 @@ function Test-CopilotCatalog {
     if (-not (Test-Path $CopilotPlatform)) { return }
     $copilotText = Get-Content -Path $CopilotPlatform -Raw
     $highPart = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
-    Test-SectionLists -Section $highPart -FailPrefix 'github-copilot.md high section must list ' -OkPrefix 'github-copilot.md high lists ' -Needles @('Grok 4.7', 'GPT-6 Sol', 'Claude Opus 5.5')
+    Test-SectionLists -Section $highPart -FailPrefix 'github-copilot.md high section must list ' -OkPrefix 'github-copilot.md high lists ' -Needles @('Grok 4.7', 'GPT-6.1 Sol', 'Claude Opus 5.5')
     $midPart = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
     Test-SectionLists -Section $midPart -FailPrefix 'github-copilot.md mid section must list ' -OkPrefix 'github-copilot.md mid lists ' -Needles @('GPT-5.6 Terra', 'Claude Sonnet 5.5')
     $lowPart = Get-HeadingSlice -Text $copilotText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
@@ -838,12 +838,81 @@ function Test-PromotedSonnet55 {
     }
 }
 
+function Test-PromotedGpt61Sol {
+    param([string]$PlatformsDir, [string]$ConceptsDir)
+
+    $codexText = Get-CatalogText -Path (Join-Path $PlatformsDir "codex.md")
+    if ($null -ne $codexText) {
+        $high = Get-HeadingSlice -Text $codexText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
+        $mid = Get-HeadingSlice -Text $codexText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+        $low = Get-HeadingSlice -Text $codexText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
+        Test-SectionLists -Section $high -FailPrefix 'codex.md high prefer must list ' -OkPrefix 'codex.md high prefer lists ' -Needles @(
+            '| 1 | OpenAI | GPT-6.1 Sol | `gpt-6.1-sol` | `gpt-6-sol` |'
+        )
+        Test-SectionOmits -Section $high -Needle '| GPT-6 Sol |' -FailLabel 'codex.md high still prefers GPT-6 Sol' -OkLabel 'codex.md high does not prefer GPT-6 Sol'
+        Test-SectionLists -Section $mid -FailPrefix 'codex.md mid must list ' -OkPrefix 'codex.md mid lists ' -Needles @(
+            '| 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` | `gpt-6-sol` |'
+        )
+        Test-SectionLists -Section $low -FailPrefix 'codex.md low must list ' -OkPrefix 'codex.md low lists ' -Needles @(
+            '| 1 | OpenAI | GPT-6 Luna | `gpt-6-luna` | `gpt-5.6-luna` |'
+        )
+        Test-FileContains -Path (Join-Path $PlatformsDir "codex.md") -Needle 'only after `gpt-6.1-sol` is insufficient' -Label 'codex.md ceiling follows gpt-6.1-sol'
+    }
+
+    $copilotText = Get-CatalogText -Path (Join-Path $PlatformsDir "github-copilot.md")
+    if ($null -ne $copilotText) {
+        $high = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
+        $mid = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+        Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 2 must list ' -OkPrefix 'github-copilot.md high rank 2 lists ' -Needles @(
+            '| 2 | OpenAI | GPT-6.1 Sol | efficient OpenAI demanding pick |'
+        )
+        Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 1 must list ' -OkPrefix 'github-copilot.md high rank 1 lists ' -Needles @(
+            '| 1 | xAI | Grok 4.7 | efficient frontier pick |'
+        )
+        Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 3 must list ' -OkPrefix 'github-copilot.md high rank 3 lists ' -Needles @(
+            '| 3 | Anthropic | Claude Opus 5.5 | ceiling after Grok or GPT-6.1 Sol is insufficient |'
+        )
+        Test-SectionLists -Section $mid -FailPrefix 'github-copilot.md mid rank 2 must list ' -OkPrefix 'github-copilot.md mid rank 2 lists ' -Needles @(
+            '| 2 | OpenAI | GPT-6 Sol | when Terra is absent |'
+        )
+    }
+
+    $generalText = Get-CatalogText -Path (Join-Path $PlatformsDir "general.md")
+    if ($null -ne $generalText) {
+        $high = Get-HeadingSlice -Text $generalText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
+        $mid = Get-HeadingSlice -Text $generalText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
+        Test-SectionLists -Section $high -FailPrefix 'general.md high rank 2 must list ' -OkPrefix 'general.md high rank 2 lists ' -Needles @(
+            '| 2 | OpenAI | GPT-6.1 Sol | `gpt-6.1-sol`, `gpt-6-sol` |'
+        )
+        Test-SectionOmits -Section $high -Needle '| GPT-6 Sol |' -FailLabel 'general.md high still prefers GPT-6 Sol' -OkLabel 'general.md high does not prefer GPT-6 Sol'
+        Test-SectionLists -Section $mid -FailPrefix 'general.md mid rank 2 must list ' -OkPrefix 'general.md mid rank 2 lists ' -Needles @(
+            '| 2 | OpenAI | GPT-6 Sol | `gpt-6-sol` |'
+        )
+    }
+
+    $indexPath = Join-Path $ConceptsDir "PLATFORM-CATALOGS.md"
+    $indexText = Get-CatalogText -Path $indexPath
+    if ($null -ne $indexText) {
+        Test-FileContains -Path $indexPath -Needle 'Sol** (`gpt-6.1-sol`)' -Label 'PLATFORM-CATALOGS.md efficient OpenAI pick is gpt-6.1-sol'
+        Test-SectionOmits -Section $indexText -Needle 'Sol** (`gpt-6-sol`)' -FailLabel 'PLATFORM-CATALOGS.md still names gpt-6-sol as the efficient OpenAI pick' -OkLabel 'PLATFORM-CATALOGS.md does not name gpt-6-sol as the efficient OpenAI pick'
+    }
+
+    foreach ($untouched in @('cursor.md', 'claude-code.md')) {
+        $untouchedPath = Join-Path $PlatformsDir $untouched
+        $untouchedText = Get-CatalogText -Path $untouchedPath
+        if ($null -ne $untouchedText) {
+            Test-SectionOmits -Section $untouchedText -Needle 'gpt-6.1-sol' -FailLabel "$untouched must not gain gpt-6.1-sol" -OkLabel "$untouched does not list gpt-6.1-sol"
+        }
+    }
+}
+
 # Locked 2026-09-27 prefer slugs. Checks are written from the plan pass criteria.
 $platformsDir = Join-Path $ConceptsDir "platforms"
 Test-GeneralLockedRows -PlatformsDir $platformsDir
 Test-ClaudeCodeCatalog -ClaudePlatform (Join-Path $platformsDir "claude-code.md")
 Test-CopilotCatalog -CopilotPlatform (Join-Path $platformsDir "github-copilot.md")
 Test-PromotedSonnet55 -PlatformsDir $platformsDir
+Test-PromotedGpt61Sol -PlatformsDir $platformsDir -ConceptsDir $ConceptsDir
 Test-CodexCatalog -CodexPlatform (Join-Path $platformsDir "codex.md")
 Test-BannedPlatformSlugs -PlatformsDir $platformsDir
 Test-StalePreferSlugs -Roots @($ConceptsDir, (Join-Path $RepoRoot "scripts"))
