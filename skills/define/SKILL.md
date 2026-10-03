@@ -109,6 +109,8 @@ and [../workflow/SKILL.md](../workflow/SKILL.md).
 - Workflow: <template>
 ```
 
+The recorded chain in that template stays the automatic shape. When WORKSPACE **Shipping procedure** is `human review`, assembly inserts `human review → fix-forward` after `review` and before `ship`.
+
 ## Tracker (after approval)
 
 Follow [delivery continuity](../workflow/delivery.md) and the

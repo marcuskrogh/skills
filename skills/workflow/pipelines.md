@@ -40,7 +40,9 @@ Applies [CONCEPT_SKILL](../concepts/CONCEPT_SKILL.md).
 | **test** | Pass criteria on the definition spec, against the delivery diff. |
 | **restructure** | The structure catalog on the delivery diff. Keeps behaviour the definition spec already fixed. |
 | **review** | The definition spec and `ARCHITECTURE.md` (when present) against the diff. |
-| **ship** | The same delivery head. Merges after `CLEAN`. |
+| **human review** | The open pull request after agent review `CLEAN`. Waits for the human's review. Procedure: [human-review.md](human-review.md). |
+| **fix-forward** | That human review's findings. Fixes them on the same pull request. Does not publish a new code review. |
+| **ship** | The same delivery head. Automatic shipping merges after agent review `CLEAN`. When Shipping procedure is human review, merges after fix-forward `CLEAN`. |
 | **explore** | Writes `ROADMAP.md`. The frontier row is the next step. |
 | **adopt** | Writes `ADOPT.md` (inventory + frontier behaviour map). Later steps apply that map. Proof gates: [../adopt/route.md](../adopt/route.md). |
 | **iterate** | Writes `ITERATE.md` on a new Task. Mode **immediate** applies it via sandbox (inspect-loop) or implement (straightforward fix). |
@@ -52,6 +54,14 @@ Include a step when **When** matches the binding. Defaults: `side_paths=none`,
 always includes test. `test.mode=skip` is docs-only or an explicit user ask.
 `harden.mode=skip` is an explicit user ask only.
 
+**Shipping procedure** comes from WORKSPACE, not from the PLAN binding.
+The When key `shipping` is that field. Absent or `automatic` keeps today's
+chains. `human review` inserts `human review`, then `fix-forward`, after
+`review` and before `ship` on delivery, iterate, and adopt. human review
+is the final review. A `FAILED` agent review still returns to `implement`.
+Recorded template chains stay the automatic shape. Assembly inserts the
+steps. Procedure: [human-review.md](human-review.md).
+
 | Chain | Step | When |
 |-------|------|------|
 | delivery | research | side_paths=research or side_paths=research+model |
@@ -62,17 +72,23 @@ always includes test. `test.mode=skip` is docs-only or an explicit user ask.
 | delivery | test | class=adopt or test.mode!=skip |
 | delivery | restructure | harden.mode!=skip |
 | delivery | review | always |
+| delivery | human review | shipping=human review |
+| delivery | fix-forward | shipping=human review |
 | delivery | ship | always |
 | iterate | implement | always |
 | iterate | test | test.mode!=skip |
 | iterate | restructure | harden.mode!=skip |
 | iterate | review | always |
+| iterate | human review | shipping=human review |
+| iterate | fix-forward | shipping=human review |
 | iterate | ship | always |
 | adopt | architect | always |
 | adopt | implement | always |
 | adopt | test | always |
 | adopt | restructure | always |
 | adopt | review | always |
+| adopt | human review | shipping=human review |
+| adopt | fix-forward | shipping=human review |
 | adopt | ship | always |
 
 **delivery** is the chain for every classification template (fix-fast,
@@ -85,9 +101,11 @@ sandbox, implement, then closeout.
 `/sandbox` after accept). It does not reopen architect. Inspect-loop is a
 transition into sandbox, then implement, then this chain.
 
-**adopt** walks [../adopt/route.md](../adopt/route.md) with mode **immediate**.
-Do not drop characterize, test, or restructure. After ship, an open area returns
-to adopt; an empty route stops.
+**adopt** walks [../adopt/route.md](../adopt/route.md) with mode **immediate**
+through the agent review. Do not drop characterize, test, or restructure.
+When Shipping procedure is `human review`, the walk waits at human review
+(cue), then fix-forward and ship. After ship, an open area returns to adopt;
+an empty route stops. Automatic shipping does not wait between review and ship.
 
 ## Frontier
 
@@ -104,6 +122,7 @@ to adopt; an empty route stops.
 | Workflow | After | Outcome | When | Next | Mode |
 |----------|-------|---------|------|------|------|
 | delivery | review | FAILED | * | implement | cue |
+| delivery | fix-forward | FAILED | * | none | stop |
 | delivery | implement | fixed | * | review | cue |
 | delivery | sandbox | delta | * | sandbox | cue |
 | delivery | sandbox | end | * | none | stop |
@@ -125,10 +144,13 @@ to adopt; an empty route stops.
 | iterate | sandbox | end | * | none | stop |
 | iterate | sandbox | accept | * | implement | immediate |
 | iterate | review | FAILED | * | implement | cue |
+| iterate | fix-forward | FAILED | * | none | stop |
 | iterate | implement | fixed | * | review | cue |
 | iterate | ship | done | * | none | stop |
 | iterate | * | * | * | chain-next | cue |
 | adopt | review | FAILED | * | implement | cue |
+| adopt | review | CLEAN | shipping=human review | human review | cue |
+| adopt | fix-forward | FAILED | * | none | stop |
 | adopt | implement | fixed | * | review | immediate |
 | adopt | ship | done | route-empty | none | stop |
 | adopt | ship | done | route-open | adopt | immediate |
@@ -168,6 +190,8 @@ structure-safe. Manual class skills record the delivery binding and then use
 | test | tests on the delivery diff | ready, skipped |
 | restructure | structural edits on the delivery diff | ready, skipped |
 | review | pull-request review | CLEAN, FAILED |
+| human review | human review on the open pull request | ready |
+| fix-forward | fixes for that human review | CLEAN, FAILED |
 | iterate | `ITERATE.md` | ready, inspect-loop |
 | adopt | `ADOPT.md` | mapped, hard-stop |
 | setup | `WORKSPACE.md` | ready |

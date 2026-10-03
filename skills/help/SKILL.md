@@ -75,6 +75,8 @@ post-merge fix:  ship → iterate → test → restructure → review → ship
 post-merge inspect-loop:  ship → sandbox → implement → test → restructure → review → ship
 ```
 
+Those diagrams are automatic shipping. When WORKSPACE **Shipping procedure** is `human review`, insert `human review → fix-forward` after `review` and before `ship` on delivery, iterate, and adopt. human review is the final review. A failed agent review still returns to implement.
+
 After ship, `/iterate` when tests/review on a new PR suffice; `/sandbox` when
 each turn needs visual, plot, or report inspection. The sandbox must match
 production in every area that would change that inspection.

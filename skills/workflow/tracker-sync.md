@@ -36,7 +36,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 | **restructure** / **harden** | May add Restructure Sub-tasks | **In Review** when the structure pass completes (or skip) | Restructure outcome + workflow **Next**; ISSUES | — |
 | **review** | — | Must already be **In Review**; do not Done | Depth + lasers + summary + **Next**; ISSUES | — |
 | **review-fix** | — | Laser + code-review publish + fix-forward status | After lasers, after code review, and after fix-forward; ISSUES | — (ship closes) |
-| **ship** | May compose sandbox / implement / test / harden / review-fix first | See [ship.md](ship.md) | Task + Story; pre-merge continuity on delivery branch | **Yes** after CLEAN — merge **that** PR; close Task / Sub-tasks / Story when complete |
+| **ship** | May compose sandbox / implement / test / harden / review-fix / human review / fix-forward first | See [ship.md](ship.md) | Task + Story; pre-merge continuity on delivery branch | **Yes** after the pre-merge gate — automatic shipping after CLEAN agent review; human review after fix-forward CLEAN. Merge **that** PR; close Task / Sub-tasks / Story when complete |
 | **summarise** | — | Read-only (may fix stale mirror **Next** text) | — | — |
 | **guide** | — | — | Chat Next only (resume in-flight) | — |
 | **explain** | — | — | Chat Next only (resume in-flight) | — |

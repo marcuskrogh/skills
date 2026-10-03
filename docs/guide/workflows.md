@@ -27,7 +27,7 @@ The router picks the **first matching** row. Prefer continuing an in-flight Task
 | **architect** | The bound architecture phase is next, or you want that phase now | [`architect`](../../skills/architect/SKILL.md) | `ARCHITECTURE.md` on the same branch |
 | **test** | The bound testing phase is next, or you want that phase now | [`test`](../../skills/test/SKILL.md) | tests and seams on that pull request. No new product behaviour |
 | **restructure** | The bound refactoring phase is next, or you want that phase now. `/harden` is the same skill | [`restructure`](../../skills/restructure/SKILL.md) | refactoring on that pull request, then review |
-| **review** | Bound review on an In Review PR (find and fix). `/review-fix` is the same skill | [`review`](../../skills/review/SKILL.md) | findings fixed, code review published, then ship when clean |
+| **review** | Bound review on an In Review PR (find and fix). `/review-fix` is the same skill | [`review`](../../skills/review/SKILL.md) | findings fixed, code review published. Automatic shipping then ships when clean. human review, when chosen, is the final review after that |
 | **summarise** | Status, where you are, or what is next, reported and not advanced | [`summarise`](../../skills/summarise/SKILL.md) | status report. Does not run the next skill |
 | **define** | Concrete work to pin down. Default front door | [`define`](../../skills/define/SKILL.md) | interview, then `PLAN.md`, class, template, branch, and pull request |
 | **bug** / **tweak** / **refine** / **rework** | You **explicitly** named that skill | matching skill | interview, then the class artifact, one Task, and the same closeout chain |
@@ -47,7 +47,7 @@ post-merge fix:  ship → iterate → test → restructure → review → ship
 post-merge inspect-loop:  ship → sandbox → implement → test → restructure → review → ship
 ```
 
-Architect is always in the delivery chain. Test and restructure stay unless the binding records a skip. Docs-only work may skip test (`test.mode=skip`). Harden skip is an explicit user ask only. Class **adopt** never skips test.
+Architect is always in the delivery chain. Test and restructure stay unless the binding records a skip. Docs-only work may skip test (`test.mode=skip`). Harden skip is an explicit user ask only. Class **adopt** never skips test. Those diagrams are automatic shipping. When `Shipping procedure` is `human review`, insert `human review → fix-forward` after `review` and before `ship`. human review is the final review. A failed agent review still returns to implement.
 
 ## Bound templates
 

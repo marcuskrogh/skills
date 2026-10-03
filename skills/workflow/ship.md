@@ -13,6 +13,10 @@ Detect the current position, then run every later step in that chain (mode
 `review.lasers` by using the chain assembly rules. Treat a missing skip as
 **dedicated**. Class **adopt** uses the adopt chain and
 [../adopt/route.md](../adopt/route.md); do not drop characterize or test.
+When Shipping procedure is `human review`, the suffix after a CLEAN agent
+review is human review, then fix-forward, then closeout
+([human-review.md](human-review.md)). Position detection for sandbox,
+architect, implement, test, restructure, and review is otherwise unchanged.
 
 | Evidence | Position in the chain |
 |----------|------------------------|
@@ -23,17 +27,23 @@ Detect the current position, then run every later step in that chain (mode
 | Shape recorded; implementation incomplete | **implement** |
 | Implementation complete; testing phase not done (`test` is in the chain) | **test** |
 | Testing done or test not in the chain; restructure not done (`restructure` is in the chain) | **restructure** |
-| In Review; review not CLEAN | **review** |
-| CLEAN | closeout |
 | Review outcome FAILED | Stop. Do not merge. The delivery transition names **implement** |
+| In Review; review not CLEAN | **review** |
+| CLEAN, and Shipping procedure is automatic or absent | closeout |
+| CLEAN, Shipping procedure is human review, and no human review is on the pull request yet | **human review** |
+| Shipping procedure is human review, the human review is on the pull request, and fix-forward is not done | **fix-forward** |
+| fix-forward outcome FAILED | Stop. Do not merge. |
+| Shipping procedure is human review, and fix-forward is CLEAN | closeout |
 
 Composed skills keep their full contracts, including defining a required input
 that is missing. Done when the suffix has completed or a hard stop is reported.
 
 ## Closeout
 
-Closed-loop on the Task’s **single delivery PR**. Run only after CLEAN **code
-review** (or already ship-ready / explicit user override).
+Closed-loop on the Task’s **single delivery PR**. Automatic shipping runs
+only after a CLEAN agent review. When Shipping procedure is human review,
+run only after that agent review was CLEAN and the later fix-forward ended
+CLEAN. A FAILED agent review or a FAILED fix-forward stops the merge.
 
 1. **Pre-merge continuity (PR still open)** — commit and push on the delivery branch:
    - PLAN / BUG / TWEAK / REFINE / REWORK / ITERATE / ADOPT / SANDBOX — shipped / **Next: Done** + PR link
