@@ -1,6 +1,6 @@
 # Structure
 
-How this repository is laid out, what each part contains, and what is not a skill. Source: `README.md` Architecture tree, [`manage-skills`](../../skills/manage-skills/SKILL.md), and the files on `main`.
+How this repository is laid out, what each part contains, and what is not a skill. The tree below is the layout, checked against [`manage-skills`](../../skills/manage-skills/SKILL.md) and the files on `main`.
 
 Return to the [front page](../../README.md).
 
@@ -64,7 +64,7 @@ Those files tell the harness to load [`workflows`](../../skills/workflows/SKILL.
 
 ## `scripts/`
 
-| Script | Purpose (from README and script headers) |
+| Script | Purpose (from script headers) |
 |--------|------------------------------------------|
 | `install-from-git.sh` | Canonical consuming-project install from git |
 | `setup.ps1` | Author setup: validate, sync local homes, git hooks |
@@ -132,4 +132,4 @@ These folders on `main` are **not** listed as skills in `.claude-plugin/plugin.j
 
 - [How it works](how-it-works.md)
 - [Skills](skills.md)
-- [Install in more depth](install.md)
+- [Install](install.md)
