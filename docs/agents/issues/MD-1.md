@@ -49,7 +49,7 @@ Touched pages are the front page and the guide chapters it links. No executable 
 
 ### 2026-10-03 review
 
-Focused review, sequential. Core and Architecture should-fix items are fixed on this branch: full install confirm, draft pull request, setup and adopt called out before define, external artifact location aligned with `setup/format.md`, `gh` plus tracker auth, scripts table kept in Structure, first-use routing left on the front page. Discarded: a help choose-one exception to the Next block. Help's overview reply still ends with Next. The handoff rule on the front page stays. Depth `focused`. Lasers `sequential`. Outcome `CLEAN`. Next: `/ship MD-1` — merge after closeout.
+Focused review, sequential. Core and Architecture should-fix items are fixed on this branch: full install confirm, draft pull request, setup and adopt called out before define, external artifact location aligned with `setup/format.md`, `gh` plus tracker auth, scripts table kept in Structure, first-use routing left on the front page. Discarded: a help choose-one exception to the Next block. Help's overview reply still ends with Next. The handoff rule on the front page stays. Depth `focused`. Lasers `sequential`. GitHub review publish failed: `Resource not accessible by integration` on `addPullRequestReview`. The pull-request review is not published, so the outcome is not `CLEAN` yet. Next: `/review MD-1` — publish the pull-request review.
 
 ## Next
-`/ship MD-1` — merge after closeout
+`/review MD-1` — publish the pull-request review
