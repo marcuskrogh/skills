@@ -16,7 +16,7 @@ This workflow's verification slot is [CONCEPT_STRUCTURE](../concepts/CONCEPT_STR
 | **Characterize** | [characterize.md](characterize.md) map + lock suite **and** working-surface commands green on **current** code before any structure package. | Hard stop; do not start implement structure |
 | **Baseline** | Lock-suite commands, working-surface commands, and result from characterize are the unit baseline. | Hard stop if characterize has not run |
 | **Working surfaces** | Baseline includes every surface the area owns: startable backend, startable frontend, composed client-server path. Re-run after every code-editing step. | Hard stop if a surface does not start, a mapped UI/API flow fails, or working-surface commands are missing from the baseline |
-| **After every code-editing step** | Re-run those same commands after implement, test, harden, and review-fix. Same requirements, same expected results. | Hard stop on new fails, rewritten expectations, skipped/weakened lock tests, or a missing run |
+| **After every code-editing step** | Re-run those same commands after implement, test, harden, and review-fix. When Shipping procedure is human review, also re-run them after the later fix-forward. Same requirements, same expected results. | Hard stop on new fails, rewritten expectations, skipped/weakened lock tests, or a missing run |
 | **Dedicated test** | `test.mode=dedicated` and `implement.verify=non-regression`. `/test` after structure hunts gaps (including working surfaces); it does not replace characterize. | Do not honour `test.mode=skip` |
 | **Advance** | Ship and the next area wait until the gate holds. | Do not mark the area done; do not start the next area |
 
@@ -35,19 +35,29 @@ Every area Task runs this chain, in order, with each skill's **full** contract
 
 `characterize → architect → implement → test → restructure → review → ship`
 
+That chain is automatic shipping. When WORKSPACE **Shipping procedure** is
+`human review`, the unit chain is:
+
+`characterize → architect → implement → test → restructure → review → human review → fix-forward → ship`
+
 Characterize is [characterize.md](characterize.md) (this skill). The later
-steps are the pipeline skills of those names. Do not drop characterize, `/test`,
-or `/harden` on adopt. Do not wait for user **Next** between steps or between
-areas. Run the preserve-behaviour gate after each code-editing step before
-starting the next step.
+steps are the pipeline skills of those names, except human review and the
+later fix-forward, which follow [../workflow/human-review.md](../workflow/human-review.md).
+Do not drop characterize, `/test`, or `/harden` on adopt. Automatic shipping
+does not wait for user **Next** between steps or between areas. human review
+waits: the walk stays immediate through the agent review, then stops until
+the human review is on the pull request. Fix-forward runs next, the
+preserve-behaviour gate runs again, then ship. Run the preserve-behaviour
+gate after each code-editing step before starting the next step.
 
 ## Route loop
 
 1. **Frontier** — first open row in Order (Blocked by all Done or empty).
 2. **Characterize** — map, lock, prove on current code ([characterize.md](characterize.md)).
 3. **Unit** — start or reuse that Task's delivery head; run the adopt chain
-   (architect, then implement, test, restructure, review, ship) with the
-   preserve-behaviour gate after each code-editing step.
+   (architect, then implement, test, restructure, review, and ship; human
+   review then fix-forward before ship when Shipping procedure is human
+   review) with the preserve-behaviour gate after each code-editing step.
 4. **Advance** — only when the gate holds: mark the area **done** on `ADOPT.md`;
    ship has closed the Task. Remaining open rows stay on the Story.
 5. **Continue** — if an open area remains, fetch the updated base, make it the

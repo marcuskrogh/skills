@@ -106,7 +106,7 @@ Prefer `/define` unless you mean the override. Each still interviews before it w
 | How to use | `/bug` (explicit). |
 | Where | Behaviour is wrong or regressing. The fix is the work. Expected correct behaviour is known or knowable. |
 | Output | `BUG.md` plus the fix-fast binding. Outcome: `ready`. One Task, delivery branch and pull request. |
-| Workflows | **bug** (manual). After ready, delivery chain: architect → implement → test → restructure → review → ship. |
+| Workflows | **bug** (manual). After ready, delivery chain: architect → implement → test → restructure → review → ship. When Shipping procedure is human review, insert human review → fix-forward before ship. |
 
 ### tweak
 
@@ -146,7 +146,7 @@ Prefer `/define` unless you mean the override. Each still interviews before it w
 | How to use | `/adopt`, or automatic when the whole existing tree matches the adopt catalog row. |
 | Where | Brownfield whole-tree (or named subtree) structure. Executable behaviour unchanged. Prefer `/refine` for a bounded area. |
 | Output | `ADOPT.md`: inventory plus frontier behaviour map (tests, including startable frontend and backend). Outcome: `mapped`, or `hard-stop` when the map cannot be locked. |
-| Workflows | **adopt**. Walks inventory, then characterize → architect → implement → test → restructure → review → ship per area until Done. Proof is required. Test cannot be skipped. |
+| Workflows | **adopt**. Walks inventory, then characterize → architect → implement → test → restructure → review → ship per area until Done. Proof is required. Test cannot be skipped. When Shipping procedure is human review, the area waits at human review, then fix-forward, then ship. |
 
 ## Side paths
 
@@ -233,7 +233,7 @@ Alias. Run [`restructure`](../../skills/restructure/SKILL.md) with the same Task
 | What | Review of a change as sequential or bundled lasers across Spec, Correctness, Integration, Architecture, and Standards: find, fix, then publish a code review. |
 | How to use | `/review` (prefer) or `/review-fix`. Or when the bound review step is current. |
 | Where | Task is In Review. Open delivery PR. Also **fix-forward** when that PR has review findings. |
-| Output | Published pull-request review. Outcome: `CLEAN` or `FAILED`. FAILED → Next implement. CLEAN → Next ship. |
+| Output | Published pull-request review. Outcome: `CLEAN` or `FAILED`. FAILED returns to implement. Automatic shipping continues to ship when CLEAN. When Shipping procedure is human review, CLEAN continues to human review, then fix-forward, then ship. human review is the final review. |
 | Workflows | **review**, **fix-forward**. Every delivery, iterate, and adopt unit chain. |
 
 ### review-fix
@@ -260,7 +260,7 @@ Alias. Run [`review`](../../skills/review/SKILL.md) with the same Task key. Pref
 | How to use | `/iterate`. |
 | Where | Prior Task/PR already merged and still broken or incomplete, and tests plus review on a new PR suffice. When each turn needs visual, plot, or report inspection, the outcome is `inspect-loop` (sandbox instead). Open-PR review findings are fix-forward, not iterate. |
 | Output | `ITERATE.md` plus a new Task key. Outcome: `ready`, or `inspect-loop`. The iterate workflow then continues into implement (or sandbox). This skill stops at the spec. |
-| Workflows | **iterate**. Chain: implement → test → restructure → review → ship (no architect). |
+| Workflows | **iterate**. Chain: implement → test → restructure → review → ship (no architect). When Shipping procedure is human review, insert human review → fix-forward before ship. |
 
 ## Walk, teach, map, status
 

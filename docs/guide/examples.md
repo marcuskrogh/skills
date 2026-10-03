@@ -46,7 +46,7 @@ More snippets: [Install in more depth](install.md) and the [front page](../../RE
 | You | "Add X", "this test fails", "rewrite the README", or any concrete slice. You did not name `/bug` or `/refine`. |
 | Workflow | **define** |
 | You should see | One interview question at a time. Then a plan and "Does this plan and workflow binding look right?" A short description is not approval. After yes: `PLAN.md` with Classification and Workflow, a Task, a branch, a draft pull request. |
-| Next | Bound chain, usually `/architect` then implement → test → restructure → review → ship. Docs-only refine may skip test. |
+| Next | Bound chain, usually `/architect` then implement → test → restructure → review → ship. Docs-only refine may skip test. When Shipping procedure is human review, the tail after a clean agent review is human review, then fix-forward, then ship. |
 
 ## You name `/bug` yourself
 
@@ -63,7 +63,7 @@ More snippets: [Install in more depth](install.md) and the [front page](../../RE
 |-|-|
 | You | This codebase was not built to the structure catalog. You want that catalog applied across it. |
 | Workflow | **adopt** (matches before define). |
-| You should see | `ADOPT.md` with inventory and a behaviour map locked into tests (including startable frontend and backend when those surfaces exist). Then characterize → architect → implement → test → restructure → review → ship per area. |
+| You should see | `ADOPT.md` with inventory and a behaviour map locked into tests (including startable frontend and backend when those surfaces exist). Then characterize → architect → implement → test → restructure → review → ship per area. When Shipping procedure is human review, the area waits at human review, then fix-forward, then ship. |
 | Next | The adopt workflow walks immediately between unit steps. It does not skip test. Hard stop if proof fails. |
 
 ## Literature before locking the approach
@@ -140,7 +140,7 @@ If you wanted the agent to install for you, that is `/manage-skills` / the agent
 | You | The PR merged. The bug remains. Tests and review on a new PR are enough. |
 | Workflow | **iterate** |
 | You should see | `ITERATE.md`, a **new** Task, branch, and pull request. No new architect step. |
-| Next | implement → test → restructure → review → ship. |
+| Next | implement → test → restructure → review → ship. When Shipping procedure is human review, insert human review → fix-forward before ship. |
 
 ## Merged, still wrong, needs inspect-each-turn
 
@@ -149,7 +149,7 @@ If you wanted the agent to install for you, that is `/manage-skills` / the agent
 | You | Same as above, but each turn needs a visual, plot, or report. |
 | Workflow | **sandbox** (post-merge), not iterate. |
 | You should see | New Task and branch from base. Isolation tree. **No** sandbox PR. Implement opens the PR when promoted. |
-| Next | After accept: implement → test → restructure → review → ship. |
+| Next | After accept: implement → test → restructure → review → ship. When Shipping procedure is human review, insert human review → fix-forward before ship. |
 
 ## Bare next vs ship
 

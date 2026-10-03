@@ -56,6 +56,8 @@ table is stage identity: what the skill produces. It does not name a successor.
 | **restructure** (`/harden`) | Delivery diff | Refactoring on the **same** PR; Task → **In Review** |
 | **iterate** | Shipped work still wrong | `ITERATE.md` + **new** Task/branch. The iterate workflow continues into sandbox or implement |
 | **review** (`/review-fix`) | Task In Review | Lasers → fix → **code review** on the **same** PR → CLEAN or FAILED |
+| **human review** | Shipping procedure is human review, and the agent review is CLEAN | Wait for the human's review on the open pull request |
+| **fix-forward** (after human review) | That human review is on the pull request | Fixes for those findings; no new code review |
 | **ship** | Bound workflow still open | Remaining chain from [pipelines.md](pipelines.md) + merge + Done |
 | **summarise** | Anytime | Status only (About / Stage / Next). Reports the workflow transition; does not advance |
 | **guide** | User wants a walkthrough | Paced steps (no artifact). Repeats persisted Next or none |

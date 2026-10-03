@@ -100,8 +100,19 @@ Issue key/URL, PR URL, depth, laser mode, found/fixed/discarded counts, CLEAN/FA
 
 Fix-forward of must-fix findings applies the implement fix-forward procedure in this invocation. That is part of producing the review, not a successor.
 
+### Fix-forward after human review
+
+When this invocation is the chain step `fix-forward` after human review, fix
+that human review's must-fix findings on the same pull request. Do not run
+lasers. Do not publish a code review. human review stays the final review.
+Outcome `CLEAN` when those findings are addressed or there were none. Outcome
+`FAILED` when a must-fix finding could not be fixed. Apply the workflow
+transition. Procedure: [../workflow/human-review.md](../workflow/human-review.md).
+
 ## Output
 
 pull-request review — published review body. Outcome: `CLEAN` or `FAILED`.
+
+When this invocation is fix-forward after human review, there is no new published review. Outcome: `CLEAN` or `FAILED`, as that subsection says.
 
 This skill does not name a successor. Apply the workflow transition before the turn ends.

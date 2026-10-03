@@ -64,6 +64,7 @@ Agreed agent workspace setup.
 | Merge strategy | squash |
 | Require `gh` for review/ship | true |
 | One delivery PR per Task | true |
+| Shipping procedure | automatic |
 
 ## Pipeline
 

@@ -297,6 +297,51 @@ def check_resolve(chains, transitions) -> int:
         ("delivery", "restructure", "ready", default_binding(), {}, "review", "cue"),
         ("delivery", "review", "CLEAN", default_binding(), {}, "ship", "cue"),
         ("delivery", "review", "FAILED", default_binding(), {}, "implement", "cue"),
+        (
+            "delivery",
+            "review",
+            "CLEAN",
+            default_binding(shipping="human review"),
+            {},
+            "human review",
+            "cue",
+        ),
+        (
+            "delivery",
+            "review",
+            "FAILED",
+            default_binding(shipping="human review"),
+            {},
+            "implement",
+            "cue",
+        ),
+        (
+            "delivery",
+            "human review",
+            "ready",
+            default_binding(shipping="human review"),
+            {},
+            "fix-forward",
+            "cue",
+        ),
+        (
+            "delivery",
+            "fix-forward",
+            "CLEAN",
+            default_binding(shipping="human review"),
+            {},
+            "ship",
+            "cue",
+        ),
+        (
+            "delivery",
+            "fix-forward",
+            "FAILED",
+            default_binding(shipping="human review"),
+            {},
+            "none",
+            "stop",
+        ),
         ("delivery", "implement", "fixed", default_binding(), {}, "review", "cue"),
         ("delivery", "ship", "done", default_binding(), {}, "none", "stop"),
         ("explore", "explore", "ready", default_binding(), {"frontier": "define"}, "define", "cue"),
@@ -327,12 +372,93 @@ def check_resolve(chains, transitions) -> int:
         ),
         ("iterate", "review", "CLEAN", default_binding(), {}, "ship", "cue"),
         ("iterate", "review", "FAILED", default_binding(), {}, "implement", "cue"),
+        (
+            "iterate",
+            "review",
+            "CLEAN",
+            default_binding(shipping="human review"),
+            {},
+            "human review",
+            "cue",
+        ),
+        (
+            "iterate",
+            "review",
+            "FAILED",
+            default_binding(shipping="human review"),
+            {},
+            "implement",
+            "cue",
+        ),
+        (
+            "iterate",
+            "fix-forward",
+            "FAILED",
+            default_binding(shipping="human review"),
+            {},
+            "none",
+            "stop",
+        ),
+        (
+            "iterate",
+            "fix-forward",
+            "CLEAN",
+            default_binding(shipping="human review"),
+            {},
+            "ship",
+            "cue",
+        ),
         ("adopt", "adopt", "mapped", default_binding(klass="adopt"), {}, "architect", "immediate"),
         ("adopt", "architect", "ready", default_binding(klass="adopt"), {}, "implement", "immediate"),
         ("adopt", "implement", "built", default_binding(klass="adopt"), {}, "test", "immediate"),
         ("adopt", "test", "ready", default_binding(klass="adopt"), {}, "restructure", "immediate"),
         ("adopt", "restructure", "ready", default_binding(klass="adopt"), {}, "review", "immediate"),
         ("adopt", "review", "CLEAN", default_binding(klass="adopt"), {}, "ship", "immediate"),
+        (
+            "adopt",
+            "review",
+            "CLEAN",
+            default_binding(klass="adopt", shipping="human review"),
+            {},
+            "human review",
+            "cue",
+        ),
+        (
+            "adopt",
+            "review",
+            "FAILED",
+            default_binding(klass="adopt", shipping="human review"),
+            {},
+            "implement",
+            "cue",
+        ),
+        (
+            "adopt",
+            "human review",
+            "ready",
+            default_binding(klass="adopt", shipping="human review"),
+            {},
+            "fix-forward",
+            "immediate",
+        ),
+        (
+            "adopt",
+            "fix-forward",
+            "CLEAN",
+            default_binding(klass="adopt", shipping="human review"),
+            {},
+            "ship",
+            "immediate",
+        ),
+        (
+            "adopt",
+            "fix-forward",
+            "FAILED",
+            default_binding(klass="adopt", shipping="human review"),
+            {},
+            "none",
+            "stop",
+        ),
         ("adopt", "review", "FAILED", default_binding(klass="adopt"), {}, "implement", "cue"),
         (
             "adopt",
@@ -425,6 +551,78 @@ def check_chain_shape(chains) -> int:
         errors += 1
     else:
         print("OK: adopt chain keeps test and restructure")
+    human = assemble(chains, "delivery", default_binding(shipping="human review"))
+    expect_human = [
+        "architect",
+        "implement",
+        "test",
+        "restructure",
+        "review",
+        "human review",
+        "fix-forward",
+        "ship",
+    ]
+    if human != expect_human:
+        print(f"FAIL: human review delivery chain {human} != {expect_human}")
+        errors += 1
+    else:
+        print("OK: human review inserts before ship on delivery")
+    automatic = assemble(chains, "delivery", default_binding(shipping="automatic"))
+    if automatic != expect:
+        print(f"FAIL: automatic shipping changed the delivery chain: {automatic}")
+        errors += 1
+    else:
+        print("OK: automatic shipping keeps today's delivery chain")
+    skipped = assemble(
+        chains,
+        "delivery",
+        default_binding(**{"test.mode": "skip", "harden.mode": "skip"}, shipping="human review"),
+    )
+    if skipped != ["architect", "implement", "review", "human review", "fix-forward", "ship"]:
+        print(f"FAIL: human review skips chain {skipped}")
+        errors += 1
+    else:
+        print("OK: human review keeps recorded skips and still inserts")
+    prefixed = assemble(
+        chains,
+        "delivery",
+        default_binding(side_paths="research+model", sandbox="inject", shipping="human review"),
+    )
+    if prefixed[:4] != ["research", "model", "architect", "sandbox"] or prefixed[-4:] != [
+        "review",
+        "human review",
+        "fix-forward",
+        "ship",
+    ]:
+        print(f"FAIL: human review prefixed chain {prefixed}")
+        errors += 1
+    else:
+        print("OK: human review keeps optional prefixes")
+    iterate = assemble(chains, "iterate", default_binding(shipping="human review"))
+    if iterate != ["implement", "test", "restructure", "review", "human review", "fix-forward", "ship"]:
+        print(f"FAIL: human review iterate chain {iterate}")
+        errors += 1
+    else:
+        print("OK: human review iterate chain")
+    adopt_human = assemble(
+        chains,
+        "adopt",
+        default_binding(klass="adopt", **{"test.mode": "skip"}, shipping="human review"),
+    )
+    if adopt_human != [
+        "architect",
+        "implement",
+        "test",
+        "restructure",
+        "review",
+        "human review",
+        "fix-forward",
+        "ship",
+    ]:
+        print(f"FAIL: human review adopt chain {adopt_human}")
+        errors += 1
+    else:
+        print("OK: human review adopt chain keeps test")
     return errors
 
 
