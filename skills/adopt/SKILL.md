@@ -104,6 +104,7 @@ Meet the structure catalog across the existing tree; executable behaviour unchan
 ## Workflow
 - Template: structure-safe
 - Unit chain: characterize → architect → implement → test → restructure → review → ship
+- When WORKSPACE Shipping procedure is human review, insert human review → fix-forward before ship and wait at human review
 - Route: inventory → characterize → unit chain remainder per area in Order until Done
 - Verify: non-regression; test.mode=dedicated; lock suite + working surfaces from characterize
 
