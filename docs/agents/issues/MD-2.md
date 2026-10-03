@@ -7,7 +7,7 @@
 | Parent | MD-1 |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/64 |
 | Created | 2026-10-03 |
 
 ## Summary

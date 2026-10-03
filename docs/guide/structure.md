@@ -64,7 +64,7 @@ Those files tell the harness to load [`workflows`](../../skills/workflows/SKILL.
 
 ## `scripts/`
 
-| Script | Purpose (from README and script headers) |
+| Script | Purpose (from script headers) |
 |--------|------------------------------------------|
 | `install-from-git.sh` | Canonical consuming-project install from git |
 | `setup.ps1` | Author setup: validate, sync local homes, git hooks |

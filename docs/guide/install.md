@@ -149,8 +149,7 @@ After agent-from-git, startup sync, or `install-to-project`, check `.agents/skil
 1. Open the consuming project in Cursor, Claude Code, Codex, Copilot, or another compatible harness.
 2. Confirm `.agents/skills/workflows/SKILL.md` exists.
 3. If neither `docs/agents/WORKSPACE.md` nor `~/.agents/WORKSPACE.md` exists, run `/setup` before delivery work. Pipeline skills stop and ask for setup when neither layer resolves (unless you explicitly say to proceed with defaults, in which case setup still writes a workspace file before creating issues). See [`setup/format.md`](../../skills/setup/format.md).
-4. Describe the work, or say `/help` if you only want the map.
-5. An unclear destination matches explore. Concrete work (a bug, a tweak, a refine, a rework, or a feature) matches define.
+4. Describe the work, or say `/help` if you only want the map. What happens next is on the [front page](../../README.md#what-it-does).
 
 ### Workspace scopes
 
@@ -163,7 +162,7 @@ After agent-from-git, startup sync, or `install-to-project`, check `.agents/skil
 
 Resolution order is in [`setup/format.md`](../../skills/setup/format.md). Repository fields override global fields one by one. Language is not a workspace field. A repo install writes the language extract into `AGENTS.md`, `CLAUDE.md`, and `.cursor/rules/github-skills.mdc`.
 
-Global scope plus `Artifact location: external` runs the pipeline without adding agent files to a consuming repo. Artifact full content is pushed into the tracker issue. Only the code change lands in the repo, on the task's delivery branch and pull request.
+Global scope plus artifact location `external` writes pipeline artifacts under the external artifact root and pushes their full content into the tracker issue. The sandbox isolation tree (default `sandbox/`) stays on the delivery branch. `SANDBOX.md` follows the artifact location. See [`setup/format.md`](../../skills/setup/format.md).
 
 ### Tracker credentials
 
@@ -189,7 +188,7 @@ Published credential list:
 
 This page does not invent a mapping from `JIRA_BASE_URL` to format.md's Site. Use format.md when filling `WORKSPACE.md`. Use the published credential list above for what each provider needs. If setup asks for Site, that is the workspace field.
 
-`review` and `ship` also need an authenticated `gh` CLI for pull requests.
+`review` and `ship` need an authenticated `gh` CLI and tracker auth.
 
 ## Author machine (this repository)
 
@@ -252,21 +251,7 @@ Writes `.agents/sync-skills.sh` and gitignores `.agents/skills/`. For Cursor Clo
 
 ## Scripts
 
-| Script | Purpose |
-|--------|---------|
-| `install-from-git.sh` | Canonical agent/project install from git |
-| `setup.ps1` | Author setup: validate, sync local homes, git hooks |
-| `sync-local.ps1` / `sync-local.sh` | Mirror `skills/` into local agent homes |
-| `install-to-project.ps1` | Copy skills into a project's `.agents/skills` |
-| `validate-skills.ps1` | Frontmatter, naming, plugin.json coverage, concepts |
-| `setup-project-sync.ps1` | Wire startup sync (optional `-WireCursorCloud`) |
-| `templates/project-sync/sync-skills.sh` | Startup sync to `.agents/skills/` plus `.skills-version` |
-| `templates/agent-install/` | Consumer `AGENTS.md` block, Cursor rule, global language pointers |
-| `setup-github.ps1` | First-time push to GitHub |
-| `arxiv_research.py` | arXiv search, lookup, and snowball for `/research` |
-| `test_pipelines.py` | Checks workflow transitions in `pipelines.md` and that independent skills do not name a successor |
-
-The same list, with the repository tree, is in [Structure](structure.md).
+The script list and the template files live in [Structure](structure.md#scripts).
 
 ## Related pages
 

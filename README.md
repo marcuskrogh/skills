@@ -51,6 +51,8 @@ Commit those four paths. Confirm:
 ```bash
 test -f .agents/skills/.skills-version
 test -f .agents/skills/workflows/SKILL.md
+test -d .agents/skills/concepts
+grep -q 'marcuskrogh/skills:begin' AGENTS.md
 ```
 
 Pinning, skills.sh, the Claude Code plugin, updates, author setup, and project sync are in [Install](docs/guide/install.md).
@@ -61,7 +63,9 @@ After install, describe the work, or name a skill (`/define`, `/help`). An unnam
 
 ![How a request is routed](docs/guide/readme-how-you-use-it.png)
 
-Concrete work (a bug, a tweak, a refine, a rework, or a feature) goes through [`define`](skills/define/SKILL.md). Define asks one question at a time until scope, behaviour, constraints, and pass criteria are settled. You approve the plan. A short description starts that interview. It does not approve the plan. Define then records a class and a template on `PLAN.md`, and opens one task, one branch, and one pull request.
+If there is no usable `WORKSPACE.md`, the first row is [`setup`](skills/setup/SKILL.md). A whole tree that was not built to the structure bar matches [`adopt`](skills/adopt/SKILL.md) before define.
+
+Concrete work (a bug, a tweak, a refine, a rework, or a feature) goes through [`define`](skills/define/SKILL.md). Define asks one question at a time until scope, behaviour, constraints, and pass criteria are settled. You approve the plan. A short description starts that interview. It does not approve the plan. Define then records a class and a template on `PLAN.md`, and opens one task, one branch, and one draft pull request.
 
 An unclear destination goes through [`explore`](skills/explore/SKILL.md). Explore writes `ROADMAP.md` and a sequence of tasks. The delivery pull request opens later, on a delivery task.
 

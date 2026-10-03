@@ -62,6 +62,6 @@
 - Task: MD-1
 - Sub-tasks: MD-2
 - Branch: cursor/readme-presentation-ac69
-- PR: (opened with this plan)
+- PR: https://github.com/marcuskrogh/skills/pull/64
 - Classification: refine
 - Workflow: structure-safe

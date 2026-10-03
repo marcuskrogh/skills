@@ -7,7 +7,7 @@
 | Parent | |
 | Children | MD-2 |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/64 |
 | Created | 2026-10-03 |
 
 ## Summary
@@ -47,5 +47,9 @@ Front page, guide alignment, and three images under `docs/guide/` are on the bra
 
 Touched pages are the front page and the guide chapters it links. No executable behaviour. No catalog breach to extract: the long install material is the install chapter, and the front page stays the short presentation. Outcome `ready`. Next: `/review MD-1` — focused review of the docs diff.
 
+### 2026-10-03 review
+
+Focused review, sequential. Core and Architecture should-fix items are fixed on this branch: full install confirm, draft pull request, setup and adopt called out before define, external artifact location aligned with `setup/format.md`, `gh` plus tracker auth, scripts table kept in Structure, first-use routing left on the front page. Discarded: a help choose-one exception to the Next block. Help's overview reply still ends with Next. The handoff rule on the front page stays. Depth `focused`. Lasers `sequential`. Outcome `CLEAN`. Next: `/ship MD-1` — merge after closeout.
+
 ## Next
-`/review MD-1` — focused review of the docs diff
+`/ship MD-1` — merge after closeout
