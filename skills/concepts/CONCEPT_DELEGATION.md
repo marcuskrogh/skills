@@ -24,7 +24,7 @@ from [PLATFORM-CATALOGS.md](PLATFORM-CATALOGS.md) → the matching platform file
 - **Bias down.** When unclear, prefer lower category. Importance ≠ difficulty.
 - **Catalog-closed.** The `model` argument is a slug from the loaded platform file (prefer or fallback column) for the scored category. Harness-wide model lists, “latest of family,” type defaults, “use inherit”, “do not substitute”, and vendor heuristics are not a catalog.
 - **Every type.** Every `Task` / sub-agent spawn of any `subagent_type` is a worker spawn for catalog purposes. Type does not select the model.
-- **Pass `model`.** When the harness supports per-worker `model`, every spawn of every type includes an explicit catalog slug. `inherit` and omit are not catalog slugs. On Cursor, never omit and never pass `inherit`. Omit only when the harness has no per-worker `model` parameter.
+- **Pass `model`.** When the harness supports per-worker `model`, every spawn of every type includes an explicit catalog slug. `inherit` and omit are not catalog slugs — omission lets the platform pick an API-priced or off-catalog default. Never omit and never pass `inherit` on Cursor, Claude Code, Codex, or Copilot. Omit only when the harness has no per-worker `model` parameter at all.
 - **One-tier escalate.** Insufficient report → re-delegate same package one tier up with named gaps. If low and mid resolve to the same model, escalate directly to high.
 - **Platform catalog.** Model selection follows the ranked list for the detected harness; General only when the harness is unknown (not Cursor / Claude Code / Codex / Copilot). Incomplete Task enums stay on the detected file.
 
@@ -83,7 +83,9 @@ fallback). Off-catalog — including a type's default model, `inherit`, or omit 
 remap to that category's top prefer slug, then spawn. If the prefer slug is
 not in the Task `model` enum, pass the other allowlisted slug the enum contains
 (on Cursor: `cursor-grok-4.6-high` when Demanding and that slug is listed,
-else `composer-2.5`; never bare `grok-*`). Do not pick a picker slug. When the harness would
+else `composer-2.5`; never bare `grok-*`; on Claude Code: `claude-opus-5-5`
+when Demanding with `claude-opus-5` fallback, `claude-sonnet-5-5` otherwise
+with `claude-sonnet-5` fallback). Do not pick a picker slug. When the harness would
 still run an off-catalog model for that type, or no allowlisted slug is in the
 enum, keep the work on the manager.
 

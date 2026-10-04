@@ -44,6 +44,13 @@ Claude Code / Codex / Copilot). An incomplete Task `model` enum is not unknown
    the category's catalog slug. If `cursor-grok-4.6-high` is absent from the
    Task enum, pass `composer-2.5`. Never omit `model` or pass `inherit`. When
    a type would still run a third-party default, keep the work on the manager.
+9. **Claude Code subscription** — on Claude Code, the platform file is a closed
+   allowlist of subscription Anthropic slugs (`claude-opus-5-5`, `claude-sonnet-5-5`,
+   with `claude-opus-5` / `claude-sonnet-5` fallbacks). Never omit `model` or
+   pass `inherit`. Never pass API-rate, Fable, or Haiku slugs.
+10. **Codex and Copilot explicit model** — on Codex and GitHub Copilot, never
+   omit `model` or pass `inherit` when the harness exposes per-worker `model`.
+   Pass the category's catalog slug from the loaded platform file.
 
 ## Platforms
 
