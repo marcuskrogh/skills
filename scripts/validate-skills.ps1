@@ -107,7 +107,6 @@ if (-not (Test-Path $ConceptsDir)) {
         $slugMatches = [regex]::Matches($cursorText, '`([a-z0-9][a-z0-9._-]*)`')
         $allowed = @(
             'composer-2.5',
-            'grok-4.7-high',
             'cursor-grok-4.6-high'
         )
         $illegal = @()
@@ -161,6 +160,67 @@ if (-not (Test-Path $ConceptsDir)) {
         }
     }
 
+    # Claude Code platform file must stay a closed subscription allowlist.
+    $claudePlatform = Join-Path (Join-Path $ConceptsDir "platforms") "claude-code.md"
+    if (-not (Test-Path $claudePlatform)) {
+        Write-Host "FAIL: Missing Claude Code platform catalog: $claudePlatform"
+        $script:errors++
+    } else {
+        $claudeText = Get-Content -Path $claudePlatform -Raw
+        $claudeAllowed = @(
+            'claude-opus-5-5',
+            'claude-sonnet-5-5',
+            'claude-opus-5',
+            'claude-sonnet-5',
+            'opus',
+            'sonnet'
+        )
+        $claudeSlugMatches = [regex]::Matches($claudeText, '`([a-z0-9][a-z0-9._-]*)`')
+        $claudeIllegal = @()
+        foreach ($m in $claudeSlugMatches) {
+            $slug = $m.Groups[1].Value
+            if ($slug -notmatch '^(claude|opus|sonnet|fable|haiku)') {
+                continue
+            }
+            if ($slug -match '^(fable|haiku)' -or $slug -notin $claudeAllowed) {
+                $claudeIllegal += $slug
+            }
+        }
+        if ($claudeIllegal.Count -gt 0) {
+            $uniq = $claudeIllegal | Select-Object -Unique
+            Write-Host "FAIL: Claude Code platform catalog has off-allowlist model slug(s): $($uniq -join ', ')"
+            $script:errors++
+        } else {
+            Write-Host "OK: Claude Code platform allowlist (subscription Anthropic only)"
+        }
+        foreach ($need in @('inherit', 'Never omit', 'subscription')) {
+            if ($claudeText.IndexOf($need) -lt 0) {
+                Write-Host "FAIL: Claude Code platform catalog must contain '$need'"
+                $script:errors++
+            } else {
+                Write-Host "OK: Claude Code platform catalog names $need"
+            }
+        }
+    }
+
+    foreach ($spawnPlatform in @('codex.md', 'github-copilot.md')) {
+        $spawnPath = Join-Path (Join-Path $ConceptsDir "platforms") $spawnPlatform
+        if (-not (Test-Path $spawnPath)) {
+            Write-Host "FAIL: Missing platform catalog: $spawnPath"
+            $script:errors++
+            continue
+        }
+        $spawnText = Get-Content -Path $spawnPath -Raw
+        foreach ($need in @('Never omit', 'inherit')) {
+            if ($spawnText.IndexOf($need) -lt 0) {
+                Write-Host "FAIL: $spawnPlatform must forbid omit/inherit on spawns"
+                $script:errors++
+            } else {
+                Write-Host "OK: $spawnPlatform forbids omit/inherit"
+            }
+        }
+    }
+
     $catalogIndex = Join-Path $ConceptsDir "PLATFORM-CATALOGS.md"
     if (-not (Test-Path $catalogIndex)) {
         Write-Host "FAIL: Missing platform catalog index: $catalogIndex"
@@ -173,9 +233,9 @@ if (-not (Test-Path $ConceptsDir)) {
         } else {
             Write-Host "OK: PLATFORM-CATALOGS.md does not treat incomplete enum as General"
         }
-        foreach ($need in @('Mobile', 'inherit')) {
+        foreach ($need in @('Mobile', 'inherit', 'Claude Code subscription', 'Codex and Copilot explicit model')) {
             if ($indexText.IndexOf($need) -lt 0) {
-                Write-Host "FAIL: PLATFORM-CATALOGS.md must contain '$need' (Cursor first-party spawn)"
+                Write-Host "FAIL: PLATFORM-CATALOGS.md must contain '$need' (spawn contract)"
                 $script:errors++
             } else {
                 Write-Host "OK: PLATFORM-CATALOGS.md names $need"
@@ -234,15 +294,20 @@ foreach ($pf in $pointerFiles) {
             $pointerOk = $false
         }
     }
-    foreach ($need in @('Mobile', 'inherit', 'composer-2.5')) {
+    foreach ($need in @('Mobile', 'inherit', 'composer-2.5', 'cursor-grok-4.6-high')) {
         if ($pointerText.IndexOf($need) -lt 0) {
             Write-Host "FAIL: $pf must contain '$need' (Cursor first-party spawn on Mobile / enum remap)"
             $script:errors++
             $pointerOk = $false
         }
     }
+    if ($pointerText.IndexOf('grok-4.7-high') -ge 0) {
+        Write-Host "FAIL: $pf must not pin grok-4.7-high (bare grok-* is not provably first-party)"
+        $script:errors++
+        $pointerOk = $false
+    }
     if ($pointerOk) {
-        Write-Host "OK: $pf names computerUse, videoReview, Mobile, inherit, and composer-2.5"
+        Write-Host "OK: $pf names computerUse, videoReview, Mobile, inherit, composer-2.5, and cursor-grok-4.6-high"
     }
     foreach ($langNeed in @('CONCEPT_LANGUAGE', 'LANGUAGE-PHRASES', 'LANGUAGE-HUMANIZER', 'GeneralProcessSimulator', 'harness')) {
         if ($pointerText.IndexOf($langNeed) -lt 0) {
@@ -391,8 +456,21 @@ foreach ($gf in $globalLangFiles) {
             $gOk = $false
         }
     }
+    if ($gf -match 'global-CLAUDE\.block\.md$') {
+        foreach ($spawnNeed in @('claude-opus-5-5', 'claude-sonnet-5-5', 'inherit', 'CONCEPT_DELEGATION', 'claude-code.md')) {
+            if ($gText.IndexOf($spawnNeed) -lt 0) {
+                Write-Host "FAIL: $gf must contain '$spawnNeed' (Claude Code spawn contract)"
+                $script:errors++
+                $gOk = $false
+            }
+        }
+    }
     if ($gOk) {
-        Write-Host "OK: $gf language extract"
+        if ($gf -match 'global-CLAUDE\.block\.md$') {
+            Write-Host "OK: $gf Claude Code spawn + language extract"
+        } else {
+            Write-Host "OK: $gf language extract"
+        }
     }
 }
 

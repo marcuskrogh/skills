@@ -222,12 +222,14 @@ Continuation cues: bare **next** / **ship** still apply (see
 re-routing. Lost on which skill to use → [`.agents/skills/help/SKILL.md`](.agents/skills/help/SKILL.md).
 
 **Cursor models (catalog-closed).** On Cursor (Desktop, Cloud, CLI, Mobile), every `Task` spawn of any type —
-including `computerUse` and `videoReview` — passes `model` `composer-2.5`
-(Routine / Moderate) or `grok-4.7-high` (Demanding / manager). If that
-slug is absent from the Task enum, pass `cursor-grok-4.6-high` when present,
-else `composer-2.5`. Never `inherit`, omit
-`model`, or pick a picker slug. No `*-fast` variants. Third-party picker models
-bill the API budget. Load
+including `computerUse` and `videoReview` — must pass an explicit `model`
+slug from the Cursor Models allowlist only: `composer-2.5` (Routine /
+Moderate) or `cursor-grok-4.6-high` (Demanding / manager). Only `composer-*`
+and `cursor-grok-*` slugs are provably first-party; bare `grok-*` and
+third-party picker slugs bill **Other Models**. If the chosen slug is absent
+from the Task enum, pass the other allowlisted slug, else `composer-2.5`.
+Never `inherit`, omit `model`, or pick a picker slug. No `*-fast` variants.
+Load
 [`.agents/skills/concepts/CONCEPT_DELEGATION.md`](.agents/skills/concepts/CONCEPT_DELEGATION.md)
 and [`.agents/skills/concepts/platforms/cursor.md`](.agents/skills/concepts/platforms/cursor.md)
 before every spawn.
@@ -263,11 +265,13 @@ An open alignment question does not include that block. Do not freestyle past
 a supported workflow. For a navigation overview only, prefer **help**.
 
 On Cursor (Desktop, Cloud, CLI, Mobile), every Task spawn of any type —
-including computerUse and videoReview — is catalog-closed: only
-`composer-2.5` (Routine/Moderate) or `grok-4.7-high`
-(Demanding/manager). If that slug is absent from the Task enum, pass
-`cursor-grok-4.6-high` when present, else `composer-2.5`. Never inherit, omit model, or pick a picker slug. No
-`*-fast` variants. Third-party models bill the API budget. Load
+including computerUse and videoReview — must pass an explicit `model` slug
+from the Cursor Models allowlist only: `composer-2.5` (Routine/Moderate) or
+`cursor-grok-4.6-high` (Demanding/manager). Only `composer-*` and
+`cursor-grok-*` slugs are provably first-party; bare `grok-*` and picker
+slugs bill Other Models. If the chosen slug is absent from the Task enum,
+pass the other allowlisted slug, else `composer-2.5`. Never inherit, omit
+model, or pick a picker slug. No `*-fast` variants. Load
 CONCEPT_DELEGATION and `concepts/platforms/cursor.md` before every spawn.
 
 Language: before any reply the operator will see, read
