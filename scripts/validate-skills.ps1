@@ -107,7 +107,6 @@ if (-not (Test-Path $ConceptsDir)) {
         $slugMatches = [regex]::Matches($cursorText, '`([a-z0-9][a-z0-9._-]*)`')
         $allowed = @(
             'composer-2.5',
-            'grok-4.7-high',
             'cursor-grok-4.6-high'
         )
         $illegal = @()
@@ -234,15 +233,20 @@ foreach ($pf in $pointerFiles) {
             $pointerOk = $false
         }
     }
-    foreach ($need in @('Mobile', 'inherit', 'composer-2.5')) {
+    foreach ($need in @('Mobile', 'inherit', 'composer-2.5', 'cursor-grok-4.6-high')) {
         if ($pointerText.IndexOf($need) -lt 0) {
             Write-Host "FAIL: $pf must contain '$need' (Cursor first-party spawn on Mobile / enum remap)"
             $script:errors++
             $pointerOk = $false
         }
     }
+    if ($pointerText.IndexOf('grok-4.7-high') -ge 0) {
+        Write-Host "FAIL: $pf must not pin grok-4.7-high (bare grok-* is not provably first-party)"
+        $script:errors++
+        $pointerOk = $false
+    }
     if ($pointerOk) {
-        Write-Host "OK: $pf names computerUse, videoReview, Mobile, inherit, and composer-2.5"
+        Write-Host "OK: $pf names computerUse, videoReview, Mobile, inherit, composer-2.5, and cursor-grok-4.6-high"
     }
     foreach ($langNeed in @('CONCEPT_LANGUAGE', 'LANGUAGE-PHRASES', 'LANGUAGE-HUMANIZER', 'GeneralProcessSimulator', 'harness')) {
         if ($pointerText.IndexOf($langNeed) -lt 0) {

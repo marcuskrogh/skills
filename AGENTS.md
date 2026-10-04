@@ -19,12 +19,14 @@ Continuation cues: bare **next** / **ship** still apply (see
 [`help`](skills/help/SKILL.md).
 
 **Cursor models (catalog-closed).** On Cursor (Desktop, Cloud, CLI, Mobile), every `Task` spawn of any type —
-including `computerUse` and `videoReview` — passes `model` `composer-2.5`
-(Routine / Moderate) or `grok-4.7-high` (Demanding / manager). If that
-slug is absent from the Task enum, pass `cursor-grok-4.6-high` when present,
-else `composer-2.5`. Never `inherit`, omit
-`model`, or pick a picker slug. No `*-fast` variants. Third-party picker models
-bill the API budget. Load
+including `computerUse` and `videoReview` — must pass an explicit `model`
+slug from the Cursor Models allowlist only: `composer-2.5` (Routine /
+Moderate) or `cursor-grok-4.6-high` (Demanding / manager). Only `composer-*`
+and `cursor-grok-*` slugs are provably first-party; bare `grok-*` and
+third-party picker slugs bill **Other Models**. If the chosen slug is absent
+from the Task enum, pass the other allowlisted slug, else `composer-2.5`.
+Never `inherit`, omit `model`, or pick a picker slug. No `*-fast` variants.
+Load
 [`CONCEPT_DELEGATION`](skills/concepts/CONCEPT_DELEGATION.md) and
 [`platforms/cursor.md`](skills/concepts/platforms/cursor.md) before every spawn.
 

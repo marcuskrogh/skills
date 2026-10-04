@@ -35,16 +35,15 @@ Claude Code / Codex / Copilot). An incomplete Task `model` enum is not unknown
    If low and mid resolve to the same model, an insufficient report escalates
    **directly to high**.
 8. **Cursor first-party** — on Cursor (Desktop, Cloud, CLI, Mobile), the platform file
-   is a closed allowlist of **Composer** and **Grok** standard slugs only
-   (`composer-2.5`, `grok-4.7-high`, prior-gen `cursor-grok-4.6-high`). No
-   `*-fast` variants. The allowlist covers every `Task` type (`computerUse`,
-   `videoReview`, …). Third-party models in the Cursor picker (Claude, GPT,
-   Gemini, Kimi, …) bill the **API budget**; Composer and Grok bill the
-   **internal** budget. Never pass a third-party or fast slug on Cursor —
-   remap to the category's catalog slug. If `grok-4.7-high` is absent from
-   the Task enum, pass `cursor-grok-4.6-high` when present, else `composer-2.5`.
-   Never omit `model` or pass `inherit`. When a type would still run a
-   third-party default, keep the work on the manager.
+   is a closed allowlist of **Composer** and **Cursor Grok** slugs only
+   (`composer-2.5`, `cursor-grok-4.6-high`). Only slugs with a `composer-` or
+   `cursor-grok-` prefix are provably Cursor Models; bare `grok-*` and
+   third-party picker slugs bill **Other Models**. No `*-fast` variants. The
+   allowlist covers every `Task` type (`computerUse`, `videoReview`, …).
+   Never pass a third-party, bare `grok-*`, or fast slug on Cursor — remap to
+   the category's catalog slug. If `cursor-grok-4.6-high` is absent from the
+   Task enum, pass `composer-2.5`. Never omit `model` or pass `inherit`. When
+   a type would still run a third-party default, keep the work on the manager.
 
 ## Platforms
 
