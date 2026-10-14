@@ -116,6 +116,8 @@ if (-not (Test-Path $ConceptsDir)) {
             if ($slug -notmatch '^(composer|cursor-grok|claude|gpt|kimi|fable|opus|sonnet|haiku|gemini|llama|qwen|minimax|deepseek|glm|grok)') {
                 continue
             }
+            # Prefix stems in prose (`composer-`, `cursor-grok-`) are not prefer slugs.
+            if ($slug -match '-$') { continue }
             if ($slug -match '-fast$' -or $slug -notin $allowed) {
                 $illegal += $slug
             }
@@ -182,6 +184,8 @@ if (-not (Test-Path $ConceptsDir)) {
             if ($slug -notmatch '^(claude|opus|sonnet|fable|haiku)') {
                 continue
             }
+            # The forbid sentence must name these. Table checks still ban them as rows.
+            if ($slug -in @('fable', 'haiku')) { continue }
             if ($slug -match '^(fable|haiku)' -or $slug -notin $claudeAllowed) {
                 $claudeIllegal += $slug
             }
@@ -695,7 +699,8 @@ function Test-CopilotCatalog {
     if (-not (Test-Path $CopilotPlatform)) { return }
     $copilotText = Get-Content -Path $CopilotPlatform -Raw
     $highPart = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
-    Test-SectionLists -Section $highPart -FailPrefix 'github-copilot.md high section must list ' -OkPrefix 'github-copilot.md high lists ' -Needles @('Grok 4.7', 'GPT-6.1 Sol', 'Claude Opus 5.5')
+    Test-SectionLists -Section $highPart -FailPrefix 'github-copilot.md high section must list ' -OkPrefix 'github-copilot.md high lists ' -Needles @('Grok 4.7', 'GPT-6.1 Sol', 'Gemini 4 Argon', 'Claude Opus 5.5')
+    Test-NeedleCount -Section $copilotText -Needle 'gemini-4-argon' -Expected 1 -Label 'github-copilot.md names gemini-4-argon once'
     $midPart = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
     Test-SectionLists -Section $midPart -FailPrefix 'github-copilot.md mid section must list ' -OkPrefix 'github-copilot.md mid lists ' -Needles @('GPT-5.6 Terra', 'Claude Sonnet 5.5')
     $lowPart = Get-HeadingSlice -Text $copilotText -StartHeading '## Low-capability' -EndHeading '' -Fallback ''
@@ -948,7 +953,10 @@ function Test-PromotedGpt61Sol {
             '| 1 | xAI | Grok 4.7 | efficient frontier pick |'
         )
         Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 3 must list ' -OkPrefix 'github-copilot.md high rank 3 lists ' -Needles @(
-            '| 3 | Anthropic | Claude Opus 5.5 | ceiling after Grok or GPT-6.1 Sol is insufficient |'
+            '| 3 | Google | Gemini 4 Argon | preferred ceiling (`gemini-4-argon`) |'
+        )
+        Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 4 must list ' -OkPrefix 'github-copilot.md high rank 4 lists ' -Needles @(
+            '| 4 | Anthropic | Claude Opus 5.5 | ceiling after Gemini 4 Argon is insufficient |'
         )
         Test-SectionLists -Section $mid -FailPrefix 'github-copilot.md mid rank 2 must list ' -OkPrefix 'github-copilot.md mid rank 2 lists ' -Needles @(
             '| 2 | OpenAI | GPT-6 Sol | when Terra is absent |'
@@ -963,15 +971,26 @@ function Test-PromotedGpt61Sol {
             '| 2 | OpenAI | GPT-6.1 Sol | `gpt-6.1-sol`, `gpt-6-sol` |'
         )
         Test-SectionOmits -Section $high -Needle '| GPT-6 Sol |' -FailLabel 'general.md high still prefers GPT-6 Sol' -OkLabel 'general.md high does not prefer GPT-6 Sol'
+        Test-SectionLists -Section $high -FailPrefix 'general.md high rank 5 must list ' -OkPrefix 'general.md high rank 5 lists ' -Needles @(
+            '| 5 | Google | Gemini 4 Argon | `gemini-4-argon` |'
+        )
+        Test-SectionLists -Section $high -FailPrefix 'general.md high rank 6 must list ' -OkPrefix 'general.md high rank 6 lists ' -Needles @(
+            '| 6 | Anthropic | Claude Opus 5.5 | `claude-opus-5-5`, `claude-opus-5` — ceiling; worse efficiency than Grok or GPT-6.1 Sol |'
+        )
         Test-SectionLists -Section $mid -FailPrefix 'general.md mid rank 2 must list ' -OkPrefix 'general.md mid rank 2 lists ' -Needles @(
             '| 2 | OpenAI | GPT-6 Sol | `gpt-6-sol` |'
         )
+        Test-SectionLists -Section $mid -FailPrefix 'general.md mid rank 3 must list ' -OkPrefix 'general.md mid rank 3 lists ' -Needles @(
+            '| 3 | Google | Gemini 3.8 Flash | `gemini-3.8-flash`, `gemini-3.6-flash` |'
+        )
+        Test-FileContains -Path (Join-Path $PlatformsDir "general.md") -Needle 'Do not start on Gemini 4 Argon, GPT-6 Astra, or Opus' -Label 'general.md does not start on the Argon ceiling'
     }
 
     $indexPath = Join-Path $ConceptsDir "PLATFORM-CATALOGS.md"
     $indexText = Get-CatalogText -Path $indexPath
     if ($null -ne $indexText) {
         Test-FileContains -Path $indexPath -Needle 'Sol** (`gpt-6.1-sol`)' -Label 'PLATFORM-CATALOGS.md efficient OpenAI pick is gpt-6.1-sol'
+        Test-FileContains -Path $indexPath -Needle 'Gemini 4 Argon** (`gemini-4-argon`) is the preferred capability ceiling' -Label 'PLATFORM-CATALOGS.md preferred ceiling is gemini-4-argon'
         Test-SectionOmits -Section $indexText -Needle 'Sol** (`gpt-6-sol`)' -FailLabel 'PLATFORM-CATALOGS.md still names gpt-6-sol as the efficient OpenAI pick' -OkLabel 'PLATFORM-CATALOGS.md does not name gpt-6-sol as the efficient OpenAI pick'
     }
 
@@ -980,6 +999,14 @@ function Test-PromotedGpt61Sol {
         $untouchedText = Get-CatalogText -Path $untouchedPath
         if ($null -ne $untouchedText) {
             Test-SectionOmits -Section $untouchedText -Needle 'gpt-6.1-sol' -FailLabel "$untouched must not gain gpt-6.1-sol" -OkLabel "$untouched does not list gpt-6.1-sol"
+        }
+    }
+
+    foreach ($closed in @('cursor.md', 'claude-code.md', 'codex.md')) {
+        $closedPath = Join-Path $PlatformsDir $closed
+        $closedText = Get-CatalogText -Path $closedPath
+        if ($null -ne $closedText) {
+            Test-SectionOmits -Section $closedText -Needle 'gemini-4-argon' -FailLabel "$closed must not gain gemini-4-argon" -OkLabel "$closed does not list gemini-4-argon"
         }
     }
 }
