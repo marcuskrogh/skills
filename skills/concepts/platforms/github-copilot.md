@@ -11,8 +11,9 @@ an explicit catalog slug on every spawn of every type. Never omit `model` and
 never pass `inherit` — omission lets the platform pick an off-catalog default.
 
 **Cost split:** Luna for Routine; Terra / Sol for Moderate; Grok for Demanding.
-Opus 5.5 and GPT-6 Astra are capability ceilings: choose one only after Grok
-or GPT-6.1 Sol is insufficient on the same package.
+Gemini 4 Argon is the preferred capability ceiling. Opus 5.5 and GPT-6 Astra
+remain ceilings: choose one only after Grok or GPT-6.1 Sol is insufficient on
+the same package.
 
 **Harness enum.** Pass a slug from the ranked rows below that the harness
 accepts. If no catalog slug is in the enum, keep the work on the manager.
@@ -23,7 +24,8 @@ accepts. If no catalog slug is in the enum, keep the work on the manager.
 |------|----------|-------|--------|
 | 1 | xAI | Grok 4.7 | efficient frontier pick |
 | 2 | OpenAI | GPT-6.1 Sol | efficient OpenAI demanding pick |
-| 3 | Anthropic | Claude Opus 5.5 | ceiling after Grok or GPT-6.1 Sol is insufficient |
+| 3 | Google | Gemini 4 Argon | preferred ceiling (`gemini-4-argon`) |
+| 4 | Anthropic | Claude Opus 5.5 | ceiling after Gemini 4 Argon is insufficient |
 
 ## Mid-capability (ranked)
 

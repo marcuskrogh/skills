@@ -15,8 +15,9 @@ Hard exclusions (Fable 5, Haiku) live in the catalog index.
 | 2 | OpenAI | GPT-6.1 Sol | `gpt-6.1-sol`, `gpt-6-sol` |
 | 3 | DeepSeek | DeepSeek V4-Pro | `deepseek-v4-pro`, `deepseek-chat` Pro equivalent |
 | 4 | Z.ai | GLM-5.3 | `glm-5.3`, `glm-5.2` |
-| 5 | Anthropic | Claude Opus 5.5 | `claude-opus-5-5`, `claude-opus-5` — ceiling; worse efficiency than Grok or GPT-6.1 Sol |
-| 6 | Moonshot | Kimi K3 | `kimi-k3`, `kimi-k3-high`, K2.6 if K3 unavailable |
+| 5 | Google | Gemini 4 Argon | `gemini-4-argon` |
+| 6 | Anthropic | Claude Opus 5.5 | `claude-opus-5-5`, `claude-opus-5` — ceiling; worse efficiency than Grok or GPT-6.1 Sol |
+| 7 | Moonshot | Kimi K3 | `kimi-k3`, `kimi-k3-high`, K2.6 if K3 unavailable |
 
 ## Mid-capability (ranked)
 
@@ -41,7 +42,7 @@ Hard exclusions (Fable 5, Haiku) live in the catalog index.
 ## Selection notes
 
 1. Walk the category top-down; use the first model the harness exposes.
-2. Do not start on GPT-6 Astra or Opus when Grok, GPT-6.1 Sol, or Terra is available. Astra (`gpt-6-astra`) only after `gpt-6.1-sol` is insufficient. `gpt-6-sol` is the prior slug on that high row.
+2. Do not start on Gemini 4 Argon, GPT-6 Astra, or Opus when Grok, GPT-6.1 Sol, or Terra is available. Astra (`gpt-6-astra`) only after `gpt-6.1-sol` is insufficient. `gpt-6-sol` is the prior slug on that high row.
 3. If low has no row, use top mid for Routine, then escalate to high on failure.
 4. One available model for the whole session → use it for manager and workers;
    still record difficulty.
