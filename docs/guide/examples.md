@@ -19,7 +19,7 @@ You want this skills set in another project.
 
 If you instead run `npx skills add marcuskrogh/skills`, the skill tree is installed but the prefer-workflow `AGENTS.md` block is **not** written unless you add it. That limitation is stated in agent-install.md.
 
-More snippets: [Install in more depth](install.md) and the [front page](../../README.md).
+More snippets: [Install](install.md). The [front page](../../README.md#install) has the short install only.
 
 ## You only want the map
 
@@ -173,4 +173,4 @@ If you wanted the agent to install for you, that is `/manage-skills` / the agent
 
 - [Workflows](workflows.md)
 - [Skills](skills.md)
-- [Install in more depth](install.md)
+- [Install](install.md)

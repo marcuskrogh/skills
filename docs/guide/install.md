@@ -1,8 +1,8 @@
-# Install in more depth
+# Install
 
-Install paths, wiring, first use, and author setup. Canonical procedure: [`agent-install.md`](../../skills/manage-skills/agent-install.md). Also [`manage-skills`](../../skills/manage-skills/SKILL.md) and [`setup`](../../skills/setup/SKILL.md).
+The rest of install. The [front page](../../README.md#install) has the preferred prompt, the `curl` command, the four paths to commit, and the two confirm checks. This page has pinning, other install paths, updates, first use, and author setup.
 
-The [front page](../../README.md) already has the complete install guide. This page adds first-use, workspace, tracker credentials, pinning notes, and author-machine detail.
+Canonical procedure: [`agent-install.md`](../../skills/manage-skills/agent-install.md). Also [`manage-skills`](../../skills/manage-skills/SKILL.md) and [`setup`](../../skills/setup/SKILL.md).
 
 ## Which path to pick
 
@@ -14,11 +14,41 @@ The [front page](../../README.md) already has the complete install guide. This p
 | Claude Code plugin | `claude plugin marketplace add` then `claude plugin install` |
 | You author this skills repo on your machine | `.\scripts\setup.ps1` |
 
-Do not invent an alternate copy tree. Agents must not freestyle installs.
+Do not invent an alternate copy tree. Agents follow [`agent-install.md`](../../skills/manage-skills/agent-install.md).
 
-## What agent-from-git writes
+## Agent-from-git
 
-From agent-install.md (do not reimplement):
+Paste this in the consuming repository:
+
+```text
+Install marcuskrogh/skills into this repository from git using the canonical
+installer. Do not use another install method.
+
+1. From the project root, run exactly:
+   curl -fsSL https://raw.githubusercontent.com/marcuskrogh/skills/main/scripts/install-from-git.sh | bash
+2. If curl|bash is unavailable: shallow-clone
+   https://github.com/marcuskrogh/skills.git at ref main into a temp dir, then
+   run: bash <clone>/scripts/install-from-git.sh
+3. Commit the paths the script lists (.agents/skills/, AGENTS.md, CLAUDE.md,
+   .cursor/rules/github-skills.mdc).
+4. Confirm .agents/skills/.skills-version exists and
+   .agents/skills/workflows/SKILL.md is present.
+```
+
+Or run the script yourself from the consuming project root:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/marcuskrogh/skills/main/scripts/install-from-git.sh | bash
+```
+
+If `curl | bash` is unavailable:
+
+```bash
+git clone --depth 1 https://github.com/marcuskrogh/skills.git /tmp/marcuskrogh-skills
+bash /tmp/marcuskrogh-skills/scripts/install-from-git.sh
+```
+
+From [`agent-install.md`](../../skills/manage-skills/agent-install.md):
 
 | Step | Result |
 |------|--------|
@@ -26,19 +56,39 @@ From agent-install.md (do not reimplement):
 | Replace `.agents/skills/` | Every `skills/*/SKILL.md` folder plus `concepts/` |
 | Write `.agents/skills/.skills-version` | `repo`, `ref`, `sha`, `synced_at`, `method=install-from-git` |
 | Upsert marked block in `AGENTS.md` | `<!-- marcuskrogh/skills:begin -->` … `end` |
-| Wire `CLAUDE.md` | Symlink → `AGENTS.md` when absent; else same block |
+| Wire `CLAUDE.md` | Symlink to `AGENTS.md` when absent; else the same block |
 | Write `.cursor/rules/github-skills.mdc` | Prefer-workflow Cursor rule plus language extract |
 
-When the script file lives inside a marcuskrogh/skills checkout, that checkout is used **only if** its `HEAD` already matches `SKILLS_REF`. Otherwise the installer fetches `SKILLS_REF` into the cache so pins are not silently ignored. For uncommitted or PR-branch testing, set `SKILLS_SOURCE` to that checkout.
+When the script file lives inside a marcuskrogh/skills checkout, that checkout is used only if its `HEAD` already matches `SKILLS_REF`. Otherwise the installer fetches `SKILLS_REF` into the cache so pins are not silently ignored. For uncommitted or pull-request-branch testing, set `SKILLS_SOURCE` to that checkout.
 
-## npx aftercare
+Commit these paths in the consuming repo:
 
-`npx` does not write the prefer-workflow `AGENTS.md` block or Cursor rule. After an npx-only install, either:
+```text
+.agents/skills/
+AGENTS.md
+CLAUDE.md
+.cursor/rules/github-skills.mdc
+```
 
-1. Run `install-from-git.sh` (replaces the skill tree and wires pointers), or
-2. Copy the marked block from `templates/agent-install/AGENTS.block.md` into `AGENTS.md` manually.
+Confirm:
 
-Language rules only apply when that block (or the Cursor rule) is present.
+```bash
+test -f .agents/skills/.skills-version
+test -f .agents/skills/workflows/SKILL.md
+test -d .agents/skills/concepts
+grep -q 'marcuskrogh/skills:begin' AGENTS.md
+```
+
+### Environment variables
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `PROJECT_ROOT` | cwd | Consuming repo root |
+| `SKILLS_REF` | `main` | Branch, tag, or commit |
+| `SKILLS_REPO` | `https://github.com/marcuskrogh/skills.git` | Source remote |
+| `SKILLS_CACHE` | `/tmp/marcuskrogh-skills` | Clone cache |
+| `SKIP_POINTERS` | unset | Set `1` to skip `AGENTS.md` / Cursor wiring |
+| `SKILLS_SOURCE` | unset | Use an existing checkout as-is (ignores `SKILLS_REF`; for local testing) |
 
 ## Pinning
 
@@ -48,16 +98,58 @@ SKILLS_REF=<tag-or-sha> bash .agents/sync-skills.sh
 SKILLS_REF=main bash /path/to/install-from-git.sh
 ```
 
-The README uses `v1.2.0` only as syntax. This repository's tags are not listed here. Check GitHub tags or use a full SHA. If a pin fails, `install-from-git.sh` dies with `could not fetch ref`.
+`v1.2.0` is only an example of the pin syntax:
+
+```bash
+SKILLS_REF=v1.2.0 bash /path/to/install-from-git.sh
+SKILLS_REF=<full-sha> bash /path/to/install-from-git.sh
+```
+
+Use a tag or SHA that exists on this repository. This page does not claim a specific release exists. Check GitHub tags or use a full SHA. If a pin fails, `install-from-git.sh` dies with `could not fetch ref`.
 
 If the project already has an older `.agents/sync-skills.sh`, refresh it from this repo first (re-run `setup-project-sync.ps1` or copy `templates/project-sync/sync-skills.sh`), then sync. Older scripts only `git pull` and may not advance cleanly or write a version stamp.
 
+## skills.sh (`npx`)
+
+```bash
+npx skills add marcuskrogh/skills
+```
+
+Non-interactive (CI, or an agent that was asked for npx):
+
+```bash
+npx skills add marcuskrogh/skills --all -y
+```
+
+`npx` does not write the prefer-workflow `AGENTS.md` block or the Cursor rule. After an npx-only install, either run `install-from-git.sh` (replaces the skill tree and wires pointers), or copy the marked block from `templates/agent-install/AGENTS.block.md` into `AGENTS.md` manually. Language rules apply when that block or the Cursor rule is present.
+
+## Claude Code plugin
+
+```bash
+claude plugin marketplace add marcuskrogh/skills
+claude plugin install marcus-skills@marcuskrogh
+```
+
+## Updating an existing install
+
+How to advance an existing install: [`manage-skills`](../../skills/manage-skills/SKILL.md) (Updating an existing install).
+
+| How skills were installed | Update to latest `main` |
+|---------------------------|-------------------------|
+| Agent-from-git (`install-from-git.sh`) | Re-run the same script (or the agent prompt), then commit |
+| skills.sh (project or global) | `npx skills update -y`, or `npx skills add marcuskrogh/skills -y` |
+| Startup sync (`.agents/sync-skills.sh`) | `SKILLS_REF=main bash .agents/sync-skills.sh` |
+| Copied via `install-to-project.ps1` | Re-run that script from an up-to-date clone, then commit `.agents/skills/` |
+| Claude plugin | Update or reinstall the plugin after we ship on `main` |
+
+After agent-from-git, startup sync, or `install-to-project`, check `.agents/skills/.skills-version` for `repo`, `ref`, and `sha`.
+
 ## First use after install
 
-1. Open the consuming project in the harness.
+1. Open the consuming project in Cursor, Claude Code, Codex, Copilot, or another compatible harness.
 2. Confirm `.agents/skills/workflows/SKILL.md` exists.
 3. If neither `docs/agents/WORKSPACE.md` nor `~/.agents/WORKSPACE.md` exists, run `/setup` before delivery work. Pipeline skills stop and ask for setup when neither layer resolves (unless you explicitly say to proceed with defaults, in which case setup still writes a workspace file before creating issues). See [`setup/format.md`](../../skills/setup/format.md).
-4. Describe work, or `/help` for the map.
+4. Describe the work, or say `/help` if you only want the map. What happens next is on the [front page](../../README.md#what-it-does).
 
 ### Workspace scopes
 
@@ -70,13 +162,13 @@ If the project already has an older `.agents/sync-skills.sh`, refresh it from th
 
 Resolution order is in [`setup/format.md`](../../skills/setup/format.md). Repository fields override global fields one by one. Language is not a workspace field. A repo install writes the language extract into `AGENTS.md`, `CLAUDE.md`, and `.cursor/rules/github-skills.mdc`.
 
-Global scope plus `Artifact location: external` runs the pipeline without adding agent files to a consuming repo. Artifact full content is pushed into the tracker issue. Only the code change lands in the repo, on the Task's delivery branch/PR.
+Global scope plus artifact location `external` writes pipeline artifacts under the external artifact root and pushes their full content into the tracker issue. The sandbox isolation tree (default `sandbox/`) stays on the delivery branch. `SANDBOX.md` follows the artifact location. See [`setup/format.md`](../../skills/setup/format.md).
 
 ### Tracker credentials
 
 `/setup` writes provider fields into `WORKSPACE.md`. Two source files list credentials. They do not use the same names.
 
-README table:
+Published credential list:
 
 | Provider | Needs |
 |----------|-------|
@@ -94,18 +186,24 @@ README table:
 | github | Repo (`owner/name`, default current `gh` repo), Labels |
 | linear | Team key, API (Linear MCP or `LINEAR_API_KEY`), optional Project |
 
-This page does not invent a mapping from README's `JIRA_BASE_URL` to format.md's Site. Use format.md when filling `WORKSPACE.md`. Use the README table as the published credential list. If setup asks for Site, that is the workspace field.
+This page does not invent a mapping from `JIRA_BASE_URL` to format.md's Site. Use format.md when filling `WORKSPACE.md`. Use the published credential list above for what each provider needs. If setup asks for Site, that is the workspace field.
 
-`review` and `ship` also need an authenticated `gh` CLI for pull requests.
+`review` and `ship` need an authenticated `gh` CLI and tracker auth.
 
 ## Author machine (this repository)
+
+For people who edit this repository, not for consuming-project install:
+
+```powershell
+.\scripts\setup.ps1
+```
+
+The path in manage-skills is an example. Use your clone path:
 
 ```powershell
 cd D:\code\skills
 .\scripts\setup.ps1
 ```
-
-The path `D:\code\skills` is the example in manage-skills. Use your clone path.
 
 What `setup.ps1` does:
 
@@ -124,6 +222,15 @@ After every skill change:
 
 Creating a new skill or concept: checklist in [`manage-skills`](../../skills/manage-skills/SKILL.md). Writing rules: [`writing-for-agents`](../../skills/writing-for-agents/SKILL.md).
 
+Workflow for skill changes in this repo:
+
+1. Edit `skills/<name>/` or `skills/concepts/`.
+2. `.\scripts\validate-skills.ps1`
+3. `.\scripts\sync-local.ps1 -Prune`
+4. `git commit` / `git push`
+
+Use `/manage-skills` for the full checklist.
+
 ## Copied install (`install-to-project.ps1`)
 
 Copies skills into a project's `.agents/skills`. Prefer agent-from-git when an agent can install. To update a copied install: re-run the script from an up-to-date clone of this repo, then commit `.agents/skills/`.
@@ -131,13 +238,23 @@ Copies skills into a project's `.agents/skills`. Prefer agent-from-git when an a
 ## Project sync on Cursor Cloud
 
 ```powershell
+.\scripts\setup-project-sync.ps1 -ProjectPath C:\path\to\repo
+```
+
+Writes `.agents/sync-skills.sh` and gitignores `.agents/skills/`. For Cursor Cloud, also pass `-WireCursorCloud` so install and start both sync:
+
+```powershell
 .\scripts\setup-project-sync.ps1 -ProjectPath C:\path\to\repo -WireCursorCloud
 ```
 
-`-WireCursorCloud` writes `.cursor/environment.json` so **install** and **start** both run `.agents/sync-skills.sh`. Install alone can be snapshotted stale. Default `SKILLS_REF` is `main`.
+`-WireCursorCloud` writes `.cursor/environment.json` so install and start both run `.agents/sync-skills.sh`. Install alone can be snapshotted stale. Default `SKILLS_REF` is `main`.
+
+## Scripts
+
+The script list and the template files live in [Structure](structure.md#scripts).
 
 ## Related pages
 
-- [Front page install](../../README.md#install)
+- [Front page](../../README.md#install)
 - [Structure](structure.md)
 - [Examples](examples.md#install-into-a-consuming-repo)
