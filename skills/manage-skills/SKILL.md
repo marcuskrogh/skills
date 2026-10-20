@@ -25,10 +25,10 @@ zero-deviation agent-from-git procedure; keep `npx` as the supported CLI path.
 |----------|------|
 | `skills/` in this repo | **Edit here** — git source of truth (Agent Skills layout) |
 | `skills/concepts/` | **Uninvokable concepts** (`CONCEPT_*.md`) + disclosed refs (e.g. `PLATFORM-CATALOGS.md`) — synced as sibling `concepts/` |
-| `~/.agents/skills/` | Shared / standard global mirror — sync only |
-| `~/.claude/skills/`, `~/.codex/skills/`, `~/.copilot/skills/`, `~/.cursor/skills/` | Per-harness global mirrors — sync only |
-| `~/.claude/CLAUDE.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | Global language extract — written by `sync-local` |
-| Project `.agents/skills/` | Per-project install (agent-from-git and skills.sh default) |
+| `~/.claude/skills/`, `~/.codex/skills/`, `~/.copilot/skills/`, `~/.cursor/skills/` | Global skill folder for that harness only. `sync-local` writes the applied harness, not the others |
+| `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.copilot/copilot-instructions.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | Global instruction file for that harness. Written only when that harness is applied |
+| Project `.agents/skills/` | Project skill folder for Cursor, Codex, and Copilot |
+| Project `.claude/skills/` | Project skill folder for Claude Code |
 | `.claude-plugin/` | Optional Claude Code marketplace manifests |
 
 Ownership and shapes: [writing-for-agents](../writing-for-agents/SKILL.md).
@@ -50,9 +50,12 @@ invariants in [agent-install.md](agent-install.md). Mechanical entrypoint:
 curl -fsSL https://raw.githubusercontent.com/marcuskrogh/skills/main/scripts/install-from-git.sh | bash
 ```
 
-Installs `.agents/skills/` (skills + `concepts/`), writes `.skills-version`, and
-wires `AGENTS.md` / `CLAUDE.md` / `.cursor/rules/github-skills.mdc` (prefer-workflow
-plus the language extract). Agents must not freestyle an alternate copy layout.
+Installs the skill tree for the applied harness only, writes `.skills-version`,
+and appends the routing instruction to that harness's instruction file. Cursor
+gets `AGENTS.md` and `.cursor/rules/github-skills.mdc`. Claude Code gets
+`CLAUDE.md`. Codex gets `AGENTS.md`. Copilot gets
+`.github/copilot-instructions.md`. Set `SKILLS_HARNESS` when the running
+process is not that harness. Agents must not freestyle an alternate copy layout.
 
 **skills.sh / npx (also supported):**
 

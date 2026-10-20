@@ -1,4 +1,6 @@
 <!-- marcuskrogh/skills:begin -->
+**Route to a workflow.** When these skills are installed, route every request through the catalog workflow unless the user explicitly says to skip that routing, or the request is obviously outside what these skills apply to. Invoke [`~/.claude/skills/workflows/SKILL.md`](~/.claude/skills/workflows/SKILL.md). **Front doors:** foggy → explore; concrete → define. Define interviews for alignment, then classifies and binds a workflow. A short description starts that interview; it does not approve the plan. Skills do not name the next skill; the bound workflow writes persisted **Next**. Follow that cue. A reply that finishes a skill ends with the exact `## Next` block (`/<skill> <KEY>` — why). An open alignment question does not include that block. Do not freestyle coding or ad-hoc planning when a catalog workflow fits.
+
 **Claude Code models (catalog-closed).** On Claude Code, every sub-agent spawn
 must pass an explicit `model` slug from the subscription allowlist only:
 `claude-sonnet-5-5` (Routine / Moderate) or `claude-opus-5-5` (Demanding /

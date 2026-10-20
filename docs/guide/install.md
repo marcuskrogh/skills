@@ -25,20 +25,20 @@ From agent-install.md (do not reimplement):
 | Fetch `SKILLS_REF` (default `main`) from `SKILLS_REPO` | Cache under `/tmp/marcuskrogh-skills` (or use the clone that contains the script) |
 | Replace `.agents/skills/` | Every `skills/*/SKILL.md` folder plus `concepts/` |
 | Write `.agents/skills/.skills-version` | `repo`, `ref`, `sha`, `synced_at`, `method=install-from-git` |
-| Upsert marked block in `AGENTS.md` | `<!-- marcuskrogh/skills:begin -->` … `end` |
-| Wire `CLAUDE.md` | Symlink → `AGENTS.md` when absent; else same block |
-| Write `.cursor/rules/github-skills.mdc` | Prefer-workflow Cursor rule plus language extract |
+| Resolve applied harness | `SKILLS_HARNESS`, else the harness running the script |
+| Install skill tree | Only that harness's folder (`.agents/skills/` or, for Claude Code, `.claude/skills/`) |
+| Append routing instruction | Only that harness's file. Copilot: `.github/copilot-instructions.md` |
 
 When the script file lives inside a marcuskrogh/skills checkout, that checkout is used **only if** its `HEAD` already matches `SKILLS_REF`. Otherwise the installer fetches `SKILLS_REF` into the cache so pins are not silently ignored. For uncommitted or PR-branch testing, set `SKILLS_SOURCE` to that checkout.
 
 ## npx aftercare
 
-`npx` does not write the prefer-workflow `AGENTS.md` block or Cursor rule. After an npx-only install, either:
+`npx` does not write the routing instruction. After an npx-only install, either:
 
-1. Run `install-from-git.sh` (replaces the skill tree and wires pointers), or
-2. Copy the marked block from `templates/agent-install/AGENTS.block.md` into `AGENTS.md` manually.
+1. Run `install-from-git.sh` with `SKILLS_HARNESS` set to the harness in use, or
+2. Copy that harness's block from `templates/agent-install/` into its instruction file.
 
-Language rules only apply when that block (or the Cursor rule) is present.
+Do not add a Claude, Cursor, Codex, or Copilot file for a harness the project is not using.
 
 ## Pinning
 
@@ -68,7 +68,7 @@ If the project already has an older `.agents/sync-skills.sh`, refresh it from th
 | repository | `docs/agents/WORKSPACE.md` | Yes | That repo and its collaborators |
 | global | `~/.agents/WORKSPACE.md` | Never | Every repo on this machine |
 
-Resolution order is in [`setup/format.md`](../../skills/setup/format.md). Repository fields override global fields one by one. Language is not a workspace field. A repo install writes the language extract into `AGENTS.md`, `CLAUDE.md`, and `.cursor/rules/github-skills.mdc`.
+Resolution order is in [`setup/format.md`](../../skills/setup/format.md). Repository fields override global fields one by one. Language is not a workspace field. A repo install writes the language extract into the applied harness's instruction file only.
 
 Global scope plus `Artifact location: external` runs the pipeline without adding agent files to a consuming repo. Artifact full content is pushed into the tracker issue. Only the code change lands in the repo, on the Task's delivery branch/PR.
 

@@ -1,25 +1,19 @@
-# Sync skills from this repo to local agent skill directories.
-# Usage: .\scripts\sync-local.ps1 [-Prune] [-Link]
+# Sync skills from this repo to the applied harness only.
+# Usage: .\scripts\sync-local.ps1 [-Prune] [-Link] [-Harness cursor]
 #
-# Default targets are common Agent Skills home dirs across popular harnesses.
-# Override with -Targets. For project installs, prefer agent-from-git:
+# -Harness or SKILLS_HARNESS selects the harness. When both are absent, detect
+# the harness that is running this script. Skill folders, instruction files, and
+# rules are written only for that harness.
+#
+# For project installs, prefer agent-from-git:
 #   bash scripts/install-from-git.sh
 # Also supported: npx skills add marcuskrogh/skills
-#
-# Always syncs skills/*/ (with SKILL.md) and skills/concepts/ as sibling folders.
-# Also upserts the language extract into ~/.claude/CLAUDE.md and
-# ~/.cursor/rules/marcuskrogh-skills.mdc.
 
 param(
     [switch]$Prune,
     [switch]$Link,
-    [string[]]$Targets = @(
-        (Join-Path $env:USERPROFILE ".agents\skills"),
-        (Join-Path $env:USERPROFILE ".claude\skills"),
-        (Join-Path $env:USERPROFILE ".codex\skills"),
-        (Join-Path $env:USERPROFILE ".copilot\skills"),
-        (Join-Path $env:USERPROFILE ".cursor\skills")
-    )
+    [string]$Harness = "",
+    [string[]]$Targets = @()
 )
 
 $ErrorActionPreference = "Stop"
@@ -43,6 +37,53 @@ if ($skillDirs.Count -eq 0) {
 if (-not (Test-Path $ConceptsSource)) {
     Write-Error "Concepts directory not found: $ConceptsSource"
 }
+
+function Resolve-AppliedHarnesses {
+    param([string]$Explicit)
+
+    $raw = $Explicit
+    if ([string]::IsNullOrWhiteSpace($raw)) { $raw = $env:SKILLS_HARNESS }
+    $found = @()
+    if (-not [string]::IsNullOrWhiteSpace($raw)) {
+        foreach ($item in ($raw -split '[,\s]+')) {
+            $name = $item.Trim().ToLowerInvariant()
+            if ($name -eq "") { continue }
+            if ($name -eq "all") {
+                Write-Error "SKILLS_HARNESS=all is refused. Name only the harnesses that should receive files (cursor, claude, codex, copilot)."
+            }
+            if ($name -notin @("cursor", "claude", "codex", "copilot")) {
+                Write-Error "Unknown harness '$name'. Use cursor, claude, codex, or copilot."
+            }
+            if ($name -notin $found) { $found += $name }
+        }
+    } else {
+        if ($env:CURSOR_AGENT) { $found += "cursor" }
+        if ($env:CLAUDE_CODE -or $env:CLAUDECODE -or $env:CLAUDE_CODE_ENTRYPOINT) { $found += "claude" }
+        if ($env:CODEX_THREAD_ID -or $env:CODEX_SANDBOX -or $env:CODEX_CI) { $found += "codex" }
+        if ($env:COPILOT_AGENT -or $env:GITHUB_COPILOT -or $env:COPILOT_CLI) { $found += "copilot" }
+    }
+    if ($found.Count -eq 0) {
+        Write-Error "No applied harness. Set -Harness or SKILLS_HARNESS=cursor|claude|codex|copilot. Refusing to write skill folders, instruction files, or rules for harnesses that are not in use."
+    }
+    return $found
+}
+
+function Get-GlobalSkillsDir {
+    param([string]$Id)
+    switch ($Id) {
+        "claude" { return (Join-Path $env:USERPROFILE ".claude\skills") }
+        "cursor" { return (Join-Path $env:USERPROFILE ".cursor\skills") }
+        "codex" { return (Join-Path $env:USERPROFILE ".codex\skills") }
+        "copilot" { return (Join-Path $env:USERPROFILE ".copilot\skills") }
+        default { Write-Error "Unknown harness '$Id'" }
+    }
+}
+
+$applied = @(Resolve-AppliedHarnesses -Explicit $Harness)
+if ($Targets.Count -eq 0) {
+    $Targets = @($applied | ForEach-Object { Get-GlobalSkillsDir $_ })
+}
+Write-Host "Applied harness: $($applied -join ', ')"
 
 function Sync-Item {
     param(
@@ -154,23 +195,41 @@ function Upsert-MarkedBlock {
 }
 
 Write-Host ""
-Write-Host "Wiring global language pointers..."
+Write-Host "Wiring instruction files for: $($applied -join ', ')"
 $tpl = Join-Path $RepoRoot (Join-Path "templates" "agent-install")
-$claudeBlock = Join-Path $tpl "global-CLAUDE.block.md"
-$cursorRule = Join-Path $tpl "global-cursor-language.mdc"
-if (Test-Path $claudeBlock) {
-  Upsert-MarkedBlock -DestPath (Join-Path $env:USERPROFILE ".claude\CLAUDE.md") -BlockPath $claudeBlock
-} else {
-  Write-Host "WARN: missing $claudeBlock"
-}
-if (Test-Path $cursorRule) {
-  $cursorRulesDir = Join-Path $env:USERPROFILE ".cursor\rules"
-  New-Item -ItemType Directory -Force -Path $cursorRulesDir | Out-Null
-  $cursorDest = Join-Path $cursorRulesDir "marcuskrogh-skills.mdc"
-  Copy-Item -Path $cursorRule -Destination $cursorDest -Force
-  Write-Host "Wrote $cursorDest"
-} else {
-  Write-Host "WARN: missing $cursorRule"
+foreach ($id in $applied) {
+  switch ($id) {
+    "cursor" {
+      $cursorRule = Join-Path $tpl "global-cursor-language.mdc"
+      if (-not (Test-Path $cursorRule)) { Write-Error "Missing $cursorRule" }
+      $cursorRulesDir = Join-Path $env:USERPROFILE ".cursor\rules"
+      New-Item -ItemType Directory -Force -Path $cursorRulesDir | Out-Null
+      $cursorDest = Join-Path $cursorRulesDir "marcuskrogh-skills.mdc"
+      Copy-Item -Path $cursorRule -Destination $cursorDest -Force
+      Write-Host "Wrote $cursorDest"
+    }
+    "claude" {
+      $claudeBlock = Join-Path $tpl "global-CLAUDE.block.md"
+      if (-not (Test-Path $claudeBlock)) { Write-Error "Missing $claudeBlock" }
+      Upsert-MarkedBlock -DestPath (Join-Path $env:USERPROFILE ".claude\CLAUDE.md") -BlockPath $claudeBlock
+    }
+    "codex" {
+      $src = Join-Path $tpl (Join-Path "harness" "codex.md")
+      if (-not (Test-Path $src)) { Write-Error "Missing $src" }
+      $rendered = Join-Path ([System.IO.Path]::GetTempPath()) ("codex-instructions-" + [guid]::NewGuid().ToString() + ".md")
+      (Get-Content -Path $src -Raw).Replace("__SKILLS__", "~/.codex/skills") | Set-Content -Path $rendered -NoNewline
+      Upsert-MarkedBlock -DestPath (Join-Path $env:USERPROFILE ".codex\AGENTS.md") -BlockPath $rendered
+      Remove-Item $rendered -Force
+    }
+    "copilot" {
+      $src = Join-Path $tpl (Join-Path "harness" "copilot.md")
+      if (-not (Test-Path $src)) { Write-Error "Missing $src" }
+      $rendered = Join-Path ([System.IO.Path]::GetTempPath()) ("copilot-instructions-" + [guid]::NewGuid().ToString() + ".md")
+      (Get-Content -Path $src -Raw).Replace("__SKILLS__", "~/.copilot/skills") | Set-Content -Path $rendered -NoNewline
+      Upsert-MarkedBlock -DestPath (Join-Path $env:USERPROFILE ".copilot\copilot-instructions.md") -BlockPath $rendered
+      Remove-Item $rendered -Force
+    }
+  }
 }
 
 Write-Host ""

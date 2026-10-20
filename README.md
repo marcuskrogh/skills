@@ -12,7 +12,7 @@ Built on the [Agent Skills](https://agentskills.io) standard. Install via an age
 
 This repository is the source of truth for a set of skills that tell an agent how to take work from a vague idea or a concrete request through definition, architecture, implementation, tests, structure, review, and merge.
 
-Installing it does not start a server. It copies skill files, concepts, and prefer-workflow pointers into a project or into local agent homes so the next chat in that harness follows the catalog.
+Installing it does not start a server. It copies skill files and concepts into the applied harness, and appends a routing instruction to that harness's instruction file, so the next chat in that harness follows the catalog.
 
 ## Intention
 
@@ -65,8 +65,9 @@ installer. Do not use another install method.
 2. If curl|bash is unavailable: shallow-clone
    https://github.com/marcuskrogh/skills.git at ref main into a temp dir, then
    run: bash <clone>/scripts/install-from-git.sh
-3. Commit the paths the script lists (.agents/skills/, AGENTS.md, CLAUDE.md,
-   .cursor/rules/github-skills.mdc).
+3. Commit the paths the script lists. It writes skills and the routing
+   instruction only for the applied harness (`SKILLS_HARNESS`, or the harness
+   that is running the script).
 4. Confirm .agents/skills/.skills-version exists and
    .agents/skills/workflows/SKILL.md is present.
 ```
@@ -84,24 +85,24 @@ git clone --depth 1 https://github.com/marcuskrogh/skills.git /tmp/marcuskrogh-s
 bash /tmp/marcuskrogh-skills/scripts/install-from-git.sh
 ```
 
-The script replaces `.agents/skills/` (all skills plus `concepts/`), stamps `.skills-version`, and wires prefer-workflow pointers in `AGENTS.md`, `CLAUDE.md`, and `.cursor/rules/github-skills.mdc`.
+The script installs skills for the applied harness and appends the routing instruction to that harness's file. It does not create skill folders, instruction files, or rules for the other harnesses.
 
-Commit those paths in the consuming repo:
+| Applied harness | Skill folder | Instruction file |
+|-----------------|--------------|------------------|
+| Cursor | `.agents/skills/` | `AGENTS.md` and `.cursor/rules/github-skills.mdc` |
+| Claude Code | `.claude/skills/` | `CLAUDE.md` |
+| Codex | `.agents/skills/` | `AGENTS.md` |
+| Copilot | `.agents/skills/` | `.github/copilot-instructions.md` |
 
-```text
-.agents/skills/
-AGENTS.md
-CLAUDE.md
-.cursor/rules/github-skills.mdc
-```
-
-Confirm:
+Commit the paths the script prints. For Copilot, confirm:
 
 ```bash
 test -f .agents/skills/.skills-version
 test -f .agents/skills/workflows/SKILL.md
 test -d .agents/skills/concepts
-grep -q 'marcuskrogh/skills:begin' AGENTS.md
+grep -q 'marcuskrogh/skills:begin' .github/copilot-instructions.md
+test ! -e CLAUDE.md
+test ! -e .cursor/rules/github-skills.mdc
 ```
 
 Optional environment variables (from [`agent-install.md`](skills/manage-skills/agent-install.md)):
@@ -112,7 +113,8 @@ Optional environment variables (from [`agent-install.md`](skills/manage-skills/a
 | `SKILLS_REF` | `main` | Branch, tag, or commit |
 | `SKILLS_REPO` | `https://github.com/marcuskrogh/skills.git` | Source remote |
 | `SKILLS_CACHE` | `/tmp/marcuskrogh-skills` | Clone cache |
-| `SKIP_POINTERS` | unset | Set `1` to skip `AGENTS.md` / Cursor wiring |
+| `SKIP_POINTERS` | unset | Set `1` to skip instruction files and rules |
+| `SKILLS_HARNESS` | detected | `cursor`, `claude`, `codex`, and/or `copilot`. Other harnesses are left untouched |
 | `SKILLS_SOURCE` | unset | Use an existing checkout as-is (ignores `SKILLS_REF`; for local testing) |
 
 Pin a version:
@@ -137,7 +139,7 @@ Non-interactive (CI, or an agent that was asked for npx):
 npx skills add marcuskrogh/skills --all -y
 ```
 
-`npx` does not write the prefer-workflow `AGENTS.md` block. Use the agent installer when you want that wiring. After an npx-only install, either run `install-from-git.sh` or copy the marked block from `templates/agent-install/AGENTS.block.md` into `AGENTS.md` manually. Language rules only apply when that block (or the Cursor rule) is present.
+`npx` does not write the routing instruction. Use the agent installer when you want that wiring for the harness you are using. After an npx-only install, run `install-from-git.sh` with `SKILLS_HARNESS` set, or copy that harness's block from `templates/agent-install/` into its instruction file.
 
 ### Optional: Claude Code plugin
 
@@ -195,7 +197,7 @@ Workspace scopes and tracker credentials: [Install in more depth](docs/guide/ins
 |--------|---------|
 | `install-from-git.sh` | Canonical agent/project install from git |
 | `setup.ps1` | Author setup: validate, sync local homes, git hooks |
-| `sync-local.ps1` / `sync-local.sh` | Mirror `skills/` into local agent homes |
+| `sync-local.ps1` / `sync-local.sh` | Mirror `skills/` into the applied harness's home |
 | `install-to-project.ps1` | Copy skills into a project's `.agents/skills` |
 | `validate-skills.ps1` | Frontmatter, naming, plugin.json coverage, concepts |
 | `setup-project-sync.ps1` | Wire startup sync (optional `-WireCursorCloud`) |
