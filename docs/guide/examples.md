@@ -14,10 +14,10 @@ You want this skills set in another project.
 |-|-|
 | You | Paste the prompt in [`agent-install.md`](../../skills/manage-skills/agent-install.md), or run `curl -fsSL https://raw.githubusercontent.com/marcuskrogh/skills/main/scripts/install-from-git.sh \| bash` from that project's root. |
 | Workflow | `/manage-skills` (outside the delivery catalog). Not define. |
-| You should see | `.agents/skills/` replaced, `.skills-version` written, `AGENTS.md` / `CLAUDE.md` / `.cursor/rules/github-skills.mdc` wired. |
+| You should see | The applied harness's skill folder replaced, `.skills-version` written, and that harness's instruction file wired. Other harness folders are untouched. |
 | Next | Commit those paths. In the next chat, describe work or run `/setup` if there is no `WORKSPACE.md`. |
 
-If you instead run `npx skills add marcuskrogh/skills`, the skill tree is installed but the prefer-workflow `AGENTS.md` block is **not** written unless you add it. That limitation is stated in agent-install.md.
+If you instead run `npx skills add marcuskrogh/skills`, the skill tree is installed but the routing instruction is not written unless you add it for the harness in use. That limitation is stated in agent-install.md.
 
 More snippets: [Install in more depth](install.md) and the [front page](../../README.md).
 

@@ -19,8 +19,11 @@
 #   SKILLS_REPO    — git URL (default: https://github.com/marcuskrogh/skills.git)
 #   SKILLS_REF     — branch, tag, or commit (default: main)
 #   SKILLS_CACHE   — clone cache (default: /tmp/marcuskrogh-skills)
-#   SKIP_POINTERS  — if set to 1, skip AGENTS.md / CLAUDE.md / Cursor rule
+#   SKIP_POINTERS  — if set to 1, skip instruction files and rules
 #   SKILLS_SOURCE  — override: path to an already-checked-out skills repo root
+#   SKILLS_HARNESS — cursor, claude, codex, and/or copilot (comma-separated).
+#                    When unset, detect the harness that is running this script.
+#                    Files are written only for those harnesses. "all" is refused.
 set -euo pipefail
 
 SKILLS_REPO="${SKILLS_REPO:-https://github.com/marcuskrogh/skills.git}"
@@ -107,34 +110,35 @@ copy_tree() {
 
 install_skills() {
   local skills_root="$1"
+  local dest_root="$2"
   local source_dir="$skills_root/$SOURCE_REL"
 
   [ -d "$source_dir" ] || die "skills source not found: $source_dir"
   [ -f "$source_dir/workflows/SKILL.md" ] || die "workflows skill missing under $source_dir"
 
-  mkdir -p "$TARGET_DIR"
+  mkdir -p "$dest_root"
   # Replace install tree entirely so stale skills / concepts cannot linger.
-  find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+  find "$dest_root" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
 
   local skill_path name
   for skill_path in "$source_dir"/*; do
     [ -d "$skill_path" ] || continue
     name="$(basename "$skill_path")"
     if [ "$name" = "concepts" ]; then
-      copy_tree "$skill_path" "$TARGET_DIR/"
+      copy_tree "$skill_path" "$dest_root/"
       continue
     fi
     [ -f "$skill_path/SKILL.md" ] || continue
-    copy_tree "$skill_path" "$TARGET_DIR/"
+    copy_tree "$skill_path" "$dest_root/"
   done
 
-  [ -d "$TARGET_DIR/concepts" ] || die "concepts/ missing after install"
-  [ -f "$TARGET_DIR/workflows/SKILL.md" ] || die "workflows/ missing after install"
+  [ -d "$dest_root/concepts" ] || die "concepts/ missing after install"
+  [ -f "$dest_root/workflows/SKILL.md" ] || die "workflows/ missing after install"
 
   local sha short_sha
   sha="$(git -C "$skills_root" rev-parse HEAD 2>/dev/null || true)"
   short_sha="$(git -C "$skills_root" rev-parse --short HEAD 2>/dev/null || echo unknown)"
-  cat > "$TARGET_DIR/.skills-version" <<EOF
+  cat > "$dest_root/.skills-version" <<EOF
 repo=$SKILLS_REPO
 ref=$SKILLS_REF
 sha=$sha
@@ -142,7 +146,7 @@ synced_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 method=install-from-git
 EOF
 
-  echo "Installed skills + concepts → $TARGET_DIR"
+  echo "Installed skills + concepts → $dest_root"
   echo "Version: $SKILLS_REF @ $short_sha ($SKILLS_REPO)"
 }
 
@@ -207,8 +211,7 @@ write_fallback_block() {
   # Keep in sync with templates/agent-install/AGENTS.block.md
   cat > "$1" <<'EOF'
 <!-- marcuskrogh/skills:begin -->
-**Prefer workflow.** When the user describes work to deliver — even without naming
-a skill — invoke [`.agents/skills/workflows/SKILL.md`](.agents/skills/workflows/SKILL.md).
+**Route to a workflow.** When these skills are installed, route every request through the catalog workflow unless the user explicitly says to skip that routing, or the request is obviously outside what these skills apply to. Invoke [`.agents/skills/workflows/SKILL.md`](.agents/skills/workflows/SKILL.md).
 **Front doors:** foggy → explore; concrete → define. Define interviews for
 alignment, then classifies and binds a workflow. A short description starts that
 interview; it does not approve the plan. Skills do not name the next skill; the
@@ -286,66 +289,135 @@ Repo skills: https://github.com/marcuskrogh/skills
 EOF
 }
 
+render_harness_block() {
+  local template="$1"
+  local token="$2"
+  local dest="$3"
+  sed "s|__SKILLS__|${token}|g" "$template" > "$dest"
+}
+
 install_pointers() {
   local skills_root="$1"
+  shift
+  local -a harnesses=("$@")
   local tpl="$skills_root/templates/agent-install"
-  local block_file rule_file
+  local harness token block_file rule_file
+  local -a wrote=()
 
   block_file="$(mktemp)"
   rule_file="$(mktemp)"
-  if [ -f "$tpl/AGENTS.block.md" ]; then
-    cp "$tpl/AGENTS.block.md" "$block_file"
-  else
-    write_fallback_block "$block_file"
-  fi
-  if [ -f "$tpl/github-skills.mdc" ]; then
-    cp "$tpl/github-skills.mdc" "$rule_file"
-  else
-    write_fallback_cursor_rule "$rule_file"
-  fi
 
-  upsert_agents_block "$PROJECT_ROOT/AGENTS.md" "$block_file"
+  for harness in "${harnesses[@]}"; do
+    token="$(harness_skills_token "$harness" project)"
+    case "$harness" in
+      cursor)
+        if [ -f "$tpl/AGENTS.block.md" ]; then
+          cp "$tpl/AGENTS.block.md" "$block_file"
+        else
+          write_fallback_block "$block_file"
+        fi
+        if [ -f "$tpl/github-skills.mdc" ]; then
+          cp "$tpl/github-skills.mdc" "$rule_file"
+        else
+          write_fallback_cursor_rule "$rule_file"
+        fi
+        upsert_agents_block "$PROJECT_ROOT/AGENTS.md" "$block_file"
+        mkdir -p "$PROJECT_ROOT/.cursor/rules"
+        cp "$rule_file" "$PROJECT_ROOT/.cursor/rules/github-skills.mdc"
+        wrote+=("AGENTS.md" ".cursor/rules/github-skills.mdc")
+        ;;
+      claude)
+        if [ -f "$tpl/harness/claude.md" ]; then
+          render_harness_block "$tpl/harness/claude.md" "$token" "$block_file"
+        else
+          die "missing Claude instruction template: $tpl/harness/claude.md"
+        fi
+        local claude="$PROJECT_ROOT/CLAUDE.md"
+        if [ -L "$claude" ]; then
+          rm -f "$claude"
+        fi
+        upsert_agents_block "$claude" "$block_file"
+        wrote+=("CLAUDE.md")
+        ;;
+      codex)
+        if [ -f "$tpl/harness/codex.md" ]; then
+          render_harness_block "$tpl/harness/codex.md" "$token" "$block_file"
+        else
+          die "missing Codex instruction template: $tpl/harness/codex.md"
+        fi
+        upsert_agents_block "$PROJECT_ROOT/AGENTS.md" "$block_file"
+        wrote+=("AGENTS.md")
+        ;;
+      copilot)
+        if [ -f "$tpl/harness/copilot.md" ]; then
+          render_harness_block "$tpl/harness/copilot.md" "$token" "$block_file"
+        else
+          die "missing Copilot instruction template: $tpl/harness/copilot.md"
+        fi
+        mkdir -p "$PROJECT_ROOT/.github"
+        upsert_agents_block "$PROJECT_ROOT/.github/copilot-instructions.md" "$block_file"
+        wrote+=(".github/copilot-instructions.md")
+        ;;
+    esac
+  done
 
-  # CLAUDE.md: symlink to AGENTS.md when absent or already our symlink.
-  local claude="$PROJECT_ROOT/CLAUDE.md"
-  if [ -L "$claude" ] || [ ! -e "$claude" ]; then
-    ln -sfn AGENTS.md "$claude"
-  else
-    upsert_agents_block "$claude" "$block_file"
-  fi
-
-  mkdir -p "$PROJECT_ROOT/.cursor/rules"
-  cp "$rule_file" "$PROJECT_ROOT/.cursor/rules/github-skills.mdc"
   rm -f "$block_file" "$rule_file"
 
-  echo "Wired pointers:"
-  echo "  AGENTS.md"
-  echo "  CLAUDE.md"
-  echo "  .cursor/rules/github-skills.mdc"
+  echo "Wired for: ${harnesses[*]}"
+  printf '  %s\n' "${wrote[@]}"
+  WROTE_PATHS=("${wrote[@]}")
 }
 
 print_commit_hint() {
+  local path
   cat <<EOF
 
 Commit these paths in the consuming repo:
-  .agents/skills/
-  AGENTS.md
-  CLAUDE.md
-  .cursor/rules/github-skills.mdc
+EOF
+  for path in "${WROTE_PATHS[@]}"; do
+    printf '  %s\n' "$path"
+  done
+  cat <<EOF
 
-Done. Prefer workflow is now active via .agents/skills/workflows/.
+Done. Workflow routing is active for the applied harness only.
 EOF
 }
 
 # --- main ---
-[ -d "$PROJECT_ROOT" ] || die "PROJECT_ROOT is not a directory: $PROJECT_ROOT"
-PROJECT_ROOT="$(cd "$PROJECT_ROOT" && pwd)"
-
 SKILLS_ROOT="$(resolve_skills_root)"
 [ -d "$SKILLS_ROOT" ] || die "skills root not found"
 
-install_skills "$SKILLS_ROOT"
+LIB="$SKILLS_ROOT/scripts/lib/harness-install.sh"
+[ -f "$LIB" ] || die "missing $LIB"
+# shellcheck source=lib/harness-install.sh
+source "$LIB"
+
+HARNESSES=()
+while IFS= read -r harness; do
+  [ -n "$harness" ] || continue
+  HARNESSES+=("$harness")
+done < <(harness_resolve) || die "could not resolve applied harness"
+[ "${#HARNESSES[@]}" -gt 0 ] || die "could not resolve applied harness"
+if harness_has cursor "${HARNESSES[@]}" && harness_has codex "${HARNESSES[@]}"; then
+  die "cursor and codex both write AGENTS.md. Install one of them at a time."
+fi
+
+[ -d "$PROJECT_ROOT" ] || die "PROJECT_ROOT is not a directory: $PROJECT_ROOT"
+PROJECT_ROOT="$(cd "$PROJECT_ROOT" && pwd)"
+
+seen_skill_dirs=" "
+WROTE_PATHS=()
+for harness in "${HARNESSES[@]}"; do
+  rel="$(harness_project_skills_rel "$harness")"
+  case "$seen_skill_dirs" in
+    *" $rel "*) continue ;;
+  esac
+  seen_skill_dirs="$seen_skill_dirs$rel "
+  install_skills "$SKILLS_ROOT" "$PROJECT_ROOT/$rel"
+  WROTE_PATHS+=("$rel/")
+done
+
 if [ "$SKIP_POINTERS" != "1" ]; then
-  install_pointers "$SKILLS_ROOT"
+  install_pointers "$SKILLS_ROOT" "${HARNESSES[@]}"
 fi
 print_commit_hint

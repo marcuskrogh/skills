@@ -1,6 +1,5 @@
 <!-- marcuskrogh/skills:begin -->
-**Prefer workflow.** When the user describes work to deliver — even without naming
-a skill — invoke [`.agents/skills/workflows/SKILL.md`](.agents/skills/workflows/SKILL.md).
+**Route to a workflow.** When these skills are installed, route every request through the catalog workflow unless the user explicitly says to skip that routing, or the request is obviously outside what these skills apply to. Invoke [`.agents/skills/workflows/SKILL.md`](.agents/skills/workflows/SKILL.md).
 **Front doors:** foggy → explore; concrete → define. Define interviews for
 alignment, then classifies and binds a workflow. A short description starts that
 interview; it does not approve the plan. Skills do not name the next skill; the

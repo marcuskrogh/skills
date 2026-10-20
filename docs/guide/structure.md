@@ -52,15 +52,7 @@ Disclosed catalogs live beside the concepts: `CLASSIFICATION-CATALOG.md`, `STRUC
 
 ## Always-on pointers (this repo)
 
-A repo install of these skills writes prefer-workflow plus language extracts into:
-
-| File | Role |
-|------|------|
-| `AGENTS.md` | Agent instructions (prefer workflow, language, Cursor models) |
-| `CLAUDE.md` | Same content for Claude Code |
-| `.cursor/rules/github-skills.mdc` | Always-on Cursor rule |
-
-Those files tell the harness to load [`workflows`](../../skills/workflows/SKILL.md) when the operator describes work to deliver.
+This repository is edited in Cursor, so its own pointers are the Cursor files: `AGENTS.md`, `CLAUDE.md` (a symlink to `AGENTS.md`), and `.cursor/rules/github-skills.mdc`. A consuming install does not copy all three. `install-from-git.sh` writes the routing instruction only for the applied harness.
 
 ## `scripts/`
 
@@ -68,7 +60,7 @@ Those files tell the harness to load [`workflows`](../../skills/workflows/SKILL.
 |--------|------------------------------------------|
 | `install-from-git.sh` | Canonical consuming-project install from git |
 | `setup.ps1` | Author setup: validate, sync local homes, git hooks |
-| `sync-local.ps1` / `sync-local.sh` | Mirror `skills/` into local agent homes |
+| `sync-local.ps1` / `sync-local.sh` | Mirror `skills/` into the applied harness's home |
 | `install-to-project.ps1` | Copy skills into a project's `.agents/skills` |
 | `validate-skills.ps1` | Frontmatter, naming, plugin.json coverage, concepts |
 | `setup-project-sync.ps1` | Wire `.agents/sync-skills.sh` (optional `-WireCursorCloud`) |
@@ -80,11 +72,14 @@ Those files tell the harness to load [`workflows`](../../skills/workflows/SKILL.
 
 | Path | Purpose |
 |------|---------|
-| `templates/agent-install/AGENTS.block.md` | Marked prefer-workflow block inserted into consuming `AGENTS.md` |
+| `templates/agent-install/AGENTS.block.md` | Cursor block appended to a consuming `AGENTS.md` |
 | `templates/agent-install/AGENTS.md` | Same block as a standalone file |
 | `templates/agent-install/github-skills.mdc` | Cursor rule copied to `.cursor/rules/github-skills.mdc` |
-| `templates/agent-install/global-CLAUDE.block.md` | Global Claude language extract (written by local sync) |
-| `templates/agent-install/global-cursor-language.mdc` | Global Cursor language extract |
+| `templates/agent-install/harness/claude.md` | Claude Code block appended to `CLAUDE.md` |
+| `templates/agent-install/harness/codex.md` | Codex block appended to `AGENTS.md` |
+| `templates/agent-install/harness/copilot.md` | Copilot block appended to `.github/copilot-instructions.md` or `~/.copilot/copilot-instructions.md` |
+| `templates/agent-install/global-CLAUDE.block.md` | Global Claude instruction (written only for a Claude sync) |
+| `templates/agent-install/global-cursor-language.mdc` | Global Cursor rule (written only for a Cursor sync) |
 | `templates/project-sync/sync-skills.sh` | Startup sync into `.agents/skills/` plus `.skills-version` |
 
 ## `.claude-plugin/`
@@ -114,8 +109,8 @@ From [`manage-skills`](../../skills/manage-skills/SKILL.md):
 |----------|------|
 | `skills/` in this repo | Edit here |
 | `~/.agents/skills/` | Shared global mirror (sync only) |
-| `~/.claude/skills/`, `~/.codex/skills/`, `~/.copilot/skills/`, `~/.cursor/skills/` | Per-harness global mirrors (sync only) |
-| `~/.claude/CLAUDE.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | Global language extract (written by `sync-local`) |
+| `~/.claude/skills/`, `~/.codex/skills/`, `~/.copilot/skills/`, `~/.cursor/skills/` | Global skill folder for that harness. `sync-local` writes only the applied harness |
+| `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.copilot/copilot-instructions.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | Global instruction file for that harness |
 | Project `.agents/skills/` | Per-project install (agent-from-git and skills.sh default) |
 | `.claude-plugin/` | Optional Claude Code marketplace manifests |
 

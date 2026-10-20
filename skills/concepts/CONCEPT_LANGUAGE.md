@@ -74,8 +74,8 @@ glossary.
 
 | Install | Always-on files | Applies to |
 |---------|-----------------|------------|
-| **Repo** | `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/github-skills.mdc` | All operator-directed language in that repo |
-| **Global** | `~/.claude/CLAUDE.md`, `~/.cursor/rules/marcuskrogh-skills.mdc` | All operator-directed language on that machine |
+| **Repo** | The applied harness's instruction file (`AGENTS.md`, `CLAUDE.md`, `.cursor/rules/github-skills.mdc`, or `.github/copilot-instructions.md`) | All operator-directed language in that repo |
+| **Global** | The applied harness's home instruction (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.copilot/copilot-instructions.md`, or `~/.cursor/rules/marcuskrogh-skills.mdc`) | All operator-directed language on that machine |
 
 Always-on extracts **name** this concept and the two disclosed catalogs. They
 may cache two replacements: spell out `GeneralProcessSimulator`; keep

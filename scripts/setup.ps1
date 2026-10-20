@@ -31,13 +31,7 @@ Write-Host "  core.hooksPath = .githooks"
 Write-Host ""
 Write-Host "=== Local setup complete ===" -ForegroundColor Green
 Write-Host ""
-Write-Host "Skills mirrored under ~/.agents/skills (and other detected agent homes)." -ForegroundColor Cyan
-$agentsHome = Join-Path $env:USERPROFILE ".agents\skills"
-if (Test-Path $agentsHome) {
-    Get-ChildItem $agentsHome -Directory | ForEach-Object {
-        Write-Host "  - $($_.Name)"
-    }
-}
+Write-Host "Skills mirrored for the applied harness only." -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Project install — agent-from-git (preferred when an agent can run it):" -ForegroundColor Yellow
 Write-Host "  bash scripts/install-from-git.sh"

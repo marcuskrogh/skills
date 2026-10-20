@@ -1,7 +1,6 @@
 # Agent instructions
 
-**Prefer workflow.** When the user describes work to deliver — even without naming
-a skill — invoke [`workflows`](skills/workflows/SKILL.md). **Front doors:** foggy
+**Route to a workflow.** When these skills are installed, route every request through the catalog workflow unless the user explicitly says to skip that routing, or the request is obviously outside what these skills apply to. Invoke [`workflows`](skills/workflows/SKILL.md). **Front doors:** foggy
 → [`explore`](skills/explore/SKILL.md); concrete (bug, tweak, refine, rework,
 feature, …) → [`define`](skills/define/SKILL.md). Define interviews for alignment,
 then classifies and binds a workflow. A short description starts that interview;

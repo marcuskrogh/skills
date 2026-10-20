@@ -1,39 +1,53 @@
 #!/usr/bin/env bash
-# Sync skills from this repo to local agent skill directories.
-# Usage: ./scripts/sync-local.sh [--prune] [--link]
+# Sync skills from this repo to the applied harness only.
+# Usage: ./scripts/sync-local.sh [--prune] [--link] [--harness cursor|claude|codex|copilot]
 #
-# Default targets are common Agent Skills home dirs. Override by editing TARGET_DIRS.
+# SKILLS_HARNESS or --harness selects the harness. When both are absent, detect
+# the harness that is running this script. Skill folders, instruction files, and
+# rules are written only for that harness.
+#
 # For project installs prefer: bash scripts/install-from-git.sh
 # Also supported: npx skills add marcuskrogh/skills
-#
-# Always syncs skills/*/ (with SKILL.md) and skills/concepts/ as sibling folders.
-# Also upserts the language extract into ~/.claude/CLAUDE.md and
-# ~/.cursor/rules/marcuskrogh-skills.mdc.
 
 set -euo pipefail
 
 PRUNE=false
 LINK=false
 
-for arg in "$@"; do
-  case "$arg" in
+while [ $# -gt 0 ]; do
+  case "$1" in
     --prune) PRUNE=true ;;
     --link) LINK=true ;;
-    *) echo "Unknown option: $arg" >&2; exit 1 ;;
+    --harness)
+      shift
+      [ $# -gt 0 ] || { echo "Missing value for --harness" >&2; exit 1; }
+      SKILLS_HARNESS="$1"
+      ;;
+    --harness=*)
+      SKILLS_HARNESS="${1#--harness=}"
+      ;;
+    *) echo "Unknown option: $1" >&2; exit 1 ;;
   esac
+  shift
 done
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SOURCE_DIR="$REPO_ROOT/skills"
 CONCEPTS_SOURCE="$SOURCE_DIR/concepts"
+# shellcheck source=lib/harness-install.sh
+source "$REPO_ROOT/scripts/lib/harness-install.sh"
 
-TARGET_DIRS=(
-  "${HOME}/.agents/skills"
-  "${HOME}/.claude/skills"
-  "${HOME}/.codex/skills"
-  "${HOME}/.copilot/skills"
-  "${HOME}/.cursor/skills"
-)
+HARNESSES=()
+while IFS= read -r harness; do
+  [ -n "$harness" ] || continue
+  HARNESSES+=("$harness")
+done < <(harness_resolve) || exit 1
+[ "${#HARNESSES[@]}" -gt 0 ] || exit 1
+TARGET_DIRS=()
+for harness in "${HARNESSES[@]}"; do
+  rel="$(harness_global_skills_rel "$harness")"
+  TARGET_DIRS+=("${HOME}/${rel}")
+done
 
 if [[ ! -d "$SOURCE_DIR" ]]; then
   echo "Source directory not found: $SOURCE_DIR" >&2
@@ -159,20 +173,41 @@ upsert_marked_block() {
 }
 
 echo ""
-echo "Wiring global language pointers..."
+echo "Wiring instruction files for: ${HARNESSES[*]}"
 TPL="$REPO_ROOT/templates/agent-install"
-if [ -f "$TPL/global-CLAUDE.block.md" ]; then
-  upsert_marked_block "${HOME}/.claude/CLAUDE.md" "$TPL/global-CLAUDE.block.md"
-else
-  echo "WARN: missing $TPL/global-CLAUDE.block.md"
-fi
-if [ -f "$TPL/global-cursor-language.mdc" ]; then
-  mkdir -p "${HOME}/.cursor/rules"
-  cp "$TPL/global-cursor-language.mdc" "${HOME}/.cursor/rules/marcuskrogh-skills.mdc"
-  echo "Wrote ${HOME}/.cursor/rules/marcuskrogh-skills.mdc"
-else
-  echo "WARN: missing $TPL/global-cursor-language.mdc"
-fi
+for harness in "${HARNESSES[@]}"; do
+  token="$(harness_skills_token "$harness" global)"
+  case "$harness" in
+    cursor)
+      if [ ! -f "$TPL/global-cursor-language.mdc" ]; then
+        echo "WARN: missing $TPL/global-cursor-language.mdc" >&2
+        exit 1
+      fi
+      mkdir -p "${HOME}/.cursor/rules"
+      cp "$TPL/global-cursor-language.mdc" "${HOME}/.cursor/rules/marcuskrogh-skills.mdc"
+      echo "Wrote ${HOME}/.cursor/rules/marcuskrogh-skills.mdc"
+      ;;
+    claude)
+      if [ ! -f "$TPL/global-CLAUDE.block.md" ]; then
+        echo "WARN: missing $TPL/global-CLAUDE.block.md" >&2
+        exit 1
+      fi
+      upsert_marked_block "${HOME}/.claude/CLAUDE.md" "$TPL/global-CLAUDE.block.md"
+      ;;
+    codex)
+      rendered="$(mktemp)"
+      sed "s|__SKILLS__|${token}|g" "$TPL/harness/codex.md" > "$rendered"
+      upsert_marked_block "${HOME}/.codex/AGENTS.md" "$rendered"
+      rm -f "$rendered"
+      ;;
+    copilot)
+      rendered="$(mktemp)"
+      sed "s|__SKILLS__|${token}|g" "$TPL/harness/copilot.md" > "$rendered"
+      upsert_marked_block "${HOME}/.copilot/copilot-instructions.md" "$rendered"
+      rm -f "$rendered"
+      ;;
+  esac
+done
 
 echo ""
 echo "Tip: for project installs, prefer agent-from-git:"
