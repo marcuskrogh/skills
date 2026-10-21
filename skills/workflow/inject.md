@@ -35,6 +35,20 @@ default. Credentials stay on the tracker backend.
 Read the standard at use time. Do not copy its templates, status names, or
 checks into personal skill files.
 
+## After define
+
+Do not load the ticket framework during definition alignment. Define, bug,
+tweak, refine, and rework write the spec and the logical Task first.
+
+When one of those skills records outcome `ready`, apply the active ticket
+framework in that same turn, before the next skill. Use the approved spec as
+the source. Shape the ticket with the framework's type, template, naming,
+components, and labels. Map the logical status through the framework. Then
+resolve the next skill as usual. This apply is not a skill and it is not
+**Next**.
+
+No active framework: leave the ticket as the definition skill wrote it.
+
 ## Tickets
 
 Logical states stay `To Do`, `In Progress`, `In Review`, and `Done`. The

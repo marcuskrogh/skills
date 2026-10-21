@@ -41,11 +41,15 @@ The skill name in the block comes from [pipelines.md](pipelines.md).
    **standalone** (Next none).
 3. Apply the first matching **Transitions** row. `chain-first` / `chain-next`
    use the **Chains** table for that workflow.
-4. **immediate** — read that skill and run it now, then resolve again.
+4. When the finished skill is define, bug, tweak, refine, or rework and the
+   outcome is `ready`, apply the ticket framework in this turn per
+   [inject.md](inject.md) **After define**, then continue. That apply is not
+   a successor skill. Skip it when no framework is active.
+5. **immediate** — read that skill and run it now, then resolve again.
    **cue** — persist the Next block and stop. **stop** — persist Next none.
    **immediate** is the workflow mode. The user cue **continue** still means
    one persisted **Next**.
-5. A finished reply ends with the [Reply close](#reply-close) block. An open
+6. A finished reply ends with the [Reply close](#reply-close) block. An open
    alignment reply does not. `/ship <KEY>` remains the continuation that
    finishes the rest of the bound chain; it is not a successor a skill writes
    for itself. When the outcome is done, the block is `Done — <KEY>`.
