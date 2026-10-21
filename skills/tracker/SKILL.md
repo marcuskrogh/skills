@@ -14,6 +14,7 @@ disable-model-invocation: true
 
 **On invoke:** resolve the **effective workspace**
 ([../setup/format.md](../setup/format.md) → **Resolution order**), then read
-[reference.md](reference.md) and only the matching backend under `backends/`.
+[reference.md](reference.md), [../workflow/inject.md](../workflow/inject.md),
+and only the matching backend under `backends/`.
 
 If neither workspace layer resolves, apply [setup](../setup/SKILL.md) in this invocation until `WORKSPACE.md` exists, then continue. Do not stop in order to name a successor.

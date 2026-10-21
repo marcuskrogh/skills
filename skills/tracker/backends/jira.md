@@ -3,7 +3,9 @@
 Jira Cloud/Server via REST. Detailed curl patterns live in
 [../../jira/reference.md](../../jira/reference.md).
 
-If the repo has `docs/agents/jira.md`, prefer that override for project-specific
+Status and type names in this file are the fallback. An active ticket framework
+([../../workflow/inject.md](../../workflow/inject.md)) replaces them. With no
+framework, `docs/agents/jira.md` still overrides this file for project-specific
 issue types and transitions.
 
 ## Prerequisites
@@ -26,6 +28,8 @@ Stop if auth is missing.
 | Sub-task | Sub-task |
 
 ## Status mapping
+
+Fallback when no ticket framework is active.
 
 | Logical | Jira (match by name) |
 |---------|----------------------|

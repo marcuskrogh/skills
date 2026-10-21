@@ -53,3 +53,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 5. Leave no Sub-tasks open after **ship**.
 6. Research / model / sandbox / explore charting leave **no** open PRs of their own
    ([delivery.md](delivery.md#charting-vs-delivery)).
+7. **Current ticket.** When a key is known, fetch before acting and leave the
+   ticket matching the work just done, including a standalone skill with no
+   bound workflow. Map logical states through [inject.md](inject.md). Scope
+   changes and notable findings go on the ticket.

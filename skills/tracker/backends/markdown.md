@@ -76,7 +76,9 @@ Sub-tasks are normal issue files with `Type: Sub-task` and `Parent: <Task>`.
 
 ## Statuses
 
-Use exact logical names: `To Do`, `In Progress`, `In Review`, `Done`.
+Use the logical names `To Do`, `In Progress`, `In Review`, and `Done` when no
+ticket framework is active ([../../workflow/inject.md](../../workflow/inject.md)).
+An active framework's status names replace them.
 
 ## No remote auth
 

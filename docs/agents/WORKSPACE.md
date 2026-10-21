@@ -74,6 +74,8 @@ Agreed agent workspace setup.
 | One-issue continuity | true |
 | One delivery branch/PR per Task | true |
 | Tracker backend | markdown (`skills/tracker`) |
+| Ticket framework | |
+| Review standard | |
 
 ## Notes
 

@@ -23,6 +23,9 @@ repo supports them (`gh` sub-issue commands when available).
 
 ## Status mapping
 
+These names apply when no ticket framework is active
+([../../workflow/inject.md](../../workflow/inject.md)).
+
 | Logical | GitHub |
 |---------|--------|
 | To Do | open + label `status:todo` (or no status label) |

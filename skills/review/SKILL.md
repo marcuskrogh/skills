@@ -22,7 +22,8 @@ Applies [CONCEPT_REVIEW](../concepts/CONCEPT_REVIEW.md) and
 [CONCEPT_IMPLEMENTATION](../concepts/CONCEPT_IMPLEMENTATION.md),
 [../implement/SKILL.md](../implement/SKILL.md) (fix-forward),
 [../workflow/SKILL.md](../workflow/SKILL.md), [depth.md](depth.md),
-[lasers.md](lasers.md), [checklist.md](checklist.md), and [axis-briefs.md](axis-briefs.md).
+[lasers.md](lasers.md), [checklist.md](checklist.md), [axis-briefs.md](axis-briefs.md),
+and [../workflow/inject.md](../workflow/inject.md).
 Before spawning workers, also read
 [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md) and its platform catalog
 as directed there.
@@ -36,7 +37,7 @@ Requires authenticated `gh` and tracker auth per WORKSPACE. If either is missing
 | **Change source** | GitHub PR linked to the pipeline Task (or current branch) |
 | **Spec source** | Tracker issue + `PLAN.md` (incl. Classification/Workflow) / `BUG.md` / `TWEAK.md` / `REFINE.md` / `REWORK.md` / `ITERATE.md` / `ADOPT.md` / `MODEL.md` / `ARCHITECTURE.md` |
 | **Publish target** | GitHub PR review via `gh api` + tracker comment |
-| **Checklist** | [checklist.md](checklist.md) + [axis-briefs.md](axis-briefs.md) |
+| **Checklist** | Active review standard from [../workflow/inject.md](../workflow/inject.md) when one loads; otherwise [checklist.md](checklist.md) + [axis-briefs.md](axis-briefs.md) |
 | **Depth routing** | Bound `review.depth` / `review.mode` from PLAN Workflow when present; else [depth.md](depth.md) |
 | **Laser routing** | Bound `review.lasers` from PLAN Workflow when present; else [lasers.md](lasers.md) |
 | **Parallelism** | `sequential` → one axis worker at a time; `bundled` + `multiagent` / `full` → five axis workers; `bundled` + `single` / `focused` → Core + Architecture (+ optional Integration) |

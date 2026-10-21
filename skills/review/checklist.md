@@ -1,5 +1,8 @@
 # Review checklists
 
+Built-in checks. An active review standard
+([../workflow/inject.md](../workflow/inject.md)) replaces this list.
+
 Paste the relevant section into each sub-agent brief. Axes investigate **vertically**
 (deep within changed logic) and **horizontally** (across related modules and contracts).
 

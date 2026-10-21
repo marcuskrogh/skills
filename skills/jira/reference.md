@@ -2,7 +2,10 @@
 
 Agent reference for skills that create or update Jira issues. **Not a user-invoked skill.**
 
-If the target repository contains `docs/agents/jira.md`, follow that file instead of this reference.
+Logical states are below. An active ticket framework
+([../workflow/inject.md](../workflow/inject.md)) supplies the project's status
+names, types, and templates. With no framework, `docs/agents/jira.md` replaces
+this reference.
 
 ## Prerequisites
 
@@ -30,7 +33,7 @@ Main pipeline continuity: [../workflow/reference.md](../workflow/reference.md).
 
 ## Status workflow
 
-Skills use these logical states (match to project transitions by name):
+Skills use these logical states. Match them to project transitions by name only when no ticket framework is active:
 
 | State | Used by |
 |-------|---------|

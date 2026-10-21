@@ -13,5 +13,6 @@ disable-model-invocation: true
 
 API patterns: [reference.md](reference.md).
 
-If the target repository contains `docs/agents/jira.md`, follow that file for
-project-specific types and transitions.
+An active ticket framework ([../workflow/inject.md](../workflow/inject.md))
+supplies types, statuses, and templates. With no framework, `docs/agents/jira.md`
+still replaces this reference for project-specific types and transitions.

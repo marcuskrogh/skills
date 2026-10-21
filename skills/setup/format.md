@@ -167,6 +167,8 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 | One-issue continuity | true |
 | One delivery branch/PR per Task | true |
 | Tracker backend | resolved via provider above (`skills/tracker` when installed) |
+| Ticket framework | empty, `none`, or a skill name / path ([../workflow/inject.md](../workflow/inject.md)) |
+| Review standard | empty, `none`, or a skill name / path (same file) |
 
 ## Notes
 
@@ -193,6 +195,8 @@ When **Location** is `external`, no pipeline artifact is written into the repo:
 | One delivery PR per Task | `true` |
 | Shipping procedure | `automatic` |
 | Merge | `squash` if repo uses squash; else `merge` |
+| Ticket framework | empty (Jira uses installed `jira-ticket` when present) |
+| Review standard | empty (built-in review checklist) |
 
 ## Continuity rule
 
