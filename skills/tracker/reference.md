@@ -23,7 +23,18 @@ Map these names to provider-native types in the backend file.
 To Do → In Progress → In Review → Done
 ```
 
-Backends map to native columns/states. If a name is missing, pick the closest and note it in the issue comment / markdown mirror.
+Backends map to native columns/states when no ticket framework is active
+([../workflow/inject.md](../workflow/inject.md)). An active framework's map
+replaces those tables. If a name is missing, pick the closest and note it in
+the issue comment / markdown mirror.
+
+## Current ticket
+
+When the user message or the current branch name contains a ticket key, `fetch`
+that ticket before any other tracker change. Before the skill ends, the ticket
+matches the work just done: logical status mapped through the active framework,
+and scope changes or notable findings in the description or a comment. This
+holds with or without a bound workflow.
 
 ## Operations
 

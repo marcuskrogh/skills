@@ -106,7 +106,7 @@ Resolution order is in [`setup/format.md`](../../skills/setup/format.md). Reposi
 
 Tracker provider is chosen in that file: markdown, Jira, GitHub, or Linear. Pipeline skills compose [`tracker`](../../skills/tracker/SKILL.md). You configure the tracker through `/setup`, not by invoking tracker.
 
-Status chain: To Do → In Progress → In Review → Done. Delivery Tasks reach Done only via **ship**.
+Status chain: To Do → In Progress → In Review → Done. Delivery Tasks reach Done only via **ship**. Those are logical states. A ticket framework or review standard named in the workspace supplies the team's names and checks ([`inject.md`](../../skills/workflow/inject.md)). With nothing named, the built-in tracker and review checklist stay in force. On Jira, an installed `jira-ticket` skill is the ticket framework unless the workspace names another or sets `none`.
 
 ## Language
 

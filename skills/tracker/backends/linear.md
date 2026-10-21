@@ -26,6 +26,9 @@ Prefer native parent/sub-issue relations when the team uses them.
 
 ## Status mapping
 
+These names apply when no ticket framework is active
+([../../workflow/inject.md](../../workflow/inject.md)).
+
 Map logical statuses to team workflow states by name:
 
 | Logical | Prefer state named |

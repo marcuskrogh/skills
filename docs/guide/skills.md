@@ -324,7 +324,7 @@ You do not start work by invoking these. Pipeline skills load them.
 
 | Field | |
 |-------|-|
-| What | Shared issue-tracker contract. Resolves provider from the effective workspace: markdown, jira, github, or linear. |
+| What | Shared issue-tracker contract. Resolves provider from the effective workspace: markdown, jira, github, or linear. A named ticket framework maps statuses and templates. |
 | How to use | Not for user invocation. Configure via `/setup`. |
 | Where | Create, transition, comment, or close issues. Backends live under `skills/tracker/backends/`. |
 | Output | Tracker operations on the configured provider. No skill-level outcome token. |
@@ -336,7 +336,7 @@ You do not start work by invoking these. Pipeline skills load them.
 |-------|-|
 | What | Jira REST details for the tracker jira backend. |
 | How to use | Not for user invocation. Prefer tracker and `WORKSPACE.md` provider selection. |
-| Where | When the effective workspace provider is `jira`. If the target repository contains `docs/agents/jira.md`, follow that file for project-specific types and transitions. |
+| Where | When the effective workspace provider is `jira`. An active ticket framework supplies types and statuses. With no framework, `docs/agents/jira.md` still overrides project-specific types and transitions. |
 | Output | None of its own. Backend for tracker. |
 | Workflows | Composed only through tracker when provider is jira. |
 

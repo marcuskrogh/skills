@@ -28,7 +28,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 | **model** | Enrich **delivery** Task; commit `MODEL.md` on delivery branch (**no PR**) | Leave **To Do** on delivery Task unless further along; **Done** when supportive-only route Task completes | MODEL.md path + branch + **Next**; links + ISSUES | Supportive-only Task after docs are on the delivery branch |
 | **sandbox** | Enrich **delivery** Task; commit `SANDBOX.md` + isolation tree on delivery branch (**no PR**) | Unchanged on delivery Task; **Done** when supportive-only route Task completes | SANDBOX.md path + isolation path + branch + **Next**; PLAN/ISSUES | Supportive-only Task after the isolation tree is on the delivery branch |
 | **sandbox** (post-merge) | **New** Task; link SANDBOX.md; Relates → prior; branch from base (**no PR**) | Leave **To Do** until the iterate workflow continues | Prior + new Task comments; workflow **Next**; ISSUES | — (ship closes after the chain) |
-| **define** | Enrich Task; Sub-tasks per package; start/reuse delivery + draft PR; record Classification + Workflow binding | Stay **To Do** | PLAN.md, class, template/params/chain, branch, PR, Sub-task keys, **Next**; ISSUES | — |
+| **define** | Enrich Task; Sub-tasks per package; start/reuse delivery + draft PR; record Classification + Workflow binding. After `ready`, shape the ticket with the active ticket framework ([inject.md](inject.md)) before the next skill | Stay **To Do** | PLAN.md, class, template/params/chain, branch, PR, Sub-task keys, **Next**; ISSUES | — |
 | **architect** | Enrich Task; commit `ARCHITECTURE.md` on delivery branch (**no extra PR** unless define already opened one) | Unchanged (usually **To Do**) | ARCHITECTURE.md path + workflow **Next**; ISSUES | — |
 | **implement** | May add missing Sub-tasks (incl. Testing); **reuse** delivery | Task → In Progress; Sub-tasks → Done as finished; stay **In Progress** after Build | Session + packages + **same** PR + workflow **Next**; ISSUES | Sub-tasks only — not parent |
 | **implement** (fix-forward) | — | In Progress if needed → **In Review** | Threads addressed + **Next**; ISSUES | — |
@@ -53,3 +53,7 @@ To Do / Backlog  →  In Progress  →  In Review  →  Done
 5. Leave no Sub-tasks open after **ship**.
 6. Research / model / sandbox / explore charting leave **no** open PRs of their own
    ([delivery.md](delivery.md#charting-vs-delivery)).
+7. **Current ticket.** When a key is known, fetch before acting and leave the
+   ticket matching the work just done, including a standalone skill with no
+   bound workflow. Map logical states through [inject.md](inject.md). Scope
+   changes and notable findings go on the ticket.

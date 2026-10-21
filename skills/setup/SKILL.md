@@ -33,7 +33,7 @@ Repository fields override global field-by-field — [format.md](format.md) → 
 | Slot | This skill |
 |------|------------|
 | **Subject** | How the agent pipeline runs — this repo, or every repo (global) |
-| **Probes** | Scope; tracker provider + provider settings; markdown mirror; artifact location (repo vs external); artifact roots; base branch / naming / PR default / merge; shipping procedure (automatic shipping, or human review between the agent review and close-out); confirm one delivery PR per Task; invent-defaults policy (recommend: no — run setup) |
+| **Probes** | Scope; tracker provider + provider settings; markdown mirror; artifact location (repo vs external); artifact roots; base branch / naming / PR default / merge; shipping procedure (automatic shipping, or human review between the agent review and close-out); confirm one delivery PR per Task; optional ticket framework and review standard (name, path, or none); invent-defaults policy (recommend: no — run setup) |
 | **Stop condition** | Scope, tracker, artifact location/paths, delivery defaults, and shipping procedure are unambiguous |
 | **Alignment artifact** | `docs/agents/WORKSPACE.md` or `~/.agents/WORKSPACE.md` ([format.md](format.md)) |
 | **Readiness prompt** | "Does this workspace setup look right to commit?" (repo) / "…to save as your global default?" (global) |

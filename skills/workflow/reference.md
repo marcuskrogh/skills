@@ -110,7 +110,7 @@ Paths follow WORKSPACE. Record path + commit SHA on the Task when location is
 |------|------|
 | Creating or reusing branch/PR | [delivery.md](delivery.md) |
 | User-facing reply, **Next**, or entry context | [handoff.md](handoff.md) + [pipelines.md](pipelines.md) |
-| Tracker create / transition / comment / close | [tracker-sync.md](tracker-sync.md) |
+| Tracker create / transition / comment / close | [tracker-sync.md](tracker-sync.md) and [inject.md](inject.md) |
 | `/ship` remaining tails or closeout | [ship.md](ship.md) |
 
 Value-aware worker routing: [CONCEPT_DELEGATION](../concepts/CONCEPT_DELEGATION.md)
