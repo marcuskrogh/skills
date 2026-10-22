@@ -25,8 +25,9 @@ To Do → In Progress → In Review → Done
 
 Backends map to native columns/states when no ticket framework is active
 ([../workflow/inject.md](../workflow/inject.md)). An active framework's map
-replaces those tables. If a name is missing, pick the closest and note it in
-the issue comment / markdown mirror.
+replaces those tables. A logical state with no framework name follows that
+file's nearest-state rule, and the note goes in the issue comment or markdown
+mirror.
 
 ## Current ticket
 
