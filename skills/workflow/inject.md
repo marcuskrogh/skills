@@ -14,23 +14,33 @@ repository overrides global, field by field.
 | **Ticket framework** | Provider is `jira` and a skill named `jira-ticket` is installed → that skill. Otherwise the built-in tracker tables | Built-in tables. On Jira, `docs/agents/jira.md` still applies | That skill or file |
 | **Review standard** | [../review/checklist.md](../review/checklist.md) | Same as empty | That skill or file |
 
-Look up a skill name in the skill folders the harness already loads. A path is
-repo-relative, or absolute for a global file. Swapping the field is the whole
-change. Personal skill files stay as they are.
+A skill name resolves only when a folder of that name containing `SKILL.md` is
+in a skill directory the harness already loads. Any other name is unresolvable.
+A path resolves only when that file can be read. Repo paths are repo-relative.
+Global paths may be absolute. Swapping the field is the whole change. Personal
+skill files stay as they are.
+
+`Extends global: false` uses the repo workspace alone. An empty Ticket
+framework or Review standard there does not keep the global value. Empty still
+follows the empty column above.
 
 ## Precedence
 
 A named standard wins on conventions: types, status names, templates, naming,
 components, labels, and review checks. Personal workflow rules win on timing:
 when to read, comment, transition, and which logical transitions are required.
+A framework line that says not to change status does not cancel a required
+transition. That transition uses the framework's name for the logical state.
 A standard does not drop a transition the bound workflow requires. The workflow
 does not replace an explicit convention from the standard with a built-in name.
 Say which source you used.
 
 ## Missing standard
 
-When the named skill or path does not load, say so once and use the built-in
-default. Credentials stay on the tracker backend.
+When the name or path is unresolvable, say so once and use the built-in
+default for the whole apply. When the framework loads but cannot perform one
+step, say so and use the built-in default for that step only. Credentials stay
+on the tracker backend.
 
 Read the standard at use time. Do not copy its templates, status names, or
 checks into personal skill files.
@@ -52,7 +62,13 @@ No active framework: leave the ticket as the definition skill wrote it.
 ## Tickets
 
 Logical states stay `To Do`, `In Progress`, `In Review`, and `Done`. The
-active ticket framework maps those names. Backend tables in
+framework gives those four names in a labelled status map (a table or list
+headed as the map). Several names for one state: use the first and note the
+rest. A state with no name: use the nearest named state on that chain,
+preferring the earlier state, and note it. Statuses outside the four are used
+only when that framework step or the user asks for that status. No labelled
+map: infer the four names from the framework text, note the inference, and do
+not silently use the built-in table. Backend tables in
 [../tracker/backends/](../tracker/backends/) apply only when no framework is
 active.
 
