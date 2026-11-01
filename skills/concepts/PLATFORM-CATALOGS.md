@@ -13,7 +13,7 @@ Claude Code / Codex / Copilot). An incomplete Task `model` enum is not unknown
 
 1. **Efficiency first** — rank by capability per cost, not peak score. A higher
    benchmark at several times the price is a worse rank. **Grok 4.7**, **GPT-6.1
-   Sol** (`gpt-6.1-sol`), and **Terra** (`gpt-5.6-terra`) are the efficient picks.
+   Sol** (`gpt-6.1-sol`), and **GPT-6.1 Terra** (`gpt-6.1-terra`) are the efficient picks.
    **Gemini 4 Argon** (`gemini-4-argon`) is the preferred capability ceiling.
    **GPT-6 Astra** and **Claude Opus** remain ceilings: use one only after the
    efficient pick for that tier is insufficient. One workhorse may

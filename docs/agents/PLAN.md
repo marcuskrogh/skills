@@ -61,4 +61,4 @@
 - Workflow: structure-safe
 
 ## Next
-`/architect MD-1` — record where the catalog edit sits
+`/review MD-1` — focused bundled review of the catalog diff
