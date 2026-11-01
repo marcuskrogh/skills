@@ -56,7 +56,7 @@
 - Task: MD-1
 - Sub-tasks: none (single package)
 - Branch: cursor/md-1-gpt-6-1-terra-966c
-- PR: pending
+- PR: https://github.com/marcuskrogh/skills/pull/71
 - Classification: refine
 - Workflow: structure-safe
 

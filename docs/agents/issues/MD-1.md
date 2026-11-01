@@ -7,7 +7,7 @@
 | Parent | |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/71 |
 | Created | 2026-11-01 |
 
 ## Summary
