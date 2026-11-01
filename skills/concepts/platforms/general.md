@@ -4,7 +4,7 @@ Disclosed from [PLATFORM-CATALOGS.md](../PLATFORM-CATALOGS.md). Load when the
 harness is unknown/incomplete, or is not Cursor / Claude Code / Codex / Copilot.
 
 Map harness IDs onto the rows below; skip unavailable rows. Rank is efficiency
-(capability per cost): Grok 4.7, GPT-6.1 Sol, and Terra before capability ceilings.
+(capability per cost): Grok 4.7, GPT-6.1 Sol, and GPT-6.1 Terra before capability ceilings.
 Hard exclusions (Fable 5, Haiku) live in the catalog index.
 
 ## High-capability (ranked)
@@ -23,7 +23,7 @@ Hard exclusions (Fable 5, Haiku) live in the catalog index.
 
 | Rank | Provider | Model | Prefer / map to |
 |------|----------|-------|-----------------|
-| 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` |
+| 1 | OpenAI | GPT-6.1 Terra | `gpt-6.1-terra` |
 | 2 | OpenAI | GPT-6 Sol | `gpt-6-sol` |
 | 3 | Google | Gemini 3.8 Flash | `gemini-3.8-flash`, `gemini-3.6-flash` |
 | 4 | Anthropic | Claude Sonnet 5.5 | `claude-sonnet-5-5`, `sonnet`, `claude-sonnet-5` |
@@ -42,7 +42,7 @@ Hard exclusions (Fable 5, Haiku) live in the catalog index.
 ## Selection notes
 
 1. Walk the category top-down; use the first model the harness exposes.
-2. Do not start on Gemini 4 Argon, GPT-6 Astra, or Opus when Grok, GPT-6.1 Sol, or Terra is available. Astra (`gpt-6-astra`) only after `gpt-6.1-sol` is insufficient. `gpt-6-sol` is the prior slug on that high row.
+2. Do not start on Gemini 4 Argon, GPT-6 Astra, or Opus when Grok, GPT-6.1 Sol, or GPT-6.1 Terra is available. Astra (`gpt-6-astra`) only after `gpt-6.1-sol` is insufficient. `gpt-6-sol` is the prior slug on that high row.
 3. If low has no row, use top mid for Routine, then escalate to high on failure.
 4. One available model for the whole session → use it for manager and workers;
    still record difficulty.

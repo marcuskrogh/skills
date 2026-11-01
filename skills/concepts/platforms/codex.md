@@ -8,7 +8,7 @@ When the harness exposes a `model` parameter on sub-agent / Task calls, pass
 an explicit catalog slug on every spawn of every type. Never omit `model` and
 never pass `inherit` — omission lets the platform pick an off-catalog default.
 
-**Cost split:** Luna for Routine, Terra for Moderate, GPT-6.1 Sol for Demanding / manager.
+**Cost split:** Luna for Routine, GPT-6.1 Terra for Moderate, GPT-6.1 Sol for Demanding / manager.
 GPT-6 Astra is the capability ceiling, not the efficiency rank: pass
 `gpt-6-astra` only after `gpt-6.1-sol` is insufficient on the same package.
 `gpt-6-sol` stays the high-row fallback.
@@ -27,7 +27,7 @@ the enum, keep the work on the manager.
 
 | Rank | Provider | Model | Slug (prefer) | Fallback |
 |------|----------|-------|---------------|----------|
-| 1 | OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` | `gpt-6-sol` |
+| 1 | OpenAI | GPT-6.1 Terra | `gpt-6.1-terra` | `gpt-6-sol` |
 
 ## Low-capability (ranked)
 
