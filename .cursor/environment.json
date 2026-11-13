@@ -1,0 +1,4 @@
+{
+  "install": "bash scripts/cloud-start.sh",
+  "start": "bash scripts/cloud-start.sh"
+}
