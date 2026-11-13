@@ -1,5 +1,8 @@
 # Agent instructions
 
+Skills load from `.agents/skills/`, gitignored and refreshed from `marcuskrogh/skills` `main` on cloud install and start (`bash scripts/cloud-start.sh`). Cross-repo work starts from `marcuskrogh/home`.
+
+
 **Route to a workflow.** When these skills are installed, route every request through the catalog workflow unless the user explicitly says to skip that routing, or the request is obviously outside what these skills apply to. Invoke [`workflows`](skills/workflows/SKILL.md). **Front doors:** foggy
 → [`explore`](skills/explore/SKILL.md); concrete (bug, tweak, refine, rework,
 feature, …) → [`define`](skills/define/SKILL.md). Define interviews for alignment,
