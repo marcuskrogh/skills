@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Task |
-| Status | In Progress |
+| Status | In Review |
 | Parent | |
 | Children | |
 | Artifact | docs/agents/TWEAK.md |
@@ -44,3 +44,17 @@ seams: none added
 exceptions: two stale mid-row needles in validate-skills.ps1 (GPT-5.6 Terra, and "when Terra is absent") now match the GPT-6.1 Terra rows already on the page. That page text was not part of this behaviour change.
 
 Next: `/test MD-1`. The dedicated test pass checks the lock.
+
+### 2026-11-14
+Test pass re-ran the lock. Outcome: ready.
+
+The lock covers every pass-criteria row. Retiring models were already absent, and that absence is now locked. No gap to add. python3 scripts/test_copilot_catalog.py and python3 scripts/test_pipelines.py both passed. No working surface.
+
+Next: `/restructure MD-1`. Structure pass on the touched catalogue text.
+
+### 2026-11-14
+Restructure found no catalog breach in the touched rows or the lock script. Outcome: ready. Status: In Review.
+
+The page keeps the existing table shape. The lock is one flat check list, the same style as scripts/test_pipelines.py. No extract.
+
+Next: `/review MD-1`. Focused sequential review of the ceiling change.
