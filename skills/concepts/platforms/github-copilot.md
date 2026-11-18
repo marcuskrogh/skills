@@ -10,9 +10,9 @@ When the harness exposes a `model` parameter on sub-agent / Task calls, pass
 an explicit catalog slug on every spawn of every type. Never omit `model` and
 never pass `inherit` — omission lets the platform pick an off-catalog default.
 
-**Cost split:** Luna for Routine; GPT-6.1 Terra / Sol for Moderate; Grok for Demanding.
-Gemini 4 Carbon is the preferred capability ceiling. Opus 5.5 and GPT-6 Astra
-remain ceilings: choose one only after Grok or GPT-6.1 Sol is insufficient on
+**Cost split:** Luna for Routine; GPT-6.1 Terra for Moderate; Grok, then GPT-6.2 Sol, for Demanding.
+Gemini 4 Carbon is the preferred capability ceiling. Opus 5.5 and GPT-6.2 Astra
+remain ceilings: choose one only after Grok or GPT-6.2 Sol is insufficient on
 the same package.
 
 **Harness enum.** Pass a slug from the ranked rows below that the harness
@@ -23,7 +23,7 @@ accepts. If no catalog slug is in the enum, keep the work on the manager.
 | Rank | Provider | Model | Prefer |
 |------|----------|-------|--------|
 | 1 | xAI | Grok 4.7 | efficient frontier pick |
-| 2 | OpenAI | GPT-6.1 Sol | efficient OpenAI demanding pick |
+| 2 | OpenAI | GPT-6.2 Sol | efficient OpenAI demanding pick (`gpt-6.2-sol`); fallback `gpt-6.1-sol` |
 | 3 | Google | Gemini 4 Carbon | preferred ceiling (`gemini-4-carbon`) |
 | 4 | Anthropic | Claude Opus 5.5 | ceiling after Gemini 4 Carbon is insufficient |
 
