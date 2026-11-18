@@ -6,7 +6,7 @@
 | Status | To Do |
 | Parent | |
 | Children | MD-2 |
-| Artifact | docs/agents/PLAN.md |
+| Artifact | docs/agents/PLAN.md, docs/agents/ARCHITECTURE.md |
 | PR | |
 | Created | 2026-11-18 |
 
@@ -23,5 +23,8 @@ See pass criteria in `docs/agents/PLAN.md`.
 ### 2026-11-18
 Define outcome `ready`. Class tweak, template delta-fast. Owner pre-approved the plan in the catalogue routine. Branch `cursor/md-1-gpt-6-2-catalogue-bee8`.
 
+### 2026-11-18
+Architect outcome `ready`. Shape stamp in `docs/agents/ARCHITECTURE.md`. No new module.
+
 ## Next
-`/architect MD-1` — record where the row edits sit
+`/implement MD-1` — write the row changes

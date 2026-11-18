@@ -97,4 +97,4 @@ Constraints: cost-first, catalog-closed, never Fable, never Haiku, Codex stays O
 - Workflow: delta-fast
 
 ## Next
-`/architect MD-1` — record where the row edits sit
+`/implement MD-1` — write the row changes
