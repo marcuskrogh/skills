@@ -15,4 +15,4 @@
 - Branch: cursor/md-1-gpt-6-2-catalogue-bee8
 
 ## Next
-`/implement MD-1` — write the row changes
+`/review MD-1` — focused sequential lasers, then the pull-request review

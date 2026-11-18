@@ -3,7 +3,7 @@
 
 Continuation cues: bare **next** / **ship** still apply (see `__SKILLS__/workflow/reference.md`). Explicit `/skill` names win over re-routing. Lost on which skill to use → [`__SKILLS__/help/SKILL.md`](__SKILLS__/help/SKILL.md).
 
-**Codex models (catalog-closed).** On Codex, every spawn that takes a `model` must pass an explicit catalog slug. Never omit `model` and never pass `inherit`. Prefer `gpt-6-luna` for routine work, `gpt-5.6-terra` for moderate work, and `gpt-6.1-sol` for demanding work. Pass `gpt-6-astra` only after `gpt-6.1-sol` is insufficient on the same package. Load `__SKILLS__/concepts/CONCEPT_DELEGATION.md` and `__SKILLS__/concepts/platforms/codex.md` before every spawn.
+**Codex models (catalog-closed).** On Codex, every spawn that takes a `model` must pass an explicit catalog slug. Never omit `model` and never pass `inherit`. Prefer `gpt-6-luna` for routine work, `gpt-6.1-terra` for moderate work, and `gpt-6.2-sol` for demanding work. Pass `gpt-6.2-astra` only after `gpt-6.2-sol` is insufficient on the same package. Load `__SKILLS__/concepts/CONCEPT_DELEGATION.md` and `__SKILLS__/concepts/platforms/codex.md` before every spawn.
 
 **Language.** Before any reply the operator will see, read `__SKILLS__/concepts/CONCEPT_LANGUAGE.md`, `__SKILLS__/concepts/LANGUAGE-PHRASES.md`, and `__SKILLS__/concepts/LANGUAGE-HUMANIZER.md`. Follow those files. Spell names in full (`GeneralProcessSimulator`, not `GPS`). Keep **harness** for the agent host (Cursor, Claude Code, Codex, …). Do not call a sandbox tree, wrapper, or other code a harness.
 

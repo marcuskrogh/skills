@@ -74,7 +74,13 @@ echo "codex project install"
 proj="$(install_as codex)"
 test -f "$proj/AGENTS.md"
 test -f "$proj/.agents/skills/workflows/SKILL.md"
-grep -q "gpt-6.1-sol" "$proj/AGENTS.md"
+grep -q "gpt-6.2-sol" "$proj/AGENTS.md"
+grep -q "gpt-6.2-astra" "$proj/AGENTS.md"
+grep -q "gpt-6.1-terra" "$proj/AGENTS.md"
+if grep -E -q "gpt-6\.1-sol|gpt-6-astra|gpt-5\.6-terra" "$proj/AGENTS.md"; then
+  echo "FAIL: Codex install extract still names a replaced slug" >&2
+  exit 1
+fi
 assert_absent "$proj/.cursor"
 assert_absent "$proj/CLAUDE.md"
 assert_absent "$proj/.github"

@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Sub-task |
-| Status | To Do |
+| Status | Done |
 | Parent | MD-1 |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
@@ -22,3 +22,6 @@ The pass criteria in `docs/agents/PLAN.md` hold, and the lock scripts pass.
 
 ### 2026-11-18
 Created with MD-1. One package.
+
+### 2026-11-18
+Done. Catalogue rows and locks are on the branch. The four check commands passed.

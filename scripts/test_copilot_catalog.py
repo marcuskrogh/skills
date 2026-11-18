@@ -16,9 +16,11 @@ CLOSED = (
     ROOT / "skills" / "concepts" / "platforms" / "codex.md",
 )
 
+RANK2 = "| 2 | OpenAI | GPT-6.2 Sol | efficient OpenAI demanding pick (`gpt-6.2-sol`); fallback `gpt-6.1-sol` |"
 RANK3 = "| 3 | Google | Gemini 4 Carbon | preferred ceiling (`gemini-4-carbon`) |"
 RANK4 = "| 4 | Anthropic | Claude Opus 5.5 | ceiling after Gemini 4 Carbon is insufficient |"
 COST = "Gemini 4 Carbon is the preferred capability ceiling."
+ASTRA = "Opus 5.5 and GPT-6.2 Astra"
 
 ABSENT_FROM_COPILOT = (
     "Gemini 4 Argon",
@@ -60,6 +62,9 @@ def main() -> int:
     ranked = copilot[ranked_at:]
 
     check(COST in copilot, "cost split names Gemini 4 Carbon as the preferred ceiling")
+    check(ASTRA in copilot, "cost split names GPT-6.2 Astra as a ceiling")
+    check("GPT-6 Astra" not in copilot, "github-copilot.md does not name GPT-6 Astra")
+    check(RANK2 in copilot, "high rank 2 is GPT-6.2 Sol")
     check(RANK3 in copilot, "high rank 3 is Gemini 4 Carbon")
     check(RANK4 in copilot, "Opus row follows Carbon and does not name Argon")
     check(copilot.count("`gemini-4-carbon`") == 1, "gemini-4-carbon appears once")
