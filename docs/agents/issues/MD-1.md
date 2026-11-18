@@ -39,5 +39,8 @@ Test outcome `ready`. `python3 scripts/test_copilot_catalog.py`, `python3 script
 ### 2026-11-18
 Restructure outcome `ready`. Touched units are catalogue tables and flat assertion lists. No extract. Task is In Review.
 
+### 2026-11-18
+Core laser should-fix: the index lock named `gpt-6.2-sol` and did not name GPT-6.2 Astra. Added that needle, and an omit for `GPT-6 Astra`, in `scripts/validate-skills.ps1` and `scripts/test_copilot_catalog.py`. Checks passed again. The backtick-to-slug-column lock change stays. It is the correction that lets the validator accept the existing Copilot mid slug.
+
 ## Next
 `/review MD-1` — focused sequential lasers, then the pull-request review

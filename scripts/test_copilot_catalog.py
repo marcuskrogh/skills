@@ -87,6 +87,8 @@ def main() -> int:
         "Gemini 4 Argon** (`gemini-4-argon`) is the preferred capability ceiling" in index,
         "PLATFORM-CATALOGS.md rule 1 still names Argon",
     )
+    check("**GPT-6.2 Astra**" in index, "PLATFORM-CATALOGS.md names GPT-6.2 Astra as a ceiling")
+    check("GPT-6 Astra" not in index, "PLATFORM-CATALOGS.md does not name GPT-6 Astra")
     check("gemini-4-carbon" not in index, "PLATFORM-CATALOGS.md does not gain gemini-4-carbon")
 
     for path in CLOSED:

@@ -994,8 +994,10 @@ function Test-PromotedGpt62Sol {
     $indexText = Get-CatalogText -Path $indexPath
     if ($null -ne $indexText) {
         Test-FileContains -Path $indexPath -Needle 'Sol** (`gpt-6.2-sol`)' -Label 'PLATFORM-CATALOGS.md efficient OpenAI pick is gpt-6.2-sol'
+        Test-FileContains -Path $indexPath -Needle '**GPT-6.2 Astra**' -Label 'PLATFORM-CATALOGS.md names GPT-6.2 Astra as a ceiling'
         Test-FileContains -Path $indexPath -Needle 'Gemini 4 Argon** (`gemini-4-argon`) is the preferred capability ceiling' -Label 'PLATFORM-CATALOGS.md preferred ceiling is gemini-4-argon'
         Test-SectionOmits -Section $indexText -Needle 'Sol** (`gpt-6-sol`)' -FailLabel 'PLATFORM-CATALOGS.md still names gpt-6-sol as the efficient OpenAI pick' -OkLabel 'PLATFORM-CATALOGS.md does not name gpt-6-sol as the efficient OpenAI pick'
+        Test-SectionOmits -Section $indexText -Needle 'GPT-6 Astra' -FailLabel 'PLATFORM-CATALOGS.md still names GPT-6 Astra' -OkLabel 'PLATFORM-CATALOGS.md does not name GPT-6 Astra'
     }
 
     foreach ($untouched in @('cursor.md', 'claude-code.md')) {
