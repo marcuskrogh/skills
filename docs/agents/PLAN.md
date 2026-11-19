@@ -72,4 +72,4 @@
 - Workflow: delta-fast
 
 ## Next
-`/implement MD-1` — edit the Copilot ceiling row and its locks
+`/test MD-1` — check the catalogue locks cover every pass-criteria row

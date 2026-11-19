@@ -699,8 +699,9 @@ function Test-CopilotCatalog {
     if (-not (Test-Path $CopilotPlatform)) { return }
     $copilotText = Get-Content -Path $CopilotPlatform -Raw
     $highPart = Get-HeadingSlice -Text $copilotText -StartHeading '## High-capability' -EndHeading '## Mid-capability' -Fallback '' -OnMissingEnd FromStart
-    Test-SectionLists -Section $highPart -FailPrefix 'github-copilot.md high section must list ' -OkPrefix 'github-copilot.md high lists ' -Needles @('Grok 4.7', 'GPT-6.2 Sol', 'Gemini 4 Carbon', 'Claude Opus 5.5')
-    Test-NeedleCount -Section $copilotText -Needle 'gemini-4-carbon' -Expected 1 -Label 'github-copilot.md names gemini-4-carbon once'
+    Test-SectionLists -Section $highPart -FailPrefix 'github-copilot.md high section must list ' -OkPrefix 'github-copilot.md high lists ' -Needles @('Grok 4.7', 'GPT-6.2 Sol', 'Gemini 4 Neon', 'Claude Opus 5.5')
+    Test-NeedleCount -Section $copilotText -Needle 'gemini-4-neon' -Expected 1 -Label 'github-copilot.md names gemini-4-neon once'
+    Test-NeedleCount -Section $copilotText -Needle 'gemini-4-carbon' -Expected 1 -Label 'github-copilot.md keeps gemini-4-carbon as the fallback slug'
     Test-NeedleCount -Section $copilotText -Needle 'gemini-4-argon' -Expected 0 -Label 'github-copilot.md omits gemini-4-argon'
     foreach ($retired in @('Gemini 4 Argon', 'Gemini 4 Hydrogen', 'Gemini 3.8 Flash', 'Grok 4.6', 'Kimi K3', 'Claude Haiku 4.5')) {
         Test-SectionOmits -Section $copilotText -Needle $retired -FailLabel "github-copilot.md still names $retired" -OkLabel "github-copilot.md omits $retired"
@@ -957,10 +958,10 @@ function Test-PromotedGpt62Sol {
             '| 1 | xAI | Grok 4.7 | efficient frontier pick |'
         )
         Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 3 must list ' -OkPrefix 'github-copilot.md high rank 3 lists ' -Needles @(
-            '| 3 | Google | Gemini 4 Carbon | preferred ceiling (`gemini-4-carbon`) |'
+            '| 3 | Google | Gemini 4 Neon | preferred ceiling (`gemini-4-neon`); fallback `gemini-4-carbon` |'
         )
         Test-SectionLists -Section $high -FailPrefix 'github-copilot.md high rank 4 must list ' -OkPrefix 'github-copilot.md high rank 4 lists ' -Needles @(
-            '| 4 | Anthropic | Claude Opus 5.5 | ceiling after Gemini 4 Carbon is insufficient |'
+            '| 4 | Anthropic | Claude Opus 5.5 | ceiling after Gemini 4 Neon is insufficient |'
         )
         Test-SectionLists -Section $mid -FailPrefix 'github-copilot.md mid rank 2 must list ' -OkPrefix 'github-copilot.md mid rank 2 lists ' -Needles @(
             '| 2 | OpenAI | GPT-6 Sol | when GPT-6.1 Terra is absent |'
