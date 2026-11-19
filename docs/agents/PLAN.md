@@ -67,9 +67,9 @@
 - Task: MD-1
 - Sub-tasks: none (single package)
 - Branch: cursor/md-1-copilot-neon-3749
-- PR:
+- PR: https://github.com/marcuskrogh/skills/pull/76
 - Classification: tweak
 - Workflow: delta-fast
 
 ## Next
-`/architect MD-1` — record where the ceiling row lives
+`/implement MD-1` — edit the Copilot ceiling row and its locks

@@ -7,7 +7,7 @@
 | Parent | |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
-| PR | |
+| PR | https://github.com/marcuskrogh/skills/pull/76 |
 | Created | 2026-11-19 |
 
 ## Summary
@@ -35,9 +35,11 @@ Gemini 4 Neon becomes the GitHub Copilot preferred ceiling. Gemini 4 Carbon stay
 
 ### 2026-11-19
 
-Plan pre-approved by Marcus's standing order in the invoke. Do not stop for plan approval. Ticket framework is empty, so the built-in status names stay. Outcome ready.
+Plan pre-approved by Marcus's standing order in the invoke. Do not stop for plan approval. Ticket framework is empty, so the built-in status names stay. Outcome ready. Plan commit `1f1047f`. PR https://github.com/marcuskrogh/skills/pull/76.
 
 MAI Code 2 and MAI Code 2 Flash are not added. GitHub publishes list prices that match GPT-6.1 Terra and GPT-6 Luna. The quality comparison is Microsoft's own bench, and the quoted cost ratio uses the promo price. No independent Artificial Analysis index row was found.
 
+Architect outcome ready. Shape is in `docs/agents/ARCHITECTURE.md`. No new module. Task stays To Do.
+
 ## Next
-`/architect MD-1` — record where the ceiling row lives
+`/implement MD-1` — edit the Copilot ceiling row and its locks
