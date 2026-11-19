@@ -3,7 +3,7 @@
 
 Continuation cues: bare **next** / **ship** still apply (see `__SKILLS__/workflow/reference.md`). Explicit `/skill` names win over re-routing. Lost on which skill to use → [`__SKILLS__/help/SKILL.md`](__SKILLS__/help/SKILL.md).
 
-**Copilot models (catalog-closed).** On GitHub Copilot, when a spawn takes a model, pass an explicit catalog slug. Never omit `model` and never pass `inherit`. Prefer GPT-6 Luna for routine work, GPT-5.6 Terra or GPT-6 Sol for moderate work, and Grok 4.7 for demanding work. Load `__SKILLS__/concepts/CONCEPT_DELEGATION.md` and `__SKILLS__/concepts/platforms/github-copilot.md` before every spawn.
+**Copilot models (catalog-closed).** On GitHub Copilot, when a spawn takes a model, pass an explicit catalog slug. Never omit `model` and never pass `inherit`. Prefer GPT-6 Luna for routine work, GPT-6.1 Terra for moderate work, and Grok 4.7 for demanding work. Load `__SKILLS__/concepts/CONCEPT_DELEGATION.md` and `__SKILLS__/concepts/platforms/github-copilot.md` before every spawn.
 
 **Language.** Before any reply the operator will see, read `__SKILLS__/concepts/CONCEPT_LANGUAGE.md`, `__SKILLS__/concepts/LANGUAGE-PHRASES.md`, and `__SKILLS__/concepts/LANGUAGE-HUMANIZER.md`. Follow those files. Spell names in full (`GeneralProcessSimulator`, not `GPS`). Keep **harness** for the agent host (Cursor, Claude Code, Codex, …). Do not call a sandbox tree, wrapper, or other code a harness.
 

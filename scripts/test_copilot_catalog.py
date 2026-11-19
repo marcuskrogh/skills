@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lock the GitHub Copilot ceiling after Gemini 4 Argon leaves Copilot."""
+"""Lock the GitHub Copilot ceiling on Gemini 4 Neon."""
 
 from __future__ import annotations
 
@@ -17,9 +17,10 @@ CLOSED = (
 )
 
 RANK2 = "| 2 | OpenAI | GPT-6.2 Sol | efficient OpenAI demanding pick (`gpt-6.2-sol`); fallback `gpt-6.1-sol` |"
-RANK3 = "| 3 | Google | Gemini 4 Carbon | preferred ceiling (`gemini-4-carbon`) |"
-RANK4 = "| 4 | Anthropic | Claude Opus 5.5 | ceiling after Gemini 4 Carbon is insufficient |"
-COST = "Gemini 4 Carbon is the preferred capability ceiling."
+RANK3 = "| 3 | Google | Gemini 4 Neon | preferred ceiling (`gemini-4-neon`); fallback `gemini-4-carbon` |"
+RANK4 = "| 4 | Anthropic | Claude Opus 5.5 | ceiling after Gemini 4 Neon is insufficient |"
+COST = "Gemini 4 Neon is the preferred capability ceiling."
+INSTALL = ROOT / "templates" / "agent-install" / "harness" / "copilot.md"
 ASTRA = "Opus 5.5 and GPT-6.2 Astra"
 
 ABSENT_FROM_COPILOT = (
@@ -31,6 +32,8 @@ ABSENT_FROM_COPILOT = (
     "Grok 4.6",
     "Kimi K3",
     "Claude Haiku 4.5",
+    "MAI Code 2",
+    "MAI Code 2 Flash",
 )
 
 ABSENT_FROM_RANKED = (
@@ -41,6 +44,8 @@ ABSENT_FROM_RANKED = (
     "Gemini 3.8 Flash",
     "Grok 4.6",
     "Kimi K3",
+    "MAI Code 2",
+    "MAI Code 2 Flash",
 )
 
 
@@ -61,13 +66,18 @@ def main() -> int:
         raise SystemExit("missing heading ## High-capability")
     ranked = copilot[ranked_at:]
 
-    check(COST in copilot, "cost split names Gemini 4 Carbon as the preferred ceiling")
+    check(COST in copilot, "cost split names Gemini 4 Neon as the preferred ceiling")
+    check(
+        "Gemini 4 Carbon is the preferred capability ceiling." not in copilot,
+        "cost split does not name Gemini 4 Carbon as the preferred ceiling",
+    )
     check(ASTRA in copilot, "cost split names GPT-6.2 Astra as a ceiling")
     check("GPT-6 Astra" not in copilot, "github-copilot.md does not name GPT-6 Astra")
     check(RANK2 in copilot, "high rank 2 is GPT-6.2 Sol")
-    check(RANK3 in copilot, "high rank 3 is Gemini 4 Carbon")
-    check(RANK4 in copilot, "Opus row follows Carbon and does not name Argon")
-    check(copilot.count("`gemini-4-carbon`") == 1, "gemini-4-carbon appears once")
+    check(RANK3 in copilot, "high rank 3 is Gemini 4 Neon with a Carbon fallback")
+    check(RANK4 in copilot, "Opus row follows Neon and does not name Argon")
+    check(copilot.count("`gemini-4-neon`") == 1, "gemini-4-neon appears once")
+    check(copilot.count("`gemini-4-carbon`") == 1, "gemini-4-carbon appears once, as the fallback")
 
     for needle in ABSENT_FROM_COPILOT:
         check(needle not in copilot, f"github-copilot.md omits {needle}")
@@ -81,6 +91,8 @@ def main() -> int:
         "general.md keeps the Argon row",
     )
     check("gemini-4-carbon" not in general, "general.md does not gain gemini-4-carbon")
+    check("gemini-4-neon" not in general, "general.md does not gain gemini-4-neon")
+    check("MAI Code 2" not in general, "general.md does not gain MAI Code 2")
 
     index = INDEX.read_text()
     check(
@@ -90,11 +102,22 @@ def main() -> int:
     check("**GPT-6.2 Astra**" in index, "PLATFORM-CATALOGS.md names GPT-6.2 Astra as a ceiling")
     check("GPT-6 Astra" not in index, "PLATFORM-CATALOGS.md does not name GPT-6 Astra")
     check("gemini-4-carbon" not in index, "PLATFORM-CATALOGS.md does not gain gemini-4-carbon")
+    check("gemini-4-neon" not in index, "PLATFORM-CATALOGS.md does not gain gemini-4-neon")
+    check("MAI Code 2" not in index, "PLATFORM-CATALOGS.md does not gain MAI Code 2")
 
     for path in CLOSED:
         text = path.read_text()
         check("gemini-4-carbon" not in text, f"{path.name} does not gain gemini-4-carbon")
+        check("gemini-4-neon" not in text, f"{path.name} does not gain gemini-4-neon")
+        check("MAI Code 2" not in text, f"{path.name} does not gain MAI Code 2")
         check("Gemini 4 Argon" not in text, f"{path.name} does not name Argon as a Copilot ceiling")
+
+    install = INSTALL.read_text()
+    check(
+        "GPT-6.1 Terra for moderate work" in install,
+        "copilot install extract names GPT-6.1 Terra for moderate work",
+    )
+    check("GPT-5.6 Terra" not in install, "copilot install extract omits GPT-5.6 Terra")
 
     if errors:
         print(f"\n{errors} check(s) failed.")
