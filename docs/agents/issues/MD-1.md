@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Type | Task |
-| Status | In Progress |
+| Status | In Review |
 | Parent | |
 | Children | |
 | Artifact | docs/agents/PLAN.md |
@@ -58,5 +58,9 @@ seams: none deliberately
 exceptions: none
 ```
 
+Test outcome ready. Touched path `scripts/test_copilot_catalog.py`: `main` complexity 7, nested false, flat. CRAP 56 is the zero-coverage formula, not a nested chain. The script runs as a lock and passed. Each pass-criteria row has a string lock. No added test. `python3 scripts/test_copilot_catalog.py`, `python3 scripts/test_pipelines.py`, `bash scripts/test-harness-install.sh`, and `pwsh -File scripts/validate-skills.ps1` passed.
+
+Restructure outcome ready. Touched units are markdown rows and the flat lock script. No catalog breach and no refactoring to apply. Task is In Review.
+
 ## Next
-`/test MD-1` — check the catalogue locks cover every pass-criteria row
+`/review MD-1` — focused sequential review of the catalogue diff

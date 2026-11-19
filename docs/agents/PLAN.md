@@ -72,4 +72,4 @@
 - Workflow: delta-fast
 
 ## Next
-`/test MD-1` — check the catalogue locks cover every pass-criteria row
+`/review MD-1` — focused sequential review of the catalogue diff
