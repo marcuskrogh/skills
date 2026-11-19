@@ -33,6 +33,7 @@ ABSENT_FROM_COPILOT = (
     "Kimi K3",
     "Claude Haiku 4.5",
     "MAI Code 2",
+    "MAI Code 2 Flash",
 )
 
 ABSENT_FROM_RANKED = (
@@ -44,6 +45,7 @@ ABSENT_FROM_RANKED = (
     "Grok 4.6",
     "Kimi K3",
     "MAI Code 2",
+    "MAI Code 2 Flash",
 )
 
 

@@ -703,7 +703,19 @@ function Test-CopilotCatalog {
     Test-NeedleCount -Section $copilotText -Needle 'gemini-4-neon' -Expected 1 -Label 'github-copilot.md names gemini-4-neon once'
     Test-NeedleCount -Section $copilotText -Needle 'gemini-4-carbon' -Expected 1 -Label 'github-copilot.md keeps gemini-4-carbon as the fallback slug'
     Test-NeedleCount -Section $copilotText -Needle 'gemini-4-argon' -Expected 0 -Label 'github-copilot.md omits gemini-4-argon'
-    foreach ($retired in @('Gemini 4 Argon', 'Gemini 4 Hydrogen', 'Gemini 3.8 Flash', 'Grok 4.6', 'Kimi K3', 'Claude Haiku 4.5')) {
+    if ($copilotText.IndexOf('Gemini 4 Neon is the preferred capability ceiling.') -lt 0) {
+        Write-Host "FAIL: github-copilot.md cost split must name Gemini 4 Neon as the preferred ceiling"
+        $script:errors++
+    } else {
+        Write-Host "OK: github-copilot.md cost split names Gemini 4 Neon as the preferred ceiling"
+    }
+    if ($copilotText.IndexOf('Gemini 4 Carbon is the preferred capability ceiling.') -ge 0) {
+        Write-Host "FAIL: github-copilot.md cost split still names Gemini 4 Carbon as the preferred ceiling"
+        $script:errors++
+    } else {
+        Write-Host "OK: github-copilot.md cost split does not name Gemini 4 Carbon as the preferred ceiling"
+    }
+    foreach ($retired in @('Gemini 4 Argon', 'Gemini 4 Hydrogen', 'Gemini 3.8 Flash', 'Grok 4.6', 'Kimi K3', 'Claude Haiku 4.5', 'MAI Code 2', 'MAI Code 2 Flash')) {
         Test-SectionOmits -Section $copilotText -Needle $retired -FailLabel "github-copilot.md still names $retired" -OkLabel "github-copilot.md omits $retired"
     }
     $midPart = Get-HeadingSlice -Text $copilotText -StartHeading '## Mid-capability' -EndHeading '## Low-capability' -Fallback ''
